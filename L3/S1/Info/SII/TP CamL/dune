@@ -1,0 +1,5 @@
+(executable
+ (name quad)
+ (flags ())
+ (promote (until-clean))
+ (libraries graphics))
