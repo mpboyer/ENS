@@ -1,0 +1,97 @@
+\documentclass{cours}
+
+\title{Cours 3}
+
+\begin{document}
+    \section{Espaces Mesurés}
+    \subsection{Ensembles Mesurables}
+    \subsection{Mesures Positives}
+    \subsection{Fonctions Mesurables}
+    \begin{theorem}
+        La composition de deux applications mesurables est mesurable.
+    \end{theorem}
+    \begin{remark}[Composition Mesurable]
+        Il faut bien que les applications $f$ et $g$ partagent un espace, avec la \emph{même} tribu (comme la chanson).
+        On définit fréquemment deux tribus différentes sur $\mathbb{R}^{d}$ : la tribu borélienne et la tribu de Lebesgue, tribu complétée de la tribu borélienne pour la mesure de Lebesgue $\mathcal{M}(\lambda) = \left\{A \subset \mathbb{R}^{d}, \exists B_{1}, B_{2} \in \mathcal{B}(\mathbb{R}^{d}), B_1 \subset A \subset B_2 \text{ et } \lambda(B_2 \setminus B_1) = 0 \right\}$
+        et on a : $B(\mathbb{R}^{d}) \subsetneq \mathcal{M}(\lambda)$. Dans certains livres : $f$ est mesurable si $f : \left(\mathbb{R}, \mathcal{M}(\lambda)\right) \rightarrow \left(\mathbb{R}, \mathcal{B}(\mathbb{R})\right)$ est mesurable.
+    \end{remark}
+    \begin{proposition}
+        Pour que $f$ soit mesurable, il suffit qu'il existe une sous-classe engendrant $\mathcal{B}$ pour laquelle la propriété est vraie.
+    \end{proposition}
+    \begin{corollary}
+        Si $f : \mathbb{R}^{d_1} \rightarrow\mathbb{R}^{d_2}$ est continue, elle est mesurable pour les boréliens.
+    \end{corollary}
+    \begin{corollary}
+        Une application produit est mesurable.
+    \end{corollary}
+    \begin{proof}
+        On a : $A_{1} \bigotimes A_{2} = \sigma\left(A_{1} \times A_{2}\right)$
+    \end{proof}
+    \begin{lemma}
+        Les applications $(+) (\times) (\max) (\min)$ de deux fonctions réelles sont mesurables
+    \end{lemma}
+    \begin{corollary}
+        Les parties positives et négatives d'une fonction sont mesurables
+    \end{corollary}
+    \begin{proposition}
+        Si les $f_n$ sont mesurables de $E$ dans $\overline{\mathbb{R}}$ alors : $\sup_n f_n, \inf_n f_n, \liminf f_n, \limsup f_n$ sont mesurables.
+        En particulier : $\lim_n f_n$ est mesurable si la suite CS.
+    \end{proposition}
+    \begin{proof}
+        \begin{enumerate}
+            \item Si $f(x) = \inf f_{n}(x)$ : $f^{-1}\left[-\infty, a\right[ = \bigcup_{n} \left\{x \mid f_{n}(x) < a\right\}$. De même pour $\sup$. On en déduit immédiatement $\liminf f_n = \sup_{n \geq 0} \inf_{k \geq n} f_{k}$.
+            \item On a : $\left\{x\in E\mid \lim f_{n}(x) \text{ existe}\right\} = \left\{x \in E \mid \liminf f_{n}(x) = \limsup f_{n}(x)\right\} = \mathcal{G}^{-1}(\Delta)$ où $\mathcal{G} = (\liminf f_{n}, \limsup f_{n})$ et $\Delta$ est la diagonale de $\overline{\mathbb{R}}^{2}$.
+        \end{enumerate}
+    \end{proof}
+    \begin{definition}[Mesure-Image]
+        On appelle mesure image de $\mu$ par $f$, notée $f_{\#}\mu$ la mesure $f_{\#}\mu(B) = \mu(f^{-1}(B))$
+    \end{definition}
+
+    \subsection{Classe Monotone}
+    \begin{definition}[Classe Monotone]
+        $\mathcal{M} \in \mathcal{P}(E)$ est une classe monotone si :
+        \begin{enumerate}
+            \item $E\in \mathcal{M}$
+            \item Si $A, B \in \mathcal{M}$ avec $A\subset B$, $B \setminus A \in \mathcal{M}$
+            \item Si $(A_{n}) \in \mathcal{M}^{\mathbb{N}}$ croissante, $\bigcup\limits_{n\in\mathbb{N}} A_{n} \in \mathcal{M}$
+        \end{enumerate}
+    \end{definition}
+
+    \begin{remark}
+        Toute tribu est une classe monotone
+    \end{remark}
+
+    \begin{lemma}
+        Si $\mathcal{M}$ est une classe monotone stable par intersections finies, c'est une tribu.
+    \end{lemma}
+    \begin{definition}
+        Si $\mathcal{C} \subset \mathcal{P}(E)$ : $\mathcal{M}(\mathcal{C}) = \bigcap\limits_{\mathcal{M} \text{classe monotone, } \mathcal{C}\subset\mathcal{M}}$
+    \end{definition}
+    \begin{theorem}[Lemme de Classe Monotone]
+        Si $\mathcal{C} \subset \mathcal{P}(E)$ est stable par intersections finies : $\mathcal{M}(\mathcal{C}) = \sigma{\mathcal{C}}$
+    \end{theorem}
+    \begin{remark}
+        Les classes monotones sont des outils plus maniables que les tribus et se marient mieux avec les propriétés des mesures. Le théorème fait le lien entre tribus et classes monotones, ce qui facilite la vie avec les mesures. 
+    \end{remark}
+    \begin{proof}
+        Point Méthodologique : ne pas essayer d'exprimer des éléments de $\mathcal{C}$. T'façon les preuves constructives, c'est pour les salopes. 
+    \end{proof}
+    \begin{remark}
+        On peut en déduire l'unicité de la mesure de Lebesgue. C'est une conséquence du théorème suivant.
+    \end{remark} 
+    \begin{theorem}
+        Soit $\mathcal{C}$ stable par intersections telle que $\sigma{\mathcal{C}} = \mathcal{A}$.
+        On suppose $\mu_{1}(A) = \mu_{2}(A), \forall A \in \mathcal{C}$
+        Alors : \begin{enumerate}
+            \item Si $\mu_{1}(E) = \mu_{2}(E) < +\infty$ alors $\mu_{1} = \mu_{2}$
+            \item S'il existe $(E_n) \in \mathcal{A}^{\mathbb{N}}$ croissante d'union $E$ et de mesures égales et finies par $\mu_{1}$ et $\mu_{2}$ alors $\mu_{1} = \mu_{2}$
+        \end{enumerate}
+    \end{theorem}
+    \begin{proof}
+        \begin{enumerate}
+            \item Cas fini : $\mathcal{M} = \left\{A \in \mathcal{A} \mid \mu_{1}(A) = \mu_{2}(A)\right\}$ est une classe monotone. Donc $\mathcal{M} = \mathcal{A}$ par Lemme de Classe Monotone
+            \item Cas Infini : On applique le cas fini à $E_{n}$ en prenant la restriction. Par continuité croissante, on obtient bien le résultat. 
+        \end{enumerate}
+    \end{proof}
+    
+\end{document}
