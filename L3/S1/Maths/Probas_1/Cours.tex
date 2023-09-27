@@ -1,6 +1,6 @@
 \documentclass{cours}
 
-\title{Cours 3}
+\title{Intégration et Probabiliéts}
 
 \begin{document}
     \section{Espaces Mesurés}
@@ -94,4 +94,20 @@
         \end{enumerate}
     \end{proof}
     
+    \section{Intégration par rapport à une mesure}
+    \subsection{Intégration Positive}
+    \begin{definition}
+        $f$ mesurable à valeurs réelles est étagée si elle prend un nombre fini de valeurs. 
+    \end{definition}
+    \begin{remark}
+        \begin{enumerate}
+            \item Les Fonctions en escalier sur un intervalle sont étagées
+            \item L'indicatrice d'un ensemble est étagée, en particulier : $1_{\mathbb{Q}}$ est étagée.
+        \end{enumerate}
+    \end{remark}
+    \begin{definition}
+        Si $f$ est étagée, et prend les valeurs : $\alpha_{1} < \ldots < \alpha_{n}$, l'écriture canonique de $f$ est, avec $A_{i} = f^{-1}(\left\{\alpha_{i}\right\})$ : 
+        $f =  \sum\limits_{i}^{n} \alpha_{i}1_{A_{i}}$
+    \end{definition}
+
 \end{document}

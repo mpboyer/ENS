@@ -45,10 +45,16 @@
 {0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
 
 
-\newtheorem{theorem}{Théorème}[paragraph]
+\newtheorem{theorem}{Théorème}[subsection]
 \newtheorem{corollary}{Corollaire}[theorem]
 \newtheorem{lemma}[theorem]{Lemme}
+\newtheorem{remark}{Remarque}[theorem]
+\newtheorem{proposition}{Proposition}[subsection]
+\newtheorem{definition}{Définition}[subsection]
 \renewcommand\qedsymbol{$\blacksquare$}
+\renewcommand{\phi}{\varphi}
+\renewcommand{\epsilon}{\varepsilon}
+\renewcommand{\emptyset}{\varnothing}
 
 \newcommand{\nocontentsline}[3]{}
 \newcommand{\tocless}[2]{\bgroup\let\addcontentsline=\nocontentsline#1{#2}\egroup}
