@@ -4,7 +4,55 @@
 \date{\today}
 
 \begin{document}
+
 \part{Cours 1 29/09}
+\section*{Introduction}
+Maîtriser les mécanismes de la compilation, transformation d'un langage dans un autre. Comprendre les aspects des langages de programmation.\\
+\subsection{Un Compilateur}
+Un compilateur est un traducteur d'un langage source vers un langage cible. Ici le langage cible sera l'asembleur. \\
+Tous les langages ne sont pas compilés à l'avance, certains sont interprétés, transpilés puis interprétés, compilés à la volée, transpilés puis compilés...
+Un compilateur prend un programme $P$ et le traduit en un programme $Q$ de sorte que : $\forall P, \exists Q, \forall x, \ P(x) = Q(x)$. Un interpréteur effectue un travail simple mais le refait à chaque entrée, et donc est moins efficace.\\
+Exemple : le langage \textsl{lilypond} va compiler un code source en fichier .pdf. \\
+
+\subsection{Le Bon et le Mauvais Compilateur}
+On juge un compilateur à : \begin{enumerate}
+    \item Sa correction
+    \item L'efficacité du code qu'il produit
+    \item Son efficacité en tant que programme
+\end{enumerate}
+\begin{quote}
+    \og Optimizing compilers are so difficult to get right that we dare say that no optimizing compiler is completely error-free ! Thus, the most important objective in writing a compiler is that it is correct \fg - \textit{Dragon Book, 2006}
+\end{quote}
+
+\subsection{Le Travail d'un Compilateur}
+Le travail d'un compilateur se compose : 
+\begin{itemize}
+    \item d'une phase d'analyse qui : 
+    \begin{enumerate}
+        \item reconnaît le programme à traduire et sa signification
+        \item signale les erreurs et peut donc échouer
+    \end{enumerate}
+    \item d'une phase de synthèse qui : 
+    \begin{enumerate}
+        \item produit du langage cible 
+        \item utilise de nombreux langages intermédiaires
+        \item n'échoue pas
+    \end{enumerate}
+\end{itemize}
+Processus : source $\rightarrow$ analyse lexicale $\rightarrow$ suite de lexèmes (tokens) $\rightarrow$ analyse syntaxique $\rightarrow$ Arbre de syntaxe abstraite $\rightarrow$ analyse sémantique $\rightarrow$ syntaxe abstraite + table des symboles $\rightarrow$ production de code $\rightarrow$ langage assembleur $\rightarrow$ assembleur $\rightarrow$ langage machine $\rightarrow$ éditeur de liens $\rightarrow$ exécutable.
+
+\section{L'assembleur}
+\subsection{Arithmétique des ordinateurs}
+On représente les entiers sur $n$ bits numérotés de droite à gauche. Typiquement, $n$ vaut 8, 16, 32 ou 64. On peut représenter des entiers non signés jusqu'à $2^{n} - 1$. On peut représenter les entiers en définissant $b_{n-1}$ comme un bit de signe, on peut alors représenter $\left[-2^{n-1}, 2^{n-1}-1\right]$. La valeur d'une suite de bits est alors : $-b_{n-1}2^{n-1} + \sum_{k = 0}^{n-2} b_{k} 2^{k}$. On ne peut pas savoir si un entier est signé sans le contexte. \\
+La machine fournit des opérations logiques (bit à bit), de décalage (ajout de bits 0 de poids fort, 0 de poids faible ou réplication du bit de signe pour interpréter une division), d'arithmétique (addition, soustraction, multiplication). \\
+\subsection{Architecture}
+Un ordinateur contient : 
+\begin{itemize}
+    \item Une unité de calcul (CPU) qui contient un petit nombre de registres et des capactités de calcul
+    \item Une mémoire vive (RAM), composée d'un très grand nombre d'octets (8 bits), et des données et des instructions, indifférenciables sans contexte.
+\end{itemize}
+L'accès à la mémoire coûte cher : à 1B instructions/s, la lumière ne parcourt que 30cm entre deux instructions.
+
 
 
 \end{document}
