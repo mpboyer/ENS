@@ -59,3 +59,10 @@
 \newcommand{\nocontentsline}[3]{}
 \newcommand{\tocless}[2]{\bgroup\let\addcontentsline=\nocontentsline#1{#2}\egroup}
 
+\makeatletter
+\renewcommand{\ALG@name}{Algorithme}
+\newcommand{\algorithmautorefname}{Algorithme}
+\makeatother 
+
+\algblock{Input}{EndInput}
+\algnotext{EndInput}

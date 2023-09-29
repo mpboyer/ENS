@@ -1,5 +1,7 @@
 \documentclass{cours}
 
+\newtheorem{openpb}{Open Problem}
+
 \title{Algorithmique}
 \author{Pierre Aboulker, Paul Jeanmaire, Tatiana Starikovskaya}
 \date{\today}
@@ -10,15 +12,187 @@
 Mail Tatiana : \url{starikovskaya@di.ens.fr}
 Homeworks are 30\% of the final grade, final (theory from lecture)
 Textbooks : 
-\begin{enumerate}
+\begin{itemize}
     \item \textsl{Introduction to Algorithms} - Cormen, Leiserson, Riverst, Stein
     \item \textsl{Algorithms on strings, trees, and sequences} - Gusfield
     \item \textsl{Approximation Algorithms} - Vazirani
     \item \textsl{Parametrized Algorithms} - Cygan, Fomin, Kowalik, Lokshtanov, Marx, Pilipczuk, Pilipczuk, Saurabh
-\end{enumerate}
+\end{itemize}
 
-\section{Algorithms}
+\section{Introduction}
+Algorithm take Inputs and give an output.
+\begin{openpb}[Mersenne Prime]
+    Find a new prime of form $2^{n} - 1$
+\end{openpb}
+Algorithms do not depend on the language. Algorithms should be simple, fast to write and efficient.
+Word RAM model : Two Parts : one with a constant number of registers of $w$ bits with direct access, and one with any number of registers, only with indirect access (pointers). 
+Allows for elementary operations: basic arithmetic and bitwise operations on registers, conditionals, goto, copying registers, halt and malloc. 
+To index the memory storing input of size $n$ with $n$ words, we need register length to verify $w \geq \log n$
+Algorithms can always be rewritten using only elementary operations. 
+Complexity : 
+\begin{itemize}
+    \item $Space(n)$ is the maximum number of memory words used for input of size $n$
+    \item $Time(n)$ is the maximum number of \textsl{elementary} operations used for input of size $n$
+\end{itemize}
+Complexity Notations : 
+\begin{itemize}
+    \item $f \in \mathcal{O}(g)$ if $\exists n_0 \in \mathbb{N}, c \in \mathbb{R}_{+},\ f(n) \leq c \cdot g(n), \ \forall n \geq n_0$
+    \item $f \in \Omega(g)$ if $\exists n_0 \in \mathbb{N}, c \in \mathbb{R}_{+},\ f(n) \geq c \cdot g(n), \ \forall n \geq n_0$
+    \item $f \in \Theta(g)$ if $\exists n_0 \in \mathbb{N}, c_{1}, c_{2} \in \mathbb{R}_{+},\ c_{1} \cdot g(n) \leq f(n) \leq c_{2} \cdot g(n), \ \forall n \geq n_0$
+\end{itemize}
+
+\section{Data Structures}
+\subsection{Introduction}
+Way to store elements of a data base that is created to answer frequently asked queries using pre-processing.
+We care about space used, construction, query and update time.
+Can be viewed as an algorithm, which analysed on basics.
+Containers are basic Data Structures, maintaining the following operations : 
+\begin{enumerate}
+    \item Random Access : given $i$, access $e_{i}$
+    \item Access first/last element
+    \item Insert an element anywher
+    \item Delete any element
+\end{enumerate} 
+
+\subsection{Array}
+An array is a pre-allocated contiguous memory area of a \emph{fixed} size. It has random access in $\mathcal{O}(1)$, but doesn't allow insertion nor deletion.
+
+Linear Search : given an integer $x$ return $1$ if $e_{i} = x$ else 0.
+\begin{algorithm}
+    \caption{Linear Search in an Array. \\ Complexity : Time = $\mathcal{O}(n)$ | Space = $\mathcal{O}(n)$}
+    \begin{algorithmic}
+        \Input
+        $x$
+        \EndInput
+    \end{algorithmic}
+\end{algorithm}
+
+\subsection{Doubly Linked List}
+Memory area that does not have to be contiguous and consists of registers containing a value and two pointers to the previous and next elements.
+It has random access in $\mathcal{O}(n)$, access/insertion/deletion at head/tail in $\mathcal{O}(1)$.
+\begin{algorithm}
+    \caption{Insertion in a Doubly Linked List \\ Complexity : $\mathcal{O}(1)$}
+    \begin{algorithmic}
+        \Input
+        $ L, x$
+        \EndInput
+        \State $x.next \gets L.head$ 
+        \If{$L.head \neq NIL$}
+            \State $L.head.prev \gets x$
+        \EndIf
+        \State $L.head \gets x$
+        \State $x.prev = Nil$
+    \end{algorithmic}
+\end{algorithm}
 
 
+\subsection{Stack and Queue}
+Stack : Last-In-First-Out data structure, abstract data structure. Access/insertion/deletion to top in $\mathcal{O}(1)$.
+
+\begin{openpb}[Optimum Stack Generation]
+    Given a finite alphabet $\Sigma$ and $X \in \Sigma^{n}$. Find a shortest sequence of stack operations push, pop, emit that prints out $X$. You must start and finish with an empty stack.
+    Current best solution is in $\tilde{\mathcal{O}}(n^{2.8603})$.
+\end{openpb}
+
+Queue : First-In-First-Out abstract data structure. Access to front, back in $\mathcal{O}(1)$, deletion and insertion at front and back in $\mathcal{O}(1)$.
+
+\section{Approaches to algorithm design}
+Solve smalle sub-problems to solve a large one.
+
+\subsection{Dynamic Programming}
+Break the problem into many closely related sub-problems, memorize the result of the sub-problems to avoid repeated computation
+
+Examples : 
+\begin{algorithm}
+    \caption{Recursive Fibonacci Numbers \\ Complexity: Exponential}
+    \begin{algorithmic}
+        \State RFibo($n$) :
+        \Input
+        $ n$
+        \EndInput
+        \If {$n \leq 1$}
+
+            \Return $n$
+        \EndIf\\
+        \Return RFibo($n-1$) + RFibo($n-2$)
+    \end{algorithmic}        
+\end{algorithm}
+
+\begin{algorithm}
+    \caption{Dynamic Programming Fibonacci Numbers \\ Time = $\mathcal{O}(n)$ | Space = $\mathcal{O}(n)$}
+    \begin{algorithmic}
+        \Input
+        $ n$
+        \EndInput
+        \State $Tab \gets zeros(n)$ \Comment $zeros(n)$ returns a $n$-array of zeros.
+        \State $Tab[0] \gets 0$
+        \State $Tab[1] \gets 1$
+        \For{$i \gets 2$ to $n$} 
+            \State $Tab[i] = Tab[i-1] + Tab[i-2]$
+        \EndFor\\
+        \Return Tab[n]
+    \end{algorithmic}        
+\end{algorithm}
+
+Levenshtein Distance between two strings can be computed in $\mathcal{O}(mn)$ instead of exponential time. Based on \url{https://arxiv.org/pdf/1412.0348.pdf}, this is the best one can do. 
+RNA folding : retrieving the 3D shape of RNA based on their representation as strings. Currently, we know it is possible to find $\mathcal{O}(n^3)$, in $\tilde{\mathcal{O}}(n^{2.8606})$ and if \emph{SETH} is true, there is no $\mathcal{O}(n^{\omega - \epsilon})$. We know $\omega \in \left[2, 2.3703\right)$
+
+\begin{openpb}
+    Is there a better Complexity for RNA folding ? What is the true value of $\omega$ ?
+\end{openpb}
+
+Knapsack problem : An optimization problem with bruteforce complexity $\mathcal{O}(2^{n})$.
+\begin{algorithm}
+    \caption{Knapsack : Dynamic Programming \\
+    Time = $\mathcal{O}(nW)$ | Space = $\mathcal{O}(nW)$}
+    \begin{algorithmic}
+        \Input $\ W, w, v$ \Comment Capacity, weight and values vectors.
+        \EndInput
+
+        \State $KP = zeros(n, W)$
+
+        \For {$i \gets 0$ to $n$}  
+            \State $KP[i, 0] = 0$
+        \EndFor
+
+        \For {$w \gets 0$ to $W$}  
+            \State $KP[0, w] = 0$
+        \EndFor
+    
+        \For {$i \gets 0$ to $n$}  
+            \For {$w \gets 0$ to $W$}  
+                \If {$w < w_{i}$}
+                    \State $KP[i, w] \gets KP[i-1, w]$
+                \Else
+                    \State $KP[i, w] = \max\begin{cases}
+                        &KP[i-1, w] \\
+                        &KP[i-1, w - w_{i}] + v_{i}
+                    \end{cases}$.
+                \EndIf
+            \EndFor
+        \EndFor\\
+        \Return $KP[n, W]$
+    \end{algorithmic}
+\end{algorithm}
+
+\subsection{Greedy Techniques}
+Problems solvable with the greedy technique form a subset of those solvable with DP. Problems must have the optimal substrcture property.
+Principle : choosing the best at the moment.
+
+
+Example : The Fractional Knapsack Problem\\
+Algorithm : Iteratively select the greatest value-per-weight ratio. \\
+\begin{theorem}
+    This algorithm returns the best solution, in time $\mathcal{O}(n \log n)$
+\end{theorem}
+\begin{proof}[By contradiction]
+    Suppose we have $\frac{v_{1}}{w_{1}} \geq \ldots \geq \frac{v_{n}}{w_{n}}$. Let $ALG = p = (p_{1}, \ldots, p_{n})$ be the output by the algorithm and $OPT = q = (q_{1}, \ldots, q_{n})$ be optimal.\\
+    Assume that $OPT \neq ALG$, let $i$ be the smallesst index such $p_{i} \neq q_{i}$. There is $p_{i} > q_{i}$ by construct. \\
+    Thus, there exists $j > i$ such that $p_{j} < q_{j}$. We set $q' = (q_{1}^{'}, \ldots, q_{n}^{'}) = (q_{1}, \ldots, q_{i-1}, q_{i} + \epsilon, q_{i+1}, \ldots, q_{j} - \epsilon\frac{w_{i}}{w_{j}}, \ldots, q_{n})$\\
+    $q^{'}$ is a feasible solution : $\sum\limits_{i = 1}^{n} q_{i}^{'} \cdot w_{i} = \sum\limits_{i = 1}^{n} q_{i} w_{i} \leq W$\\
+    Yet, $\sum\limits_{i = 1}^{n} q_{i}^{'} \cdot v_{i} > \sum\limits_{i = 1}^{n} q_{i} \cdot v_{i}$, ce qui contredit la 
+\end{proof}
+
+\part{Devoir 1}
 
 \end{document}

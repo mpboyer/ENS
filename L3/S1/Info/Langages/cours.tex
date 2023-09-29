@@ -1,0 +1,79 @@
+\documentclass{cours}
+
+\title{Langages Formels, Calculabilité, Complexité}
+\author{Mickaël Thomazo \\ \small{Lucas Larroque}}
+\date{\today}
+
+\begin{document}
+\part{Cours 1 28/09}
+\section{Langages, Automates, RegExp, Monoïdes finis}
+\begin{definition}
+    On appelle \emph{alphabet} un ensemble fini $\Sigma$ de lettres. \\
+    On appelle \emph{mot} une suite finie de lettres. \\
+    On appelle \emph{langage} un ensemble de mots
+\end{definition}
+\begin{definition}
+    On appelle \emph{automate sur l'alphabet $\Sigma$} un graphe orienté dont les arêtes sont étiquetées par les lettres de l'alphabet $\Sigma$\\
+    Formellement, c'est un quadruplet $\mathcal{A} = (Q, \Sigma, I, F, \delta)$ ou : \begin{itemize}
+        \item $Q$ est un ensemble fini d'états
+        \item $\Sigma$ est un alphabet
+        \item $I \subseteq Q$
+        \item $F \subseteq Q$
+        \item $\delta : Q \times \Sigma \rightarrow 2^{Q}$
+    \end{itemize}
+
+    Un calcul de $\mathcal{A}$ sur $w = a_{0}\ldots a_{n}$ est une séquence $q_{0}\ldots q_{n}$ telle que $q_{0} \in I, \ \forall i \geq 1,\ q_{i} \in \delta(q_{i-1}, a_{i})$\\
+    On appelle Langage reconnu par $\mathcal{A}$ l'ensemble $\mathcal{L}(\mathcal{A}) =  \left\{w \in \Sigma^{*} \mid \exists q_{0}\ldots q_{n} \text{ calcul de } \mathcal{A} \text{ sur } w \text{ où } q_{n} \in F\right\}$\\
+    On dit que $\mathcal{A}$ est déterministe si :\begin{itemize}
+        \item $\forall q, a, \left| \delta(q, a)\right| \leq 1$
+        \item $\left| I\right| = 1$
+    \end{itemize} 
+\end{definition}
+\begin{definition}
+    Une expression régulière est de la forme : 
+    \begin{itemize}
+        \item $a \in \Sigma$ 
+        \item $\emptyset$
+        \item $r + r$ (+ désigne l'union : $L_1 + L_2 = \left\{w \in L_{1} \cup L_{2} \right\}$)
+        \item $r \cdot r$ ($\cdot$ désigne la concaténation : $L_1 \cdot L_2 = \left\{w_{1}w_{2} \ | \ w_{1} \in L_{1}, \ w_{2} \in L_{2} \right\}$)
+        \item $r^{*}$ ($*$ désigne l'étoile de Kleene, $L^{*} = \left\{ \bigodot\limits_{w \in s} w \ \mid \ s \in \bigcup\limits_{n \in \mathbb{N}} L^{n} \right\}$)
+    \end{itemize}
+\end{definition}
+
+\begin{definition}[Automate des Parties]
+    On pose, si $\mathcal{A} = (Q, \Sigma, I, F, \delta)$ est un automate : 
+    \begin{itemize}
+        \item $\hat{Q} = 2^{Q} = \left\{q_{S} \mid S \subset Q\right\}$
+        \item $\hat{I} = \left\{q_{I}\right\}$
+        \item $\hat{F} = \left\{q_{S} \mid S \cap F \neq \emptyset \right\}$
+        \item $\hat{\delta}(q_{S}, a) = \left\{q_{S^{'}}\right\}$ avec $S^{'} = \bigcup\limits_{q \in S}\delta(q, a)$
+    \end{itemize}
+    Alors, $\hat{\mathcal{A}} = (\hat{Q}, \Sigma, \hat{I}, \hat{F}, \hat{\delta})$ est un automate déterministe reconnaissant $\mathcal{L}(\mathcal{A})$
+\end{definition}
+\begin{proof}
+    On procède par double inclusion :
+    \begin{itemize}
+        \item $(\subset)$ On introduit un calcul de $w \in \mathcal{L}(\mathcal{A})$ sur $\hat{\mathcal{A}}$ et on vérifie par récurrence que son dernier état est final.
+        \item On procède de même pour la réciproque.
+    \end{itemize}
+\end{proof}
+
+\begin{definition}
+    Un monoïde est un magma associatif unifère. \\
+    Un morphisme de monoïde est une application $\phi : (N, \cdot_{N}) \rightarrow (M, \cdot_{M})$ telle que: \begin{itemize}
+        \item $\phi(1_{N}) = 1_{M}$
+        \item $\phi(n_{1}n_{2}) = \phi(n_{1})\phi(n_{2})$
+    \end{itemize}
+    Un langage $L$ est reconnu par $(M, \times)$ ssi il existe $P \subset M$ tel que $L = \phi^{-1}(P)$ où $\phi$ est un morphisme de $\Sigma^{*}$ dans $M$
+\end{definition}
+
+\begin{proposition}
+    $L\subseteq \Sigma^{*}$ est reconnu par un automate ssi $L$ est reconnu par un monoïde fini.
+\end{proposition}
+\begin{proof}
+    \begin{itemize}
+        \item Soit $L$ reconnu par un monoïde fini $(M, \times)$. Soit $\phi$ un morphisme tel que $L = \phi^{-1}(P), \ P\subset M$. On pose $\mathcal{A} = (M, \Sigma, \left\{1\right\}, P, \delta)$ où $\delta(q, a) = q \times \phi(a)$. Alors, $\mathcal{A}$ reconnaît $L$.
+        \item Soit $\mathcal{A}$, déterministe, complet, reconnaissant $L$. Pour $a \in \Sigma$, $a \rightarrow \phi_{a} : q\in Q \mapsto \delta(q, a)$ induit par induction un morphisme de $(\Sigma^{*}, \cdot)$ dans $(Q^{Q}, \circ)$. Alors, avec $P = \left\{f \in Q^{Q}\ \mid \ f(i) \in F_{\mathcal{A}}\right\}$. On a défini le monoïde des transitions de $\mathcal{A}$.
+    \end{itemize}
+\end{proof}
+\end{document}

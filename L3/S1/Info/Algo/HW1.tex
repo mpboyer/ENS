@@ -1,0 +1,44 @@
+\documentclass{cours}
+
+\title{Homework Assignment 1}
+\author{Matthieu Boyer}
+\date{\today}
+
+\begin{document}
+
+\section{Exercise 1 - [Edit Distance/Levenshtein Distance]}
+\subsection{Question 1}
+\begin{algorithm}
+    \caption{Levenshtein Distance with $f$}
+    \begin{algorithmic}
+        \Input $\ S, T, f, t$ \Comment Two Strings, the function $f$ computing the values and the step $t$
+        \EndInput\\
+        \State $\mathbf{D} = \text{zeros}(n + 1, n + 1)$ \Comment $len(S) = len(T) = n$
+        \For {$i \gets 0 $to $n + 1$} 
+            \State $\mathbf{D}[i][0] \gets i$
+        \EndFor\\
+        \For {$j \gets 0$ to $n + 1$ } 
+            \State $\mathbf{D}[0][j] \gets j$
+        \EndFor\\
+        \State $\text{up}, \text{left} \gets 0, 0$
+        \While {$\text{up} < n$}
+            \State $\text{left} \gets 0$
+            \While {$\text{left} < n$}
+                \State $d \gets \min(n-\text{up}, t)$
+                \State $e \gets \min(n-\text{left}, t)$\\
+                \State $b \gets \mathbf{D}[\text{up}][\text{left}]$
+                \State $a \gets \mathbf{D}[\text{up} + 1 \rightarrow \text{up} + 1 + d][\text{left}]$
+                \State $c \gets \mathbf{D}[\text{up}][\text{left} + 1 \rightarrow \text{left} + 1 + e]$\\
+                \State $f(a, b, c, d, e)$ \Comment{\parbox[t]{.7\linewidth}{We can suppose here that $f$ modifies only the last line and column of $F$ in $D$ with side-effect.}}
+            \EndWhile
+        \EndWhile\\
+
+        \Return $\mathbf{D}[n][n]$
+    
+    \end{algorithmic}
+\end{algorithm}
+\begin{proposition}[Complexity and Correction]
+    Assuming $f$ acts in $\mathcal{O}(1)$, this function has time complexity in $\mathcal{O}(?)$.
+\end{proposition}
+
+\end{document}
