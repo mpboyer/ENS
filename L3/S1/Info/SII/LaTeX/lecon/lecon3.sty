@@ -1,0 +1,12 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{lecon3} % Nom du paquetage
+\RequirePackage{amsmath}
+\DeclareOption*{
+    \PackageError{lecon3}
+    {Unknown option `\CurrentOption'}
+}
+\ProcessOptions
+
+\newcommand{\set}[2][{}]{\@ifempty{#1}{\left\{#2\right\}}{\left\{#2 \mid #1\right\}}}
+
+

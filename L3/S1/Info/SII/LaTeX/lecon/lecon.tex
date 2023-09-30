@@ -1,0 +1,60 @@
+\documentclass{scrartcl}
+\usepackage{cmap}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+\rmfamily
+\title{\textbf{\textrm{Exemple de document \LaTeX}}}
+\author{Mon nom}
+\date{23 Septembre 2022}
+
+\begin{document}
+\maketitle
+
+\raggedright\section{\textrm{L'Île mystérieuse}}
+\indent{Considérons le texte suivant, extrait de \textit{L'Île Mystérieuse} de Jules Verne. \\}
+\begin{quotation}
+\og Remontons-nous ?
+\begin{itemize}
+    \item Non ! Au contraire ! Nous descendons !
+    \item Pis que cela, monsieur Cyrus ! Nous tombons !
+    \item Pour Dieu ! Jetez du lest !   
+    \item Voilà le dernier sac vidé !
+    \item Le ballon se relève-t-il ? 
+    \item Non !
+    \item J’entends comme un clapotement de vagues !
+    \item La mer est sous la nacelle !
+    \item Elle ne doit pas être à cinq cent pieds de nous !\fg
+\end{itemize}
+
+Alors une voix puissante déchira l'air, et ces mots retentirent :\\
+\og Dehors tout ce qui pèse ! \ldots ~tout ! et à la grâce de Dieu !\fg
+\end{quotation}
+
+\section{\textrm{Intérêts}}
+\indent\textbf{Cinéma} Les prix sont les suivants :
+\begin{itemize}
+    \item 10 € en France
+    \item 10 \$ aux Etats-Unis
+\end{itemize}
+
+\indent\textbf{Télévision} Rien.
+
+\subparagraph*{Paragraphe sur l'alignement} Ce qui précède est une liste de description, mais ceci est un paragraphe.
+\begin{center}
+    Voici un texte \textbf{centré}.
+\end{center}
+\raggedleft Voici un texte aligné à \textsl{droite}\footnote{Ce mot n'est pas en italique, mais en une version \textbf{penchée} de la police --- c'est rarement utilisé.}.
+
+\raggedright
+\begin{thebibliography}{2}
+    \bibitem[EY09]{EY09} Kousha \textsl{Etessami} et Mihalis \textsl{Yannakakis} : Recursive Markov chains, sto-chastic grammars, and monotone systems of nonlinear equations. \textit{Journal of the ACM}, 56(1):1–66, 2009.
+    \bibitem[Knu84]{Knu84} Donald \textsl{E. Knuth} : \textit{The \TeX book}. Addison-Wesley, 1984.
+    \bibitem[Pat88]{Pat88} Oren \textsl{Patashnik} : Using BibTeX. Documentation for general Bib\TeX users, janvier 1988.
+\end{thebibliography}
+
+\end{document}
