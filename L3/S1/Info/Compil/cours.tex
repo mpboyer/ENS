@@ -51,8 +51,73 @@ Un ordinateur contient :
     \item Une unité de calcul (CPU) qui contient un petit nombre de registres et des capactités de calcul
     \item Une mémoire vive (RAM), composée d'un très grand nombre d'octets (8 bits), et des données et des instructions, indifférenciables sans contexte.
 \end{itemize}
-L'accès à la mémoire coûte cher : à 1B instructions/s, la lumière ne parcourt que 30cm entre deux instructions.
+L'accès à la mémoire coûte cher : à 1B instructions/s, la lumière ne parcourt que 30cm entre deux instructions.\\
+En réalité, il y a plusieurs (co)processeurs, des mémoires cache, une virtualisation de la mémoire\ldots\\
+Principe d'exécution : un registre (\%rip) contient l'adresse de l'instruction, on lit (fetch) un ou plusieurs octects dans la mémoire, on interprète ces bits (decode), on exécute l'instruction (exectue), on modifie (\%rip) pour l'instruction suivante. En réalité, on a des pipelines qui branchent plusieurs instructions en parallèle, et on essaie de prédire les sauts conditionnels. \\
+Deux grandes familles d'Architectures : CISC (complex instruction set), qui permet beaucoup d'instructions différentes mais avec assez peu de registres, et RISC (Reduced Instruction Set) avec peu d'instruction effectuées très régulièrements et avec beaucoup de registres. Ici, on utilisera l'architecture \textit{x86-64}.
 
+\subsection{L'architecture \texttt{x86-64}}
+Extension 64 bits d'une famille d'architectures compatibles Intel par AMD adoptée par Intel. Architecture à 16 registres, avec adressage sur 48 bits au moins et de nombreux modes d'adressage. \\
+On ne programme pas en langage machine mais en assembleur, langage symbolique avec allocation de données globales, qui est transformé en langage machine par un assembleur qui est en réalité un compilateur. On utilise l'assembleur GNU avec la syntaxe AT\&T (la syntaxe Intel existe aussi).
 
+\subsection{L'assembleur \texttt{x86-64}}
+Pour assembler un programme assembleur, appeler \texttt{as -o file.o} puis appeler l'édition de lien avec \texttt{gcc -no-pie file.s -o exec-name}. 
+On peut débuguer en ajoutant l'option \texttt{-g}.
+La machine est petite boutiste (little-endian) si elle stocke les valeurs dans la RAM en commençant par le bit de poids faible, gros boutiste (big-endian) pour le poids fort. \\
+Commandes : Dans cette liste, \%($r$) désigne l'adresse mémoire stockée dans $r$
+\begin{itemize}
+    \item \texttt{movq \$a \%b} permet de mettre la valeur $a$ dans le registre $b$
+    \item \texttt{movq \%a \%b} permet de copier le registre $a$ dans le registre $b$
+    \item \texttt{movq \$label \%b} permet de changer l'adresse de l'étiquette dans le registre $b$
+    \item \texttt{addq \%a \%b} permet d'additionner les registres $a$ et $b$. 
+    \item \texttt{incq \%r} permet d'incrémenter le registre $r$, de même pour \texttt{decq}.
+    \item \texttt{negq \%r} permet de modifier la valeur de $r$ en sa négation
+    \item \texttt{notq \%r} permet de modifier la valeur de $r$ en sa négation logique.
+    \item \texttt{orq \%r1 \%r2} (resp. \texttt{andq} et \texttt{xorq}) permet d'affecter à $r2$, $or(r1, r2)$ (resp. $and, xor$)
+    \item \texttt{salq \$n \%r}/\texttt{salq \%cl \%r} décale la valeur de $r$ de $n$ (ou $\%cl$) zéros à gauche. 
+    \item \texttt{sarq} est le décalage à droite arithmétique, \texttt{shrq} le décalage à droite logique. 
+    \item Le suffixe \texttt{q} désigne une opération sur 64 bits. \texttt{b} désigne 1 octet, \texttt{w} désigne 2 octets, \texttt{l} désigne 4 octets. Il faut préciser les deux extensions si celles-ci diffèrent. 
+    \item \texttt{jmp label} permet de jump à une étiquette.
+\end{itemize}
 
+La plupart des opérations fositionnent des drapeaux selon leur résultat.\\
+Certaines instructions : \texttt{j(suffixe)} (jump), \texttt{set(suffixe)} et \texttt{cmov(suffixe)}(move) permettent de tester des drapeaux et d'effectuer une opération selon leur valeur.
+
+On ne sait pas combien il y a d'instructions en \texttt{x86-64}.
+
+\subsection{Le Défi de la Compilation}
+C'est de traduire un programme d'un langage de haut niveau vers ce jeu d'instruction.\\
+Constat : les appels de fonctions peuvent être arbitrairement imbriqués et les registres ne suffisent pas $\Rightarrow$ on crée alors une pile car les fonctions procèdent majoritairement selon un mode LIFO.\\
+La pile est stockée tout en haut, et croît dans le sens des adresses décroissantes, \texttt{\%rsp} poînte sur le sommet de la pile. Les données dynamiques sont allouées sur le tas, en bas de la zone de données. Chaque programme a l'illusion d'avoir toute la mémoire pour lui tout seul, illusion créée par l'OS. \\
+En assembleur on a des facilités d'utilisation de la pile : 
+\begin{itemize}
+    \item \texttt{pushq \$a} push $a$ dans la pile
+    \item \texttt{popq \%rdi} dépile
+\end{itemize}
+Lorsque $f$ (caller) appelle une fonction $g$ (callee), on ne peut pas juste \texttt{jmp g}. On utilise \texttt{call g} puis une fois que c'est terminé \texttt{ret}.\\
+Mézalor tout registre utilisé par $g$ sera perdu par $f$. On s'accorde alors sur des \textbf{conventions d'appel}. Des arguments sont passés dans certains registres, puis sur la pile, la valeur de retour est passéee dans \texttt{\%rax}. 
+Certains registres sont \textit{callee-saved} i.e. l'appelé doit les sauvegarder pour qu'elle survivent aux appels. Les autres registres sont dit \textit{caller-saved} et ne vont pas survivre aux appels. \\
+Il faut également qu'en entrée de fonction \texttt{\%rsp + 8} doît être multiple de $16$, sinon des fonctions peuvent planter. \\
+Il y a quatres temps dans un appel : 
+\begin{enumerate}
+    \item Pour l'appelant, juste avant l'appel : 
+    \item Pour l'appelé, au début de l'appel :
+    \begin{enumerate}
+        \item Sauvegarde \texttt{\%rbp} puis le positionne.
+        \item Alloue son tableau d'activation.
+        \item Sauvegarde les registres \textit{callee-saved}.
+    \end{enumerate}
+    \item Pour l'appelé, à la fin de l'appel : 
+    \begin{enumerate}
+        \item Placer le résultat dans \texttt{\%rax}
+        \item Restaure les registres sauvegardés
+        \item Dépile sont tableau d'activation
+        \item Exécute \texttt{ret}
+    \end{enumerate}
+    \item Pour l'appelant, juste après l'appel : 
+    \begin{enumerate}
+        \item Dépile les éventuels arguments
+        \item Restaure les registres \textit{caller-saved}
+    \end{enumerate}
+\end{enumerate}
 \end{document}

@@ -1,0 +1,62 @@
+\documentclass{cours}
+\title{Structures et Algorithmes Aléatoires}
+\author{Ana Busic \\ \small{Romain Cosson}}
+\date{\today}
+
+\begin{document}
+\part{Cours 1 29/09}
+\section*{Introduction}
+Cours de probabilités discrètes i.e. sur des espaces au plus dénombrables et applications à différents domaines.
+\begin{itemize}
+    \item Probabilités discrètes et applications : 
+    \begin{itemize}
+        \item Rappels
+        \item Algorithmes aléatoires
+        \item Méthode probabiliste
+        \item Graphes aléatoires    
+    \end{itemize}
+    \item Modèles Markoviens : 
+    \begin{itemize}
+        \item Chaînes de Markov et Comportement Asymptotique
+        \item Simulation Monte Carlo et Simulation Parfaite
+        \item Extensions et applications : modèles markoviens cachés, modèles markoviens de décision, champs de Gibbs, automates cellulaires probabilistes
+    \end{itemize}
+\end{itemize}
+
+\section{Algorithmes Probabilistes}
+Algorithme déterministe : $\forall inputs, f(inputs)$ est unique et calculé en temps fini. On ne sait pas toujours avoir une réponse rapide et correcte en utilisant un algorithme déterministe. \\
+On peut ajouter de l'aléa sous forme de bits aléatoires : on perd le caractère de sortie unique.
+
+On peut toujours modifier l'algorithme de sorte à avoir : \begin{itemize}
+    \item Toujours une réponse correcte, et rapide dans la plupart des cas
+    \item Une réponse correcte dans la plupart des cas, mais tout le temps rapide/ 
+\end{itemize}
+
+Exemple : Deux polynômes de degré $d$ sont-ils égaux ? \\
+De manière déterministe, on passe sous forme canonique, et on a un $\O(d^2)$.\\
+De manière probabiliste, on prend $r \in {1, \ldots, 100d}$ uniformément, on calcule $F(r)$ et $G(r)$ et on teste l'égalité.\\
+Si $F \neq G$, il y a erreur si et seulement si $r$ est racine de $F-G$, il y a donc une probabilité d'erreur d'au plus $\frac{1}{100}$. 
+
+Exemple : File d'attente\\
+On note $X(n)$ le nombre de clients après le départ du $n$-ième client, $A(n)$ le nombre qui arrivent pendant le service du $n$-ième client. \\
+Alors : $X(n+1) = \max(X(n)-1, 0) + A(n)$.\\
+$(X(n))_{n\in\N}$ forme une chaîne de Markov parfois, et est toujours un processus stochastique. 
+
+Exemple : Indépendants d'un Graphe\\
+Un indépendant de $G$ est un ensemble de sommets $I$ non reliés deux à deux entre eux. On cherche à calculer sa taille moyenne.\\
+Echantillonner un sous-ensemble n'est pas une solution si jamais le nombre d'indépendants est petit devant le nombre de parties.\\
+La bonne méthode est de construire une chaîne de Markov. 
+
+\section{Révisions de Probabilités}
+Franchement, tu connais. 
+
+\section{Classification d'Algorithmes Probabilistes}
+Algorithme de Monte Carlo : Résout un problème de manière approchée avec erreur contrôlée en une complexité qui est une fonction déterministe des données. \\
+La probabilité d'erreur est la probabilité, pour tout input que le programme renvoie une erreur. L'erreur unilatérale si il ne se trompe que sur un des deux cas. \\
+
+Algorithme de Las Vegas : Résout un problème exactement en minimisant la complexité moyenne finie. On peut transformer un MC en LV en le répétant tant qu'il fait une erreur.
+
+On dit qu'un algo termine avec proba $\alpha$ si toute instance termine avec probabilité au moins $\alpha$. Il termine presque sûrement si $\alpha = 1$. Il termine s'il termine sur toute entrée. 
+
+
+\end{document}

@@ -193,6 +193,95 @@ Algorithm : Iteratively select the greatest value-per-weight ratio. \\
     Yet, $\sum\limits_{i = 1}^{n} q_{i}^{'} \cdot v_{i} > \sum\limits_{i = 1}^{n} q_{i} \cdot v_{i}$, ce qui contredit la 
 \end{proof}
 
-\part{Devoir 1}
+\part{Devoir 1 29/09}
+\section{Exercice 1}
+\subsection{Question 1}
+Non : prendre $f = 1$ et $g = exp$.
+\subsection{Question 2}
+Non, si g = h = f.
+\subsection{Question 3}
+Non : Si on a $f = n, g = n^{2} \in \Omega(f(n)), h = f \in \Theta(f(n))$ alors $g + h \neq \O(f(n))$
+
+\section{Exercice 2}
+On rappelle la formule de Stirling : \[n! \sim \left(\frac{n^{n}}{e^{n}}\right)\sqrt{2\pi n}\]
+Immédiatement, on en déduit la première relation.
+
+On a par ailleurs la seconde égalité en passant au logarithme, fonction continue en $+\infty$
+
+\section{Exercice 3}
+On rappelle les formules suivantes: 
+\[\begin{cases}    
+    (n+a)^{b} &= n^{b}(1 + \frac{a}{n})^{b}\\
+    (1+\frac{a}{n})^{b} &= 1 + b\frac{a}{n} + o(\frac{a}{n}) \in \left[1; 1+ba\right]
+\end{cases}\]
+Immédiatement, on a la relation souhaité.
+
+\section{Exercice 4}
+Il suffit de diviser l'array en deux sous arrays de taille $n/2$, une array commençant en $i = 0$, une commençant en $j = -1$ et on stocke les deux indices de fin de la pile courant.
+
+\section{Exercice 5}
+\subsection{Question 1}
+On définit un algorithme de $reverse$ de list en temps linéaire en ajoutant tous les éléments dans une pile puis en dépilant dans une liste. On effectue bien $2n = \O(n)$ opérations.\\
+Il suffit alors de comparer les deux listes en temps linéaire.
+
+\subsection{Question 2}
+Pour une liste vide, ou d'un seul élément on renvoie True. 
+On reverse en place la première moitié de la liste et on la compare à la seconde et normalement ça marche. 
+
+\section{Exercice 6}
+On utilise deux piles : On push dans la première, et on pop de la seconde. Lorsque la seconde pile est vide, on pop de la première et on push dans la seconde, ce qui permet bien de former une pile. 
+
+\section{Exercice 7}
+\subsection{Question 1}
+On utilise les arrays standards et lorsqu'on dépasse la capacité, on double le nombre de cases, qu'on initialise à -1, en stockant l'indice du dernier élément de la liste. On a alors toujours une complexité en espace en $\O(n)$ puisqu'on a toujours au plus $2n$ cases. \\
+
+\subsection{Question 2}
+On effectue la suite suivante d'instructions, pour $n \in \N$ : \begin{enumerate}
+    \item On ajoute $2n$ éléments
+    \item On retire $n+1$ éléments
+    \item On ajoute $1$ élément
+    \item On recommence en modifiant $n$
+\end{enumerate}
+
+\subsection{Question 3}
+Il suffit alors d'attendre de passer en dessous de la barre de 25\% du tableau rempli. On a bien tout de même une complexité en $\O(n)$.
+
+
+\section{Exercice 8}
+\subsection{Question 1}
+\begin{algorithm}
+   \caption{Greedy Algorithm for Scheduling Problem} 
+   \begin{algorithmic}
+        \Input $\ a$ \Comment Vecteur de tuples correspondant aux activités 
+        \EndInput
+        \State $E \gets ListeVide()$
+        \State $Sort(a, (fun : x, y \mapsto x[1] \leq y[1]))$ \Comment On trie les activités par date de fin croissante
+        \State $s \gets PileVide()$
+        \State $Push(a, s)$  \Comment On ajoute une à une les activités de $a$ dans une pile.
+        \While ($s$)
+            \State $ac \gets Pop(s)$
+            \If ($ac$ est compatible)
+                \State $Ajouter(E, ac)$
+            \EndIf
+        \EndWhile\\
+        \Return $E$
+   \end{algorithmic}
+\end{algorithm}
+\begin{proof}[Correction]
+    On introduit une solution optimale, la plus proche possible de l'algo.     
+\end{proof}
+
+\subsection{Question 2}
+On prend $T1 = \left[1, 2\right], T2 = \left[3, 4\right], T3 = \left[1.5, 2.5\right]$
+
+\subsection{Question 3}
+Bon on fait de la Programmation Dynamique. Relation de récurrence $\forall i DP(i)$ est le max des poids sur $\left\{T_{1}, \ldots, T_{i}\right\}$
+\[
+\begin{cases}
+    DP(0) &= 0\\
+    DP(i+1) &= \max(DP(i), w_{i+1} + DP(p(i+1))) \text{ où } p(i) \text{ est le dernier indice de la dernière tâche compatible} 
+\end{cases}    
+\]
+
 
 \end{document}

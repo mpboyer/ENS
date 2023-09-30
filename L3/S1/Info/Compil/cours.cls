@@ -17,6 +17,7 @@
 \tikzset{>=stealth}
 \RequirePackage{ragged2e}
 \RequirePackage{amsmath, amsthm, amssymb}
+\RequirePackage{mathrsfs}
 \RequirePackage{multirow}
 \RequirePackage{listings}
 \RequirePackage{algorithm}
