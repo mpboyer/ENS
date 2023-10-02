@@ -14,6 +14,7 @@
 \RequirePackage{booktabs}
 \RequirePackage{textcomp}
 \RequirePackage{pdfpages}
+\RequirePackage{dsfont}
 \tikzset{>=stealth}
 \RequirePackage{ragged2e}
 \RequirePackage{amsmath, amsthm, amssymb}

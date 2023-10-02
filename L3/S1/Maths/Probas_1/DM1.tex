@@ -1,0 +1,40 @@
+\documentclass{cours}
+
+\title{DM1 : Intégration et Probabilités \\ \small Atomes}
+\author{Matthieu Boyer}
+
+\begin{document}
+    \section{Exercice 1 : Atomes d'une Tribu}
+        \subsection{Question 1}
+            Comme chaque atome engendré par un point contient ce point ($e \in \mathcal{F}$), il est clair que la réunion des atomes est $e$.\\
+            Par ailleurs, si $x, y \in e$, 
+            \[
+                \begin{split}
+                    \dot{x} \cap \dot{y} &= \bigcap_{\left\{A \in \mathcal{F}, x \in A\right\}} (A \cap \bigcap_{\left\{B \in \mathcal{F}, y \in B\right\}} B) \\
+                    &= \bigcap_{\left\{A \in \mathcal{F}, x \in A\right\}} \bigcap_{\left\{B \in \mathcal{F}, y \in B\right\}} A\cap B \\
+                    &= \bigcap_{\left\{A, B \in \mathcal{F}, x \in A, y \in B\right\}} A\cap B\\
+                \end{split}
+            \]
+            Si $\dot{x} \cap \dot{y} \neq \emptyset$, on prend $a$ dans cet ensemble, alors, $a \in \dot{x}$ et $a \in \dot{y}$. Donc si $x \in A, a \in A$. Supposons que $y \notin A$, alors $y \in A^{\complement}$ donc $a \in A^{\complement}$. Contradiction. Donc $y \in A$. Donc $y \in \dot{x}$, et donc on a bien l'égalité des atomes. 
+
+        \subsection{Question 2}
+            Déjà, $A = \bigcup\limits_{x \in A} \dot{x}$. En effet, si $x \in A, \dot{x} \subset A$ et $A = \bigcup\limits_{x\in A} \left\{x\right\} \subset \bigcup\limits_{x \in A} \dot{x}$.
+            Montrons ensuite l'unicité. On voit déjà qu'on ne peut pas rajouter d'atomes dans cette définition, puisque sinon on aurait un point $x_{0} \notin A$ dont on ajouterait l'atome, et donc on ajouterait $x_{0} \notin A$ à l'union ce qui brise la première inclusion. 
+            Supposons donc qu'on puisse retirer un atome $\dot{x_{0}}$ de cette union. Puisque les atomes sont disjoints, on supprime des éléments de l'union, et donc, on perd la seconde inclusion. Puisque les atomes forment une partition, on ne peut de même pas échanger un certain nombre d'atomes de l'union par d'autres. 
+
+        \subsection{Question 3}
+            Cette propriété est stable par union dénombrable, intersection finie et passage au complémentaire. Donc, cette propriété est vraie pour tout élément de $\sigma\left(\mathcal{C}\right) = \mathcal{F}$.
+
+         \subsection{Question 4}
+            Ceci semble faux : Avec $E = \N$, $\mathcal{F} = \left\{\emptyset, \left\{0\right\}, \N^{*}, \N \right\}$, $\mathcal{C} = \left\{\left\{0\right\}\right\}$. On a bien $\sigma\left(\mathcal{C}\right) = \mathcal{F}$ et $\mathcal{C}$ est dénombrable car fini. 
+            Pourtant, $\dot{1} = \N^{*} \neq \bigcap\limits_{C \in \mathcal{C}, 1 \in C} C$ qui est $\N$ tout entier ou $\emptyset$ selon la convention choisie pour l'intersection vide.. 
+
+        \subsection{Question 5}
+            J'adore l'eau, dans 20-30 ans yen aura plus. 
+            
+
+
+    \section{Exercice 2 : Atomes d'une Mesure}
+
+
+\end{document}

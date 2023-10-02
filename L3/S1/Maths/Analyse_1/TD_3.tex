@@ -1,0 +1,109 @@
+\documentclass{cours}
+\title{TD3 Topo}
+\date{\today}
+\author{Matthieu Boyer}
+
+
+\begin{document}
+\section{Exercice 1 : Echauffement}
+    \subsection{Question 1}
+        \subsubsection{Question a.}
+            Plus ou moins vrai, $f\mid_{A}$ est continue pour la topologie induite/trace
+        \subsubsection{Question b.}
+            Faux, il suffit de prendre la fonction $\mathrm{sign}$ qui n'est pas continue sur 
+             $\R$ mais qui l'est sur $\R^{+*}$
+    \subsection{Question 2}
+        Vrai, les singletons sont ouverts
+    
+    \subsection{Question 3}
+        Faux, les singletons ne sont pas ouverts.
+    
+    \subsection{Question 4}
+        \subsubsection{Question a.}
+            On a $\pi\left(\left[0, 1\right[\right) = \left[0, 1\right[$. Mais $\left[\cdot\right]^{-1} \left(\left[0, 1\right[\right) = \left]-1, 1\right[$ qui est ouvert.
+
+        \subsubsection{Question b.}
+            On a $\pi(1) = 1$ et $\pi\left(\left[0, 1\right]\right) = \left[0, 1\right]$. Or, ce segment contient un voisinage de $1$ : ${1}$. Donc c'est bien un voisinage de $1$
+        
+        \subsubsection{Question c.}
+            On ne peut pas séparer $-1$ et $1$.
+        
+    \subsection{Question 5}
+        \subsubsection{Question a.}
+            Faux : ${0, -1}$ n'est pas ouvert. 
+        \subsubsection{Question b.}
+            Faux : ${0}$ est ouvert. 
+    
+\section{Exercice 2 : Topologie Induite}
+    \subsection{Question 1}
+        Oui bon ça va hein
+
+    \subsection{Question 2}
+        \subsubsection{Question a.}
+            La fonction $j$ étant croissante de réciproque croissante pour $\subset$, c'est bien un homéomorphisme. 
+        \subsubsection{Question b.}
+            $\overline{\left\{\omega\right\}} = Y$ et donc : $\left\{\left\{\omega\right\}\right\}$ est une base finie de $Y$.
+        \subsubsection{Question c.}
+            On a $\omega \in U \cap V$
+
+\section{Exercice 3 : Séparation et espaces quotients}
+    \subsection{Question 1}
+        Si $(x, y) \in (X \times X)/\mathcal{R}$, on a $U, V$ ouverts de $X/\mathcal{R}$ tels que : 
+        \[
+            \begin{aligned}
+                &x \in U, y \in V\\
+                &U\cap V = \emptyset
+            \end{aligned}    
+        \]
+        Alors, $\left\{\left[t\right] \mid t \in U\right\}$ (de même pour $V$) est ouvert. Donc en particulier, $\mathcal{R}$ est fermé.
+
+    \subsection{Question 2}
+        Si $\mathcal{R}$ est fermée, alors si, $(x, y) \in (\R \times \R)/\mathcal{R}$ il existe des voisinages disjoints de $x$ et $y$. Par ouverture de $\pi$ on obtient bien la séparation de $X/\mathcal{R}$.
+
+    \subsection{Question 3}
+        \subsubsection{Question a.}
+            \begin{itemize}
+                \item $(i. \Rightarrow ii.)$  On considère : $\left\lVert\cdot\right\rVert : S \mapsto \sup_{x\in S} d(x, F)$. Il est clair que cette application est positive et est nulle si et seulement si $\forall x \in S, x \in \overline{F} = F$ i.e. $S \subset F$. Par les propriétés de $d$, cette fonction définit bien une norme sur $E/F$ en passant au quotient. 
+                \item $(ii. \Rightarrow iii.)$ En particulier, $E/F$ est métrisable donc est séparé. 
+                \item $(iii. \Rightarrow i.)$ Ceci est une conséquence de la question 1. 
+            \end{itemize}
+
+        \subsubsection{Question b.}
+            \begin{itemize}
+                \item $(\Leftarrow)$ Si $F = \ker f$ est fermé. En particulier si $U \subset \Im f$ est ouvert, en quotientant par $F$, puisque $E/F$ est normable, $f$ est continue. 
+                \item $(\Rightarrow)$ Si $f$ est continue, il est clair que $\ker f$ est fermé. 
+            \end{itemize}
+
+\section{Exercice 4 : Lemme d'Urysohn}
+    \subsection{Question 1}
+        En prenant pour ouverts dans la définition d'un espace normal $f^{-1}\left(\left[0, 1/3\right[\right)$ et $f^{-1}\left(\left[2/3, 1\right[\right)$, on a bien le résultat. 
+
+    \subsection{Question 2}
+        Si $(X, d)$ est métrique, si $F_{0}, F_{1}$ sont fermés disjoints dans $X$. En particulier, en prenant un recouvrement d'ouverts le plus petit possible de $F_0$ et un de $F_{1}$, on a bien le résultat.
+    
+    \subsection{Question 3}
+        \subsubsection{Question a.}
+            Déjà, il existe une bijection $r$ de $\N$ dans $\mathcal{D}$. Ensuite, on peut définir par récurrence la famille $G$. On suppose que les $r_{k}$ pour $k < n$ sont déjà définis. \\
+            On pose alors $U_{n} = F_{0} \cup \bigcup\limits_{k < n, r_{k} < r_{n}} \overline{G_{r_{k}}}$. C'est un fermé, inclus dans l'ouvert : $V_{n} = F_{1}^{\complement} \cap \bigcap\limits_{k < n, r_{k} > r_{n}} G_{r_{k}}$.\\
+            Puisquee $X$ est normal, il existe donc un ouvert $G_{r_{n}}$ tel que : $U_{n} \subset G_{r_{n}}$ et $ \overline{G_{r_{n}}} \subset V_{n}$.\\
+            On a bien défini une famille de fermés $\left(G_{x}\right)_{x \in \mathcal{D}}$ qui convient. 
+        
+        \subsubsection{Question b.}
+            Il est clair que $f$ est bien définie, à valeurs dans ${0, 1}$. 
+            De plus, il est aussi clair que : $f\left(F_{0}\right) = 0$ puisque $\forall x \in F_{0}, x \in G_{1}$ et $x \in F_{0}$.\\
+            Ensuite, si $x \in F_{1}, x \notin G_{1} \subset F_{1}^{\complement}$. Donc $f\left(F_{1}\right) = 1$.\\
+            Enfin, par densité des nombres dyadiques, il est clair que $f$ est continue. 
+
+\section{Exercice 5 : Quelques propriétés des espaces produits}
+    \subsection{Question 1}
+            Bah oui. 'fin, c'est trivial quoi. 
+
+    \subsection{Question 2}
+            Faites un effort svp.
+
+    \subsection{Question 3}
+            \begin{itemize}
+                \item $(\Leftarrow)$ Si $I$ est dénombrable, le résultat est direct en prenant pour métrique l'infimum des métriques
+                \item $(\Rightarrow)$ Sinon, si $I$ n'est pas dénombrable, supposons qu'il y ait une métrique $d$ qui induit la topologie produit sur $X$. En particulier, si on pose se donne une famille croissante $C$ de parties finies de $I$, $O_{i, n} = \prod_{k \in C_{i}} B_{X_{k}}(x_{k}, 1/n)$, les $O_{i, n}$ sont ouverts donc sont des ouverts pour $d$. Mais alors, en faisant tendre $i$ vers l'infini, on n'obtient plus des ouverts, ce qui contredit l'existence de $d$. 
+            \end{itemize}
+\end{document}

@@ -1,5 +1,64 @@
 \documentclass{cours}
 
-\title{DM 1 Topologie et Calcul Différentiel}
-\subtitle{}
-\author{}
+\title{DM 1 Topologie et Calcul Différentiel\\ \small Topologie définie par une famille de semi-normes}
+\author{Matthieu Boyer}
+\newcommand{\abs}[1]{\left|#1\right|}
+
+\begin{document}
+    \section{Exercice 1 : Généralités}
+        \subsection{Question 1}
+            On remarque que les $\left(B(x, B, r)\right)_{x\in E, B \subset A, \left|B\right|< +\infty, r > 0}$ sont l'équivalent pour une famille de semi-normes des boules ouvertes, on les appellera donc des \textsl{semies-boules}.
+            On va donc montrer que les $\left(B(x, B, r)\right)_{B \subset A, \left|B\right|< +\infty, r > 0}$ forment une base de voisinage de $x$ pour chaque $x$ dans $E$, i.e. que chaque voisinage de $x$ contient au moins une semie-boule centrée en $x$. On en déduira alors directement que l'ensemble des semies-boules forme une base d'ouverts de $\mathcal{T}$.
+            \begin{enumerate}
+                \item On a toujours $B(x, B, r) \subset E$ donc $E$ est voisinage de $x$.
+                \item On a toujours $p_{b}(x - x) = 0$ par homogénéité donc toute semie-boule centrée en $x$ et par extension tout voisinage de $x$ contient $x$.
+                \item Si on prend une collection $(U_{i})_{i\in I}$ de voisinages de $x$, et si l'un des $U_i$ contient $B(x, B_{i}, r_{i})$, l'union des $U_{i}$ contient $B(x, B_{i}, r_{i})$ et est donc un voisinage de $x$.
+                \item Si on prend une semie-boule $B(x, B, r)$ centrée en $x$ qui contient un élément $y$, en prenant $\tilde{r} = \min\limits_{b\in B}{r - p_{b}(x - y)}$, $B(y, B, \tilde{r}) \subset B(x, B, r)$ donc $B(x, B, r)$ est un voisinage de $y$.
+                \item Si $U_{0}, U_{1}$ sont deux voisinages de $x$, qui contiennent les semies-boules $B(x, B_0, r_0)$ et $ B(x, B_1, r_1)$, alors $U \cap V$ contient la semie-boule $B(x, B_{0}\cup B_{1}, \min(r_{0}, r_{1}))$ donc est un voisinage de $x$.
+            \end{enumerate}
+            On a bien montré que les semies-boules centrées en $x$ forment une base de voisinage de $x$, donc que les semies-boules de $E$ forment bien une base d'ouvert de la topologie $\mathcal{T}$
+        
+        \subsection{Question 2}
+            \subsubsection{Continuité de l'application Somme}
+                Si on se donne une semie-boule $B = B(x + y, B, r)$ centrée en $x + y \in E$. 
+                En prenant pour ouverts autour de $x$ et $y$ les semies-boules $B_{x} = B(x, B, r/2)$ et $B_{y} = B(y, B, r/2)$, on a bien, si $(a_0, a_1) \in B_{x} \times B_{y}$ pour tout $b \in B$, $p_{b}(a_0 + a_1 - (x + y)) \leq p_{b}(a - x) + p_{b}(a_1 - y) < r/2 + r/2 = r$. 
+                Donc, l'application somme est bien continue.
+            \subsubsection{Continuité du produit externe}
+                On a toujours, si $(\lambda, \mu) \in \R^2$, et si $(x, y) \in E^2$ : 
+                \[\begin{aligned} 
+                    p_{b}(\lambda x - \mu y) &= p_{b}(\lambda (x-y) +\lambda y - \mu y) & \\
+                    &\leq \left|\lambda\right| p_{b}(x - y) + \left|\lambda - \mu\right|p_{b}(y) &\text{Inégalité Triangulaire sur } p_{b}\\
+                    &\leq \left|\mu\right| p_{b}(x - y) + \left|\lambda - \mu\right|p_{b}(y) + \left|\lambda - \mu\right|p_{b}(x - y) &\text{Inégalité Triangulaire sur }\left|\cdot\right|
+                \end{aligned}\]
+                Donc, si on prend $x$ de telle sorte que $p_{b}(x-y) < \min(1, r/(3\mu))$ et si on prend $\lambda$ tel que $\abs{\lambda - \mu} < \min(r/3, r/p_{b}(y))$, on a bien la continuité en $(\mu, y)$ du produit externe. On a donc bien la continuité du produit externe sur $\R \times E$
+
+        \subsection{Question 3}
+            Soit $r > 0$, on note $S$ la boule ouverte de centre $0$ et de rayon $r$. Si $x \in B(0_{E}, \left\{\alpha\right\}, r)$, on a $p(x) < r$.\\
+            Soit $a \in \Im(p_{\alpha})$, on note cette fois-ci $S$ la boule ouverte de centre $a$ et de rayon $r$. Si $x$ est un antécédent de $a$ par $p_{\alpha}$, l'image par $p_{\alpha}$ de $B(x, \left\{\alpha\right\}, r)$ est inclue dans $S$.\\
+            Donc $p_{\alpha}$ est continue.
+
+        \subsection{Question 4}
+            \begin{itemize}
+                \item ($\Rightarrow$) Si $\mathcal{T}$ est séparée, si $x \neq 0_{E} \in E$, il existe $B \subset A \emph{finie}, r$ tels que $B(0_{E}, B, r)$ ne contienne pas $x$. Autrement dit, il existe $\alpha \in B \subset A$ tel que $p_{\alpha}(x) \geq r > 0$.
+                \item ($\Leftarrow$) Réciproquement, si la famille $\left(p_{\alpha}\right)_{\alpha \in A}$ est séparante, soient $x \neq y \in E$. Il existe $\alpha \in A$ tel que $p_{\alpha}(x-y) = r > 0$. Alors, les semies-boules $B(x, {\alpha}, r/3)$ et $B(y, {\alpha}, r/3)$ sont des voisinages de $x$ et $y$ respectivement et sont disjoints. Donc $\mathcal{T}$ vérifie l'axiome de séparation des espaces séparés de Hausdorff.
+            \end{itemize}
+
+        \subsection{Question 5}
+            \begin{itemize}
+                \item ($\Rightarrow$) Il suffit de remarquer que : $\forall \alpha \in A, \forall \epsilon > 0, B(x, \left\{\alpha\right\}, \epsilon)$ est un voisinage de $x$. Donc à partir d'un certain rang $p_{\alpha}(x_{n} - x) < \epsilon$ et donc $p_{\alpha}(x_{n} - x) \to 0$.
+                \item ($\Leftarrow$) Si pour tout $\alpha \in A$, $p_{\alpha}(x_{n} - x) \to 0$, on a à partir d'un certain rang, si $\epsilon > 0$, si $B$ est une partie finie de $A$, $x_{n} \in B(x, B, \epsilon)$. Donc, comme tout ouvert contient une semie-boule, on a le résultat souhaité. 
+            \end{itemize}
+        
+        \subsection{Question 6}
+            \begin{itemize}
+                \item ($i. \Rightarrow ii.$) Si $T$ est continue, $T$ est continue en $0$ par définition. 
+                \item ($ii. \Rightarrow iii.$) Si $T$ est continue en $0$, en particulier, $T$ est séquentiellement continue en $0$. Donc par la question précédente, on obtient que $T(y) \to_{y \to z} T(z)$ si et seulement si :  \[\forall \alpha \in A,\forall \beta \in B, q_{\beta}(T(y) - T(z)) \to_{p_{\alpha}(y - z) \to 0} 0\]
+                Ainsi, il existe $r > 0$ tel que, $\forall \alpha \in A, \beta \in B$, si $p_{\alpha}(x) < r$ i.e. $x \in B(0_{E}, \left\{\alpha\right\}, r)$, $q_{\beta}(T(x)) \leq 1$. Par homogénéité, si $x \neq 0$, on a : \[q_{\beta}(T(x)) = \frac{p_{\alpha}(x)}{r} q_{\beta}\left(T\left(\frac{r}{p_{\alpha}(x)}x\right)\right) \leq \frac{1}{r}p_{\alpha}(x)\]
+                \item ($iii. \Rightarrow i.$) $T$ étant linéaire, par hypothèses, si $\beta \in B$ : $q_{\beta}(T(x) - T(y)) = q_{\beta}(T(x-y)) \leq C \sup_{i\in I} p_{i}(x - y) = $. Mais alors, puisque ceci est vrai pour tous $\beta$, en particulier, si on se donne une semie-boule $B = B(T(x), {\beta}, r)$ de $F$, si on a $y \in B(x, I, r/C)$, $T(y) \in B$, et donc $T$ est continue en $x$. Finalement, $T$ est continue.
+            \end{itemize}
+
+
+    \section{Exercice 2 : Exemples}
+
+    \section{Exercice 3 : Applications aux distributions tempérées sur $\R$}
+\end{document}

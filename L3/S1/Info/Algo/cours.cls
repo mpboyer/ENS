@@ -25,6 +25,7 @@
 \RequirePackage{algpseudocode}
 \RequirePackage{etoc}
 \RequirePackage{stmaryrd}
+\RequirePackage{setspace}
 \setcounter{secnumdepth}{4}
 \RequirePackage{wrapfig}
 \RequirePackage{graphicx}
@@ -43,6 +44,7 @@
 {\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
 \titlespacing*{\paragraph}
 {0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+\setstretch{1.5}
 
 
 \newtheorem{theorem}{Théorème}[subsection]
@@ -58,6 +60,8 @@
 
 \newcommand{\nocontentsline}[3]{}
 \newcommand{\tocless}[2]{\bgroup\let\addcontentsline=\nocontentsline#1{#2}\egroup}
+
+\newcommand{\deriv}[2]{\frac{\mathrm{d}}{\mathrm{d}#1}\!\left(#2\right)}
 
 \makeatletter
 \renewcommand{\ALG@name}{Algorithme}

@@ -1,10 +1,9 @@
 \documentclass{cours}
 
 \begin{document}
-\section{TD1}
+\part{TD2 :Mesures Additives et $\sigma$-additives}
 
-\section{Mesures Additives et $\sigma$-additives}
-\subsection{Exercice 1}
+\section{Exercice 1}
 On pose $\tilde{A_{0}} = A_{0}$ et pour $n \in \mathbb{N}$, on pose $\tilde{A_{n+1}} = A_{n+1} \setminus \tilde{A_{n}}$.
 
 On a alors : $\mu \left(\bigcup\limits_{n\in\mathbb{N}}A_{n}\right) = \mu\left(\bigsqcup\limits_{n\in\mathbb{N}}\tilde{A_{n}}\right)$ car ces unions sont égales.
@@ -15,37 +14,75 @@ Par croissance/positivité : $\sum_{n\in \mathbb{N}}\mu\left(\tilde{A_{n}}\right
 
 Donc: $\mu \left(\bigcup\limits_{n\in\mathbb{N}}A_{n}\right)\leq \sum_{n\in \mathbb{N}}\mu\left(A_{n}\right)$
 
-\subsection{Exercice 2}
+\section{Exercice 2}
 Il est clair que $\mathcal{G}$ est stable par intersections finies et contient $\varnothing$ et $E$. Par ailleurs, si $A_{i}$ est une famille d'éléments de $\mathcal{G}$, en posant $\tilde{A_{n}}$ l'union des $n$ premiers $A_{i}$, la suite $\tilde{A_{i}}$ est une suite croissante d'éléments de $\mathcal{G}$
 
-\subsection{Exercice 3}
-\subsubsection{Question 1}
+\section{Exercice 3}
+\subsection{Question 1}
 $\liminf\limits_{n\to +\infty} A_{n}$ est l'ensemble des éléments qui sont dans tous les $A_{k}$ àpcr.
 
 $\limsup\limits_{n\to +\infty} A_{n}$ est l'ensemble des éléments qui sont apparaissent une infinité de fois dans les $A_{k}$.
 
-\subsubsection{Question 2}
+\subsection{Question 2}
 On a : $\left(\liminf\limits_{n \to + \infty} A_{n}\right)^{\complement}\left(\bigcup\limits_{n \geq 1} \bigcap\limits_{k \geq n} A_{k}\right)^{\complement} = \left(\bigcap\limits_{n \geq 1} \left(\bigcap\limits_{k \geq n} A_{k}\right)^{\complement}\right) = \left(\bigcap\limits_{n \geq 1} \bigcup\limits_{k \geq n} A_{k}^{\complement}\right) = \limsup\limits_{n\to +\infty} A_{n}^{\complement} $
 
-\subsubsection{Question 3}
+\subsection{Question 3}
 On a : $1_{\liminf A_{n}} = \liminf 1_{A_{n}}$. De même pour $\limsup$
 
-\subsubsection{Question 4}
+\subsection{Question 4}
 Par 1. on a : 
 \begin{enumerate}
     \item $\liminf A_{n} = F \cup G$ et $\limsup A_{n} = F \cap G$
     \item $\liminf A_{n} = \left]0, 3\right] \cup \left[-1, 2\right] = \left[-1, 3\right]$ et $\limsup A_{n} = \left]0, 2 \right]$
 \end{enumerate}
 
-\subsubsection{Question 5}
+\subsection{Question 5}
 Par continuité croissante : $\mu\left(\bigcup\limits_{n \geq 1} \bigcap\limits_{k\geq n}A_{k} \right) = \sup\limits_{n} \mu\left(\bigcap\limits_{k \geq n} A_{k}\right) \leq \liminf\limits_{n} \mu\left(A_{n}\right)$
 
 On pose : $A_{k} = \left[k; k+1\right]$. Alors, \qedsymbol.
 
-\subsubsection{Question 6}
+\subsection{Question 6}
 Par continuité décroissante : $\mu\left(\limsup\limits_{n}A_{n}\right) = \inf\limits_{n} \mu\left(\bigcup\limits_{k \geq n} A_{k}\right)$
 Par $\sigma$-additivité, on obtient bien le résultat.
 
+\part{TD 3 : Intégration, Théorèmes de Convergence}
+\section{Exercice 1 : Mise en Jambes}
+\subsection{Question 1}
+    On obtient le résultat par Théorème de Convergence Dominée, en dominant par $1$
+
+\subsection{Question 2}
+    La fonction $\left|f\right|$ est intégrable et à valeurs positives. Par inégalité de Markov, on a le résultat.
+
+\subsection{Question 3}
+    Il s'agit simplement des propriétés sur les fonctions à valeurs positives appliquées à la valeur absolue d'une fonction. De même que pour les fonctions positives, la réciproque de la première propriété est vraie, et la réciproque de la seconde est fausse (prendre une fonction constante non nulle)
+
+\subsection{Question 4}
+    On prend $f_{n}(x) = -e^{-nx}$ sur $\left[0, +\infty\right]$. Ca marche ?
+
+\section{Exercice 2 : Théorème Fondamental de l'Analyse}
+\subsection{Question 1}
+    On a, en tout point $x$ : $f^{'}(x) = \lim_{\mathrm{d}x \to 0} \frac{f(x + \mathrm{d}x) - f(x)}{\mathrm{d}x}$. Or, $f$ étant mesurable : \[
+        \forall \mathrm{d}x \in \R, x \mapsto \frac{f(x + \mathrm{d}x) - f(x)}{\mathrm{d}x}  \text{ est mesurable.}
+    \]
+    Donc, comme limite simple de fonction mesurables, $f^{'}$ est mesurable. 
+
+\subsection{Question 2}
+    Puisque $f^{'}$ est bornée, les quotients de la question 1 le sont aussi. En particulier, par théorème de convergence dominé : \[
+        \begin{aligned}
+        \int_{0}^{1} f^{'}(t) \mathrm{d}t &= \lim_{\mathrm{d}x \to 0} \int_{0}^{1} \frac{f(t + \mathrm{d}x) - f(t)}{\mathrm{d}x} \mathrm{d}t\\
+        &= \lim_{\mathrm{d}x \to 0} \frac{f(1 + \mathrm{d}x) - f(0 + \mathrm{d}x) + f(1) - f(0)}{\mathrm{d}x} \\
+        &= f(1) - f(0)\\
+    \end{aligned}  
+    \]
+
+\subsection{Question 3}
+    On prend l'application $\mathds{1}_{\left]0, 1\right]}$. Elle est presque partout dérivable de dérivée nulle, l'intégrale de sa dérivée est bien nulle.
+
+\section{Exercice 3}
+    L'albanie est un petit pays d'europe du sud-est. $\qed$
+
+\section{Exercice 4 : Un peu de calcul}
+ALLEZ VOUS FAIRE CUIRE UN OEUF SUR LE CRANE LISSE D'UN CHAUVE SI POSSIBLE FREDERIC WORMS.
 
 
 \end{document}
