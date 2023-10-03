@@ -3,13 +3,14 @@
 \title{Homework Assignment 1}
 \author{Matthieu Boyer}
 \date{\today}
+\usepackage[british]{babel}
 
 \begin{document}
 
 \section{Exercise 1 - [Edit Distance/Levenshtein Distance]}
 \subsection{Question 1}
 \begin{algorithm}
-    \caption{Levenshtein Distance with $f$}
+    \caption{Question 1 - Levenshtein Distance with $f$}
     \begin{algorithmic}
         \Input $\ S, T, f, t$ \Comment Two Strings, the function $f$ computing the values and the step $t$
         \EndInput\\
@@ -32,10 +33,13 @@
                 \State $f(a, b, c, d, e)$ \Comment{\parbox[t]{.7\linewidth}{We can suppose here that $f$ modifies only the last line and column of $F$ in $D$ with side-effect.}}
                 \State $\text{left} \gets \text{left} + e$
                 \For {$i \gets 1 \text{ to } t - 1$}
-                    \State $\mathbf{D}[\text{up} + i][\text{left}] \gets \min{\left(\mathbf{D}[\text{up} + i][\text{left - 1}] + 1, \mathbf{D}[\text{up} + i - 1][\text{left}] + 1,\mathbf{D}[\text{up} + i - 1][\text{left - 1}] + \mathds{1}_{\left\{S[up + i] = T[left]\right\}} \right)}$
+                    \State $\mathbf{D}[\text{up} + i][\text{left}] \gets \min{\begin{cases}&\mathbf{D}[\text{up} + i][\text{left} - 1] + 1 \\ &\mathbf{D}[\text{up} + i - 1][\text{left}] + 1\\ &\mathbf{D}[\text{up} + i - 1][\text{left} - 1] + \mathds{1}_{\left\{S[up + i] = T[left]\right\}} \end{cases}}$ \\ \Comment{We update the first Column of the block we consider.}
                 \EndFor
             \EndWhile
             \State $\text{up} \gets \text{up} + d$
+            \For {$i \gets 1 \text{ to } n$}
+                    \State $\mathbf{D}[\text{up}][i] \gets \min{\begin{cases}&\mathbf{D}[\text{up}][i - 1] + 1 \\ &\mathbf{D}[\text{up} - 1][ + i] + 1\\ &\mathbf{D}[\text{up} - 1][i - 1] + \mathds{1}_{\left\{S[up + i] = T[left]\right\}} \end{cases}}$ \\ \Comment{We update the first line of the blocks we will consider.}
+                \EndFor
         \EndWhile\\
 
         \Return $\mathbf{D}[n][n]$
@@ -43,7 +47,23 @@
     \end{algorithmic}
 \end{algorithm}
 \begin{proposition}[Complexity and Correction]
-    If we denote $C_{f}$ the complexity of $f$, this algorithm has time complexity $\O{C_{f}\left(\frac{n}{t}\right)^{2}}$. Moreover, it is clear this algorithm is correct as it only just applies
+    If we denote $C_{f}$ the complexity of $f$, this algorithm has time complexity $\O{\left(C_{f}\left(\frac{n}{t}\right)^{2}\right)}$. This algorithm is correct.
 \end{proposition}
+\begin{proof}
+    \begin{itemize}
+        \item Moreover, it is clear this algorithm is correct as it only just applies the dynamic programming algorithm for the Levenshtein distance by steps.
+        \item This algorithm complexity comes from the fact it has two while loops for which the commands are executed at most $\lceil n/t \rceil$ times. The commands in both \emph{while} loops are executed in $\O\left(C_{f}\right)$. The \emph{for} loops inside the \textit{left} \emph{while} loop are equivalent to loops for $i$ between left and $\text{left} + t - 1$ and thus are disjoint. The sum of their complexity over the \textit{left} \emph{while} loop is then $n$. The number of operations inside the \textit{up} \emph{while} loop is then in $\O\left(C_{f}\frac{n}{t}\right)$ and thus the total complexity is, as announced, in $\O{\left(C_{f}\left(\frac{n}{t}\right)^{2}\right)}$
+    \end{itemize}
+\end{proof}
+
+
+\subsection{Question 2}
+By the recurrence formula : $D[i][j] = \max 
+\begin{cases}
+    &D[i-1][j] + 1\\
+    &D[i][j-1] + 1\\
+    &D[i-1][j-1] + 1 if S[i] \neq T[j] else 0\\
+\end{cases}$
+we see that $D[i][j]$ is at most $1$ plus one of its left neighbour, upper neighbour or upper left corner neighbour.
 
 \end{document}
