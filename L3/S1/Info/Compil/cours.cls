@@ -14,10 +14,10 @@
 \RequirePackage{booktabs}
 \RequirePackage{textcomp}
 \RequirePackage{pdfpages}
+\RequirePackage{dsfont}
 \tikzset{>=stealth}
 \RequirePackage{ragged2e}
 \RequirePackage{amsmath, amsthm, amssymb}
-\RequirePackage{mathrsfs}
 \RequirePackage{multirow}
 \RequirePackage{listings}
 \RequirePackage{algorithm}
@@ -59,6 +59,8 @@
 
 \newcommand{\nocontentsline}[3]{}
 \newcommand{\tocless}[2]{\bgroup\let\addcontentsline=\nocontentsline#1{#2}\egroup}
+\newcommand{\abs}[1]{\left|#1\right|}
+
 
 \makeatletter
 \renewcommand{\ALG@name}{Algorithme}

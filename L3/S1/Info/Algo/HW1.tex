@@ -30,7 +30,12 @@
                 \State $a \gets \mathbf{D}[\text{up} + 1 \rightarrow \text{up} + 1 + d][\text{left}]$
                 \State $c \gets \mathbf{D}[\text{up}][\text{left} + 1 \rightarrow \text{left} + 1 + e]$\\
                 \State $f(a, b, c, d, e)$ \Comment{\parbox[t]{.7\linewidth}{We can suppose here that $f$ modifies only the last line and column of $F$ in $D$ with side-effect.}}
+                \State $\text{left} \gets \text{left} + e$
+                \For {$i \gets 1 \text{ to } t - 1$}
+                    \State $\mathbf{D}[\text{up} + i][\text{left}] \gets \min{\left(\mathbf{D}[\text{up} + i][\text{left - 1}] + 1, \mathbf{D}[\text{up} + i - 1][\text{left}] + 1,\mathbf{D}[\text{up} + i - 1][\text{left - 1}] + \mathds{1}_{\left\{S[up + i] = T[left]\right\}} \right)}$
+                \EndFor
             \EndWhile
+            \State $\text{up} \gets \text{up} + d$
         \EndWhile\\
 
         \Return $\mathbf{D}[n][n]$
@@ -38,7 +43,7 @@
     \end{algorithmic}
 \end{algorithm}
 \begin{proposition}[Complexity and Correction]
-    If we denote $C_{f}$ the complexity of $f$, this algorithm has time complexity $\O{C_{f}\left(\frac{n}{t}\right)^{2}}$
+    If we denote $C_{f}$ the complexity of $f$, this algorithm has time complexity $\O{C_{f}\left(\frac{n}{t}\right)^{2}}$. Moreover, it is clear this algorithm is correct as it only just applies
 \end{proposition}
 
 \end{document}

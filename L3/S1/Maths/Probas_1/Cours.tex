@@ -3,7 +3,7 @@
 \title{Intégration et Probabiliéts}
 
 \begin{document}
-    \section{Espaces Mesurés}
+\section{Espaces Mesurés}
     \subsection{Ensembles Mesurables}
     \subsection{Mesures Positives}
     \subsection{Fonctions Mesurables}
@@ -82,7 +82,7 @@
     \begin{theorem}
         Soit $\mathcal{C}$ stable par intersections telle que $\sigma{\mathcal{C}} = \mathcal{A}$.
         On suppose $\mu_{1}(A) = \mu_{2}(A), \forall A \in \mathcal{C}$
-        Alors : \begin{enumerate}
+        Alors : \begin{enumerate}\item $\mu p.p.$, l'application $u \mapsto f(u, x)$ est continue en $u_{0}$
             \item Si $\mu_{1}(E) = \mu_{2}(E) < +\infty$ alors $\mu_{1} = \mu_{2}$
             \item S'il existe $(E_n) \in \mathcal{A}^{\mathbb{N}}$ croissante d'union $E$ et de mesures égales et finies par $\mu_{1}$ et $\mu_{2}$ alors $\mu_{1} = \mu_{2}$
         \end{enumerate}
@@ -94,7 +94,7 @@
         \end{enumerate}
     \end{proof}
     
-    \section{Intégration par rapport à une mesure}
+\section{Intégration par rapport à une mesure}
     \subsection{Intégration Positive}
     \begin{definition}
         $f$ mesurable à valeurs réelles est étagée si elle prend un nombre fini de valeurs. 
@@ -107,7 +107,195 @@
     \end{remark}
     \begin{definition}
         Si $f$ est étagée, et prend les valeurs : $\alpha_{1} < \ldots < \alpha_{n}$, l'écriture canonique de $f$ est, avec $A_{i} = f^{-1}(\left\{\alpha_{i}\right\})$ : 
-        $f =  \sum\limits_{i}^{n} \alpha_{i}1_{A_{i}}$
+        $f =  \sum\limits_{i}^{n} \alpha_{i}1_{A_{i}}$\\
+        Pour $f$ mesurable, on pose alors : $\int f \mathrm{d}\mu = \sup\limits_{h \in \mathcal{E}, h \leq f} g \mathrm{d}\mu$
     \end{definition}
+    \begin{proposition}
+        L'intégrale est une forme linéaire monotone i.e. l'intégrale d'une fonction positive est positive. Ceci s'étend aux fonctions intégrables.
+    \end{proposition}
+    \begin{theorem}[De Convergence Monotone]\label{TCM}
+        Si $f_{n}$ est croissante positive et tend vers $f$ :
+        \[
+            \int f \mathrm{d}\mu = \lim_{n\to \infty} \uparrow \int f_{n} \mathrm{d} \mu
+        \]
+    \end{theorem}
+    \begin{proof}
+        Par croissance : \[ \int f \mathrm{d}\mu \geq \lim_{n \to \infty}\uparrow \int f_{n} \mathrm{d}\mu.\]
+        Il suffit donc d'établir l'autre inégalité : soit $h = \sum \alpha_{i}\mathds{1}_{A_{i}}$ étagée positive inférieure à $f$. Soit $a \in [0, 1[$. On pose: \[E_{n} =\left\{x \in E \mid ah(x) \leq f_{n}(x)\right\}\]
+        Les $E_{n}$ sont mesurables et, puisque $a < 1$ et $f = \lim \uparrow f_{n}$, $E = \bigcup \uparrow E_{n}$.\\
+        Comme $f_{n} \geq a\mathds{1}_{E_{n}}h$, \[\int f_{n} \mathrm{d}\mu \geq \int \mathds{1}_{E_{n}}h = a \sum \alpha_{i}\mu(A_{i}\cap E_{n})\]
+        En passant à la limite croissante, comme $A_{i} \cap E_{n} \uparrow A_{i}$, puis en faisant tendre $a$ vers 1 on trouve le résultat. 
+    \end{proof}
 
+    \begin{theorem}
+        Soit $f$ mesurable positive. Il existe une suite croissante de fonctions étagées positives de limite $f$.
+    \end{theorem}
+    \begin{corollary}
+        Si les $f_{n}$ sont positives : \[
+          \sum_{n} \int f_{n} \mathrm{d}\mu = \int f_{n} \sum_{n }\mathrm{d}\mu
+        \]
+    \end{corollary}
+    \begin{theorem}[Lemme de Fatou]
+        Si les $f_{n}$ sont mesurables positives: 
+        \[
+            \int \liminf f_{n} \mathrm{d}\mu \leq \liminf \int f_{n} \mathrm{d}\mu
+        \]
+    \end{theorem}
+
+    \begin{proof}
+        On a : \[
+            \liminf f_{n} = \lim_{k \to \infty} (\inf_{n \geq k} f_{n})        \]
+        Donc, par théorème de convergence monotone \ref{TCM} : \[
+            \int \liminf f_{n} \mathrm{d}\mu = \lim_{k \to \infty} \int \left(\inf_{n \geq k} f_{n}\right) \mathrm{d}\mu
+        \]
+        Par ailleurs, si $p \geq k$, on a : $\inf\limits_{n \geq k} f_{n} \leq f_{p}$, d'où : \[
+            \int \left(\inf_{n \geq k} f_{n}\right) \mathrm{d}\mu \leq \inf_{p\geq k} \int f_{p} \mathrm{d}\mu
+        \]
+        En passant à la limite croissante quand $k \to \infty$, on a : \[   
+            \lim_{k \to \infty} \int \left(\inf_{n \geq k} f_{n}\right)\mathrm{d}\mu \leq \lim_{k \to \infty} \inf_{p \geq k} \int f_{p} \mathrm{d}\mu = \liminf \int f_{n} \mathrm{d}\mu
+        \]
+        ce qui conclut.
+    \end{proof}
+
+    \begin{proposition}
+        Soit $f$ mesurable positive :
+        \begin{itemize}
+            \item $\forall a > 0, \mu \left(\left\{x \in E \mid f(x) \geq a\right\}\right) \leq \frac{1}{a}\int f \mathrm{d} \mu$ [Inégalité de Markov]
+            \item $\int f \mathrm{d}\mu < \infty \Rightarrow f < \infty p.p.$
+            \item $\int f \mathrm{d}\mu \Leftrightarrow f = 0 p.p.$
+            \item $f = g p.p. \Rightarrow \int f \mathrm{d}\mu = \int g \mathrm{d}\mu$
+        \end{itemize}
+        On peut généraliser cette dernière proposition aux fonctions intégrables.
+    \end{proposition}
+
+    \subsection{Fonctions Intégrables}
+    \begin{definition}
+        On dit qu'une fonction est intégrable si l'intégrale de sa norme est finie. En ce cas, l'intégrale de la fonction est la somme des intégrales de ses fonctions composantes.
+    \end{definition}
+    \begin{theorem}
+        L'intégrale vérifie l'inégalité triangulaire : Soit $f$ intégrable
+        \[
+            \int \abs{f} \mathrm{d}\mu \geq \abs{\int f \mathrm{d}\mu}
+        \]
+    \end{theorem}
+    \begin{proof}
+        Ecrire $\abs{z}^{2} = z\overline{z}$ pour $z$ l'intégrale de $f$. En notant $a$ le conjugué de $z$, on a le résultat.
+    \end{proof}
+
+    \begin{theorem}[De Convergence Dominée]\label{TCD}
+        Soit $f_{n}$ une suite de fonctions mesurables à valeurs dans $\R$ ou $\C$. On suppose :
+        \begin{enumerate}
+            \item Il existe $f$ mesurable telle que $f_{n}(x) \to f(x) \mu p.p.$
+            \item Il existe $g$ telle que $\abs{f_{n}(x)} \leq g(x) \mu p.p.$
+        \end{enumerate}
+        Alors : 
+        \[
+            \lim_{n\to \infty} \int \abs{f_{n}(x) - f(x)} \mu(\mathrm{d}x) = 0
+        \]
+        et 
+        \[
+            \lim_{n \to \infty} \int f_{n} \mathrm{d}\mu = \int f \mathrm{d}\mu   
+        \]
+    \end{theorem}
+
+    \begin{proof}
+        \begin{enumerate}
+            \item On suppose dans un premier temps que les hypothèses $(1)$ et $(2)$ sont vérifiées sur tout l'ensemble. On remarque $\abs{f} \leq g$ donc $f$ est intégrable. \\
+            Ensuite, puisque par inégalité triangulaire, $\abs{f - f_{n}} \leq 2g$ et $\abs{f - f_{n}} \to 0$, par lemme de Fatou : 
+            \[
+                \liminf \int \left(2g - \abs{f - f_{n}}\right) \mathrm{d}\mu \geq \int \liminf \left(2g - \abs{f - f_{n}}\right) \mathrm{d}\mu = 2 \int g \mathrm{d}\mu.
+            \]
+            Par linéarité, comme $\liminf -u_{n} = -\limsup u_{n}$ : 
+            \[
+                2 \int g \mathrm{d}\mu - \limsup \int \abs{f - f_{n}} \mathrm{d}\mu \geq 2 \int g \mathrm{d}\mu
+            \]
+            D'où, $\int \abs{f - f_{n}} \mathrm{d}\mu \to 0$. Par inégalité triangulaire: 
+            \[
+                \abs{\int f \mathrm{d}\mu - \int f_{n}\mathrm{d}\mu} \leq \int \abs{f - f_{n}} \mathrm{d}\mu
+            \]
+            \item Dans le cas général, on suppose cette fois ci $(1)$ et $(2)$. On pose alors : 
+            \[
+                A = \left\{x \in E \mid f_{n}(x) \to f(x) \text{ et pour tout n } \abs{f_{n}(x)}\leq g(x)\right\}.
+            \]
+            Par hypothèses, $\mu\left(A^{\complement}\right) = 0$ et par la première partie de la preuve appliquée à : 
+            \[
+                \tilde{f}_{n}(x) = \mathds{1}_{A}(x)f_{n}(x),  \tilde{f}(x) = \mathds{1}_{A}(x)f(x)
+            \]
+            Comme $f = \tilde{f} p.p.$ et $f_{n} = \tilde{f}_{n} p.p.$, on a bien le résultat par la première partie de la preuve. 
+        \end{enumerate}
+    \end{proof}
+    
+    \subsection{Intégrales dépendant d'un Paramètre}
+    Principe : Utiliser le TCD pour montrer des propriétés de régularité.
+    \begin{remark}[Exemples d'utilisation]
+        \begin{itemize}
+            \item Pour $f$ intégrable à variables dans $\R^{d}$, on définit la transformée de fourier $\hat{f}$ par : \[   
+                \hat{f}(\xi) = \int_{\R^{d}} \exp{\left(-\xi \cdot x\right)}f(x)\mathrm{d}x\]
+            \item Soit $f$ intégrable à variables dans $\R^{d}$, $g$ continue bornée à variables dans $\R^{d}$. On définit la convolée de $f$ et $g$ par : 
+            \[f \star g : x \mapsto \int_{\R^{d}} f(y)g(x - y)\mathrm{d}y \]
+        \end{itemize}
+    \end{remark}  
+
+    \begin{theorem}[De Continuité sous l'intégrale]
+        Soit $U$ un ouvert de $\R^{d}$, $u_0 \in U$. Soit $f : U \times E \to \R$ vérifiant : \begin{enumerate}
+            \item $\forall u \in U$, l'application $x \in E \mapsto f(u, x)$ est mesurable.
+            \item \item $\mu p.p.$, l'application $u \mapsto f(u, x)$ est continue en $u_{0}$
+            \item Il existe une application $g : E \to \left[0, +\infty\right[$, intégrable telle \[\forall u \in U, \mu p.p., \abs{f(u, x)} \leq g(x)\]
+            
+        \end{enumerate}
+        Alors, $F(u) = \int f(u, x) \mu(\mathrm{d}x)$ est bien définie et est continue en $u_{0}$.
+    \end{theorem}
+    \begin{proof}
+        Par l'hypothèse $(iii.)$, $F$ est bien définie.\\
+        Soit $(u_{n})$ une suite de limite $u_{0}$. Par $(ii.)$, $f(u_{n}, x) \to_{n\to \infty} f(u_{0}, x), \mu p.p.$. Par $(iii.)$, on peut appliquer le théorème de convergence dominée \ref{TCD}, ce qui donne le résultat par caractérisation séquentielle de la limite. 
+    \end{proof}
+    \begin{corollary}
+        Les fonctions définies en exemple sont continues.
+    \end{corollary}
+
+    \begin{theorem}[De Dérivation sous l'intégrale]
+        Soit $U$ un ouvert de $\R$, $u_0 \in U$. Soit $f : U \times E \to \R$ vérifiant : \begin{enumerate}
+            \item $\forall u \in U$, $x \mapsto f(u, x)$ est mesurable
+            \item $\mu p.p.$, $u \mapsto f(u, x)$ est dérivable en $u_{0}$ 
+            \item il existe $g$ positive intégrable, telle que $\mu p.p.$ : \[\forall u \in U, \abs{f(u, x) - f(u_{0}, x)} \leq g(x)\abs{u - u_{0}}\]
+        \end{enumerate}
+        Alors : \[F(u) = \int f(u, x) \mu(\mathrm{d}x) \text{ est dérivable et } F^{'}(u_{0}) = \int \frac{\partial f}{\partial u}(u_{0}, x)\mu(\mathrm{d}x)\]
+    \end{theorem}
+    \begin{proof}
+        On applique le TCD \ref{TCD} à $\phi_{n}(x) = \frac{f(u_{n}, x) - f(u_{0}, x)}{u_{n} - u_{0}}$ où $u_{n} \to u_{0}$.
+    \end{proof}
+    \begin{corollary}
+        En choisissant pour la transformée de fourier des fonctions dont les premiers moments sont intégrables, on gagne en régularité. En particulier, si une fonction est à support compact, sa transformée de fourier est indéfiniment dérivable. 
+    \end{corollary}
+
+    \subsection{Mesures Produits}
+        On se donne $(E_{1}, \mathcal{A}_{1}, \mu_{1})$ et $(E_{2}, \mathcal{A}_{2}, \mu_{2})$, et on veut :
+        \begin{enumerate}
+            \item Définir une mesure produit sur $\left(E_{1} \times E_{2}, \mathcal{A}_{1} \bigotimes \mathcal{A}_{2}\right)$
+            \item Démontrer les théorèmes de Fubini sur la mesure ainsi définie. 
+        \end{enumerate}
+        \subsubsection{Préliminaires}
+        \begin{definition}
+            Soit $C \in \mathcal{A}_{1} \bigotimes \mathcal{A}_{2}, x_{1} \in E_{1}, x_{2} \in E_{2}$. On note : 
+            \[
+                \begin{aligned}
+                    C_{x_{1}} &= \left\{y \in E_{2}\mid (x_{1}, y) \in C\right\}\\
+                    C_{x_{2}} &= \left\{y \in E_{1}\mid (y, x_{2}) \in C\right\}\\
+                \end{aligned}
+            \]
+            On définit par ailleurs, si $f : \left(E_{1} \times E_{2}, \mathcal{A}_{1} \bigotimes \mathcal{A}_{2}\right) \to \left(\R, \mathcal{B}(\R)\right)$, les applications partielles $f_{x_{1}}$ et $f^{x_{2}}$.
+        \end{definition}
+        \begin{lemma}
+            \begin{itemize}
+                \item $\forall C \in \mathcal{A}_{1} \bigotimes \mathcal{A}_{2}, x_{1} \in E_{1}, x_{2} \in E_{2}$, $C_{x_{1}} \in A_{2}$ et $C^{x_{2}} \in A_{1}$
+                \item $f_{x_{1}}$ et $f^{x_{2}}$ sont mesurables.
+            \end{itemize}
+        \end{lemma}
+        \begin{proof}
+            \begin{itemize}
+                \item On introduit la classe des $C_{x_{1}}$ pour $x_{1} \in E_{1}$. Cette classe contient les pavés et est une tribu.
+                \item 
+            \end{itemize}
+            
+        \end{proof}
 \end{document}
