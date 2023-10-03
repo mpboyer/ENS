@@ -21,7 +21,7 @@
         \subsection{Question 2}
             \subsubsection{Continuité de l'application Somme}
                 Si on se donne une semie-boule $B = B(x + y, B, r)$ centrée en $x + y \in E$. 
-                En prenant pour ouverts autour de $x$ et $y$ les semies-boules $B_{x} = B(x, B, r/2)$ et $B_{y} = B(y, B, r/2)$, on a bien, si $(a_0, a_1) \in B_{x} \times B_{y}$ pour tout $b \in B$, $p_{b}(a_0 + a_1 - (x + y)) \leq p_{b}(a - x) + p_{b}(a_1 - y) < r/2 + r/2 = r$. 
+                En prenant pour ouverts autour de $x$ et $y$ les semies-boules $B_{x} = B(x, B, r/2)$ et $B_{y} = B(y, B, r/2)$, on a bien, si $(a_0, a_1) \in B_{x} \times B_{y}$ pour tout $b \in B$, $p_{b}(a_0 + a_1 - (x + y)) \leq p_{b}(a_0 - x) + p_{b}(a_1 - y) < r/2 + r/2 = r$. 
                 Donc, l'application somme est bien continue.
             \subsubsection{Continuité du produit externe}
                 On a toujours, si $(\lambda, \mu) \in \R^2$, et si $(x, y) \in E^2$ : 
@@ -39,7 +39,7 @@
 
         \subsection{Question 4}
             \begin{itemize}
-                \item ($\Rightarrow$) Si $\mathcal{T}$ est séparée, si $x \neq 0_{E} \in E$, il existe $B \subset A \emph{finie}, r$ tels que $B(0_{E}, B, r)$ ne contienne pas $x$. Autrement dit, il existe $\alpha \in B \subset A$ tel que $p_{\alpha}(x) \geq r > 0$.
+                \item ($\Rightarrow$) Si $\mathcal{T}$ est séparée, si $x \neq 0_{E} \in E$, il existe $B \subset A \emph{ finie}, r$ tels que $B(0_{E}, B, r)$ ne contienne pas $x$. Autrement dit, il existe $\alpha \in B \subset A$ tel que $p_{\alpha}(x) \geq r > 0$.
                 \item ($\Leftarrow$) Réciproquement, si la famille $\left(p_{\alpha}\right)_{\alpha \in A}$ est séparante, soient $x \neq y \in E$. Il existe $\alpha \in A$ tel que $p_{\alpha}(x-y) = r > 0$. Alors, les semies-boules $B(x, {\alpha}, r/3)$ et $B(y, {\alpha}, r/3)$ sont des voisinages de $x$ et $y$ respectivement et sont disjoints. Donc $\mathcal{T}$ vérifie l'axiome de séparation des espaces séparés de Hausdorff.
             \end{itemize}
 
@@ -50,15 +50,36 @@
             \end{itemize}
         
         \subsection{Question 6}
+        Tout d'abord, les propriétés $i.$ et $ii.$ équivalentes pour une application linéaire. En effet, si $T$ est continue en $0$, si $x_{n} \to x$, $x - x_{n} \to 0$ et donc par continuité, $T(x - x_{n}) \to T(0)$ et donc $T(x_{n}) \to T(x)$. \\
+            Il reste alors à montrer l'équivalence des propriétés $i.$ et $iii.$ : 
             \begin{itemize}
-                \item ($i. \Rightarrow ii.$) Si $T$ est continue, $T$ est continue en $0$ par définition. 
-                \item ($ii. \Rightarrow iii.$) Si $T$ est continue en $0$, en particulier, $T$ est séquentiellement continue en $0$. Donc par la question précédente, on obtient que $T(y) \to_{y \to z} T(z)$ si et seulement si :  \[\forall \alpha \in A,\forall \beta \in B, q_{\beta}(T(y) - T(z)) \to_{p_{\alpha}(y - z) \to 0} 0\]
-                Ainsi, il existe $r > 0$ tel que, $\forall \alpha \in A, \beta \in B$, si $p_{\alpha}(x) < r$ i.e. $x \in B(0_{E}, \left\{\alpha\right\}, r)$, $q_{\beta}(T(x)) \leq 1$. Par homogénéité, si $x \neq 0$, on a : \[q_{\beta}(T(x)) = \frac{p_{\alpha}(x)}{r} q_{\beta}\left(T\left(\frac{r}{p_{\alpha}(x)}x\right)\right) \leq \frac{1}{r}p_{\alpha}(x)\]
+                \item ($i. \Rightarrow iii.$) Supposons $T$ continue. Pour tout $\beta \in B$, il existe un voisinage $U$ de $0_{E}$ tel que $\forall x \in U, q_{\beta}(T(x)) \leq 1$. Comme $U$ est ouvert, il existe $\alpha \in A$ tel qu'une semie boule de centre $0_{E}$, de semie-norme $p_{\alpha}$ et de rayon $r$ ($B(0_{E}, \left\{\alpha\right\}, r)$) soit inclue dans $U$. Mais alors, par homogénéité, $\frac{r}{p_{\alpha}(x)}x \in U$. On a donc : \[q_{\beta}(T(x)) = \frac{p_{\alpha}(x)}{r} q_{\beta}\left(T\left(\frac{r}{p_{\alpha}(x)}x\right)\right) \leq \frac{1}{r}p_{\alpha}(x)\]
                 \item ($iii. \Rightarrow i.$) $T$ étant linéaire, par hypothèses, si $\beta \in B$ : $q_{\beta}(T(x) - T(y)) = q_{\beta}(T(x-y)) \leq C \sup_{i\in I} p_{i}(x - y) = $. Mais alors, puisque ceci est vrai pour tous $\beta$, en particulier, si on se donne une semie-boule $B = B(T(x), {\beta}, r)$ de $F$, si on a $y \in B(x, I, r/C)$, $T(y) \in B$, et donc $T$ est continue en $x$. Finalement, $T$ est continue.
             \end{itemize}
 
-
+            
     \section{Exercice 2 : Exemples}
+        \subsection{Question 1}
+            Il est clair que $d$ est bien définie et est positive. Par ailleurs, si $d(x, y) = 0$, en particulier pour tout $n \in \N$ $p_{n}(x - y) = 0$ i.e., la famille des $p_{n}$ étant séparante, $x = y$, donc $d$ est séparée. De plus, $d$ vérifie l'inégalité triangulaire puisqu'on a, pour tous $x, y, z$, $\min(p_{n}(x - y), 1) + \min(p_{n}(z - x), 1) \geq \min(p_{n}(z - y), 1)$ en distinguant selon les valeurs de $p_{n}(x - y)$ (et $z - y, z - x$)\\
+            De plus, chacune des semi-normes est continue pour $d$ et une boule ouverte pour $d$ est une intersection d'ensembles de la forme : $p_{n}^{-1}\left(\left[0, r_{n}\right[\right)$. Donc la topologie induite par $d$ est bien $\mathcal{T}$. Donc $E$ est métrisable. 
+        
+        \subsection{Question 2}
+            \subsubsection{Question a.}
+                Par la question 5 de l'exercice 1.:
+                \[
+                    \left(f_{n} \to_{n \to +\infty} f\right) \Leftrightarrow \left(\forall x \in \left[0, 1\right], \abs{f(x)-f_{n} (x)} \to_{n\to +\infty} 0\right)
+                \]
+                Les suites convergentes, sont donc les suites convergeant simplement pour la topologie usuelle sur $\R$.\\
+                On a de plus, $\forall f \in E, \forall x \in \left[0, 1\right], \abs{f(x)} = 0$ si et seulement si, $f = 0$ sur $\left[0, 1\right]$. Donc, la famille $p_{x}$ est séparante et donc cette topologie est séparée. 
 
+            \subsubsection{Question b.}
+                Cette topologie n'est pas métrisable. En effet, cette topologie ne peut pas être engendrée par une base dénombrable d'ouverts.
+        
+        \subsection{Question 3}
+            \subsubsection{Question a.}
+                Par la question 5. de l'exercice 1, $f_{n} \to f$ si et seulement si $\forall j, p_{j}(f_{n} - f) \to 0$, ce qui équivaut bien à dire que $f_{n}$ converge uniformément sur tout segment équilibré vers $f$. Mais ceci est équivalent sur $\R$ à la convergence uniforme sur tout compact, puisque tout compact sur $\R$ est borné par une certaine constante $M$, i.e. inclus dans un certain $\left[-M, M\right]$.
+
+            \subsubsection{Question b.}
+                
     \section{Exercice 3 : Applications aux distributions tempérées sur $\R$}
 \end{document}
