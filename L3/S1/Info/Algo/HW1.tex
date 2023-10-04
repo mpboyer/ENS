@@ -25,15 +25,15 @@
         \While {$\text{up} < n$}
             \State $\text{left} \gets 0$
             \While {$\text{left} < n$}
-                \State $d \gets \min(n-\text{up}, t)$
-                \State $e \gets \min(n-\text{left}, t)$\\
+                \State $down \gets \min(n-\text{up}, t)$
+                \State $right \gets \min(n-\text{left}, t)$\\
                 \State $b \gets \mathbf{D}[\text{up}][\text{left}]$
-                \State $a \gets \mathbf{D}[\text{up} + 1 \rightarrow \text{up} + 1 + d][\text{left}]$
-                \State $c \gets \mathbf{D}[\text{up}][\text{left} + 1 \rightarrow \text{left} + 1 + e]$\\
-                \State $f(a, b, c, d, e)$ \Comment{\parbox[t]{.7\linewidth}{We can suppose here that $f$ modifies only the last line and column of $F$ in $D$ with side-effect.}}
-                \State $\text{left} \gets \text{left} + e$
-                \For {$i \gets 1 \text{ to } t - 1$}
-                    \State $\mathbf{D}[\text{up} + i][\text{left}] \gets \min{\begin{cases}&\mathbf{D}[\text{up} + i][\text{left} - 1] + 1 \\ &\mathbf{D}[\text{up} + i - 1][\text{left}] + 1\\ &\mathbf{D}[\text{up} + i - 1][\text{left} - 1] + \mathds{1}_{\left\{S[up + i] = T[left]\right\}} \end{cases}}$ \\ \Comment{We update the first Column of the block we consider.}
+                \State $a \gets \mathbf{D}[\text{up} + 1 \rightarrow \text{up} + 1 + down][\text{left}]$
+                \State $c \gets \mathbf{D}[\text{up}][\text{left} + 1 \rightarrow \text{left} + 1 + right]$\\
+                \State $f(a, b, c, d, e)$ \Comment{\parbox[t]{.7\linewidth}{We can suppose here that $f$ modifies only the last line and column of $F$ in $\mathbf{D}$ with side-effect.}}
+                \State $\text{left} \gets \text{left} + right$
+                \For {$i \gets 1 \text{ to } down - 1$}
+                    \State $\mathbf{D}[\text{up} + i][\text{left}] \gets \min{\begin{cases} &\mathbf{D}[\text{up} + i][\text{left} - 1] + 1 \\ &\mathbf{D}[\text{up} + i - 1][\text{left}] + 1\\ &\mathbf{D}[\text{up} + i - 1][\text{left} - 1] + \mathds{1}_{\left\{S[up + i] = T[left]\right\}} \end{cases}}$ \\ \Comment{We update the first Column of the block we consider.}
                 \EndFor
             \EndWhile
             \State $\text{up} \gets \text{up} + d$
@@ -58,12 +58,39 @@
 
 
 \subsection{Question 2}
-By the recurrence formula : $D[i][j] = \max 
+By the recurrence formula : $\mathbf{D}[i][j] = \max 
 \begin{cases}
-    &D[i-1][j] + 1\\
-    &D[i][j-1] + 1\\
-    &D[i-1][j-1] + 1 if S[i] \neq T[j] else 0\\
+    &\mathbf{D}[i-1][j] + 1\\
+    &\mathbf{D}[i][j-1] + 1\\
+    &\mathbf{D}[i-1][j-1] + 1 if S[i] \neq T[j] \text{ else } 0\\
 \end{cases}$
-we see that $D[i][j]$ is at most $1$ plus one of its left neighbour, upper neighbour or upper left corner neighbour.
+we see that $\mathbf{D}[i][j]$ is at most $1$ plus one of its left neighbour, upper neighbour or upper left corner neighbour.
+
+
+\subsection{Question 3}
+By recurrence formula, if we substract from all the values in $A, B, C$ a certain integer $k$, then we get for the new matrix $F$, the one we would have gotten with $A, B, C$ with $k$ substracted to all values. Thus, if the values in $A, A'$, $B, B'$ and $C, C'$ all differ from a common integer, the resulting values after applying $f$ will differ from this same value. Thus, $F' = F +(A^{'} - A)$ and $A^{'} - A$ is a matrix with all values equal.
+
+\subsection{Question 4}
+We will show here that we can pre-compute all $t \times t$ matrices in $\O\left(3^{2t}\sigma^{2t}t^{2}\right)$.\\
+First, as $\mathbf{D}[i][j]$ here is the minimal number of elementary operations to go from string $S[0:i]$ to string $T[0:j]$. We can thus interpret the submatrix of $\mathbf{D}$ between $(i, j)$ and $(i + t, j + t)$ as the dynamic programming matrix for minimum number of operations to go from string $S[i : i + t+ 1]$ to string $T[j : j + t + 1]$ to which we added a first line and a first column.\\
+We thus see that those matrices can be fully determined by their first line, first column and by two words.\\
+As the values in $\mathbf{D}$ are bounded by $0$ and $2n$ (we can always remove all letters in $S$ and add all letters in $T$), and by question 2., as values along a line or a column differ by an integer in ${-1, 0, 1}$, the number of first lines and columns is $\O{(n3^{2t})}$. However, from question 3., if we allow negative values for $f$ (which we have no reason not to do), we can always substract from the first line and column the value in the top left corner, and re-add it in $\O(t^2)$ after pre-processing.\\
+Moreover, there are $\sigma^{t}$ words of length $t$ over the alphabet so the number of submatrices is $\O({3^{2t}\sigma^{2t}})$. \\
+We can then use the recurrence equation to derive the values on the submatrix in $\O{(t^{2})}$. \\
+Finally, we can pre-compute all $t\times t$ submatrices in $\O{(3^{2t}\sigma^{2t}t^{2})}$.\\
+Then, to access the values of the submatrix from $(up, left)$ to $(up + t, left + t)$, we need to identify the preprocessed corresponding matrix and thus we need to go through $S[up:up+t]$, $T[left:left+t]$, the first column and row of this submatrix to which we substracted the upper left value, which all are done in $\O(t)$.
+
+\subsection{Question 5}
+From Question 4, we have got an algorithm that allows us to compute the result in $\O{(3^{2t}\sigma^{2t}t^{2} + \left(\frac{n^{2}}{t}\right))}$. Indeed, after pre computing, we only need to check in $\O(1)$ the $\O\left(\left(\frac{n}{t}\right)^{2}\right)$ $t\times t$ submatrices in $\mathbf{D}$.\\
+Thus, if we take $t = \lfloor\log_{(3\sigma)}(\sqrt{n})\rfloor$, we have complexity in $\O\left((3\sigma)^{\log_{3\sigma}(n)}\log_{3\sigma}(\sqrt{n}) + \left(\frac{n^{2}}{\log_{3\sigma}(\sqrt{n})}\right)\right)$. As $\log_{3\sigma}(\sqrt{n}) = \Theta(\log(n))$ and $(3\sigma)^{\log_{3\sigma}(n)}\log_{3\sigma}(\sqrt{n}) = \O(n \log(n)^{2}) = o(\frac{n^{2}}{\log(n)})$, this algorithm has complexity in $\O\left(\frac{n^{2}}{\log{n}}\right)$
+
+\section{Exercice 2}
+
+\subsection{Question 1}
+We will store in an array $A$ the result of the rank queries for value $1$ : $A[i] = rank_{1}[i]$. Then $rank_{0}[i] = i - A[i]$.\\
+To store the integer $k$, $\lceil \log_{2}(k) \rceil$ bits are needed. Thus, this array uses : 
+\[
+    \sum_{k = 1}^{n} \lfloor\log_{2}(k)\rfloor = 
+\]
 
 \end{document}
