@@ -3,11 +3,19 @@
 \author{Jean-Cristophe Filliâtre}
 \date{\today}
 
+\newcommand*{\rrarrow}{\twoheadrightarrow}
+\newcommand*{\llarrow}{\twoheadleftarrow}
+\newcommand*{\fun}[2]{\textsf{fun } #1 \rightarrow #2}
+\newcommand*{\letval}{\textsf{let }}
+\newcommand*{\letin}[1]{\textsf{let } #1 \textsf{ in }}
+
 \begin{document}
 
-\part{Cours 1 29/09}
+\part[Aperçu de la Compilation - Assembleur x86-64]{Cours 1 29/09}
+
 \section*{Introduction}
 Maîtriser les mécanismes de la compilation, transformation d'un langage dans un autre. Comprendre les aspects des langages de programmation.\\
+
 \subsection{Un Compilateur}
 Un compilateur est un traducteur d'un langage source vers un langage cible. Ici le langage cible sera l'asembleur. \\
 Tous les langages ne sont pas compilés à l'avance, certains sont interprétés, transpilés puis interprétés, compilés à la volée, transpilés puis compilés...
@@ -120,4 +128,159 @@ Il y a quatres temps dans un appel :
         \item Restaure les registres \textit{caller-saved}
     \end{enumerate}
 \end{enumerate}
+
+\part[Syntaxe abstraite, sémantique, interprètes]{Cours 2: 6/10}
+\section*{Introduction}
+La signification des programmes est définie souvent de manière informelle, en langue naturelle, e.g. le langage Java.\\
+
+\section{Sémantique Formelle}
+La sémantique formelle caractérise mathématiquement les calculs décrits par un programme. C'est utile pour la réalisation d'outils (interprètes, compilateurs), et nécessaire aux raisonnements sur les programmes.\\
+
+\subsection{Syntaxe Abstraite}
+On ne peut pas manipuler un programme en tant qu'object syntaxique, on préfère utiliser la syntaxe abstraite (se déduit lors de la compilation à l'analyse syntaxique et sémantique.). On construit un arbre de syntaxe abstraite pour comprendre.\\
+On définit la syntaxe abstraite par une grammaire. En OCamL, on réalise la syntaxe abstraite par des types construits. Il n'y a pas de parenthèses dans la syntaxe abstraite. On appelle sucre syntaxique toute construction de la syntaxe concrète qui n'existe pas dans la syntaxe abstraite.
+
+C'est sur la syntaxe abstraite qu'on va définir la sémantique.
+
+\subsection{Sémantiques Useless}
+\subsubsection{Sémantique Axiomatique - Logique de Floyd-Hoare}
+Tony Hoare, An axiomatic basis for computer programming, 1969, article le plus cité de l'histoire de l'informatique.\\
+On caractérise les programmes par l'intermédiaire des propriétés satsfaites par les variables. On introduit le triplet \{$P$\} $i$ \{$Q$\} qui signifie, si $P$ est vraie avant l'instruction $i$, après, $Q$ sera vraie
+
+\subsubsection{Sémantique Dénotationelle}
+A chaque expression $e$, on associe sa définition $\left\lVert e\right\rVert $ qui est un objet représentant le calcul désigné par $e$. On définit cet objet récursivement.\\
+
+\subsubsection{Sémantique Par Traduction}
+On définit la sémantique d'un langage en le traduisant vers un langage dont la sémantique est connue. 
+
+\subsection{Sémantique Opérationnelle}
+La sémantique opérationnelle décrit l'enchaînement des calculs élémentaires qui mènent de l'expression à son résultat.\\
+Il y a deux formes de sémantique opérationelle :
+\begin{enumerate}
+    \item La sémantique naturelle (big-steps semantics) : $e \twoheadrightarrow v$
+    \item La sémantique par réduction (small steps semantics) $e \rightarrow e_{1} \rightarrow e_{2} \rightarrow \ldots \rightarrow v$
+\end{enumerate}
+On applique ça à Mini-ML (qui est Turing-Complet). 
+
+\subsubsection{Sémantique Opérationnelle à Grand Pas}
+On cherche à définir $e \twoheadrightarrow v$. On définit les valeurs parmi les constantes, les primitives non appliquées, les fonctions et les paires. \\
+Une relation peut être définie comme la plus petite relation satisfaisant un ensemble d'axiomes notés $\overline{P}$ et des règles d'inférences (implications). On définit \textsf{Pair(n)} par $\overline{Pair(0)}$ et $\frac{Pair(n)}{Pair(n+2)}$. La plus petitre relation qui vérifie ces deux propriétés coïncide avec la propriété \og $n$ est un entier naturel pair \fg.\\
+Une dérivation est un arbre dont les noeuds correspondent aux règles et les feuilles aux axiomes (les arbres croissent vers le haut). L'ensemble des dérivations possibles caractérise exactement la plus petite relation satisfaisant les règles d'inférence. \\
+\begin{definition}
+    On définit les variables libres d'une expression $e$, noté $fv(e)$ par récurrence sur $e$ avec :
+    \begin{tabular}{rcl}
+        $fv(x)$ &$=$&$\left\{x\right\}$\\
+        $fv(c)$ &$=$&$\emptyset$\\
+        $fv(op)$ &$=$&$\emptyset$\\
+        $fv(\fun{x}{e})$ &$=$&$fv(e) \setminus \left\{x\right\}$\\
+        $fv(e_{1} e_{2})$ &$=$&$fv(e_{1}) \cup fv(e_{2})$\\
+        $fv((e_{1}, e_{2}))$ &$=$&$fv(e_{1}) \cup fv(e_{2})$\\
+        $fv(\letin{x = e_{1}} e_{2})$ &$=$&$fv(e_{1}) \cup \left(fv(e_{2})\setminus \left\{x\right\}\right)$\\
+        $fv(x)$ &$=$&$\left\{x\right\}$\\        
+    \end{tabular}\\
+    On défnit la substitution  de toute occurence libre de $x$ dans $e$ par $v$ définie par : 
+    \begin{tabular}{rcl}
+        $x[x\leftarrow v]$ &=& $v$\\
+        $y[x \leftarrow v]$ &$=$& $y$ si $y\neq x$
+    \end{tabular}
+\end{definition}
+On fait le choix d'une stratégie d'appel par valeur, i.e. l'argument est complètement évalué avant l'appel. \\
+On a ici comme axiomes : $\overline{c \twoheadrightarrow c}$, $\overline{op \twoheadrightarrow op}$, $\overline{(\textsf{fun } x \rightarrow e) \twoheadrightarrow (\fun{x}{e})}$
+et comme règles d'inférences : 
+\[    
+    \frac{e_{1} \twoheadrightarrow v_{1} \ \ e_{2} \twoheadrightarrow v_{2}}{(e_{1}, e_{2}) \twoheadrightarrow (v_{1}, v_{2})} \ \ \ \frac{e_{1} \twoheadrightarrow v_{1} \ \ e_{2}[x \leftarrow v_{1}] \twoheadrightarrow v}{let\ x  = e_{1} \textsf{ in } e_{2} \twoheadrightarrow v}
+\]
+et 
+\[
+  \frac{e_{1}\rrarrow(\fun{x}{e})\ \ e_{2} \rrarrow v_{2} \ \ e[x \leftarrow v_{2}] \rrarrow v}{e_{1}\ e_{2} \rrarrow v}
+\]
+On ajoute ensuite des règles pour les primitives, dépendant de la forme de chacune, e.g. : 
+\[
+  \frac{e_{1} \rrarrow + \ \ e_{2} \rrarrow (n_{1}, n_{2})\ \ n = n_{1} + n_{2}}{e_{1}\ e_{2} \rrarrow n}  
+\]
+
+Partant, on peut montrer qu'un programme s'évalue en une valeur en écrivant l'arbre de dérivation de celui-ci. \\
+\begin{remark}
+    Il existe des expressions sans valeur : $e = 1 2$ par exemple.
+\end{remark}
+
+On peut établir une propriété d'une relation définie par un ensemble de règles d'inférence, en raisonnant par induction sur la dérivation. Cela signifie par récurrence structurelle.
+\begin{proposition}
+    Si $e\twoheadrightarrow v$, alors $v$ est valeur. De plus si $e$ est close alors $v$ l'est également.
+\end{proposition}
+\begin{proof}
+    Par induction : $\frac{e_{1} \twoheadrightarrow (\fun{x}{e}) \ \ e_{2} \twoheadrightarrow v_{2} \ \ e[x \leftarrow v_{2}] \twoheadrightarrow v}{e_{1} e_{2} \twoheadrightarrow v}$.
+\end{proof}
+\begin{proposition}
+    Si $e \twoheadrightarrow v$ et $e \twoheadrightarrow v^{'}$, alors $v = v'$.
+\end{proposition}
+\begin{proof}
+    Par induction. 
+\end{proof}
+\begin{remark}
+    On a donc définit une fonction plus qu'une relation. 
+\end{remark}
+
+\subsubsection{Sémantique à Petits Pas}
+La sémantique opérationnelle à petits pas remédie aux problèmes de programmes qui ne terminent pas, en introduisant une notion d'étape élémentaire de calcul $e_{1} \rightarrow e_{2}$\\
+On commence par définir une relation $\rightarrow^{\epsilon}$ correspondant à une réduction en tête, au sommet de l'expression, par exemple : $(\textsf{fun } x\rightarrow e)\ v \rightarrow^{\epsilon} e[x \leftarrow v]$
+On se donne également des règles pour les primitives. On réduit en profondeur en introduisant la règle d'inférence : $\frac{e_{1}\rightarrow^{\epsilon} e_{2}}{E(e_{1})\rightarrow E(e_{2})}$ où $E$ est un contexte défini par la grammaire suivante :
+\begin{tabular}{crl}
+    $E$ &$::=$& $\square$\\
+    &|& $E e$\\
+    &|& $v E$\\
+    &|& $\letin{x = E} e$\\
+    &|& $(E, e)$\\
+    &|& $(v, E)$\\
+\end{tabular}\\
+Un Contexte est un terme à trou où $\square$ représente le trou. $E(e)$ dénote le contexte $E$ dans lequel $\square$ a été remplacé par $e$. La règle d'inférence permet donc d'évaluer une sous-expression. Tels que définis, les contextes impliquent ici une évaluation en appel par valeur et de gauche à droite. \\
+On note $\rightarrow^{*}$ la cloture réflexive et transitive de $\rightarrow$.
+\begin{definition}
+    On appelle forme normale toute expression $e$ telle qu'il n'existe pas $e^{'}$ telle que : $e \rightarrow e^{'}$
+\end{definition}
+
+\subsubsection{Equivalence des Sémantiques}
+\begin{theorem}
+    Les deux sémantiques opérationnelles sont équivalentes pour les expressions dont l'évaluation termine sur une valeur i.e. :
+    \[
+        e \rrarrow v \Leftrightarrow e \rightarrow^{*} v    
+    \]    
+\end{theorem}
+\begin{proof}
+    \begin{lemma}[Passage au contexte des réductions]
+        Supposons $e \rightarrow e'$, alors :        
+        \begin{enumerate}
+            \item $e e_{2} \rightarrow e^{'} e_{2}$
+            \item $v e \rightarrow v e^{'}$
+            \item $\letin{x = e} e_{2} \rightarrow \letin{x = e'} e_{2}$
+        \end{enumerate}
+    \end{lemma}
+    \begin{itemize}
+        \item $(\Rightarrow)$ On procède par induction sur la dérivation. 
+        \item $(\Leftarrow)$ :
+        \begin{lemma}[Evaluation des Valeurs]
+           On a $v \rrarrow v$.
+        \end{lemma}
+        \begin{lemma}
+            Si $e \rightarrow e'$ et $e' \rrarrow v$ alors $e \rrarrow v$.
+        \end{lemma}
+        \begin{proof}
+            On commence par les réductions de tête, puis on procède par induction aux applications de contexte. 
+        \end{proof}
+        On a alors, par récurrence sur le nombre de pas, l'implication souhaitée. 
+    \end{itemize}
+\end{proof}
+
+\subsubsection{Langages Impératifs}
+Pour un langage impératif les sémantiques ci-dessus sont insuffisantes. On associe alors typiquement un état $S$ à l'expression évaluée. L'état peut être décomposé en plusieurs éléments pour modéliser par exemple une pile (des variables locales), des tas... 
+
+\section{Interprète}
+    On peut programmer un interprète en suivant les règles de la sémantique naturelle. On se donne un type pour la syntaxe abstraite des expressions et on définit une fonction correspondant à la relation $\twoheadrightarrow$\\
+    Un interprète renvoie la (ou les) valeur(s) d'une expression, souvent récursivement.\\
+    On peut éviter l'opération de substitution, en interprétant l'expression $e$ à l'aide d'un environnement donnant la valeur courante de chaque variable (un dictionnaire). Ceci pose problème car le résultat de $\textsf{let } x = 1 \textsf{ in fun } y \rightarrow +(x, y)$ est une fonction qui doit \og mémoriser \fg que $x = 1$.\\
+    On utilise alors le module \textsf{Map} pour les environnements (c'est une \textit{fermeture}). On représente alors la valeur d'une fonction avec son environnement. \\
+    Pour un interprète de la sémantique à petits pas, il vaut mieux utiliser un \textit{zipper} que de recalculer le contexte tout le temps. 
+
+
+
 \end{document}
