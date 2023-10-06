@@ -7,7 +7,7 @@
 \date{\today}
 
 \begin{document}
-\part{Cours 1 - 28/09}
+\part{Lecture 1 - 28/09}
 \section{Organisation}
 Mail Tatiana : \url{starikovskaya@di.ens.fr}
 Homeworks are 30\% of the final grade, final (theory from lecture)
@@ -193,22 +193,23 @@ Algorithm : Iteratively select the greatest value-per-weight ratio. \\
     Yet, $\sum\limits_{i = 1}^{n} q_{i}^{'} \cdot v_{i} > \sum\limits_{i = 1}^{n} q_{i} \cdot v_{i}$, ce qui contredit la 
 \end{proof}
 
-\part{Devoir 1 29/09}
-\section{Exercice 1}
-\subsection{Question 1}
+\part{TD 1 - 29/09}
+\section{Mathematical Complexity}
+\subsection{Exercice 1}
+\subsubsection{Question 1}
 Non : prendre $f = 1$ et $g = exp$.
 \subsection{Question 2}
 Non, si g = h = f.
-\subsection{Question 3}
+\subsubsection{Question 3}
 Non : Si on a $f = n, g = n^{2} \in \Omega(f(n)), h = f \in \Theta(f(n))$ alors $g + h \neq \O(f(n))$
 
-\section{Exercice 2}
+\subsection{Exercice 2}
 On rappelle la formule de Stirling : \[n! \sim \left(\frac{n^{n}}{e^{n}}\right)\sqrt{2\pi n}\]
 Immédiatement, on en déduit la première relation.
 
 On a par ailleurs la seconde égalité en passant au logarithme, fonction continue en $+\infty$
 
-\section{Exercice 3}
+\subsection{Exercice 3}
 On rappelle les formules suivantes: 
 \[\begin{cases}    
     (n+a)^{b} &= n^{b}(1 + \frac{a}{n})^{b}\\
@@ -216,26 +217,27 @@ On rappelle les formules suivantes:
 \end{cases}\]
 Immédiatement, on a la relation souhaité.
 
-\section{Exercice 4}
+\section{Data Structures}
+\subsection{Exercice 4}
 Il suffit de diviser l'array en deux sous arrays de taille $n/2$, une array commençant en $i = 0$, une commençant en $j = -1$ et on stocke les deux indices de fin de la pile courant.
 
-\section{Exercice 5}
-\subsection{Question 1}
+\subsection{Exercice 5}
+\subsubsection{Question 1}
 On définit un algorithme de $reverse$ de list en temps linéaire en ajoutant tous les éléments dans une pile puis en dépilant dans une liste. On effectue bien $2n = \O(n)$ opérations.\\
 Il suffit alors de comparer les deux listes en temps linéaire.
 
-\subsection{Question 2}
+\subsubsection{Question 2}
 Pour une liste vide, ou d'un seul élément on renvoie True. 
 On reverse en place la première moitié de la liste et on la compare à la seconde et normalement ça marche. 
 
-\section{Exercice 6}
+\subsection{Exercice 6}
 On utilise deux piles : On push dans la première, et on pop de la seconde. Lorsque la seconde pile est vide, on pop de la première et on push dans la seconde, ce qui permet bien de former une pile. 
 
-\section{Exercice 7}
-\subsection{Question 1}
+\subsection{Exercice 7}
+\subsubsection{Question 1}
 On utilise les arrays standards et lorsqu'on dépasse la capacité, on double le nombre de cases, qu'on initialise à -1, en stockant l'indice du dernier élément de la liste. On a alors toujours une complexité en espace en $\O(n)$ puisqu'on a toujours au plus $2n$ cases. \\
 
-\subsection{Question 2}
+\subsubsection{Question 2}
 On effectue la suite suivante d'instructions, pour $n \in \N$ : \begin{enumerate}
     \item On ajoute $2n$ éléments
     \item On retire $n+1$ éléments
@@ -243,12 +245,12 @@ On effectue la suite suivante d'instructions, pour $n \in \N$ : \begin{enumerate
     \item On recommence en modifiant $n$
 \end{enumerate}
 
-\subsection{Question 3}
+\subsubsection{Question 3}
 Il suffit alors d'attendre de passer en dessous de la barre de 25\% du tableau rempli. On a bien tout de même une complexité en $\O(n)$.
 
-
-\section{Exercice 8}
-\subsection{Question 1}
+ \section{Greedy Algorithms}
+\subsection{Exercice 8}
+\subsubsection{Question 1}
 \begin{algorithm}
    \caption{Greedy Algorithm for Scheduling Problem} 
    \begin{algorithmic}
@@ -271,10 +273,10 @@ Il suffit alors d'attendre de passer en dessous de la barre de 25\% du tableau r
     On introduit une solution optimale, la plus proche possible de l'algo.     
 \end{proof}
 
-\subsection{Question 2}
+\subsubsection{Question 2}
 On prend $T1 = \left[1, 2\right], T2 = \left[3, 4\right], T3 = \left[1.5, 2.5\right]$
 
-\subsection{Question 3}
+\subsubsection{Question 3}
 Bon on fait de la Programmation Dynamique. Relation de récurrence $\forall i DP(i)$ est le max des poids sur $\left\{T_{1}, \ldots, T_{i}\right\}$
 \[
 \begin{cases}
@@ -282,6 +284,178 @@ Bon on fait de la Programmation Dynamique. Relation de récurrence $\forall i DP
     DP(i+1) &= \max(DP(i), w_{i+1} + DP(p(i+1))) \text{ où } p(i) \text{ est le dernier indice de la dernière tâche compatible} 
 \end{cases}    
 \]
+
+\part{Lecture 2 - 5/10}
+
+\section{Divide and Conquer}
+Divide a problem into smaller ones to solve those, then combine the solutions to get a solution of the bigger problem.\\
+Example : \textsl{Merge Sort} : Its complexity verifies $T(n) = T(\lceil n/2\rceil) + T(\lfloor n/2 \rfloor) + \O(n)$. From that we will derive that $T(n) = \O(n\log n)$
+
+
+\section{Analysis of Recursive Algorithms}
+We have recurrences we want to solve. We have three methods : 
+\localtableofcontents
+
+\subsection{Substitution Method}
+The method :
+\begin{enumerate}
+    \item Guess the asymptotic of $T(n)$
+    \item Show the answer via induction
+\end{enumerate}
+For \textsl{Merge Sort}: we guess $T(n) \leq c \cdot n\log_{2}n, \forall n \geq 2$. We choose $c$ that verifies that property until $n = 6$. \\
+Substituting in the recurrence equation : \[T(n) \leq cn\log_{2}\frac{n}{2} + c\log_{2}\frac{n}{2} + c\frac{n+2}{2} + a\cdot n = c \dot n\log_{2}n + a \cdot n + c \cdot \log_{2}n - c\frac{n}{2}\]
+If we then choose $c$ so that it is bigger than $20a$ we get : 
+\[T(n) \leq cn\log_{2}n + a\cdot n - c\cdot n/20 \leq cn\log_{2}n\]
+
+\subsection{Recursion-tree Method}
+\begin{enumerate}
+    \item Simplify the equation : 
+    \begin{itemize}
+        \item Delete floors and ceils
+        \item Suppose $n$ is of a good form
+    \end{itemize}
+    \item Draw a tree, rooted with the added term and the recursive calls
+    \item Start again, and recursively fill the tree
+\end{enumerate}
+We get a tree of depth $\log_{k}n$ if $n$ is divided by $k$ in recursive calls. We can now sum the values of the nodes, to get an approximation, and start verifying.
+
+\section{Master Theorem}
+\subsection{The Theorem}
+\begin{theorem}[Master Theorem]\label{thm:MT}
+    If we have recurrence equation $T(n) = aT(n/b) + f(n)$ where $a \geq 1, b > 1$ are integers, $f(n)$ is asymptotically positive. Let $r = \log_{b}a$, we have : 
+    \begin{enumerate}
+        \item If $f(n) = \O(n^{r-\epsilon})$ for some $\epsilon > 0$, then $T(n) = \Theta(n^r)$
+        \item If $f(n) = \Theta(n^{r})$ then $T(n) = \Theta(n^{r}\log n)$
+        \item If $f(n) = \Omega(n^{r + \epsilon})$ for some $\epsilon > 0$, and $af(n/b) \leq cf(n)$ for some constant $c < 1$ and all sufficiently large $n$ (regularity condition) then $T(n) = \Theta(f(n))$.
+    \end{enumerate} 
+\end{theorem}
+\begin{remark}
+    The Master Theorem \ref{thm:MT} does not cover all possible cases for $f(n)$. Example : $f(h) = h^{r}/\log h$
+\end{remark}
+\begin{remark}
+    The Master Theorem \ref{thm:MT} is sometimes called \textsc{Théorème sur les Récurrences de Partition}
+\end{remark}
+
+\section{The Proof}
+    Plan : \begin{itemize}
+        \item Analyse the recurrence as if $T$ is defined over reals (continuous version)
+        \item Prove the discrete version
+    \end{itemize}
+
+\subsection{Continuous Master Theorem}
+\begin{proof}
+    \begin{lemma}
+        Define $T(n) = \begin{cases}
+            \Theta(1) &\text{if } n \leq \hat{n}\\
+            aT(n/b) + f(n) &\text{if } n > \hat{n}
+        \end{cases}$
+        Then \[T(n) = \Theta\left(n^{r}\right) + \sum_{k=0}^{\lceil \log_{b}(n/\hat{n})\rceil - 1}a^{k}f(n/b^{k})\]
+    \end{lemma}
+    \begin{proof}
+        In the Recursion-Tree, stopped when the argument of $T$ is smaller than $\hat{n}$ which is when depth is $\lceil \log_{b}(n/\hat{n})\rceil - 1$, we get : 
+        \[
+            \begin{aligned}
+            T(n) &\leq \sum_{k=0}^{\lceil \log_{b}(n/\hat{n})\rceil - 1}a^{k}f(n/b^{k}) + \Theta(a^{log_{b}(n/\hat{n})})\\ &= \sum_{k=0}^{\lceil \log_{b}(n/\hat{n})\rceil - 1}a^{k}f(n/b^{k}) + \Theta(a^{\log_{b}(n)})\\ &= \sum_{k=0}^{\lceil \log_{b}(n/\hat{n})\rceil - 1}a^{k}f(n/b^{k}) + \Theta(n^{\log_{b}(a)})
+            \end{aligned}
+        \]
+    \end{proof}
+    Back to the proof : 
+    \begin{lemma}
+        Define $g(n) = \Theta(n^{r}) + \sum_{k= 0}^{q} a^{k}f(n/b^{k})$ Then : 
+        \begin{enumerate}
+            \item If $f(n) = \O(n^{r - \epsilon})$ then $g(n) = \Theta(n^{r})$
+            \item If $f(n) = \Theta(n^{r})$ then $g(n) = \Theta(n^{r}\log{n})$
+            \item If $f(n) = \Omega(n^{r + \epsilon})$ and we have the regularity condition then $g = \Theta(f)$
+        \end{enumerate}
+    \end{lemma}
+    \begin{proof}
+        \begin{enumerate}
+            \item Case 1 : \[
+            g(n)  
+            \begin{aligned}
+                &= \Theta(n^{r}) + \sum_{k= 0}^{q} a^{k}f(n/b^{k}) \\ 
+                &= \Theta(n^{r}) + \O\left(\sum_{k= 0}^{q} a^{k}(n/b^{k})^{r - \epsilon}\right)\\
+            \end{aligned}
+            \]
+            However : 
+            \[
+                \begin{aligned}
+                    \sum_{k= 0}^{q} a^{k}(n/b^{k})^{r - \epsilon} &= n^{r-\epsilon}\sum_{k = 0}^{q} (ab^{\epsilon}/b^{r})^{k}\\
+                    &= n^{r-\epsilon}\sum_{k=0}^{\lceil \log_{b}(n/\hat{n})\rceil - 1}(b^{\epsilon})^{k} = \O(n^{r - \epsilon}(n/\hat{n})^{epsilon})
+                \end{aligned}    
+            \]
+            Thus : $g(n) = \Theta(n^{r})$
+            % --------------------------------------------------------------------------
+            \item Case 2 : We have : 
+            \[
+            \begin{aligned}
+                g(n) &= \Theta(n^{r}) + \sum_{k=0}^{q} a^{k}f(n/b^{k})\\
+                &= \Theta(n^{r}) + \Theta\left(\sum_{k=0}^{q}a^{k}(n/b^{k})^{r}\right)\\
+            \end{aligned}    
+            \]
+            However : 
+            \[
+              \begin{aligned}
+                \sum_{k=0}^{q}a^{k}(n/b^{k})^{r} &= n^{r}\sum_{k = 0}^{q} (a/b^{r})^{k}\\
+                &= n^{r}\sum_{k = 0}^{\lceil \log_{b}(n/\hat{n})\rceil - 1}1 = n^{r}\Theta(\log_{b}n/\hat{n})
+              \end{aligned}  
+            \]
+            % ----------------------------------------------------------------------------
+            \item Case 3 : By induction on $k$ : $a^{k}f(n/b^{k}) \leq c^{k}f(n)$. Thus : 
+            \[
+                \sum_{k = 0}^{q}a^{k}f(n/b^{k}) \leq \sum_{k = 0}^{q}c^{k}f(n) = f(n) \sum_{k= 0}^{q}c^{k} = \Theta(f(n))
+            \]
+        \end{enumerate}
+    \end{proof}
+    We thus have proved the continuous Master Theorem.
+\end{proof}
+
+    \subsection{Discrete Master Theorem}
+    We have now showed the continuous Master Theorem, following \textsc{William Kuszmaul, Charles E. Leiserson}, \href{https://epubs.siam.org/doi/pdf/10.1137/1.9781611976496.15}{\textit{Floors and Ceilings in Divide-and-Conquer Recurrences}}, Symposium on Simplicity in Algorithms 2021.\\
+        \begin{proof}
+            See slides below
+            \includepdf[nup = 1x2, pages = 32-45]{Lecture_2.pdf}    
+        \end{proof}
+        \begin{remark}[Remarks on the Proof]
+            \begin{itemize}
+                \item Lemmas 1 to 3 serve to show that the argument does not go too far when it is rounded up or down.
+                \item Slide 36 Last Line : $\frac{2}{\beta^{i} - 1} < \frac{4}{\beta^{i}}$ for $i \geq i_{0}$. Thus : $\sum_{i = 1}^{\infty} \frac{2}{\beta^{i} - 1} < \sum_{i = 1}^{\infty}\frac{4}{\beta^{i}} + \sum_{i = 0}^{i_0}\frac{2}{\beta^{i} - 1}$ and that last sum is $\O(1)$
+                \item Slide 37 Line 3 : The first inequalities comes from the Recursion-Tree, so that we can ensure the argument does not deviate to much, by the second inequalities. 
+            \end{itemize}
+        \end{remark}
+    \subsection{Use Cases}
+    Using the Master Theorem we can show the complexity of many algorithms :
+    \begin{enumerate}
+        \item Merge Sort Complexity : $T(n) = T(\lceil n/2 \rceil) + T(\lfloor n/2 \rfloor) + \O(n) = \Theta(n\log n)$
+        \item Strassen's Algorithm for Matrix Multiplication : $T(n) = 7 T(n/2) + \Theta(n^{2}) \Rightarrow T(n) = \O(n^{\log_{2}7}) = \O(n^{2.8074})$
+    \end{enumerate}
+
+\section{Fast Multiplication of Polynomials}
+The sum of two degree $n$ polynomials can be done in $\O(n)$, Horner's rule for evaluation produces $\O(n)$ complexity. The naïve product can be done in $\O(n^2)$\\
+Remembering Lagrange's Theorem on Polynomials (or Vandermonde's Determinant, or anything really), degree $n$ polynomials are entirely represented by their point-value reprensentation over $n$ distinct points $(x_{i}, y_{i})$.
+Then, by converting the coefficient reprensentation to point-value representation, then by point-wise multiplicating the polynomials, then by going back to the coefficient representation, we can have a better algorithm.
+
+\subsection{Point-Value Multiplication}
+It is easily done in $\O(n)$ if both polynomials are represented over the same axis.
+
+\subsection{Coefficient to Point-Value Conversion - Fast Fourier Transform}
+For $P = \sum_{i = 0}^{n-1} a_{i}x^{i}$, we define : \[
+  \begin{aligned}
+    &P_{odd}(x) &= a_{n-1}x^{n/2-1} + a_{n-3}x^{n/2-3} + \ldots + a_{1}x\\
+    &P_{even}(x) &= a_{n-2}x^{n/2-2} + a_{n-4}x^{n/2-4} + \ldots = a_{2}x^{2/2} + a_{0}
+  \end{aligned}  
+\]
+\begin{enumerate}
+    \item We have : $P = xP_{odd}(x^{2}) + P_{even}(x^{2})$
+    \item We evaluate $P_{odd}, P_{even}$ at $(\omega_{n}^{i})^{2}$ recursively by the halving property.
+    \item We combine the result.
+\end{enumerate}
+
+\subsection{Point-Value to Coefficient Conversion - Inverse Fast Fourier Transform}
+\begin{theorem}
+    $V_{n}^{-1}[i, j] = \omega_{n}^{-ij}/n$
+\end{theorem}
+
 
 
 \end{document}

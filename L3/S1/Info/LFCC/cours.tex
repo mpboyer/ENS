@@ -76,4 +76,61 @@
         \item Soit $\mathcal{A}$, déterministe, complet, reconnaissant $L$. Pour $a \in \Sigma$, $a \rightarrow \phi_{a} : q\in Q \mapsto \delta(q, a)$ induit par induction un morphisme de $(\Sigma^{*}, \cdot)$ dans $(Q^{Q}, \circ)$. Alors, avec $P = \left\{f \in Q^{Q}\ \mid \ f(i) \in F_{\mathcal{A}}\right\}$. On a défini le monoïde des transitions de $\mathcal{A}$.
     \end{itemize}
 \end{proof}
+
+\part{Cours 2 - 5/10}
+
+\section{Lemme de Pompage}
+\begin{theorem}[Lemme de Pompage/Lemme de l'Etoile]
+    Si $L$ est un langage régulier, $\exists n \in \N$ 
+    $\forall w \in L, \abs{w} \geq n \Rightarrow \exists x, y, z$ tels que : 
+        \begin{itemize}
+            \item $w = xyz$
+            \item $\abs{xy} \leq n$
+            \item $y \neq \epsilon$
+            \item $\forall n \geq 0, xy^{n}z \in L$
+        \end{itemize}
+\end{theorem}
+\begin{proof}
+    Faire un calcul de $\mathcal{A}$ sur $w$ tel que $\abs{w} \geq n$. Celui-ci passe deux fois par le même état.
+\end{proof}
+
+\section{Langages Quotients}
+\subsection{Quotients d'un Langage à Gauche}
+\begin{definition}[Quotient à Gauche]
+    Soit $L, K \subseteq \Sigma^{*}, u \in \Sigma^{*}$. \\
+    Le quotient à gauche de $L$ par $u$ noté $u^{-1}L$ est : $\left\{v \in \Sigma^{*} \mid uv \in L\right\}$\\
+    Le quotient à gauche de $L$ par $K$, $K^{-1}L$ est $\bigcup_{u \in K}u^{-1}L$
+\end{definition}
+\begin{proposition}
+    \begin{itemize}
+        \item $w^{-1}(K+L) = w^{-1}K + w^{-1}L$
+        \item $(wa)^{-1}L = a^{-1}(w^{-1}L)$
+        \item $w^{-1}(KL) = (w^{-1}K \cdot L) + \sum\limits_{u \in L, v \in \Sigma^{*}\\ w = uv} v^{-1}L$
+    \end{itemize}
+\end{proposition}
+
+\subsection{Quotient d'un Automate à Gauche}
+\begin{definition}
+    On définit le quotient à gauche d'un automate par un mot $u$ comme celui obtenu en remplaçant les états initiaux par les résultats d'un calcul de l'automate sur $u$.
+\end{definition}
+\begin{proposition}
+    $L$ est régulier si et seulement si il a un nombre fini de quotients à gauche.
+\end{proposition}
+\begin{proof}
+    \begin{itemize}
+        \item Un automate reconnaissant $L$ a au plus un quotient par état.
+        \item Posons $A_{L} = \left(\Sigma, \left\{u^{-1}L \mid u \in \Sigma^{*} \right\}, I = L = \epsilon^{-1}L, F = , \delta(w^{-1}L, a) = a^{-1}(w^{-1}L)\right)$\\
+        Par récurrence, le calcul de $A_{L}$ sur $w$ termine en $w^{-1}L$
+    \end{itemize}
+\end{proof}
+
+\subsection{Construction de l'Automate Minimal}
+\begin{definition}
+    Deux états $q_{1}, q_{2}$ sont distingables si : $\exists w \in \Sigma^{*}, \delta(q_{1}, w) \in F, \delta(q_{2} \notin F)$. 
+\end{definition}
+\begin{proposition}
+    $q_{1}$ et $q_{2}$ sont distingables s'ils n'ont pas même quotient à gauche. Si $\delta(q, a)$ est distingable $\delta(q^{'}, a)$, $q, q^{'}$ sont distingables.\\
+    La relation $q, q'$ sont distingables est une relation d'équivalence. 
+\end{proposition}
+
 \end{document}

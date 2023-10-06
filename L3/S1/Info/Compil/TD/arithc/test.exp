@@ -1,0 +1,12 @@
+print (let x = 10 in x) + (let x = 20 in let y = 30 in x+y)
+print 100 / 2
+print 2 / 100
+set x = 10
+print x
+set y = x * (x+1) / 2
+print y
+print (let x = 10 in x) + (let x = 20 in let y = 30 in x+y)
+set x = 20
+print x
+set x = x + (let x = 3 in x) + x
+print x

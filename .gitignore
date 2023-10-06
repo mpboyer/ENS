@@ -22,7 +22,6 @@
 # *.pdf
 
 ## Generated if empty string is given at "Please type another file name for output:"
-*.pdf
 
 ## Bibliography auxiliary files (bibtex/biblatex/biber):
 *.bbl
@@ -299,5 +298,6 @@ TSWLatexianTemp*
 # option is specified. Footnotes are the stored in a file with suffix Notes.bib.
 # Uncomment the next line to have this generated file ignored.
 #*Notes.bib
-
+L3/Bourse/
+L3/Docs/
 
