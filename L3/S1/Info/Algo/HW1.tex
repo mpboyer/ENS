@@ -52,7 +52,7 @@
 \begin{proof}
     \begin{itemize}
         \item Moreover, it is clear this algorithm is correct as it only just applies the dynamic programming algorithm for the Levenshtein distance by steps.
-        \item This algorithm complexity comes from the fact it has two while loops for which the commands are executed at most $\lceil n/t \rceil$ times. The commands in both \emph{while} loops are executed in $\O\left(C_{f}\right)$. The \emph{for} loops inside the \textit{left} \emph{while} loop are equivalent to loops for $i$ between left and $\text{left} + t - 1$ and thus are disjoint. The sum of their complexity over the \textit{left} \emph{while} loop is then $n$. The number of operations inside the \textit{up} \emph{while} loop is then in $\O\left(C_{f}\frac{n}{t}\right)$ and thus the total complexity is, as announced, in $\O{\left(C_{f}\left(\frac{n}{t}\right)^{2}\right)}$
+        \item This algorithm complexity comes from the fact it has two while loops for which the commands are executed at most $ n/t $ times. The commands in both \emph{while} loops are executed in $\O\left(C_{f}\right)$. The \emph{for} loops inside the \textit{left} \emph{while} loop are equivalent to loops for $i$ between left and $\text{left} + t - 1$ and thus are disjoint. The sum of their complexity over the \textit{left} \emph{while} loop is then $n$. The number of operations inside the \textit{up} \emph{while} loop is then in $\O\left(C_{f}\frac{n}{t}\right)$ and thus the total complexity is, as announced, in $\O{\left(C_{f}\left(\frac{n}{t}\right)^{2}\right)}$
     \end{itemize}
 \end{proof}
 
@@ -82,15 +82,46 @@ Then, to access the values of the submatrix from $(up, left)$ to $(up + t, left 
 
 \subsection{Question 5}
 From Question 4, we have got an algorithm that allows us to compute the result in $\O{(3^{2t}\sigma^{2t}t^{2} + \left(\frac{n^{2}}{t}\right))}$. Indeed, after pre computing, we only need to check in $\O(1)$ the $\O\left(\left(\frac{n}{t}\right)^{2}\right)$ $t\times t$ submatrices in $\mathbf{D}$.\\
-Thus, if we take $t = \lfloor\log_{(3\sigma)}(\sqrt{n})\rfloor$, we have complexity in $\O\left((3\sigma)^{\log_{3\sigma}(n)}\log_{3\sigma}(\sqrt{n}) + \left(\frac{n^{2}}{\log_{3\sigma}(\sqrt{n})}\right)\right)$. As $\log_{3\sigma}(\sqrt{n}) = \Theta(\log(n))$ and $(3\sigma)^{\log_{3\sigma}(n)}\log_{3\sigma}(\sqrt{n}) = \O(n \log(n)^{2}) = o(\frac{n^{2}}{\log(n)})$, this algorithm has complexity in $\O\left(\frac{n^{2}}{\log{n}}\right)$
+Thus, if we take $t = \log_{(3\sigma)}(\sqrt{n})$, we have complexity in $\O\left((3\sigma)^{\log_{3\sigma}(n)}\log_{3\sigma}(\sqrt{n}) + \left(\frac{n^{2}}{\log_{3\sigma}(\sqrt{n})}\right)\right)$. As $\log_{3\sigma}(\sqrt{n}) = \Theta(\log(n))$ and $(3\sigma)^{\log_{3\sigma}(n)}\log_{3\sigma}(\sqrt{n}) = \O(n \log(n)^{2}) = o(\frac{n^{2}}{\log(n)})$, this algorithm has complexity in $\O\left(\frac{n^{2}}{\log{n}}\right)$
 
+\newpage
 \section{Exercice 2}
-
+In this exercise, we will denote by $\textmd{lg}(n)$ the log in base $2$ of $n$
 \subsection{Question 1}
-We will store in an array $A$ the result of the rank queries for value $1$ : $A[i] = rank_{1}[i]$. Then $rank_{0}[i] = i - A[i]$.\\
-To store the integer $k$, $\lceil \log_{2}(k) \rceil$ bits are needed. Thus, this array uses : 
+We will try to precompute arrays containing part of the answer by dividing the bitvector $B$ into multiple blocks, of smaller and smaller size. We will use two intermediate arrays of size $\O\left(\frac{n}{\textmd{lg}(n)}\right) = o(n)$ bits and a final array (meaning lowest level array) of size $\O(n)$.\\
+
+We build a first array $A_{0}$ which will contain blocks of size $s_{0} = \textmd{lg}^{2}(n)$ (we will justify this value later). The blocks of this array contain the rank of the first position in $B$ that is compacted in the block, i.e., $A[i] = \textsf{rank}_{1}(i \times s_{0})$ where $\textsf{rank}$ designates the rank operation in $B$. As each entry in $A$ takes at most $\textmd{lg}(n)$ bits to store, $A$ takes $\O\left(\frac{n}{\textmd{lg}^{2}(n)}\textmd{lg}(n)\right) = \O\left(\frac{n}{\textmd{lg}(n)}\right) = o(n)$ bits to store, thus justifying the value chosen for $s_{0}$.\\
+
+Then we build a second array $A_{1}$ which will store the ranks of smaller blocks of size $s_{1} = \textmd{lg}(n)/2$ (as for $s_{0}$, we will justify this value later). Here, the items in the array only need at most $\textmd{lg}\left(\textmd{lg}^{2}(n)\right)$ bits to be stored. This table thus takes $\O\left(\frac{n}{s_{1}}\textmd{lg}\left(\textmd{lg}^{2}(n)\right)\right) = \O\left(4n\frac{\left(\textmd{lg}\textmd{lg}(n)\right)}{\textmd{lg}(n)}\right) = o(n)$ bits to store, the equality coming from the properties of $\textmd{lg}$, thus explaining the general form of $s_{1}$ as $\textmd{lg} * c$ but not yet why $c = 1/2$\\
+
+To finally answer the query, we need to maintain a third array $A_{2}$ which will contain correspondances between every possible $\textsf{rank}_{1}(i)$ query on a bitvector of length $s_{1}$ with $i < s_{1}$ and their answers. There are $2^{s_{1}}$ such bitvectors, and storing all answers on each can be done in $\O(s_{1} \textmd{lg}(s_{1}))$. $A_{2}$ thus needs $\O(2^{s_{1}}\textmd{lg}(s_{1})s_{1}) = \O(\sqrt{n}\textmd{lg}(n)\textmd{lg}{\left(\textmd{lg}(n)\right)}) \leq n$, as $\textmd{lg}(n)/2 = \textmd{lg}(\sqrt{n})$ and from the properties of $\textmd{lg}$, thus explaining the coefficient of $\textmd{lg}$ in $s_{1}$. \\
+
+Using these arrays we can compute $\textsf{rank}_{1}(i)$ in $\O(1)$ time by searching in blocks $i/s_{0}$, $(i \mod s_{0})/s_{1}$ and $(i \mod s_{0}) \mod s_{1}$ in $A_{0}, A_{1} \text{ and } A_{2}$, and as : $\textsf{rank}_{0}(i) = i - \textsf{rank}_{1}(i)$, we obtain the wanted time complexity. The total number of bits used by these arrays is at most $n + o(n)$ so we have the wanted space complexity, and this solution is one. 
+
+\subsection{Question 2}
+The solution proposed before can lead to a $\O(\textmd{lg}(n))$ time complexity, so it is not sufficient to answer the $\textsf{select}$ queries. We will thus refine the latter to get a new structure, by using three levels of intermediate arrays using $o(n)$ bits and two final arrays using $\O(n)$ bits.\\
+
+We define our first array $C_{0}$ which records the positions of the $\textmd{lg}^{2}(n)$-th (again, this value will be explained later) $1$ bits. Storing a value in this array costs at most $\textmd{lg}(n)$ bits and there are at most $\frac{n}{\textmd{lg}^{2}(n)}$ values stored in the array. So it only uses : $\frac{n}{\textmd{lg}(n)}$ bits.\\
+
+Then, we will repeat the operation. Let $s_{1}$ be the size of a block in our first array. We want to use at most $\frac{s_{1}}{\textmd{lg}(n)} \leq \textmd{lg}(n)$ bits on this block in our second array $C_{1}$. We can calculate $s_{1}$ on the fly in $\O(1)$ during calculation, and using this, we can deduce the location in $B$ of this block.
+However, there are $\textmd{lg}^{2}(n) $ answers in that range, and it so requires $\textmd{lg}(n)^{3} $ bits to store. 
+Then, if we have $s_{1} \geq \textmd{lg}(n)^{4}$, we would have sufficient space to store the values in $o(n)$ bits, but, in the other case, we need to redivide the block in the same way.\\
+
+We denote by $s_{2}$ the size of the considered block in $C_{1}$. We would need $\textmd{lg}(s_{2})\textmd{lg}(s_{1})\textmd{lg}(n)$ bits to store all the answers. We obtain a similar inequality on $s_{2}$ as on $s_{1}$ before, by the same methods. If we have $s_{2} \geq \textmd{lg}(s_{2})\textmd{lg}(s_{1})\textmd{lg}(n)$ then we have sufficient space not to need to go further in the construction and keep $o(n)$ space. Else, we have : 
 \[
-    \sum_{k = 1}^{n} \lfloor\log_{2}(k)\rfloor = 
+    \begin{aligned}
+        s_{2} &<\textmd{lg}(s_{2})\textmd{lg}(s_{1})\textmd{lg}(n)\\
+        s_{1} &< (\textmd{lg}(n))^{4}
+    \end{aligned}    
 \]
+So we have : $\textmd{lg}(s_{1}) < 4(\textmd{lg}(\textmd{lg}(n)))$. 
+Then, by growing of $\textmd{lg}$ and as $s_{2} < s_{1}$ we get : $\textmd{lg}(s_{1}) < 4 \textmd{lg}(\textmd{lg}(n))$ and thus : \[s_{2} < 16 \textmd{lg}(n) \textmd{lg}^{2}(\textmd{lg}(n))\].
+
+Using the same idea as in question 1., we answer $\textsf{select}$ queries using final arrays, storing the values we need. Indeed, for each of the $2^{s_{3}}$ bit pattern of length $s_{3} = \frac{\textmd{lg}(n)}{2}$, we can record the position of the $i$-th 1 bit in the pattern in an array $C_{3}$, and store the number of $1$ in the pattern in an array $C_{4}$. Then to compute the value of $\textsf{select}_{1}(i)$ we can scan the range using $C_{4}$ to know which subrange contains the answer and use $C_{3}$ to get the answer, all in time $\O(1)$.\\
+
+Finally, $\textsf{select}_{1}(i)$ can be computed by finding the block in $C_{0}$ in which $i$ is. From here, we compute $s_{1}$ and then, based on the case disjunction detailed earlier, we either get the correct answer from $C_{1}$ or compute $s_{2}$ and start over, using the final arrays. Thus, this data structure supports $\textsf{select}$ queries in $\O(1)$ time. 
+For storing the auxiliary directories $C_{0}, C_{1}$ and $C_{2}$, we need at most $\frac{3n}{\textmd{lg}(n)}$ bits (the simplicity of this expression justifies the values chosen for $s_{1}$ and $s_{2}$), and for the final arrays we use $\sqrt{n}\left(\textmd{lg}(n) + \frac{1}{2}\textmd{lg}(n)\textmd{lg}(n)\right)$, by the same calculation as in question 1, thus justifying the choice for the size of the patterns in $C_{4}$. The extra storage is in $\O(n)$, and this data structure is compatible with our requirements.
+
+
 
 \end{document}

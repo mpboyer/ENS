@@ -8,6 +8,7 @@
 
 \begin{document}
 \part{Lecture 1 - 28/09}
+\localtableofcontents
 \section{Organisation}
 Mail Tatiana : \url{starikovskaya@di.ens.fr}
 Homeworks are 30\% of the final grade, final (theory from lecture)
@@ -194,6 +195,7 @@ Algorithm : Iteratively select the greatest value-per-weight ratio. \\
 \end{proof}
 
 \part{TD 1 - 29/09}
+\localtableofcontents
 \section{Mathematical Complexity}
 \subsection{Exercice 1}
 \subsubsection{Question 1}
@@ -286,7 +288,7 @@ Bon on fait de la Programmation Dynamique. Relation de récurrence $\forall i DP
 \]
 
 \part{Lecture 2 - 5/10}
-
+\localtableofcontents
 \section{Divide and Conquer}
 Divide a problem into smaller ones to solve those, then combine the solutions to get a solution of the bigger problem.\\
 Example : \textsl{Merge Sort} : Its complexity verifies $T(n) = T(\lceil n/2\rceil) + T(\lfloor n/2 \rfloor) + \O(n)$. From that we will derive that $T(n) = \O(n\log n)$
@@ -294,7 +296,7 @@ Example : \textsl{Merge Sort} : Its complexity verifies $T(n) = T(\lceil n/2\rce
 
 \section{Analysis of Recursive Algorithms}
 We have recurrences we want to solve. We have three methods : 
-\localtableofcontents
+
 
 \subsection{Substitution Method}
 The method :
@@ -442,7 +444,7 @@ It is easily done in $\O(n)$ if both polynomials are represented over the same a
 For $P = \sum_{i = 0}^{n-1} a_{i}x^{i}$, we define : \[
   \begin{aligned}
     &P_{odd}(x) &= a_{n-1}x^{n/2-1} + a_{n-3}x^{n/2-3} + \ldots + a_{1}x\\
-    &P_{even}(x) &= a_{n-2}x^{n/2-2} + a_{n-4}x^{n/2-4} + \ldots = a_{2}x^{2/2} + a_{0}
+    &P_{even}(x) &= a_{n-2}x^{n/2-2} + a_{n-4}x^{n/2-4} + \ldots+ a_{2}x^{2/2} + a_{0}
   \end{aligned}  
 \]
 \begin{enumerate}
