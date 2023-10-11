@@ -122,6 +122,11 @@ Using the same idea as in question 1., we answer $\textsf{select}$ queries using
 Finally, $\textsf{select}_{1}(i)$ can be computed by finding the block in $C_{0}$ in which $i$ is. From here, we compute $s_{1}$ and then, based on the case disjunction detailed earlier, we either get the correct answer from $C_{1}$ or compute $s_{2}$ and start over, using the final arrays. Thus, this data structure supports $\textsf{select}$ queries in $\O(1)$ time. 
 For storing the auxiliary directories $C_{0}, C_{1}$ and $C_{2}$, we need at most $\frac{3n}{\textmd{lg}(n)}$ bits (the simplicity of this expression justifies the values chosen for $s_{1}$ and $s_{2}$), and for the final arrays we use $\sqrt{n}\left(\textmd{lg}(n) + \frac{1}{2}\textmd{lg}(n)\textmd{lg}(n)\right)$, by the same calculation as in question 1, thus justifying the choice for the size of the patterns in $C_{4}$. The extra storage is in $\O(n)$, and this data structure is compatible with our requirements.
 
+\subsection{Question 3}
+Here, we model our set $S$ of items as a bitvector $B$ of length $n = \max S$ with coefficients : \[B[i] = 1 \text{ if } i \in S \text{ else } 0\]
+Then, solving, the predecessor problem can be done using the data structures introduced in questions $1$ and $2$. Indeed, finding the predecessor of $j$ in $S$ can be done by calling $\textsf{rank}_{1}(j)$, getting the number of elements smaller than $j$ in $S$, then calling $\textsf{select}_{1}$ on the resulting value, giving us the greatest element in $S$ that is smaller than $j$. 
+
+\subsection{Question 4}
 
 
 \end{document}
