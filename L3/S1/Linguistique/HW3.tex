@@ -5,33 +5,63 @@
 \date{\today}
 
 \begin{document}
-    \section{Question 1}
-    \begin{tabular}{l|cc}
+\section{Question 1}
+\begin{tabular}{l|cc}
+    \toprule
+    Case :          & I.                              & II.                          \\
+    \midrule Tree : & \Tree [un [lock able ] ]        & \Tree [[un lock ] able ]     \\
+    \midrule
+    This reads as : & \textsl{which cannot be locked} & \textsl{which can be opened} \\
+    \bottomrule
+\end{tabular}
+
+\section[Question 2]{Question 2\footnote{Please Turn Over for Question 3.}}
+The French word \textsl{infermable}, meaning \textsl{which cannot be locked}, can only be analysed as the following tree :
+\begin{center}
+    \Tree [in [ferm(e) able ] ]
+\end{center}
+
+
+Indeed, while \textsl{fermable} exists in French, and we can form \textsl{infermable} by adding to it the prefix \textsl{it}, the word \textsl{inferme} does not exist in French. Thus, \textsl{infermable}, while close in meaning to one of the usages of \textsl{unlockable}, only has one and cannot derive from two different trees.
+
+\newpage
+\section{Question 3}
+\subsection{Question a.}\label{3a}
+We get the following specification :
+\begin{center}
+    \begin{tabular}{cccc}
         \toprule
-        Case :& I. & II.\\
-        \midrule Tree : & \Tree [un [lock able ] ] & \Tree [[un lock ] able ] \\
+        Morpheme                    & Meaning                & Type           & Category of Stem \\
         \midrule
-        This reads as : &\textsl{which cannot be locked} & \textsl{which can be opened}\\
+        \textsl{mæn}                & First Person Singular  & Root           &                  \\
+        \textsl{æm}                 & First Person Singular  & Affix - Suffix & Verb             \\
+        \textsl{šoma}               & Second Person Singular & Root           &                  \\
+        \textsl{id} or \textsl{did} & Second Person Singular & Affix - Suffix & Verb             \\
+        \textsl{eš}                 & Past Time              & Affix - Suffix & Verb             \\
+        \textsl{næ} or \textsl{ne}  & Negation               & Affix - Prefix & Verb             \\
+        \textsl{ketab}              & \textsl{book}          & Root           &                  \\
+        \textsl{ro}                 & Specification          & Affix - Suffix & noun             \\
+        \textsl{xun}                & \textsl{to read}       & Root           &                  \\
+        \textsl{mi}                 & Present Progressivity  & Affix - Prefix & Verb             \\
         \bottomrule
     \end{tabular}
+\end{center}
 
-    \section{Question 2}
-    The French word \textsl{infermable}, meaning \textsl{which cannot be locked}, can only be analysed as the following tree : 
-    \begin{center}
-        \Tree [in [ferm(e) able ] ]    
-    \end{center}
-    
+Here we see the morphemes \textsl{id} and \textsl{did} as well as \textsl{næ} and \textsl{ne} both have two manifestations.\\
+There is an ambiguity between the last two sentences that comes from the fact that there is no morpheme indicating the interrogation to be found in the dataset. The ambiguity might then be resolved with the prosody.
 
-    Indeed, while \textsl{fermable} exists in French, and we can form \textsl{infermable} by adding to it the prefix \textsl{it}, the word \textsl{inferme} does not exist in French. Thus, \textsl{infermable}, while close in meaning to one of the usages of \textsl{unlockable}, only has one and cannot derive from two different trees.
+\subsection{Question b.}
+\textsl{You aren't reading it} translates into persian as \textsl{šoma næmixundid}.
 
-    \section{Question 3}
-        \subsection{Question a.}
-    \begin{tabular}{cccc}
-        \toprule 
-        Morpheme & Meaning & Type & Category of Stem\\
-        \midrule
+\subsection{Question c.}
+As mentioned in Question \ref{3a}, in Colloquial Persian, Yes-No question might be formed by using a normal sentence, with a different prosody.
 
-        
-    \end{tabular}
+\subsection{Question d.}
+From these sentences we get that the morpheme \textsl{bin} is the verb \textsl{to see} and that it is a prepositional verb, meaning you cannot say \textsl{I see you} but only \textsl{I see \emph{preposition} you}. Here, it appears the preposition is marked with the morpheme \textsl{ro}.
+Yet, we hypothesised earlier that \textsl{ro} is a suffix attached to a noun to specify it (equivalent to \textsl{the} instead of \textsl{a}). We can refine this analysis by adding that \textsl{ro} can also be attached to a pronoun (and maybe also a verb, though we have no hard evidence of that) to specify it as the object of the verb that follows in the proposition.
+
+\subsection{Question e.}
+\textsl{I wasn't reading the book} might translate as \textsl{mæn ketabro nemixunidæm}.
+
 
 \end{document}
