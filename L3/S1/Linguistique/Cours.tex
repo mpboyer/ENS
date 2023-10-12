@@ -1,5 +1,6 @@
 \documentclass{cours}
 \usepackage{enumitem}
+\usepackage{qtree}
 
 \title{LING 101 : Introduction to Linguistics}
 \author{Salvador Mascarenhas \\ \small Michael Goodale (TA)}
@@ -257,8 +258,46 @@ Compounding is a process to build words from two or more stems. It constitutes i
 It can be an ambiguous process : If a \textsl{houseboat} is a boat that is a house, what is a \textsl{housecat} ? English compounds are typically headed by their rightmost element, meaning the precedents are qualifying it, but sometimes compounds are headless : \textsl{kick-ass}, \textsl{ceasefire}...\\
 Are there more rules ? Is an N-N compound necessarily a \textit{for} relation, a \textit{from} relation ? Is there simply just a hidden preposition in it ? 
 
-\section{Cross-Linguistic Variation}
 
+\part{TA 3 : 11/10}
+\section{Homework 2}
+Nothing to add, see file. 
+
+\section[Cross-Linguistic Variation]{Cross-Linguistic Variation\footnote{This is part of Lecture 3, see the handout}}
+Languages can be put on a spectrum from analytic to polysynthetic, based on how much they use morphemes and/or syntax.
+Analytic use the most syntax, polysynthetic don't care about it and only add morphemes.
+\begin{itemize}
+    \item Analytic (Isolating) languages where each morpheme is a word on its own (e.g. Chinese)
+    \item Agglutinating languages where each grammatical bit of meaning is an affix to a stem (e.g. Japanese, Korean, Hungarian)
+    \item Fusional languages where an affix or change in the stem can lead to multiple grammatical meaning variations (e.g. Latin, German, Arabic)
+    \item Polysynthetic Languages where affixes have extremely rich content (e.g. many native North American languages)
+\end{itemize}
+Both agglutinating and polysynthetic languages pack a lot of information into a single word, the difference being that agglutinating use affixes for grammatical meaning only.
+
+\section{Morphological Derivation}
+\subsection{Deriving \textsl{Antidesestablishmentarianism}}
+We can see this word from a sequence of trees : 
+\begin{center}
+    \begin{tabular}{ccc}
+        \toprule
+        & Tree : & Explanation\\
+        \midrule
+        Step 1 : & \Tree [dis establish ] & $dis : verb \mapsto verb$ \\
+        Step 2 : & \Tree [[dis establish ] ment ] & $ment : verb \mapsto noun$\\
+        Step 3 : & \Tree [anti [[dis establish ] ment ] ] & People are against \textsl{disestablishment}, not the people\\
+        Step 4 : & \Tree [[anti [[dis establish ] ment ] ] arian ] & $arians : action \mapsto people in it$ \\
+        Step 5 : & \Tree [[[anti [[dis establish ] ment ] ] arian ] ism ] & $ism : people/concept/action \mapsto idea$ \\
+        \bottomrule        
+    \end{tabular}
+\end{center}
+
+\subsection{Deriving \textsl{unfriendliness}}
+We only give the tree : 
+\Tree [[un [friend li ] ] ness ]
+
+\subsection{Deriving \textsl{reinstatement}}
+You cannot attach \textsl{in} to a noun, it needs to be attached to a verb, but as it is a rare example of borrowing from latin, we cannot separate \textsl{instate} 
+\Tree [[re instate ] ment ]
 
 
 
