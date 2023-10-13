@@ -1,47 +1,26 @@
-"""def levenshtein_nn(s, t):
-    D = [[0 for _ in range(len(t)+1)] for _ in range(len(s)+1)]
-    for i in range(len(s)+1):
-        D[i][0] = i
-    for j in range(len(t)+1):
-        D[0][j] = j
+import math
+import string
 
-    for i in range(1, len(s)+1):
-        for j in range(1, len(t)+1):
-            alpha = 1 if s[i-1] != t[j-1] else 0
-            D[i][j] = min(D[i-1][j-1] + alpha, D[i-1][j] + 1, D[i][j-1] + 1)
+def fft2(p1, p2):
+    # p1 and p2 are both two dimensional polynoms. They will suffer two ffts. 
+    def rec_fft(pol):
+        if log2(len(pol)) != int(log2(len(pol))):
+            pol
+
+
+def hamming_dist(text, pattern):
+    alphabet = dict([(string.ascii_letters[i], i) for i in range(len(string.ascii_letters))])
+    print(alphabet)
+    n, m, sigma = len(text), len(pattern), len(alphabet)
+    # Generates a dictionary with a one to one mapping of the letters to their values.
+    # We first represent our polynoms by their coefficient dictionaries, since they're bivariate.
+    p1 = dict([((i, alphabet[text[i]]), 1) for i in range(n)]) # O(n)
     
-    return D[len(s)][len(t)]"""
+    p2 = dict([((m - j, sigma - alphabet[pattern[j]]), 1) for j in range(m)]) #O(m) = O(n)
+    
+    r = fft2(p1, p2) # This is the product of p1 and p2, which is computed by two successive ffts, the whole being in nlog(n).
 
+    # The coefficients of x^{t}y^{sigma} in r(x, y) is the number of pairs (i, j) in [n] [sigma] with i = j + t - m and text[i] = pattern[j] which is sigma - d_{H}(pattern, text[t - m + 1 : t]).
 
-
-def levenshtein_f(s1, s2):
-    D = [[0 for _ in range(len(s2)+1)] for _ in range(len(s1)+1)]
-    for i in range(len(s1)+1):
-        D[i][0] = i
-    for j in range(len(s2)+1):
-        D[0][j] = j
-
-    t = 4
-                
-    up, left = 0, 0  # Position in D of b
-    while up < len(s1) :
-        left = 0
-        while left < len(s2):
-            d = min(len(s1) - up, t)
-            e = min(len(s2) - left, t)
-            b = D[up][left]
-            a = [D[k][left] for k in range(up, up + d + 1)]
-            c = D[up][left : left + e + 1]
-            # The following code should be replaced by a call to f(a, b, c, d, e)
-            """for i in range(up + 1 , up + d + 1):
-                for j in range(left + 1, left + e + 1): 
-                    alpha = 1 if s1[i-1] != s2[j-1] else 0
-                    D[i][j] = min(D[i-1][j-1] + alpha, D[i-1][j] + 1, D[i][j-1] + 1)"""
-            left += t - 1
-        up += t - 1
-        
-    return D[len(s1)][len(s2)]
-
-print(levenshtein_f("kirua", "hallo"))
-
-# See .pdf
+    return [r(x, y).get((t, sigma), 0) for t in range(m, n)] 
+    

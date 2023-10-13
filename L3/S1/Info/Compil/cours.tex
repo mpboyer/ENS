@@ -5,15 +5,15 @@
 
 \newcommand*{\rrarrow}{\twoheadrightarrow}
 \newcommand*{\llarrow}{\twoheadleftarrow}
-\newcommand*{\fun}[2]{\textsf{fun } #1 \rightarrow #2}
-\newcommand*{\letval}{\textsf{let }}
-\newcommand*{\letin}[1]{\textsf{let } #1 \textsf{ in }}
+\newcommand*{\fun}[2]{\textmd{fun } #1 \rightarrow #2}
+\newcommand*{\letval}{\textmd{let }}
+\newcommand*{\letin}[1]{\textmd{let } #1 \textmd{ in }}
 
 \begin{document}
 
 \part[Aperçu de la Compilation - Assembleur x86-64]{Cours 1 29/09}
-
-\section*{Introduction}
+\localtableofcontents
+\section{Introduction à la Compilation}
 Maîtriser les mécanismes de la compilation, transformation d'un langage dans un autre. Comprendre les aspects des langages de programmation.\\
 
 \subsection{Un Compilateur}
@@ -130,6 +130,8 @@ Il y a quatres temps dans un appel :
 \end{enumerate}
 
 \part[Syntaxe abstraite, sémantique, interprètes]{Cours 2: 6/10}
+\localtableofcontents
+
 \section*{Introduction}
 La signification des programmes est définie souvent de manière informelle, en langue naturelle, e.g. le langage Java.\\
 
@@ -164,7 +166,7 @@ On applique ça à Mini-ML (qui est Turing-Complet).
 
 \subsubsection{Sémantique Opérationnelle à Grand Pas}
 On cherche à définir $e \twoheadrightarrow v$. On définit les valeurs parmi les constantes, les primitives non appliquées, les fonctions et les paires. \\
-Une relation peut être définie comme la plus petite relation satisfaisant un ensemble d'axiomes notés $\overline{P}$ et des règles d'inférences (implications). On définit \textsf{Pair(n)} par $\overline{Pair(0)}$ et $\frac{Pair(n)}{Pair(n+2)}$. La plus petitre relation qui vérifie ces deux propriétés coïncide avec la propriété \og $n$ est un entier naturel pair \fg.\\
+Une relation peut être définie comme la plus petite relation satisfaisant un ensemble d'axiomes notés $\overline{P}$ et des règles d'inférences (implications). On définit \textmd{Pair(n)} par $\overline{Pair(0)}$ et $\frac{Pair(n)}{Pair(n+2)}$. La plus petitre relation qui vérifie ces deux propriétés coïncide avec la propriété \og $n$ est un entier naturel pair \fg.\\
 Une dérivation est un arbre dont les noeuds correspondent aux règles et les feuilles aux axiomes (les arbres croissent vers le haut). L'ensemble des dérivations possibles caractérise exactement la plus petite relation satisfaisant les règles d'inférence. \\
 \begin{definition}
     On définit les variables libres d'une expression $e$, noté $fv(e)$ par récurrence sur $e$ avec :
@@ -185,10 +187,10 @@ Une dérivation est un arbre dont les noeuds correspondent aux règles et les fe
     \end{tabular}
 \end{definition}
 On fait le choix d'une stratégie d'appel par valeur, i.e. l'argument est complètement évalué avant l'appel. \\
-On a ici comme axiomes : $\overline{c \twoheadrightarrow c}$, $\overline{op \twoheadrightarrow op}$, $\overline{(\textsf{fun } x \rightarrow e) \twoheadrightarrow (\fun{x}{e})}$
+On a ici comme axiomes : $\overline{c \twoheadrightarrow c}$, $\overline{op \twoheadrightarrow op}$, $\overline{(\textmd{fun } x \rightarrow e) \twoheadrightarrow (\fun{x}{e})}$
 et comme règles d'inférences : 
 \[    
-    \frac{e_{1} \twoheadrightarrow v_{1} \ \ e_{2} \twoheadrightarrow v_{2}}{(e_{1}, e_{2}) \twoheadrightarrow (v_{1}, v_{2})} \ \ \ \frac{e_{1} \twoheadrightarrow v_{1} \ \ e_{2}[x \leftarrow v_{1}] \twoheadrightarrow v}{let\ x  = e_{1} \textsf{ in } e_{2} \twoheadrightarrow v}
+    \frac{e_{1} \twoheadrightarrow v_{1} \ \ e_{2} \twoheadrightarrow v_{2}}{(e_{1}, e_{2}) \twoheadrightarrow (v_{1}, v_{2})} \ \ \ \frac{e_{1} \twoheadrightarrow v_{1} \ \ e_{2}[x \leftarrow v_{1}] \twoheadrightarrow v}{let\ x  = e_{1} \textmd{ in } e_{2} \twoheadrightarrow v}
 \]
 et 
 \[
@@ -223,7 +225,7 @@ On peut établir une propriété d'une relation définie par un ensemble de règ
 
 \subsubsection{Sémantique à Petits Pas}
 La sémantique opérationnelle à petits pas remédie aux problèmes de programmes qui ne terminent pas, en introduisant une notion d'étape élémentaire de calcul $e_{1} \rightarrow e_{2}$\\
-On commence par définir une relation $\rightarrow^{\epsilon}$ correspondant à une réduction en tête, au sommet de l'expression, par exemple : $(\textsf{fun } x\rightarrow e)\ v \rightarrow^{\epsilon} e[x \leftarrow v]$
+On commence par définir une relation $\rightarrow^{\epsilon}$ correspondant à une réduction en tête, au sommet de l'expression, par exemple : $(\textmd{fun } x\rightarrow e)\ v \rightarrow^{\epsilon} e[x \leftarrow v]$
 On se donne également des règles pour les primitives. On réduit en profondeur en introduisant la règle d'inférence : $\frac{e_{1}\rightarrow^{\epsilon} e_{2}}{E(e_{1})\rightarrow E(e_{2})}$ où $E$ est un contexte défini par la grammaire suivante :
 \begin{tabular}{crl}
     $E$ &$::=$& $\square$\\
@@ -277,10 +279,202 @@ Pour un langage impératif les sémantiques ci-dessus sont insuffisantes. On ass
 \section{Interprète}
     On peut programmer un interprète en suivant les règles de la sémantique naturelle. On se donne un type pour la syntaxe abstraite des expressions et on définit une fonction correspondant à la relation $\twoheadrightarrow$\\
     Un interprète renvoie la (ou les) valeur(s) d'une expression, souvent récursivement.\\
-    On peut éviter l'opération de substitution, en interprétant l'expression $e$ à l'aide d'un environnement donnant la valeur courante de chaque variable (un dictionnaire). Ceci pose problème car le résultat de $\textsf{let } x = 1 \textsf{ in fun } y \rightarrow +(x, y)$ est une fonction qui doit \og mémoriser \fg que $x = 1$.\\
-    On utilise alors le module \textsf{Map} pour les environnements (c'est une \textit{fermeture}). On représente alors la valeur d'une fonction avec son environnement. \\
+    On peut éviter l'opération de substitution, en interprétant l'expression $e$ à l'aide d'un environnement donnant la valeur courante de chaque variable (un dictionnaire). Ceci pose problème car le résultat de $\textmd{let } x = 1 \textmd{ in fun } y \rightarrow +(x, y)$ est une fonction qui doit \og mémoriser \fg que $x = 1$.\\
+    On utilise alors le module \textmd{Map} pour les environnements (c'est une \textit{fermeture}). On représente alors la valeur d'une fonction avec son environnement. \\
     Pour un interprète de la sémantique à petits pas, il vaut mieux utiliser un \textit{zipper} que de recalculer le contexte tout le temps. 
 
+\part[Analyse Lexicale]{Cours 3 : 13/10}
+\localtableofcontents
+\section*{Introduction}
+L'objectif est de partir du code source, une suite de caractère, pour obtenir une suite de lexèmes plus compréhensible et simple à analyse syntaxiquement
 
+\section{Blancs}
+Les blancs (espace, retour chariot, tabulation) jouent un rôle dans l'analyse lexicale, car ils permettent de séparer deux lexèmes. De nombreux blancs sont inutiles e.g. \textmd{x + 1}, et seront ignorés.\\
+Les conventions diffèrent selon les langages et certains des caractères blancs peuvent être significatifs, par exemple l'indentation en python ou en Haskell, ou les retours chariots transformés en points-virgules comme en python. Les commentaires jouent le rôle de blancs.
 
+\section{Outils pour l'analyse lexicale}
+On va utiliser des expressions régulières pour décrire les lexèmes et des automates finis pour les reconnaître. On exploite en particulier la capacité à construire un automate partant d'une ou plusieurs expressions régulières.
+
+\subsection[Expressions Régulières et Automates Finis]{Expressions Régulières et Automates Finis\footnote{Voir Cours de LFCC}} 
+%TODO: ajouter un lien vers le cours. Faire un seul poly complet ? 
+
+\subsubsection{Expressions Régulières}
+\begin{definition}[Syntaxe]
+    On définit la syntaxe des expressions régulières :
+\begin{center}
+    \begin{tabular}{c@{$\mid$}c}
+        $r = $& $\emptyset$\\
+        &$\epsilon$\\
+        &$a \in \Sigma$\\
+        &$r \cdot r$\\
+        &$r + r$\\
+        &$r\star$\\    
+    \end{tabular}    
+\end{center} 
+\end{definition}
+
+\begin{definition}[Sémantique]
+    On définit alors la sémantique basée sur cette syntaxe par les langages rationnels : 
+    \begin{center}
+        \begin{tabular}{c@{ = }c}
+            $L(\emptyset)$ &$\emptyset$\\
+            $L(a)$ &$\left\{a\right\}$\\
+            $L(r_{1}r_{2})$ &$L(r_{1}) \cdot L(r_{2})$\\
+            $L(r_{1} + r_{2})$ &$L(r_{1}) \cup L(r_{2})$\\
+            $L(r\star)$ &$\bigcup_{n \in \N} L^{n}(r)$        
+        \end{tabular}
+    \end{center} 
+\end{definition}
+
+Pour les constantes flottantes de CamL on a par exemple, si $d = 0 | 1 | \ldots | 9$ :
+\[
+    d\ d\star(.d\star \mid (\epsilon \mid .d\star)(e \mid E)(\epsilon \mid + \mid -)\ d\ d\star)  
+\]
+On peut alors écrire un algorithme pour savoir si une suite de caractère appartient à une regexp.
+\begin{definition}[Dérivée de Brzozowski]
+    On pose, pour $r$ une regexp et $c \in \Sigma$ : $\delta(r, c) = \left\{w \mid cw \in L(r)\right\}$
+\end{definition}
+
+\subsubsection{Automates Finis}
+\begin{definition}[Syntaxe]
+    Un automate fini est un quintuplet $(Q, \Sigma, I, F, T)$ où :
+    \begin{itemize}
+        \item $Q$ est un ensemble fini d'états
+        \item $\Sigma$ est un ensemble fini appelé alphabets
+        \item $I \subseteq Q$ est un ensemble d'états initiaux
+        \item $F \subseteq Q$ est un ensemble d'états finaux
+        \item $T \subseteq Q \times \Sigma \times Q$ est un ensemble de transitions
+    \end{itemize}
+\end{definition}
+
+\begin{theorem}[De Kleene]
+    Les expressions régulières et les automates finis définissent les mêmes langages. 
+\end{theorem}
+\begin{proof}
+    Voir Cours de LFCC
+\end{proof}
+
+\subsection{Analyseur Lexical}
+
+\subsubsection{Principe}
+
+Un analyseur lexical est un automate fini pour la réunion de toutes les expressions régulières définissant les lexèmes.
+Le fonctionnement de l'analyseur lexical est différent de la simple reconnaissance d'un mot par un automate car : 
+\begin{itemize}
+    \item Il faut décomposer un mot (le source) en une suite de mots reconnus
+    \item Il peut y avoir des ambiguïtés
+    \item Il faut construire les lex`emes (les états finaux contiennent des actions)
+\end{itemize}
+
+\paragraph*{Ambiguïtés}
+Le mot \textmd{funx} est reconnu par l'expression régulière des identificateurs mais contient un préfixe reconnu par une autre expression régulière (\textmd{fun}) : $\Rightarrow$ On choisit de reconnaître le lexème le plus long possible.\\
+Le mot \textmd{fun} est reconnu par la regexp du mot clef \textmd{fun} mais aussi par celle des identificateurs : $\Rightarrow$ On classe les lexèmes par ordre de priorité.
+
+\paragraph*{Retour en arrière}
+Un analyseur va échouer sur l'entrée $abc$ avec les trois regexp $a, ab, bc$.
+L'analyseur lexical doit donc mémoriser le dernier état final rencontré, le cas échéant.\\
+
+Lorqu'il n'y a plus de transition possible dans l'automate, de deux choses l'une :
+\begin{itemize}
+    \item Soit aucun état final mémorisé : échec de l'analyse lexicale
+    \item Soit on a lu le préfixe $wv$ de l'entrée, avec $w$ le lexème reconnu par le dernier état final recontré : on renvoie $w$ et l'analyse lexicale redémarre avec $v$ préfixé au reste de l'entrée
+\end{itemize}
+En pratique, on va renvoyer dans l'analyseur lexical une fonction de calcul du prochain lexème, puisque l'analyse lexicale est faite pour l'analyse syntaxique 
+%TODO: ajouter la ref du cours d'analyse syntaxique
+
+\subsubsection{Construction}
+\paragraph*{L'automate de Thompson}
+On construit par induction un automate compatible. 
+
+\paragraph*{L'automate de Berry-Sethi}
+On met en correspondance les lettres d'un mot reconnu et celles apparaissant dans la regexp : 
+On distingue les différentes lettres de la regexp puis on construit un automate dont les états sont des ensembles de lettres. 
+Pour construire les transitions de $s_{1}$ à $s_{2}$, on détermine les lettres qui peuvent apparaître après une autre dans un mot reconnu : \textmd{follow}. Pour calculer \textmd{follow}, on a besoin de savoir calculer les premières et dernières lettres d'un mot reconnu (\textmd{first} et \textmd{last}). On a alors besoin d'une dernière notion : \textmd{null}, est-ce que $\epsilon$ appartient au langage reconnu. On obtient : 
+\begin{center}
+    \begin{tabular}{c@{ = }c}
+        \toprule
+        $\textmd{null}(\emptyset)$ & \textmd{false}\\
+        $\textmd{null}(\epsilon)$ & \textmd{true}\\
+        $\textmd{null}(a)$ & \textmd{false}\\
+        $\textmd{null}(r_{1}r_{2})$ & $\textmd{null}(r_{1}) \land  \textmd{null}(r_{2})$\\
+        $\textmd{null}(r_{1}\mid r_{2})$ & $\textmd{null}(r_{1}) \lor  \textmd{null}(r_{2})$\\
+        $\textmd{null}(r\star)$ & \textmd{true}\\
+        \midrule
+        \multicolumn{2}{c}{On en déduit : }\\
+        \midrule
+        $\textmd{first}(\emptyset)$ & $\emptyset$\\
+        $\textmd{first}(\epsilon)$ & $\emptyset$\\
+        $\textmd{first}(a)$ & $\left\{a\right\}$\\
+        $\textmd{first}(r_{1}r_{2})$ & $\textmd{first}(r_{1}) \cup \textmd{first}(r_{2})$ \text{ si }$\textmd{null}(r_{1})$\\
+        & $\textmd{first}(r_{1})$ sinon\\
+        $\textmd{first}(r_{1}\mid r_{2})$ & $\textmd{first}(r_{1}) \cup \textmd{first}(r_{2})$\\
+        $\textmd{first}(r\star)$ & $\textmd{first}(r)$\\
+        \midrule
+        \multicolumn{2}{c}{On définit \textmd{last} de même}\\
+        \midrule
+        $\textmd{follow}(c, \emptyset)$ & $\emptyset$\\
+        $\textmd{follow}(c, \epsilon)$ & $\emptyset$\\
+        $\textmd{follow}(c, a)$ & $\emptyset$\\
+        $\textmd{follow}(c, r_{1}r_{2})$ & $\textmd{follow}(c, r_{1}) \cup \textmd{follow}(c, r_{2}) \cup \textmd{first}(r_{2})$ si $c \in \textmd{last}(r_{1})$\\
+        & $\textmd{follow}(c, r_{1}) \cup \textmd{follow}(c, r_{2})$ sinon\\
+        $\textmd{follow}(c, r_{1} \mid r_{2})$ & $\textmd{follow}(c, r_{1}) \cup \textmd{follow}(c, r_{2})$\\
+        $\textmd{follow}(c, r\star)$ & $\textmd{follow}(c, r) \cup \textmd{first}(r)$ si $c\in \textmd{last}(r)$\\
+        &$\textmd{follow}(c, r)$ sinon\\
+        \bottomrule
+    \end{tabular}
+\end{center}
+On construit alors l'automate reconnaissant $r$ en ajoutant $\#$ à la fin de $r$ : 
+\begin{enumerate}
+    \item L'état initial est l'ensemble $\textmd{first}(r\#)$.
+    \item Tant qu'il existe un état $s$ dont on doit calculer les transitions, pour chaque $c$ de l'alphabet, on pose $s^{'}$ l'état $\bigcup_{c_{i} \in s} \textmd{follow}(c_{i}, r\#)$
+    \item Les états acceptants sont ceux contenant $\#$
+\end{enumerate}
+
+\section{L'outil \textmd{ocamllex}}
+\subsection{Analyseur Lexical en \textmd{ocamllex}}
+Un fichier \textmd{ocamllex} porte le suffixe \textmd{.mll} et a la forme suivante : 
+\begin{itemize}
+    \item Code OCamL arbitraire
+    \item $\textmd{rule } f_{1} = \textmd{parse} \mid \textmd{regexp1 } \{\textmd{action 1}\}$ 
+    \item \dots
+    \item Code OcamL arbitraire
+\end{itemize}
+A la compilation par \textmd{ocamllex file.mll}, on construit un fichier OCamL contenant des fonctions de types $\textmd{Lexing.lexbuf} \rightarrow \textmd{type}$ où le type de sortie dépend de l'action dans la fonction. \\
+
+Les regexp en \textmd{ocamllex} s'écrivent sous la forme : 
+\begin{center}
+    \begin{tabular}{>{\textmd{}}ll}
+        \toprule
+        \_  & n'importe quel caractère\\
+        'a' & le caractère \textmd{'a'}\\
+        "foobar" & la chaîne \textmd{"foobar"} (en particulier $\epsilon = ""$)\\
+        \text{[}caractères\text{]} & ensemble de caractères\\
+        \text{[}\^{}caractères\text{]} & complémentaire d'un ensemble de caractères\\
+        $r_{1} \mid r_{2}$ & alternative \\
+        $r_{1}r_{2}$ & concaténation \\
+        $r *$ & étoile\\
+        $r + $ & une ou plusieurs occurences de $r$, i.e. $r r\star$\\
+        $r?$ & au plus une occurence de $r$\\
+        eof & fin du fichier\\
+        \bottomrule         
+    \end{tabular}
+\end{center}
+Pour remplacer la reconnaissance du lexème le plus long par celui le plus court, remplacer \textmd{parse} par \textmd{shortest}.\\
+A longueur égale, c'est la règle qui apparaît en premier qui l'emporte. \\
+On peut nommer la chaîne reconnue, ou des sous-chaînes reconnues par des sous-experssions régulières, à l'aide de la construction \textmd{as}.\\
+On peut dans une action, rappeler récursivement l'analyseur lexical ou l'un des autres analyseurs simultanément définis. Le tampon d'analyse lexical doit être passé en argument, il est contenu dans une variable appelée \textmd{lexbuf}. Ceci est utile pour séparer les blancs, ou reconnaître les commentaires, même imbriqués. \\
+
+Par défaut \textmd{ocamllex} contruit l'automate dans une table interprétée à l'exécution, mais l'option \textmd{-ml} construit du code CamL pur. 
+
+\subsection{Efficacité}
+Pour des raisons de stockage, et même en utilisant une table, l'automate peut prendre beaucoup de place. Il est donc préférable d'utiliser une seule expression régulière pour les identificateurs et les mots-clefs, puis de les séparer ensuite grâce à une table des mots-clefs.\\
+On peut de même ne stocker que les caractères en minuscule pour être insensible à la casse.
+
+\subsection{D'autres utilisations \textmd{ocamllex}}
+On peut utiliser $\textmd{ocamllex}$ pour :
+\begin{enumerate}
+    \item Réunir plusieurs lignes vides consécutives en une seule
+    \item Compter les occurences d'un mot dans un texte
+    \item Un petit traducteur OCamL vers HTML pour embellir le source mis en ligne (mettre les mots-clefs en vert, les commentaires en rouge, numéroter les lignes \dots), le tout en moins de 100 lignes de code.
+\end{enumerate}
 \end{document}

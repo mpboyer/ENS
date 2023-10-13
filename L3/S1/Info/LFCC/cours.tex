@@ -1,5 +1,7 @@
 \documentclass{cours}
 
+\newtheorem{example}{Exemple}[section]
+
 \title{Langages Formels, Calculabilité, Complexité}
 \author{Mickaël Thomazo \\ \small{Lucas Larroque}}
 \date{\today}
@@ -132,5 +134,96 @@
     $q_{1}$ et $q_{2}$ sont distingables s'ils n'ont pas même quotient à gauche. Si $\delta(q, a)$ est distingable $\delta(q^{'}, a)$, $q, q^{'}$ sont distingables.\\
     La relation $q, q'$ sont distingables est une relation d'équivalence. 
 \end{proposition}
+
+\part{Cours 3 - 12/10}
+\section{Langages et Logique}
+\subsection{Objectif}
+On associe à $w \in \Sigma^{*}$ une structure $D_{w}$ et à $L \subseteq \Sigma^{*}$ une structure $\phi_{L}$ telles que : $w \in L\setminus \left\{\epsilon\right\} \Leftrightarrow D_{w} \vdash \phi_{L}$. On se place dans le cadre de la logique du premier ordre et de la monadique du second ordre.\\
+
+\begin{definition}
+    On définit $\textsf{pos}(w) = \left\{0, \ldots, \abs{w} - 1\right\}$. On définit une signature i.e. un ensemble de relations : 
+\[
+    \begin{aligned}
+        \forall a \in \Sigma,& \ L_{a} \text{ d'arité } 1\\
+        \leq, & \text{ l'ordre strict sur } \textsf{pos}(w)\\
+    \end{aligned}   
+\]    
+On définit alors la structure $D_{w} = \left(\textsf{pos}(w), \left\{L_{a}^{D_{w}}\right\}_{a \in \Sigma}, <_{w}\right)$
+\end{definition}
+\begin{remark}
+    On aurait pû remplacer $<_{w}$ par $succ_{w}$, mais on perd en expressivité. 
+\end{remark}
+
+\subsection{Logique du Premier Ordre et Monadique du Second Ordre}
+\begin{definition}[Logique du Premier Ordre]
+    On définit par induction la logique du premier ordre.
+    \begin{itemize}
+        \item Constantes
+        \item Variables
+        \item Si $R$ est une relation d'arité $n$, $t_{i}$ des termes : $R(t_{1}, \ldots, t_{n})$ 
+        \item $\lnot \phi$, $\phi_{1} \land \phi_{2}$, $\phi_{1} \lor \phi_{2}$
+        \item $\forall x, \phi, \exists \phi$
+    \end{itemize}
+\end{definition}
+On cherche à associer à $\phi : \exists x,\ (L_{0}(x) \land \forall y (y < x \rightarrow (L_{1}(y))))$, un langage $L_{\phi} = \left\{w \mid D_{w} \vdash \phi \right\}$. 
+\begin{definition}{Monadique du Second Ordre}
+    Sont des formules : 
+    \begin{itemize}
+        \item $\forall X,\ \phi$ avec $X$, variable du second ordre qui a une arité associée.
+        \item $\exists X, \ \phi$ avec $X$, variable du second ordre qui a une arité associée.
+        \item $(x_{1}, \ldots, x_{n}) \in X$ avec $X$ d'arité $n$. On trouve aussi une formule pour les graphes qui mettent en relation deux sommets $s, t$ :
+    \end{itemize}
+    On se restreint dans la suite à des variables d'arité $1$
+\end{definition}
+
+On considère un vocabulaire qui contient une relation $E$ ("arêtes d'un graphe"). On représente un graphe par $D_{G}$ l'ensemble de ses sommets et $E^{D_{G}}$ l'ensemble des arêtes de ce graphe.
+\begin{example}
+    On trouve alors une formule pour représenter tous les graphes $3$-coloriables : 
+    \begin{equation}
+        \begin{split}
+            \exists X_{1}, \exists X_{2}, \exists X_{3} & \left(\forall x \left(X_{1}(x) \lor X_{2}(x) \lor X_{3}(x)\right) \right) \\ 
+            & \land \left(\forall x \forall y \left(E(x, y) \rightarrow \left(\lnot \left(X_{1}(x) \land X_{1}(y)\right)\land \lnot \left( X_{2}(x) \land X_{2}(y)\right) \land \lnot \left( X_{3}(x) \land X_{3}(y)\right)\right)\right)\right)
+        \end{split}
+    \end{equation}    
+\end{example}
+    
+\begin{example}
+    On trouve aussi une formule pour les graphes qui mettent en relation deux sommets $s, t$. Il s'agit de trouver une relation close par successeur qui contient $s$ : 
+    \[
+        \forall R \left(\left[s \in R \land \forall x, y, \left(R(x) \land E(x, y)\right) \rightarrow R(y)\right] \rightarrow t \in R\right)    
+    \]
+\end{example}
+
+Ainsi, on peut en déduire une méthode pour reconnaître le langage d'un automate $\mathcal{A} = \left(\left\{0, \ldots, k\right\}, \Sigma, 0, \Delta, F\right)$ avec une formule $\phi_{\mathcal{A}}$ de la monadique du second ordre.
+
+\begin{theorem}
+    Un langage $L = L(\mathcal{A})$ est régulier, si et seulement si il existe une formule $\phi = \phi_{\mathcal{A}}$ telle que $\forall w \in L, D_{w} \vdash \phi$.
+\end{theorem}
+\begin{proof}
+    \begin{itemize}
+        \item $(\Rightarrow)$ : On peut obtenir le premier élément d'un mot par la formule $\textsf{first}(x) = \forall y ((x = y)\lor x < y)$. On peut faire de même pour savoir si un couple est composé d'une paire successeur-successeuse de l'automate, ou si $x$ est la dernière lettre.\\
+        On sépare les positions d'un mot selon l'état de l'automate depuis lequel on part. Il faut alors vérifier que le premier élément est bien dans un état initial, que toute transition est bien valide, qu'on est dans au moins un état avant chaque lettre, et que la dernière position est bien écrite depuis une transition vers un état acceptant. \\
+        On obtient alors, en notant $k$ le nombre d'états, et $0$ l'état initial : 
+        \begin{equation}
+            \begin{split}
+                \phi_{\mathcal{A}} : \exists X_{0}, \ldots, \exists X_{k} & \left(\bigwedge_{i \neq j} \forall x, \ \lnot \left(X_{i}(x) \land X_{j}(x)\right)\right)\\
+                & \forall x \ \left(\textsf{first}(x) \rightarrow X_{0}(x)\right)\\
+                & \forall x, \forall y \ \left(\textsf{succ}(x, y) \rightarrow \bigvee_{(i, a, j) \in \Delta}\left(X_{i}(x) \land L_{a}(x) \land X_{j}(y)\right)\right)\\
+                & \forall x \ \left(\textsf{last}(x) \rightarrow \bigvee_{\exists j \in F \mid (i, a, j) \in \Delta} \left(X_{i}(x) \land L_{a}(x)\right)\right)
+            \end{split}
+        \end{equation}
+        \item $(\Leftarrow)$ : On procède par induction. 
+        \begin{itemize}
+            \item Initialisation : On peut facilement exhiber des automates qui reconnaissent les formules atomiques : $\textsf{Sing}(X), X \subseteq Y, X \subseteq L_{a}$.
+            \item Hérédité : On raisonne sur les connecteurs, et on vérifie aisément, par les propriétés de cloture des langages réguliers le résultat. Pour ce qui est de la quantification existentielle, si le langage $L$ défini par $\psi(X_{1}, \ldots, X_{n})$ sur $\Sigma\times\left\{0, 1\right\}^{n}$ est reconnu par $\mathcal{A}$. On exhibe un automate reconnu par $\phi(X_{1}, \ldots, X_{n-1}) = \exists X_{n}\psi(X_{1}, \ldots, X_{n})$, il n'a alors plus qu'a trouver une suite de $0-1$ qui définit la $n$-ième composante additionnelle et fonctionne sur $\Sigma\times\left\{0, 1\right\}^{n}$ comme $\mathcal{A}$. Pour le $\forall$, il suffit de prendre la négation du $\exists$
+        \end{itemize}
+    \end{itemize}
+    
+    
+\end{proof}
+
+
+    
+
 
 \end{document}

@@ -293,7 +293,6 @@ Bon on fait de la Programmation Dynamique. Relation de récurrence $\forall i DP
 Divide a problem into smaller ones to solve those, then combine the solutions to get a solution of the bigger problem.\\
 Example : \textsl{Merge Sort} : Its complexity verifies $T(n) = T(\lceil n/2\rceil) + T(\lfloor n/2 \rfloor) + \O(n)$. From that we will derive that $T(n) = \O(n\log n)$
 
-
 \section{Analysis of Recursive Algorithms}
 We have recurrences we want to solve. We have three methods : 
 
@@ -458,6 +457,289 @@ For $P = \sum_{i = 0}^{n-1} a_{i}x^{i}$, we define : \[
     $V_{n}^{-1}[i, j] = \omega_{n}^{-ij}/n$
 \end{theorem}
 
+\part[Lecture 3 - 12/10]{Hashing}
+\localtableofcontents
+
+Answering queries of appartenance on a set, maintaining a dictionary. Python dictionaries do not have upper bound guarantees, we shouldn't use them. \\
+Suppose we have a set $S$ over a universe $U$. We dnote by $n$ the number of keys, $m$ the size of the hash table
+
+\section{Naïve Array-based implementation}
+Here we assume that no two objects have equal keys. We store $1$ in a bitvector of length $|U|$ at each position $i$ such that $i$ is in $S$.\\
+This takes $\O(|U|)$ space, for $\O(1)$ search time, and $\O(1)$ modification time. 
+
+\section{Chained Hash Tables}
+We give ourselves a function $h : U \rightarrow \left[1, m\right]$. We send the keys to their image by $h$ in a table. However, since we have no guarantee that $\left|U\right| \leq m$, there might be collisions.\\
+To deal with that, instead of storing in the table a boolean, we store a list of all the keys corresponding to $h(k)$. \\
+Then we insert a key in constant time $\O(1)$, search a key in time $\O(\left|h[key]\right|)$ and delete a key in time $\O(\left|h[key]\right|)$ since in the worst case the key is at the end of the list.\\
+
+Further analysis leads to the following theorem. 
+\begin{theorem}[Simple Uniform Hashing Assumption]
+    Assuming SUHA : \og \textit{$h$ equally distributes the keys into the table slots}\fg, and assuming $h(x)$ can be computed in $\O(1)$, $E\left[T_{search}(n)\right] = \O\left(1 + \frac{n}{m}\right)$, and same for deletion time. \\
+    Formally, SUHA is : 
+    \[
+        \begin{aligned}
+            \forall y \in \left[1, \abs{T}\right] & \mathbb{P}\left(h(x) = y\right) = \frac{1}{\abs{T}}\\
+            \forall y_{1}, y_{2} \in \left[1, \abs{T}\right]^{2} & \mathbb{P}\left(h(x_{1}) = y_{1},\ h(x_{2}) = y_{2}\right) = \frac{1}{\abs{t}^{2}}
+        \end{aligned}    
+    \]
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item Unsuccessful Search : Suppose that $k_{0}, \ldots, k_{n-1}$ are keys in the dictionary and we perform an unsuccessful search for a key $k$.
+        The number of comparisons is : $\sum_{i = 0}^{n-1} \mathds{1}_{h(k) = h(k_{i})}$. Then, the expected time is : $\mathbb{E}[T_{search}] = \frac{n}{\abs{T}}$ by SUHA.
+        \item Successful Search : Suppose keys were introduced in order $k_{0}, \ldots, k_{n-1}$. $k_{i}$ appears before any of $k_{0}, \ldots, k_{i-1}$ and after any of $k_{i+1}, \ldots, k_{n-1}$ that are in the same linked list. Then, to search for $k_{i}$, we need $\sum_{j = i + 1}^{n- 1} \mathds{1}_{h(k_{j}) = h(k_{i})}$. Under SUHA, the expectation of each of these variables is $\frac{1}{\abs{T}}$. Then, the average expected search time is : $\frac{1}{n}\sum_{i = 0}^{n-1} = 1 + \frac{1}{n}\sum_{i = 0}^{n-1}\frac{(n-1-i)}{\abs{T}} = \O(1 + \frac{n}{\abs{T}})$
+    \end{enumerate}
+    This concludes the proof of the theorem. 
+\end{proof}
+
+Good hash functions are functions that distribute the keys evenly. Yet, we do not know what the keys are, and thus will need various heuristics to answer this question. At least, without loss of generality, we can assume that keys are integers.
+
+\subsection{Heuristic Hash Functions}
+    \begin{itemize}
+        \item Division Method : $h(k) = k \mod m$. It is better to choose $m$ to be a prime number, and avoid $m = 2^{p}$.
+        \item Multiplication Method : $h(k) = \left\lfloor m \left\{k\cdot A\right\}\right\rfloor$. $A \in (0, 1)$ and $m = 2^{p}$.
+    \end{itemize}
+Yet, fixing the function can allow anyone to construct a probability distribution for which the function will be "bad".
+
+\subsection{Universal Family of Hash Functions}
+$H = \left\{h : U \rightarrow \left[0, \abs{T}-1\right]\right\}$ is Universal if :
+\[
+    \forall k_{1} \neq k_{2} \in U, \ \abs{\left\{h \in H \mid h(k_{1}) = h(k_{2})\right\}} \leq \frac{\abs{H}}{m}
+\]
+\begin{theorem}
+    If $h$ is a hash function chosen uniformly at random from a universal family of hash functions. Suppose that $h(k)$ can be computed in constant time and there are at most $n$ keys. Then the expected search time is $\O(1 + \frac{n}{\abs{T}})$
+\end{theorem}
+\begin{proof}
+    Same as the case when $h$ satisfies SUHA. Observe that the probability comes this time from choosing the function. 
+\end{proof}
+
+\begin{theorem}
+    Let $p \in \mathcal{P}$ such that $U \subseteq \left[0, p-1\right]$. Then $H = \left\{h_{a, b}(k) = \left(\left(ak + b\right) \mod p\right) \mod \abs{T} \mid a \in \Z_{p}^{*}, \ b \in \Z_{p} \right\}$ is a universal family.
+\end{theorem}
+\begin{proof}
+    Let $k_{1} \neq k_{2} \in U$. Let $l_{i} = (ak_{i} + b) \mod p$. We have $l_{1} \neq l_{2}$ and $ a = ((l_{1} - l_{2})((k_{1}-k_{2})^{-1} \mod p) \mod p) \text{ and } b = (l_{1} - ak_{1}) \mod p$. There is then one-to-one mapping between $(a, b)$ and $(l_{1}, l_{2})$. The number of $h \in H$ such that $h(k_{1}) = h(k_{2})$ is :
+    \[
+        \abs{\left\{(l_{1}, l_{2})\mid l_{1} \neq l_{2} \in \Z_{p}, \ l_{1} = l_{2} \mod m \right\}} \leq \frac{p(p-1)}{\abs{T}} \leq \frac{\abs{H}}{\abs{T}}
+    \]
+\end{proof}
+
+
+\section{Open Addressing}
+Elements are stored in the table. To insert, we probe the hash table until we find $x$ or an empty slot. If we find an empty slot, insert $x$ here. To define which slots to probe, we use a hash function that depends on the key and the probe number. To search, we probe the hash table until we either find $x$ (return YES) or an empty slot (return NO). In the analysis, we will assume $h$ to be uniform. 
+
+\begin{theorem}[Analysis]
+    Given an open-address hash-table with load factor $\alpha = \frac{n}{\abs{T}} < 1$, the expected number of probes in an unsuccessfulsearch is at most $\frac{1}{1-\alpha}$, assuming uniform hashing. 
+\end{theorem}
+\begin{proof}
+    An unsuccessful search on $x$ means that every probed slot except the last one is occupied and does not contain $x$, and the last one is empty. 
+    We define $A_{i}$ the event \og The $i$-th probe occurs and is occupied.\fg. By Bayes's Theorem, we must estimate : 
+    \[
+        \mathbb{P}[\text{\# of probes} \geq i] = \prod_{k = 1}^{i - 1} \mathbb{P}[A_{k} \mid \bigcap\limits_{j = 1}^{k - 1} A_{j}]
+    \]
+    But we have : $\mathbb{P}[A_{j}\mid A_{1} \cap \ldots \cap A_{j - 1}] = \frac{n - j + 2}{\abs{T} - j + 2}$
+    So we have : $\mathbb{P}[\text{\# of probes} \geq i] \leq \frac{n}{\abs{T}}^{i - 1} = \alpha^{i - 1}$
+    Then, the expected number of probes is : 
+    \[
+        \sum_{i = 1}^{+\infty} \mathbb{P}[\text{\# of probes} \geq i] \leq \sum_{i = 1}^{+\infty} \alpha^{i - 1} = \frac{1}{1 - \alpha}
+    \]
+\end{proof}
+\begin{corollary}
+    The expected number of probes during insertion is at most $\frac{1}{1 - \alpha}$.
+\end{corollary}
+\begin{proof}
+    If we insert $x$ we first ran an unsuccessful search for it
+\end{proof}
+
+\begin{theorem}
+    The expected number of probes during a Successful search is at most $\frac{1}{\alpha}\ln\frac{1}{1- \alpha}$.
+\end{theorem}
+\begin{proof}
+    A successful search for $x$ probes the same sequence of slots as insertion.\\
+    If $x$ is the $i$-th element inserted into the table, insertion probes less than $\frac{1}{1 - \frac{i}{\abs{T}}}$ slots in expectation.
+    Therefore, the expected time of a successful search is at most : 
+    \[
+        \frac{1}{n}\sum_{i = 0}^{n - 1}\frac{\abs{T}}{\abs{T} - i} = \frac{\abs{T}}{n}\sum_{i = 0}^{n - 1}\frac{1}{\abs{T} - i} = \sum_{i = 0}^{\abs{T}}\frac{1}{i} - \sum_{i = 0}^{\abs{T}-n} \frac{1}{i} \leq \frac{\abs{T}}{n}\ln\frac{\abs{T}}{\abs{T} - n} = \frac{1}{\alpha}\ln\frac{1}{1 - \alpha}
+    \]
+\end{proof}
+
+This is hard to implement, so we will use heuristics.
+
+\subsection{Heuristic hash functions}
+Let $h^{'}, h^{''}$ be two auxiliary hash functions. 
+\begin{itemize}
+    \item Linear Probing : $h(k, i) = (h^{'}(k) + i) \mod \abs{T}$
+    This is easy to implement but it suffers from clustering. 
+    \item Quadratic Probing : $h(k, i) = (h^{'}(k) + c_{1}i + c_{2}i^{2}) \mod \abs{T}$
+    We must choose the constants $c_{1}$ and $c_{2}$ carefully, and this still suffers from clustering. 
+    \item Double Hashing : $h(k, i) = (h^{'}(k) + i h^{''}(k)) \mod \abs{T}$
+    To use the whole table, $h^{''}(k)$ must be relatively prime to $m$, e.g. $h^{''}(k)$ is always odd, $m = 2^{i}$.
+\end{itemize}
+
+\section{Cuckoo Hashing}
+Hashing scheme with search time constant in the worst case, as it maintains a hash function without collisions to achieve perfect hashing. This is possible if the set of keys is static.
+Assume that we have two hash functions $h_{1}, h_{2}$ that satisfy SUHA. We store $x$ in either $T[h_{1}(x)]$ or $T[h_{2}(x)]$. Search for $x$ is done in constant time.
+
+\begin{algorithmic}
+    \Function{Insert}x
+    \If {$ x = T[h_{1}(x)] \text{ or } x = T[h_{2}(x)]$}
+        \Return
+    \EndIf
+
+    \State $pos \gets h_{1}(x)$
+    \For {$i \gets 0 \text{ to } n$}
+        \If $T[pos] = Null$
+            \State $T[pos] = x$; \Return
+        \EndIf
+
+        \State $x \longleftrightarrow T[pos]$
+        \If {$pos = h_{1}(x)$} 
+            \State $pos \gets h_{2}(x)$
+        \Else 
+            \State $pos \gets h_{1}(x)$
+        \EndIf
+    \EndFor
+    \State \textsc{Rehash}
+    \State \textsc{Insert}(x)
+    \EndFunction
+\end{algorithmic}
+\begin{theorem}
+    This insertion is done in constant time.
+\end{theorem}
+\begin{lemma}
+    Suppose that $\abs{T} \geq c \cdot n$ for some $c > 1$. For any $i, j$, the probability that there exists a path from $i$ to $j$ of length $l \geq 1$ which is a shortest path from $i$ to $j$ is at most $\frac{1}{c^{l}\cdot \abs{T}}$
+\end{lemma}
+\begin{proof}
+    By induction on $l$ :
+    \begin{itemize}
+        \item Initialization : By SUHA, $\mathbb{P}[h_{1, 2}(x) = y] = \frac{1}{\abs{T}}$. Thus $\mathbb{P}[\text{there is an edge from }i \text{ to } j] = \frac{n}{\abs{T}^{2}} \leq \frac{1}{c\abs{T}}$
+        \item Heredity : For $l \geq 1$ there must exist $k$ such that there is a path of length $l - 1$ from $i$ to $k$ and an edge from $k$ to $j$.
+    \end{itemize}
+\end{proof}
+\begin{proof}
+    We define the bucket of $x$ as all the cells that can be reached either from $h_{1}(x)$ or $h_{2}(x)$. $x, y$ are in the same bucket if and only if there is a path from $\left\{h_{1}(x), h_{2}(x)\right\}$ to $\left\{h_{1}(y), h_{2}(y)\right\}$. Then :
+\[
+    \mathbb{P}[x, y \text{ are in the same bucket}] \leq 4 \sum_{l = 1}^{\infty}\frac{1}{c^{l}\abs{T}} = \frac{4}{(c - 1)\abs{T}}
+\]
+So : 
+\[
+    \mathbb{E}[\abs{\text{bucket of } x}] = \mathbb{E}\sum X_{x, y} = \sum \mathbb{E}[X_{x, y}] = \sum \mathbb{P}[x, y \text{ are in the same bucket}] \leq \frac{4}{c - 1}
+\]    
+Hence, in the absence of rehash, expected insertion time in constant.\\
+
+The probability that we need a rehash is at most probability that there is a cycle, i.e. a path from $i$ to $i$ : $\frac{4}{c - 1} \leq \frac{1}{2}$.
+The probability that we will need $d$ rehashes is then at most $\frac{1}{2^{d}}$.
+Thus, the expected time per insertion is : 
+\[
+    \frac{1}{n}\cdot\O(n)\sum_{d = 1}^{+\infty}\frac{1}{2^{d}} = \O(1)
+\]
+\end{proof}
+
+\subsection{Rolling Hash Functions}
+\begin{definition}
+    The Karp-Rabin fingerprint of a string $S = s_{1}\ldots s_{m}$ is : 
+    \[
+        \phi(s_{1}\ldots s_{m}) = \sum_{i = 1}^{m}s_{i}r^{m - 1}\mod p    
+    \]
+    where $p$ is a big enough prime and $r \in \mathbb{F}_{p}$.
+\end{definition}
+\begin{proposition}
+    \begin{itemize}
+        \item If S = T, then $\phi(S) = \phi(T)$
+        \item Else, $\phi(S) \neq \phi(T)$ with high probability.
+    \end{itemize}
+\end{proposition}
+\begin{proof}
+    Let $\sigma$ be the size of the alphabet, $p \geq max \left\{\sigma, n^{c}\right\}$ where $c > 1$ is a constant. We have: 
+    \[
+        \phi(S) = \phi(T) \Leftrightarrow \sum_{i = 1}^{m}(s_{i} - t_{i}) \cdot r^{m - i} \mod p = 0
+    \]
+    Hence, $r$ is a root of $P(x) = \sum_{i = 1}^{m}(s_{i} - t_{i}) \cdot x^{m-i}$ a polynomial over $\mathbb{F}_{p}$. The probability of such event is at most $\frac{m}{p} \leq \frac{1}{n^{c-1}}$.
+\end{proof}
+The Karp-Rabin algorithm is as follows : 
+\begin{itemize}
+    \item Compute the fingerprint of the pattern
+    \item Compare it with the fingerprint of each $m$-length substring of the text. If the fingerprint is equal to the fingerprint of a substring, report it as an occurrence
+\end{itemize}
+\begin{proposition}
+    We have : 
+    \[
+        \phi(s_{1}\ldots s_{j+1}) = \phi(s_{1}\ldots s_{j})\cdot r + s_{j+1} \mod p    
+    \]
+\end{proposition}
+\begin{proof}
+    Observe that : 
+    \[
+    \begin{aligned}
+        \phi(s_{1}\ldots s_{j+1}) &= \sum_{i = 1}^{j+1}s_{i}r^{j+1-i} \mod p \\
+        \
+    \end{aligned}    
+    \]
+\end{proof}
+
+\section{TD 3 : Hashing - 13/10}
+\subsection{Exercise 1}
+We can expect to have $\frac{n(n-1)}{m} - 1$ collisions, i.e. if we consider the sets of pairs of values with collisions, we can expect its cardinality to be $2\times (\frac{n(n-1)}{m} - 1)$.
+
+\subsection{Exercise 2}
+By definition of $h$, the sets $\left(h^{-1}(i)\right)_{i \in \left[1, m\right]}$ form a partition of $U$. Thus, since $\abs{U} > nm$, there exists $i$ such that $\abs{h^{-1}(i)} > n$, giving us the result. 
+
+\subsection{Exercise 3}
+We get, by sum, if $k = k_{n}\ldots k_{0}$, $h(k) = \sum_{i = 0}^{n} k_{i}*(2^{p})^{i} \mod 2^{p}-1 = \left[\sum_{i = 0}^{n} k_{i}\right] \mod 2^{p}-1$. This formula shows the order of the caracters doesn't matter in the value by the hash function.
+
+\subsection{Exercise 4}
+It is sufficient to find the cardinality of the set $\left\{ih_{2}(k) \mid i \in \left[0, m-1\right]\right\}$. This is, by Euler's formula $m$ if and only if $h_{2}(k) \wedge m = 1$
+
+\subsection{Exercise 5}
+
+\subsection{Exercise 6}
+\subsubsection{Question a.}
+We know that the number of probes during insertion is the number of probes seen during search.\\
+An unsuccessful search on $x$ means that every probed slot except the last one is occupied and does not contain $x$, and the last one is empty. 
+We define $A_{i}$ the event \og The $i$-th probe occurs and is occupied.\fg. By Bayes's Theorem, we must estimate : 
+\[
+    \mathbb{P}[\text{\# of probes} \geq i] = \prod_{k = 1}^{i - 1} \mathbb{P}[A_{k} \mid \bigcap\limits_{j = 1}^{k - 1} A_{j}]
+\]
+But we have : $\mathbb{P}[A_{j}\mid A_{1} \cap \ldots \cap A_{j - 1}] = \frac{n - j + 2}{\abs{T} - j + 2}$\\
+So we have : $\mathbb{P}[\text{\# of probes} \geq i] \leq \frac{n}{\abs{T}}^{i - 1} = \alpha^{i - 1}$\\
+Here, $\alpha \leq \frac{1}{2}$ thus we have the result. 
+
+Then, we get that the probability of the $i$-th insertion requiring strictly more than $2\log_{2}(n)$ probes is at most $\frac{1}{n^{2}}$
+
+
+\subsubsection{Question b.}
+We have : $\mathbb{P}[X > 2\log_{2}(n)] = \mathbb{P}\left[\bigcup_{i=1}^{n}{X_{i} > 2 \log_{2}(n)}\right] < \sum_{i = 1}^{n}\mathbb{P}\left[X_{i} > 2\log_{2}(n)\right] = \frac{1}{n}$. 
+The last inequality is strict as these events are not independent. 
+
+\subsubsection{Question c.}
+The expected length of the longest probe sequence is :
+\[
+        \mathbb{E}[X] \leq \mathbb{P}[X \leq 2\log_{2}(n)]\times 2\log_{2}(n) + \mathbb{P}[X > 2\log_{2}(n)]\times n = \O(\log_{2}(n))
+\]
+
+\subsection{Exercise 7}
+\subsubsection{Question a.}
+If $H$ is $2$-independent, then for each pair of distinct keys $x_{1}, x_{2}$ and $y_{1}, y_{2}$ is $\mathbb{P}[h(x_{1}) = y_{1}, h(x_{2}) = y_{2}] = \frac{1}{m^{2}}$. 
+If we fix $y_{1} = y_{2}$, we have : $\mathbb{P}[h(x_{1}) =y_{1}= h(x_{2})] = \frac{1}{m^{2}}$. By summing over all values for $y_{1}$ :
+$\mathbb{P}[h(x_{1}) = h(x_{2})] = \frac{1}{m}$.\\
+However, as $H$ is universal if and only if : $\mathbb{P}[h(x_{1} = h(x_{2}))\mid h \gets^{s} H] \leq \frac{1}{m}$, we have the result. 
+
+\subsubsection{Question b.}
+By the same argument as in the class, $H$ is universal because we have a one-to-one mapping between $U$ and $H$. Moreover, with $x = (0, \ldots, 0) \mod p$, we get the result. 
+
+\subsubsection{Question c.}
+Again this family is universal. We have : $\mathbb{P}[h^{'}_{a, b}(x_{1}) = y_{1} \wedge h^{'}_{a, b}(x_{2}) = y_{2}] = \frac{1}{m^{2}}$ since $a$ and $b$ are uniquely determined by $h^{'}(a, b)$. 
+
+\subsubsection{Question d.}
+Given the fact that we $H$ is $2$-independent, we get the result since this comes from : $\mathbb{P}[h(m) = t \wedge h(m_{0}) = t_{0}] = \frac{1}{p}^{2}$. But, knowing the family, since this family is universal, the adversary might have better knowledge of which functions have same image over $m$, he can succeed to fool Bob with probability at most $\frac{1}{p}$.
+
+\subsection{Exercise 8.}
+\subsubsection{Question a.}
+This is Langrange's Theorem. 
+
+\subsubsection{Question b.}
+As there is an even number of elements in $\mathbb{F}$, there are as many elements in $\mathbb{F}$ ordered with an even and an odd number. Then, by question 1, since there is a one-to-one mapping between $\mathbb{F}^{4}$ and $G$, there are, for each tuple in $\left\{\pm 1\right\}^{4}$, $2^{4} = m^{4}$ functions that suit. Thus, $H$ is 4-independent. 
+
+\subsubsection{Question c.}
 
 
 \end{document}

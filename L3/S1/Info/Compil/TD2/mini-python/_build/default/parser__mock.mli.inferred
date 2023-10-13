@@ -1,0 +1,49 @@
+type token =
+    TIMES
+  | RSQ
+  | RP
+  | RETURN
+  | PRINT
+  | PLUS
+  | OR
+  | NOT
+  | NEWLINE
+  | MOD
+  | MINUS
+  | LSQ
+  | LP
+  | IN
+  | IF
+  | IDENT of string
+  | FOR
+  | EQUAL
+  | EOF
+  | END
+  | ELSE
+  | DIV
+  | DEF
+  | CST of Ast.constant
+  | COMMA
+  | COLON
+  | CMP of Ast.binop
+  | BEGIN
+  | AND
+val menhir_begin_marker : int
+val xv_suite : Ast.stmt
+val xv_stmt : Ast.stmt
+val xv_simple_stmt : Ast.stmt
+val xv_separated_nonempty_list_COMMA_ident_ : string list
+val xv_separated_nonempty_list_COMMA_expr_ : Ast.expr list
+val xv_separated_list_COMMA_ident_ : string list
+val xv_separated_list_COMMA_expr_ : Ast.expr list
+val xv_option_NEWLINE_ : unit option
+val xv_nonempty_list_stmt_ : Ast.stmt list
+val xv_loption_separated_nonempty_list_COMMA_ident__ : string list
+val xv_loption_separated_nonempty_list_COMMA_expr__ : Ast.expr list
+val xv_list_def_ : Ast.def list
+val xv_ident : string
+val xv_file : Ast.file
+val xv_expr : Ast.expr
+val xv_def : Ast.def
+val xv_binop : Ast.binop
+val menhir_end_marker : int
