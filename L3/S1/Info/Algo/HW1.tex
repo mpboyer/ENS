@@ -127,14 +127,61 @@ Here, we model our set $S$ of items as a bitvector $B$ of length $n = \max S$ wi
 Then, solving, the predecessor problem can be done using the data structures introduced in questions $1$ and $2$. Indeed, finding the predecessor of $j$ in $S$ can be done by calling $\textsf{rank}_{1}(j)$, getting the number of elements smaller than $j$ in $S$, then calling $\textsf{select}_{1}$ on the resulting value, giving us the greatest element in $S$ that is smaller than $j$. 
 
 \subsection{Question 4}
-We first proceed by induction to prove that ?
+We first proceed by induction to prove that the depth of the tree is in $\O(\log_{2}(n))$
 \begin{itemize}
     \item Initialization : For all $c > 0$, the depth of the tree is $0 \leq c\log_{2}(1) = 0$.
-    \item Heredity : Let $P$ be a set of points in $\left[m, M\right]$. 
-    We let $P_0$ and $P_{1}$ as in the definition. 
-
-
+    \item Heredity : Let $P$ be a set of points of size $n$. 
+    We let $P_0$ and $P_{1}$ as in the definition. We have $\left|P_{0}\right| + \left|P_{1}\right| = \left|P\right| = n$. Let $a =\left|P_{0}\right|$. 
+    If $a = n$ or $a = 0$, there is nothing to inspect, since we can directly reduce the size of the rectangle we are studying. Else, by induction hypothesis, since both $P_{0}, P_{1}$ have size at most $n - 1$, the left subtree has depth at most $c\log_{2}(a)$ and the right subtree has depth at most $c \log_{2}(n-a)$. Thus, we get the depth of the full tree to be : $c\max(\log_{2}(a), \log_{2}(n-a)) + 1 \leq c\log_{2}(n)$ if $c \geq 1$ by concavity of logarithm.
 \end{itemize}
- 
+Thus, by induction, the depth of a wavelet tree is in $\O(\log_{2}(n))$. \\
+
+Then, since we store in each depth bitvectors whose sum of lengths in $n$, along with the data structures from questions 1 and 2. \\
+We so use $\O(\log_{2}(n)\times (n + o(n) + \O(n))) = \O(n\log_{2}(n))$
+
+\subsection{Question 5}
+The points in $\left\{(x, y) \in P_{0} : x_{1} \leq x \leq x_{2}\right\}$ are the points which are in position $i \in \left[x_{1}, x_{2}\right]$ in $B$ with $B[i] = 1$. Thus we get that this interval corresponds in $B_{0}$ to the interval \[\left[\textsf{rank}_{0}(x_{1} - 1) + 1, \textsf{rank}_{0}(x_{2})\right]\]
+The same goes with $P_{1}$ by replacing the queries by their opposite value element. Note that this is done in $\O(1)$ from the first questions. 
+
+\subsection{Question 6}
+We construct a wavelet tree over $[1, n]$ using the method defined earlier. 
+Then we use the following to answer the query.
+\begin{algorithm}
+    \caption{Orthogonal Range Query}
+    \begin{algorithmic}
+        \Function \textsf{ORQ}
+        \Input $\ B, x_{1}, x_{2}, y_{1}, y_{2}, m, M$
+        \EndInput
+        \If {$[m, M] \cap [x_{1}, x_{2}] = \emptyset$}
+            \State \Return $0$
+        \EndIf
+
+        \If {$[m, M] \subseteq [x_{1}, x_{2}]$}
+            \State \Return $x_{2} - x_{1} + 1$ \Comment These values will be maintained
+        \EndIf
+        \State
+        \State $tmp \gets \left\lfloor \frac{m + M}{2} \right\rfloor$
+        
+        \State $[x_{1, 0}, x_{2, 0}] \gets \left[\textsf{rank}_{0}(B, x_{1} - 1) + 1, \textsf{rank}_{0}(B, x_{2}) \right]$
+
+        \State $[x_{1, 1}, x_{2, 1}] \gets \left[\textsf{rank}_{1}(B, x_{1} - 1) + 1, \textsf{rank}_{1}(B, x_{2}) \right]$
+
+        \Return $\textsf{ORQ}(B_{0}, [x_{1, 0}, x_{2, 0}], [y_{1}, y_{2}], [m, tmp]) + \textsf{ORQ}(B_{1}, [x_{1, 1}, x_{2, 1}], [y_{1}, y_{2}], [tmp, M])$
+        \EndFunction
+
+        \State $\textsf{ORQ}(B, x_{1}, x_{2}, y_{1}, y_{2}, m, M)$
+
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{theorem}
+    This algorithm is correct and has complexity in $\O(\log_{2}(n))$
+\end{theorem}
+\begin{proof}
+    \begin{itemize}
+        \item The algorithm finds the maximum range of points that covers $[y_{1}, y_{2}]$. The answer is the points in it with first coordinate in $[x_{1}, x_{2}]$. From question 5., we are tracking accordingly those points as we go down the tree and thus the algorithm is correct.
+        \item Everytime we go down in depth in the tree, we update the intervals to check in the children of the node considered. When arriving at a node sufficiently small, the answer is given, thus, this algorithm has complexity in $\O(\log_{2}(n))$
+    \end{itemize}
+\end{proof}
 
 \end{document}
