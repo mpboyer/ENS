@@ -299,7 +299,124 @@ We only give the tree :
 You cannot attach \textsl{in} to a noun, it needs to be attached to a verb, but as it is a rare example of borrowing from latin, we cannot separate \textsl{instate} 
 \Tree [[re instate ] ment ]
 
+\part[Cours 4 12/10]{Syntax 1}
+\section{Syntactic Competence}
+Syntactic competence is a wide concept, it includes  : 
+\begin{itemize}
+    \item The knowledge of what sentence is grammatical and what isn't. This comes from the fact there is no syntax without semantics in linguistics, unlike in arithmetics. The idea of an autonomous syntax has disappeared since the 70s. It is however useful to talk about syntax in a somewhat disconnected way from semantics.
+    For example, you cannot contract auxiliaries when they carry meaning : \textsl{I shoulda bought it} and \textsl{*I shoulda more money}.
+    \item An abitity to recognize a sentence as well-formed even if it does not make sense or consists of highly sequential transitions, meaning, even though some transitions have really low probability, e.g. \textsl{Colorless green ideas sleep furiously} and \textsl{Colorless Green} or \textsl{sleep furiously}...
+    \item An ability to determine what the sentence means, whether it is ambiguous or not either structurally or lexically : 
+    \begin{center}
+        \begin{tabular}{cc}
+            \toprule
+            lexical e.g. \textsl{I went to the \emph{bank}} 
+            &$\text{bank } = \begin{cases}
+                &\text{ financial institution}\\
+                &\text{ river bank}
+            \end{cases}$ \\
+            \midrule
+            \multirow[b]{2}{*}{structural, e.g. \textsl{former producers and extras}} &\Tree [{former producers} and extras ]\\ &\Tree [former [producers and extras ] ]\\ 
+            \bottomrule
+        \end{tabular}
+    \end{center}
+    \item Every language has a countably infinite set of sentences (proven by showing there is no longest sentence in a language). Native speakers can handle this set despite having finite minds. We can construct arbitrary long sentences based on the center embedding idea, i.e. \textsl{le jeu du Johnny Depp}.
+\end{itemize}
 
+\subsection{Lexical Categories}
+The lexical categories (or parts of speech) such as \textsl{N(oun)}, \textsl{V(erb)}\dots 
+This does not mean you can only tell what part of speech a word is if you know its meaning.\\
+\begin{quotation}
+    \og \textit{The thing about thing is that everything and anything is a thing}\fg - Salvador
+\end{quotation}
+
+\begin{definition}
+    We define lexical categories given the sentential environments in can occur in and the affixes it can take, i.e. the grammatical distribution of the word.
+\end{definition}
+\begin{quotation}
+    \og \textit{You shall know a word by the company it keeps} \fg - Ferguses
+\end{quotation}
+For example, a verb in English satisfies all of the following :
+\begin{enumerate}
+    \item It can occur right after the auxiliary \textsl{will}
+    \item It can take the endings \textsl{-s} and \textsl{-ing}
+\end{enumerate}
+
+\subsection{Constituency}
+\begin{definition}[A Heuristic]
+    A sequence of words forms a constituent in a sentence if :
+    \begin{enumerate}
+        \item It can be replaced with a minimal unit, ideally one word, presevervin grammaticality and conversely
+        \item Occurences of that minimal unit can be replaced by the sequence of words, preserving grammaticality
+    \end{enumerate}
+    If those conditions hold, then the sequence has the same category as the minimal unit. 
+\end{definition}
+
+A constituent can also be found by Fronting and Pronominalization, Clefting, Eliding or Coordination
+
+\subsection{Rewriting Grammar}
+\textsl{Marie verra Jacques} leads to three possible structures in principle :
+\begin{itemize}
+    \item \Tree [.S Marie verra Jacques ]
+    \item \Tree [.S [Marie verra ] Jacques ]
+    \item \Tree [.S Marie [verra Jacques ] ] (\textsl{verra Jacques} is a Verb Phrase = VP)
+\end{itemize}
+We might build a rewriting grammar for a fragment of French : 
+\begin{enumerate}
+    \item \textsl{Marie verra/entendra/\dots Jacques}
+    \item \textsl{Un type verra Jacques}
+    \item \textsl{Marie verra un type}
+    \item \textsl{Le type connu a vu Marie}
+    \item \textsl{Marie dormira}
+    \item \textsl{Marie pense que Paul verra Jacques}
+    \item \dots
+\end{enumerate}
+
+
+We then can get an idea on French Grammar : 
+\begin{center}
+\begin{tabular}{cc@{$\ \longrightarrow\ $}c}
+    \toprule
+    Id&Node & Rephrased as\\
+    \midrule
+    0&S(entence) & N(oun) P(hrase) + VP\\
+    1& NP & Proper Name\\
+    2&NP & Det + N + (Adj)\\
+    3&VP & V$_{intr}$\\
+    4&VP & V$_{tr}$ + NP\\
+    \midrule
+    \multicolumn{3}{c}{Up to this point, we cannot generate an infinite number of sentences}\\
+    \midrule
+    5&C(omplementizer) P(hrase) & \textsl{que} + S\\
+    6&VP & V$_{cl(ausal)}$ + CP\\ 
+    7&V$_{tr}$ & voir, entendre,\dots\\
+    8&V$_{intr}$ & dormir, briller,\dots\\
+    9&V$_{cl}$ & penser, croire,\dots\\
+    \midrule
+    \multicolumn{3}{c}{There is now a loop in rules, so there is recursion and we can generate an infinity of sentence}\\
+    \midrule
+    10&C$_{temp}$ & avant que, quand\\
+    11&CP$_{temp}$ & C$_{temp}$ + S\\
+    12&S & NP + VP + (CP$_{temp}$)\\
+    \multicolumn{2}{c}{\multirow{2}{*}{VP}} &  a) V$_{intr}$ + (CP$_{temp}$)\\
+    \multicolumn{2}{c}{} & b)V$_{tr}$ + NP + (CP$_{temp}$)\\
+    14&S & S + CP$_{temp}$\\
+    15&VP & VP + CP$_{temp}$\\ 
+    \bottomrule
+\end{tabular}
+\end{center}
+We can then infer a tree from a sentence with the lexical categories : 
+\begin{center}
+    \Tree [.S \qroof{Marie}.NP [.VP [.VP [.V verra ] \qroof{Jacques}.NP ]  [.CP [.C quand ] \qroof{Paul dormira}.S ] ] ]
+\end{center}
+
+\subsection{Complements and Adjuncts}
+Complements and adjuncts are ways to add things to a constituent. We get new grammar rules : 
+\begin{center}
+    \begin{tabular}{cc@{$\ \longrightarrow\ $}c}
+        
+    \end{tabular}
+\end{center}
 
 \end{document}
 

@@ -675,4 +675,71 @@ The Karp-Rabin algorithm is as follows :
     \end{aligned}    
     \]
 \end{proof}
+
+\section{TD 3 : Hashing - 13/10}
+\subsection{Exercise 1}
+We can expect to have $\frac{n(n-1)}{m} - 1$ collisions, i.e. if we consider the sets of pairs of values with collisions, we can expect its cardinality to be $2\times (\frac{n(n-1)}{m} - 1)$.
+
+\subsection{Exercise 2}
+By definition of $h$, the sets $\left(h^{-1}(i)\right)_{i \in \left[1, m\right]}$ form a partition of $U$. Thus, since $\abs{U} > nm$, there exists $i$ such that $\abs{h^{-1}(i)} > n$, giving us the result. 
+
+\subsection{Exercise 3}
+We get, by sum, if $k = k_{n}\ldots k_{0}$, $h(k) = \sum_{i = 0}^{n} k_{i}*(2^{p})^{i} \mod 2^{p}-1 = \left[\sum_{i = 0}^{n} k_{i}\right] \mod 2^{p}-1$. This formula shows the order of the caracters doesn't matter in the value by the hash function.
+
+\subsection{Exercise 4}
+It is sufficient to find the cardinality of the set $\left\{ih_{2}(k) \mid i \in \left[0, m-1\right]\right\}$. This is, by Euler's formula $m$ if and only if $h_{2}(k) \wedge m = 1$
+
+\subsection{Exercise 5}
+
+\subsection{Exercise 6}
+\subsubsection{Question a.}
+We know that the number of probes during insertion is the number of probes seen during search.\\
+An unsuccessful search on $x$ means that every probed slot except the last one is occupied and does not contain $x$, and the last one is empty. 
+We define $A_{i}$ the event \og The $i$-th probe occurs and is occupied.\fg. By Bayes's Theorem, we must estimate : 
+\[
+    \mathbb{P}[\text{\# of probes} \geq i] = \prod_{k = 1}^{i - 1} \mathbb{P}[A_{k} \mid \bigcap\limits_{j = 1}^{k - 1} A_{j}]
+\]
+But we have : $\mathbb{P}[A_{j}\mid A_{1} \cap \ldots \cap A_{j - 1}] = \frac{n - j + 2}{\abs{T} - j + 2}$\\
+So we have : $\mathbb{P}[\text{\# of probes} \geq i] \leq \frac{n}{\abs{T}}^{i - 1} = \alpha^{i - 1}$\\
+Here, $\alpha \leq \frac{1}{2}$ thus we have the result. 
+
+Then, we get that the probability of the $i$-th insertion requiring strictly more than $2\log_{2}(n)$ probes is at most $\frac{1}{n^{2}}$
+
+
+\subsubsection{Question b.}
+We have : $\mathbb{P}[X > 2\log_{2}(n)] = \mathbb{P}\left[\bigcup_{i=1}^{n}{X_{i} > 2 \log_{2}(n)}\right] < \sum_{i = 1}^{n}\mathbb{P}\left[X_{i} > 2\log_{2}(n)\right] = \frac{1}{n}$. 
+The last inequality is strict as these events are not independent. 
+
+\subsubsection{Question c.}
+The expected length of the longest probe sequence is :
+\[
+        \mathbb{E}[X] \leq \mathbb{P}[X \leq 2\log_{2}(n)]\times 2\log_{2}(n) + \mathbb{P}[X > 2\log_{2}(n)]\times n = \O(\log_{2}(n))
+\]
+
+\subsection{Exercise 7}
+\subsubsection{Question a.}
+If $H$ is $2$-independent, then for each pair of distinct keys $x_{1}, x_{2}$ and $y_{1}, y_{2}$ is $\mathbb{P}[h(x_{1}) = y_{1}, h(x_{2}) = y_{2}] = \frac{1}{m^{2}}$. 
+If we fix $y_{1} = y_{2}$, we have : $\mathbb{P}[h(x_{1}) =y_{1}= h(x_{2})] = \frac{1}{m^{2}}$. By summing over all values for $y_{1}$ :
+$\mathbb{P}[h(x_{1}) = h(x_{2})] = \frac{1}{m}$.\\
+However, as $H$ is universal if and only if : $\mathbb{P}[h(x_{1} = h(x_{2}))\mid h \gets^{s} H] \leq \frac{1}{m}$, we have the result. 
+
+\subsubsection{Question b.}
+By the same argument as in the class, $H$ is universal because we have a one-to-one mapping between $U$ and $H$. Moreover, with $x = (0, \ldots, 0) \mod p$, we get the result. 
+
+\subsubsection{Question c.}
+Again this family is universal. We have : $\mathbb{P}[h^{'}_{a, b}(x_{1}) = y_{1} \wedge h^{'}_{a, b}(x_{2}) = y_{2}] = \frac{1}{m^{2}}$ since $a$ and $b$ are uniquely determined by $h^{'}(a, b)$. 
+
+\subsubsection{Question d.}
+Given the fact that we $H$ is $2$-independent, we get the result since this comes from : $\mathbb{P}[h(m) = t \wedge h(m_{0}) = t_{0}] = \frac{1}{p}^{2}$. But, knowing the family, since this family is universal, the adversary might have better knowledge of which functions have same image over $m$, he can succeed to fool Bob with probability at most $\frac{1}{p}$.
+
+\subsection{Exercise 8.}
+\subsubsection{Question a.}
+This is Langrange's Theorem. 
+
+\subsubsection{Question b.}
+As there is an even number of elements in $\mathbb{F}$, there are as many elements in $\mathbb{F}$ ordered with an even and an odd number. Then, by question 1, since there is a one-to-one mapping between $\mathbb{F}^{4}$ and $G$, there are, for each tuple in $\left\{\pm 1\right\}^{4}$, $2^{4} = m^{4}$ functions that suit. Thus, $H$ is 4-independent. 
+
+\subsubsection{Question c.}
+
+
 \end{document}
