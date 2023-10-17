@@ -3,7 +3,6 @@
 \date{\today}
 \author{Matthieu Boyer}
 
-
 \begin{document}
 \section{Exercice 1 : Echauffement}
     \subsection{Question 1}
@@ -106,4 +105,40 @@
                 \item $(\Leftarrow)$ Si $I$ est dénombrable, le résultat est direct en prenant pour métrique l'infimum des métriques
                 \item $(\Rightarrow)$ Sinon, si $I$ n'est pas dénombrable, supposons qu'il y ait une métrique $d$ qui induit la topologie produit sur $X$. En particulier, si on pose se donne une famille croissante $C$ de parties finies de $I$, $O_{i, n} = \prod_{k \in C_{i}} B_{X_{k}}(x_{k}, 1/n)$, les $O_{i, n}$ sont ouverts donc sont des ouverts pour $d$. Mais alors, en faisant tendre $i$ vers l'infini, on n'obtient plus des ouverts, ce qui contredit l'existence de $d$. 
             \end{itemize}
+
+
+\section{Exo 10 TD4/ TD5}
+
+\subsection{Question 1}
+On peut appliquer la propriété universelle à $K = Y$, $f = j_{x}$. On dispose d'une unique fonction continue $\hat{f}$ telle que $\hat{f} o \iota_{X} = j_{X}$. On a alors de même une fonction continue $\hat{g}$ en inversant les rôles de $\hat{X}$ et $Y$.
+En appliquant la propriété universelle à $K = \hat{X}$ et $f = \iota_{X}$ on dispose d'une unique application continue telle que $\hat{h} o \iota_{X} = \iota_{X}$. Par unicité, $\hat{h} = \textmd{id}$. Comme $\hat{g} o \hat{f}$ convient aussi, on a bien le résultat.
+
+\subsection{Question 2}
+\begin{itemize}
+    \item $\iota_{X}$ est continue
+    \item Soit $x, y$ deux points distincts. $\left\{y\right\}$ est fermé car $X$ est séparé. Puisque $X$ est de Tychonoff, il existe $f : X \rightarrow [0, 1]$ continue qui envoie $x$ sur $0$ et $y$ sur $1$. On applique la propriété universelle à $f$, pour $K = [0, 1]$. On dispose de $\hat{f} : \hat{X} \rightarrow [0, 1]$ continue telle que $f(\iota_{X}(x)) = 0$ et $f(\iota_{X}(y)) = 1$ donc $\iota_{X}$ est injective, et donc bijective sur son image. 
+    \item Soit $F \subset X$ un fermé. Soit $x \in X \setminus F$. Montrons que $\iota_{X}(x) \subset U \subset X \setminus \iota_{X}(F)$. Puisque $X$ est de Tychonoff, il existe $f$ de $X$ dans $[0, 1]$ continue telle que $f(x) = 0$ et $f^{-1}(F) = \{1\}$. Par propriété universelle, il existe $\hat{f}$ continue telle que $\hat{f} o \iota_{X} = f$. Remarquons alors que $\hat{f}^{-1}([0, 1/2[)$ est un ouvert par continuité de $\hat{f}$. De plus, $\iota_{X}(x)$ est dans cet ouvert, et $\iota_{X}(F) \cap \hat{f}^{-1}([0, 1/2[) = \emptyset$ d'où le résultat. Donc $\iota_{X}$ est ouverte et donc sa réciproque est continue. Finalement, on a bien le résultat. 
+\end{itemize}
+
+\subsection{Question 3}
+Théorème de Tychonoff
+
+\subsection{Question 4}
+\subsubsection{Question a.}
+Si on a $I(x) = I(y)$, en particulier, leurs images par toute application continue de $X$ dans $[0, 1]$ sont égales. Donc en particulier, $x$ et $\left\{y\right\}$ sont pas séparables et donc, puisque $X$ est de Tychonoff, on a le résultat. 
+
+\subsubsection{Question b.}
+Soit $U = \prod_{g \in C_{X}} O_{g}$ un ouvert avec $O_{g} = [0, 1]$ sauf en $g_{1}, \ldots, g_{n} \in C_{X}$ où $O_{g_{i}} = U_{i}$ ouvert de $[0, 1]$. On a alors :
+\begin{equation*}
+    \begin{split}
+        I(x) \in U &\Leftrightarrow \forall i = 1, \ldots, n,\ I(x)(g_{i}) \in U_{i}\\
+        &\Leftrightarrow\forall i = 1, \ldots, n, \ g_{i}(x) \in U_{i}
+    \end{split}
+\end{equation*}
+Ainsi : $I^{-1}(U) = \bigcap_{i = 1}^{n} g_{i}^{-1}(U_{i})$ qui est un ouvert par continuité de $g_{i}$. 
+\subsubsection{Question c.}
+Si $F$ est un fermé de $X$, $x \notin F$. Puisque $X$ est de Tychonoff, il existe $f$ de $X$ dans $[0, 1]$ continue telle que $f(x) = 0$ et $f^{-1}(F) = \{1\}$. Alors, on a $I(x)(f) = 0$ et $\forall y \in F, \ I(y)(f) = \{1\}$. On a donc, en particulier, $U \cap I(F) = \emptyset$ où $U = [0, 1/2[ \times [0, 1]^{C_{X} \setminus \{f\}}$ et donc $I$ est ouverte.
+
+\subsection{Question 5}
+
 \end{document}

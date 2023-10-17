@@ -152,11 +152,11 @@ Then we use the following to answer the query.
         \Function \textsf{ORQ}
         \Input $\ B, x_{1}, x_{2}, y_{1}, y_{2}, m, M$
         \EndInput
-        \If {$[m, M] \cap [x_{1}, x_{2}] = \emptyset$}
+        \If {$[m, M] \cap [y_{1}, y_{2}] = \emptyset$}
             \State \Return $0$
         \EndIf
 
-        \If {$[m, M] \subseteq [x_{1}, x_{2}]$}
+        \If {$[m, M] \subseteq [y_{1}, y_{2}]$}
             \State \Return $x_{2} - x_{1} + 1$ \Comment These values will be maintained
         \EndIf
         \State
@@ -180,7 +180,18 @@ Then we use the following to answer the query.
 \begin{proof}
     \begin{itemize}
         \item The algorithm finds the maximum range of points that covers $[y_{1}, y_{2}]$. The answer is the points in it with first coordinate in $[x_{1}, x_{2}]$. From question 5., we are tracking accordingly those points as we go down the tree and thus the algorithm is correct.
-        \item Everytime we go down in depth in the tree, we update the intervals to check in the children of the node considered. When arriving at a node sufficiently small, the answer is given, thus, this algorithm has complexity in $\O(\log_{2}(n))$
+        \item Everytime we go down in depth in the tree, we update the intervals to check in the children of the node considered. We can never have more than 4 active nodes (see below for proof). When arriving at a node sufficiently small, the answer is given, thus, this algorithm has complexity in $\O(\log_{2}(n))$.
+    \end{itemize}
+\end{proof}
+
+\begin{lemma}
+    There can never be more than 4 nodes active.
+\end{lemma}
+\begin{proof}
+    We proceed by induction on the depth at which we are looking :
+    \begin{itemize}
+        \item Initialization : For depth 0 and 1, there are at most 2 nodes. Thus we obtain the result. 
+        \item Heredity : Suppose that at a point, there are strictly more than 2 active nodes. Then, the nodes must be consecutive when looking from left to right, and thus at least two of them must be full. So there will be at most 4 nodes considered at the next depth. By induction, we get the result.  
     \end{itemize}
 \end{proof}
 
