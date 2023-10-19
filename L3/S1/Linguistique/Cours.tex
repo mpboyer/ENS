@@ -418,6 +418,76 @@ Complements and adjuncts are ways to add things to a constituent. We get new gra
     \end{tabular}
 \end{center}
 
+\part{TA 4 : 18/10}
+\section{Homework 3}
+Nothing to say.
+
+\section{Study of an abstract language}
+\begin{center}
+    \begin{tabular}{c@{$\rightarrow$}c}
+        \toprule
+        A&aB\\
+        B&c\\
+        B&z\\
+        B&C\\
+        C&nC\\
+        C&d\\
+        \bottomrule
+    \end{tabular}
+    \Tree [.A a [.B [.C n [.C n [.C n C ] ] ] ] ]
+\end{center}
+
+This gives us many strings possible : \textsl{ac}, \textsl{az}, \textsl{an$^{*}$d}...
+
+We can draw trees from those strings, e.g. \textsl{annnd}, see above.
+
+\section{Structure of sentences}
+\subsection{John sees Mary}
+\Tree [.S \qroof{John}.NP [.VP [.V sees ] \qroof{Mary}.NP ] ]
+
+\subsection{John Sleeps}
+\Tree [.S \qroof{John}.NP [.VP [.V sleeps ] ] ]
+
+\section{Heads, Complements, Adjuncts}
+\begin{definition}
+    A \textit{head} is a word. A \emph{head} is connected to a phrase. Anything that is the sister of a \emph{head} is a \emph{complement}. When a \emph{complement} is unnecessary, it is called an \emph{adjunct}. 
+\end{definition}
+
+\begin{center}
+    \Tree [.S \qroof{John}.NP [.VP [.V {eats =  \textsl{head}} ] {apples = \textsl{complement}} ] ]    
+    \Tree [.S \qroof{John}.NP [.VP [.{VP or $\overline{\text{ V }}$} [.V eats ] \qroof{apples}.NP ] [.PP [.P on ] \qroof{the train}.NP ] ] ]
+\end{center}
+\begin{center}
+    \Tree [.XP [.XP {X = \textit{head}} {YP = \textit{complement}} ] {ZP = \textit{adjunct}} ]
+\end{center}
+
+\begin{center}
+    \Tree [.S \qroof{Galileo}.NP [.VP [.V saw ] [.NP \qroof{a man}.NP \qroof{with a telescope}.PP ] ] ]
+    \Tree [.S \qroof{Galileo}.NP [.VP [.VP [.V saw ] \qroof{a man}.NP ] \qroof{with a telescope}.PP ] ]
+\end{center}
+
+\section{Structure of Noun Phrases}
+To analyze Noun Phrases with adjectives, we can base on the model from the first example below, introducting Determiner Phrases. We can do the same with verb phrases, seeing pronouns as determiners (this is called the DP hypothesis) :
+\begin{center}
+    \Tree [.S [.DP [.Det {the/a/every/each/\dots} ] [.NP [.AP [.A red ] ] [.N cat ] ] ] [.VP [.V sleeps ] ]]
+    \Tree [.S [.DP [.Det he ] ] [.VP [.V sleeps ] ] ]
+\end{center}
+
+We may guess that in the sentence \textsl{Mary sleeps}, \textsl{Mary} is a determiner, yet we could say \textsl{every Mary sleeps}. There are two ways of seeing the sentence \textsl{Mary sleeps} : either \textsl{mary} is a noun phrase or \textsl{Mary} is a determiner phrase with an empty determiner. 
+\begin{center}
+    \Tree [.S [.NP [.N Mary ] ] [.VP [.V sleeps ] ] ]
+    \Tree [.S [.DP [.D {$\emptyset$} ] [.NP [.N Mary ] ] ] [.VP [.V sleeps ] ] ]
+\end{center}
+The latter is better from the study of other languages such as Portuguese where the determiner is not empty : \textsl{a Maria dorm}.
+
+\section{Teaser for next class}
+Consider \textsl{He will go to the school} : 
+\begin{center}
+    \Tree [.S [.DP [.D He ] ] [.TP [.{T(ense)} will ] [.VP [.V go ] [.PP [.P to [.DP [.D the ] [.NP [.N school ] ] ] ] ] ] ] ]
+\end{center}
+We here only did binary branching, but there might be ternary branching sometimes.
+
+
 \end{document}
 
 

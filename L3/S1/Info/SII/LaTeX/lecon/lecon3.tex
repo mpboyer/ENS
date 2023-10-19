@@ -6,20 +6,23 @@
 \usepackage{microtype}
 \usepackage{lmodern}
 \usepackage{enumitem}
-\usepackage{hyperref}
 \usepackage{amsmath, amsthm, amssymb}
 \usepackage{booktabs,multirow}
 \usepackage{graphicx}
 \usepackage{array}
-
+\usepackage{minted}
 \usepackage{lecon3}
+\usepackage{hyperref}
 
 \title{Test 3}
 \author{Mon Nom}
 \date{\today}
 
 \begin{document}
-    \section{Test}
-        Oui : $\set[f(x) \neq 0]{x \in X}$
-
+    \begin{minted}[linenos, mathescape]{python}
+        n = 0
+        for i in range(n): # On print pour $i\in \llbracket 1, n \rrbracket$ 
+            # \$textsl{Hello, world! :}$ suivi de la valeur de $i$.
+            print("Hello, world! :", i)
+    \end{minted}
 \end{document}
