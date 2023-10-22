@@ -477,4 +477,221 @@ On peut utiliser $\textmd{ocamllex}$ pour :
     \item Compter les occurences d'un mot dans un texte
     \item Un petit traducteur OCamL vers HTML pour embellir le source mis en ligne (mettre les mots-clefs en vert, les commentaires en rouge, numéroter les lignes \dots), le tout en moins de 100 lignes de code.
 \end{enumerate}
+
+
+\part[Analyse Syntaxique]{Cours 4 : 20/10}
+\section{Analyse Syntaxique}
+L'objectif de l'analyse syntaxique est, à partir d'une suite de lexèmes, de construire la syntaxe abstraite, qu'on représente sous forme d'arbre. En particulier, l'analyse syntaxique doit détecter les erreurs de syntaxe et les localiser précisément, les identifier (parenthèse non fermée, etc...) voire reprendre l'analyse pour découvrir de nouvelles erreurs. On va utiliser : une grammaire non contextuelle pour décrire la syntaxe et un automate à pile pour la reconnaître. 
+
+\section{Grammaires}
+\begin{definition}
+    Une grammaire non contextuelle est un quadruplet $(N, T, S, R)$ où :
+    \begin{itemize}
+        \item $N$ est un ensemble fini de symboles non terminaux.
+        \item $T$ est un ensemble fini de symboles terminaux.
+        \item $S \in N$ est le symbole de départ (axiome).
+        \item $R \subseteq N \times (N \cup T)^{*}$ est un ensemble fini de règles de production.
+    \end{itemize}
+\end{definition}
+On note les règles de dérivation sous la forme : 
+\begin{equation*}
+    \begin{aligned}
+        &E &\rightarrow &E + E\\
+        & &\mid &E*E\\
+        & &\mid &(E)\\
+        & &\mid &\textmd{int}
+    \end{aligned}
+\end{equation*}
+
+\begin{definition}
+    Un mot $u \in (N\cup T)^{*}$ se dérive en un mot $v \in (N \cup T)^{*}$ et on note $u \rightarrow v$ s'il existe une décomposition $u = u_{1}Xu_{2}$ avec $X \in N$, $X \rightarrow \beta \in R$ et $v = u_{1}\beta u_{2}$. On appelle dérivation gauche le cas où $u_{1}$ ne contient pas de mots terminaux.
+    On appelle langage défini par $G$ l'ensemble des mots de $T^{*}$ dérivés de l'axiome. 
+\end{definition}
+
+\begin{definition}
+    Un arbre de dériviation est un arbre dont les noeuds sont étiquetés par des symboles de la grammaire, de la manière suivante : 
+    \begin{itemize}
+        \item La racine est l'axiome
+        \item Tout noeud interne $X$ non terminal dont les fils sont étiquetés par $\beta \in (N\cup T)^{*}$ avec $X \rightarrow \beta$ une règle de la dérivation. 
+    \end{itemize}
+\end{definition}
+
+Pour un arbre de dérivation dont les feuilles forment le mot $w$ dans l'arbre infixe, on a $S \rightarrow^{\star} w$. Inversement, si $S \rightarrow^{\star} w$, on a un arbre de dérivation dont les feuilles dans l'arbre infixe forment $w$. 
+
+\begin{definition}
+    Une grammaire est ambigüe si au moins un mot admet au moins deux arbres de dérivation. Déterminer si une grammaire est ambigüe ou non n'est pas décidable.
+\end{definition}
+La grammaire précédente est ambigüe, comment interpréter $\textmd{int} + \textmd{int} * \textmd{int}$
+
+On va utiliser des critères décidables suffisants pour garantir qu'une grammaire est non ambigüe, et pour lesquels on sait en outre décider l'appartenance au langage efficacement.
+
+\section{Analyse ascendante}
+On va ici lire l'entrée de gauche à droite (pas toujours le cas, cf. \textmd{CYK}) puis reconnaître des membres droits de productions pour construire l'arbre de dérvation de bas en haut : bottom-up parsing.
+
+\subsection{Fonctionnement}
+On va manipuler une pile qui est un mot de $(N \cup T)^{*}$. 
+A chaque instant, on a deux actions possibles : 
+\begin{itemize}
+    \item Une opération de lecture (\textit{shift}) : on lit un terminal de l'entrée et on l'empile.
+    \item Une opération de réduction (\textit{reduce}) : on reconnaît en sommet de pile le membre droit $\beta$ d'une production $X \rightarrow \beta$ et on remplace $\beta$ par X en sommet de pile.
+\end{itemize}
+Comment prendre la décision lecture / réduction ? On se sert d'un automate fini et on examine les $k$ premiers lexèmes de l'entrée, c'est l'analyse \textmd{LR(k)}, pour \og Left to right scanning, Righmost derivation\fg. En pratique, $k = 1$.
+\subsection{Analyse LR}
+La pile est de la forme $s_{0}x_{1}s_{1}x_{2}\ldots x_{n}s_{n}$ où $s_{i}$ est un état de l'automate et $x_{i} \in T \cup N$ comme dans un automate. 
+Soit $a$ le premier lexème de l'entrée. Une table indexée par $s_{n}$ et $a$ nous indique l'action à effectuer : 
+\begin{itemize}
+    \item Si c'est un succès ou un échec, on s'arrête.
+    \item Si c'est une lecture, on empile $a$ et l'état $s$ résultat de la transition $s_{n} \rightarrow^{a} s$ dans l'automate.
+    \item Si c'est une réduction $X \rightarrow \alpha$, avec $\alpha$ de longueur $p$, on doit trouver $\alpha$ en sommet de pile : 
+    \[
+        s_{0}x_{1}\ldots x_{n-p}s_{n-p}\mid \alpha_{1}s_{n-p+1}\ldots \alpha_{p}s_{n}
+    \]
+    On dépile alors $\alpha$ et on empile $X s$ où $s_{n-p} \rightarrow^{X} s$ dans l'automate, i.e. $s_{0}x_{1}\ldots x_{n-p}s_{n-p}Xs$
+\end{itemize}
+
+En pratique on ne travaille pas avec l'automate mais avec deux tables : 
+\begin{itemize}
+    \item Une table d'actions ayant pour lignes les états et pour colonnes les terminaux. La case \textmd{action(s, a)} indique : 
+    \begin{itemize}
+        \item $\textmd{shift s'}$ pour une lecture et un nouvel état $s^{'}$
+        \item $\textmd{reduce X} \rightarrow \alpha$ pour une réduction
+        \item un succès
+        \item un échec
+    \end{itemize}
+    Une table de déplacements ayant pour lignes les états et pour colonnes les non terminaux. La case $\textmd{goto(s, X)}$ indique l'état résultat d'une réduction de $X$.
+\end{itemize}
+On ajoute aussi un lexème spécial \# qui désigne la fin de l'entrée. On peut le voir comme l'ajout d'un nouveau non terminal $S$ qui devient l'axiome et d'une règle $S \rightarrow E \#$.
+Pour créer ces tables, on utilise la famille de \textmd{yacc} (\textit{Yet Another Compiler Compiler})
+
+\section{L'outil Menhir}
+Menhir transforme une grammaire en un analyseur OCamL de type $LR(1)$. Chaque production de la grammaire est accompagnée d'une action sémantique, i.e. du code OCamL construisant une valeur sémantique (typiquement un arbre de syntaxe abstraite). Menhir s'utilise conjointement avec un analyseur lexical (typiquement \textrm{ocamllex}).\\
+Un fichier Menhir a le suffixe \textmd{.mly} et a la forme suivante : 
+\begin{itemize}
+    \item \%{\textmd{code OCamL arbitraire} \%}
+    \item \textmd{déclaration des lexèmes}
+    \item \%\%
+    \item \textmd{non-terminal-1 : }
+    | \textmd{production} \{ \textmd{action} \}
+    | \textmd{production} \{ \textmd{action} \}
+    ;
+    \item non-terminal-2:
+    | \textmd{production} \{ \textmd{action} \}
+    \item \%\%
+    \item \textmd{code OCamL arbitraire}
+\end{itemize}
+En cas de conflits, Menhir produit deux fichiers pour expliquer d'où les conflits viennent. On peut les résoudre est d'indiquer comment choisir entre lecture et réduction. On peut donner des priorités aux lexèmes et aux productions, en fonction des règles d'associativité. Si la priorité de la production est supérieure à celle du lexème à lire, la réduction est favorisée. En cas d'égalité, l'associativité est consultée : un lexème associatif à gauche favorise la réduction et un lexème associatif à droite favorise la lecture. Par ailleurs, pour empêcher l'associativité, on peut aussi l'indiquer à Menhir, et éviter le \textit{dangling else}.
+
+Pour que les phases suivantes de l'analyse (typiquement le typage) puissent localiser les messages d'erreur, il convient de conserver une information de localisation dans l'arbre de syntaxe abstraite. Menhir fournit cette information dans $\$startpos$ et $\$endpos$, deux valeurs du type \textmd{Lexing.position}. Cette information lui a été transmise par l'analysur lexical. (\textmd{ocamllex} ne maintient automatiquement que la position absolue dans le fichier, il faut appeler Lexing.new\_line pour chaque retour chariot.)
+
+\section{Derrère l'outil Menhir}
+\subsection{\textsc{First, Null, Follow}}
+\begin{definition}[\textsc{Null}]
+    Soit $\alpha \in (T \cup N)^{*}$. $\textsc{Null}(\alpha)$ est vrai si et seulement si on peut dériver $\epsilon$ à partir de $\alpha$.
+\end{definition}
+\begin{definition}[\textsc{First}]
+    Soit $\alpha \in (T \cup N)^{*}$. $\textsc{First}(\alpha)$ est l'ensemble de tous les premiers terminaux des mots dérivés de $\alpha$, i.e. $\left\{a \in T \mid\ \exists \ w, \ \alpha \rightarrow^{\star} aw\right\}$
+\end{definition}
+\begin{definition}[\textsc{Follow}]
+    Soit $X \in N$. $\textsc{Follow}(X)$ est l'ensemble des terminaux qui peuvent apparaître après $X$ dans une dérivation, i.e. 
+    $\left\{a \in T \mid\ \exists \ u,\ w \ S \rightarrow^{\star} uXaw \right\}$.
+\end{definition}
+
+\begin{theorem}[Tarski]
+    Soit $A$ un ensemble fini muni d'une relation d'ordre $\leq$ et d'un plus petit élément $\epsilon$. Toute fonction $f : A \rightarrow A$ croissante admet un plus petit point fixe. 
+\end{theorem}
+\begin{proof}
+    Comme $\epsilon$ est le plus petit élément, $\epsilon \leq f(\epsilon)$. Par croissance, $f^{k}(\epsilon) \leq f^{k+1}(\epsilon)$ pour tout $k$. Mais $A$ étant fini, il existe un plus petit $k_{0}$ tel que $f^{k_{0}}(\epsilon) = f^{k_{0} + 1}(\epsilon)$. En le notant $a_{0}$, on a bien un point fixe de $f$. Si $b$ est un autre point fixe, par croissance, puisque $\epsilon \leq b$, on a bien le résultat. 
+\end{proof}
+
+\subsubsection{Principe du calcul de $\textsc{Null}(X)$} 
+\begin{proposition}
+    Pour calculer $\textsc{Null}(\alpha)$, il suffit de déterminer $\textsc{Null}(X)$ pour $X\in N$.
+    On a $\textsc{Null}(X)$ ssi : 
+    \begin{itemize}
+        \item Il existe une production $X \rightarrow \epsilon$
+        \item Il existe une production $X \rightarrow Y_{1}\ldots Y_{m}$ où $\textsc{Null}(Y_{i})$ pour tout $i$.
+    \end{itemize}
+    Il s'agit d'un ensemble d'équations mutuellement récursives. Autrement dit, on cherche la plus petite solution d'une équation de la forme : $\vec{V} = F(\vec{V})$.
+\end{proposition}
+\begin{proof}
+    \begin{itemize}
+        \item $\Rightarrow$ Par récurrence sur le nombre d'étapes du calcul de point fixe, on montre que si \textsc{Null}$(X)$ alors $X \rightarrow^{\star}\epsilon$
+        \item $\Leftarrow$ Par récurrence sur le nombre d'étapes de la dérivation, on montre la réciproque.
+    \end{itemize}
+\end{proof}
+Ici, on a $A = \left\{0, 1\right\}^{n}$. On munit $\{0, 1\}$ de l'ordre $0 \leq 1$ et $A$ de l'ordre point à point. On a $\epsilon = (0, \ldots, 0)$. La fonction calculant $\textsc{Null}(X)$ à partir des $\textsc{Null}(X_{i})$ est croissante, et le théorème de Tarski s'applique. On construit donc un point fixe à partir de $\epsilon$.
+
+\subsubsection{Principe du calcul de $\textsc{First}(X)$}
+De même que pour \textsc{Null} : Les équations définissant $\textsc{First}$ sont mutuellement récursives : 
+\[
+    \textsc{First}(X) = \bigcup_{X \rightarrow \beta} \textsc{First}(\beta)    
+\]
+et :  
+\begin{equation*}
+    \begin{aligned}
+        \textsc{First}(\epsilon) &= \emptyset&\\
+        \textsc{First}(a\beta) &= \left\{a\right\}&\\
+        \textsc{First}(X\beta) &= \textsc{First}(X) \text{ si } \lnot\textsc{Null}(X)&\\
+        \textsc{First}(X\beta) &= \textsc{First}(X) \cup \textsc{First}(\beta) \text{ si } \textsc{Null}(X)&
+    \end{aligned}
+\end{equation*}
+On applique alors le calcul de point fixe sur $A = \mathcal{P}(T)^{n}$ muni de $\subseteq$ point à point avec $\epsilon = (\emptyset, \ldots, \emptyset)$
+
+\subsubsection{Principe du calcul de $\textsc{Follow}(X)$}
+Les équations sont : 
+\[
+    \textsc{Follow}(X) = \left(\bigcup_{Y \rightarrow \alpha X\beta} \textsc{First}(\beta)\right) \cup \left(\bigcup_{Y\rightarrow \alpha X \beta, \textsc{Null}(\beta)} \textsc{Follow}(Y)\right)
+\]
+On procède par calcul de point fixe sur le même domaine que pour \textsc{First}.
+
+\subsection{Automate LR}
+\subsubsection{$LR(0)$}
+Fixons pour l'instant $k = 0$. On commence par contruire un automate asynchrone :
+\begin{itemize}
+    \item Les états sont des items de la forme $\left[X \rightarrow \alpha \cdot \beta\right]$ où $X\rightarrow \alpha\beta$ est une production de la grammaire. L'intuition est : \og je cherche à reconnaître $X$, j'ai déjà lu $\alpha$ et je dois encore lire $\beta$ \fg.
+    \item Les transitions sont étiquetées par $T \cup N$ et sont les suivantes : 
+    \begin{equation*}
+        \begin{aligned}
+            \left[Y \rightarrow \alpha \cdot a\beta \right] &\rightarrow^{a} \left[Y \rightarrow \alpha a \cdot \beta\right]&\\
+            \left[Y \rightarrow \alpha \cdot X\beta \right] &\rightarrow^{X} \left[Y \rightarrow \alpha X \cdot \beta\right]&\\
+            \left[Y \rightarrow \alpha \cdot X\beta \right] &\rightarrow^{\epsilon} \left[X \rightarrow \cdot \gamma\right] \text{ pour toute production } X \rightarrow \gamma&\\
+        \end{aligned}
+    \end{equation*}
+\end{itemize}
+
+On déterminise ensuite l'automate en regroupant les états reliés par des $\epsilon$-transitions. Les états de l'automate déterministe sont donc des ensembles d'items.\\
+Par construction : chaque état $s$ est saturé par la propriété : si $Y \rightarrow \alpha \cdot X\beta \in s$ et si $X \rightarrow \gamma$ est une production, alors $X \rightarrow \cdot\gamma \in s$. L'état initial est celui contenant $S \rightarrow \cdot E\#$.\\
+
+On construit alors la table $\textmd{action}$:
+\begin{itemize}
+    \item $\textmd{action}(s, \#) = $ succès si $\left[S \rightarrow E \cdot \#\right] \in s$
+    \item $\textmd{action}(s, a) = \textmd{shift} s^{'}$ si $s\rightarrow^{a} s^{'}$
+    \item $\textmd{action}(s, a) = \textmd{reduce} X \rightarrow \beta$ si $\left[X \rightarrow \beta\cdot \right] \in s$ pour tout $a$.
+    \item $\textmd{échec}$ dans tous les autres cas
+\end{itemize}
+
+On construit alors la table $\textmd{goto}$ : $\textmd{goto}(s, X) = s^{'}$ si $s \rightarrow^{X} s^{'}$.
+
+La table $LR(0)$ peut contenir deux sortes de conflits : lecture/réduction et réduction/réduction.
+\begin{definition}
+    Une grammaire est dite $LR(0)$ so la table ainsi construite ne contient pas de conflit.
+\end{definition}
+La construction $LR(0)$ engendre très facilement des conflits. On va chercher à limiter les réductions : 
+on pose $\textmd{action}(s, a) = \textmd{reduce} X \beta$ si et seulement si $\left[X \rightarrow \beta\cdot\right] \in s$ et $a \in \textsc{Follow}(X)$. On obtient la classe de grammaire $S(imple)LR(1)$.
+
+\subsubsection{$LR(1)$}
+Cette classe étant restrictive, on introduit une classe de grammaires encore plus large : $LR(1)$, au prix de tables encore plus grandes. Dans l'analyse $LR(1)$, les items ont la forme : $\left[X \rightarrow \alpha \cdot \beta, a\right]$
+Les transitions de l'automate $LR(1)$ non déterministe sont : 
+\begin{equation*}
+    \begin{aligned}
+        \left[Y \rightarrow \alpha \cdot a\beta, b\right] &\rightarrow^{a} \left[Y \rightarrow \alpha a \cdot \beta, b\right]&\\\left[Y \rightarrow \alpha \cdot a\beta, b\right] &\rightarrow^{a} \left[Y \rightarrow \alpha a \cdot \beta, b\right]&\\
+        \left[Y \rightarrow \alpha \cdot X\beta, b\right] &\rightarrow^{X} \left[Y \rightarrow \alpha X \cdot \beta, b\right]&\\
+        \left[Y \rightarrow \alpha \cdot X\beta, b\right] &\rightarrow^{\epsilon} \left[X \rightarrow \cdot\gamma, c\right] \text{ pour tout } c \in \textsc{First}(\beta b)&
+    \end{aligned}
+\end{equation*}
+
+L'état initial est celui qui contient $\left[S \rightarrow \cdot \alpha, \#\right]$. On peut déterminiser l'automate et construire la table correspondante : on introduit une action de réduction pour $(s, a)$ seulement lorsque $s$ contient un item de la forme $\left[X \rightarrow \alpha\cdot, a\right]$.
+
+Pour des questions de puissances de calcul, on introduit la classe $LALR(1)$, lookahead LR, qui est une approximation beaucoup utilisée dans les outils de la famille \textmd{yacc}.
+
 \end{document}
