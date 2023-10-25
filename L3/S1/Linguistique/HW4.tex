@@ -6,7 +6,7 @@
 
 \begin{document}
 \begin{quote}
-    In this document, we will use $\bot$ for \textmd{false} and $\top$ for \textmd{true} to indicate the answer to true-false questions.
+    In this document, we will use $\bot$ for \textmd{false} and $\top$ for \textmd{true} to indicate the answer to true-false questions. I discussed this assignment with Perrine Dupont, which may have lead to similarities in our answers. (This was written in \LaTeX)w
 \end{quote}
 
 \section{Exercise 1}
@@ -21,7 +21,7 @@ $\bot$: The word \textsl{modifier} is not an adjective in english since it canno
 $\top$: The word \textsl{couper} is a verb as it bears the suffix \textsl{er} and can be conjugated, such as in \textsl{Je coupe, Tu coupes, Il coupe, Nous coupons, Vous coupez, Ils coupent}, it can bear the mark of a tense : \textsl{couperai} or \textsl{coupâmes}. 
 
 \tocless\subsubsection{Question d.}
-$\top$: The word \textsl{chaque} is a determiner since it can preceed any noun group, e.g. \textsl{chaque fille} or \textsl{chaque décomposition en facteurs premiers}. 
+$\top$: The word \textsl{chaque} is a determiner since it can preceed any noun group, e.g. \textsl{chaque fille} or \textsl{chaque décomposition en facteurs premiers}, and as it cannot be 
 
 \section{Exercise 2}
 \subsection{Question 1}
@@ -56,37 +56,37 @@ $\top$: The sentence here is \textsl{The milk perished}. It is composed of a nou
 \tocless\subsubsection{Question c.}
 $\bot$: The sentence is \textsl{Joe met Sam}. Here we have a noun phrase constituted of a noun \textsl{Joe}, and a verb phrase made of a verb \textsl{met} and a noun complement \textsl{Sam} :
 \begin{center}
-    \Tree [.S \qroof{Joe}.NP [.VP [.N met ] \qroof{Sam}.NP ] ]
+    \Tree [.S \qroof{Joe}.NP [.VP [.V met ] \qroof{Sam}.NP ] ]
 \end{center}
 
 \tocless\subsubsection{Question d.}
 $\bot$: The sentence here is \textsl{Joe recalled the charges against him}. It is composed of a noun phrase \textsl{Joe} and a verb phrase \textsl{recalled the charges agains him}. The verb phrase is constituted of a verb \textsl{recalled} and a noun phrase \textsl{Joe} and a verb \textsl{recalled}. The complement phrase is constituted of a noun phrase, \textsl{the charges} where the \textsl{the} is a determiner and \textsl{charges} is a noun, and a prepositional (?) phrase \textsl{against him} where \textsl{against} is a proposition and \textsl{him} is a noun phrase made of a single pronoun.
 \begin{center}
-    \Tree [.S \qroof{Joe}.NP [.VP [.V recalled ] [.NP [.Det the ] [.N charges ] ] [.PP [.P against ] [.NP him ] ] ] ]
+    \Tree [.S \qroof{Joe}.NP [.VP [.V recalled ] [.NP \qroof{the charges}.NP [.PP [.P against ] \qroof{him}.NP ] ] ] ]
 \end{center}
 
 \tocless\subsubsection{Question e.}
 $\bot$: The sentence here is \textsl{Fat people eat accumulates}, and it is composed of a noun phrase \textsl{Fat people eat} and a verb phrase \textsl{accumulates}. The noun phrase is made of a noun \textsl{fat}, and a verb phrase \textsl{people eat}, itself made of a noun phrase \textsl{people} and a verb \textsl{eat}.
 \begin{center}
-    \Tree [.S [.NP [.N Fat ] [.VP [.NP [.N people ] ] [.V eat ] ] ] [.VP [.V accumulates ] ] ]
+    \Tree [.S [\qroof{Fat}.NP \qroof{people eat}.CP? ] [.VP [.V accumulates ] ] ]
 \end{center}
 
 \tocless\subsubsection{Question f.}
 $\bot$: The sentence here is \textsl{Time flies like an arrow}. It is composed of a noun phrase \textsl{Time} and a verb phrase \textsl{flies like an arrow}, made of a verb \textsl{flies} and a prepositional phrase \textsl{like an arrow} composed of a preposition \textsl{like} and a noun phrase \textsl{an arrow}.
 \begin{center}
-    \Tree [.S [.NP [.N Time ] ] [.VP  [.V flies ] [.PP [.P like ] [.NP [.Det an ] [.N arrow ] ] ] ] ]
+    \Tree [.S \qroof{Time}.NP [.VP  [.V flies ] [.PP [.P like ] \qroof{an arrow}.NP ] ] ]
 \end{center}
 
 \tocless\subsubsection{Question g.}
 $\bot$: The sentence is \textsl{Joe hoped that you had left}. It is composed of a noun phrase \textsl{Joe} and a verb phrase \textsl{hoped that you had left} which is made of a verb \textsl{hoped} and a prepositional phrase \textsl{that you had left}. This phrase is built of a preposition \textsl{that} and a tense phrase \textsl{you had left}, in which \textsl{you} is a noun phrase, \textsl{had} is a tense marker, and \textsl{left} is a verb.
 \begin{center}
-    \Tree [.S \qroof{Joe}.NP [.VP [.V hoped ] [.PP [.P that ] [.TP \qroof{you}.NP [.T had ] [.VP [.V left ] ] ] ] ] ]
+    \Tree [.S \qroof{Joe}.NP [.VP [.V hoped ] [.PP [.P that ] \qroof{you had left}.VP ] ] ]
 \end{center}
 
 \tocless\subsubsection{Question h.}
 $\bot$: The sentence is \textsl{The accident deprived him of his mobility}. \textsl{The accident} is a noun phrase, \textsl{deprived him of his mobility} is a verb phrase where \textsl{deprived} is a verb, \textsl{him} is a noun phrase and \textsl{of his mobility} is a prepositional phrase.
 \begin{center}
-    \Tree [.S [.NP [.Det The ] [.N accident ] ] [.VP [.V deprived ] \qroof{him}.NP [.PP [.P of ] [.NP [.D his ] [.N mobility ] ] ] ] ]
+    \Tree [.S \qroof{The accident}.NP [.VP [.V deprived ] \qroof{him}.NP [.PP [.P of ] \qroof{his mobility}.NP ] ] ]
 \end{center}
 
 \end{document}

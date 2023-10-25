@@ -487,6 +487,51 @@ Consider \textsl{He will go to the school} :
 \end{center}
 We here only did binary branching, but there might be ternary branching sometimes.
 
+\part{TA 5 : 25/10}
+\section{Kinda like Homework}
+\begin{center}
+    \Tree [.S \qroof{The cat}.NP [.VP [.V ate ] \qroof{the fish}.NP ] ]
+    \Tree [.S \qroof{John}.NP [.VP [.V is ] \qroof{tall and fast}.AP ] ]
+    \Tree [.S \qroof{John}.NP [.VP [.V$_{\text{ditransitive}}$ found ] \qroof{the book}.NP \qroof{useful}.AP ] ]
+\end{center}
+We could leave the VP in the last example with only two children by leaving the topological order. We would need to implement inside the heads a rule to tell the order of pronunciation. Another way to achieve this is by saying \textsl{the book useful} has secretely a more complex structure such as \textsl{the book to be useful}.
+
+\section{Grammar Generating a Language}
+Language : $L = \left\{a^{n}b^{n}\mid n \in \N \right\}$\\
+Grammar : 
+\begin{center}
+    \begin{tabular}{c@{ $\rightarrow$ }c}
+        S & aSb + $\epsilon$\\
+    \end{tabular}
+\end{center}
+We get, for \textsl{aabb}:
+\Tree [.S a [.S a [.S $\epsilon$ ] b ] b ]
+
+Language : $L = (ab)^{\star}$. \\
+Grammar : 
+\begin{center}
+    \begin{tabular}{c@{ $\rightarrow$ }c}
+        S & abS + $\epsilon$\\
+    \end{tabular}
+\end{center}
+For \textsl{ababab}:
+\Tree [.S ab [.S ab [.S ab [.S $\epsilon$ ] ] ] ]
+
+Language : Well-Parenthesized Expressions.\\
+Grammar : 
+\begin{center}
+    \begin{tabular}{c@{ $\rightarrow$ }c}
+        S & $\epsilon$\\
+        S & ()S\\
+        S & (S)
+    \end{tabular}
+\end{center}
+For \textsl{()()} :
+\Tree[.S () [.S () [.S $\epsilon$ ] ] ]
+
+\section{On Disambiguation}
+\textsl{John looks like Mary} might mean \textsl{John looks in the same manner as Mary}. Syntactician do not care about priority rules, they don't want to disambue their grammar. They just add probability to their production rules, to generate parses probabilistically. 
+
 
 \end{document}
 
