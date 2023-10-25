@@ -300,4 +300,11 @@ TSWLatexianTemp*
 #*Notes.bib
 L3/Bourse/
 L3/Docs/
+L3/S1/Info/SysNum/sysnum-2023/_build
+L3/S1/Info/SysNum/sysnum-2023/carotte.py
+L3/S1/Info/SysNum/sysnum-2023/doc
+L3/S1/Info/SysNum/sysnum-2023/minijazz
+L3/S1/Info/SysNum/sysnum-2023/tp1/*.mll
+L3/S1/Info/SysNum/sysnum-2023/tp1/*.byte
+L3/S1/Info/SysNum/sysnum-2023/tp1/_build
 

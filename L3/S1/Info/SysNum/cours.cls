@@ -33,6 +33,7 @@
 \graphicspath{ {./} }
 \RequirePackage[justification=centering]{caption}
 
+
 \author{Null}
 \title{None}
 % \institute{\includegraphics[height=6em]{ens_psl}}
