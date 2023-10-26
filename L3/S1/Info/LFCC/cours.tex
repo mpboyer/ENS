@@ -218,12 +218,171 @@ Ainsi, on peut en déduire une méthode pour reconnaître le langage d'un automa
             \item Hérédité : On raisonne sur les connecteurs, et on vérifie aisément, par les propriétés de cloture des langages réguliers le résultat. Pour ce qui est de la quantification existentielle, si le langage $L$ défini par $\psi(X_{1}, \ldots, X_{n})$ sur $\Sigma\times\left\{0, 1\right\}^{n}$ est reconnu par $\mathcal{A}$. On exhibe un automate reconnu par $\phi(X_{1}, \ldots, X_{n-1}) = \exists X_{n}\psi(X_{1}, \ldots, X_{n})$, il n'a alors plus qu'a trouver une suite de $0-1$ qui définit la $n$-ième composante additionnelle et fonctionne sur $\Sigma\times\left\{0, 1\right\}^{n}$ comme $\mathcal{A}$. Pour le $\forall$, il suffit de prendre la négation du $\exists$
         \end{itemize}
     \end{itemize}
-    
-    
 \end{proof}
 
+\part{Cours 4 : 26/10}
+On a déjà vu le type 3 de la hiérarchie de Chomsky : les langages réguliers. On passe aux langages algébriques, ou hors-contexte, définis par des grammaires hors-contextes.
 
+\section{Limites des Langages Réguliers}
+Le langage $\{a^{n}b^{n}\mid n\in \N\}$ n'est pas régulier. On va donc définir une classe de langage plus grande.
+
+\subsection{Grammaires}
+\begin{definition}[Grammaire hors-contexte]
+    Une grammaire hors-contexte est un quadruplet $(\Sigma, V, S, R)$ où :
+    \begin{itemize}
+        \item $\Sigma$ est un alphabet fini
+        \item $V$ est un alphabet fini disjoint de $\Sigma$
+        \item $S\in V$ est un axiome
+        \item $R$ une sous partie de $V \times (\Sigma \cup V)^{\star}$
+    \end{itemize}    
+\end{definition}
+
+\begin{definition}
+    On dit que $u$ produit (ou dérive) $v$ en une étape si il existe $\alpha, \beta, X, \gamma$ tel que : 
+    \begin{itemize}
+        \item $u = \alpha X \beta$
+        \item $v = \alpha \gamma \beta$
+        \item $X \mapsto \gamma$ est dans $R$.
+    \end{itemize}
+    On note ceci $u \rightarrow v$. On note $u \xrightarrow{k} v$ si $u$ produit $v$ en $k$ étapes et $u \xrightarrow{\star} v$ si il existe un $k$.
+\end{definition}
+
+\begin{definition}
+    Si $G$ est une grammaire : $\hat{\mathcal{L}}_{G}(x) = \left\{w \in \left(\Sigma \cup V\right)^{\star}\mid x \xrightarrow{\star} w \right\}$
+    On définit aussi $\mathcal{L}_{G}(x) = \hat{\mathcal{L}}_{G}(x) \cap \Sigma^{\star}$.
+\end{definition}
+
+Par exemple, pour la grammaire $S \rightarrow aSb + \epsilon$, on a $\hat{\mathcal{L}}_{G_{a^{n}b^{n}}} = \left\{a^{n}Sb^{n}\mid n \in \N \right\} \cup \left\{a^{n}b^{n} \mid n \in \N \right\}$.
+
+Pour les langages de Dyck, on peut les reconnaître par : 
+\begin{center}
+    \begin{tabular}{c@{$\rightarrow$}c}
+        $S$ & $\epsilon$ \\
+        $S$ & $T S$\\
+        $T$ & $(_{1} S )_{1} \mid (_{2} S )_{2} \mid \ldots \mid (_{n} S )_{n}$
+    \end{tabular}
+\end{center}
+
+\begin{remark}
+    Le langages reconnu par $T$ est le langage de Dyck primitif. 
+\end{remark}
+
+\subsection{Langages Algébriques et Clôture}
+\begin{proposition}
+    On appelle algébrique un langage reconnu par une grammaire algébrique.
+    \begin{center}
+        \begin{tabular}{llp{6cm}}
+            \toprule
+            Langages Réguliers & Langages Algébriques & \\
+            \midrule
+            Clos par Union & Clos par Union & On prend l'union des règles de grammaires : $S \rightarrow S_{1}\ S_{2}$, en faisant attention à disjoindre les symboles non-terminaux\\
+            Clos par Concaténation & Clos par Concaténation & On prend la concaténation des règles de grammaire : $S \rightarrow S_{1} \cdot S_{2}$, en faisant attention à disjoindre les symboles non-terminaux\\
+            Clos par Intersection & NON Clos par Intersection & \\
+            Clos par Complément & \dots &\\
+            Clos par Etoile de Kleene & Clos par Etoile de Kleene & $S \rightarrow S S_{1} \mid \epsilon$\\
+            \bottomrule         
+        \end{tabular}
+    \end{center}
+\end{proposition}
+
+\begin{theorem}[Intersection Algébrique-Régulier]\label{thm:capalgreg}
+    Si $L_{1}$ est algébrique et $L_{2}$ est régulier, alors $L_{1} \cap L_{2}$ est algébrique.
+\end{theorem}
+
+\begin{definition}[Forme Normale de Chomsky]\label{thm:fnc}
+    Une grammaire $G = \left(\Sigma, V, S, R\right)$ est sous forme normale de chomsky si toutes ses règles de grammaire sont de la forme : 
+    \begin{itemize}
+        \item $X \rightarrow a$
+        \item $X \rightarrow X_{1}X_{2}$
+        \item $S \rightarrow \epsilon$
+    \end{itemize}
+    avec $X \in V$ et $X_{1}, X_{2} \in V \setminus \left\{S\right\}$.
+\end{definition}
+\begin{theorem}
+    Pour tout langage algébrique $L$, il existe $G$ sous forme normale de Chomsky telle que $L_{G}(S) = L$.
+\end{theorem}
+\begin{definition}
+    On dit que $x$ est accessible depuis $S$ s'il existe $\alpha, \beta \in \left(\Sigma \cup V\right)^{\star}$ tels que $S \xrightarrow{\star} \alpha X \beta$.\\
+    On dit que $x$ est productif si il existe $w \in \Sigma^{\star}$ tel que $X \xrightarrow{\star} w$.
+    On dit que $x$ est utile s'il est accessible et productif.
+\end{definition}
+
+\begin{lemma}\label{lemme1chomskygrammar}
+    Pour toute grammaire $G$, il existe $G^{'}$ telle que $L(G) = L(G^{'})$ et $G^{'}$ ne contient que des symboles accessibles.
+\end{lemma}
+\begin{proof}
+    Soit $G^{'}$ obtenue en retirant tous les symboles non accessibles, i.e. on retire n'importe quelle règle qui contient un de ces symboles. Soit une dérivation sur $G$ à partir de $S$. Par définition de l'accessibilité, c'est une dérivation sur $G^{'}$ à partir de $S$ donc $L(G) \subseteq L(G^{'})$. Puisque toute production de $G^{'}$ est une production de $G$, on a bien le résultat.
+\end{proof}
+
+\begin{lemma}\label{lemme2chomskygrammar}
+    Pour toute grammaire $G$, il existe $G^{'}$ telle que $L(G) = L(G^{'})$ ne contient que des symboles utiles.
+\end{lemma}
+\begin{proof}
+    On marque les variables productives. Par récurrence, on trouve que $X$ est productive si $X \rightarrow w$ où $w$ est un mot sur $\Sigma$ union l'ensemble des variables productives.\\
+    En prenant $V^{'}$ l'ensemble des variables productives de $G$, $R^{'} = R \cap V^{'} \times \left(\Sigma \cup V^{'}\right)^{\star}$. On a bien le résultat par les mêmes arguments que ci dessus.
+\end{proof}
+
+\begin{proof}[Preuve du théorème sur la FNC \ref{thm:fnc}]
+    On utilise, dans cet ordre, \ref{lemme2chomskygrammar} puis \ref{lemme1chomskygrammar}, pour se ramener à n'avoir que des états utiles.\\
+    Puis, on introduit de nouvelle règles : 
+    \begin{itemize}
+        \item (TERM) : On introduit de nouveaux terminaux : Si $X \rightarrow a X b$, on écrit : 
+        \begin{itemize}
+            \item $X \rightarrow N_{a} X N_{b}$
+            \item $N_{a} \rightarrow a$
+            \item $N_{b} \rightarrow b$
+        \end{itemize}
+        \item (INIT) : On introduit un nouvel axiome : $S^{'} \rightarrow S$
+        \item (BIN) : On simplifie la règle : $X\rightarrow X_{1}\ X_{2} \ \ldots \ X_{n}$ pour $n \geq 3$.
+        On introduit $X_{2}^{'}, \ldots, X_{n}^{'}$ de nouveaux non-terminaux et les règles : 
+        \begin{itemize}
+            \item $X\rightarrow X_{1} \ X_{2}^{'}$
+            \item $\forall i, X_{i}^{'} \rightarrow X_{i} \ X_{i+1}^{'}$
+        \end{itemize}
+        \item ($\epsilon$) : On simplifie $X_{1} \rightarrow X\ X_{2} \ X \ X_{3} \ X $ en introduisant à la place : 
+        \begin{itemize}
+            \item $X_{1} \rightarrow X \ X_{2} \ X \ X_3$
+            \item $X_{1} \rightarrow X \ X_{2} \ X_3 \ X$
+            \item Et ainsi de suite pour chaque règle où on peut choisir $X = \epsilon$.
+        \end{itemize}
+        \item (UNIT) : On va simplifier $X \rightarrow Y$, en remplaçant toute apparition de $X$ dans une expression par $Y$. 
+    \end{itemize}
+    En choisissant correctement l'ordre des règles, on a bien le résultat. 
+\end{proof}
+
+\begin{proof}[Preuve du théorème sur l'Intersection \ref{thm:capalgreg}]
+    On se donne une grammaire $G = \left(\Sigma, S, V, R\right)$ produisant $L_{1}$ et un automate $\mathcal{A} = \left(Q, \Sigma, I, F, \delta\right)$ reconnaissant $L_{2}$.\\
+    On passe notre grammaire $G$ sous forme normale de Chomsky, i.e. les productions de $G$ sont sous la forme : 
+    \begin{itemize}
+        \item $S \rightarrow \epsilon$
+        \item $X \rightarrow X_{1}\ X_{2}$
+        \item $X \rightarrow a$
+    \end{itemize}
+    On va construire une grammaire et des terminaux $(X_{p, q})_{\forall X\in V, p\in Q, q \in Q}$ tel que : $\mathcal{L}(X_{p, q}) = \mathcal{L}(X) \cap \mathcal{L}_{2}(p \rightarrow q)$. On introduit les règles : 
+    \begin{itemize}
+        \item Si $X \rightarrow a \in R$, $X_{p, q} \rightarrow a$ si et seulement si $\delta(p, a) = q$.
+        \item Si $X \rightarrow X_{1}\ X_{2} \in R$, $\forall p, q, q', X_{p, q} \rightarrow X_{p, q'} \ X_{q', q}$.
+        \item On introduit un nouvel axiome $S^{'}$ par $S^{'} \rightarrow S_{p, q}$ pour tous $p, q$.
+    \end{itemize}
+    On a bien défini une grammaire $G^{'}$.
     
+    Soit $w \in L_{1} \cap L_{2}$. Si $w = \epsilon$, c'est bon. 
+    Sinon, on a alors un parmi :
+    \begin{itemize}
+        \item $S\rightarrow a$ et un état final $F$ sur lequel un calcul sur $w$ dans $\mathcal{A}$ termine, d'où $S^{'}\rightarrow S_{I, F}$ dans $G^{'}$ par construction. D'où $S_{I,F} \rightarrow a$ car $\delta(I, a) = F$, car $a\in L_{2}$.
+        \item $S \rightarrow X_{1}\ X_{2}$, avec $X_{1} \rightarrow w_{1}$ et $X_{2} \rightarrow w_{2}$. $\mathcal{A}$ passe de $i$ à $q_{1}$ en lisant $w_{1}$ puis que $q_{1}$ à $F$ en lisant $w_{2}$ : $S\rightarrow X_{1_{i, q_{1}}}\ X_{2_{q_{1}, F}}$.
+    \end{itemize}
+    On obtient alors bien le résultat par induction.
+\end{proof}
 
+\begin{definition}
+    On appelle arbre de dérivation un arbre étiqueté par $\left(\Sigma \cup V\right)$ tel que : 
+    \begin{itemize}
+        \item La racine est étiquetée par $S$
+        \item Si un noeud étiqueté par $X$ a $k$ enfants étiquetés par $a_{1}, \ldots, a_{k}$ éléments de $\left(\Sigma \cup V\right)$, alors $X \rightarrow a_{1}\ \cdots \ a_{k} \in R$. Le mot associé est la concaténation des étiquettes des feuilles. 
+    \end{itemize}
+    
+    Une grammaire est dite ambigue lorsqu'il existe un mot qui possède au moins deux arbres de dérivation syntaxique possible. Un langage est innéramment ambigu si toute grammaire qui le reconnaît est ambigu. 
+\end{definition}
 
 \end{document}

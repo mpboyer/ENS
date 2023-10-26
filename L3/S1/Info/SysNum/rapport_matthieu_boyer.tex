@@ -3,10 +3,12 @@
 \title{\textbf{Rapport de Rendu du Simulateur Netlist\\ \small SysNum 2023-2024}}
 \author{\textbf{Matthieu Boyer}}
 \date{\textbf{8 Novembre 2023}}
-
+\usepackage[a4paper]{geometry}
 \usepackage{lmodern}
 \usepackage[T1]{fontenc} 
 \usepackage[dvipsnames]{xcolor}
+\usepackage{booktabs}
+\usepackage{array}
 
 
 \begin{document}
@@ -15,6 +17,23 @@
 \pagecolor{ulmv}
 \color{ulmj}
 \maketitle
-\textbf{}
+\textbf{Les opérations à réaliser par le simulateur ont été implémentée de la manière détaillée dans le tableau ci-dessous :}
+\begin{table}
+    \caption{\textbf{\color{ulmj}Opérations à Réaliser par le Simulateur}}
+    \begin{tabular}{>{\bfseries\color{ulmj}}p{6cm}>{\bfseries\color{ulmj}}p{8cm}}
+        \toprule
+        Opération & Détails sur l'Implémentation\\
+        \midrule
+        Stocker les Variables & Une référence contenant une instance du module environnement, modifiée à chaque équation.
+        \\
+        Lire les Entrées & On lit l'entrée standard avec \textmd{read\_int} et on modifie le contexte de l'étape précédente \textmd{ctx} en accord.
+        \\
+        Résoudre les Equations de la Netlist & Pour chaque équation, on a une méthode dédiée de résolution, détaillée plus bas. On ajoute au contexte courant \textmd{env} le résultat de l'équation.
+        \\
+        
+        \bottomrule
+    \end{tabular}
 
-\end{document}
+\end{table}
+
+\end{document}options

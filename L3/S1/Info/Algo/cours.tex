@@ -7,7 +7,7 @@
 \date{\today}
 
 \begin{document}
-\part{Lecture 1 - 28/09}
+\part[First Algorithms]{Lecture 1 - 28/09}
 \localtableofcontents
 \section{Organisation}
 Mail Tatiana : \url{starikovskaya@di.ens.fr}
@@ -287,7 +287,7 @@ Bon on fait de la Programmation Dynamique. Relation de récurrence $\forall i DP
 \end{cases}    
 \]
 
-\part{Lecture 2 - 5/10}
+\part[Recursion]{Lecture 2 - 5/10}
 \localtableofcontents
 \section{Divide and Conquer}
 Divide a problem into smaller ones to solve those, then combine the solutions to get a solution of the bigger problem.\\
@@ -457,7 +457,7 @@ For $P = \sum_{i = 0}^{n-1} a_{i}x^{i}$, we define : \[
     $V_{n}^{-1}[i, j] = \omega_{n}^{-ij}/n$
 \end{theorem}
 
-\part[Lecture 3 - 12/10]{Hashing}
+\part[Hashing]{Lecture 3 - 12/1}
 \localtableofcontents
 
 Answering queries of appartenance on a set, maintaining a dictionary. Python dictionaries do not have upper bound guarantees, we shouldn't use them. \\
@@ -739,7 +739,324 @@ This is Langrange's Theorem.
 \subsubsection{Question b.}
 As there is an even number of elements in $\mathbb{F}$, there are as many elements in $\mathbb{F}$ ordered with an even and an odd number. Then, by question 1, since there is a one-to-one mapping between $\mathbb{F}^{4}$ and $G$, there are, for each tuple in $\left\{\pm 1\right\}^{4}$, $2^{4} = m^{4}$ functions that suit. Thus, $H$ is 4-independent. 
 
-\subsubsection{Question c.}
+\part[Integer Sets]{Lecture 4 : 26/10}
+\section{Binary Search Trees}
+\begin{definition}
+    A Binary Tree is a rooted tree with every node having at most two children. Binary search trees are binary trees verifying the following : 
+    \begin{center}
+        If a node contains element $l$, the left subtree rooted at the left child contains only elements $\leq l$ and the right subtree elements $> l$.
+    \end{center}
+\end{definition}
 
+\begin{proposition}
+    To access a given element, the time needed is $\O(h)$ time where $h$ is the height of the tree.
+\end{proposition}
+$h$ is not necessarily small, there are many implementations to bound $h$.
+
+\subsection{Red-Black Trees}
+\begin{definition}
+    A red-black tree is a binary tree that satisfies the following red-black properties :
+    \begin{enumerate}
+        \item Every node has a color : red or black
+        \item The root is black
+        \item Every leaf (NIL) is black
+        \item If a node is red, both its children are black
+        \item For each node, all paths from the node to descendant leaves contain the same number of black nodes. 
+    \end{enumerate}
+\end{definition}
+\begin{lemma}
+    The height of a red-black tree with $n$ nodes is at most $2\log(n+1)$.
+\end{lemma}
+\begin{proof}
+    We introduce $bh(x)$ the number of black nodes in a path from $x$ to a leaf.\\
+    By induction on $bh(x)$, the subtree rooted at $x$ contains at least $2^{bh(x)} - 1$ : 
+    \begin{itemize}
+        \item Initialization : $bh(x) = 0$ implies the tree has more than $0$ nodes which is true.
+        \item Heredity : 
+        \begin{itemize}
+            \item If $x$ is black, let $y_{1}, y_{2}$ denote its children. We have $bh(y_{1}) = bh(x) - 1 = bh(y_{2}) - 1$. By summing, we get the result.
+            \item If $x$ is red, both of its children are black by rule 4. Let us denote the grand children of $x$ by $z_{1}, \ldots, z_{4}$. We have : $bh(z_{i}) = bh(x) - 1$. By sum, we get the result.
+        \end{itemize} 
+    \end{itemize}
+    Then if $h$ the black height of the tree, $n\geq 2^{h}-1$ and $h \leq \log{n+1}$. Since in any root-to-leaf path, the number of nodes is at most twice the number of black nodes per rule 4, the lemma follows. 
+\end{proof}
+
+\begin{proposition}[Insertion]
+    We insert a node into a n-node red-black tree by : 
+    \begin{itemize}
+        \item Inserting the node into $T$ as if it were an ordinary binary search tree
+        \item We color it red
+        \item We perform a number of rotations and node recolouring.
+    \end{itemize}
+    This is done in $\O(\log n)$.
+\end{proposition}
+
+We define the left rotation on a node $x$ whose right child is not null like this : 
+\[Tree(x , \alpha, Tree(y, \beta, \gamma)) \mapsto Tree(y, Tree(x, \alpha, \beta), \gamma)\]
+We define right rotations to be the reverse operation.
+\begin{proposition}
+    Rotations do not break the BST properties.
+\end{proposition}
+\begin{proof}[Only on right rotations]
+    Elements in $\gamma$ are greater than $y$, in $\beta$ are greater than $x$ and lower or equal than $y$, and elements in $\alpha$ are lower or equal than $x$. After the rotation, we still have those properties.
+\end{proof}
+
+\begin{proposition}[Restoring red-black properties]
+    Rule $1$ is never violated. Rules $2$ and $3$ can be fixed in $\O(1)$ time. Rule $5$ is never violated as we colour the new node red.\\
+    We will try and maintain the invariant that the properties are broken in at most one node. There are three cases in which Rule $4$ can be violated : Let $z$ be the node that violates the red-black properties. 
+    \begin{enumerate}
+        \item $z$'s uncle $y$ is red $\Rightarrow$ We colour $z.p$ black, colour $y$ black and $z.p.p$ red. We moved the problematic node up by two layers.
+        \item $z$'s uncle $y$ is black and $z$ is a right child $\Rightarrow$ We left-rotate around the edge $z.p$-$z$, we then have $z$'s uncle $y$ to be black and $z$ to be a left child, i.e. case 3.
+        \item $z$'s uncle $y$ is black and $z$ is a left child $\Rightarrow$ We color $z.p$ black, colour $z.p.p$ red and right-rotate.
+    \end{enumerate}
+\end{proposition}
+
+\begin{proposition}[Complexity]
+    Red black tree use $\O(n)$ space, $\O(\log n)$ in time for insertion and deletion in the worst case. % TODO : add deletion.
+\end{proposition}
+
+\subsection{Treaps}
+\begin{definition}
+    Treaps are binary trees with every node having a key and a priority verifying :
+    \begin{itemize}
+        \item a binary search tree for the keys
+        \item a min-heap for the priorities
+    \end{itemize}
+\end{definition}
+
+\begin{proposition}[Search]
+    The usual algorithm yields time in $\O(depth of the node)$ for a successful search and $\O(\max \left(\textmd{depth}(v^{-}), \textmd{depth}(v^{+})\right))$ where $\textmd{key}(v^{-})$ is the predecessor of the searched key.
+\end{proposition}
+
+\begin{proposition}[Insertion]
+    The standard BST algorithm with added rotations to fix the heap properties (if $p(z) \leq p(z.p)$, rotate auround $(z, z.p)$) yields time complexity in $\O(\max\left(\textmd{depth}(v^{-}), \textmd{depth}(v^{+})\right))$.
+\end{proposition}
+
+\begin{proposition}[Deletion]
+    We run the insertion algorithm backwards : let $\textmd{light}(z)$ be the child of $z$ with smaller priority. The choice of this edge preserves the heap property everywhere except at $z$. As long as $z$ is not a leaft, rotate around $(z, \textmd{ligth}(z))$, then chop it off.
+\end{proposition}
+
+\begin{proposition}[Split]
+    If we want to split the tree along a pivot $\pi$, we can insert a new node $z$ with key $\pi$ and priority $-\infty$. After the insertion, this new node is the root since it has the smallest priority, and all keys in the left subtree are smaller than the pivot and this subtree is a treap.
+\end{proposition}
+
+\begin{proposition}[Merge]
+    Suppose that we want to merge two treaps $T_{-}$ and $T_{+}$, where keys in the first tree are smaller than the keys in the second tree. We create a dummy root with priority $-\infty$ and then delete it. 
+\end{proposition}
+
+\begin{proposition}[Complexity]
+    \begin{itemize}
+        \item Time for a successful search : $\O(\textmd{depth(v)})$ where $\textmd{key}(v) = k$.
+        \item Time for an unsuccessful search : $\O(\max \left(\textmd{depth}(v^{-}), \textmd{depth}(v^{+})\right))$ where $\textmd{key}(v^{-})$ is the predecessor of the searched key.
+        \item Insertion Time : $\O(\max \left(\textmd{depth}(v^{-}), \textmd{depth}(v^{+})\right))$ where $\textmd{key}(v^{-})$ is the predecessor of the searched key.
+        \item Deletion Time : $\O(\text{tree depth})$
+        \item Split/Merge Time : same as insertion / deletion
+    \end{itemize}
+\end{proposition}
+
+We will choose the priorities to be independently and uniformly distributed continuous random variables. We denote by $x_{1}, \ldots, x_{n}$ the nodes of the tree in the increasing order of the keys.
+We denote  by $i \uparrow k$, the event $x_{i}$ if a proper ancestor of $x_{k}$ : $\textmd{depth}(x_{k}) = \sum_{i = 1}^{i = n} \left[i \uparrow k\right]$
+
+\begin{lemma}
+    Define \[
+        X(i, k) = \left\{\begin{aligned} &x_{i},\ldots, x_{k} &\text{ if } i < k \\
+            & x_{k},\ldots, x_{i} & \text{ otherwise}.
+        \end{aligned}\right.\]
+
+    For all $i \neq k$ we have $i \uparrow k$ iff $x_{i}$ has the smallest priority in $X(i, k)$.
+\end{lemma}
+\begin{proof}
+    \begin{enumerate}
+        \item If $x_{i}$ is the root, then $x_{i}$ has the smallest priority
+        \item If $x_{k}$ is the root, then $x_{i}$ is not an ancestor of $x_{k}$ and does not have the smallest priority
+        \item If $x_{j}$ is the root with $i < j < k$, then $x_{i}$ is not an ancestor of $x_{k}$ and does not have the smallest priority.
+        \item If $x_{j}$ is the root and either $i < k < j$ or $i < j < k$ then $x_{i}$ and $x_{j}$ are in the same subtree and the claim follow by induction.
+    \end{enumerate}
+\end{proof}
+
+\begin{corollary}
+    \[\mathbb{P}\left[i \uparrow k\right] = 
+    \left\{
+        \begin{aligned}
+            \frac{1}{k - i + 1} &\text{ if } i < k\\
+            0 & \text{ if } i = k\\
+            \frac{1}{i - k + 1} & \text{ if } i > k
+        \end{aligned}
+    \right.
+    \]
+    Then : 
+    \[
+        \mathbb{E}\left[\textmd{depth}(x_{k})\right] = \sum_{i = 1}^{i = n}\mathbb{P}\left[i \uparrow k\right] = \sum_{i = 1}^{k - 1}\frac{1}{k - i + 1} + \sum_{k+1}^{n}\frac{1}{i - k + 1} = H_{k} - 1 + H_{n - k + 1} - 1 < 2 \ln n - 2
+    \]
+    Thus, all treap operations take $\O(\log n)$ time in expectation
+\end{corollary}
+
+\begin{remark}
+    The fastest sorting algorithm is Quicksort, and it can be seen as inputing all the values in the list in a treap then taking the infix order of the treap. 
+\end{remark}
+
+\begin{remark}
+    Tango trees are $\O(\log \log n)$-competitive and Splay trees are conjecture to be fastest in $\O(1)$-competitive, but we do not know if this is true. 
+\end{remark}
+
+\section{Lower Bound for Sorting}
+The question here is : can we sort in $\O(n\log n)$ or better ?
+If comparisons only are allowed then no : indeed, any comparison-based sorting program can be thought of as defining a decision tree of possible executions. Running the same program twice on the same permutation causes it to do the exact same thing bu running it on different permutations of the same data causes a different sequence of comparisons to be made on each. 
+
+\subsection{Decision Tree}
+\begin{definition}
+    A decision tree for a sorting algorithm is a binary tree that shows the possible executions of an algorithm on a set.
+\end{definition}
+
+\begin{proposition}
+    The minimum height of a decision tree is the worst-case complexity of comparison-based sorting. 
+\end{proposition}
+\begin{lemma}
+    The height of any decision tree is $\Omega(n \log n)$
+\end{lemma}
+\begin{proof}
+    Since any two different permutations of $n$ elements require a different sequence of steps to sort, there must be at least $n!$ different paths from the root to leaves in the decision tree. 
+    Thus there must be at least $n!$ different leaves in this binary tree. Since a binary tree of height $h$ has at most $2^{h}$ leaves, we know that : $n! \leq 2^{h}$ i.e. $h\geq \log(n!)$. Finally, we have $\log n! = \Omega (n \log n)$.
+\end{proof}
+\begin{theorem}
+    Any comparison-based sorting algorithm must use $\Omega(n\log n)$ time.
+\end{theorem}
+
+\section{Predecessor Problem}
+We want to maintain a set $S$ of integers from a universe $U = \left[1, u\right]$ subject to insertions, deletions, predecessor and succesor queries. This problem is harder than dictionaries and hashing. BTSs give a solution in $\O(n)$ space and $\Theta(\log n)$ time. 
+
+\subsection{van Emde Boas Trees}
+If the time per operation satisfies : $T(u) = T(\sqrt{u}) + \O(1)$, by Substitution, $T(u) = \O(\log \log u)$. We will split $U$ into $\sqrt{u}$ chunks of size $\sqrt{u}$ size, and the recurse. 
+\begin{definition}[Recursive van Emde Boas Trees]
+    \begin{itemize}
+        \item \textmd{T.summary} is a vEB-tree of size $\sqrt{u}$ containing all $i$ such that the $i$-th chunk is not empty. 
+        \item For each $1 \leq i \leq \sqrt{u}$, \textmd{T.chunk[$i$]} is a vEB-tree of size $\sqrt{u}$ containing $x \textmd{mod} \sqrt{u}$ for each $x$ in the $i$-th tree. 
+        \item \textmd{T.min} is the smallest element in $T$, not stored recursively. 
+    \end{itemize}    
+    We represent each integer $x = \langle c, i \rangle$ where 
+    \begin{itemize}
+        \item $c$ is the chunk coordinates : $c = x // \sqrt{u}$
+        \item $i$ is the position of $x$ in the chunk : $i = x \textmd{mod} \sqrt{u}$
+    \end{itemize}
+\end{definition}
+
+\begin{proposition}[Successor Operation]
+    With the following algorithm we get the wanted complexity : 
+    \begin{algorithm}
+        \caption{Successor Complexity Verifies : $T(u) = T(\sqrt{u}) + \O(1)$}
+        \begin{algorithmic}
+            \Function \textmd{Successor}
+                \Input $\ \ (T, x = \langle c, i \rangle)$
+                \EndInput
+                \If {$x < T.min$} 
+                    \State \Return $T.min$
+                \EndIf
+                \If {$i < T.chunk[c].max$}
+                    \State \Return $\langle c, \textmd{Successor}\left(T.chunk[c], i\right) \rangle$
+                \Else 
+                    \State $c^{'} = \textmd{Successor}(T.summary, c)$
+                    \State \Return $\langle c^{'}, T.chunk[c^{'}].min\rangle$
+                \EndIf
+            \EndFunction
+        \end{algorithmic}
+    \end{algorithm}
+\end{proposition}
+
+\begin{proposition}[Insertion]
+    The algorithm below gets the correct complexity.
+    \begin{algorithm}
+        \caption{Insertion Complexity Verifies : $T(u) = T(\sqrt{u}) + \O(1)$}
+        \begin{algorithmic}
+            \Function \textmd{Insert}
+                \Input $\ \ (T, x = \langle c, i \rangle)$
+                \EndInput
+                \If {$T.min = None$} 
+                    \State $T.min = T.max = x$
+                    \State \Return
+                \EndIf
+                \If {$x < T.min$}
+                    \State $\textmd{swap}(x, T.min)$
+                \EndIf
+                \If {$x > T.max$}
+                    \State $T.max = x$
+                \EndIf
+                \If {$T.chunk[c].min = None$}
+                    \State $\textmd{Insert}(T.summary, c)$
+                \EndIf
+                \State $\textmd{Insert}(T.chunk[c], i)$
+            \EndFunction
+        \end{algorithmic}
+    \end{algorithm}    
+\end{proposition}
+
+\begin{proposition}[Deletion]
+    The algorithm below gets the correct complextiy.
+    \begin{algorithm}
+        \caption{Deletion Complexity Verifies : $T(u) = T(\sqrt{u}) + \O(1)$}
+        \begin{algorithmic}
+            \Function \textmd{Delete}
+                \Input $\ \ (T, x = \langle c, i \rangle)$
+                \EndInput
+                \If {$x = T.min$} 
+                    \State $c = T.summary.min$
+                    \If {c = None}
+                        \State $T.min = None$. \Return
+                    \EndIf
+                    \State $x = T.min = \langle c, i = T.chunk[c].min \rangle$
+                \EndIf
+                \State $\textmd{Delete}(T.chunk[c], i)$
+                \If {$T.chunk[c].min = None$}
+                    \State $\textmd{Delete}(T.summary, c)$
+                \EndIf
+                \If {$T.summary.min = None$}
+                    \State $T.max = T.min$
+                \Else 
+                    \State {$c^{'} = T.summary.max$}
+                    \State {$T.max = \langle c^{'}, T.chunk[c^{'}].max \rangle$}
+                \EndIf
+            \EndFunction
+        \end{algorithmic}
+    \end{algorithm}
+\end{proposition}
+
+\begin{proposition}[Complexity]
+    \begin{itemize}
+        \item All of these operations' complexities verify $T(u) = T(\sqrt{u}) + \O(1)$ and thus have time complexity $\O(\log \log u)$
+        \item Space complexity satifies : $S(u) = \left(\sqrt{u} + 1\right)\dot S(\sqrt{u}) + \O(1)$ and therefore $S(u) = \O(u)$.
+    \end{itemize}
+\end{proposition}
+
+\begin{proposition}[Original van Emde Boad trees]
+    For $\textmd{Successor}(x)$, as the path from the root to $x$ is monotone, binary searching the path to find the lowest 1 gives us either the predecessor or the successor of $x$. By storing all nodes in an array of size $\O(u)$ to allow efficient binary search; a pointer from each node to the maximum and minimum of their subtree; all the elements as a doubly-linked list, we find the successor and the predecessor of $x$ in $\O(\log \log u)$ time.\\
+    Update is done in $\O(\log u)$ time, since we only need to update the element-to-root path, in $\Theta(u)$ space
+\end{proposition}
+
+\subsection{Improvements}
+\subsubsection{x-fast trees}
+\begin{definition}
+    In an x-fast tree, we store every root-to-green node (nodes representing an element from the set) path, viewed in binary (left = 0, right = 1), via Cuckoo Hashing.
+\end{definition}
+\begin{proposition}
+    Predecessor queries are done in $\O(\log \log u)$ time, updates in $\O(\log u)$ expected amortised time, but this tree only takes $\O(n \log u)$ space.
+\end{proposition}
+\begin{proof}
+    To maintain successor and predecessor, we use the vEB-tree algorithm, giving us the same complexity, and same for updates. Yet, since we only store the root-to-element paths which are of $\log u$ length, we need $\O(n\log u)$ space.
+\end{proof}
+
+\subsubsection{y-fast trees}
+\begin{definition}
+    We maintain elements in groups of size in $\left[\frac{\log u}{4}, 2\log u\right]$. For each group, we build a BST, and we store representatives of the group using an x-fast tree :
+    \begin{itemize}
+        \item If there are fewer than $\frac{\log u}{2}$ elements, we store them in a single BST.
+        \item otherwise, suppose we add/delete an element. If a group becomes too large, we split it in two. If a group becomes too small, we merge it with its neighbour, then split if needed. 
+    \end{itemize}
+\end{definition}
+
+\begin{proposition}
+    Predecessor queries are in $\O(\log \log u)$ time, updates in $\O(\log \log u)$ expected amortised time, since insertion into the x-fast trie happens only once per $\Theta(\log u)$ new elements.
+\end{proposition}
+\begin{proof}
+    This comes directly from the definition and the definition of the x-fast trees. 
+\end{proof}
 
 \end{document}

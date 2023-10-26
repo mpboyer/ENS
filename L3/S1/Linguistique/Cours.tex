@@ -323,6 +323,9 @@ Syntactic competence is a wide concept, it includes  :
     \item Every language has a countably infinite set of sentences (proven by showing there is no longest sentence in a language). Native speakers can handle this set despite having finite minds. We can construct arbitrary long sentences based on the center embedding idea, i.e. \textsl{le jeu du Johnny Depp}.
 \end{itemize}
 
+\section{Syntactic Analysis Building Blocks}
+Before writing rules for syntactic analysis, we need blocks to build those rules on.
+
 \subsection{Lexical Categories}
 The lexical categories (or parts of speech) such as \textsl{N(oun)}, \textsl{V(erb)}\dots 
 This does not mean you can only tell what part of speech a word is if you know its meaning.\\
@@ -354,7 +357,7 @@ For example, a verb in English satisfies all of the following :
 
 A constituent can also be found by Fronting and Pronominalization, Clefting, Eliding or Coordination
 
-\subsection{Rewriting Grammar}
+\section{Rewriting Grammar}
 \textsl{Marie verra Jacques} leads to three possible structures in principle :
 \begin{itemize}
     \item \Tree [.S Marie verra Jacques ]
@@ -408,14 +411,6 @@ We then can get an idea on French Grammar :
 We can then infer a tree from a sentence with the lexical categories : 
 \begin{center}
     \Tree [.S \qroof{Marie}.NP [.VP [.VP [.V verra ] \qroof{Jacques}.NP ]  [.CP [.C quand ] \qroof{Paul dormira}.S ] ] ]
-\end{center}
-
-\subsection{Complements and Adjuncts}
-Complements and adjuncts are ways to add things to a constituent. We get new grammar rules : 
-\begin{center}
-    \begin{tabular}{cc@{$\ \longrightarrow\ $}c}
-        
-    \end{tabular}
 \end{center}
 
 \part{TA 4 : 18/10}
@@ -531,6 +526,54 @@ For \textsl{()()} :
 
 \section{On Disambiguation}
 \textsl{John looks like Mary} might mean \textsl{John looks in the same manner as Mary}. Syntactician do not care about priority rules, they don't want to disambue their grammar. They just add probability to their production rules, to generate parses probabilistically. 
+
+\part[Cours 5 : 26/10]{Syntax 2}
+\section{About Homework 4}
+In the sentence \textsl{The milk perished}, we cannot interpret \textsl{perished} as a verb directly, but as a verb in a verb phrase.\\
+The sentence \textsl{Time flies like an arrow} can be read as \textsl{Time flies} (a particular kind of fly) \textsl{like an arrow} would then mean that a special type of fly likes a particular arrow. Same thing : \textsl{fruit flies like a banana}.\\
+\textsl{The charges against him} may be read by the rule $NP \rightarrow NP \ PP$ or by looking at \textsl{against him} as an argument of the noun \textsl{charges}. 
+By definition, grammatical operations can only target nodes of the syntax tree. Then, we cannot really have noun phrases with structure $NP \rightarrow Det\ N\ PP$. Yet, as all X-phrases have an X in them, except for S(entences), it seems unreasonable to regroup the noun and the PP inside a block inside a NP. We then might want to introduce intermediate generalizations with new parameters such as $\overline{X}$.\\
+In \textsl{The accident deprived him of his mobility}, we cannot regroup \textsl{him of his mobility} under one block, and then we may look at \textsl{deprived} as having two complements, \textsl{him} and \textsl{of his mobility}.\\
+Passive sentences cause mayhem in syntax, so transformational grammar was created to derive transformation rules that would modify an hypothetical arrangement of the informations in the sentence into the arrangement that comes out of speaking. 
+
+\section{Inflection Phrases}
+Modern syntactic theories postulate the existence of Inflection Phrases (IP) instead of S phrase. This addresses the embarrassment of having a phrasal constituent without a head. The inflection (tense, mood, person/number), seen on the verb, is the head category of a sentence. Then, using $\overline{\text{I}}$ we can retrieve the information on the tense/modality by separating the verb from the inflection : 
+\begin{center}
+    \Tree [.IP \qroof{John}.NP [.$\text{I}^{'}$ [.I \textsc{Past} ] [.VP [.V saw ] \qroof{Mary}.NP ] ] ] 
+\end{center}
+In sentences with modals or auxiliary verbs, we can see phonologically overt material occupying the I node, e.g. : 
+\begin{center}
+    \Tree [.IP \qroof{John}.NP [.$\text{I}^{'}$ [.I {will} ] [.VP [.V see ] \qroof{Mary}.NP ] ] ]
+\end{center}
+Most importantly, certain facts about the placement of adverbs help us figure out where precisely in the tree the main verb is to be found. The position is dependent on the language.
+
+\section{Displacement}
+From Inflection Phrases, we can derive the structure of sentences from others by using transformational rules.\\
+Many pairs of sentences in English are intuitively “variations” on each other. They are related by displacement, in that one appears derived from the other by moving certain constituents around. In the first formal theories structures, the pairs (Affirmative, Interrogative) were taken to have a common D(eep)-structure but different S(urface)-structure. S-structures are the results of applying certain transformations to D-structures. 
+\begin{remark}
+    Contemporary syntactic theories in the Chomskyan tradition instatiate this intuition differently, taking a more derivational approach. 
+\end{remark}
+From this postulate, we can derive from languages transformational rules. For exemple, the I-to-C transformational rule is used to build a yes-no question from a D-structure with phonologically overt material in I by :
+\begin{enumerate}
+    \item Projecting a CP above IP
+    \item Moving I to C
+\end{enumerate}
+For example, we get :
+\begin{center}
+    \Tree [.IP \qroof{John}.NP [.I$^{'}$ [.I will ] \qroof{talk to Mary}.VP ] ] $\xrightarrow{\text{I-to-C}}$ \Tree [.CP [.C Will ] [.IP \qroof{John}.NP [.I$^{'}$ [.I {(trace of will)} ] \qroof{talk to Mary}.VP ] ] ]
+\end{center}
+
+\section{Syntactic Processing}
+
+
+
+
+
+
+
+
+
+
 
 
 \end{document}
