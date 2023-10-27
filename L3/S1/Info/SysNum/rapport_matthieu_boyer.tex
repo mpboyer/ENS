@@ -3,11 +3,12 @@
 \title{\textbf{Rapport de Rendu du Simulateur Netlist\\ \small SysNum 2023-2024}}
 \author{\textbf{Matthieu Boyer}}
 \date{\textbf{8 Novembre 2023}}
-\usepackage[a4paper]{geometry}
+\usepackage[a4paper, margin = 3cm]{geometry}
 \usepackage{lmodern}
 \usepackage[T1]{fontenc} 
 \usepackage[dvipsnames]{xcolor}
 \usepackage{booktabs}
+\usepackage{longtable}
 \usepackage{array}
 
 
@@ -17,23 +18,44 @@
 \pagecolor{ulmv}
 \color{ulmj}
 \maketitle
-\textbf{Les opérations à réaliser par le simulateur ont été implémentée de la manière détaillée dans le tableau ci-dessous :}
-\begin{table}
-    \caption{\textbf{\color{ulmj}Opérations à Réaliser par le Simulateur}}
-    \begin{tabular}{>{\bfseries\color{ulmj}}p{6cm}>{\bfseries\color{ulmj}}p{8cm}}
+\textbf{Les opérations à réaliser par le simulateur ont été implémentée de la manière détaillée dans le tableau ci-dessous :}\\
+    \begin{longtable}{>{\bfseries\color{ulmj}}p{6cm}>{\bfseries\color{ulmj}}p{8cm}}
         \toprule
         Opération & Détails sur l'Implémentation\\
         \midrule
         Stocker les Variables & Une référence contenant une instance du module environnement, modifiée à chaque équation.
         \\
-        Lire les Entrées & On lit l'entrée standard avec \textmd{read\_int} et on modifie le contexte de l'étape précédente \textmd{ctx} en accord.
+        \midrule
+        Lire les Entrées & On lit l'entrée standard avec \textmd{read\_int} et on modifie le contexte courant en accord, en ajouant les valeurs au contexte de l'étape précédente \textmd{ctx}. Celui-ci est défini à la fin de l'étape de résolution des équations.
         \\
-        Résoudre les Equations de la Netlist & Pour chaque équation, on a une méthode dédiée de résolution, détaillée plus bas. On ajoute au contexte courant \textmd{env} le résultat de l'équation.
+        \midrule
+        Résoudre les Equations de la Netlist & Pour chaque équation, on a une méthode dédiée de résolution, détaillée plus bas. On ajoute au contexte courant \textmd{env} le résultat de l'équation en modifiant la référence associée.
         \\
-        
+        \midrule
+        \textmd{Earg} & On renvoie la valeur actuelle dans \textmd{!env} ou la valeur de \textmd{v} dans \textmd{Aconst(v)}.
+        \\
+        \midrule
+        \textmd{Ereg} & On renvoie la valeur stockée dans \textmd{ctx}, le contexte précédent. Si elle n'existe pas, on renvoie une valeur par défaut : $0$.\\
+        \midrule
+        \textmd{Enot} & On renvoie un \textmd{VBit} dont la valeur a été inversée.\\
+        \midrule
+        \textmd{Ebinop} & On effectue le calcul bit à bit de l'opérateur, en définissant un par un les comportements de chaque opérateur.\\
+        \midrule
+        \textmd{Emux} & On évalue la condition, puis selon le résultat, on renvoie la valeur de l'argument 1 ou de l'argument 2.\\
+        \midrule
+        \textmd{Erom} & On calcule la position de départ en fonction de la taille du mot et de la lecture de l'adresse, puis, selon la taille du mot, on renvoie soit un \textmd{VBit} soit une \textmd{VBitArray} contentant les bits lus.\\
+        \midrule
+        \textmd{Eram} & De manière similaire à \textmd{Erom}, on lit la valeur à la position définie par l'adresse de lecture et la taille des mots, selon le paramètre \textmd{write\_enable} on modifie une liste buffer d'écriture, en agrandissant si besoin le tableau référence représentant \textmd{ram}, puis on renvoie la valeur à l'index. On écrit finalement dans la ram une fois l'entièreté des équations résolues.\\
+        \midrule
+        \textmd{Econcat} & On concatène l'intérieur des deux \textmd{VBitArray} en traitant les \textmd{VBit} commes des arrays de taille 1.\\
+        \midrule
+        \textmd{Eslice} & On agit sur l'argument de la \textmd{VBitArray}\\
+        \midrule
+        \textmd{Eselect} & De même \\
+        \midrule
+        Ecriture des sorties & On se donne une fonction pour print un booléen, qu'on applique ensuite à l'ensemble des sorties du programme. 
+        \\
         \bottomrule
-    \end{tabular}
-
-\end{table}
+    \end{longtable}
 
 \end{document}options
