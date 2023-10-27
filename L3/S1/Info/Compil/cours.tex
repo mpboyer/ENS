@@ -3,11 +3,6 @@
 \author{Jean-Cristophe Filliâtre}
 \date{\today}
 
-\newcommand*{\rrarrow}{\twoheadrightarrow}
-\newcommand*{\llarrow}{\twoheadleftarrow}
-\newcommand*{\fun}[2]{\textmd{fun } #1 \rightarrow #2}
-\newcommand*{\letval}{\textmd{let }}
-\newcommand*{\letin}[1]{\textmd{let } #1 \textmd{ in }}
 
 \begin{document}
 
@@ -379,8 +374,7 @@ Lorqu'il n'y a plus de transition possible dans l'automate, de deux choses l'une
     \item Soit aucun état final mémorisé : échec de l'analyse lexicale
     \item Soit on a lu le préfixe $wv$ de l'entrée, avec $w$ le lexème reconnu par le dernier état final recontré : on renvoie $w$ et l'analyse lexicale redémarre avec $v$ préfixé au reste de l'entrée
 \end{itemize}
-En pratique, on va renvoyer dans l'analyseur lexical une fonction de calcul du prochain lexème, puisque l'analyse lexicale est faite pour l'analyse syntaxique 
-%TODO: ajouter la ref du cours d'analyse syntaxique
+En pratique, on va renvoyer dans l'analyseur lexical une fonction de calcul du prochain lexème, puisque l'analyse lexicale est faite pour l'analyse syntaxique, cf. \ref{part:AnalyseSyntaxique}
 
 \subsubsection{Construction}
 \paragraph*{L'automate de Thompson}
@@ -479,7 +473,7 @@ On peut utiliser $\textmd{ocamllex}$ pour :
 \end{enumerate}
 
 
-\part[Analyse Syntaxique]{Cours 4 : 20/10}
+\part[Analyse Syntaxique]{Cours 4 : 20/10}\label{part:AnalyseSyntaxique}
 \section{Analyse Syntaxique}
 L'objectif de l'analyse syntaxique est, à partir d'une suite de lexèmes, de construire la syntaxe abstraite, qu'on représente sous forme d'arbre. En particulier, l'analyse syntaxique doit détecter les erreurs de syntaxe et les localiser précisément, les identifier (parenthèse non fermée, etc...) voire reprendre l'analyse pour découvrir de nouvelles erreurs. On va utiliser : une grammaire non contextuelle pour décrire la syntaxe et un automate à pile pour la reconnaître. 
 
@@ -693,5 +687,124 @@ Les transitions de l'automate $LR(1)$ non déterministe sont :
 L'état initial est celui qui contient $\left[S \rightarrow \cdot \alpha, \#\right]$. On peut déterminiser l'automate et construire la table correspondante : on introduit une action de réduction pour $(s, a)$ seulement lorsque $s$ contient un item de la forme $\left[X \rightarrow \alpha\cdot, a\right]$.
 
 Pour des questions de puissances de calcul, on introduit la classe $LALR(1)$, lookahead LR, qui est une approximation beaucoup utilisée dans les outils de la famille \textmd{yacc}.
+
+\part[Analyse Syntaxique 2]{Cours 5 : 27/10}
+\section{Localisations}
+L'outil \textmd{ocamllex} maintient, dans la structure de type \textmd{Lexing.lexbuf}, la position courante dans le texte source qui est analysé. On peut alors obtenir la localisation de la dernère chaîne reconnue par \textmd{ocamllex}. On peut utiliser ces informations pour localiser les erreurs de syntaxe, mais aussi de potentielles erreurs lexicales comme une chaîne ou un commentaire non fermé.\\
+L'outil \textmd{Menhir}\footnote{L'outil \textmd{Cairn} permet de visualiser l'analyse de \textmd{Menhir}.} récupère ces informations et les fournit dans deux valeurs \textmd{\$startpos} et \textmd{\$endpos}, qui, dans une action sémantique, correspondent au début et à la fin du texte reconnu par la règle de grammaire. On peut alors stocker cette information dans l'arbre de syntaxe abstraite. 
+
+\section{Analyse Syntaxique Elementaire}
+On va ici construire un analyseur syntaxique pour des expressions arithmétiques incluant :
+\begin{itemize}
+    \item des constantes
+    \item des additions
+    \item des multiplications
+    \item des parenthèses
+\end{itemize}
+On part d'un analyseur lexical, par exemple écrit avec \textmd{ocamllex}:
+\begin{minted}{ocaml}
+type token = 
+    | CONST of int
+    | PLUS
+    | TIMES
+    | LEFTPAR
+    | RIGHTPAR
+    | EOF
+\end{minted}
+et on veut obtenir un arbre de syntaxe abstraite : 
+\begin{minted}{ocaml}
+type expr = 
+    | Const of int
+    | Add of expr * expr
+    | Mul of expr * expr
+\end{minted}
+
+On écrit un parser dans le fichier Menhir, puis, juste en dessous dans le fichier, l'analyseur syntaxique.
+
+\begin{remark}
+    Conseil : Commencer par écrire un pretty-printer, ici, en OcamL avec la bibliothèque \textmd{Format} :
+\end{remark}
+
+    \begin{minted}{ocaml}
+        open Format
+        let rec print_expr fmt = function
+          | Add (e1, e2) -> fprintf fmt "%a +@ %a" print_expr e1 print_expr e2
+          | e            -> print_term fmt e
+        and print_term fmt = function
+          | Mul (e1, e2) -> fprintf fmt "%a *@ %a" print_term e1 print_term e2
+          | e            -> print_factor fmt e
+        and print_factor fmt = function
+          | Const n -> fprintf fmt "%d" n
+          | e       -> fprintf fmt "(@[%a@])" print_expr e
+    \end{minted}
+
+
+L'analyseur syntaxique suit la même structure que la fonction d'affichage\footnote{Le code n'est pas complet, cf \href{https://www.lri.fr/~filliatr/ens/compil/}{page du cours}}. C'est ça, le bon conseil de Gilles Kahn : 
+\begin{center}
+    \begin{minted}{ocaml}
+        let rec parse_expr () =
+            let e = parse_term () in
+            if !t = PLUS then (next (); Add (e, parse_expr ())) else e 
+        and parse_term () =
+            let e = parse_factor () in
+            if !t = TIMES then (next (); Mul (e, parse_term ())) else e
+        and parse_factor () = match !t with
+            | CONST n -> next (); Const n
+            | LEFTPAR -> next (); 
+                let e = parse_expr () in 
+                if !t <> RIGHTPAR then error ();
+                next (); e
+            | _ -> error ()
+    \end{minted}
+\end{center}
+\begin{remark}
+    On pourrait inclure l'analyse lexicale dans un tel code, avec d'autres fonctions récursives pour lire les constantes entières, ignorer les blancs, etc\dots\\
+    Pour des opérateurs associatifs à gauche, le code sera légèrement différent mais le principe reste le même. 
+\end{remark}
+
+\section{Analyse Descendante}
+\subsection{Fonctionnement}
+On va procéder par expansions successives du non-terminal le plus à gauche (dérivation gauche) en partant de $S$ et en utilisant une table qui indique pour un non-terminal $X$ à expanser et les $k$ premiers caractères de l'entrée, l'expansion $X\rightarrow\beta$ à effectuer. Dans la suite, on va prendre $k = 1$, et on va noter $T(X, c)$ cette table. En pratique, on suppose qu'un symbole terminal \# dénote la fin de l'entrée, et la table indique donc également l'expansion de $X$ lorsqu'on atteint la fin de l'entrée.\\
+On utilise une pile qui est un mot de $\left(N \cup T\right)^{\star}$. Initialement, la pile est réduite au symbole de départ. A chaque instant, on va ensuite examiner le sommet de la pile et le premier caractère $c$ de l'entrée: 
+\begin{itemize}
+    \item Si la pile est vide, on s'arrête; il y a succès ssi $c$ est \#.
+    \item Si le sommet de la pile est un terminal $a$, alors $a$ doit être égal à $c$, on dépile alors $a$ et on consomme $c$; sinon on échoue.
+    \item Si le sommet de la pile est un non terminal $X$, on remplace $X$ par le mot $\beta = T(X, c)$ en sommet de pile, en empilant les caractères de $\beta$ en partant du dernier; sinon on échoue
+\end{itemize}
+
+\subsection{Programmation}
+Un analyseur descendant se programme en introduisant une fonction pour chaque non terminal de la grammaire. Chaque fonction examine l'entrée, et selon le cas, la consomme ou appelle récursivement les fonctions correspondant à d'autres non terminaux, selon la table d'expansion. 
+\begin{remark}
+    \begin{itemize}
+        \item La table d'expansion n'est alors pas explicite : elle est dans le code de chaque fonction.
+        \item La pile n'est pas explicite, elle est réalisée par la pile d'appels.
+        \item En pratique il faut construire l'arbre de syntaxe abstraite. 
+    \end{itemize}
+\end{remark}
+
+\subsection{Construction de la Table d'Expansion}
+Pour décider si on réalise l'expansion $X\rightarrow\beta$ lorsque le premier caractère de l'entrée est $c$, on va chercher à déterminer si $c$ fait partie des premiers caractères des mots reconnus par $\beta$. Une difficulté se pose pour une production telle que $X\rightarrow\epsilon$, et il faut alors considérer l'ensemble des caractères qui peuvent suivre $X$. On utilise donc à nouveau les fonctions \textmd{first} et \textmd{follow} :Pour chaque production $X \rightarrow\beta$
+\begin{itemize}
+    \item On pose $T(X, a) = \beta$ pour tout $a \in \textmd{first}(\beta)$
+    \item Si $\textmd{null}(\beta)$, on pose aussi $T(X, a) = \beta$ pour tout $a\in \textmd{follow}(X)$.
+\end{itemize}
+Il peut y avoir plusieurs éléments dans une même case : 
+\begin{definition}
+    Une grammaire est dite $LL(1)$ si, dans la table précédente, il y a au plus une production dans chaque case. 
+\end{definition}
+Une grammaire récursive gauche, i.e. contenant des productions de la forme : $X\rightarrow X\alpha | \beta$, ne sera jamais $LL(1)$. En effet, les \textmd{first} seront les mêmes pour ces deux productions. En particulier, la grammaire :
+\begin{tabular}{c@{$\rightarrow$}c}
+    $E$ & $E + T$\\
+    & $T$\\
+    $T$ & $T * F$\\
+    & $F$\\
+    $F$ & $( E )$\\
+    & $\textmd{int}$\\
+\end{tabular}
+n'est pas $LL(1)$. Plus généralement, si une grammaire contient $X \rightarrow a\alpha + a\beta$. Il faut alors factoriser (à gauche) les productions qui commencent par le même terminal.
+
+\section{Indentation comme Syntaxe}
+Dans certains langages, l'indentation (blancs de début de ligne/alignement vertical) est utilisée pour définir la syntaxe. L'analyseur lexical introduit des lexèmes \textmd{NEWLINE} (fin de ligne), \textmd{INDENT} (quand l'indentation augmente) et \textmd{DEDENT} (quand elle diminue). Il suffit alors de les utiliser dans la grammaire du langage. 
+
 
 \end{document}

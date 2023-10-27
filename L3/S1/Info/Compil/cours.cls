@@ -28,10 +28,11 @@
 \RequirePackage{stmaryrd}
 \setcounter{secnumdepth}{4}
 \RequirePackage{wrapfig}
+\RequirePackage{minted}
 \RequirePackage{graphicx}
-\RequirePackage{hyperref}
 \graphicspath{ {./} }
 \RequirePackage[justification=centering]{caption}
+\RequirePackage{hyperref}
 
 \author{Null}
 \title{None}
@@ -76,3 +77,9 @@
 \newcommand{\Q}{\mathbb{Q}}
 \newcommand{\C}{\mathbb{C}}
 \newcommand{\N}{\mathbb{N}}
+\newcommand*{\rrarrow}{\twoheadrightarrow}
+\newcommand*{\llarrow}{\twoheadleftarrow}
+\newcommand*{\fun}[2]{\textmd{fun } #1 \rightarrow #2}
+\newcommand*{\letval}{\textmd{let }}
+\newcommand*{\letin}[1]{\textmd{let } #1 \textmd{ in }}
+
