@@ -3,31 +3,298 @@
 \author{Gaëtan Chenevier}
 \date{\today}
 
+\newtheorem{example}{Exemple}[section]
+\newcommand*{\scalar}[1]{\langle #1 \rangle}
+\newcommand*{\znz}[1]{\left(\Z/ #1\Z\right)}
 
 \begin{document}
-\section{Ensembles Quotients}
-\section{Généralités sur les Groupes}
-\subsection{Isomorphismes et Morphismes}
-\begin{theorem}[Transfert de Structure]
-    Soient $G$ un groupe, $X$ un ensemble en bijection par $\phi$ avec G. Il existe une unique loi de groupe sur $X$ telle que $X$ et $G$ soient isomorphes par $\phi$.
-\end{theorem}
-\begin{corollary}
-    Tout ensemble peut être muni d'une loi de groupe : 
-    \begin{itemize}
-        \item Si $X$ est fini, on prend une bijection de $X$ dans $\mathbb{Z}/n\mathbb{Z}$.
-        \item Sinon, il est en bijection avec $\left(\mathbb{Z}/2\mathbb{Z}\right)^{(X)}$ (Note, parties finies)
-    \end{itemize}
-\end{corollary}
-\begin{remark}
-    Si on connaît toutes les lois de groupe sur $\left\{1, \ldots, n\right\}$, on connaît tous les groupes d'ordre $n$.
-\end{remark}
+\part{Ensembles Quotients}
+\section{Partitions et Relations d'Equivalence}
 \begin{definition}
-    On note $\text{Aut}_{G}$ l'ensemble des automorphismes de $G$.
+    Une \emph{partition} d'un ensemble $X$ est un ensemble de parties non vides de $X$ de réunion disjointe $X$. 
+\end{definition}
+\begin{definition}
+    On appelle \emph{fibre} d'une application $f : X \rightarrow Y$ en $y \in Y$ l'ensemble $f^{-1}(y) = \left\{x \in X \mid f(x) = y\right\}$. Il s'agit d'une partition de $X$ indexée par $Y$. Toute partition de $X$ s'obtient ainsi. 
+\end{definition}
+
+\begin{definition}
+    Une \emph{relation d'arité} $n$ sur un ensemble $X$ est la donnée d'un ensemble $R \subseteq X^{n}$. Une relation binaire $R$ i.e. une partie de $X\times X$ est dite d'\emph{équivalence} si elle est réflexive, transitive et symétrique. On appelle \emph{classe de $R$-équivalence} de $x$ l'ensemble $\left[x\right]_{R} = \left\{y \in X \mid \left\{x, y\right\} \in R\right\}$
+\end{definition}
+
+\begin{proposition}\label{partclassdeq}
+    Les classes d'équivalences d'une relation $R$ sur $X$ forment une partition de $X$. 
+\end{proposition}
+
+\begin{definition}
+    Si $R$ est une relation d'équivalence sur $X$, le sous-ensemble de $P(X)$ constitué des classes de $R$-équivalence est appelé \emph{ensemble quotient} de $X$ par $R$, noté $X/R$. L'application $\pi_{R} : X \rightarrow X/R, x \mapsto \left[x\right]_{R}$ est appelée \emph{projection canonique} associée à $R$. C'est une surjection dont les fibres sont par définition les classes d'équivalences de $R$.
+\end{definition}
+
+\begin{example}
+    On définit $\Z/n\Z$ l'ensemble quotient de $\Z$ pour la relation $n \mid b - a$. On note $\overline{k}$ la classe de $k$.
+\end{example}
+
+\section{Passage au Quotient}
+\begin{theorem}[Propriété Universelle du Quotient]\label{proprietequotient}
+    Soient $f : X \rightarrow Y$ une application et $R$ une relation d'équivalence sur $X$. On suppose que $f$ est constante sur chaque classe d'équivalence sur $X$. Alors, il existe une unique application $g : X/R \rightarrow Y$ telle que $g\left(\left[x\right]_{R}\right) = f(x)$ pour tout $x \in X$, i.e. vérifiant $g \circ \pi_{R} = f$.
+\end{theorem}
+\begin{proof}
+    Par surjectivité de $\pi_{R}$, $g$ est unique. De plus, si $C$ est une classe de $R$-équivalence, il y a un sens à poser $g(C) = f(x)$ car $C$ est une classe d'équivalence sur laquelle $f$ est constante.
+\end{proof}
+
+\section{Sections et systèmes de représentants}
+\begin{definition}
+    Une \emph{section} de $f : X \rightarrow Y$ est une application $s : Y \rightarrow X$ telle que $f \circ s = \textmd{id}_{Y}$
+\end{definition}
+\begin{proposition}
+    $f$ possède une section $\Rightarrow$ $f$ est surjective
+\end{proposition}
+
+\begin{definition}[Axiome du Choix]\label{AC}
+    Pour tout ensemble $X$ il existe une application $\tau : P(X) \setminus \left\{\emptyset\right\} \rightarrow X$ telle que $\tau(E) \in E$ pour toute partie non vide $E$ de $X$. On appelle $\tau$ fonction de choix sur $X$. 
+\end{definition}
+
+\begin{proposition}
+    Les propositions suivantes sont équivalentes à l'axiome du choix (donc fausses): 
+    \begin{enumerate}
+        \item Toute surjection admet une section.
+        \item Pour toute famille d'ensembles non vides $\left\{X_{i}\right\}_{i\in I}$, $\pi_{i\in I}X_{i}$ est non vide.
+    \end{enumerate}
+\end{proposition}
+
+\begin{definition}
+    Un \emph{représentant} d'une classe de $R$-équivalence d'un ensemble $X$ est un élément de cette classe. Un \emph{système de réprésentants} de $\left(X, R\right)$ est la donnée d'une partie de $X$ contenant un et un seul représentant de chaque classe de $R$-équivalence. C'est l'image d'une section de $\pi_{R}$.
 \end{definition}
 \begin{remark}
-    L'ensemble des automorphismes intérieurs de $G$ est un sous-groupe de $\text{Aut}_{G}$
+    Ceci est également équivalent à \ref{AC}
 \end{remark}
+
+\section{Lemme de Zorn}
+\begin{definition}
+    \begin{itemize}
+        \item Un \emph{relation d'ordre} sur un ensemble $X$ est une relation binaire $\leq$ réfléxive, transitive et antisymétrique. On dit alors que $X$ est ordonné.
+        \item L'ordre $\leq$ est total quand tous deux éléments de $X$ sont comparables. 
+        \item On appelle majorant d'une partie $Y$ de $X$, tout élément $x \in X$ tel que $y \leq x$ pour tout $y \in Y$. On parle de plus grand élément dans le cas $Y = X$.
+        \item $x \in X$ est un élément maximal si le seul $y \in X$ tel que $y \leq x$ est $x$. Un plus grand élément est nécessairement maximal, et unique s'il existe.
+        \item On appelle $X$ inductif si tout sous-ensemble totalement ordonné admet et majorant.
+        \item On appelle bon ordre un ordre pour lequel toute partie non vide admet un plus petit élément.
+    \end{itemize}
+\end{definition}
+
+\begin{theorem}[Lemme de Zorn]\label{Zorn}
+    Un ensemble ordonné inductif possède au moins un élément maximal. Ceci est équivalent à l'axiome du choix \ref{AC}.
+\end{theorem}
+\begin{corollary}
+    Tout espace vectoriel possède une base.
+\end{corollary}
+\begin{corollary}[Théorème de Zermelo]\label{Zermelo}
+    Tout ensemble peut être muni d'un bon ordre.
+\end{corollary}
+\begin{proof}
+    C'est équivalent à l'axiome du choix donc faux et les preuves prennent trois plombes.
+\end{proof}
+\newpage
+\part{Généralités sur les Groupes}
+\section{Exemples de Groupes}
+\begin{definition}
+    Une \emph{loi de composition interne} est une application $\star : X \times X \rightarrow X$.
+\end{definition}
+\begin{definition}[Groupe]
+    Un groupe est un ensemble $G$ muni d'une loi de composition associative, unifère et inversible, i.e.:
+    \begin{enumerate}
+        \item $\forall \ (x, y, z) \in G, \ x \star (y \star z) = (x \star y) \star z$ 
+        \item $\exists \ e \in G,\ \forall x \in G, \ e\star x = x \star e = x$.
+        \item $\forall x \in G, \ \exists y \in G, \ x \star y = y \star x = e$
+    \end{enumerate}
+\end{definition}
+
 \begin{remark}
-    Tous deux isomorphismes $\phi$ et $\psi$ de $G$ dans $G^{'}$ s'obtiennent par la composé de l'un par un automorphismes de $G$.
+    Le neutre est unique.
 \end{remark}
+
+\begin{example}[Groupe Symétrique]
+    On note : $\mathfrak{S}_{X} = X^{X}$ le groupe muni de la loi $\circ$ de composition des applications, appelé \emph{groupe symétrique} de $X$, de neutre $\textmd{id}_{X}$. L'inverse d'une bijection $\sigma$ est sa bijection réciproque $\sigma^{-1}$. On note $\mathfrak{S}_{n} = \lvert 1, n\rvert^{\lvert 1, n\rvert}$ et alors $\abs{\mathfrak{S}_{n}} = n!$.
+\end{example}
+
+\begin{definition}
+    Un groupe est dit \emph{abélien} lorsque tous deux élements commutent.
+\end{definition}
+
+\begin{definition}
+    Une partie $H$ d'un groupe $G$ est un \emph{sous-groupe} de $G$ lorsque la loi induite par le produit dans $G$ fait de $H$ un groupe. On le notera ici $H \leq G$.
+\end{definition}
+
+\begin{example}[Groupes d'ordre n]
+        Pour $n \geq 1$, on note $\mu_{n}$ le sous-groupe de $\C^{\times}$ composé des racines $n$-ièmes de l'unité. C'est un sous-groupe d'ordre $n$. L'application $\Z/n\Z \rightarrow \mu_{n}, \overline{k} \mapsto e^{2ik\pi/n}$ est un isomorphisme de groupe. 
+\end{example}
+
+\begin{definition}
+    Un \emph{anneau} est un groupe abélien $(A, +)$ muni d'une loi associative unifère et distributive sur $+$, notée $\times$. Il est dit commutatif lorsque la loi produit est commutative.
+\end{definition}
+
+\begin{definition}
+    On note $A^{\times}$ le groupe des inversibles du monoïde $(A, \cdot)$.
+\end{definition}
+
+\begin{proposition}
+    La loi d'un groupe vérifie les propriété de la loi produit usuelle sur $\R$.
+\end{proposition}
+
+\begin{definition}
+    On appelle groupe engendrée par une partie $X$ de $G$ le plus petit sous groupe de $G$ contenant $X$. C'est l'ensemble des produits de puissances d'éléments de $X$.
+\end{definition}
+
+\section{Morphismes}
+\begin{definition}
+    On appelle \emph{morphisme} une application entre deux groupes qui préserve le produit. On note $Hom(G, G^{'})$ l'ensemble des morphismes de $G$ dans $G^{'}$. Ce n'est à priori pas naturellement un groupe si $G^{'}$ n'est pas abélien.  \\
+    On dit que $G$ et $G^{'}$ sont isomorphes lorsqu'il existe un morphisme bijectif de l'un vers l'autre. La réciproque d'un isomorphisme est un isomorphisme. On note alors $G \simeq G^{'}$.
+\end{definition}
+
+\begin{proposition}[Transport de Structure]\label{transport}
+    Si $G$ est un groupe, $\phi : X \rightarrow G$ une bijection, il existe une unique loi de groupe sur $X$ telle que $\phi$ soit un isomorphisme, à savoir $x \star y = \phi^{-1}(\phi(x)\phi(y))$. On dit que la loi est \emph{déduite} de celle de $G$ par transport de structure via $\phi$.
+\end{proposition}
+
+\begin{definition}
+    On appelle \emph{automorphisme} de $G$ un isomorphisme de $G$ dans $G$. L'ensemble des automorphismes $Aut(G)$ est un sous groupe de $S_{G}$. On appelle automorphisme intérieur associé à $g \in G$ l'application : $h \in G \mapsto ghh^{-1}$.
+\end{definition}
+
+\begin{definition}
+    On appelle \emph{noyau} d'un morphisme $\ker(f) = f^{-1}(1) = \left\{g \in G \mid f(g) = 1\right\}$. C'est un sous-groupe de $G$.
+\end{definition}
+
+\begin{proposition}
+    Si $f \in Hom(G, G^{'})$ :
+    \begin{enumerate}
+        \item $H \leq G \Rightarrow f(H) \leq G^{'}$
+        \item $H \leq G^{'} \Rightarrow f^{-1}(H) \leq G$
+    Avec $\mathcal{A}$ l'ensemble des sous-groupes de $G$ contenant $\ker f$ et $\mathcal{B}$ celui des sous-groupes de $G^{'}$ inclus dans $\textmd{Im} f$, alors :
+        \item $\mathcal{A} \rightarrow\mathcal{B}, H \mapsto f(H)$ est une bijection croissante. 
+    \end{enumerate}
+\end{proposition}
+
+\begin{proposition}
+    Les fibres non vides de $f$ sont en bijection avec $\ker f$. En particulier : 
+    \begin{itemize}
+        \item $f$ injective $\Leftrightarrow$ $\ker f = \left\{1\right\}$.
+        \item Si $G$ est fini, $\abs{G} = \abs{\text{Im } f}\abs{\ker f}$.
+    \end{itemize}
+\end{proposition}
+
+\begin{theorem}[Cayley]
+    Tout groupe d'ordre fini $n$ est isomorphe à un sous-groupe de $S_{n}$. 
+\end{theorem}
+
+\begin{lemma}
+    Si $\phi : X \rightarrow Y$ est bijective, l'application : $\phi_{X, Y} : S_{X} \rightarrow S_{Y}, \sigma \mapsto \phi \circ \sigma \circ \phi^{-1}$ est un isomorphisme de groupes. 
+\end{lemma}
+
+\begin{definition}
+    Un morphisme d'anneau est un morphisme des groupes additifs et des monoïdes multiplicatifs (en particulier, il envoie $1$ sur $1$).
+\end{definition}
+
+\section{Groupes Cycliques et Monogènes}
+\begin{proposition}
+    Les sous-groupes de $\Z$ sont les $n\Z$.
+\end{proposition}
+
+\begin{proposition}
+    Si $g \in G$ est d'ordre fini $n$, alors $\langle g \rangle$ a exactement $n$ éléments et est isomorphe à $\Z/n\Z$. 
+\end{proposition}
+
+\begin{definition}
+    Un groupe $G$ est \emph{monogène} s'il est engendré par un seul élément, appelé \emph{générateur}. Il est \emph{cyclique} s'il est fini. 
+\end{definition}
+
+\begin{corollary}
+    Un groupe $G$ est monogène infini si et seulement si il est isomorphe à $\Z$. Il est cyclique d'ordre $n \geq 1$ si et seulement si isomorphe à $\Z/n\Z$.
+\end{corollary}
+
+\begin{proposition}[Générateurs d'un Groupe Cyclique]
+    \begin{itemize}
+        \item Les générateurs de $\Z, +$ sont les $k \in \Z$ tels que $\Z = k\Z$, i.e. $k = \pm 1$.
+        \item Pour $k \in \Z$, $G = \scalar{g}$ un groupe cyclique d'ordre $n$, on a équivalence entre :
+        \begin{enumerate}
+            \item $\scalar{g^{k}} = G$
+            \item $g \in \scalar{g^{k}}$
+            \item $\exists k^{'} \in \Z,\ kk^{'} = 1 \text{ mod } n$
+            \item $\overline{k} \in \left(\Z/n\Z\right)^{\times}$
+            \item $k \wedge n = 1$
+        \end{enumerate}
+    \end{itemize}
+\end{proposition}
+\begin{corollary}
+    Un groupe cyclique d'ordre $n$ a exactement $\phi(n)$ générateurs.
+\end{corollary}
+\begin{corollary}
+    Si $G$ est cyclique d'ordre $n$ : $Aut(G) = \left\{g \mapsto g^{k} \mid k \in (\Z/n\Z)^{\times}\right\}$. On a alors un isomorphisme de $(\Z/n\Z)^{\times}$ dans $Aut(G)$.
+\end{corollary}
+
+\begin{remark}
+    Si $g \in G$ est d'ordre fini $n$, si $d \geq 1$, $g^{d}$ est d'ordre fini $\frac{n}{n \wedge d}$.
+\end{remark}
+
+\begin{proposition}
+    Si $G$ est cyclique d'ordre $n$, $d \mapsto G_{d} = \left\{g^{d} \mid g \in G\right\}$ est une bijection de l'ensemble des diviseurs de $n$ sur l'ensemble des sous-groupes de $G$. 
+\end{proposition}
+
+\begin{theorem}[Chinois]
+    Soient $m, n \in \Z$ premiers entre eux. L'application $\Z \rightarrow (\Z/n\Z) \times (\Z/m\Z),\ k \mapsto \left(k \mod n, k \mod m\right)$ définit un isomorphismepar par passage au quotient de par la propriété universelle \ref{proprietequotient}.
+\end{theorem}
+
+\section{Théorème de Lagrange} % et pas de la ferme
+\begin{definition}
+    Si $A, B$ sont deux parties d'un groupe, $AB = \left\{ab \mid a \in A, b\in B\right\}$. Si $A = \left\{g\right\}$, on le note $gB$.
+\end{definition}
+\begin{lemma}
+    $H \leq G \Leftrightarrow \left(H \neq \emptyset, HH = H, H^{-1} = H\right)$.
+\end{lemma}
+\begin{definition}
+    On pose $g\sim_{H}g^{'}$ si $g^{'} \in gH$. C'est une relation d'équivalence. On note $G/H$ son ensemble quotient, et on appelle indice de $H$ dans $G$ son cardinal noté $[G : H]$.
+\end{definition}
+
+\begin{theorem}[Lagrange]\ref{Lagrange}
+    Si $H$ est un sous-groupe de $G$, $G \sim H \times (G/H)$. En particulier, si deux des trois ensembles $G, H, G/H$ sont finis, $\abs{G} = \abs{H}\left[G : H\right]$.
+\end{theorem}
+\begin{corollary}
+    \begin{itemize}
+        \item Si $H$ est un sous-groupe du groupe fini $G$, $\abs{H} \mid \abs{G}$.
+        \item Si $G$ est fini, $g\in G$, $g^{\abs{G}} = 1$.
+        \item $n^{p-1} \cong 1 \text{ mod } p$ pour $n\in \Z, p \in \P$.
+        \item Tout groupe d'ordre premier $p$ est isomorphe à $\Z/p\Z$.
+    \end{itemize}
+\end{corollary}
+
+\begin{theorem}[Cauchy]
+    Soit $G$ un groupe fini, $p$ un nombre premier divisant $\abs{G}$. $G$ possède un élément d'ordre $p$. Si $G$ est abélien, on peut généraliser immédiatement à tout $p \in \Z$.
+\end{theorem}
+
+\section{Sous-groupes finis de $k^{\times}$ et $\left(\Z/n\Z\right)^{\times}$}
+\begin{theorem}
+    Si $k$ est un corps, tout sous-groupe fini de $k^{\times}$ est cyclique.
+\end{theorem}
+\begin{lemma}[Cauchy]
+    Soit $G$ un groupe, $x, y$ deux éléments qui commutent d'ordres $a$ et $b$ premiers entre eux. Alors, $xy$ est d'ordre $ab$. 
+\end{lemma}
+\begin{theorem}[Gauss]
+    Pour $p$ premier, le groupe $\left(\Z/p\Z\right)^{\times}$ est cyclique.
+\end{theorem}
+\begin{definition}
+    Un isomorphisme de groupes $\left(\Z/p\Z\right)^{times} \simeq \Z/(p-1)\Z$ est appelé un logarithme discret.
+\end{definition}
+\begin{definition}
+    Pour un groupe, on note $G^{(n)}$ le groupe des puissances $n$-ièmes.
+\end{definition}
+\begin{proposition}
+    Soient $p\in\P$, $n\geq 1$ et $m = (p-1)\wedge n$.
+    \begin{enumerate}
+        \item $\left(\Z/p\Z\right)^{\times, (n)}$ est cyclique d'ordre $\frac{p - 1}{m}$ et égal à $\left(\Z/p\Z\right)^{\times, (m)}$
+        \item Pour $x \in \left(\znz{p}\right)^{\times}$, on a $x \in \left(\znz{p}\right)^{\times, (n)}$ si et seulement si $x^{\frac{p-1}{m}} = 1$, i.e. $X^{\frac{p-1}{m}}$ a au plus $\frac{p-1}{m}$ racines dans $\znz{p}$ et donc ses racines sont exactement les puissances $n$-èmes.
+    \end{enumerate}
+\end{proposition}
+
+\begin{proposition}
+    Si $p$ est premier impair, $m \geq 1$, alors $\left(\znz{p^{m}}\right)^{\times}$ est cyclique. 
+\end{proposition}
+
+\section{Groupes Quotients}
+
 \end{document}
