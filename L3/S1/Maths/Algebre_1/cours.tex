@@ -8,8 +8,9 @@
 \newcommand*{\znz}[1]{\left(\Z/ #1\Z\right)}
 
 \begin{document}
-\part{Ensembles Quotients}
-\section{Partitions et Relations d'Equivalence}
+\newpage
+\section{Ensembles Quotients}
+\subsection{Partitions et Relations d'Equivalence}
 \begin{definition}
     Une \emph{partition} d'un ensemble $X$ est un ensemble de parties non vides de $X$ de réunion disjointe $X$. 
 \end{definition}
@@ -33,7 +34,7 @@
     On définit $\Z/n\Z$ l'ensemble quotient de $\Z$ pour la relation $n \mid b - a$. On note $\overline{k}$ la classe de $k$.
 \end{example}
 
-\section{Passage au Quotient}
+\subsection{Passage au Quotient}
 \begin{theorem}[Propriété Universelle du Quotient]\label{proprietequotient}
     Soient $f : X \rightarrow Y$ une application et $R$ une relation d'équivalence sur $X$. On suppose que $f$ est constante sur chaque classe d'équivalence sur $X$. Alors, il existe une unique application $g : X/R \rightarrow Y$ telle que $g\left(\left[x\right]_{R}\right) = f(x)$ pour tout $x \in X$, i.e. vérifiant $g \circ \pi_{R} = f$.
 \end{theorem}
@@ -41,7 +42,7 @@
     Par surjectivité de $\pi_{R}$, $g$ est unique. De plus, si $C$ est une classe de $R$-équivalence, il y a un sens à poser $g(C) = f(x)$ car $C$ est une classe d'équivalence sur laquelle $f$ est constante.
 \end{proof}
 
-\section{Sections et systèmes de représentants}
+\subsection{Sections et systèmes de représentants}
 \begin{definition}
     Une \emph{section} de $f : X \rightarrow Y$ est une application $s : Y \rightarrow X$ telle que $f \circ s = \textmd{id}_{Y}$
 \end{definition}
@@ -68,7 +69,7 @@
     Ceci est également équivalent à \ref{AC}
 \end{remark}
 
-\section{Lemme de Zorn}
+\subsection{Lemme de Zorn}
 \begin{definition}
     \begin{itemize}
         \item Un \emph{relation d'ordre} sur un ensemble $X$ est une relation binaire $\leq$ réfléxive, transitive et antisymétrique. On dit alors que $X$ est ordonné.
@@ -92,9 +93,11 @@
 \begin{proof}
     C'est équivalent à l'axiome du choix donc faux et les preuves prennent trois plombes.
 \end{proof}
+
+
 \newpage
-\part{Généralités sur les Groupes}
-\section{Exemples de Groupes}
+\section{Généralités sur les Groupes}
+\subsection{Exemples de Groupes}
 \begin{definition}
     Une \emph{loi de composition interne} est une application $\star : X \times X \rightarrow X$.
 \end{definition}
@@ -143,7 +146,7 @@
     On appelle groupe engendrée par une partie $X$ de $G$ le plus petit sous groupe de $G$ contenant $X$. C'est l'ensemble des produits de puissances d'éléments de $X$.
 \end{definition}
 
-\section{Morphismes}
+\subsection{Morphismes}
 \begin{definition}
     On appelle \emph{morphisme} une application entre deux groupes qui préserve le produit. On note $Hom(G, G^{'})$ l'ensemble des morphismes de $G$ dans $G^{'}$. Ce n'est à priori pas naturellement un groupe si $G^{'}$ n'est pas abélien.  \\
     On dit que $G$ et $G^{'}$ sont isomorphes lorsqu'il existe un morphisme bijectif de l'un vers l'autre. La réciproque d'un isomorphisme est un isomorphisme. On note alors $G \simeq G^{'}$.
@@ -191,7 +194,7 @@
     Un morphisme d'anneau est un morphisme des groupes additifs et des monoïdes multiplicatifs (en particulier, il envoie $1$ sur $1$).
 \end{definition}
 
-\section{Groupes Cycliques et Monogènes}
+\subsection{Groupes Cycliques et Monogènes}
 \begin{proposition}
     Les sous-groupes de $\Z$ sont les $n\Z$.
 \end{proposition}
@@ -240,7 +243,7 @@
     Soient $m, n \in \Z$ premiers entre eux. L'application $\Z \rightarrow (\Z/n\Z) \times (\Z/m\Z),\ k \mapsto \left(k \mod n, k \mod m\right)$ définit un isomorphismepar par passage au quotient de par la propriété universelle \ref{proprietequotient}.
 \end{theorem}
 
-\section{Théorème de Lagrange} % et pas de la ferme
+\subsection{Théorème de Lagrange} % et pas de la ferme
 \begin{definition}
     Si $A, B$ sont deux parties d'un groupe, $AB = \left\{ab \mid a \in A, b\in B\right\}$. Si $A = \left\{g\right\}$, on le note $gB$.
 \end{definition}
@@ -267,7 +270,7 @@
     Soit $G$ un groupe fini, $p$ un nombre premier divisant $\abs{G}$. $G$ possède un élément d'ordre $p$. Si $G$ est abélien, on peut généraliser immédiatement à tout $p \in \Z$.
 \end{theorem}
 
-\section{Sous-groupes finis de $k^{\times}$ et $\left(\Z/n\Z\right)^{\times}$}
+\subsection{Sous-groupes finis de $k^{\times}$ et $\left(\Z/n\Z\right)^{\times}$}
 \begin{theorem}
     Si $k$ est un corps, tout sous-groupe fini de $k^{\times}$ est cyclique.
 \end{theorem}
@@ -292,9 +295,434 @@
 \end{proposition}
 
 \begin{proposition}
-    Si $p$ est premier impair, $m \geq 1$, alors $\left(\znz{p^{m}}\right)^{\times}$ est cyclique. 
+    Si $p$ est premier impair, $m \geq 1$, alors $\left(\znz{p^{m}}\right)^{\times}$ est cyclique. Si $m\geq 2$, $\left(\znz{2^{m}}\right)^{\times} \simeq \znz{2} \times \znz{2^{n-2}}$
 \end{proposition}
 
-\section{Groupes Quotients}
+\subsection{Groupes Quotients}
+\begin{definition}
+    Un sous-groupe $H$ de $G$ est dit \emph{distingué}, noté $H \lhd G$ si l'une des conditions équivalentes suivantes est vérifiée : 
+    \begin{enumerate}
+        \item $gHg^{-1} \subset H,\ \forall g \in G$
+        \item $gHg^{-1} = H,\ \forall g \in G$
+        \item $gH = Hg, \ \forall g \in G$.
+    \end{enumerate}
+\end{definition}
+
+\begin{remark}
+    Tous les sous-groupes d'un groupe abélien sont distingués. Un groupe d'indice $2$ dans $G$ est distingué.
+\end{remark}
+\begin{definition}
+    Le normalisateur de $H$ dans $G$ est le sous-groupe de $G$ défini par $N_{G}(H) = \left\{g \in G \mid gHg^{-1} = H\right\}$.
+\end{definition}
+
+\begin{theorem}
+    Soit $H$ un sous groupe d'un groupe $G$. 
+    \begin{enumerate}
+        \item Il existe au plus une loi de groupe sur $G/H$ telle que la projection canonique $G \rightarrow G/H$ soit une loi de groupe. 
+        \item Une telle loi existe si, et seulement si, on a $H \lhd G$, auquelle cas c'est la loi induite par le produit sur $P(G)$.
+    \end{enumerate}
+\end{theorem}
+
+\begin{definition}
+    Si $H \lhd G$, le groupe quotient $G/H$ est la donnée de l'ensemble $G/H$ muni de son unique loi de groupe telle que la projection canonique est un morphisme de groupes.
+\end{definition}
+
+\begin{definition}
+    On pose $\left(\frac{x}{p}\right) = 1$ si $x$ est un carré non nul, $0$ si $x$ est nul et $-1$ sinon. $x \mapsto \left(\frac{x}{p}\right)$ est un morphisme multiplicatif. 
+\end{definition}
+
+On va étudier les groupes en chercher à étudier des groupes plus simples : étant donné un groupe $G$, on cherche $H \subsetneq G$ un groupe distingué non trivial pour étudier $H$ et $G/H$, d'ordres plus petits. 
+\begin{definition}
+    Un groupe $G$ est dit \emph{simple} si ses seuls groupes distingués sont $\left\{1\right\}$ et $G$.
+\end{definition}
+
+\begin{theorem}[Propriété Universelle des Groupes Quotients]\label{grpquotients}
+    Si $H \lhd G$, et si $f : G \rightarrow G^{'}$ est un morphisme, $g = f \circ \pi$ est un morphisme de $G/H$ dans $G^{'}$ tel que $g(H) = {1}$.
+\end{theorem}
+
+\begin{theorem}[Premier Théorème d'Isomorphisme]
+    Si $f$ est un morphisme de $G$ dans $G^{'}$, alors $f$ induit par passage au quotient un isomorphisme de groupes de $G/\ker f$ dans $\emph{Im} f$
+\end{theorem}
+
+\begin{proposition}[Troisième Théorème d'Isomorphisme]
+    Soit $H \lhd G$ : 
+    \begin{enumerate}
+        \item $H \mapsto K/H$ induit une bijection croissante entre sous groupes de $G$ contenant $H$ et sous-groupes de $G/H$.
+        \item Dans cette bijection, $K/H \lhd G/H \Leftrightarrow K \lhd G$ auquel cas le morphisme naturel $G/H \rightarrow G/K$ induit un isomorphisme $\left(G/H\right)/\left(K/H\right) \rightarrow G/K$.
+    \end{enumerate}
+\end{proposition}
+
+\newpage
+\section{Groupes Abéliens de Type Fini}
+\subsection{Caractères}
+\begin{definition}
+    Un \emph{caractère} d'un groupe $G$ est un morphisme de $G$ dans $\C^{\times}$.
+\end{definition}
+
+\begin{proposition}
+    Soit $G = \scalar{g}$ un groupe cyclique d'ordre $n$. Pour $\zeta \in \mu_{n}$, il existe un unique caractère $\chi_{\zeta}$ de $G$ tel que $\chi_{\zeta}(g) = \zeta$. De plus, $\zeta \mapsto \chi_{\zeta}$ est un isomorphisme de groupes. 
+\end{proposition}
+
+\subsection{Décomposition de Fourier finie}
+\begin{definition}
+    Si $G$ est un groupe fini, on note $L^{2}(G)$ le $\C$-espace vectoreil des fonctions $G \rightarrow \C$ muni du produit hermitien. C'est un espace de dimension finie $\abs{G}$. On note $\hat{G}$ l'ensemble des caractères de $G$. On rappelle que $\C^{\times}$ étant abélien, $\hat{G} = Hom(G, \C^{\times})$
+\end{definition}
+
+\begin{theorem}
+    Soit $G$ un groupe fini. 
+    \begin{enumerate}
+        \item L'ensemble $\hat{G}$ est une famille livre et orthonormée de $L^{2}(G)$ (Orthogonalité des Caractères)
+        \item Si $G$ est abélien, $\hat{G}$ est une base de $L^{2}(G)$.
+    \end{enumerate}    
+\end{theorem}
+
+\begin{corollary}
+    Soit $G$ abélien fini
+    \begin{enumerate}
+        \item On a $\abs{\hat{G}} = \abs{G}$
+        \item Pour toute fonction $f : G \rightarrow \C$ on a $f = \sum_{\chi \in \hat{G}} \scalar{f, \chi} \chi$
+    \end{enumerate}
+\end{corollary}
+
+\begin{proposition}
+    Soit $G$ abélien fini, $H \subset G$ un sous-groupe. Pour tout caractère $\chi$ de $H$, il existe $\tilde{\chi}$ de $G$ tel que $\tilde{\chi_{\mid H}} = \chi$ 
+\end{proposition}
+
+\begin{definition}
+    Un groupe abélien $D$ est \emph{divisible} si le morphisme de groupes $x \mapsto x^{n}$ est surjectif pour tout $n \geq 1$.
+\end{definition}
+
+\begin{proposition}[Prolongement des Morphismes]
+    Soient $G, H, D$ des groupes abéliens avec $D$ divisible, $H \subset G$ et $f : H \rightarrow D$ un morphisme de groupes. Alors il existe un morphisme de groupes $\tilde{f} : G \rightarrow D$ tel que $\tilde{f_{\mid H}} = f$.
+\end{proposition}
+
+\subsection{Structure des groupes abéliens finis}
+\begin{theorem}\label{structuregrpabelfinis}
+    Soit $G$ abélien fini, il existe un unique entier $n\geq 0$ et des uniques entiers $a_{i} > 1$ vérifiant $a_{1} \mid a_{2} \mid \ldots \mid a_{n}$ et $G \simeq \prod_{i=1}^{n} \znz{a_{i}}$.
+\end{theorem}
+
+\begin{definition}
+    L'\emph{exposant} d'un groupe fini $G$ est le plus petit entier $e \geq 1$ vérifiant $g^{e} = 1$ pour tout $g \in G$. C'est le ppcm des ordres des éléments de $G$. 
+\end{definition}
+
+\subsection{Existence}
+\begin{lemma}
+    Si $G$ est abélien fini, il existe un élément d'ordre l'exposant. 
+\end{lemma}
+
+\begin{proposition}
+    Soit $G$ un groupe, $H\leq G, K \leq G$. On suppose $H \cap K = 1, \ G = HK$ et enfin $hk = kh$ pour tout $h \in H,\ k \in K$. L'application produit sur $H \times K$ définit un isomorphisme de groupes. 
+\end{proposition}
+
+De ces deux propositions, on peut prouver la partie existence du théorème. 
+
+\subsection{Exemple}
+\begin{definition}
+    Soit $p$ un nombre premier. Un groupe abélien fini est $p$-élémentaire si on a $g^{p} = 1$ pour tout $g \in G$.
+\end{definition}
+
+\begin{definition}
+    On définit $G^{\sharp}$ le $\znz{p}$-espace vectoriel dont $G$ est le groupe additif. 
+\end{definition}
+
+\begin{proposition}
+    Soit $p$ premier, $G$ abélien fini. $G$ est $p$-élémentaire si et seulement si $G \simeq \left(\znz{p}\right)^{n}$ pour un certain $n \geq 1$. Le nombre minimal de générateurs de $G$ est $\dim_{\znz{p}}G^{\sharp}$.
+\end{proposition}
+
+\subsection{Unicité}
+\begin{definition}
+    On note $\min(G)$ le nombre minimal de générateurs de $G$. Il est fini si et seulement si $G$ est de type fini. 
+\end{definition}
+\begin{proposition}
+    Supposons qu'on écrit une décomposition de $G$ comme dans le théorème \ref{structuregrpabelfinis}. On a $n = \min{(G)}$
+\end{proposition}
+
+\begin{definition}
+    Soit $G$ abélien. Le sous-ensemble $G\left[n\right] = \left\{g^{n} = 1\right\}$ est un sous groupe de $G$ appelé $n$-torsion de $G$. 
+\end{definition}
+
+\begin{lemma}
+    Soit $G$ et $H$ abéliens et $n \geq 1$.
+    \begin{enumerate}
+        \item On a $\left(G \times H\right)\left[n\right] = G\left[n\right] \times H\left[n\right]$
+        \item Tout (iso-)morphisme $G \rightarrow H$ induit un (iso-)morphisme $G\left[n\right] \rightarrow H\left[n\right]$.
+        \item Supposons $G$ cyclique d'ordre $m$ et $p$ premier. Alors $G\left[p\right] = \left\{1\right\}$ sauf si $p \mid m$ auquel cas $G\left[p\right] \simeq \znz{p}$ et $G/G\left[p\right] \simeq \znz{m/p}$.
+    \end{enumerate}
+\end{lemma}
+
+\subsection{Groupes Abéliens de Type Fini}
+On note ici $G$ un groupe abélien additif
+
+\begin{definition}
+    Soit $\mathcal{F} = \left\{g_{1},\ldots, g_{n}\right\}$ une famille d'éléments de $G$ et 
+    \[
+        f : \Z^{n} \rightarrow G, (m_{i}) \mapsto \sum_{i = 1}^{n}m_{i}g_{i}
+    \]
+    On dit que $\mathcal{F}$ est libre (ou $\Z$-libre) si $f$ est injectif. On dit que $\mathcal{F}$ est génératrice si $f$ est surjectif, et est une base si $f$ est bijectif.
+\end{definition}
+
+\begin{definition}
+    Un groupe abélien est dit \emph{libre de rang $n$} s'il possède une $\Z$ base à $n$ éléments, i.e. s'il est isomorphe à $\Z^{n}$. Par conventions, $\left\{0\right\}$ est libre de rang $0$.
+\end{definition}
+
+\begin{lemma}
+    Pour tout entier $n\geq 0$, $\min{\left(\Z^{n}\right)} = n$. En particulier, $\Z^{n} \simeq Z^{m} \Leftrightarrow n = m$.
+\end{lemma}
+
+\begin{definition}
+    On appelle \emph{sous-groupe de torsion} de $G$, le sous-groupe de $G$ noté $G_{\text{tor}} =\left\{g \in G \mid \exists n \geq 1, \ ng = 0\right\}$
+\end{definition}
+ 
+\begin{theorem}[Dirichlet]
+    Si $G$ est abélien de type fini, $G_{\text{tor}}$ est fini et il existe un unique $n \in \N$ tel que $G \simeq G_{\text{tor}} \times \Z^{n}$.
+\end{theorem}
+
+\begin{corollary}
+    Un groupe abélien de type fini sans torsion est libre
+\end{corollary}
+
+\begin{lemma}
+    Si $f:  G \rightarrow \Z$ est surjectif, $G \simeq \Z \times \ker f$.
+\end{lemma}
+
+\begin{lemma}
+    Si $A, B$ sont deux groupes abéliens avec $A$ fini et $B$ libre de rang fini, alors, avec $G = A\times B$ : $G_{\text{tor}} = A \times \left\{0\right\}$ et $G/G_{\text{tor}} \simeq B$.
+\end{lemma}
+
+\newpage
+\section{Groupe Symétrique et Dévissage}
+\subsection{Actions de Groupes}
+\begin{definition}
+    Une action de $G$ sur $X$ est une application : 
+    $\cdot : G \times X \rightarrow X$ vérifiant : 
+    $ 1\cdot x = x$ et $g \cdot \left(h \cdot x\right) = (gh) \cdot x$.
+\end{definition}
+
+\begin{definition}
+    Soit $G$ agissant sur $X$, et $x \in X$.
+    \begin{itemize}
+        \item $O_{x} = \left\{gx \mid g \in G\right\} \subset X$ est l'\emph{orbite} de $x$ sous $G$, aussi notée $Gx$.
+        \item Le sous-groupe $G_{x} = \left\{g \in G \mid gx = x\right\}$ est appelé \emph{stabilisateur} de $x$ ou \emph{groupe d'isotropie de} $x$, noté $\text{Stab}_{G}(x)$.
+    \end{itemize}
+\end{definition}
+
+\begin{lemma}
+    On a : $G_{gx} = gG_{x}g^{-1}$.
+\end{lemma}
+
+\begin{proposition}
+    \begin{itemize}
+        \item Les orbites sous $G$ forment une partition de $X$. 
+        \item Pour tout $x \in X$, on a une bijection $G/G_{x} \xrightarrow{\sim} O_{x}$ envoyant $gG_{x}$ sur $gx$. En particulier, si $G$ est fini, on a $\abs{G} = \abs{G_{x}}\abs{O_{x}}$
+    \end{itemize}
+\end{proposition}
+
+\begin{corollary}
+    On note $x_{i}$ des représentants des orbites de $G$ dans $X$. On a : 
+    \[
+        \abs{X} = \sum_{i\in I} \abs{O_{x_{i}}} = \sum_{i\in I} \abs{G}/\abs{G_{x_{i}}}
+    \]
+\end{corollary}
+
+\begin{theorem}[Premier Théorème de Sylow]
+    Soit $G$ fini d'ordre $p^{n}m$ avec $p$ premier et $m \wedge p = 1$. Alors $G$ possède un sous-groupe d'ordre $p^{n}$, appelé un $p$-Sylow de $G$.
+\end{theorem}
+
+\begin{definition}
+    Une action de $G$ sur $X$ est \emph{transitive} si on a $X \neq \emptyset$ et si $\forall\ x, y \in X,\ \exists \ g \in G, \ y = gx$, i.e. que $X$ a une et une seule orbite sous l'action de $G$.
+\end{definition}
+
+\begin{definition}
+    Le noyau d'une action est le noyau du morphisme $G \rightarrow S_{X}$ associé à l'action. C'est un sous-groupe distingué de $G$. Une action est dite \emph{fidèle} si son noyau est $\left\{1\right\}$.
+\end{definition}
+
+\begin{definition}
+    Une action est \emph{libre} si on a toujours $G_{x} = \left\{1\right\}$.
+\end{definition}
+
+\begin{definition}
+    Deux actions d'un même groupe sur deux ensembles $X$ et $Y$ sont \emph{isomorphes} s'il existe une bijection $f$ vérifiant $f(g \cdot x) = g \star f(x)$. 
+\end{definition}
+
+
+\begin{proposition}
+    Une action transitive $\left(X, \cdot\right)$ est isomorphe à l'action par translations de $G$ sur $G/G_{x}$
+\end{proposition}
+
+\begin{proposition}
+    Deux actions transitives sont isomorphes si et seulement si elles ont les mêmes stabilisateurs. 
+\end{proposition}
+
+\subsection{Groupes Symétriques et Alternés}
+\begin{proposition}
+    Toute permutation $\sigma$ de $S_{n}$ s'écrit comme un produit de cycles à supports disjoints. L'ordre de $\sigma$ est alors le ppcm des longueurs des cycles.
+\end{proposition}
+
+\begin{proposition}
+    Les transpositions engendrent $S_{n}$
+\end{proposition}
+\begin{lemma}
+    Si $\sigma \in S_{n}$, $c = \left(i_{1}, \ldots, i_{k}\right)$ est un $k$-cycle : $\sigma c\sigma^{-1} = \left(\sigma(i_{1}), \ldots, \sigma(i_{k})\right)$.
+\end{lemma}
+
+\begin{proposition}
+    \begin{itemize}
+        \item Les $(i, i+1)$ engendrent $S_{n}$. Ils sont appelés générateurs de Coxeter.
+        \item La transposition $(1, 2)$ et le cycle $(1 2\ldots n)$ engendrent $S_{n}$.
+    \end{itemize} 
+    En particulier, $\min S_{n} = 2$.
+\end{proposition}
+
+\begin{definition}
+    \begin{itemize}
+        \item Une partition de l'entier $n$ est une suite décroissante $n_{1} \geq \ldots \geq n_{r}$ d'entiers strictement positifs de somme $n$.
+        \item Le type de $\sigma \in S_{n}$ est la partition de l'entier $n$ définie par les cardinaux des orbites de $\sigma$.
+    \end{itemize}    
+\end{definition}
+
+\begin{proposition}
+    Deux éléments de $S_{n}$ sont conjugués si et seulement si ils ont même type.
+\end{proposition}
+
+\begin{definition}
+    Pour $k\geq 1$ entier, $G$ agissant sur $X$ avec $\abs{X} \geq k$, $G$ agit $k$-transitivement sur $X$ si pour deux $k$-uplets d'éléments distincts de $X$ il existe $g \in G$ tel que $gx_{i} = y_{i}$ pour tout $i$.
+\end{definition}
+
+\begin{definition}
+    La \emph{signature} de $\sigma \in S_{n}$ est : 
+    \[
+        \epsilon(\sigma) = \prod_{\left\{i, j\right\}} \frac{\sigma(i) - \sigma(j)}{i - j}
+    \]
+    C'est un morphisme de groupes $S_{n} \rightarrow \left\{\pm 1\right\}$ valant $-1$ sur les transpositions. On note $A_{n}$ son noyau. C'est un sous-groupe distingué.
+\end{definition}
+
+\begin{proposition}
+    Pour $n \geq 3$, $A_{n}$ agit $\left(n - 2\right)$-transitivement sur $\lvert 1, n \rvert$. Les $k$-cycles sont conjugués sous l'action de $A_n$ pour $k \in \lvert 2, n-2 \rvert$.
+\end{proposition}
+
+\subsection{Les suites exactes}
+
+\begin{definition}
+    Une suite de $n \geq 2$ morphismes de groupes $(f_{1}, \ldots, f_{n})$ est \emph{exacte} si $\text{Im } f_{i} = \ker f_{i+1}$ pour tout $i$.
+\end{definition}
+
+\begin{definition}
+    Une suite exacte de la forme $1 \rightarrow H \xrightarrow{i} G \xrightarrow{\pi} K \rightarrow 1$ est une suite exacte \emph{courte}.
+\end{definition}
+
+\begin{proposition}
+    Il est équivalent de se donner : 
+    \begin{itemize}
+        \item Une suite exacte $1 \rightarrow H \xrightarrow{i} G \xrightarrow{\pi} K \rightarrow 1$
+        \item Un sous-groupe distingué $H^{'} \subset G$ et des isomorphismes $i^{'} : H \xrightarrow{\sim} H^{'}$ et $\pi^{'} : G/H^{'} \xrightarrow{\sim} K$.
+    \end{itemize}
+\end{proposition}
+
+\begin{definition}[Groupe diédral]
+    Pour $n\geq 3$, on définit le groupe diédral $D_{2n}$ comme le sous groupe de $S_{n}$ engendré par $(1 2 \ldots n)$ et l'élément $\tau$ défini par $\tau(i) = n+1-i$.
+\end{definition}
+
+\begin{definition}
+    Si $G, H, K$ sont des groupes donnés, $G$ est extension de $K$ par $H$ s'il existe une suite exacte courte $1\rightarrow H \rightarrow G \rightarrow K \rightarrow 1$.
+\end{definition}
+
+\subsection{Dévissage de $S_{n}$}
+
+\begin{theorem}
+    Les seuls sous-groupes distingués de $S_{n}$ sont $\left\{1\right\}, A_{n}, S_{n}$ et $K_4$ dans le cas $n = 4$. 
+\end{theorem}
+
+\begin{theorem}
+    Pour $n \geq 5$, $A_{n}$ est simple non abélien.
+\end{theorem}
+
+\begin{corollary}
+    \begin{itemize}
+        \item Pour $n \neq 4$, toute action de $A_{n}$ est fidèle ou triviale.
+        \item Une action transitive de $S_{n}$ sur un ensemble à $m > 2$ éléments est fidèle, sauf peut-être si $n=4$ et $m = 3$ ou $6$.
+    \end{itemize}
+\end{corollary}
+
+\subsection{Commutateur et Groupes Dérivés}
+
+\begin{definition}
+    Le groupe dérivé d'un groupe $G$ est le sous-groupe $D(G) = \left[G, G\right]$ engendré par les $\left[x, y\right] = xyx^{-1}y^{-1}$. On a $D(G) = \left\{1\right\}$ si et seulement si $G$ est abélien.
+\end{definition}
+
+\begin{corollary}
+    $D(G)$ est un sous-groupe caractéristique de $G$.
+\end{corollary}
+
+\begin{corollary}
+    Soit $G$ un groupe.
+    \begin{itemize}
+        \item Tout morphisme $f : G \rightarrow G^{'}$ avec $G^{'}$ abélien vérifie $D(G) \subset \ker f$.
+        \item Pour $H \lhd G$ alors $G/H$ est abélien si et seulement si, $D(G) \subset H$.
+    \end{itemize}
+\end{corollary}
+
+\begin{proposition}
+    On a :
+    \begin{itemize}
+        \item $D(S_{n}) = A_{n}$
+        \item $D(A_{n}) = A_{n}$ pour $n \geq 5$.
+        \item $D(A_{4}) = K_{4}$ et $D(A_{n}) = \left\{1\right\}$ pour $n \leq 3$
+    \end{itemize}
+\end{proposition}
+
+
+\begin{definition}
+    Un groupe $G$ est résoluble s'il existe $n$ tel que $D^{n}(G) = \left\{1\right\}$. Le plus petit $n$ est appelé classe de résolubilité de $G$.
+\end{definition}
+
+\begin{proposition}
+    Si $G$ est un groupe et $H \lhd G$, $G$ est résoluble si et seulement si $H$ et $G/H$ le sont. Alors, la classe de $G$ est inférieure à la somme des classes de $H$ et de $G/H$.
+\end{proposition}
+
+\begin{proposition}
+    Le groupe $T_{n}(k)$ est résoluble de classe $\leq 1 + \lceil \log_{2}(n) \rceil$.
+\end{proposition}
+
+\subsection{Dévissage en Produit Semi-Direct}
+\begin{definition}
+    Si $H \leq G$, un \emph{complément} de $H$ dans $G$ est $K\leq G$ tel que $G = HK$ et $H \cap K = \left\{1\right\}$
+\end{definition}
+
+\begin{remark}
+    Soit $N \lhd G$, et $K$ un complément de $N$ dans $G$. Pour tout $n, n^{'} \in N$, $k, k^{'} \in K$, on a : 
+    \[
+        (nk)(n^{'}k^{'}) = n(kn^{'}k^{-1})kk' \text{ avec } kn^{'}k^{-1} \in N
+    \]
+    Autrement dit : 
+    \[
+        (nk)(n^{'}k^{'}) = n\text{int}_{k}(n')kk'
+    \]
+    La structure de groupe de $G$ se déduit de celle de $N$, $K$ et de la connaissance de l'application : $\alpha : k \in K \mapsto \text{int}_{k\mid N}$
+\end{remark}
+
+On se fixe dans la suite deux tels groupes $N$ et $K$, et un morphisme de groupe $\alpha$ de $K$ dans $\text{Aut}(N)$.
+
+\begin{definition}
+    La loi $\star_{\alpha} : (N \times K) \times (N \times K) \rightarrow N \times K, (n, k), (n^{'}, k^{'}) \mapsto (n\alpha_{k}(n^{'}), kk^{'})$ est une loi de groupe, qui munit $N \times K$ d'une structure de groupe noté $N \rtimes_{\alpha} K$ et appelé produit semi-direct (externe) de $K$ par $N$ associé à $\alpha$.
+\end{definition}
+
+\begin{proposition}
+    Soit $G$ un groupe, $N \lhd G$ et $K$ un complément de $N$ dans $G$. Soit $\alpha : K \rightarrow \text{Aut}(N),\ k \mapsto \alpha_{k}$. La bijection $N \times K \rightarrow G, (n, k) \mapsto nk$ est un isomorphisme de groupes : $N \rtimes_{\alpha} K \xrightarrow{\sim} G$. On dit aussi que $G$ est \emph{produit semi-direct interne} de $K$ par $N$
+\end{proposition}
+
+\begin{proposition}[Suivi des Isomorphismes]
+    Soit $G = N \rtimes_{\alpha} K$, $a : N^{'} \xrightarrow{\sim} N$ et $b : K^{'} \xrightarrow{\sim} K$ des isomorphismes. La bijection $N^{'}\times K^{'} \rightarrow G, (n^{'}, k^{'}) \mapsto a(n^{'})b(k^{'})$ est un isomorphisme de groupes de $N^{'} \rtimes_{\alpha^{'}} K^{'}$ dans $G$, où $\alpha^{'} : k^{'} \mapsto \alpha_{k^{'}} = a^{-1}\circ \alpha_{b(k^{'})} \circ a$.
+\end{proposition}
+
+\begin{proposition}
+    Un groupe d'ordre $2p$ avec $p$ premier impair est soit isomorphe à $\znz{p}$ soit à $D_{2p}$.
+\end{proposition}
+
+\begin{proposition}
+    Les groupes non abéliens d'ordre $\leq 8$ sont $S_{3}$, $D_{8}$ et $H_{8}$.
+\end{proposition}
+
+
 
 \end{document}
+
