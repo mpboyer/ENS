@@ -15,6 +15,7 @@
 \RequirePackage{ragged2e}
 \RequirePackage{amsmath, amsthm, amssymb}
 \RequirePackage{multirow}
+\RequirePackage{stmaryrd}
 \RequirePackage{listings}
 
 \newenvironment{attention}{\begin{tabular}{m{.1\linewidth}m{.8\linewidth}}\includegraphics[width=\linewidth]{attention}&}{\end{tabular}}
@@ -31,7 +32,7 @@
 \AtBeginSubsection[]{\begin{frame}{Plan}\tableofcontents[subsectionstyle=show/shaded/hide,sectionstyle=show/shaded]\end{frame}}
 
 \author{Matthieu Boyer}
-\institute{\includegraphics[height=6em]{ens_psl}}
+\institute{\includegraphics[height=3em]{ens_psl}}
 
 \setbeamertemplate{navigation symbols}{}
 
@@ -52,3 +53,19 @@
 \let\oldlatex\latex
 \renewcommand{\latex}[1]{\colorbox{mygray}{\oldlatex{#1}}}
 \fi
+
+\newtheorem{remark}{Remarque}[theorem]
+\newtheorem{proposition}{Proposition}[subsection]
+\renewcommand\qedsymbol{$\blacksquare$}
+\renewcommand{\phi}{\varphi}
+\renewcommand{\epsilon}{\varepsilon}
+\renewcommand{\emptyset}{\varnothing}
+
+\renewcommand{\O}{\mathcal{O}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\abs}[1]{\left|#1\right|}
+
