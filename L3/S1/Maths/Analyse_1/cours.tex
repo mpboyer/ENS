@@ -1,0 +1,536 @@
+\documentclass{cours}
+
+\title{Topologie et Calcul Différentiel}
+
+\begin{document}
+\newpage
+\section{Espaces Topologiques}
+
+\subsection{Espaces à produit scalaire, espaces normés, espaces métriques, espaces topologiques.}
+
+\begin{definition}
+    Un produit scalaire sur un $\K$-ev est une forme linéaire, symétrique (ou hermitienne) et définie positive.
+    Quand $\K = \C$, on dit que le produit scalaire est sesquilinéaire.
+\end{definition}
+
+\begin{proposition}
+    \begin{itemize}
+        \item Relation de Pythagore : $\norm{x + y}^{2} = \norm{x}^{2} + \norm{y}^{2} + 2\Re(\scalar{x, y})$
+        \item Identité du Parallélograme : $\norm{x + y}^{2} + \norm{x - y}^{2} = 2(\norm{x}^{2} + \norm{y}^{2})$
+        \item Inégalité de Chauchy-Schwarz : $\abs{\scalar{x, y}} \leq \norm{x}\norm{y}$
+    \end{itemize}
+\end{proposition}
+
+\begin{definition}
+    Une norme sur un $\K$-ev ($\K \in\left\{\R, \C\right\}$) est une forme positive sous-additive homogène séparée.
+\end{definition}
+
+\begin{definition}
+    Une distance ou une métrique sur un ensemble est une forme positive séparée symétrique vérifiant l'inégalité triangulaire.
+\end{definition}
+
+\begin{definition}
+    Une topologie $\O \in \mathcal{P}(X)$ sur un ensemble $X$ est une collection de partie de $X$ stable par réunion quelconque, intersections finies, contenant l'espace et le vide. On appelle ses éléments des ouverts
+\end{definition}
+
+\subsection{Fermés}
+\begin{definition}
+    \begin{itemize}
+        \item Un ensemble $A$ est fermé si et seulement si $A^{\complement}$ est ouvert. 
+        \item L'adhérence d'un ensemble est le plus petit fermé le contenant : \[\overline{A} = \bigcap_{A\subset F, F fermé}F  = \left\{x \in X, \forall O \in \O, x \in O \rightarrow O \cap A \neq \emptyset\right\}\]
+        \item L'intérieur de $A$ est le plus grand ouvert qu'il contient : \[\mathring{A} = \bigcup_{O \subset A, O ouvert} = \left\{x \in X, \exists\ O \in \O, \ x \in O \subset A \right\}\]
+        \item La frontière de $A$ est : $\partial A = \overline{A}\setminus\mathring{A}$
+        \item $A$ est dense si d'adhérence égale à $X$.
+    \end{itemize}  
+\end{definition}
+
+\begin{definition}
+    \begin{itemize}
+    \item $x$ est intérieur à $A$ si $x \in \mathring{A}$.
+    \item $x$ est adhérent à $A$ lorsque $x \in \overline{A}$. On dit alors que $x$ est isolé lorsqu'il existe $O_{x}$ voisinage ouvert de $x$ d'intersection $x$ avec $A$. Sinon, $x$ esst d'accumulation.
+    \end{itemize}
+\end{definition}
+
+\subsection{Voisinages, convergence et continuité.}
+
+\begin{definition}
+    Un voisinage d'un point $x$ est une partie qui contient un ouvert contenant $x$.
+\end{definition}
+
+\begin{definition}
+    Une suite converge vers $x$ pour une topologie lorsque pour tout voisinage de $x$, la suite appartient à ce voisinage àpcr.
+\end{definition}
+
+\begin{proposition}
+    Si $F$ fermé, $x_{n} \in F \to x$, alors $x \in F$. La réciproque est fausse en générale.
+\end{proposition}
+
+\begin{theorem}
+    Dans un espace métrique, $x_{n} \to x$ ssi $d(x_{n}, x) \to 0$
+\end{theorem}
+
+\begin{definition}
+    Une application $f$ est dite :
+    \begin{itemize}
+        \item continue en $x$ lorsque pour tout voisinage $V$ de $f(x)$, il existe un voisinage $W$ de $x$ tel que $f(W) \subset V$.
+        \item séquentiellement continue en $x$ lorsque pour toute suite $x_{n} \to x$, $f(x_{n}) \to f(x)$.
+    \end{itemize}
+\end{definition}
+
+\begin{proposition}
+    La continuité implique la continuité séquentielle.
+\end{proposition}
+
+\begin{proposition}
+    Soit $f : X \rightarrow Y$. On a équivalence entre : 
+    \begin{itemize}
+        \item $f$ est continue
+        \item Les images réciproques par $f$ des ouverts de $Y$ sont des ouverts de $X$.
+        \item Les images réciproques par $f$ des fermés de $Y$ sont des fermés de $X$.
+    \end{itemize}
+\end{proposition}
+
+\begin{definition}[Propriété de Fréchet-Urysohn]
+    $X$ vérifie la propriété de Fréchet-Urysohn si : 
+    \[\forall A \subset X,\ x \in \overline{A}, \text{ il existe } x_{n} \in A^{\N},\ x_{n} \to x\]    
+\end{definition}
+
+\begin{theorem}
+    Si $X$ vérifie la propriété de Fréchet-Urysohn, pour tout espace $Y$ et tout $f : X \rightarrow Y$, la continuité équivaut à la continuité séquentielle.
+\end{theorem}
+
+\begin{definition}
+    Un homéomorphisme est une bijection continue de réciproque continue.
+\end{definition}
+
+\subsection{Bases de topologie}
+\begin{definition}
+    Soit $\mathcal{B} \subset \O$ une famille d'ouverts. $\mathcal{B}$ est une base de $\O$ quand : $\forall O \in \O, \exists \left(B_{i}\right)_{i}\in \mathcal{B}, O = \cup_{i} B_{i}$ ou de manière équivalente quand $\forall O \in \O, x \in O, \exists B \in \mathcal{B},\ x \in B \subset O$. 
+\end{definition}
+
+\begin{theorem}
+    Soit $\mathcal{B} \subset \O$ une base. On a : 
+    \begin{itemize}
+        \item $X = \cup_{B \in \mathcal{B}} B$
+        \item $\forall B_{1}, B_{2} \in \mathcal{B},\ x \in B_{1} \cap B_{2},\ \exists B_{3} \in \mathcal{B}, x \in B_{3} \subset B_{1} \cap B_{2}$.
+    \end{itemize}
+    Réciproquement, si une famille vérifie ces propriétés, alors $\O = \left\{\cup_{B \in \mathcal{A} B}\right\}_{\mathcal{A} \subset \mathcal{B}}$ est la plus petite topologie qui contient $\mathcal{B}$, appelée topologie engendrée par $\mathcal{B}$.
+\end{theorem}
+
+\begin{definition}
+    Une base locale au point $x$ est une famille d'ouverts contenant $x$ et dont au moins l'un est inclus dans chaque ouvert contenant $x$.
+\end{definition}
+
+\begin{definition}
+    Un espace topologique est :
+    \begin{itemize}
+        \item à base dénombrable de voisinages si tout point possède une base dénombrable de voisinages.
+        \item à base dénombrable lorsqu'il possède une base dénombrable (c’est plus fort !)
+        \item séparable lorsqu'il existe une partie dénombrable dense.
+    \end{itemize}
+\end{definition}
+
+\begin{theorem}
+    Un espace à base dénombrable est toujours séparable. La réciproque est vraue pour un espace métrisable.
+\end{theorem}
+
+\begin{theorem}
+    Tout espace à base dénombrable de voisinages (en particulier tout espace métrisable) est un espace de Fréchet-Urysohn.
+\end{theorem}
+
+\subsection{Axiomes de Séparation}
+\begin{definition}
+    Axiome T2 : Tous deux points peuvent être séparés par deux ouverts distincts.
+\end{definition}
+
+\begin{theorem}
+    Pour tout espace topologique métrisable : 
+    \begin{itemize}
+        \item Les singletons sont fermés.
+        \item Pour tous fermés $F_{0}, F_{1}$, il existe $f$ continue valant $i$ sur $F_{i}$.
+    \end{itemize}
+\end{theorem}
+
+\begin{lemma}
+    Dans un espace métrique, $F$ est fermé si et seulement si $d(x, F) = 0 \Rightarrow x \in F$.
+\end{lemma}
+
+\subsection{Topologies}
+\subsubsection{Topologie Trace}
+\begin{definition}
+    On appelle topologie trace la topologie induite par la topologie de $X$ sur $A \subset X$ est la topologie la moins fine sur $A$ qui rend l'inclusion canonique continue.
+\end{definition}
+\begin{proposition}
+    \begin{itemize}
+        \item La restriction de la métrique induit la topologie trace.
+        \item La définition est emboîtable.
+        \item La fermeture d'un ensemble pour la topologie trace est la trace de sa fermeture. Ce n'est pas vrai pour l'intérieur.
+        \item Si $x_{n} \rightarrow x_{*}\in A$ ssi $x_{n} \rightarrow x_{*}$ dans $X$.
+    \end{itemize}
+    \begin{itemize}
+        \item Si $\O$ est à base dénombrable (resp. de voisinages), $\O_{A}$ l'est aussi
+        \item Si $\O$ est séparée (axiome T2), $\O_{A}$ aussi.
+        \item Si $\O$ est métrisable est séparable, alors $\O_{A}$ est métrisable est séparable.
+    \end{itemize}    
+\end{proposition}
+
+\subsubsection{Topologie Produit}
+\begin{definition}
+    On appelle topologie produit ou cylindrique sur $X = \prod_{i \in I} X_{i}$ la topologie engendrée par les $\prod_{i \in I}O_{i}$ avec $O_{i} \neq X_{i}$ sur un nombre fini de $i$. C'est la topologie la moins fine sur $X$ qui rend les projections canoniques continues.
+\end{definition}
+\begin{lemma}
+    On a : $x_{n} \to x$ si et seulement si $x_{n, i} \to x_{i}$ pour tout $i$.
+\end{lemma}
+
+\begin{proposition}
+    \begin{itemize}
+        \item Si tous les $X_{i}$ vérifient $T2$, $X$ vérifie $T2$
+        \item Si $I$ est au plus dénombrable, et tous les $X_{i}$ sont à base dénombrable (de voisinages), $X$ l'est aussi.
+        \item Si $I$ est au plus dénombrable ou a le cardinal de $\R$, et si les $X_{i}$ sont tous séparables, $X$ aussi.
+        \item Si $I$ est au plus dénombrable, et si les $X_{i}$ sont métrisables par les $d_{i}$, $X$ est métrisable par :
+        \begin{itemize}
+            \item $\max_{i}(d_{i})$ si $I$ est fini
+            \item $\max_{i}\min(d_{i}, 2^{-i})$ si $I$ est infini dénombrable.
+        \end{itemize}
+    \end{itemize}
+
+\end{proposition}
+
+\subsubsection{Topologies Initiale et Finale}
+\begin{definition}
+    \begin{itemize}
+        \item Soient $f_{i} : X \rightarrow X_{i}$. La topologie engendrée sur $X$ par les $f_{i}^{-1}(O_{i})$ où $O_{i}$ est ouvert dans $X_{i}$ est appelée topologie initiale. C'est la moins fine qui rend $f_{i}$ continue pour tout $i$.
+        \item Soient $g_{i} : X_{i} \rightarrow X$. La topologie engendrée par les ensembles $O$ tels que $g_{i}^{-1}(O)$ est ouvert dans $X_{i}$ est appelée topologie finale. C'est la plus fine qui rend $g_{i}$ continue pour tout $i$. 
+    \end{itemize}
+\end{definition}
+
+\subsubsection{Topologie Quotient}
+\begin{definition}
+    Soit $\sim$ une relation d'équivalence sur $X$. La topologie quotient sur $X/\sim$ est la plus fine qui rend la projection canonique continue : $O \subset X/\sim$ est ouvert ssi $\left[\cdot\right]^{-1}(O) = \left\{x \in X \mid \left[x\right] \in O\right\}$ est ouvert dans $X$. C'est la topologie finale de la projection canonique.
+\end{definition}
+
+\newpage
+\section{Compacité}
+\subsection{Quasi-Compéacité}
+\begin{definition}
+    Un espace est dit quasi-compact lorsqu'il vérifie la propriété de Borel-Lebesgue : De tout recouvrement par des ouverts on peut  extraire un sous-recouvrement fini. Un espace est dit compact lorsqu'il est quasi-compact et séparé.
+\end{definition}
+
+\begin{definition}
+    Un sous ensemble est quasi-compact lorsqu'il est quasi compact pour la topologie trace.
+\end{definition}
+
+\begin{proposition}
+    \item Dans $\R^{n}$, $K$ est compact si et seulement si il est fermé borné.
+    \item Si $K_{1}, K_{2}$ sont quasi compacts, $K_{1} \cup K_{2}$ est quasi compact.
+\end{proposition}
+
+\begin{theorem}
+    \item Si $F$ est fermé dans $K$ quasi compact, $F$ est quasi compact.
+    \item Si $K$ est quasi compact dans $X$ séparé, $K$ est fermé.
+\end{theorem}
+
+\begin{definition}
+    Si $X$ est séparé, $A \subset X$ est relativement compact lorsque $\overline{A}$ est compact.
+\end{definition}
+
+\begin{theorem}
+    \begin{itemize}
+        \item Si $f : X \rightarrow Y$ est continue, $X$ est quasi compact, alors $f(X)$ est quasi-compact.
+        \item Si $f : X \rightarrow \R$ et $X \neq \emptyset$ est quasi compact, alors, $\exists\ x_{\star} \in X,\ f(x_{\star}) = \sup_{x \in X}f(x) < \infty$.
+    \end{itemize}
+\end{theorem}
+
+\begin{theorem}
+    Si $f : X \rightarrow Y$ est une bijection continue avec $X$ quasi compact et $Y$ séparé, $f^{-1}$ est continue.
+\end{theorem}
+
+\subsection{Théorème de Tykhonov}
+\begin{theorem}\label{thm:Tykhonov}
+    Tout produit de (quasi-)compacts est (quasi-)compact.
+\end{theorem}
+\subsection{Compacité Métrique}
+\begin{definition}
+    Un $\epsilon$-réseau est un ensemble $A$ fini tel que tout point est à distance au plus $\epsilon$ d'un point de $A$.
+\end{definition}
+
+\begin{lemma}
+    Un espace métrique compact possède un $\epsilon$-réseau fini pour tout $\epsilon$.    
+\end{lemma}
+
+\begin{theorem}
+    Pour un espace métrisable, on a équivalence entre : 
+    \begin{enumerate}
+        \item $X$ est compact
+        \item De toute suite de $X$ on peut extraire une sous-suite convergeant dans $X$.
+    \end{enumerate}
+    Dans ce cas on a : 
+    \item Lemme de Lebesgue : pour tout recouvrement par des ouverts $O_{i}$, il existe $r > 0$ tel que pour tout $x \in X$, il existe $i_{x}$ tel que $B(x, r) \subset O_{i_{x}}$.
+\end{theorem}
+
+\subsection{Compacité Locale}
+\begin{definition}
+    Un espace est localement compact lorsque tout point possède un voisinage quasi-compact.
+\end{definition}
+
+\begin{definition}
+    Un espace est dénombrable à l'infini s'il admet un recouvrement dénombrable par des quasi-compacts (qu'on peut supposer croissants sans perte de généralité). 
+\end{definition}
+
+\begin{lemma}
+    Un espace métrisable compact est localement compact et dénombrable à l'infini, et cela est vrai pour tout ouvert pour la topologie induite.
+\end{lemma}
+
+\begin{theorem}
+    Si un espace est localement compact et dénombrable à l'infini, il existe une suite $K_{n}$ de quasi-compacts croissante d'union $X$ et tel que tout quasi-compact inclus dans $X$ est inclus dans au moins l'un des $K_{n}$. On parle de suite exhaustive de compacts.
+\end{theorem}
+
+\subsection{Compactification d'Alexandrov}
+\begin{theorem}
+    Soit $X$ un espace topologique et un point à l'infini $\infty \notin X$. Soit $X^{\star} = X\cup \left\{\infty\right\}$, $\O^{\star} \subset \mathcal{P}(X^{\star})$ formé par les ouverts de $X$ et les complémentaires dans $X^{\star}$ des quasi-compacts fermés de $X$. Alors : 
+    \begin{enumerate}
+        \item $\O^{\star}$ est une topologie sur $X^{\star}$.
+        \item $X^{\star}$ est quasi-compact
+        \item L'injection canonique est continue et ouverte
+        \item $X^{\star}$ est séparé si et seulement si $X$ est séparé et localement compact.
+        \item $X$ est dense dans $X^{\star}$ si et sseulement si $X$ n'est pas quasi-compact fermé.
+    \end{enumerate}
+\end{theorem}
+
+\subsection{Théorème de Baire}
+\begin{lemma}
+    Pour $X$ un espace topologique, $X$ est quasi-compact si et seulement si pour toute famille de fermés $(F_{i})_{i \in I}$ telle que $\bigcap_{i\in I^{'}} \neq \emptyset$ pour tout $I^{'} \subset I$ fini, on a : $\bigcap_{i} F_{i} \neq \emptyset$.
+\end{lemma}
+
+\begin{lemma}
+    Si $X$ est quasi-compact éparé alors : 
+    \begin{itemize}
+        \item Tout point et tout fermé ne le contenant pas sont séparables par des ouverts.
+        \item Pour tout $x \in X$ et tout ouvert $O \owns x$, il existe $O^{'} \owns x$ tel que $\overline{O^{'}} \subset O$.
+    \end{itemize}
+\end{lemma}
+
+\begin{theorem}\label{thm:Bairemétrique}
+    Si $X$ est quasi-compact alors il est de Baire : toute intersection d'une suite d'ouverts denses est dense.    
+\end{theorem}
+
+\section{Complétude}
+\subsection{Suites de Cauchy}
+\begin{definition}
+    Une suite $x_{n}$ est de Cauchy lorsque pour tout $\epsilon > 0$, il existe $N = N_{\epsilon}$ tel que pour tous $n, m \geq N$, $d(x_{n}, x_{m}) < \epsilon$. Un espace métrique est complet lorsque toute suite de Cauchy converge.
+\end{definition}
+
+\begin{lemma}
+    Si $X$ est complet, $F \subset X$ est fermé, alors $F$ est complet. Si $A \subset X$ est complet, alors $A$ est fermé.
+\end{lemma}
+
+\begin{lemma}
+    Soit $X$ complet et $X = F_{0} \supset F_{1} \supset \dots$ une suite décroissante de fermés non vide et de diamètres tendant vers $0$. Alors leur intersection est un certain point $x \in X$.
+\end{lemma}
+
+\begin{theorem}
+    Un espace métrique est compact si et seulement si il est complet et admet un $\epsilon$-réseau pour tout $\epsilon$.
+\end{theorem}
+
+\begin{theorem}
+    \begin{itemize}
+        \item Les $R^{n}$ sont complets
+        \item Les $l^{p}$ pour $p \in \left[1, \infty\right]$ sont conplet.
+    \end{itemize}
+\end{theorem}
+
+\begin{theorem}
+    \begin{itemize}
+        \item Si $K$ est compact et $Y$ métrique complet, alors $\mathcal{C}(K, Y)$ est métrique complet.
+        \item Si $X$ est localement compact à base dénombrable de voisinages et $Y$ métrique complet alors $\mathcal{C}(X, Y)$ est métrisable complet.
+    \end{itemize}
+\end{theorem}
+
+
+\begin{definition}
+    On définit la distance de Hausdorff entre deux fermés d'un espace métrique de diamètre fini par : 
+    \[d_{H}(F_{1}, F_{2}) < r \Leftrightarrow \text{ pour tout } x \in F_{1, 2},\ \exists y \in  F_{2, 1},\ d(x, y) < r\]
+    On note $\mathcal{F}(X)$ l'ensemble des fermés non-vides de $X$, et $\mathcal{K}(X)$ l'ensemble des compacts non-vides.
+\end{definition}
+
+\begin{theorem}
+    \begin{itemize}
+        \item Si $X$ complet, $\mathcal{F}(X)$ et $\mathcal{K}(X)$ sont complets.
+        \item Si $X$ est compact, $\mathcal{K}(X)$ est compact.
+    \end{itemize}
+\end{theorem}
+
+
+\subsection{Espaces Polonais, de Banach, de Hilbert}
+\begin{definition}
+    Un espace topologique est :
+    \begin{itemize}
+        \item polonais lorsqu'il est séparable et métrisable complet
+        \item de Banach lorsque c'est un ev normé complet
+        \item de Hilbert loesque c'est un ev à produit scalaire complet
+    \end{itemize}
+\end{definition}
+
+\begin{theorem}
+    Un ev normé est un espace de Banach ssi toute série absolument convergente est convergente.
+\end{theorem}
+
+\subsection{Complétion}
+\begin{definition}
+    Soit $X$ un espace métrique non complet. Son complété $(X^{'}, d')$ est un espace métrique complet tel que $X \subset X^{'}$ et $X$ est dense dans $X^{'}$. On le construit ainsi :
+    \begin{itemize}
+        \item Soit $\tilde{X}$ l'ensemble des suites de Cauchy, muni de la relation : $x_{n} \sim y_{n}$ ssi pour tout $\epsilon > 0$, il existe un rang pour lequel les suites sont à distance au plus $\epsilon$.
+        \item On considère $X^{'} = \tilde{X}/\sim$. On considère la quantité $d'((x_{n}), (y_{n})) = \lim_{n \to \infty} d(x_{n}, y_{n})$. C'est bien une métrique compatible avec la topologie de $X^{'}$.
+    \end{itemize}
+\end{definition}
+
+\begin{remark}
+    Tous deux complétés sont isomètres.
+\end{remark}
+
+\begin{lemma}
+    Si $f : X \to Y$ est uniformément continue, $Y$ est complet, il existe une unique fonction continue prolongée sur le complété de $X$ et égale à $f$ sur $X$.
+\end{lemma}
+
+\begin{theorem}\label{thm:Bairecomplet}
+    Si $X$ est complet, alors il est de Baire.    
+\end{theorem}
+
+\section{Connexité}
+\subsection{Connexité, connexité par arcs, composantes connexes}
+\begin{definition}
+    Un espace est : 
+    \begin{itemize}
+        \item connexe lorsqu'il n'est pas partitionnable en deux ouverts non-vides
+        \item connexe par arcs lorsque les points sont reliés par des arcs
+    \end{itemize}
+\end{definition}
+
+\begin{theorem}
+    \begin{itemize}
+        \item $X$ est connexe ssi $\emptyset$ et $X$ sont les seules parties à la fois ouvertes et fermées.
+        \item $X$ est connexe ssi il n'est pas partitionnable en deux fermés non-vides.
+        \item Si $f : X \to Y$ est continue et $X$ connexe (resp. par arcs), alors $f(X)$ est connexe (resp. par arcs)
+        \item Si $X$ est connexe par arcs, alors il est connexe, et la réciproque est fausse.
+        \item Si $\cap_{i} A_{i} \neq \emptyset$ avec les $A_{i}$ connexes (resp. par arcs), $\cup_{i} A_{i}$ est connexe (resp. par arcs)
+        \item Si les $X_{i}$ sont connexes (resp. par arcs), alors $\prod_{i} X_{i}$ est connexe (resp. par arcs).
+    \end{itemize}
+\end{theorem}
+
+\begin{definition}
+    La composante connexe $C_{x}$ de $x \in X$ est la plus grande partie connexe de $X$ contenant $x$. Un espace est totalement discontinu si $C_{x} = \left\{x\right\}$ pour tout $x$. 
+\end{definition}
+
+\subsection{Connexité Métrique}
+\begin{definition}
+    Un espace métrique est bien echaîné lorsque pour tout $\epsilon >0$, et tous $x, y \in X$ il existe une suite finie $x = x_{0}, x_{1}, \ldots, x_{n} = y$ telle que $d(x_{i}, x_{i+1}) < \epsilon$ pour tout $i$.
+\end{definition}
+
+\begin{theorem}
+    Si un espace est connexe alors il est bien enchaîné, et la réciproque est fausse mais devient vraie en ajoutant la compacité..
+\end{theorem}
+
+\section{Espaces de fonctions continues sur un métrique compact}
+\begin{definition}
+    Pour une suite $f_{n}$ dans $\mathcal{C}(K, Y)$ et $f$ dans $\mathcal{C}(K, Y)$ : \begin{itemize}
+        \item $f_{n} \to f$ ponctuellement lorsque pour tout $x\in K, f_{n}(x) \to f(x)$
+        \item $f_{n} \to f$ uniformément lorsque la convergence a lieu dans $\mathcal{C}(K, Y)$.
+    \end{itemize}
+\end{definition}
+
+\begin{theorem}[De Dini]
+    Si $Y = \R$, si la suite $f_{n}$ est croissante, et $f$ est continue, la convergence ponctuelle implique la convergence uniforme.
+\end{theorem}
+
+\begin{theorem}[De Heine]
+    Toute fonction $f \in \mathcal{C}(K, Y)$ est uniformément continue.    
+\end{theorem}
+
+\begin{theorem}[de Arzelà-Ascoli]\label{thm:Ascoli}
+    $A \subset \mathcal{C}(K, Y)$ a une adhérence compacte ssi les deux conditions suivantes sont réalisées : 
+    \begin{itemize}
+        \item Compacité Ponctuelle : $\forall x \in K, \left\{f(x)\mid f \in A\right\}$ a une adhérence compacte dans $Y$.
+        \item La famille $A$ est uniformément équicontinue : pour tout $\epsilon > 0$, il existe $\eta > 0$ tel que pour tout $f \in A$, et tous $x, y \in K$, si $d_{K}(x, y) < \eta$, alors $d_{Y}(f(x), f(y)) < \epsilon$.
+    \end{itemize}
+\end{theorem}
+
+\begin{theorem}[de Stone-Weierstrass]\label{thm:Stone-Weierstrass}
+    Soit $\mathcal{A}$ une sous-algèbre de $\mathcal{C}(K, \R)$. vérifiant la propriété de prescription de valeurs arbitraires en deux points arbitraires : pour tous $x, y \in K$, $a, b,\in \R$, il existe $f \in \mathcal{A}$ telle que $f(x) = a$ et $f(y) = b$. Alors $\mathcal{A}$ est dense dans $\mathcal{C}(K, \R)$.
+\end{theorem}
+
+\begin{corollary}[Théorème de Weierstrass]
+    Pour tout $n$, $K \subset \R^{n}$, $\R\left[x_{1}, \ldots, x_{n}\right]$ est dense dans $\mathcal{C}(K, \R)$.
+\end{corollary}
+
+\begin{corollary}[de Stone-Weierstrass Complexe]
+    Si de plus la famille $\mathcal{A}$ est stable par conjugaison et à valeurs complexes, elle est dense dans $\mathcal{C}(K, \C)$.    
+\end{corollary}
+
+\begin{corollary}
+    Pour tout $n$, $K\subset \C^{n}$, $\C\left[z_{1}, \ldots, z_{n}, \overline{z_{1}}, \ldots, \overline{z_{n}}\right]$ est dense. En particulier, $\C\left[e^{i\theta}, e^{-i\theta}\right]$ est dense dans $\mathcal{C}(S^{1}, \C)$.
+\end{corollary}
+
+\section{Opérateurs Linéaires Bornés}
+\subsection{Définitions et Duéalité}
+\begin{definition}
+    Soient $X, Y$ des $\K$ ev normés avec $\K \in \left\{\R, \C\right\}$.
+    \begin{itemize}
+        \item $u : X \to Y$ est un opérateur linéaire borné lorsque $u$ est linéaire et qu'il est $M\in \left[0,\infty[\right.$ tel que pour tout $x \in X$, $\norm{u(x)}_{Y} \leq M\norm{x}_{X}$.
+        \item On note $L(X, Y)$ l'ev des opérateurs linéaires bornés $X \to Y$.
+        \item $L(X, Y)$ est normé par la norme d'opérateur, et a une structure d'algèbre.
+    \end{itemize}
+\end{definition}
+
+\begin{lemma}
+    Pour $u$ linéaire, on a équivalence entre : 
+    \begin{enumerate}
+        \item $u \in L(X, Y)$
+        \item $u$ est Lipschitz
+        \item $u$ est uniformément continue
+        \item $u$ est continue
+        \item $u$ est continue en $0$.
+    \end{enumerate}
+\end{lemma}
+
+\begin{lemma}
+    Si $Y$ est un Banach, $L(X, Y)$ est un Banach.
+\end{lemma}
+
+\begin{definition}
+    Si $X$ est un $\K$-Banach, $L(X, \K)$ est appelé dual de $X$, noté $X^{'}$ ou $X^{\star}$.
+\end{definition}
+
+\begin{theorem}
+    Si $p \in \left[1, \infty)\right.$ et $q = \frac{1}{1 - \frac{1}{p}} = \frac{p}{p-1}$ est le conjugué de Hölder de $p$, alors : 
+    \[
+        \Phi : \mathcal{l}^{q} \rightarrow \left(\mathcal{l}^{p}\right)^{'}, y \mapsto \left(x \mapsto \sum_{n} x_{n}y_{n}\right)
+    \]
+    est une bijection linéaire isométrique : $(\mathcal{l}^p)^{'}$ est isomorphe à $\mathcal{l}^{q}$.
+\end{theorem}
+
+\begin{lemma}
+    Une forme linéaire est continue ssi son noyau est fermé.
+\end{lemma}
+
+\subsection{Banach-Steinhaus}
+\begin{theorem}\label{thm:BanachSteinhaus}
+    Si $X$ est un Banach, et $Y$ un evn, alors pour tout $A \subset L(X, Y)$, la bronitude ponctuelle est équivalente à la bornitude uniforme : 
+    \[
+        \forall x \in X, \sup_{u \in A} \norm{u(x)}_{Y} < \infty \Leftrightarrow \sup_{u\in A}\norm{u}_{L(X, Y)} < \infty
+    \]
+\end{theorem}
+\begin{corollary}
+    Soit $u_{n}$ dans $L(X, Y)$, où $X$ est un Banach et $Y$ un evn. La convergence ponctuelle entraîne la continuité de la limite. 
+\end{corollary}
+
+\subsection{Hahn-Banach}
+\begin{theorem}\label{thm:HahnBanach}
+    Soit $X \subset \tilde{X}$ un sous-espace d'un evn sur $\K \in \left\{\R, \C\right\}$. Soit $u \in L(X, \K)$ une forme linéaire. Alors il existe $\tilde{u} \in L(\tilde{X}, \K)$ telle que $\tilde{u}_{\mid X} = u$ et $\norm{\tilde{u}} = \norm{u}$.
+\end{theorem}
+
+\begin{corollary}
+    Si $X$ est un Banach, et $X^{''}$ est sont bidual, l'injection canonique $\iota : X \rightarrow X^{''}$ est une isométrie linéaire : $\norm{\iota(x)} = \norm{x}$.
+\end{corollary}
+
+
+\end{document}

@@ -76,3 +76,9 @@
 \newcommand{\Q}{\mathbb{Q}}
 \newcommand{\C}{\mathbb{C}}
 \newcommand{\N}{\mathbb{N}}
+\newcommand{\K}{\mathbb{K}}
+\newtheorem{example}{Exemple}[section]
+\newcommand*{\scalar}[1]{\langle #1 \rangle}
+\newcommand*{\znz}[1]{\left(\Z/ #1\Z\right)}
+
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
