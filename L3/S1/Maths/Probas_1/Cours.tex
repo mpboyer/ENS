@@ -5,8 +5,81 @@
 \begin{document}
 \section{Espaces Mesurés}
     \subsection{Ensembles Mesurables}
+    \begin{definition}
+        Une tribu sur un ensemble $E$ est un ensemble $\mathcal{A} \subset \mathcal{P}(E)$ telle que :
+        \begin{itemize}
+            \item $E \in \mathcal{A}$
+            \item $\mathcal{A}^{\complement} = \mathcal{A}$
+            \item Si $(A_{i})_{i \in \N} \in \mathcal{A}$, $\bigcup_{i \in \N} A_{i} \in \mathcal{A}$.
+        \end{itemize}
+        Les éléments de $\mathcal{A}$ sont appelés \emph{parties mesurables}.
+    \end{definition}
+
+    \begin{definition}
+        Soit $\mathcal{C} \subset \mathcal{P}(E)$. On appelle \emph{tribu engendrée par $C$} l'ensemble $\sigma(\mathcal{C}) = \bigcap_{\mathcal{A} \text{ tribu}, \mathcal{C} \subset \mathcal{A} } \mathcal{A}$. C'est la plus petite tribu contenant $\mathcal{C}$.
+    \end{definition}
+
+    \begin{definition}
+        Soit $E$ un espace topologie, $\O$ la classe des ouverts. On appelle \emph{tribu borélienne sur} $E$ la tribu engendrée par $\O$ notée $\mathcal{B}(E)$.
+    \end{definition}
+
+    \begin{proposition}
+        $\mathcal{B}(\R)$ est engendrée aussi par les intervalles ouverts $\left(\left]a, b\right[\right)_{a, b \in \R}, \left(\left]a, +\infty\right[\right)_{a \in \R}, \left(\left]a, +\infty\right[\right)_{a \in \Q}$.
+    \end{proposition}
+
+    \begin{definition}
+        La \emph{tribu produit} sur $(E_{1}, \mathcal{A}_{1}), (E_{2}, \mathcal{A}_{2})$ est la tribu sur $E_{1} \times E_{2}$ définie $\mathcal{A}_{1} \bigotimes \mathcal{A}_{2} = \sigma\left(\left\{A_{1}\times A_{2} \mid \left(A_{1}, A_{2}\right) \in \A_{1}\times \A_{2}\right\}\right)$
+    \end{definition}
+    \begin{proposition}
+        On a $\mathcal{B}(\R^{2}) = \mathcal{B}(\R) \bigotimes \mathcal{B}{\R}$.
+    \end{proposition}
+
     \subsection{Mesures Positives}
+
+    \begin{definition}
+        Une \emph{mesure positive} sur $\left(E, \A\right)$ est une application $\mu : \A \rightarrow \left[0, +\infty\right]$ qui vérifie : 
+        \begin{itemize}
+            \item $\mu(\emptyset) = 0$.
+            \item Pour toute famille $\left(A_{n}\right)_{n \in \N}$ de parties mesurables disjointes : \[\mu\left(\bigcup_{n \in \N}A_{n}\right) = \sum_{n \in \N} \mu\left(A_{n}\right)\]
+        \end{itemize}
+    \end{definition}
+
+    \begin{proposition}
+        On a : 
+        \begin{itemize}
+            \item Si $\left(A_{n}\right)_{n\in \N} \in \A^{\N}$ est une suite croissante :
+            \[
+                \mu\left(\bigcup_{n\in \N}A_{n}\right) = \lim_{n\to \infty} \uparrow \mu\left(A_{n}\right)
+            \]
+            \item Si $\left(B_{n}\right)_{n\in \N} \in \A^{\N}$ est une suite décroissante et si $\mu\left(B_{0}\right) < \infty$:
+            \[
+                \mu\left(\bigcap_{n\in \N}B_{n}\right) = \lim_{n\to \infty} \downarrow \mu\left(B_{n}\right)
+            \]
+            \item Si $A_{n} \in \A$ :
+            \[
+                \mu\left(\bigcup_{n \in \N} A_{n}\right) \leq \sum_{n\in\N} \mu\left(A_{n}\right)
+            \]
+        \end{itemize}
+    \end{proposition}
+
+    \begin{definition}
+        Il existe une unique mesure positive sur $\left(\R, \mathcal{B}(\R)\right)$ telle que $\lambda(\left]a, b\right[) = b - a$, pour tous $a, b \in \R$.
+    \end{definition}
+
+    \begin{definition}
+        \begin{itemize}
+            \item $\mu$ est finie si $\mu\left(E\right)<\infty$
+            \item $\mu$ est une mesure de probabilité si $\mu(E) = 1$
+            \item $\mu$ est $\sigma$-finie s'il existe une suite croissante de parties mesurables $E_{n}$ d'union $E$ et de mesure toujours finie.
+            \item $x \in E$ est un atome de $\mu$ si $\mu\left(\left\{x\right\}\right) > 0$
+            \item $\mu$ est dite diffuse si elle n'a pas d'atomes.
+        \end{itemize}
+    \end{definition}
+
     \subsection{Fonctions Mesurables}
+    \begin{definition}
+        Une application $f : \left(E, \A\right) \rightarrow (F, \mathcal{B})$ est dite mesurable si $\forall B \in \mathcal{B}, f^{-1}(B) \in \A$.
+    \end{definition}
     \begin{theorem}
         La composition de deux applications mesurables est mesurable.
     \end{theorem}
@@ -68,7 +141,7 @@
         Si $\mathcal{C} \subset \mathcal{P}(E)$ : $\mathcal{M}(\mathcal{C}) = \bigcap\limits_{\mathcal{M} \text{classe monotone, } \mathcal{C}\subset\mathcal{M}}$
     \end{definition}
     \begin{theorem}[Lemme de Classe Monotone]
-        Si $\mathcal{C} \subset \mathcal{P}(E)$ est stable par intersections finies : $\mathcal{M}(\mathcal{C}) = \sigma{\mathcal{C}}$
+        Si $\mathcal{C} \subset \mathcal{P}(E)$ est stable par intersections finies : $\mathcal{M}(\mathcal{C}) = \sigma{\left(\mathcal{C}\right)}$
     \end{theorem}
     \begin{remark}
         Les classes monotones sont des outils plus maniables que les tribus et se marient mieux avec les propriétés des mesures. Le théorème fait le lien entre tribus et classes monotones, ce qui facilite la vie avec les mesures. 
@@ -268,13 +341,13 @@
         En choisissant pour la transformée de fourier des fonctions dont les premiers moments sont intégrables, on gagne en régularité. En particulier, si une fonction est à support compact, sa transformée de fourier est indéfiniment dérivable. 
     \end{corollary}
 
-    \subsection{Mesures Produits}
+    \section{Mesures Produits}
         On se donne $(E_{1}, \mathcal{A}_{1}, \mu_{1})$ et $(E_{2}, \mathcal{A}_{2}, \mu_{2})$, et on veut :
         \begin{enumerate}
             \item Définir une mesure produit sur $\left(E_{1} \times E_{2}, \mathcal{A}_{1} \bigotimes \mathcal{A}_{2}\right)$
             \item Démontrer les théorèmes de Fubini sur la mesure ainsi définie. 
         \end{enumerate}
-        \subsubsection{Préliminaires}
+        \subsection{Préliminaires}
         \begin{definition}
             Soit $C \in \mathcal{A}_{1} \bigotimes \mathcal{A}_{2}, x_{1} \in E_{1}, x_{2} \in E_{2}$. On note : 
             \[
@@ -293,9 +366,131 @@
         \end{lemma}
         \begin{proof}
             \begin{itemize}
-                \item On introduit la classe des $C_{x_{1}}$ pour $x_{1} \in E_{1}$. Cette classe contient les pavés et est une tribu.
-                \item 
+                \item On introduit la classe des $C_{x_{1}}$ pour $x_{1} \in E_{1}$. Cette classe contient les pavés et est une tribu, i.e. $\mathcal{C} = \A \bigotimes \mathcal{B}$.
+                \item Pour toute partie mesurable $D$ de $\R$, \[f_{x_{1}}^{-1}\left(D\right) = \left\{x_{2} \in E_{2}\mid \left(x_{1}, x_{2}\right)\in f^{-1}\left(D\right)\right\} = \left(f^{-1}(D)\right)_{x_{1}}\]
             \end{itemize}
-            
         \end{proof}
+
+
+        \subsection{Construction de la mesure-produit.}
+        \begin{theorem}
+            \begin{enumerate}
+                \item Il existe une unique mesure $m$ sur $\left(E_{1} \times E_{2}, \mathcal{A}_{1} \bigotimes \mathcal{A}_{2}\right)$ telle que : 
+                \[
+                    \forall A \in \A_{1}, \ \forall A_{2} \in \A_{2}, \ m\left(A_{1} \times A_{2}\right) = \mu_{1}\left(A_{1}\right)\mu_{2}\left(A_{2}\right)
+                \]
+                Cette mesure est $\sigma$-finie et notée $m = \mu_{1} \otimes \nu$
+                \item Pour tout $C \in \A_{1}\bigotimes\A_{2}$ :
+                \[
+                    \mu_{1} \otimes \mu_{2}\left(C\right) = \int_{E}\mu_{2}\left(C_{x_{1}}\right) \mu_{1}(\mathrm{d}x_{1}) = \int_{F} \mu_{1}\left(C^{x_{2}}\right)\mu_{2}\left(\mathrm{d}x_{2}\right)
+                \]
+            \end{enumerate}
+        \end{theorem}
+        \begin{proof}
+            \begin{itemize}
+                \item Unicité : Lemme de Classe Monotone sur la classe des pavés mesurables.
+                \item Existence : On pose $m\left(C\right)$ comme dans le second point et on vérifie le résultat en supposant d'abord $\mu_{2}$ finie puis $\sigma$-finie.
+            \end{itemize}
+        \end{proof}
+
+        \subsection{Théorème de Fubini}
+        \begin{theorem}[Fubini-Tonelli]
+            On suppose $\mu_{1}, \mu_{2}$ $\sigma$-finies. Soit $f : E_{1} \times E_{2} \rightarrow \left[0, \infty\right]$ une fonction mesurable : 
+            \begin{itemize}
+                \item Les fonctions : 
+                \[
+                    \begin{aligned}
+                        x&\mapsto&\int f(x, y) \mu_{2}(\mathrm{d}y)\\
+                        y&\mapsto&\int f(x, y) \mu_{1}(\mathrm{d}x)
+                    \end{aligned}               
+                \]
+                sont $E_{1}$ et $E_{2}$ mesurables respectivement.
+                \item On a : 
+                \[  
+                    \int_{E_{1} \times E_{2}} f \mathrm{d}(\mu_{1} \otimes \mu_{2}) = \int_{E_{1}}\left(\int_{E_{2}} f(x, y)\mu_{2}\left(\mathrm{d}y\right)\right)\mu_{1}\left(\mathrm{d}x\right) = \int_{E_{2}}\left(\int_{E_{1}} f(x, y)\mu_{1}\left(\mathrm{d}x\right)\right)\mu_{2}\left(\mathrm{d}y\right)
+                \]
+            \end{itemize}
+        \end{theorem}
+        Autrement dit, pour une fonction positive, ça marche.
+
+        \begin{theorem}[Fubini-Lebesgue]
+            Soit $f \in \mathcal{L}^{1}\left(E_{1} \times E_{2}, \A_{1} \bigotimes \A_{2}, \mu_{1}\otimes\mu_{2}\right)$. Alors : 
+            \begin{enumerate}
+                \item $\mu_{1}(\mathrm{d}x_{1})$ p.p., $y \mapsto f(x, y)$ est dans $\mathcal{L}^{1}\left(E_{2}, \A_{2}, \mu_{2}\right)$,\\
+                $\mu_{2}(\mathrm{d}x_{2})$ p.p., $x \mapsto f(x, y)$ est dans $\mathcal{L}^{1}\left(E_{1}, \A_{1}, \mu_{1}\right)$
+                \item Les fonctions $x \mapsto \int f(x, y) \mu_{2}(\mathrm{d}y)$ et $y \mapsto \int f(x, y)\mu_{1}\left(\mathrm{d}x\right)$, bien définies sauf sur un ensemble mesurable de mesure nulle sont respectivement dans $\mathcal{L}^{1}(E_{1}, \A_{1}, \mu_{1})$ et $\mathcal{L}^{1}(E_{2}, \A_{2}, \mu_{2})$.
+                \item On a :
+                \[
+                    \int_{E_{1} \times E_{2}} f \mathrm{d}\left(\mu_{1}\otimes\mu_{2}\right) = \int_{E_{1}}\left(\int_{E_{2}}f(x_{1}, x_{2})\mu_{2}(\mathrm{d}x_{2})\right) \mu_{1}\left(\mathrm{d}x_{1}\right) = \int_{E_{2}}\left(\int_{E_{1}}f(x_{1}, x_{2})\mu_{1}(\mathrm{d}x_{1})\right) \mu_{2}\left(\mathrm{d}x_{2}\right)
+                \]
+            \end{enumerate}
+        \end{theorem}
+        Autrement dit, pour une fonction intégrable (même à valeurs complexes), ça se passe bien.
+        
+        \subsection{Applications}
+        \subsubsection{Intégration par Parties}
+        \begin{definition}
+            Pour $f, g$ deux fonctions mesurables de $\R$ dans $\R$ localement intégrables (i.e. intégrables sur tout compact pour la mesure de Lebesgue), on pose pour $x \in \R$ :
+            \[
+                \begin{aligned}
+                    F(x) & = \int_{0}^{x}f(t)\mathrm{d}t \\
+                    G(x) & = \int_{0}^{x}g(t)\mathrm{d}t \\
+                \end{aligned}
+            \]
+        \end{definition}
+        \begin{theorem}[IPP]
+            Pour tous $a < b$, on a : 
+            \[
+                F(b)G(b) = F(a)G(a) + \int_{a}^{b}f(t)G(t)\mathrm{d}t + \int_{a}^{b}F(t)g(t)\mathrm{d}t
+            \]            
+        \end{theorem}
+
+        \subsubsection{Convolution}
+        \begin{definition}
+            Si $f$ et $g$ sont deux fonctions mesurables sur $\R^{d}$, la convolution : 
+            \[
+                f \star g (x) = \int_{\R^{d}} f(x-y)g(y)\mathrm{d}y
+            \]
+            est bién définie si :
+            \[
+                \int_{\R^{d}}\abs{f(x - y)g(y)} \mathrm{d}y < \infty    
+            \]
+            Alors, on a $g\star f(x)= f\star g(x)$
+        \end{definition}
+
+        \begin{proposition}
+            Soient $f, g \in \mathcal{L}^{1}(\R^{d}, \mathcal{B}(\R^{d}), \lambda)$. Alors, pour $\lambda$ presque tout $x \in\R^{d}$, la convolution $f \star g(x)$ est bien définie. De plus $f \star g \in \mathcal{L}^{1}(\lambda)$ et $\norm{f \star g}_{1} \leq \norm{f}_{1}\norm{g}_{1}$.
+        \end{proposition}
+        
+        \paragraph{Approximations de Dirac}
+        \begin{definition}
+            On dit qu'une suite $\phi_{n}\in C_{c}\left(\R^{d}\right)$ est une approximation de $\delta_{0}$ si :
+            \begin{itemize}
+                \item Il existe un compact $K$ tel que $\text{supp}(\phi_{n}) \subset K$ pour tout $n$.
+                \item Pour tout $n$, $\phi_{n} \geq 0$ et \[\int_{\R^{d}} \phi_{n}(x) \mathrm{d}x = 1\]
+                \item Pour tout $\delta > 0$, 
+                \[\lim_{n\to\infty}\int_{\left\{\abs{x} > \delta\right\}} \phi_{n}(x)\mathrm{d}x = 0\]
+            \end{itemize}
+        \end{definition}
+        \begin{proposition}
+            En prenant $\phi : \R^{d} \rightarrow \R_{+}$ est continue à support compact de mesure $1$, avec $\phi_{n}(x) = n^{d}\phi(nx)$, on a construit des approximations de Dirac.\\
+            En prenant par exemple $\phi(x) = c \exp{\left(-\frac{1}{1 - \abs{x}^{2}}\right)}\mathds{1}_{\left\{\abs{x} < 1\right\}}$, et en choisissant $c > 0$ correctement, on a même une approximation $C^{\infty}$.
+        \end{proposition}
+
+        \begin{proposition}
+            \begin{enumerate}
+                \item Si $f : \R^{d} \rightarrow \R$ est continue, on a $\phi_{n}\star f \rightarrow f$ quand $n \to \infty$, uniformément sur tout compact.
+                \item Si $f \in \mathcal{L}^{p}\left(\R^{d}, \mathcal{B}\left(\R^{d}\right),\lambda\right)$, avec $p \in \left[1, \infty\right[$, on a $\phi_{n} \star f \to f$ dans $\mathcal{L}^{p}$.
+            \end{enumerate}
+        \end{proposition}
+
+        \subsubsection{Calcul du Volume de la Boule Unité}
+        On note ici $B_{d}$ la boule unité fermée de $\R^{d}$ et $\lambda_{d}$ la mesure de Lebesgue sur $\R^{d}$. En vue de calculer $\gamma_{d} = \lambda_{d}\left(B_{d}\right)$, on observe que l'image de $\lambda_{d}$ par $x \mapsto ax$ est $a^{-d}\lambda_{d}$ pour tout $a > 0$.
+        Par théorème de Fubini, si $d \geq 2$, on montre que $\gamma_{d} = \gamma_{d-1} I_{d-1}$ en posant pour $n \geq 0$, $I_{n} = \int_{-1}^{1}\left(1 - x^{2}\right)^{n/2}\mathrm{d}x$.
+        Or, par IPP, $I_{n} = \frac{n}{n + 1}I_{n-2}$. D'où $\gamma_{d} = I_{d-1}I_{d-2}\gamma_{d-2} = \frac{2\pi}{d}\gamma_{d-2}$ et donc $\gamma_{2k} = \frac{\pi^{k}}{k!}$ et $\gamma_{2k+1} = \frac{\pi^{k}}{\left(k + \frac{1}{2}\right)\left(k - \frac{1}{2}\right)\cdots \frac{3}{2}\cdot\frac{1}{2}}$.
+        On peut regrouper ces résultats sous : 
+        \[
+            \gamma_{d} = \frac{\pi^{d/2}}{\Gamma\left(\frac{d}{2} + 1\right)}
+        \]
+        
 \end{document}
