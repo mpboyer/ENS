@@ -107,7 +107,7 @@ The words \textsl{stop, mat, tap, butter} all have \textsl{'t'} yet have differe
 \section{Different yet Similar}
 Langugages are made of signs, composed of a form and a meaning. They only look like they have multiple forms/meanings, on another level of analysis they only have one, e.g. past tense in english and the morpheme \textsl{ed}. Variants depend only and purely on properties of the root, and are entirely predictable. With \textsl{bat}, there is an ambiguity phenomenon, but there is also a phenomenon of polysemy, e.g. \textsl{book}, also, similar meanings often derive from a central point.
 \begin{quote}
-    \og A sign presents itself to the senses, and something distinct from itself to the mind \fg - St-Augustine
+    A sign presents itself to the senses, and something distinct from itself to the mind  - St-Augustine
 \end{quote}
 There are two types of signs based on the link between form and meaning: 
 \begin{enumerate}
@@ -115,7 +115,7 @@ There are two types of signs based on the link between form and meaning:
     \item Those with a arbitrary, conventional link : \textsl{black attire} implies mourning (\textit{in some cultures but...})
 \end{enumerate}
 After Ferdinand de Saussure, \begin{quote}
-    \og Language is a systemn of conventional (arbitrary) signs.\fg    
+    Language is a systemn of conventional (arbitrary) signs.    
 \end{quote}
 Example : The word \textsl{man} in different languages : German Mann, Spanish hombre, Français homme, Hungarian ember, Turkish adam. With the sound produced by the rooster, the words differ in languages, but there is still a partial causal link, because you cannot mimic perfectly the sound of the animal, given the differences between vocal organs. 
 Arbitrary doesn't mean random : it just doesn't matter what choice is made. It is no accident there is a resemblance between German and English words for \textsl{man}
@@ -143,7 +143,7 @@ There is a finite palette of strategies for these transformations : no known hum
 Languages are systems of arbitrary signs. Any sign will do for internal calculation, and any convention widely known within a given community will do for communication. This observation does not predict the existence of strong systematic, pervasive similarities whose speech commuinties have had no contact. \\
 How can the conventional character of language be reconciled with pervasive cross-linguistic similarities. 
 \begin{quote}
-    \og We would learn so much if we could do horrible things to babies. We can do horrible things to animals though, not saying we should, but we can.  \fg - Salvador Mascarenhas
+    We would learn so much if we could do horrible things to babies. We can do horrible things to animals though, not saying we should, but we can.   - Salvador Mascarenhas
 \end{quote}
 
 \section{Universal Grammar}
@@ -330,14 +330,14 @@ Before writing rules for syntactic analysis, we need blocks to build those rules
 The lexical categories (or parts of speech) such as \textsl{N(oun)}, \textsl{V(erb)}\dots 
 This does not mean you can only tell what part of speech a word is if you know its meaning.\\
 \begin{quotation}
-    \og \textit{The thing about thing is that everything and anything is a thing}\fg - Salvador
+    \textit{The thing about thing is that everything and anything is a thing} - Salvador
 \end{quotation}
 
 \begin{definition}
     We define lexical categories given the sentential environments in can occur in and the affixes it can take, i.e. the grammatical distribution of the word.
 \end{definition}
 \begin{quotation}
-    \og \textit{You shall know a word by the company it keeps} \fg - Ferguses
+    \textit{You shall know a word by the company it keeps} - Ferguses
 \end{quotation}
 For example, a verb in English satisfies all of the following :
 \begin{enumerate}
@@ -545,7 +545,9 @@ In sentences with modals or auxiliary verbs, we can see phonologically overt mat
 \begin{center}
     \Tree [.IP \qroof{John}.NP [.$\text{I}^{'}$ [.I {will} ] [.VP [.V see ] \qroof{Mary}.NP ] ] ]
 \end{center}
-Most importantly, certain facts about the placement of adverbs help us figure out where precisely in the tree the main verb is to be found. The position is dependent on the language.
+Most importantly, certain facts about the placement of adverbs help us figure out where precisely in the tree the main verb is to be found. The position is dependent on the language.\\
+Inflection phrases can explain the difference in positions of the word \textsl{often} and  \textsl{souvent} in English and French.
+
 
 \section{Displacement}
 From Inflection Phrases, we can derive the structure of sentences from others by using transformational rules.\\
@@ -563,12 +565,44 @@ For example, we get :
     \Tree [.IP \qroof{John}.NP [.I$^{'}$ [.I will ] \qroof{talk to Mary}.VP ] ] $\xrightarrow{\text{I-to-C}}$ \Tree [.CP [.C Will ] [.IP \qroof{John}.NP [.I$^{'}$ [.I {(trace of will)} ] \qroof{talk to Mary}.VP ] ] ]
 \end{center}
 
-\section{Syntactic Processing}
+\part{TA 6 : 8/11}
+\section{On the words \textsl{Often}, \textsl{Souvent}, and Displacement}
+In english, we can do :
+\begin{center}
+    \Tree [.CP [.C {$\emptyset$} ] [.IP [.IP \qroof{John}.DP [.IP {I$_{\text{+past}}$} [.VP often [.VP [.V saw ] \qroof{Mary}.DP ] ] ] ] ] ]
+\end{center}
+But in French, a similar structure feels unnatural because of a crossing : \textsl{Jean voit souvent Marie}. We thus propose to have the verb in the inflection phrase and use a trace in the Verb Phrase :
+\begin{center}
+    \Tree [.CP [.C {$\emptyset$} ] [.IP \qroof{Jean}.DP ] [.{I$^{'}$} [.{I$_{\text{+présent}}$} voit ] [.VP \qroof{souvent}.AdvP [.VP [.V trace ] \qroof{Marie}.DP ] ] ] ]
+\end{center}
 
+Then, in future tense, in English : 
+\begin{center}
+    \Tree [.CP [.C {$\emptyset$} ] [.IP [.IP \qroof{John}.DP [.IP [.{I$_{\text{+future}}$} will ] [.VP often [.VP [.V see ] \qroof{Mary}.DP ] ] ] ] ] ]
+\end{center}
+And in French : 
+\begin{center}
+    \Tree [.CP [.C {$\emptyset$} ] [.IP \qroof{Jean}.DP [.{I$^{'}$} [.I va ] [.VP \qroof{souvent}.AdvP \qroof{aller parler avec Marie}.VP ] ] ] ]
+\end{center}
 
+And for questions ? In English, we move the verb before the subject, but in French, there are multiples solutions :
+\begin{center}
+    \Tree [.CP Va [.IP \qroof{t-il}.DP [.{I$^{'}$} [.I $\emptyset$ ] \qroof{parler avec Marie}.VP ] ] ]
+    \Tree [.CP {Est-ce qu'} [.IP \qroof{il}.DP [.{I$^{'}$} [.I $\emptyset$ ] \qroof{parler avec Marie}.VP ] ] ]
+\end{center}
+And in the present tense : 
+\begin{center}
+    \Tree [.CP [.C ] [.IP \qroof{il}.DP [.{I$^{'}$} [.I voit ] [.VP [.V trace ] \qroof{Marie}.DP ] ] ] ]
+    \Tree [.CP [.C Voit ] [.IP \qroof{il}.DP [.{I$^{'}$} [.I trace ] [.VP [.V trace ] \qroof{Marie}.DP ] ] ] ]
+\end{center}
+The verb here moves twice, from the \textsl{V} to the \textsl{I} then to the \textsl{C}. \\
 
-
-
+We can do the same in English : 
+\begin{center}
+    \Tree [.CP [.C ] [.IP \qroof{John}.DP [.{I$^{'}$} [.I  ] [.VP [.V sees ] \qroof{Mary}.DP ] ] ] ]
+    \Tree [.CP [.C ] [.IP \qroof{John}.DP [.{I$^{'}$} [.I does ] [.VP [.V see ] \qroof{Mary}.DP ] ] ] ]
+    \Tree [.CP [.C Does ] [.IP \qroof{John}.DP [.{I$^{'}$} [.I trace ] [.VP [.V see ] \qroof{Mary}.DP ] ] ] ]
+\end{center}
 
 
 
