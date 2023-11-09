@@ -1059,4 +1059,295 @@ If the time per operation satisfies : $T(u) = T(\sqrt{u}) + \O(1)$, by Substitut
     This comes directly from the definition and the definition of the x-fast trees. 
 \end{proof}
 
+\part[Algorithms on strings]{Lecture 5 : 9/11}
+\section{General Definitions}
+\begin{definition}
+    An alphabet $\Sigma$ is a finite set. Elements of $\Sigma$ are letters, characters or symbols, denoted by small letters. A string (or word), is a finite sequence of letters, denoted by a capital letter. \\
+    The length of a string $S = s_{1}s_{2}\ldots s_{n}$ where $s_{i} \in \Sigma$ is denoted by $\abs{S}$ and defined to be equal to $n$.\\
+    For $1 \leq i \leq j \leq S$, we say that $S[i, j] = s_{i}\ldots s_{j}$ is a substring of $S$. If $i = 1$, $S[i, j]$ is a prefix of $s$. If $j = \abs{S}$, $S[i, j]$ is a suffix of $S$. 
+    $S[i,j]$ is an occurence of a string $X$ in $S$ if $S[i, j] = X$ 
+\end{definition}
+
+\section{Pattern Matching}
+\begin{definition}
+    We define the pattern matching problem as such : Given a string $P$ of length $m$ (pattern), a string $T$ of lenth $n \geq m$ (text), return all occurences of $P$ in $T$ specified by their starting positions.
+\end{definition}
+
+\subsection{Naïve Algorithm}
+The naïve algorithm consists of looking, for each possible starting position in the text, check if the $m$ following characters form a string equal to the pattern. This algorithm has time complexity $\O(nm)$ and space complexity $\O(n + m)$.
+\begin{remark}
+    There are more than 80 algorithms for this problem. See S.Faro, T.Lecroq \href{The Exact String Matching Problem}{https://arxiv.org/pdf/1012.2547.pdf}
+\end{remark}
+
+\subsection{Knuth-Morris-Pratt Algorithms}
+\begin{definition}
+    The border of a string $P$ is a proper prefix of $P$ that is equal to a suffix of $P$.\\
+    The border array of length $\abs{P}$ is such that $B[i]$ is the maximal length of a border of $P[1, i]$, $0$ if undefined.
+\end{definition}
+
+\begin{proposition}\label{lemma1KMP}
+    $B$ can be computed in $\O(\abs{P})$ time.
+\end{proposition}
+\begin{lemma}
+    First, note that : 
+    \begin{enumerate}
+        \item $B[1] = 0$
+        \item If $X$ is a border of $P[1, k]$ of length $x$, then $X^{'} = X[1, x - 1]$ is a border of $P[1, k - 1]$.
+        \item $B[k] - 1 = B[k - 1]$ if and only if $P[k] = P[B[k - 1] + 1]$.
+        \item If $X$ is a border of $X$ and $Y$ is a border of $X$, $Y$ is a border of $S$. 
+    \end{enumerate}
+    Suppose that we have computed $B[1], \ldots, B[k - 1]$. We will now compute $B[k]$.\\
+    By property 3, if $P[k] = P[B[k - 1] + 1]$, then $B[k] = B[k - 1] + 1$.\\
+    Else, if $P[k] \neq P[B[k - 1] + 1]$, consider $B^{2}[k - 1] = B[B[k - 1]]$. If $P[k] = P[B^{2}[k - 1] + 1]$, set $B[k] = B^{2}[k - 1] + 1$, else consider $B^{3}[k - 1]$, and so on.\\
+
+    This algorithm is correct and in $\O(m)$.
+\end{lemma}
+\begin{proof}
+    \begin{itemize}
+        \item Correctness : In fact, $B[1, k] \in \left\{B[k - 1] + 1, B^{2}[k - 1] + 1, \ldots, 0\right\}$.\\
+        From property 2, any border of $P[1, k]$ can be obtained by appending $P[k]$ to some border of $P[1, k - 1]$.\\
+        From property 4, $B^{j}[k - 1]$ is the $j$-th longest border of $P[1, k - 1]$.
+        \item Time : $\textmd{Time}(B[k]) \leq \abs{B[k] - B[k - 1]}$, indeed, if $B[k] = B^{j}[k - 1] + 1$, we use $j$ steps.
+        Observe that : 
+        \[
+            -1 \leq \sum_{k}\left(B[k] - B[k - 1]\right) = \sum^{-}\left(B[k] - B[k - 1]\right) + \sum^{+}\left(B[k] - B[k - 1]\right) \leq m
+        \]
+        However, by property $2$, the sum on the positive differences if $\O(m)$. Hence, the total time is in $\O\left(\sum \abs{B[k] - B[k - 1]}\right) = \O(m)$
+    \end{itemize}
+\end{proof}
+
+% TODO : add match function 
+\begin{algorithm}
+    \caption{Knuth-Morris-Pratt Algorithm : KMP}
+    \begin{algorithmic}
+        \Input $\ \ T, P, n, m$
+        \EndInput
+        \State $B \gets \textmd{BorderArray}(P)$
+        \State $L \gets []$
+        \State $i \gets 1, \ j\gets 1$
+        \While {$i \leq n - m + j$}
+            \State $(i, j) \gets \textmd{match}(i, j, m)$
+            \If {$j = m + 1$} 
+                \State $L \gets (i - m)::L$
+            \Else 
+                \If {$j = 1$}
+                    \State $i \gets i + 1$
+                \Else 
+                    \State $j \gets B[j - 1] + 1$
+                \EndIf
+            \EndIf
+        \EndWhile
+        \Return \ $L$
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{proposition}
+    This algorithm is Correct
+\end{proposition}
+\begin{lemma}\label{lemma2KMP}
+    No occurence of $P$ can start in the shift interval.
+\end{lemma}
+\begin{proof}
+    If $T[x, x + m - 1] = P$, $P[1, j - 1]$ has a border of length $> B[j - 1]$, contradiction.
+\end{proof}
+
+\begin{lemma}\label{obs1KMP}
+    We have $ P[1, B[j-1]] = T[i + (j - 1 - B[j-1]), i + j - 2]$. \\
+    Hence, we do not need to compare the first $B[j - 1]$ letters of the patter with the letters of the text after the shift.
+\end{lemma}
+\begin{proof}[Of the Correctness]
+    This stands from \ref{lemma2KMP} and \ref{obs1KMP}.
+\end{proof}
+
+\begin{proposition}
+    This is done using $\O(m)$ extra space, in $\O(n + m)$ time.
+\end{proposition}
+\begin{proof}
+    \begin{itemize}
+        \item Space : $\O(m)$ to store $B$ + constant
+        \item Time : From \ref{lemma1KSP}, $\O(m)$ to build $B$. To process $T$ we need $\O(n + m)$ time, since $1 \leq i \leq n$ and $1 \leq j \leq n$ and their difference increases after any step.
+    \end{itemize}
+\end{proof}
+
+\begin{definition}
+    An algorithm is called online if can process its input item-by-item in a serial fashion, without having the entire input available from the start.\\
+    An online algorithm is called real-time if it processes each data item in constant time.\\
+    KMP is an online algorithm, but it is not real-time.
+\end{definition}
+
+\begin{proposition}
+    We can construct a real-time version of KMP, by using $B^{'}[j, T[i]]$ to decide how to shift the pattern, where : 
+    \[
+        B^{'}[j, a] = \max{\left\{k \mid k < j,\ P[1, k] = P[j - k + 1, j], \ P[k + 1] = a\right\}}
+    \]
+    $B^{'}$ occupies $\O(m)$ space and is computed in $\O\left(m \cdot \abs{\Sigma}\right)$ time. 
+    The modified KMP is real-time and correct.
+\end{proposition}
+
+\section{Dictionaries, Multiple Pattern Matching}
+\subsection{Tries}
+\begin{definition}
+    A dictionary $D$ is a set of string. A trie of $D$ is a tree with every node being labeled by a letter such that : 
+    \begin{itemize}
+        \item For every node, outgoing edges are labeled with different letters
+        \item For every string $S \in D$, there is a root-to-node path that spells out $S$. The end of the path is labeled with the id of $S$.
+        \item Every root-to-leaf path spells out a string in $D$.
+    \end{itemize}
+\end{definition}
+\begin{proposition}
+    A trie for $D$ uses $\O(\sum_{S \in D}\abs{S})$ space.
+\end{proposition}
+\begin{proof}
+    By laying out each root-to-leaf path.
+\end{proof}
+
+We will consider two applications : 
+\begin{enumerate}
+    \item Dictionary Look-Up : Given a string $P$, decide if it belongs to the dictionary.
+    \item Multiple Pattern Matching : Given a dictionary of patterns $D$, find all their occurences in a text $T$.
+\end{enumerate}
+
+\subsection{Dictionary Look-Up}
+\begin{proposition}
+    For $P$ a pattern, $P \in D \Leftrightarrow $  there is a root-to-node path that spells out $P$ labeled by an id of a string from $D$. By starting at the root, if there is an from the root to its child $u$ labeled by $P[1]$, the algorithm moves to $u$ and continues recursively. This takes time in $\O(\abs{P})$.
+\end{proposition}
+
+\subsection{Aho-Corasick Algorithm}
+We will first assume that no pattern in $D$ is a substring of another. 
+\begin{definition}
+    The failure link from a node $u$ labeled by a string $S$ points to the deepest node $v$ labeled by a proper suffix of $S$.
+\end{definition}
+
+\begin{lemma}
+    The trie occupies $\O(m)$ space and can be constructed in $\O(m)$ time.
+\end{lemma}
+\begin{proof}
+    \begin{itemize}
+        \item Space : There are $\O(m)$ nodes, each node has exactly one failure link.
+        \item Time : Failure links are built top-to-down. Links from nodes of depth $1$ point to the root.
+        Suppose that we have built links for all nodes to depth $\leq d - 1$. The failure link from a node labeled with $Sa$ must point to a node labeled with $S^{'}a$, where $S^{'}$ is a suffix of $S$. In other words, the parent of the end of the failure link from the node must belong to the failure link path from the node $p(u)$ , and it must be the deepest node that has an outgoing edge labeled with $a$.
+        The algorithm works as follows: we follow the failure link path from $p(u)$. The first node with an outgoing edge labeled with $a$ is the end of the failure link for $u$.
+        Consider the time needed to build the failure links for one root-to-leaf path. Let $root, u_{1}, \ldots, u_{k}$ be the nodes in this path, and denote by $f(u_{i})$ the depth of the end of the failure link for $u_{i}$. The time to find the link for $u_{i}$ is $\leq c \times \left(2 + f(u_{i-1} - f(u_{i}))\right)$. Thus the total time for the trie is $\O(m)$.
+    \end{itemize}
+\end{proof}
+
+% TODO : add failure_link function
+\begin{algorithm}
+    \caption{Aho-Corasick Algorithm}
+    \begin{algorithmic}
+        \Input \ $T, D, n$
+        \EndInput
+        \State $curr_node \gets root, i \gets 1, L \gets []$
+        \While {$i \leq n$}
+            \If {$\exists e = (curr_node, u)$ labeled with $T[i]$}
+                \State $curr_node \gets u$
+                \If {$curr_node$ corresponds to a pattern}  
+                    \State $L \gets i :: L$
+                \EndIf
+                \State $i \gets i + 1$
+            \Else
+                \If {$curr_node = root$}
+                    \State $i \gets i + 1$
+                \Else
+                    \State $curr_node = \textmd{failure_link}(curr_node)$
+                \EndIf
+            \EndIf
+        \EndWhile
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{proposition}
+    This algorithm has space complexity $\O(m)$ and time complexity $\O(m + n)$.
+\end{proposition}
+\begin{proof}
+    \begin{itemize}
+        \item Space : $m$ is the total length of the patterns
+        \item Time : We need $\O(m)$ time to build the trie. Consider how the depth of $curr_node$ changes during the algorithm.
+        \begin{itemize}
+            \item Every time we do down an edge (happens $\leq n$ times), it increases by $1$. Every time we follow a failure link, it decreases by $\geq 1$.
+            \item Therefore, as the depth is always positive, we follow a failure link at most $n$ times.
+        \end{itemize}
+    \end{itemize}
+\end{proof}
+
+\begin{theorem}
+    If no pattern is a substring of another, the multiple pattern matching problem can be solved in $\O(m)$ space and $\O(n + m)$ time.
+\end{theorem}
+
+\begin{definition}
+    When patterns are substrings of others, we add output links : an output link from a node $u$ goes to the nearest node on the failure link path outgoing from $u$ that corresponds to a pattern of the dictionary.
+\end{definition}
+
+\begin{proposition}
+    Output links can be built in $\O(m)$ time by one top-down traversal of the failure link tree.
+\end{proposition}
+
+We modify the algorithm : at each step it follows the path from $curr_node$ and outputs the patterns in the output link path.
+
+\begin{theorem} 
+    The multiple pattern matching problem can ve solved in $\O(m)$ space and $\O(n + m + occ)$ where $occ$ is the total number of occurences of the patterns in the text.
+\end{theorem}
+
+\section{Suffix Trees and Applications}
+\begin{definition}
+    A text index is a data structure that represents a text and supports pattern matching queries. The suffix tree is one of them. 
+
+    We define the compact trie for $D$ as the trie for $D$ where nodes with only one child have been replaced by an edge. The suffix tree of a string is the compact trie for the set of the suffixes of that string with \$ appended (\$ must not be in $\Sigma$).
+\end{definition}
+
+\subsection{Suffix Trees}
+\begin{proposition}
+    A suffix tree for a string of length $n$ has $n$ leaves, and at most $2n - 1$ nodes and $2n - 2$ edges. Storing the labels on the edges can take $\Theta\left(\abs{T}^{2}\right)$. To save space we represent each label as two numbers, the left and the right endpoints in $T$.
+\end{proposition}
+\begin{proof}
+    By induction.
+\end{proof}
+
+To implement algorithms on the suffix tree efficiently, we need to be able to identify, given a node $u$ and a letter $a$, an edge $u, v$ such that its label starts with $a$. Then, for each node $u$, we store an array $A_{u}$ of size $\abs{\Sigma}$ , with $A_{u}[a]$ being a pointer to the child $v$ of $u$ such that the label of $(u, v)$ starts with $a$.
+
+\begin{proposition}
+    This structure takes $\O(\abs{Sigma} \cdot \abs{T})$ space.
+\end{proposition}
+
+\subsection{Pattern Matching}
+\begin{remark}
+    A suffix of $T$ starts with $P$ if and only if it corresponds to a leaf of the suffix tree that belongs to a subtree rooted at the end of the path labeled with $P$.
+\end{remark}
+
+To answer pattern matching queries, we start at the root. Then, we follow the path labeled by the letters of $P$, and use arrays $A_{u}$ to find the next edge to follow. If there is no path labeled by $P$, there are no occurences of $P$ in $T$. Otherwise, the starting positions of the occurences of $P$ in $T$ are the starting positions of the suffixes that are in the subtree rooted at the end of the path labeled by $P$. We retrieve the occurences by traversing the subtree depth-first.
+\begin{proposition}
+    This algorithm has total time $\O(m + occ)$.
+\end{proposition}
+\begin{proof}
+    The arrays allow to decide which edge to follow next in $\O(1)$ time. In total, finding the path requires $\O(m)$ time. If there is a path labeled by $P$, the subtree rooted at its end has $\O(occ)$ leaves, where $occ$ is the number of occurences of $P$ in $T$. As the subtree does not have nodes of degree one (except possibly for the root), its size is $\O(occ)$.
+\end{proof}
+
+\subsection{Longest Common Substring}
+Given two strings, find the longest substring that occurs both in $T_{1}$ and $T_{2}$. We will denote $n = \abs{T_{1}} + \abs{T_{2}}$.
+
+To find the longest common substring of $T_{1}$ and $T_{2}$, we need the suffix tree containing the suffixes of both string (sometimes called generalised suffix tree). 
+
+\begin{proposition}
+    This suffix tree can be built in $\O\left(\abs{T_{1}} + \abs{T_{2}}\right)$.
+\end{proposition}
+
+\begin{remark}
+    If a string $X$ occurs at position $i$ in $T_{1}$, and at position $j$ in $T_{2}$, then the subtree rooted at the end of the path labeled by $X$ contains the leaf corresponding to $T_{1}[i\ldots]$ and $T_{2}[j \ldots]$.
+\end{remark}
+
+By bottom-up traversal, we find the deepest node in the tree such that its subtree contains both leaves corresponding to suffixes of $T_{1}$ and suffixes of $T_{2}$. It is labeled by the longest common substring of $T_{1}$ and $T_{2}$.
+\begin{proposition}
+    This algorithm has time complexity $\O(\abs{T_{1}} + \abs{T_{2}})$.
+\end{proposition}
+
+We can generalise this to any $m$ strings in time $\O(n)$ where $n = \sum_{k = 1}^{m} \abs{T_{k}}$. We will use the following fact : we can preprocess a tree of size $\O(n)$ in time $\O(n)$ to support lowest common ancestor ($LCA$) queries in constant time. (see \href{this}{http://static.aminer.org/pdf/PDF/000/118/469/theoretical_and_practical_improvements_on_the_rmq_problem_with_applications.pdf}) $LCA(u, v)$ must return the lowest node that is an ancestor of both $u$ and $v$.
+
+\begin{openpb}
+    We showed that the longest common substring problem for two string can be solved in $\O(n)$ space and $\O(n)$ time. It is also known that the problem can be solved in $\O(s)$ extra space and time 
+    \[
+        \O\left(\frac{n^{2}\log(n)\log^{*}(n)}{L\cdot s} + n \log n\right)
+    \]
+    where $L$ is answer.
+    What is the optimal trade-off.
+\end{openpb}
 \end{document}
