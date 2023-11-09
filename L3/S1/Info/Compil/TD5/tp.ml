@@ -163,4 +163,109 @@ let expansions g =
     let ts_ = if is_null_production nulls p then Tset.union ts (Ntmap.find nt follows) else ts in
     Tset.fold (fun t table -> add_entry table nt t p) ts_ table ) Ntmap.empty g.rules
 
-  
+
+let g1 = {
+  start = "S'";
+  rules = ["S'", [NonTerminal "S"; Terminal "#"];
+           "S", [];
+           "S", [Terminal "a"; NonTerminal "A"; NonTerminal "S"];
+           "S", [Terminal "b"; NonTerminal "B"; NonTerminal "S"];
+           "A", [Terminal "a"; NonTerminal "A"; NonTerminal "A"];
+           "A", [Terminal "b"];
+           "B", [Terminal "b"; NonTerminal "B"; NonTerminal "B"];
+           "B", [Terminal "a"];
+          ] };;
+
+let pp_symbol fmt = function
+  | Terminal s -> Format.fprintf fmt "\"%s\"" s
+  | NonTerminal s -> Format.fprintf fmt "%s" s
+
+let rec pp_production fmt = function
+  | [] -> ()
+  | [x] -> pp_symbol fmt x
+  | x :: l -> Format.fprintf fmt "%a %a" pp_symbol x pp_production l
+
+let pp_table fmt t =
+  let print_entry c p =
+    Format.fprintf fmt "  %s: @[%a@]@\n" c pp_production p in
+  let print_row nt m =
+       Format.fprintf fmt "@[Expansions for %s:@\n" nt;
+       Tmap.iter (fun c rs -> Pset.iter (print_entry c) rs) m;
+       Format.fprintf fmt "@]" in
+  Ntmap.iter print_row t
+
+let table1 = expansions g1
+let () = Format.printf "%a@." pp_table table1
+
+let table_arith = expansions g_arith
+let () = Format.printf "%a@." pp_table table_arith
+
+let is_ll1 t =
+  try
+    Ntmap.iter
+      (fun _ m ->
+         Tmap.iter (fun _ rs -> if Pset.cardinal rs > 1 then raise Exit) m)
+      t;
+    true
+  with Exit ->
+    false
+
+let () = assert (is_ll1 table1)
+let () = assert (is_ll1 table_arith)
+
+let analyze start table w =
+  let rec scan = function
+    | [], [] ->
+        true
+    | NonTerminal n :: s, (t :: _ as w) ->
+        let p = Pset.choose (Tmap.find t (Ntmap.find n table)) in
+        scan (p @ s, w)
+    | Terminal t' :: s, t :: w when t' = t ->
+        scan (s, w)
+    | _ ->
+        raise Not_found
+  in
+  try scan ([NonTerminal start], w @ ["#"])
+  with Not_found -> false
+
+let explode s =
+  let n = String.length s in
+  let rec make i = if i = n then [] else String.make 1 s.[i] :: make (i+1) in
+  make 0
+
+let test1 s = analyze g1.start (expansions g1) (explode s)
+
+let g_gram =
+  { start = "S'";
+    rules = [ "S'", [ NonTerminal "S"; Terminal "#" ];
+              "S",  [ NonTerminal "R" ];
+              "S",  [ NonTerminal "R"; Terminal ";"; NonTerminal "S" ];
+              "R",  [ Terminal "ident"; Terminal "::="; NonTerminal "P"];
+              "P",  [ NonTerminal "W" ];
+              "P",  [ NonTerminal "W"; Terminal "|"; NonTerminal "P" ];
+              "W",  [ ];
+              "W",  [ NonTerminal "C"; NonTerminal "W";];
+              "C",  [ Terminal "ident"];
+              "C",  [ Terminal "string"];
+            ] }
+
+let table_gram = expansions g_gram
+let () = Format.printf "%a@." pp_table table_gram
+let () = assert (not (is_ll1 table_gram))
+
+
+let g_gram2 =
+  { start = "S'";
+    rules = [ "S'", [ NonTerminal "S"; Terminal "#" ];
+              "S",  [ NonTerminal "R"; NonTerminal "S2"; ];
+              "S2", [ ];
+              "S2", [ Terminal ";"; NonTerminal "S" ];
+              "R",  [ Terminal "ident"; Terminal "::="; NonTerminal "P"];
+              "P",  [ NonTerminal "W"; NonTerminal "P2" ];
+              "P2", [ ];
+              "P2", [ Terminal "|"; NonTerminal "P" ];
+              "W",  [ ];
+              "W",  [ NonTerminal "C"; NonTerminal "W";];
+              "C",  [ Terminal "ident"];
+              "C",  [ Terminal "string"];
+            ] }
