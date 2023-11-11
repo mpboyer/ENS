@@ -6,6 +6,8 @@
 \author{Salvador Mascarenhas \\ \small Michael Goodale (TA)}
 \date{21 Septembre 2023}
 
+\newcommand{\scalar}[1]{\left\langle #1\right\langle}
+\newcommand{\model}[1]{\left\llvert #1 \right\rrvert}
 
 \begin{document}
 \part[Cours 1 21/09]{Language : Psychological and Social Entity}
@@ -603,6 +605,119 @@ We can do the same in English :
     \Tree [.CP [.C ] [.IP \qroof{John}.DP [.{I$^{'}$} [.I does ] [.VP [.V see ] \qroof{Mary}.DP ] ] ] ]
     \Tree [.CP [.C Does ] [.IP \qroof{John}.DP [.{I$^{'}$} [.I trace ] [.VP [.V see ] \qroof{Mary}.DP ] ] ] ]
 \end{center}
+
+\part[Class 5 : 9/11]{Semantics I}
+\section{Syntax and Grammaticality}
+Syntax as we studied it in this course has been about how words are put together to form grammatical sentences, with only limited consideration of meaning. For typical artificial languages, we define semantics over an already defined syntax, and we do not need that every symbol has a sense. Yet, for natural languages, we need to ask for that, and there needs to be a connection between semantics and syntax. In linguistics, there is no such thing as a syntax without a semantics.\\
+We need to have things that can be interpreted in particular models. Yet, even tho some words don't have sense or are not words in english (e.g. Jabberwocky) we can figure grammaticality without sense. Same, we can figure out sense without grammaticality, but this is not of interest.
+
+\section{Semantics}
+\subsection{The Study of Meaning}
+The meaning of linguistic expressions is what we care about, not really their form. Semantics studies : 
+\begin{enumerate}
+    \item The meaning of linguistic expressions
+    \item The way in which form and meaning are connected
+    \item The different kinds of meanings that natural languages use
+\end{enumerate}
+Two important uses of language are exchanging information in communication and internal calculation.\\
+Propositions are the kinds of meanings that contain information, which can in turn be used in communication and in internal calculation. Indeed, it is very unclear how much (if any) information interrogative sentences contain; they structure, give a goal. \\
+The paradigmatic linguistic exponents (syntactic categories) of propositions are declarative sentences.
+
+\subsection{Understanding Sentences}
+What is "understanding a declarative sentence" ?\\
+
+Consider \textsl{The planet Earth is roughly spherical}, \textsl{France is a country in East Asia}. One property that propositions have is that they can be true or false. We get a first stab at an answer : \textit{To understand a sentence is to know whether it is true or false.}\\
+
+But we clearly don't need to know whether a sentence is true or false to understand its meaning : \textit{Salvador likes almonds}. (Here we suppose that the speaker is cooperative, thus Salvador is the one we think about, the teacher.)
+\begin{quotation}
+    I am the most salliant Salvador in your lives - Salvador.
+\end{quotation}
+Sometimes, there is a way to verify the truth value of a sentence \textsl{The world will come to an end in 2025}, but sometimes there might not be \textsl{Humans will never inhabit Jupiter}, and sometimes it is impossible to be certain \textsl{Socrates never existed}, we only have clues it did. We get a second stab at an answer : \textit{To understand a sentence is to know under which conditions it would be true, and under which conditions it would be false.}\\
+
+This is clearly not enough, how to understand swear words in this paradigm. How to understand questions and imperatives ? In the early days, we tried to reduce interrogatives to declaratives, but it doesn't work, since it implies wrapping a declarative aroung an interrogative. 
+
+\section{Models}
+Theories formulated in artificial languages are interpreted with respect to standard models: mathematical structures that represent what the artificial language is meant to be about, allowing us to be completely rigorous about the conditions under which statements in the artificial language are true or false.
+\subsection{Models and Interpretations}
+We have something of such : 
+\begin{itemize}
+    \item Statement (with sugar) : $1 + 2 = 4$
+    \item Standard Model : $\mathcal{M} = \left\langle\mathbb{N}; s(\cdot), \cdot + \cdot;\leq;0\right\rangle$
+    \item Truth Conditions of The Statement : To apply the successor function $s(\cdot)$ of $\mathcal{M}$ three times is the same as to apply it four times. (This is \textmd{False} under a successor function that works as intended and as can be defined using a decent axiomatization of arithmetic.)
+\end{itemize}
+Remember that the interpretation of a formal system (whatever complex), is always given in a natural language. This is only an attemps to reduce the complexity of the interpretation in natural language of a system. The idea is to provide an idea of the number of properties that models need to have to get the truth value.
+
+\subsection{First Order Logic}
+FoL is a particularly powerful artificial language that constitutes the logical foundation for most of modern science. 
+\begin{tabular}{cc}
+    $\exists x$ & There is an individual, call it $x$.\\
+    $xKf$ & $x$ stands in the $K$ relation with $f$\\
+    $\forall y$ & For any individual, call it $y$\\
+    $yKf \rightarrow y = x$ & $y$ stands in the $K$ relation with $f$ imposes $y$ to be equal to $x$\\
+    $\wedge$ & conjunction, meaning and\\
+    $\exists x.xKf\wedge \left(yKf \rightarrow y = x\right)$ & There is exactly one individual standing in the $K$ relation with something called $f$.\\
+    $B(x)$ & $x$ has the property $B$\\
+    $\exists x.xKf\wedge \left(yKf \rightarrow y = x\right) \wedge B(x)$ & There is exactly one individual standing in the $K$ relation with something called $f$. Let's call that individual $x$.
+\end{tabular}
+This table gives a way to model in FoL the sentence \textsl{The King of France is Bald}.
+
+This is insufficient to understand the sentence, since we don't know what \textsl{King}, \textsl{France} nor \textsl{Bald} means. We have only explained the word \textsl{the}, by asserting the existence and the unicity. $B(x)$ here can be viewed as an interpreation of \textsl{is} and $xKf$ as an interpretation of \textsl{of}. Yet, here, \textsl{of} seems to only be verbal tissue. Here we have understood a part of functional words, but not lingual functions of words, and this is insufficient to end the analysis : \textsl{The day was lovely}, is not fully understood, there might have been many loverly days. We then need to use some kind of contextual restriction. \\
+Also remember that, following Russel, \textsl{The King of France is not Bald} doesn't negate the whole formula, but only $B(x)$. And, moreover, saying something like \textsl{John knows the Earth is flat}, also implies the speaker thinks the Earth is flat. \\
+
+FoL models are structure which tell us precisely, which individuals there are, what properties they have, what relations they participate in and with whom. \\
+A FoL formula will be true in somme FoL models, and false in others, e.g. :
+\begin{itemize}
+    \item In $\mathcal{M} = \scalar{\left\{a, b, f, g\right\}; K = \left\{\scalar{a, f}, \scalar{b, g}\right\}; B = \left\{a, b\right\}}$, the sentence is true.
+    \item In $\mathcal{M}^{'} = \scalar{\left\{a, b, f\right\}; K = \left\{\scalar{a, f}, \scalar{b, f}\right\}; B = \left\{a\right\}}$, the sentence is false since there are two $x$ such that $xKf$.
+    \item In $\mathcal{M}^{''} = \scalar{\left\{a, b, f\right\}; K = \left\{\scalar{a, f}\right\}; B = \emptyset}$, the sentence is false since there are no elements in $B$.
+\end{itemize}
+We can take the class of models where the sentence is true to fully specify the truth conditions of the sentence. The task for truth-conditional semantics is to provide an interpretation function that associates each sentence with its class.
+
+\section{Compositionality}
+\subsection{Frege's Principle}
+The meaning of a sentence is determined by the meaning of its parts and the way in which those parts are assembled. 
+
+This comes from the fact that we interpret sentence we've never heard just as easily as sentences we've already heard. This implies a huge part of compositionality. 
+
+\subsection{Combining Meanings}
+\subsubsection{Infering from Structure}
+\begin{center}
+    \Tree [.S [.NP [.N Kim ] ] [.VP [.V ate ] [.NP [.D a ] [.N pear ] ] ] ] 
+\end{center}
+We first infer $\model{pear}$ then $\model{a pear}$, then $\model{ate a pear}$ and so on...\\
+
+We use the phrase structure rule : $S \rightarrow NP \ VP$ where $NP$ is the subject of the predicate $VP$. In many sentences of natural languages, the predicate attributes some property to the individual contributed by the subject.\\
+What is the meaning of a name or of a definite noun phrase ? These are all individuals, real or fictional. The noun phrase \textsl{Salvador} refers to Salvador. Salvador is the referent of \textsl{Salvador}.\\
+Predicates correspond to properties : \textsl{is a carpenter} corresponds to the property of being a carpenter. Properties can apply to (be true of) a number of individuals. At the very least, properties must be able to tell us who has them, and who lacks them. So, at a first approximation, we might identify properties with the sets of individuals that they are true of.\\
+
+
+Now, since Subject NPs refer to individuals and Predicate VPs denote sets of individuals, we can relate the two so as to capture the truth conditions of the sentence : we say $\model{Mary is a carpenter}$ is true if and only if $\model{Mary}$ is a member of the set $\model{is a carpenter}$. These are the truth conditions of this sentence.
+\begin{proposition}[Semantic Rule I]
+    If S is a sentence...     
+\end{proposition}
+
+\subsubsection{Intersective Adjectives}
+Yet, for more complicated predicates (e.g. \textsl{is a smart student}), how do we do ? Intuitively, this VP is composed of two properties (\textsl{begin smart} and \textsl{being a student}). We may want to take the intersection of those two sets then apply Semantic Rule I, this is Semantic Rule II. 
+\begin{definition}
+    Entailment : A sentence $X$ entails another sentence $Y$ (noted $X \models Y$) just in case, whenever $X$ is true, $Y$ is true. For example : 
+    \begin{itemize}
+        \item \textsl{John is a blond carpenter} $\vdash$ \textsl{John is blond}
+        \item \textsl{John loves cats} $\nvDash$ \textsl{John loves dogs}
+        \item \textsl{John is a blond carpenter} $\vdash$ \textsl{John is a carpenter}
+    \end{itemize}
+\end{definition}
+
+\subsubsection{Non-Intersective Adjectives}
+What about : \textsl{Pat is a fake carpenter} ? Does it entail those sentences ?
+\begin{itemize}
+    \item \textsl{Pat is fake}
+    \item \textsl{Pat is a carpenter}
+\end{itemize}
+This sentence shows our rule for intersection does not work for all adjectives. We restrain rule II to intersective adjectives (such as \textsl{prime} or \textsl{even}), and call non-intersective adjectives those that fail the entailment test. Worse : \textsl{That gun is fake} or \textsl{This is a toy gun}; can we then call it a \textsl{gun} ?\\
+We might think that fake means not, but Salvador is not a fake carpenter, and is not a carpenter. Then, is a \textsl{fake blah} something that is not a \textsl{blah}, but seems to be a \textsl{blah} ? Fakeness seems to require intentionality. Then, \textsl{fake} is some kind of functional element that applies to nous, and generates a new set of properties, maybe the set of things that intend to look like the argument intersected with the complement.\\
+And even then, what can we say about \textsl{tall} ? It cannot simply represent a set. \textsl{Tall} is a subsective adjective since it returns a set beneath a context. Moreover, there is often typicality : when shown a picture of a robin, people will more easily say "This is a bird" than when shown a more atypical bird such as a penguin.\\
+More over, even for non-intersective adjectives, sometimes the argument is not made of morphemes : \textsl{Pat is an excellent carpenter} and \textsl{That carpenter is excellent}. Then, we may say that there is a placeholder of some sort filling the argument, which is resolved by contextuality. Same thing : \textsl{Last night there was an excellent politician and a pretty awful carpenter}, what is the carpenter \textsl{awful} at ? Eventually, there is some intersection between excellent and carpenter.
+
 
 
 
