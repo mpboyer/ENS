@@ -6,5 +6,49 @@
 \begin{document}
     \section{Exercise 1}
         \subsection{Question 1}
+            For $i, j$ in $\lvert 1, n \rvert^{2}$, we have $AB_{i, j} = A_{i*}B_{*j} = \sum_{k = 1}^{n} A_{i, k}B_{k, j}$, thus $AB$ is computed by computed, for all $i, j$ the product $A_{i,k}B_{k,j}$ and thus uses at most $\sum_{k = 1}^{n} a_{k}b_{k}$ multiplications.
+
+        \subsection{Question 2}
+            The number of multiplications and additions is two times the number of multiplications. We just need to get a majoration of the number of multiplications. Yet, since $a_{k} \leq n$ for all $k$, $\sum_{k = 1}^{n} a_{k} b_{k} \leq n \sum_{k=1}^{n}b_{k} = mn$. Then the number of multiplications and additions required is $\O(mn)$.
+
+        \subsection{Question 3}
+            Multiplying a matrix in $\mathcal{M}_{ap, bp}$ by a matrix $\mathcal{M}_{bp, cp}$ can, by seeing the matrices as block matrices, be seen as multiplying two matrices in $\mathcal{M}_{p}$ the number of times we need to compute the product of matrix in $\mathcal{M}_{a,b}$ by a matrix  in $\mathcal{M}_{b, c}$ :
+            \[
+                \left(\begin{matrix}
+                    \alpha_{1, 1} & \ldots & \alpha_{1, bp}\\
+                    \vdots & & \vdots\\
+                    \alpha_{ap, 1} & \ldots & \alpha_{ap, bp}
+                \end{matrix}\right)
+                = \left(
+                \begin{matrix}
+                    A_{1, 1} & \ldots & A_{1, b}\\
+                    \vdots & & \vdots\\
+                    A_{a, 1} & \ldots & A_{a, b}
+                \end{matrix}\right)
+                \text{ where } A_{i, j} = \left(
+                    \begin{matrix}
+                        \alpha_{i p + 1, j p + 1} & \ldots & \alpha_{i p + 1, j (p + 1)}\\
+                        \vdots & & \vdots\\
+                        \alpha_{i (p + 1), j p + 1} & \ldots & \alpha_{i (p + 1), j (p + 1)}
+                    \end{matrix}                    
+                    \right) \in \mathcal{M}_{p}
+            \]  
+            Thus, we can multiply a matrix in $\mathcal{M}_{ap, bp}$ by a matrix $\mathcal{M}_{bp, cp}$ in $M(a, b, c)M(p, p, p)$ multiplications. Thus : 
+            \[
+                M(ap, bp, cp) \leq M(a, b, c)M(p, p, p)
+            \]
             
+        \subsection{Question 4}
+            If $0 \leq r \leq \alpha$: $w(1, r, 1)$ is the smallest number $k$ such that $M(n, n^{r}, n) = \O(n^{k + o(1)})$. But, again by seeing $A$ an $n\times n^{\alpha}$ matrix as a $n\times n^{r}$ matrix next to a $n, n^{\alpha} - n^{r}$ matrix and same for $B$, we get $M(1, r, 1) \leq M(1, \alpha, 1)$ and thus $w(1, r, 1) \leq w(1, \alpha, 1) = 2$.
+            If $\alpha \leq r \leq 1$ : by seeing a $n \times n^{r}$ matrix $A$ as $n^{r - \alpha}$ $n\times n^{\alpha}$ matrices next to each other, and same for $B$ (transposing the process), we get : 
+            \[
+                    M(1, r, 1) \leq M(1, r - \alpha, 1)M(1, \alpha, 1)
+            \]
+            Thus :
+            \[
+                    w(1, r, 1) \leq w(1, r - \alpha, 1) + 2
+            \]
+            However, since $n^{r - \alpha} \leq $ 
+
+
 \end{document}

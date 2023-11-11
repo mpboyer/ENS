@@ -79,7 +79,11 @@
 \newcommand{\N}{\mathbb{N}}
 \newcommand*{\rrarrow}{\twoheadrightarrow}
 \newcommand*{\llarrow}{\twoheadleftarrow}
-\newcommand*{\fun}[2]{\textmd{fun } #1 \rightarrow #2}
-\newcommand*{\letval}{\textmd{let }}
-\newcommand*{\letin}[1]{\textmd{let } #1 \textmd{ in }}
+\newcommand*{\fun}[2]{\texttt{fun } #1 \rightarrow #2}
+\newcommand*{\letval}{\texttt{let }}
+\newcommand*{\letin}[1]{\texttt{let } #1 \texttt{ in }}
+\newcommand{\tint}{\texttt{int}}
+\newcommand{\tbool}{\texttt{bool}}
+\newcommand{\mL}{\mathcal{L}}
+\newcommand{\ml}{\mathcal{l}}
 

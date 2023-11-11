@@ -6,6 +6,7 @@
 
 \begin{document}
 
+\newpage
 \part[Aperçu de la Compilation - Assembleur x86-64]{Cours 1 29/09}
 \localtableofcontents
 \section{Introduction à la Compilation}
@@ -123,7 +124,7 @@ Il y a quatres temps dans un appel :
         \item Restaure les registres \textit{caller-saved}
     \end{enumerate}
 \end{enumerate}
-
+\newpage
 \part[Syntaxe abstraite, sémantique, interprètes]{Cours 2: 6/10}
 \localtableofcontents
 
@@ -161,7 +162,7 @@ On applique ça à Mini-ML (qui est Turing-Complet).
 
 \subsubsection{Sémantique Opérationnelle à Grand Pas}
 On cherche à définir $e \twoheadrightarrow v$. On définit les valeurs parmi les constantes, les primitives non appliquées, les fonctions et les paires. \\
-Une relation peut être définie comme la plus petite relation satisfaisant un ensemble d'axiomes notés $\overline{P}$ et des règles d'inférences (implications). On définit \textmd{Pair(n)} par $\overline{Pair(0)}$ et $\frac{Pair(n)}{Pair(n+2)}$. La plus petitre relation qui vérifie ces deux propriétés coïncide avec la propriété \og $n$ est un entier naturel pair \fg.\\
+Une relation peut être définie comme la plus petite relation satisfaisant un ensemble d'axiomes notés $\overline{P}$ et des règles d'inférences (implications). On définit \texttt{Pair(n)} par $\overline{Pair(0)}$ et $\frac{Pair(n)}{Pair(n+2)}$. La plus petitre relation qui vérifie ces deux propriétés coïncide avec la propriété \og $n$ est un entier naturel pair \fg.\\
 Une dérivation est un arbre dont les noeuds correspondent aux règles et les feuilles aux axiomes (les arbres croissent vers le haut). L'ensemble des dérivations possibles caractérise exactement la plus petite relation satisfaisant les règles d'inférence. \\
 \begin{definition}
     On définit les variables libres d'une expression $e$, noté $fv(e)$ par récurrence sur $e$ avec :
@@ -182,10 +183,10 @@ Une dérivation est un arbre dont les noeuds correspondent aux règles et les fe
     \end{tabular}
 \end{definition}
 On fait le choix d'une stratégie d'appel par valeur, i.e. l'argument est complètement évalué avant l'appel. \\
-On a ici comme axiomes : $\overline{c \twoheadrightarrow c}$, $\overline{op \twoheadrightarrow op}$, $\overline{(\textmd{fun } x \rightarrow e) \twoheadrightarrow (\fun{x}{e})}$
+On a ici comme axiomes : $\overline{c \twoheadrightarrow c}$, $\overline{op \twoheadrightarrow op}$, $\overline{(\texttt{fun } x \rightarrow e) \twoheadrightarrow (\fun{x}{e})}$
 et comme règles d'inférences : 
 \[    
-    \frac{e_{1} \twoheadrightarrow v_{1} \ \ e_{2} \twoheadrightarrow v_{2}}{(e_{1}, e_{2}) \twoheadrightarrow (v_{1}, v_{2})} \ \ \ \frac{e_{1} \twoheadrightarrow v_{1} \ \ e_{2}[x \leftarrow v_{1}] \twoheadrightarrow v}{let\ x  = e_{1} \textmd{ in } e_{2} \twoheadrightarrow v}
+    \frac{e_{1} \twoheadrightarrow v_{1} \ \ e_{2} \twoheadrightarrow v_{2}}{(e_{1}, e_{2}) \twoheadrightarrow (v_{1}, v_{2})} \ \ \ \frac{e_{1} \twoheadrightarrow v_{1} \ \ e_{2}[x \leftarrow v_{1}] \twoheadrightarrow v}{let\ x  = e_{1} \texttt{ in } e_{2} \twoheadrightarrow v}
 \]
 et 
 \[
@@ -220,7 +221,7 @@ On peut établir une propriété d'une relation définie par un ensemble de règ
 
 \subsubsection{Sémantique à Petits Pas}
 La sémantique opérationnelle à petits pas remédie aux problèmes de programmes qui ne terminent pas, en introduisant une notion d'étape élémentaire de calcul $e_{1} \rightarrow e_{2}$\\
-On commence par définir une relation $\rightarrow^{\epsilon}$ correspondant à une réduction en tête, au sommet de l'expression, par exemple : $(\textmd{fun } x\rightarrow e)\ v \rightarrow^{\epsilon} e[x \leftarrow v]$
+On commence par définir une relation $\rightarrow^{\epsilon}$ correspondant à une réduction en tête, au sommet de l'expression, par exemple : $(\texttt{fun } x\rightarrow e)\ v \rightarrow^{\epsilon} e[x \leftarrow v]$
 On se donne également des règles pour les primitives. On réduit en profondeur en introduisant la règle d'inférence : $\frac{e_{1}\rightarrow^{\epsilon} e_{2}}{E(e_{1})\rightarrow E(e_{2})}$ où $E$ est un contexte défini par la grammaire suivante :
 \begin{tabular}{crl}
     $E$ &$::=$& $\square$\\
@@ -274,17 +275,18 @@ Pour un langage impératif les sémantiques ci-dessus sont insuffisantes. On ass
 \section{Interprète}
     On peut programmer un interprète en suivant les règles de la sémantique naturelle. On se donne un type pour la syntaxe abstraite des expressions et on définit une fonction correspondant à la relation $\twoheadrightarrow$\\
     Un interprète renvoie la (ou les) valeur(s) d'une expression, souvent récursivement.\\
-    On peut éviter l'opération de substitution, en interprétant l'expression $e$ à l'aide d'un environnement donnant la valeur courante de chaque variable (un dictionnaire). Ceci pose problème car le résultat de $\textmd{let } x = 1 \textmd{ in fun } y \rightarrow +(x, y)$ est une fonction qui doit \og mémoriser \fg que $x = 1$.\\
-    On utilise alors le module \textmd{Map} pour les environnements (c'est une \textit{fermeture}). On représente alors la valeur d'une fonction avec son environnement. \\
+    On peut éviter l'opération de substitution, en interprétant l'expression $e$ à l'aide d'un environnement donnant la valeur courante de chaque variable (un dictionnaire). Ceci pose problème car le résultat de $\texttt{let } x = 1 \texttt{ in fun } y \rightarrow +(x, y)$ est une fonction qui doit \og mémoriser \fg que $x = 1$.\\
+    On utilise alors le module \texttt{Map} pour les environnements (c'est une \textit{fermeture}). On représente alors la valeur d'une fonction avec son environnement. \\
     Pour un interprète de la sémantique à petits pas, il vaut mieux utiliser un \textit{zipper} que de recalculer le contexte tout le temps. 
 
+\newpage
 \part[Analyse Lexicale]{Cours 3 : 13/10}
 \localtableofcontents
 \section*{Introduction}
 L'objectif est de partir du code source, une suite de caractère, pour obtenir une suite de lexèmes plus compréhensible et simple à analyse syntaxiquement
 
 \section{Blancs}
-Les blancs (espace, retour chariot, tabulation) jouent un rôle dans l'analyse lexicale, car ils permettent de séparer deux lexèmes. De nombreux blancs sont inutiles e.g. \textmd{x + 1}, et seront ignorés.\\
+Les blancs (espace, retour chariot, tabulation) jouent un rôle dans l'analyse lexicale, car ils permettent de séparer deux lexèmes. De nombreux blancs sont inutiles e.g. \texttt{x + 1}, et seront ignorés.\\
 Les conventions diffèrent selon les langages et certains des caractères blancs peuvent être significatifs, par exemple l'indentation en python ou en Haskell, ou les retours chariots transformés en points-virgules comme en python. Les commentaires jouent le rôle de blancs.
 
 \section{Outils pour l'analyse lexicale}
@@ -362,8 +364,8 @@ Le fonctionnement de l'analyseur lexical est différent de la simple reconnaissa
 \end{itemize}
 
 \paragraph*{Ambiguïtés}
-Le mot \textmd{funx} est reconnu par l'expression régulière des identificateurs mais contient un préfixe reconnu par une autre expression régulière (\textmd{fun}) : $\Rightarrow$ On choisit de reconnaître le lexème le plus long possible.\\
-Le mot \textmd{fun} est reconnu par la regexp du mot clef \textmd{fun} mais aussi par celle des identificateurs : $\Rightarrow$ On classe les lexèmes par ordre de priorité.
+Le mot \texttt{funx} est reconnu par l'expression régulière des identificateurs mais contient un préfixe reconnu par une autre expression régulière (\texttt{fun}) : $\Rightarrow$ On choisit de reconnaître le lexème le plus long possible.\\
+Le mot \texttt{fun} est reconnu par la regexp du mot clef \texttt{fun} mais aussi par celle des identificateurs : $\Rightarrow$ On classe les lexèmes par ordre de priorité.
 
 \paragraph*{Retour en arrière}
 Un analyseur va échouer sur l'entrée $abc$ avec les trois regexp $a, ab, bc$.
@@ -383,65 +385,65 @@ On construit par induction un automate compatible.
 \paragraph*{L'automate de Berry-Sethi}
 On met en correspondance les lettres d'un mot reconnu et celles apparaissant dans la regexp : 
 On distingue les différentes lettres de la regexp puis on construit un automate dont les états sont des ensembles de lettres. 
-Pour construire les transitions de $s_{1}$ à $s_{2}$, on détermine les lettres qui peuvent apparaître après une autre dans un mot reconnu : \textmd{follow}. Pour calculer \textmd{follow}, on a besoin de savoir calculer les premières et dernières lettres d'un mot reconnu (\textmd{first} et \textmd{last}). On a alors besoin d'une dernière notion : \textmd{null}, est-ce que $\epsilon$ appartient au langage reconnu. On obtient : 
+Pour construire les transitions de $s_{1}$ à $s_{2}$, on détermine les lettres qui peuvent apparaître après une autre dans un mot reconnu : \texttt{follow}. Pour calculer \texttt{follow}, on a besoin de savoir calculer les premières et dernières lettres d'un mot reconnu (\texttt{first} et \texttt{last}). On a alors besoin d'une dernière notion : \texttt{null}, est-ce que $\epsilon$ appartient au langage reconnu. On obtient : 
 \begin{center}
     \begin{tabular}{c@{ = }c}
         \toprule
-        $\textmd{null}(\emptyset)$ & \textmd{false}\\
-        $\textmd{null}(\epsilon)$ & \textmd{true}\\
-        $\textmd{null}(a)$ & \textmd{false}\\
-        $\textmd{null}(r_{1}r_{2})$ & $\textmd{null}(r_{1}) \land  \textmd{null}(r_{2})$\\
-        $\textmd{null}(r_{1}\mid r_{2})$ & $\textmd{null}(r_{1}) \lor  \textmd{null}(r_{2})$\\
-        $\textmd{null}(r\star)$ & \textmd{true}\\
+        $\texttt{null}(\emptyset)$ & \texttt{false}\\
+        $\texttt{null}(\epsilon)$ & \texttt{true}\\
+        $\texttt{null}(a)$ & \texttt{false}\\
+        $\texttt{null}(r_{1}r_{2})$ & $\texttt{null}(r_{1}) \land  \texttt{null}(r_{2})$\\
+        $\texttt{null}(r_{1}\mid r_{2})$ & $\texttt{null}(r_{1}) \lor  \texttt{null}(r_{2})$\\
+        $\texttt{null}(r\star)$ & \texttt{true}\\
         \midrule
         \multicolumn{2}{c}{On en déduit : }\\
         \midrule
-        $\textmd{first}(\emptyset)$ & $\emptyset$\\
-        $\textmd{first}(\epsilon)$ & $\emptyset$\\
-        $\textmd{first}(a)$ & $\left\{a\right\}$\\
-        $\textmd{first}(r_{1}r_{2})$ & $\textmd{first}(r_{1}) \cup \textmd{first}(r_{2})$ \text{ si }$\textmd{null}(r_{1})$\\
-        & $\textmd{first}(r_{1})$ sinon\\
-        $\textmd{first}(r_{1}\mid r_{2})$ & $\textmd{first}(r_{1}) \cup \textmd{first}(r_{2})$\\
-        $\textmd{first}(r\star)$ & $\textmd{first}(r)$\\
+        $\texttt{first}(\emptyset)$ & $\emptyset$\\
+        $\texttt{first}(\epsilon)$ & $\emptyset$\\
+        $\texttt{first}(a)$ & $\left\{a\right\}$\\
+        $\texttt{first}(r_{1}r_{2})$ & $\texttt{first}(r_{1}) \cup \texttt{first}(r_{2})$ \text{ si }$\texttt{null}(r_{1})$\\
+        & $\texttt{first}(r_{1})$ sinon\\
+        $\texttt{first}(r_{1}\mid r_{2})$ & $\texttt{first}(r_{1}) \cup \texttt{first}(r_{2})$\\
+        $\texttt{first}(r\star)$ & $\texttt{first}(r)$\\
         \midrule
-        \multicolumn{2}{c}{On définit \textmd{last} de même}\\
+        \multicolumn{2}{c}{On définit \texttt{last} de même}\\
         \midrule
-        $\textmd{follow}(c, \emptyset)$ & $\emptyset$\\
-        $\textmd{follow}(c, \epsilon)$ & $\emptyset$\\
-        $\textmd{follow}(c, a)$ & $\emptyset$\\
-        $\textmd{follow}(c, r_{1}r_{2})$ & $\textmd{follow}(c, r_{1}) \cup \textmd{follow}(c, r_{2}) \cup \textmd{first}(r_{2})$ si $c \in \textmd{last}(r_{1})$\\
-        & $\textmd{follow}(c, r_{1}) \cup \textmd{follow}(c, r_{2})$ sinon\\
-        $\textmd{follow}(c, r_{1} \mid r_{2})$ & $\textmd{follow}(c, r_{1}) \cup \textmd{follow}(c, r_{2})$\\
-        $\textmd{follow}(c, r\star)$ & $\textmd{follow}(c, r) \cup \textmd{first}(r)$ si $c\in \textmd{last}(r)$\\
-        &$\textmd{follow}(c, r)$ sinon\\
+        $\texttt{follow}(c, \emptyset)$ & $\emptyset$\\
+        $\texttt{follow}(c, \epsilon)$ & $\emptyset$\\
+        $\texttt{follow}(c, a)$ & $\emptyset$\\
+        $\texttt{follow}(c, r_{1}r_{2})$ & $\texttt{follow}(c, r_{1}) \cup \texttt{follow}(c, r_{2}) \cup \texttt{first}(r_{2})$ si $c \in \texttt{last}(r_{1})$\\
+        & $\texttt{follow}(c, r_{1}) \cup \texttt{follow}(c, r_{2})$ sinon\\
+        $\texttt{follow}(c, r_{1} \mid r_{2})$ & $\texttt{follow}(c, r_{1}) \cup \texttt{follow}(c, r_{2})$\\
+        $\texttt{follow}(c, r\star)$ & $\texttt{follow}(c, r) \cup \texttt{first}(r)$ si $c\in \texttt{last}(r)$\\
+        &$\texttt{follow}(c, r)$ sinon\\
         \bottomrule
     \end{tabular}
 \end{center}
 On construit alors l'automate reconnaissant $r$ en ajoutant $\#$ à la fin de $r$ : 
 \begin{enumerate}
-    \item L'état initial est l'ensemble $\textmd{first}(r\#)$.
-    \item Tant qu'il existe un état $s$ dont on doit calculer les transitions, pour chaque $c$ de l'alphabet, on pose $s^{'}$ l'état $\bigcup_{c_{i} \in s} \textmd{follow}(c_{i}, r\#)$
+    \item L'état initial est l'ensemble $\texttt{first}(r\#)$.
+    \item Tant qu'il existe un état $s$ dont on doit calculer les transitions, pour chaque $c$ de l'alphabet, on pose $s^{'}$ l'état $\bigcup_{c_{i} \in s} \texttt{follow}(c_{i}, r\#)$
     \item Les états acceptants sont ceux contenant $\#$
 \end{enumerate}
 
-\section{L'outil \textmd{ocamllex}}
-\subsection{Analyseur Lexical en \textmd{ocamllex}}
-Un fichier \textmd{ocamllex} porte le suffixe \textmd{.mll} et a la forme suivante : 
+\section{L'outil \texttt{ocamllex}}
+\subsection{Analyseur Lexical en \texttt{ocamllex}}
+Un fichier \texttt{ocamllex} porte le suffixe \texttt{.mll} et a la forme suivante : 
 \begin{itemize}
     \item Code OCamL arbitraire
-    \item $\textmd{rule } f_{1} = \textmd{parse} \mid \textmd{regexp1 } \{\textmd{action 1}\}$ 
+    \item $\texttt{rule } f_{1} = \texttt{parse} \mid \texttt{regexp1 } \{\texttt{action 1}\}$ 
     \item \dots
     \item Code OcamL arbitraire
 \end{itemize}
-A la compilation par \textmd{ocamllex file.mll}, on construit un fichier OCamL contenant des fonctions de types $\textmd{Lexing.lexbuf} \rightarrow \textmd{type}$ où le type de sortie dépend de l'action dans la fonction. \\
+A la compilation par \texttt{ocamllex file.mll}, on construit un fichier OCamL contenant des fonctions de types $\texttt{Lexing.lexbuf} \rightarrow \texttt{type}$ où le type de sortie dépend de l'action dans la fonction. \\
 
-Les regexp en \textmd{ocamllex} s'écrivent sous la forme : 
+Les regexp en \texttt{ocamllex} s'écrivent sous la forme : 
 \begin{center}
-    \begin{tabular}{>{\textmd{}}ll}
+    \begin{tabular}{>{\texttt{}}ll}
         \toprule
         \_  & n'importe quel caractère\\
-        'a' & le caractère \textmd{'a'}\\
-        "foobar" & la chaîne \textmd{"foobar"} (en particulier $\epsilon = ""$)\\
+        'a' & le caractère \texttt{'a'}\\
+        "foobar" & la chaîne \texttt{"foobar"} (en particulier $\epsilon = ""$)\\
         \text{[}caractères\text{]} & ensemble de caractères\\
         \text{[}\^{}caractères\text{]} & complémentaire d'un ensemble de caractères\\
         $r_{1} \mid r_{2}$ & alternative \\
@@ -453,27 +455,28 @@ Les regexp en \textmd{ocamllex} s'écrivent sous la forme :
         \bottomrule         
     \end{tabular}
 \end{center}
-Pour remplacer la reconnaissance du lexème le plus long par celui le plus court, remplacer \textmd{parse} par \textmd{shortest}.\\
+Pour remplacer la reconnaissance du lexème le plus long par celui le plus court, remplacer \texttt{parse} par \texttt{shortest}.\\
 A longueur égale, c'est la règle qui apparaît en premier qui l'emporte. \\
-On peut nommer la chaîne reconnue, ou des sous-chaînes reconnues par des sous-experssions régulières, à l'aide de la construction \textmd{as}.\\
-On peut dans une action, rappeler récursivement l'analyseur lexical ou l'un des autres analyseurs simultanément définis. Le tampon d'analyse lexical doit être passé en argument, il est contenu dans une variable appelée \textmd{lexbuf}. Ceci est utile pour séparer les blancs, ou reconnaître les commentaires, même imbriqués. \\
+On peut nommer la chaîne reconnue, ou des sous-chaînes reconnues par des sous-experssions régulières, à l'aide de la construction \texttt{as}.\\
+On peut dans une action, rappeler récursivement l'analyseur lexical ou l'un des autres analyseurs simultanément définis. Le tampon d'analyse lexical doit être passé en argument, il est contenu dans une variable appelée \texttt{lexbuf}. Ceci est utile pour séparer les blancs, ou reconnaître les commentaires, même imbriqués. \\
 
-Par défaut \textmd{ocamllex} contruit l'automate dans une table interprétée à l'exécution, mais l'option \textmd{-ml} construit du code CamL pur. 
+Par défaut \texttt{ocamllex} contruit l'automate dans une table interprétée à l'exécution, mais l'option \texttt{-ml} construit du code CamL pur. 
 
 \subsection{Efficacité}
 Pour des raisons de stockage, et même en utilisant une table, l'automate peut prendre beaucoup de place. Il est donc préférable d'utiliser une seule expression régulière pour les identificateurs et les mots-clefs, puis de les séparer ensuite grâce à une table des mots-clefs.\\
 On peut de même ne stocker que les caractères en minuscule pour être insensible à la casse.
 
-\subsection{D'autres utilisations \textmd{ocamllex}}
-On peut utiliser $\textmd{ocamllex}$ pour :
+\subsection{D'autres utilisations \texttt{ocamllex}}
+On peut utiliser $\texttt{ocamllex}$ pour :
 \begin{enumerate}
     \item Réunir plusieurs lignes vides consécutives en une seule
     \item Compter les occurences d'un mot dans un texte
     \item Un petit traducteur OCamL vers HTML pour embellir le source mis en ligne (mettre les mots-clefs en vert, les commentaires en rouge, numéroter les lignes \dots), le tout en moins de 100 lignes de code.
 \end{enumerate}
 
-
+\newpage
 \part[Analyse Syntaxique]{Cours 4 : 20/10}\label{part:AnalyseSyntaxique}
+\localtableofcontents
 \section{Analyse Syntaxique}
 L'objectif de l'analyse syntaxique est, à partir d'une suite de lexèmes, de construire la syntaxe abstraite, qu'on représente sous forme d'arbre. En particulier, l'analyse syntaxique doit détecter les erreurs de syntaxe et les localiser précisément, les identifier (parenthèse non fermée, etc...) voire reprendre l'analyse pour découvrir de nouvelles erreurs. On va utiliser : une grammaire non contextuelle pour décrire la syntaxe et un automate à pile pour la reconnaître. 
 
@@ -493,7 +496,7 @@ On note les règles de dérivation sous la forme :
         &E &\rightarrow &E + E\\
         & &\mid &E*E\\
         & &\mid &(E)\\
-        & &\mid &\textmd{int}
+        & &\mid &\texttt{int}
     \end{aligned}
 \end{equation*}
 
@@ -515,12 +518,12 @@ Pour un arbre de dérivation dont les feuilles forment le mot $w$ dans l'arbre i
 \begin{definition}
     Une grammaire est ambigüe si au moins un mot admet au moins deux arbres de dérivation. Déterminer si une grammaire est ambigüe ou non n'est pas décidable.
 \end{definition}
-La grammaire précédente est ambigüe, comment interpréter $\textmd{int} + \textmd{int} * \textmd{int}$
+La grammaire précédente est ambigüe, comment interpréter $\texttt{int} + \texttt{int} * \texttt{int}$
 
 On va utiliser des critères décidables suffisants pour garantir qu'une grammaire est non ambigüe, et pour lesquels on sait en outre décider l'appartenance au langage efficacement.
 
 \section{Analyse ascendante}
-On va ici lire l'entrée de gauche à droite (pas toujours le cas, cf. \textmd{CYK}) puis reconnaître des membres droits de productions pour construire l'arbre de dérvation de bas en haut : bottom-up parsing.
+On va ici lire l'entrée de gauche à droite (pas toujours le cas, cf. \texttt{CYK}) puis reconnaître des membres droits de productions pour construire l'arbre de dérvation de bas en haut : bottom-up parsing.
 
 \subsection{Fonctionnement}
 On va manipuler une pile qui est un mot de $(N \cup T)^{*}$. 
@@ -529,7 +532,7 @@ A chaque instant, on a deux actions possibles :
     \item Une opération de lecture (\textit{shift}) : on lit un terminal de l'entrée et on l'empile.
     \item Une opération de réduction (\textit{reduce}) : on reconnaît en sommet de pile le membre droit $\beta$ d'une production $X \rightarrow \beta$ et on remplace $\beta$ par X en sommet de pile.
 \end{itemize}
-Comment prendre la décision lecture / réduction ? On se sert d'un automate fini et on examine les $k$ premiers lexèmes de l'entrée, c'est l'analyse \textmd{LR(k)}, pour \og Left to right scanning, Righmost derivation\fg. En pratique, $k = 1$.
+Comment prendre la décision lecture / réduction ? On se sert d'un automate fini et on examine les $k$ premiers lexèmes de l'entrée, c'est l'analyse \texttt{LR(k)}, pour \og Left to right scanning, Righmost derivation\fg. En pratique, $k = 1$.
 \subsection{Analyse LR}
 La pile est de la forme $s_{0}x_{1}s_{1}x_{2}\ldots x_{n}s_{n}$ où $s_{i}$ est un état de l'automate et $x_{i} \in T \cup N$ comme dans un automate. 
 Soit $a$ le premier lexème de l'entrée. Une table indexée par $s_{n}$ et $a$ nous indique l'action à effectuer : 
@@ -545,37 +548,37 @@ Soit $a$ le premier lexème de l'entrée. Une table indexée par $s_{n}$ et $a$ 
 
 En pratique on ne travaille pas avec l'automate mais avec deux tables : 
 \begin{itemize}
-    \item Une table d'actions ayant pour lignes les états et pour colonnes les terminaux. La case \textmd{action(s, a)} indique : 
+    \item Une table d'actions ayant pour lignes les états et pour colonnes les terminaux. La case \texttt{action(s, a)} indique : 
     \begin{itemize}
-        \item $\textmd{shift s'}$ pour une lecture et un nouvel état $s^{'}$
-        \item $\textmd{reduce X} \rightarrow \alpha$ pour une réduction
+        \item $\texttt{shift s'}$ pour une lecture et un nouvel état $s^{'}$
+        \item $\texttt{reduce X} \rightarrow \alpha$ pour une réduction
         \item un succès
         \item un échec
     \end{itemize}
-    Une table de déplacements ayant pour lignes les états et pour colonnes les non terminaux. La case $\textmd{goto(s, X)}$ indique l'état résultat d'une réduction de $X$.
+    Une table de déplacements ayant pour lignes les états et pour colonnes les non terminaux. La case $\texttt{goto(s, X)}$ indique l'état résultat d'une réduction de $X$.
 \end{itemize}
 On ajoute aussi un lexème spécial \# qui désigne la fin de l'entrée. On peut le voir comme l'ajout d'un nouveau non terminal $S$ qui devient l'axiome et d'une règle $S \rightarrow E \#$.
-Pour créer ces tables, on utilise la famille de \textmd{yacc} (\textit{Yet Another Compiler Compiler})
+Pour créer ces tables, on utilise la famille de \texttt{yacc} (\textit{Yet Another Compiler Compiler})
 
 \section{L'outil Menhir}
 Menhir transforme une grammaire en un analyseur OCamL de type $LR(1)$. Chaque production de la grammaire est accompagnée d'une action sémantique, i.e. du code OCamL construisant une valeur sémantique (typiquement un arbre de syntaxe abstraite). Menhir s'utilise conjointement avec un analyseur lexical (typiquement \textrm{ocamllex}).\\
-Un fichier Menhir a le suffixe \textmd{.mly} et a la forme suivante : 
+Un fichier Menhir a le suffixe \texttt{.mly} et a la forme suivante : 
 \begin{itemize}
-    \item \%{\textmd{code OCamL arbitraire} \%}
-    \item \textmd{déclaration des lexèmes}
+    \item \%{\texttt{code OCamL arbitraire} \%}
+    \item \texttt{déclaration des lexèmes}
     \item \%\%
-    \item \textmd{non-terminal-1 : }
-    | \textmd{production} \{ \textmd{action} \}
-    | \textmd{production} \{ \textmd{action} \}
+    \item \texttt{non-terminal-1 : }
+    | \texttt{production} \{ \texttt{action} \}
+    | \texttt{production} \{ \texttt{action} \}
     ;
     \item non-terminal-2:
-    | \textmd{production} \{ \textmd{action} \}
+    | \texttt{production} \{ \texttt{action} \}
     \item \%\%
-    \item \textmd{code OCamL arbitraire}
+    \item \texttt{code OCamL arbitraire}
 \end{itemize}
 En cas de conflits, Menhir produit deux fichiers pour expliquer d'où les conflits viennent. On peut les résoudre est d'indiquer comment choisir entre lecture et réduction. On peut donner des priorités aux lexèmes et aux productions, en fonction des règles d'associativité. Si la priorité de la production est supérieure à celle du lexème à lire, la réduction est favorisée. En cas d'égalité, l'associativité est consultée : un lexème associatif à gauche favorise la réduction et un lexème associatif à droite favorise la lecture. Par ailleurs, pour empêcher l'associativité, on peut aussi l'indiquer à Menhir, et éviter le \textit{dangling else}.
 
-Pour que les phases suivantes de l'analyse (typiquement le typage) puissent localiser les messages d'erreur, il convient de conserver une information de localisation dans l'arbre de syntaxe abstraite. Menhir fournit cette information dans $\$startpos$ et $\$endpos$, deux valeurs du type \textmd{Lexing.position}. Cette information lui a été transmise par l'analysur lexical. (\textmd{ocamllex} ne maintient automatiquement que la position absolue dans le fichier, il faut appeler Lexing.new\_line pour chaque retour chariot.)
+Pour que les phases suivantes de l'analyse (typiquement le typage) puissent localiser les messages d'erreur, il convient de conserver une information de localisation dans l'arbre de syntaxe abstraite. Menhir fournit cette information dans $\$startpos$ et $\$endpos$, deux valeurs du type \texttt{Lexing.position}. Cette information lui a été transmise par l'analysur lexical. (\texttt{ocamllex} ne maintient automatiquement que la position absolue dans le fichier, il faut appeler Lexing.new\_line pour chaque retour chariot.)
 
 \section{Derrère l'outil Menhir}
 \subsection{\textsc{First, Null, Follow}}
@@ -656,22 +659,22 @@ Fixons pour l'instant $k = 0$. On commence par contruire un automate asynchrone 
 On déterminise ensuite l'automate en regroupant les états reliés par des $\epsilon$-transitions. Les états de l'automate déterministe sont donc des ensembles d'items.\\
 Par construction : chaque état $s$ est saturé par la propriété : si $Y \rightarrow \alpha \cdot X\beta \in s$ et si $X \rightarrow \gamma$ est une production, alors $X \rightarrow \cdot\gamma \in s$. L'état initial est celui contenant $S \rightarrow \cdot E\#$.\\
 
-On construit alors la table $\textmd{action}$:
+On construit alors la table $\texttt{action}$:
 \begin{itemize}
-    \item $\textmd{action}(s, \#) = $ succès si $\left[S \rightarrow E \cdot \#\right] \in s$
-    \item $\textmd{action}(s, a) = \textmd{shift} s^{'}$ si $s\rightarrow^{a} s^{'}$
-    \item $\textmd{action}(s, a) = \textmd{reduce} X \rightarrow \beta$ si $\left[X \rightarrow \beta\cdot \right] \in s$ pour tout $a$.
-    \item $\textmd{échec}$ dans tous les autres cas
+    \item $\texttt{action}(s, \#) = $ succès si $\left[S \rightarrow E \cdot \#\right] \in s$
+    \item $\texttt{action}(s, a) = \texttt{shift} s^{'}$ si $s\rightarrow^{a} s^{'}$
+    \item $\texttt{action}(s, a) = \texttt{reduce} X \rightarrow \beta$ si $\left[X \rightarrow \beta\cdot \right] \in s$ pour tout $a$.
+    \item $\texttt{échec}$ dans tous les autres cas
 \end{itemize}
 
-On construit alors la table $\textmd{goto}$ : $\textmd{goto}(s, X) = s^{'}$ si $s \rightarrow^{X} s^{'}$.
+On construit alors la table $\texttt{goto}$ : $\texttt{goto}(s, X) = s^{'}$ si $s \rightarrow^{X} s^{'}$.
 
 La table $LR(0)$ peut contenir deux sortes de conflits : lecture/réduction et réduction/réduction.
 \begin{definition}
     Une grammaire est dite $LR(0)$ so la table ainsi construite ne contient pas de conflit.
 \end{definition}
 La construction $LR(0)$ engendre très facilement des conflits. On va chercher à limiter les réductions : 
-on pose $\textmd{action}(s, a) = \textmd{reduce} X \beta$ si et seulement si $\left[X \rightarrow \beta\cdot\right] \in s$ et $a \in \textsc{Follow}(X)$. On obtient la classe de grammaire $S(imple)LR(1)$.
+on pose $\texttt{action}(s, a) = \texttt{reduce} X \beta$ si et seulement si $\left[X \rightarrow \beta\cdot\right] \in s$ et $a \in \textsc{Follow}(X)$. On obtient la classe de grammaire $S(imple)LR(1)$.
 
 \subsubsection{$LR(1)$}
 Cette classe étant restrictive, on introduit une classe de grammaires encore plus large : $LR(1)$, au prix de tables encore plus grandes. Dans l'analyse $LR(1)$, les items ont la forme : $\left[X \rightarrow \alpha \cdot \beta, a\right]$
@@ -686,12 +689,14 @@ Les transitions de l'automate $LR(1)$ non déterministe sont :
 
 L'état initial est celui qui contient $\left[S \rightarrow \cdot \alpha, \#\right]$. On peut déterminiser l'automate et construire la table correspondante : on introduit une action de réduction pour $(s, a)$ seulement lorsque $s$ contient un item de la forme $\left[X \rightarrow \alpha\cdot, a\right]$.
 
-Pour des questions de puissances de calcul, on introduit la classe $LALR(1)$, lookahead LR, qui est une approximation beaucoup utilisée dans les outils de la famille \textmd{yacc}.
+Pour des questions de puissances de calcul, on introduit la classe $LALR(1)$, lookahead LR, qui est une approximation beaucoup utilisée dans les outils de la famille \texttt{yacc}.
 
+\newpage
 \part[Analyse Syntaxique 2]{Cours 5 : 27/10}
+\localtableofcontents
 \section{Localisations}
-L'outil \textmd{ocamllex} maintient, dans la structure de type \textmd{Lexing.lexbuf}, la position courante dans le texte source qui est analysé. On peut alors obtenir la localisation de la dernère chaîne reconnue par \textmd{ocamllex}. On peut utiliser ces informations pour localiser les erreurs de syntaxe, mais aussi de potentielles erreurs lexicales comme une chaîne ou un commentaire non fermé.\\
-L'outil \textmd{Menhir}\footnote{L'outil \textmd{Cairn} permet de visualiser l'analyse de \textmd{Menhir}.} récupère ces informations et les fournit dans deux valeurs \textmd{\$startpos} et \textmd{\$endpos}, qui, dans une action sémantique, correspondent au début et à la fin du texte reconnu par la règle de grammaire. On peut alors stocker cette information dans l'arbre de syntaxe abstraite. 
+L'outil \texttt{ocamllex} maintient, dans la structure de type \texttt{Lexing.lexbuf}, la position courante dans le texte source qui est analysé. On peut alors obtenir la localisation de la dernère chaîne reconnue par \texttt{ocamllex}. On peut utiliser ces informations pour localiser les erreurs de syntaxe, mais aussi de potentielles erreurs lexicales comme une chaîne ou un commentaire non fermé.\\
+L'outil \texttt{Menhir}\footnote{L'outil \texttt{Cairn} permet de visualiser l'analyse de \texttt{Menhir}.} récupère ces informations et les fournit dans deux valeurs \texttt{\$startpos} et \texttt{\$endpos}, qui, dans une action sémantique, correspondent au début et à la fin du texte reconnu par la règle de grammaire. On peut alors stocker cette information dans l'arbre de syntaxe abstraite. 
 
 \section{Analyse Syntaxique Elementaire}
 On va ici construire un analyseur syntaxique pour des expressions arithmétiques incluant :
@@ -701,7 +706,7 @@ On va ici construire un analyseur syntaxique pour des expressions arithmétiques
     \item des multiplications
     \item des parenthèses
 \end{itemize}
-On part d'un analyseur lexical, par exemple écrit avec \textmd{ocamllex}:
+On part d'un analyseur lexical, par exemple écrit avec \texttt{ocamllex}:
 \begin{minted}{ocaml}
 type token = 
     | CONST of int
@@ -722,7 +727,7 @@ type expr =
 On écrit un parser dans le fichier Menhir, puis, juste en dessous dans le fichier, l'analyseur syntaxique.
 
 \begin{remark}
-    Conseil : Commencer par écrire un pretty-printer, ici, en OcamL avec la bibliothèque \textmd{Format} :
+    Conseil : Commencer par écrire un pretty-printer, ici, en OcamL avec la bibliothèque \texttt{Format} :
 \end{remark}
 
     \begin{minted}{ocaml}
@@ -783,28 +788,495 @@ Un analyseur descendant se programme en introduisant une fonction pour chaque no
 \end{remark}
 
 \subsection{Construction de la Table d'Expansion}
-Pour décider si on réalise l'expansion $X\rightarrow\beta$ lorsque le premier caractère de l'entrée est $c$, on va chercher à déterminer si $c$ fait partie des premiers caractères des mots reconnus par $\beta$. Une difficulté se pose pour une production telle que $X\rightarrow\epsilon$, et il faut alors considérer l'ensemble des caractères qui peuvent suivre $X$. On utilise donc à nouveau les fonctions \textmd{first} et \textmd{follow} :Pour chaque production $X \rightarrow\beta$
+Pour décider si on réalise l'expansion $X\rightarrow\beta$ lorsque le premier caractère de l'entrée est $c$, on va chercher à déterminer si $c$ fait partie des premiers caractères des mots reconnus par $\beta$. Une difficulté se pose pour une production telle que $X\rightarrow\epsilon$, et il faut alors considérer l'ensemble des caractères qui peuvent suivre $X$. On utilise donc à nouveau les fonctions \texttt{first} et \texttt{follow} :Pour chaque production $X \rightarrow\beta$
 \begin{itemize}
-    \item On pose $T(X, a) = \beta$ pour tout $a \in \textmd{first}(\beta)$
-    \item Si $\textmd{null}(\beta)$, on pose aussi $T(X, a) = \beta$ pour tout $a\in \textmd{follow}(X)$.
+    \item On pose $T(X, a) = \beta$ pour tout $a \in \texttt{first}(\beta)$
+    \item Si $\texttt{null}(\beta)$, on pose aussi $T(X, a) = \beta$ pour tout $a\in \texttt{follow}(X)$.
 \end{itemize}
 Il peut y avoir plusieurs éléments dans une même case : 
 \begin{definition}
     Une grammaire est dite $LL(1)$ si, dans la table précédente, il y a au plus une production dans chaque case. 
 \end{definition}
-Une grammaire récursive gauche, i.e. contenant des productions de la forme : $X\rightarrow X\alpha | \beta$, ne sera jamais $LL(1)$. En effet, les \textmd{first} seront les mêmes pour ces deux productions. En particulier, la grammaire :
+Une grammaire récursive gauche, i.e. contenant des productions de la forme : $X\rightarrow X\alpha | \beta$, ne sera jamais $LL(1)$. En effet, les \texttt{first} seront les mêmes pour ces deux productions. En particulier, la grammaire :
 \begin{tabular}{c@{$\rightarrow$}c}
     $E$ & $E + T$\\
     & $T$\\
     $T$ & $T * F$\\
     & $F$\\
     $F$ & $( E )$\\
-    & $\textmd{int}$\\
+    & $\texttt{int}$\\
 \end{tabular}
 n'est pas $LL(1)$. Plus généralement, si une grammaire contient $X \rightarrow a\alpha + a\beta$. Il faut alors factoriser (à gauche) les productions qui commencent par le même terminal.
 
 \section{Indentation comme Syntaxe}
-Dans certains langages, l'indentation (blancs de début de ligne/alignement vertical) est utilisée pour définir la syntaxe. L'analyseur lexical introduit des lexèmes \textmd{NEWLINE} (fin de ligne), \textmd{INDENT} (quand l'indentation augmente) et \textmd{DEDENT} (quand elle diminue). Il suffit alors de les utiliser dans la grammaire du langage. 
+Dans certains langages, l'indentation (blancs de début de ligne/alignement vertical) est utilisée pour définir la syntaxe. L'analyseur lexical introduit des lexèmes \texttt{NEWLINE} (fin de ligne), \texttt{INDENT} (quand l'indentation augmente) et \texttt{DEDENT} (quand elle diminue). Il suffit alors de les utiliser dans la grammaire du langage. 
+
+\newpage
+\part[Typage]{Cours 6 : 10/11}
+\localtableofcontents
+\section{Typage}
+Que faire lorsqu'on ajoute deux éléments de deux types différents ? Par exemple "5" et 37.
+Si on additionne deux expressions arbitraires, $e1 + e2$, comment déterminer si cela est légal, et que doit on faire le cas échéant ? La réponse est le typage, une analyse qui associe un type à chaque valeur/expression dans le but de rejeter les programmes incohérents.
+Certains langages sont typés dynamiquement, les types sont associés aux valeurs et utilisés pendant l'exécution, et d'autres sont typés statiquement, les types sont associés aux expressions et utilisés pendant la compilation du programme. 
+
+\begin{quotation}
+    Well typed programs cannot go wrong - Milner
+\end{quotation}
+
+\subsection{Objectifs du Typage}
+Le typage doit  :
+\begin{itemize}
+    \item être décidable
+    \item rejeter les programmes absurdes dont l'évaluation échouerait, c'est la sûreté du typage
+    \item pas rejeter trop de programmes non-absurdes, i.e. le système de types doit être expressifs.
+\end{itemize}
+
+On peut par exemple : 
+\begin{itemize}
+    \item Annoter toutes les sous-expressions par un type
+    \item Annoter seulement les déclarations de variables
+    \item Annoter seulement les paramètres de fonctions
+    \item Ne rien annoter et tout inférer.
+\end{itemize}
+
+Un algorithme de typage doit avoir les propriétés de :
+\begin{itemize}
+    \item Correction : si l'algorithme répond "oui", alors le programme est effectivement bien typé
+    \item Complétude : si le programme est bien typé, alors l'algorithme doit répondre "oui"
+    \item Principalité (pas obligatoire) : le type calculé pour une expression est le plus général possible
+\end{itemize}
+
+
+\section{Typage Monomorphe}
+\subsection{Définitions}
+On se donne des types simples, dont la syntaxe abstraite est : 
+\begin{tabular}{c@{$\mid$}c}
+    $\tau$ & $\texttt{int} \mid \texttt{bool} \mid \ldots$\\
+    & $\tau \rightarrow \tau$\\
+    &$\tau \times \tau$    
+\end{tabular}
+
+Le jugement de typage se note : $\Gamma \vdash e :\tau$ et se lit : \textsl{dans l'environnement $\Gamma$, l'expression $e$ a le type $\tau$}.
+On posssède alors des règles d'inférences : 
+\begin{center}
+    $\frac{}{\Gamma \vdash x : \Gamma(x)}$ 
+    $\frac{}{\Gamma \vdash n : \texttt{int}}$
+    $\frac{}{\Gamma \vdash + : \texttt{int} \times \texttt{int} \rightarrow \texttt{int}}$
+\end{center}
+\begin{center}
+    $\frac{\Gamma + x : \tau_{1} \vdash e : \tau_{2}}{\Gamma \vdash \fun{x}{e}:\tau_{1}\rightarrow\tau_{2}}$
+    $\frac{\Gamma \vdash e_{1} : \tau^{'}\rightarrow\tau \ \Gamma \vdash e_{2} : \tau^{'}}{\Gamma \vdash e_{1}\ e_{2} : \tau}$
+\end{center}
+\begin{center}
+    $\frac{\Gamma \vdash e_{1} : \tau_{1} \ \Gamma \vdash e_{2} : \tau_{2}}{\Gamma \vdash (e_{1},e_{2}) : \tau_{1} \times \tau_{2}}$
+    $\frac{\Gamma \vdash e_{1} : \tau_{1} \ \Gamma + x : \tau_{1} \vdash e_{2} : \tau_{2}}{\Gamma \vdash \letin{x = e_{1}} e_{2} : \tau_{2}}$
+\end{center}
+$\Gamma + x : \tau$ est l'environnement $\Gamma^{'}$ défini par $\Gamma^{'}(x) = \tau$ et $\Gamma^{'}(y) = \Gamma(y)$ sinon.
+
+
+En revanche, on ne peut pas typer le programme \texttt{1 \ 2}, ni le programme $\fun{x}{x \ x}$ car $\tau_{1} = \tau_{1} \rightarrow \tau_{2}$ n'a pas de solution, les types étant finis.
+On peut montrer $\emptyset \vdash \fun{x}{x} : \tint \rightarrow \tint$ mais aussi $\emptyset \vdash \fun{x}{x} : \tbool \rightarrow \tbool$. Ce n'est tout de même pas du polymorphisme, pour une occurence donnée de $\fun{x}{x}$, il faut choisir un type.
+Ainsi, le terme $\letin{f}{\fun{x}{x}} (f\ 1, f\ \texttt{true})$ n'est pas typable car il n'y a pas de type $\tau$ tel que : $f : \tau \rightarrow \tau \vdash (f\ 1, f\ \texttt{true}) : \tau_{1} \times \tau_{2}$.
+En particulier, on ne peut pas donner un type satisfaisant à une primitive, mais on peut donner une règle de typage pour l'application de celle-ci :
+\[
+    \frac{\Gamma \vdash e : \tau_{1} \times \tau_{2}}{\Gamma \vdash fst e : \tau_{1}}    
+\]
+ou
+\[
+    \frac{\Gamma \vdash e: \tau \rightarrow \tau}{\Gamma \vdash \texttt{opfix} e : \tau}
+\]
+Si on souhaite se limiter à des fonctions, on peut modifier ainsi : 
+\[
+    \frac{\Gamma \vdash e : \left(\tau_{1} \rightarrow \tau_{2}\right) \rightarrow \left(\tau_{1} \rightarrow \tau_{2}\right)}{\Gamma \vdash \texttt{opfix } e : \tau_{1} \rightarrow \tau_{2}}
+\]
+
+Quand on type $\fun{x}{e}$, comment trouve-t-on le type à donner à $x$ ? C'est toute la différence entre les règles de typage, qui définissent la relation ternaire $\Gamma \vdash e : \tau$ et l'algorithme de typage qui vérifie qu'une certaine expression $e$ est bien typée dans un certain environnement $\Gamma$.
+
+\subsection{Implémentation sur Mini-ML}
+On définit une syntaxes abstraite des types, et donc dans le type des expressions, on demande que le constructeur \texttt{Fun} prenne également le type de l'entrée comme argument.
+L'environnement $\Gamma$ est réalisé par une structure persistante, par exemple le module Map d'OCamL. (Insertion et recherche en $\O\left(\log n\right))$.
+
+\begin{minted}{ocaml}
+type typ =
+    | Tint
+    | Tarrow of typ * typ
+    | Tproduct of typ * typ
+\end{minted}
+
+\begin{minted}{ocaml}
+type expression =
+    | Var of string
+    | Const of int
+    | Op of string
+    | Fun of string * typ * expression (* seul changement *)
+    | App of expression * expression
+    | Pair of expression * expression
+    | Let of string * expression * expression
+\end{minted}
+
+On peut alors passer à l'inférence de la vérification des types.
+\begin{minted}{ocaml}
+let rec type_expr env = function
+    | Const _ -> Tint
+    | Var x -> Smap.find x env
+    | Op "+" -> Tarrow (Tproduct (Tint, Tint), Tint)
+    | Pair (e1, e2) ->
+        Tproduct (type_expr env e1, type_expr env e2)
+    | Fun (x, ty, e) ->
+        Tarrow (ty, type_expr (Smap.add x ty env) e)    
+    | Let (x, e1, e2) ->
+        type_expr (Smap.add x (type_expr env e1) env) e2
+    | App (e1, e2) -> begin match type_expr env e1 with
+        | Tarrow (ty2, ty) ->
+            if type_expr env e2 = ty2 then ty
+            else failwith "erreur : argument de mauvais type"
+        | _ ->
+            failwith "erreur : fonction attendue"
+        end
+\end{minted}
+
+Les seules vérifications se trouvent dans la partie sur l'application de fonctions.\\
+On ne renvoie pas un \texttt{failwith "erreur de typage"}, mais on indique l'origine du problème avec précision et on conserve les types pour les phases ultérieures du compilateur :
+
+\begin{itemize}
+    \item D'une part, on ajoute aux noeuds des arbres en entrée du typage une localisation dans le fichier source : 
+\begin{minted}{ocaml}
+type expression = {
+    desc : desc;
+    loc : loc;
+}
+and desc = 
+    | Var of string
+    | Const of int
+    | Op of string
+    | Fun of string * typ * expression (* seul changement *)
+    | App of expression * expression
+    | Pair of expression * expression
+    | Let of string * expression * expression
+
+
+exception Error of loc * string
+\end{minted}
+On peut la lever en modifiant le rendu en sortie : 
+\begin{minted}{ocaml}
+let rec type_expr env e = match e.desc with
+    | ...
+    | App (e1, e2) -> begin match type_expr env e1 with
+        | Tarrow (ty2, ty) ->
+            if type_expr env e2 <> ty2 then
+                raise (Error (e2.loc, "argument de mauvais type"));
+            ...
+
+try
+    let p = Parser.parse file in
+    let t = Typing.program p in
+    ...
+with Error (loc, msg) ->
+    Format.eprintf "File ’%s’, line ...\n" file loc;
+    Format.eprintf "error: %s@." msg;
+    exit 1
+\end{minted}
+
+\item D'autre part, on décore les arbres en sortie du typage avec des types :
+\begin{minted}{ocaml}
+type texpression = {
+    tdesc: tdesc;
+    typ : typ;
+    }
+and tdesc =
+    | Tvar of string
+    | Tconst of int
+    | Top of string
+    | Tfun of string * typ * texpression
+    | Tapp of texpression * texpression
+    | Tpair of texpression * texpression
+    | Tlet of string * texpression * texpression
+\end{minted}
+C'est un \emph{autre} type d'expressions.
+
+La fonction de typage reconstruit des arbres, cette fois typés : 
+\begin{minted}{ocaml}
+let rec type_expr env e =
+    let d, ty = compute_type env e in
+    { tdesc = d; typ = ty }
+    
+and compute_type env e = match e.desc with
+    | Const n ->
+        Tconst n, Tint
+    | Var x ->
+        Tvar x, Smap.find x env
+    | Pair (e1, e2) ->
+        let te1 = type_expr env e1 in
+        let te2 = type_expr env e2 in
+        Tpair (te1, te2), Tproduct (te1.typ, te2.typ)
+    | ...
+\end{minted}
+\end{itemize}
+
+\subsection{Sûreté du typage}
+\begin{lemma}[Progression]
+    Si $\emptyset \vdash e : \tau$ alors soit $e$ est une valeur, soit il existe $e^{'}$ tel que $e \rightarrow e^{'}$.    
+\end{lemma}
+\begin{proof}
+    On procède par récurrence sur la dérivation $\emptyset \vdash e : \tau$.\\
+    Supposons par exemple $e = e_{1} \ e_{2}$ : 
+    \[
+        \frac{\emptyset \vdash e_{1} : \tau^{'} \rightarrow \tau \ \emptyset \vdash e_{2} : \tau^{'}}{\emptyset \vdash e_{1} \ e_{2} : \tau}
+    \]
+    On applique l'HR à $e_{1}$ : 
+    \begin{itemize}
+        \item Si $e_{1} \rightarrow e_{1}^{'}$ alors $e_{1} \ e_{2} \rightarrow e_{1}^{'} e_{2}$. %TODO : ref lemme de passage au contexte
+        \item Si $e_{1}$
+    \end{itemize}
+\end{proof}
+
+\begin{lemma}[Permutation]
+    Si $\Gamma + x : \tau_{1} + y : \tau_{2} \vdash e : \tau$ et $x \neq y$ alors $\Gamma + y : \tau_{2} + x : \tau_{1} \vdash e : \tau$ et la dérivation a même hauteur.
+\end{lemma}
+\begin{proof}
+    Récurrence immédiate
+\end{proof}
+
+\begin{lemma}[Affaiblissement]
+    Si $\Gamma e : \tau$ et $x \notin dom(\Gamma)$ alors $\Gamma + x : \tau^{'} \vdash e : \tau$ et la dérivation a même hauteur.
+\end{lemma}
+\begin{proof}
+    Récurrence Immédiate
+\end{proof}
+
+\begin{lemma}[Préservation par Substitution]
+    Si $\Gamma + x : \tau^{'} \vdash e : \tau$ et $\Gamma \vdash e^{'} : \tau^{'}$ alors $\Gamma \vdash e\left[x \leftarrow e^{'}\right] : \tau$
+\end{lemma}
+\begin{proof}
+    Preuve par récurrence sur la hauteur de la dérivation $\Gamma + x : \tau^{'} \vdash e : \tau$ :
+    \begin{itemize}
+        \item Cas d'une variable $e = y$
+        \begin{itemize}
+            \item Si $x = y$ alors $e\left[x \leftarrow e^{'}\right] = e^{'}$ et $\tau = \tau^{'}$
+            \item Sinon, $e\left[x \leftarrow e^{'}\right] = e$ et $\tau = \Gamma(y)$
+        \end{itemize}
+        \item Cas d'une abstraction $e = \fun{y}{e_{1}}$.\\
+        On peut supposer, par $\alpha$-conversion $y \neq x, y \notin dom\left(\Gamma\right)$ et $y$ non libre dans $e^{'}$. On a : $\Gamma + x : \tau^{'} + y : \tau_{2} \vdash e_{1} : \tau_{1}$ et donc $\Gamma + y : \tau_{2} + x : \tau^{'} \vdash e_{1} : \tau_{1}$ par permutation. D'autre part, $\Gamma \vdash e^{'} : \tau^{'}$ et donc par affaiblissement $\Gamma + y : \tau_{2} \vdash e^{'} : \tau^{'}$.\\
+        Par HR on a donc : $\Gamma + y : \tau_{2} \vdash e_{1}\left[x \leftarrow e^{'}\right] : \tau_{1}$ et donc :$\Gamma \vdash \left(\fun{y}{e_{1}}\right)\left[x \leftarrow e^{'}\right] : \tau_{2} \rightarrow \tau_{1}$ i.e. $\Gamma \vdash e\left[x \leftarrow e^{'}\right] : \tau$
+    \end{itemize}
+\end{proof}
+
+\begin{lemma}[Préservation]
+    Si $\emptyset \vdash e : \tau$ et $e \rightarrow e^{'}$ alors $\emptyset \vdash e^{'} : \tau$.
+\end{lemma}
+\begin{proof}
+    Par récurrence sur la dérivation $\emptyset \vdash e : \tau$.
+\end{proof}
+
+\begin{theorem}
+    Si $\emptyset \vdash e : \tau$, alors la réduction de $e$ est infinie ou se termine sur une valeur.\\
+    De manière équivalente : si $\emptyset \vdash e : \tau$ et $e \xrightarrow{\star} e^{'}$ et $e^{'}$ irréductible, $e^{'}$ est une valeur. 
+\end{theorem}
+
+\begin{remark}
+    Ceci signifie qu'un programme bien typé ne plante pas, au sens de la sémantique à petits pas.
+\end{remark}
+
+\begin{proof}
+    On a $e \rightarrow e_{1} \rightarrow \ldots \rightarrow e^{'}$ et par applications répétées du lemme de préservation, on a donc $\emptyset \vdash e^{'} : \tau$. Par le lemme de progression, $e^{'}$ se réduit ou est une valeur, c'est donc une valeur.
+\end{proof}
+
+Il est toutefois contraignant de donner un type unique à $\fun{x}{x}$ dans $\letin{\fun{x}{x}}\ldots$. De même on aimerait pouvoir donner plusieurs types aux primitives : c'est le polymorphisme paramétrique.
+
+\section{Polymorphisme Paramétrique}
+\subsection{Système F}
+On étend l'algèbre des types : 
+\begin{tabular}{c@{$\mid$}c}
+    $\tau$ & $\texttt{int} \mid \texttt{bool} \mid \ldots$\\
+    & $\tau \rightarrow \tau$\\
+    &$\tau \times \tau$ \\
+    & $\alpha$ : variable de type\\
+    & $\forall\alpha.\tau$ : type polymorphe
+\end{tabular}
+
+\begin{definition}
+    On note $\mathcal{L}(\tau)$ l'ensemble des variables de types libres dans $\tau$, défini par : 
+    \[
+        \begin{aligned}
+            \mL(\tint) &= \emptyset\\
+            \mL(\alpha) &= \left\{\alpha\right\}\\
+            \mL(\tau_{1} \rightarrow \tau_{2}) &= \mL(\tau_{1}) \cup \mL(\tau_{2})\\
+            \mL(\tau_{1} \times \tau_{2}) &= \mL(\tau_{1}) \cup \mL(\tau_{2})\\
+            \mL(\forall\alpha.\tau) &= \mL(\tau) \setminus \left\{\alpha\right\}
+        \end{aligned}    
+    \]
+    Pour un environnement $\Gamma$ on définit aussi $\mL(\Gamma) = \bigcup_{x \in dom(\Gamma)} \mL(\Gamma(x))$
+\end{definition}
+
+\begin{definition}
+    On note $\tau\left[\alpha \leftarrow \tau^{'}\right]$ la substitution de $\alpha$ par $\tau^{'}$ dans $\tau$, définie par : 
+    \[
+        \begin{aligned}
+            \tint\left[\alpha \leftarrow \tau^{'}\right] &= \tint\\
+            \alpha\left[\alpha \leftarrow \tau^{'}\right] &= \tau^{'}\\
+            \beta\left[\alpha \leftarrow \tau^{'}\right] &= \beta \text{ si } \beta \neq \alpha\\
+            \left(\tau_{1} \rightarrow \tau_{2}\right)\left[\alpha \leftarrow \tau^{'}\right] &= \tau_{1}\left[\alpha \leftarrow \tau^{'}\right] \rightarrow \tau_{2}\left[\alpha \leftarrow \tau^{'}\right]\\
+            \tint\left[\alpha \leftarrow \tau^{'}\right] &= \tint\\
+            \tint\left[\alpha \leftarrow \tau^{'}\right] &= \tint\\
+            \tint\left[\alpha \leftarrow \tau^{'}\right] &= \tint\\
+        \end{aligned}    
+    \]
+\end{definition}
+
+Les règles sont les mêmes qu'auparavant, plus : 
+\begin{center}
+    $\frac{\Gamma \vdash e : \tau \ \ \ \alpha \not \mL(\Gamma)}{\Gamma \vdash e : \forall\alpha.\tau}$ et
+    $\frac{\Gamma \vdash e : \forall\alpha.\tau}{\Gamma e : \tau\left[\alpha \leftarrow \tau^{'}\right]}$
+\end{center}
+Le système obtenu s'appelle le système F.
+
+Il permet de donner un type satisfaisant aux primitives : $\texttt{fst} : \forall\alpha.\forall\beta.\alpha\times\beta \rightarrow \alpha$.
+La condition $\alpha \notin \mL(\Gamma)$ est cruciale, sinon on accepterait le programme $\left(\fun{x}{x}\right)\ 1 \ 2$.
+
+Pour des termes sans annotations les deux problèmes d'inférence et de vérification ne sont pas décidables.
+
+\subsection{Système de Hindley-Milner}
+On limite la quantification $\forall$ en tête des types (quantification prénexe.)
+\begin{tabular}{c@{$\mid$}c}
+    $\tau$ & $\texttt{int} \mid \texttt{bool} \mid \ldots$\\
+    & $\tau \rightarrow \tau$\\
+    &$\tau \times \tau$ \\
+    & $\alpha$ : variable de type\\
+    &\\
+    $\sigma$ & $\tau$ : schéma\\
+    & $\forall\alpha.\sigma$
+\end{tabular}
+L'environnement $\Gamma$ associe un schéma de type à chaque identificateur et la relation de typage a maintenant la forme $\Gamma \vdash e : \sigma$.
+
+On modifie toutes les règles : 
+\begin{center}
+    $\frac{}{\Gamma \vdash x : \Gamma(x)}$ 
+    $\frac{}{\Gamma \vdash n : \texttt{int}}$
+    $\frac{}{\Gamma \vdash + : \texttt{int} \times \texttt{int} \rightarrow \texttt{int}}$
+\end{center}
+\begin{center}
+    $\frac{\Gamma + x : \tau_{1} \vdash e : \tau_{2}}{\Gamma \vdash \fun{x}{e}:\tau_{1}\rightarrow\tau_{2}}$
+    $\frac{\Gamma \vdash e_{1} : \tau^{'}\rightarrow\tau \ \Gamma \vdash e_{2} : \tau^{'}}{\Gamma \vdash e_{1}\ e_{2} : \tau}$
+\end{center}
+\begin{center}
+    $\frac{\Gamma \vdash e_{1} : \tau_{1} \ \Gamma \vdash e_{2} : \tau_{2}}{\Gamma \vdash (e_{1},e_{2}) : \tau_{1} \times \tau_{2}}$
+    $\frac{\Gamma \vdash e_{1} : \sigma_{1} \ \Gamma + x : \sigma_{1} \vdash e_{2} : \sigma_{2}}{\Gamma \vdash \letin{x = e_{1}} e_{2} : \sigma_{2}}$
+\end{center}
+\begin{center}
+    $\frac{\Gamma \vdash e : \sigma \ \ \ \alpha \notin \mL(\Gamma)}{\Gamma \vdash e : \forall\alpha.\sigma}$ 
+    $\frac{\Gamma \vdash e : \forall\alpha.\sigma}{\Gamma e : \sigma\left[\alpha \leftarrow \tau^{'}\right]}$
+\end{center}
+
+On note que seule la construction $\texttt{let}$ permet d'introduire un type polymorphe dans l'environnement. 
+
+Pour programmer une vérification ou une inférence de type, on procède récursivement sur la structure du programme, ce qui semble devoir se faire en temps exponentiel.
+Nous allons alors modifier la présentation du système de Hindley-Milner pour qu'il soit dirigé par la syntaxe (synta-directed), i.e., pour toute expression, au plus une règle s'applique. Les règles ont la même puissance d'expression : tout terme clos est typable dans un système si et seulement si il est typable dans l'autre : 
+
+\begin{center}
+    $\frac{\tau \leq \Gamma(x)}{\Gamma \vdash x : \tau}$ 
+    $\frac{}{\Gamma \vdash n : \texttt{int}}$
+    $\frac{\tau \leq \texttt{type}(op)}{\Gamma \vdash op : \tau}$
+\end{center}
+\begin{center}
+    $\frac{\Gamma + x : \tau_{1} \vdash e : \tau_{2}}{\Gamma \vdash \fun{x}{e}:\tau_{1}\rightarrow\tau_{2}}$
+    $\frac{\Gamma \vdash e_{1} : \tau^{'}\rightarrow\tau \ \Gamma \vdash e_{2} : \tau^{'}}{\Gamma \vdash e_{1}\ e_{2} : \tau}$
+\end{center}
+\begin{center}
+    $\frac{\Gamma \vdash e_{1} : \tau_{1} \ \Gamma \vdash e_{2} : \tau_{2}}{\Gamma \vdash (e_{1},e_{2}) : \tau_{1} \times \tau_{2}}$
+    $\frac{\Gamma \vdash e_{1} : \tau{1} \ \Gamma + x : \texttt{Gen}(\tau_{1},  \Gamma) \vdash e_{2} : \tau{2}}{\Gamma \vdash \letin{x = e_{1}} e_{2} : \tau{2}}$
+\end{center}
+
+Deux opérations apparaissent : 
+\begin{itemize}
+    \item L'instanciation : $\tau \leq \sigma$ se lit $\tau$ est une instance de $\sigma$ et est définie par : 
+    \[
+        \tau \leq \forall\alpha_{1}\ldots\alpha_{n}.\tau^{'} \Leftrightarrow \exists\tau_{1}\ldots\exists\tau_{n}.\tau = \tau^{'}\left[\alpha_{1}\leftarrow\tau_{1}, \ldots, \alpha_{n} \leftarrow \tau_{n}\right]
+    \]
+    \item La généralisation : 
+    \[
+        \texttt{Gen}(\tau_{1}, \Gamma) = \forall\alpha_{1}\ldots\forall\alpha_{n}.\tau_{1} \text{ où } \left\{\alpha_{1}, \ldots, \alpha_{n}\right\} = \mL(\tau_{1}) \setminus \mL(\Gamma)
+    \]
+\end{itemize}
+
+Pour inférer le type d'une expression il reste des problèmes : quel type donner dans la définition d'une fonction, quelle instance de $\Gamma(x)$ choisir ? Il existe une solution, l'algorithme W.
+\subsection{Algorithme W}
+On utilise de nouvelles variables de types pour représenter les types inconnus, et on détermine la valeur de ces variables plus tard par unification entre types au moment du typage de l'application. 
+\begin{definition}
+    Si $\tau_{1}, \tau_{2}$ sont des types contenant des variables de types $\alpha_{i}$. On appelle unification une instanciation $f$ des variables $\alpha_{i}$ telle que $f(\tau_{1}) = f(\tau_{2})$. 
+\end{definition}
+
+\begin{definition}
+    $\texttt{unifier}(\tau_{1}, \tau_{2})$ détermine s'il existe une instance des variables de types de $\tau_{1}$ et $\tau_{2}$ telle que $\tau_{1} = \tau_{2}$. :
+    \begin{itemize}
+        \item $\texttt{unifier}(\tau, \tau) = \top$ 
+        \item $\texttt{unifier}(\tau_{1} \rightarrow \tau_{1}^{'}, \tau_{2} \rightarrow \tau_{2}^{'}) = \texttt{unifier}(\tau_{1}, \tau_{2}); \texttt{unifier}(\tau_{1}^{'}, \tau_{2}^{'})$
+        \item $\texttt{unifier}$
+        \item $\texttt{unifier}(\alpha, \tau) = \text{ si } \alpha \notin \mL(\tau), \text{ remplacer } \alpha \text{ par } \tau \text{ partout, sinon échec}$
+        \item $\texttt{unifier}(\tau, \alpha) = \texttt{unifier}(\alpha, \tau)$
+        \item Sinon, échec.
+    \end{itemize}
+\end{definition}
+
+On définit une fonction $W$ qui prend en arguments un environnement $\Gamma$ et une expression $e$ et renvoie le type inféré pour $e$.
+\begin{itemize}
+    \item Si $e$ est une variable $x$, renvoyer une instance triviale de $\Gamma(x)$.
+    \item Si $e$ est une constante $c$, renvoyer une instance triviale de son type (penser à $\left[\right] : \alpha \texttt{list}$)
+    \item Si $e$ est une primitive $op$, renvoyer une instance triviale de son type.
+    \item Si $e$ est une paire $(e_{1}, e_{2})$, calculer $\tau_{1} = W(\Gamma, e_{1})$, $\tau_{2} = W\left(\Gamma, e_{2}\right)$, renvoyer $\tau_{1} \times \tau_{2}$.
+    \item Si $e$ est une fonction $\fun{x}{e_{1}}$, soit $\alpha$ une nouvelle variable, calculer $\tau = W(\Gamma + x : \alpha, e_{1})$ et renvoyer $\alpha \rightarrow \tau$.
+    \item Si $e$ est une application $e_{1} \ e_{2}$, calculer $\tau_{1}, \tau_{2}$, soit $\alpha$ une nouvelle variable,  $\texttt{unifier}(\tau_{1}, \tau_{2} \rightarrow \alpha)$, renvoyer $\alpha$.
+    \item Si $e$ est $\letin{x = e_{1}} e_{2}$, calculer $\tau_{1}$ et renvoyer $W(\Gamma + x : \texttt{Gen}(\tau_{1}, \Gamma), e_{2})$.
+\end{itemize}
+
+\begin{theorem}[Damas, Milner, 1982]
+    L'algorithme $W$ est correct, complet et détermine le type principal :
+    \begin{itemize}
+        \item Si $W(\emptyset, e) = \tau$ alors $\emptyset \vdash e : \tau$
+        \item Si $\emptyset \vdash e : \tau$ alors $\tau \leq \forall \alpha.W(\emptyset e)$
+    \end{itemize}
+\end{theorem}
+
+\begin{theorem}
+    Le système de Hindley-Milner est sûr.
+\end{theorem}
+
+\subsection{Unification Algorithmique}
+Il existe plusieurs manières de réaliser l'unification : 
+\begin{itemize}
+    \item En manipulant explicitement une substitution : 
+    \begin{minted}{ocaml}
+        type tvar = int
+        type subst = typ TVmap.t
+    \end{minted}
+    \item En utilisant des variables de types destructives : 
+    \begin{minted}{ocaml}
+        type tvar = { id: int; mutable def: typ option; }
+    \end{minted}
+\end{itemize}
+
+Il existe également plusieurs façons de coder l'algorithme $W$ : 
+\begin{itemize}
+    \item Avec des schémas explicites et en calculant $\texttt{Gen}(\tau, \Gamma)$.
+    \item Avec des niveaux.
+\end{itemize}
+
+\section{Extensions}
+Ajouter de la récursion, ou des types construits (n-uplets, listes, types sommes et produits) se fait sans trop de difficulter, avec par exemple : 
+\[
+    \frac{\Gamma + f : \tau \rightarrow \tau_{1} + x ; \tau \vdash e_{1} : \tau_{1} \ \ \Gamma + f : \texttt{Gen}(\tau \rightarrow \tau_{1}, \Gamma) \vdash e_{2} : \tau_{2}}{\Gamma \vdash \letin{\texttt{rec } f x = e_{1}} e_{2} : \tau_{2}}
+\]
+et 
+\[
+    \frac{\Gamma \vdash e_{1} : \tau \texttt{list} \ \Gamma \vdash e_{2} : \tau_{1} \ \Gamma + x : \tau + y : \tau \texttt{ list } \vdash e_{3} : \tau_{1}}{\Gamma \vdash \texttt{ match } e_{1} \texttt{ with } \left[\right] \rightarrow e_{2} \mid ::(x, y) \rightarrow e_{3} : \tau_{1}}
+\]
+Pour les références toutefois, simplement les ajouters aux primitives ne fonctionne pas, c'est le problème des références polymorphes.
+
+\begin{definition}
+    Un programme satisfait le critère de la value restriction si toute sous-expression \texttt{let} dont le type est généralisé est de la forme $\letin{x = v_{1}} e_{2}$ où $v_{1}$ est une valeur.
+\end{definition}
+Ceci permet une solution très simple pour contourner le problème, c'est une restriction syntaxique.
+
+Toutefois, dans ce cas là, après une première unification, on fixe le type. La solution est alors d'$\eta$-expanser pour faire apparaître une fonction, i.e. une valeur. En présence d'un système de modules, la réalité est encore plus complexe.
 
 
 \end{document}

@@ -1,6 +1,14 @@
-from operator import *
+"""An optimized implementation of Suffix-Tree."""
+
+# For more infor about the comments you can read http://web.stanford.edu/~mjkay/gusfield.pdf
+from operator import attrgetter
+import re
+leafEnd = -1
+
 
 class Node:
+    """The Suffix-tree's node."""
+
     def __init__(self, leaf):
         # self.__identifier = identifier
         self.children = {}
@@ -24,25 +32,23 @@ class Node:
         if name == 'end':
             if self.leaf:
                 return leafEnd
-        return super().__getattribute__(name)
+        return super(Node, self).__getattribute__(name)
 
-class ImpSufTree: 
+
+class SuffixTree:
     def __init__(self, data):
-        self._string = data
+        self.text = data
         self.lastNewNode = None
         self.activeNode = None
-        self.activeEdge = -1  # Position in the string at which we're counting
+        self.activeEdge = -1
         self.activeLength = 0
         self.remainingSuffixCount = 0
-        self.rootEnd = None
-        self.splitEnd = None
-        self.size = -1  # Length of input string
         self.root = None
 
     def edge_length(self, node):
         return node.end - node.start + 1
-    
-    def walk_down(self, current_node): 
+
+    def walk_down(self, current_node):
         length = self.edge_length(current_node)
         if (self.activeLength >= length):
             self.activeEdge += length
@@ -61,94 +67,89 @@ class ImpSufTree:
 
     def extend_suffix_tree(self, pos):
         global leafEnd
-        # Rule 1, extends all leaves created so far in tree
         leafEnd = pos
-        # Increment remainingSuffixCount indicating that a new suffix added to the list of suffixes yet to be added in tree
         self.remainingSuffixCount += 1
-        # set lastNewNode to None while starting a new phase, indicating there is no internal node waiting for it's suffix link reset in current phase"""
         self.lastNewNode = None
-        # Add all suffixes (yet to be added) one by one in tree
         while(self.remainingSuffixCount > 0):
             if (self.activeLength == 0):
-                self.activeEdge = pos  # APCFALZ
-            #  There is no outgoing edge starting with activeEdge from activeNode
-            if (self.activeNode.children.get(self._string[self.activeEdge]) is None):
-                # Rule 2 : new leaf edge
-                self.activeNode.children[self._string[self.activeEdge]] = self.new_node(pos, leaf=True)
-                """A new leaf edge is created in above line starting
-                 from an existng node (the current activeNode), and
-                 if there is any internal node waiting for it's suffix
-                 link get reset, point the suffix link from that last
-                 internal node to current activeNode. Then set lastNewNode
-                 to None indicating no more node waiting for suffix link
-                 reset."""
+                self.activeEdge = pos 
+
+            nxt = self.activeNode.children.get(self.text[self.activeEdge])
+            if nxt is None:
+                self.activeNode.children[self.text[self.activeEdge]] = self.new_node(pos, leaf=True)
                 if (self.lastNewNode is not None):
                     self.lastNewNode.suffixLink = self.activeNode
                     self.lastNewNode = None
+            
             else:
-                _next = self.activeNode.children.get(self._string[self.activeEdge])
-                if self.walk_down(_next): 
+                
+                if self.walk_down(nxt): 
                     continue
-                # Rule 3 (current character is already on the edge)
-                if (self._string[_next.start + self.activeLength] == self._string[pos]):
+                
+                if (self.text[nxt.start + self.activeLength] == self.text[pos]):
+                    
                     if((self.lastNewNode is not None) and (self.activeNode != self.root)):
                         self.lastNewNode.suffixLink = self.activeNode
                         self.lastNewNode = None
-                    # APCFER3
+                    
                     self.activeLength += 1
-                    # STOP all further processing in this phase and move on to _next phase
                     break
-                    # We will be here when activePoint is in middle of the edge being traversed and current character being processed is not  on the edge (we fall off the tree). In this case, we add a new internal node and a new leaf edge going out of that new node. This is Rule 2, where a new leaf edge and a new internal node get created
-                self.splitEnd = _next.start + self.activeLength - 1
-                split = self.new_node(_next.start, self.splitEnd)
-                self.activeNode.children[self._string[self.activeEdge]] = split
-                split.children[self._string[pos]] = self.new_node(pos, leaf=True)
-                _next.start += self.activeLength
-                split.children[self._string[_next.start]] = _next
+                
+                split = self.new_node(nxt.start, nxt.start + self.activeLength - 1)
+                self.activeNode.children[self.text[self.activeEdge]] = split
+            
+                split.children[self.text[pos]] = self.new_node(pos, leaf=True)
+                nxt.start += self.activeLength
+                split.children[self.text[nxt.start]] = nxt
+                
                 if (self.lastNewNode is not None):
+                
                     self.lastNewNode.suffixLink = split
                 self.lastNewNode = split
             self.remainingSuffixCount -= 1
-            if ((self.activeNode == self.root) and (self.activeLength > 0)): 
+            if ((self.activeNode == self.root) and (self.activeLength > 0)):
                 self.activeLength -= 1
                 self.activeEdge = pos - self.remainingSuffixCount + 1
-            elif (self.activeNode != self.root): 
+            elif (self.activeNode != self.root):  
                 self.activeNode = self.activeNode.suffixLink
-
-    def build_suffix_tree(self):
-        self.size = len(self._string)
-        """Root is a special node with start and end indices as -1,
-        as it has no parent from where an edge comes to root"""
-        self.rootEnd = -1
-        self.root = self.new_node(-1, self.rootEnd)
-        self.activeNode = self.root  # First activeNode will be root
-        for i in range(self.size):
-            self.extend_suffix_tree(i)
 
     def walk_dfs(self, current):
         start, end = current.start, current.end
-        yield self._string[start: end + 1]
-
+        yield self.text[start: end + 1]
         for node in current.children.values():
             if node:
                 yield from self.walk_dfs(node)
 
+    def build_suffix_tree(self):
+        self.root = self.new_node(-1, -1)
+        self.activeNode = self.root  # First activeNode will be root
+        for i in range(len(self.text)):
+            self.extend_suffix_tree(i)
+        return self
+
+    def __str__(self):
+        return "\n".join(map(str, self.edges.values()))
+
     def print_dfs(self):
-        for sub in self.walk_dfs(self.root):
-            print(sub)
-
+        def str_dfs(current):
+            res = ""
+            start, end = current.start, current.end
+            res += self.text[start: end + 1] + "\n"
+            for node in current.children.values():
+                if node : 
+                    res += "\t" + re.sub("\n", "\n\t", str_dfs(node))
+            return res
+        print(str_dfs(self.root))
+    
     def substrings(self):
-        s = 0
-        print(list(self.walk_dfs(self.root)))
+        r = 0
         for sub in self.walk_dfs(self.root):
-            print(sub)
-            s += 1
-        return s
+            r += len(sub)
+        return r
+        
 
-def substrings(mystring):
-    t = ImpSufTree(mystring)
-    t.build_suffix_tree()
-    return t.substrings()
+def substrings(text):
+    return SuffixTree(text).build_suffix_tree().substrings()
 
 print(substrings("aab"))
-
+print(substrings("mississipi"))
