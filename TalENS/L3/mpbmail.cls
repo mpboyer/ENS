@@ -23,9 +23,9 @@
 \setkomavar{fromname}[Sender : ]{Matthieu Boyer}
 \fi
 \usepackage{graphicx}
-\setkomavar{fromaddress}{4 Rue Commandant Marchand \\
-69003 Lyon}
+\setkomavar{fromaddress}{45 Rue d'Ulm \\
+75005 Paris}
 \setkomavar{fromemail}{matthieu.boyer@ens.psl.eu}
 \setkomavar{fromphone}{+33\,6\,13\,68\,72\,59}
-\setkomavar{fromlogo}{\includegraphics[scale = .16]{concentric-rinds}}
+% \setkomavar{fromlogo}{\includegraphics[scale = .16]{concentric-rinds}}
 
