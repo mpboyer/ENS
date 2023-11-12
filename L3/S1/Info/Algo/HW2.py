@@ -137,7 +137,7 @@ class SuffixTree:
             res += self.text[start: end + 1] + "\n"
             for node in current.children.values():
                 if node : 
-                    res += "\t" + re.sub("\n", "\n\t", str_dfs(node))
+                    res += "\t" + re.sub("\n", "\n|\t", str_dfs(node))
             return res
         print(str_dfs(self.root))
     
@@ -151,5 +151,4 @@ class SuffixTree:
 def substrings(text):
     return SuffixTree(text).build_suffix_tree().substrings()
 
-print(substrings("aab"))
-print(substrings("mississipi"))
+SuffixTree("aab").build_suffix_tree().print_dfs()
