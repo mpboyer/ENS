@@ -39,17 +39,32 @@
             \]
             
         \subsection{Question 4}
-            If $0 \leq r \leq \alpha$: $w(1, r, 1)$ is the smallest number $k$ such that $M(n, n^{r}, n) = \O(n^{k + o(1)})$. But, again by seeing $A$ an $n\times n^{\alpha}$ matrix as a $n\times n^{r}$ matrix next to a $n, n^{\alpha} - n^{r}$ matrix and same for $B$, we get $M(1, r, 1) \leq M(1, \alpha, 1)$ and thus $w(1, r, 1) \leq w(1, \alpha, 1) = 2$.
-            If $\alpha \leq r \leq 1$ : by seeing a $n \times n^{r}$ matrix $A$ as $n^{r - \alpha}$ $n\times n^{\alpha}$ matrices next to each other, and same for $B$ (transposing the process), we get : 
-            \[
-                    M(1, r, 1) \leq M(1, r - \alpha, 1)M(1, \alpha, 1)
-            \]
-            Thus :
-            \[
-                    w(1, r, 1) \leq w(1, r - \alpha, 1) + 2
-            \]
-            However, since \[M(n, n^{r}, n) = M\left(n^{\frac{1 - r}{1 - \alpha}} \cdot n^{\frac{r - \alpha}{1 - \alpha }}, n^{\frac{\left(1 - r\right)\alpha}{1 - \alpha}}\cdot n^{\frac{r - \alpha}{1 - \alpha}}\right)\]
-
+            \begin{itemize}
+                \item If $0 \leq r \leq \alpha$: $w(1, r, 1)$ is the smallest number $k$ such that $M(n, n^{r}, n) = \O(n^{k + o(1)})$. But, again by seeing $A$ an $n\times n^{\alpha}$ matrix as a $n\times n^{r}$ matrix next to a $n, n^{\alpha} - n^{r}$ matrix and same for $B$, we get $M(1, r, 1) \leq M(1, \alpha, 1)$ and thus $w(1, r, 1) \leq w(1, \alpha, 1) = 2$.
+                \item If $\alpha \leq r \leq 1$ : by seeing a $n \times n^{r}$ matrix $A$ as a $n^{\frac{1 - r}{1 - \alpha}} \times n^{\frac{\left(1 - r\right)\alpha}{1 - \alpha}}$ bloc matrix with blocks of size $n^{\frac{r - \alpha}{1 - \alpha }}\times n^{\frac{r - \alpha}{1 - \alpha}}$ and applying the reasoning from 3. we get that : 
+                \[
+                    \begin{aligned}
+                        M(n, n^{r}, n) = &\ M\left(n^{\frac{1 - r}{1 - \alpha}} \cdot n^{\frac{r - \alpha}{1 - \alpha }}, n^{\frac{\left(1 - r\right)\alpha}{1 - \alpha}}\right.\\ 
+                        &\ \left.\times n^{\frac{r - \alpha}{1 - \alpha}}, n^{\frac{1 - r}{1 - \alpha}} \cdot n^{\frac{r - \alpha}{1 - \alpha }}\right)\\
+                         \leq&\  M\left(n^{\frac{1 - r}{1 - \alpha}}, n^{\frac{(1 - r)\alpha}{1 - \alpha}}, n^{\frac{1 - r}{1 - \alpha}}\right)\\
+                        &\ \times M\left(n^{\frac{r - \alpha}{1 - \alpha}}, n^{\frac{r - \alpha}{1 - \alpha}}, n^{\frac{r - \alpha}{1 - \alpha}}\right)\\
+                        = &\ \O\left(\left(n^{\frac{1 - r}{1 - \alpha}}\right)^{{w(1, \alpha, 1)}}\left(n^{\frac{r - \alpha}{1 - \alpha}}\right)^{\omega}\right)\\
+                        = &\ \O\left(n^{\frac{2 * (1 - r) + \left(r - \alpha\right) \omega}{1 - \alpha}}\right)
+                    \end{aligned}      
+                \]
+                The first big O equality comes from a substitution in $M(n, n^{\alpha}, n) = \O(n^{w(1, \alpha, 1)})$ of $n$ by $n^{\frac{1 - r}{1 - \alpha}}$.
+                We obtain : 
+                \[
+                    \begin{aligned}
+                        w(1, r, 1)  \leq &\ \frac{2 \times \left(1 - r\right) + \left(r - \alpha\right)\omega}{1 - \alpha}\\
+                        = &\ \frac{2 \times \left(1 - \alpha\right) + 2 \times \left(\alpha - r\right) + \left(r - \alpha\right) \omega}{1 - \alpha}\\
+                        = &\ 2 + \frac{\omega \times \left(\alpha - r\right) - 2 \times \left(\alpha - r\right)}{1 - \alpha}\\
+                        = &\ 2 + \beta(r - \alpha)
+                    \end{aligned}
+                \]
+            \end{itemize}
+            
+            
         \subsection{Question 5}
             Let $1 \leq l \leq n$:
 
