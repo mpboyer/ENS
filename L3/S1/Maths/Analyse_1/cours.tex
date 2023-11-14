@@ -1,6 +1,8 @@
 \documentclass{cours}
 
 \title{Topologie et Calcul Différentiel}
+\author{Djalil Chafaï}
+\date{2023 - 2024}
 
 \begin{document}
 \newpage
@@ -531,6 +533,51 @@
 \begin{corollary}
     Si $X$ est un Banach, et $X^{''}$ est sont bidual, l'injection canonique $\iota : X \rightarrow X^{''}$ est une isométrie linéaire : $\norm{\iota(x)} = \norm{x}$.
 \end{corollary}
+
+\begin{corollary}
+    L'application $\Phi : \ml^{1} \to \left(\ml^{\infty}\right)^{'}, \ \Phi(y)(x) = \sum_{n} x_{n}y_{n}$ est une isométrie linéaire non surjective. En d'autres termes :
+    \[\ml^{1} \subsetneq \left(\ml^{\infty}\right)^{'} = \left(l^{1}\right)^{''}\]
+\end{corollary}
+
+\subsection{Banach-Schauder}
+\begin{theorem}[de Banach-Schauder ou de l'application ouverte]\label{thm:BanachSchauder}
+    Si $X$ et $Y$ sont des Banach et si $u \in L(X, Y)$ est surjective, alors $u$ est une application ouverte.    
+\end{theorem}
+
+\begin{corollary}
+    \begin{itemize}
+        \item (\textbf{inverse continu}) : Si $X$ et $Y$ de Banach et $u\in L(X, Y)$ est bijective, alors $u^{-1} \in L(Y, X)$. On parle de Théorème d'Isomorphisme de Banach.
+        \item (\textbf{équivalence des normes}) : Si $\norm{\cdot}, \norm{\cdot}^{'}$ sont deux normes qui font d'un même espace vectoriel normé $X$ un espace de Banach. S'il existe $c \in \left(0, \infty\right)$ telle que $\norm{\cdot} \leq c\norm{\cdot}^{'}$ alors il existe $C \in \left(0, \infty\right)$ telle que $\norm{\cdot}^{'} \leq C \norm{\cdot}$.
+        \item (\textbf{théorème du graphe fermé}) : Si $X$ et $Y$ sont deux Banach et $u : X \to Y$ est linéaire, alors $u \in L(X, Y)$ si et seulement si son graphe est fermé dans $X \times Y$.
+        \item (\textbf{structure des Banach séparables}) : tout Banach séparable est isomorphe à quotient de $\ml^{1}$ par un sous-espace fermé.
+    \end{itemize}
+\end{corollary}
+
+\subsection{Algèbres de Banach, Rayon Spectral, Inverse}
+\begin{definition}
+    Si $X$ est un Banach, on définit l'espace vectoriel $L(X)$ normé par $\normop{u} = \sup_{\norm{x} = 1} \norm{u(x)}$. Le produit naturel $uv = u \circ v$ en fait une algèbre de Banach : $\normop{uv} \leq \normop{u} \normop{v}$. Le rayon spectral de $u \in L(X)$ est $\rho(u) = \lim_{n \to \infty} \normop{u^{n}}^{1/n} \leq \normop{u}$.
+\end{definition}
+\begin{remark}
+    \begin{itemize}
+        \item Lemme de Fekete : Si $a_{n}$ est sous-additive, $\lim_{n} \frac{1}{n} a_{n} = \inf_{n} \frac{1}{n} a_{n}$. La formule de $\rho$ fait sens en prenant $a_{n} = \log \normop{u^{n}}$.
+        \item Le rayon spectral est inchangé avec une norme équivalente.
+        \item On généralise les algèbres de matrices à la dimension infinie. 
+        \item En dimension finie, $L(X)$ est isomorphe à $\mat{n}$ et le rayon spectral est égal au maximum des modules des valeurs propres par décomposition de Jordan.
+        \item Lorsque $X$ est de dimension infinie, il n'y a pas vraiment d'analogue à la décomposition de Jordan. L'équation aux valeurs propres n'est pas une bonne manière de définir le spectre des opérateurs et on définit plutôt : \[\text{spec}(u) = \left\{\lambda \in \C \mid u - \lambda\Id \text{ n'est pas inversible à inverse continu} \right\}\] Alors, $\rho(u) = \sup \left\{\abs{\lambda \mid \lambda \in \text{spec}(u)}\right\}$.
+    \end{itemize}
+\end{remark}
+
+\begin{theorem}
+    Soit $X$ un Banach, et $u \in L(X)$.
+    \begin{enumerate}
+        \item Si $\rho(u) < 1$, alors $\Id - u$ est inversible dans $L(X)$ et \[\left(\Id - u\right)^{-1} = \sum_{n = 0}^{\infty} u^{n}\]
+        \item Si $u$ est inversible et $\normop{v} \leq \normop{u^{-1}}^{-1}$ alors $u - v$ est inversible dans $L(X)$ et : \[\left(u - v\right)^{-1} = \left(\Id - u^{-1}v\right)^{-1}u^{-1} = \sum_{n = 0}^{\infty}\left(u^{-1}v\right)^{n}u^{-1}\]
+        \item L'ensemble des $u \in L(X)$ inversibles (groupe linéaire) est un ouvert de $L(X)$.
+    \end{enumerate}
+\end{theorem}
+
+\subsection{Intégrale de Riemann pour les fonctions de la variable réelle à valeurs dans un Banach}
+
 
 
 \end{document}

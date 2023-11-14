@@ -64,8 +64,25 @@
                 \]
             \end{itemize}
             
-            
         \subsection{Question 5}
-            Let $1 \leq l \leq n$:
+            Let $1 \leq l \leq n$, $a_{k}, b_{k}$ such that $a_{k}b_{k}$ is decreasing.
+            If $l = 1$, the result is trivial. 
+        
+            Consider for $i \in \left\llbracket 1, l - 1\right\rrbracket$ the quantity $a_{i}b_{j} + a_{j}b_{i}$, we get :
+            \begin{itemize}
+                \item If $a_{i} > a_{j}$ : $a_{i}b_{j} + a_{j}b_{i} > a_{j}b_{j}$
+                \item Else : $a_{i}b_{j} + a_{j}b_{i} > a_{i}b_{i} > a_{j}b_{j}$ by hypothesis.
+            \end{itemize}
 
+            Then we get : 
+            \[\sum_{j = i + 1}^{n} a_{i}b_{j} + a_{j}b_{i} > \sum_{k = l}^{n} a_{k}b_{k}\] since the $a_{k}$ and $b_{k}$ are positive.
+            By summing :  
+            \[\sum_{i = 1}^{l -1}\sum_{j = i + 1}^{n} a_{i}b_{j} + a_{j}b_{i} > l\sum_{k = l}^{n} a_{k}b_{k}\]
+            But : 
+            \[m_{1}m_{2} = \sum_{i = 1}^{n}a_{i} \sum_{j = 1}^{n}b_{j} = \sum_{i = 1}^{n}\sum_{j = i + 1}^{n}a_{i}b_{l} > \sum_{i = 1}^{l - 1}\sum_{j = i + 1}^{n}a_{i}b_{j}\]
+            Thus :
+            \[\sum_{k = l}^{n} a_{k}b_{k} < \frac{m_{1}m_{2}}{l}\]
+
+        \subsection{Question 6}
+            
 \end{document}

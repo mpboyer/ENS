@@ -14,10 +14,9 @@
 \RequirePackage{booktabs}
 \RequirePackage{textcomp}
 \RequirePackage{pdfpages}
-\RequirePackage{dsfont}
 \tikzset{>=stealth}
 \RequirePackage{ragged2e}
-\RequirePackage{amsmath, amsthm, amssymb}
+\RequirePackage{amsfonts, amsmath, amsthm, amssymb}
 \RequirePackage{multirow}
 \RequirePackage{listings}
 \RequirePackage{algorithm}
@@ -39,6 +38,7 @@
 
 
 \AfterBeginDocument{\maketitle\tableofcontents}
+
 
 \titleformat{\paragraph}
 {\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
