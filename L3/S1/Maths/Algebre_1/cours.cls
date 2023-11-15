@@ -17,6 +17,8 @@
 \tikzset{>=stealth}
 \RequirePackage{ragged2e}
 \RequirePackage{amsmath}
+\RequirePackage{dsfont}
+
 \RequirePackage{amsfonts}
 \RequirePackage{mathrsfs}
 \RequirePackage{amsthm}
@@ -124,15 +126,9 @@
 \newcommand{\abs}[1]{\left|#1\right|}
 \newcommand{\scalar}[1]{\left\langle #1 \right\rangle}
 \newcommand{\znz}[1]{\Z/#1\Z}
-<<<<<<< HEAD
 \newcommand{\mat}[2]{\mathscr{M}_{#1}\left(#2\right)}
 \newcommand{\poly}[1]{\mathscr{P}_{#1}}
 \newcommand{\astuce}{$(\star)$}
 \newcommand{\vect}[2][]{\text{Vect}_{#2}\left(#1\right)}
 \renewcommand{\H}{\mathbb{H}}
 \newcommand{\transpose}[1]{{^{\mathsf{t}}}#1}
-=======
-\newcommand{\mat}[1]{\mathscr{M}_{#1}}
-\newcommand{\poly}[1]{\mathscr{P}_{#1}}
-\newcommand{\astuce}{$(\star)$}
->>>>>>> d3f8ccda5fc06e4828340c67f282e2474a630bdf

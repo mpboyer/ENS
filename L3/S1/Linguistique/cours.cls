@@ -128,3 +128,5 @@
 \newcommand{\mat}[1]{\mathscr{M}_{#1}}
 \newcommand{\poly}[1]{\mathscr{P}_{#1}}
 \newcommand{\astuce}{$(\star)$}
+\newcommand{\model}[1]{\left\llbracket #1 \right\rrbracket}
+
