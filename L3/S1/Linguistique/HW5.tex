@@ -1,0 +1,93 @@
+\documentclass{cours}
+\usepackage{qtree}
+
+\title{Homework Assignment 6}
+\date{\today}
+\author{Matthieu Boyer}
+
+\begin{document}
+    \section{Exercise 1}
+        \subsection{Question 1}
+        $\top$ : If \textsl{Nobody spoke or danced}, in particular, if someone spoke somebody would have \textsl{spoke or danced} thus : 
+        \[
+            \textsl{Nobody spoke or danced} \vdash \textsl{Nobody spoke}
+        \]  
+        Indeed, \textsl{Nobody spoke or danced} does not have the same meaning as \textsl{Nobody spoke or Nobody danced}.
+
+        \subsection{Question 2}
+        $\bottom$ : If \textsl{Nobody slept well}, that does not mean \textsl{Nobody slept}. The demarcation is to be seen between \textsl{Nobody} and \textsl{slept well}, thus :
+        \[
+            \textsl{Nobody slept well} \nvdash \textsl{Nobody slept}
+        \]
+
+        \subsection{Question 3}
+        $\top$ : If \textsl{Everybody slept well}, that means that \textsl{Everybody slept} and that the sleeping they did was \textsl{well}.
+        \[
+            \textsl{Everybody slept well} \vdash \textsl{Everybody slept}
+        \]
+
+        \subsection{Question 4}
+        $\top$ : If \textsl{Not all students laughed}, that means that the set $\mathscr{S}$ of students who laughed is not equal to the set of all students, meaning there is at least an element in its complement (in the set of all students), and thus, that \textsl{At least one student didn't laugh} :
+        \[
+            \textsl{Not all students laughed} \vdash \textsl{At least one student didn't laugh}
+        \]
+
+        \subsection{Question 5}
+        $\bottom$ : In the previous question we showed that $\mathscr{S}^{\complement} \neq \emptyset$. Yet, we cannot conclude on its cardinal, and thus cannot extrapolate on the number of students who didn't laugh : we cannot say that \emph{necessarily}, \textsl{Several students didn't laugh} as we can imagine a joke about someone who makes everyone laugh but that person :
+        \[
+            \textsl{Not all students laughed}  \nvdash \textsl{Several students didn't laugh}
+        \]
+
+        \subsection{Question 6}
+        $\top$ : If \textsl{Someone spoke or danced}, that means there exist an individual who \textsl{spoke or danced} and thus that \textsl{Someone spoke or someone danced} :
+        \[
+            \textsl{Someone spoke or danced} \vdash \textsl{Someone spoke or someone danced}
+        \]  
+
+        \subsection{Question 7}
+        $\bottom$ : If \textsl{Everybody spoke or danced}, that means that each individual either \textsl{spoke}, \textsl{danced} or did both. We cannot ensure that everybody \textsl{Everybody spoke} or that \textsl{Everybody danced}, simply that the union of those sets covers the set of all individuals considered : 
+        \[
+            \textsl{Everybody spoke or danced}  \nvdash \textsl{Everybody spoke or everybody danced}
+        \]
+
+        \subsection{Question 8}
+        $\top$ : If \textsl{Everybody spoke and danced}, that means that each individual did both \textsl{speak} and \textsl{dance}. We can then ensure that everybody \textsl{Everybody spoke} and that \textsl{Everybody danced}, thus the intersection of those sets covers the set of all individuals considered : 
+        \[
+            \textsl{Everybody spoke and danced}  \vdash \textsl{Everybody spoke and everybody danced}
+        \]
+
+    \section{Exercise 2}
+        \subsection{Question 1}
+            \subsubsection{Question a.}
+                \begin{itemize}
+                    \item \textsl{Mediocre} : From the following sentences, we see that \textsl{mediocre}, just as \textsl{fake} has a functional nature.
+                    \begin{center}
+                        \begin{tabular}{c}
+                            \textsl{John is a mediocre lawyer but a great carpenter}\\
+                            \textsl{This meal is mediocre}
+                        \end{tabular}
+                    \end{center}
+                    Indeed, we see in the first sentence that \textsl{John is a lawyer} and that \textsl{John is not mediocre} since \textsl{John is a great carpenter}. Moreover, just as for \textsl{fake}, we see from the second sentence that \textsl{mediocre} does not necessarily need a \textit{physical} word next to it, but may apply to a trace of the word described.
+
+                    \item \textsl{Beautiful} : From the following sentences, we see that \textsl{mediocre}, just as \textsl{fake} has a functional nature.
+                    \begin{center}
+                        \begin{tabular}{c}
+                            \textsl{John is a beautiful person with an ugly face}\\
+                            \textsl{This piece of art is beautiful}\\
+                            \textsl{Mary is a beautiful dancer}
+                        \end{tabular}
+                    \end{center}
+                    Applying the same arguments, we see in the first sentence that \textsl{John is a person} and that \textsl{John is not beautiful} since \textsl{John has an ugly face}. Moreover, just as in the first part of this question, we see from the second sentence that \textsl{beautiful} can be applied to the trace of a word.\\ 
+                    In the third sentence however, there might be two interpretations : either \textsl{Mary is beautiful and Mary is a dancer}, which would be an intersective use or \textsl{Mary dances beautifully}, which would be a subsective use. 
+                \end{itemize}
+
+            \subsubsection{Question b.}
+                We will study the adjective \textsl{French} :
+                \begin{itemize}
+                    \item It seems that \textsl{French} is an intersective adjective : if \textsl{Jean is a French firefighter}, then \textsl{Jean is French} and \textsl{Jean is a firefighter}. Moreover, if \textsl{Jean is an arsonist}, then \textsl{Jean is a French arsonist}. 
+                    \item Yet, in the sentence \textsl{These yellow things are French Fries}, \textsl{French} modifies \textsl{fries} but not yellow things : there is no reason for the \textsl{yellow things} to be \textsl{French}. This is a non-intersective use of \textsl{French}
+                \end{itemize}
+
+
+\end{document}
+

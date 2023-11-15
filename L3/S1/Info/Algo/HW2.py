@@ -127,9 +127,6 @@ class SuffixTree:
             self.extend_suffix_tree(i)
         return self
 
-    def __str__(self):
-        return "\n".join(map(str, self.edges.values()))
-
     def print_dfs(self):
         def str_dfs(current):
             res = ""
@@ -150,5 +147,3 @@ class SuffixTree:
 
 def substrings(text):
     return SuffixTree(text).build_suffix_tree().substrings()
-
-SuffixTree("aab").build_suffix_tree().print_dfs()
