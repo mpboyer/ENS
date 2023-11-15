@@ -493,4 +493,36 @@
             \gamma_{d} = \frac{\pi^{d/2}}{\Gamma\left(\frac{d}{2} + 1\right)}
         \]
         
+
+
+    \part{Probabilités}
+
+    \section{Indépendance}
+        \subsection{Hahn-Kolmogorov}
+            \begin{theorem}[de Hahn-Kolmogorov]
+                Soit $\Omega$ un ensemble, $\A$ une algèbre sur $\Omega$.
+                Soit $m : \A \rightarrow \Omega$ telle que : 
+                \begin{itemize}
+                    \item $m(\emptyset) = 0$ et $m(\Omega) = 1$
+                    \item Si $A_{n}$ est une suite d'éléments disjoints de $\A$ telle que $\cup_{n} A_{n} \in \A$, alors $m\left(\cup_{n} A_{n}\right) = \sum_{n} m(A_{n})$.
+                \end{itemize}
+                Alors, il existe une tribu $\mathcal{T}$ contenant $\mathcal{A}$ et une mesure de probabilité $\mathbb{P}$ telle que restreinte à $\A$ ce soit $m$.
+            \end{theorem}
+            \begin{remark}
+                On appliquera ce résultat avec $\Omega = \prod E_{n}$, $\A = B_{\infty}$.
+            \end{remark}
+
+            \begin{lemma}
+                On définit pour $A \in P(\Omega)$, \[m^{\star}(A) = \inf_{A \subset \bigcup_{n} A_{n}} \sum_{n \in \N} m(A_{n})\]
+                Alors $m^{\star}$ est une mesure extérieure :
+                \begin{itemize}
+                    \item $m^{\start}(\emptyset) = 0$
+                    \item Si $A \subset B$, $m^{\star}(A) \leq m^{\star}(B)$.
+                    \item $\forall \ A_{n} \in P(\Omega)^{\N}$ \[
+                        m^{\star}\left(\bigcup_{n} A_{n}\right) \leq \sum_{n \in \N} m^{\star}(A_{n})
+                    \]
+                \end{itemize}
+                De plus $m^{\star}$ est égale à $m$ sur $\A$.
+            \end{lemma}
+
 \end{document}

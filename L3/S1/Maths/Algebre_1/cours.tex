@@ -718,5 +718,200 @@ On se fixe dans la suite deux tels groupes $N$ et $K$, et un morphisme de groupe
     Les groupes non abéliens d'ordre $\leq 8$ sont $S_{3}$, $D_{8}$ et $H_{8}$.
 \end{proposition}
 
+\newpage
+\section{Groupes et Symétries}
+\subsection{Sous-groupes Finis de $O(2)$ et $SO(3)$}.
+Ici, $E$ est un espace euclidien de dimension $n \geq 1$
+\begin{definition}
+    On définit la \emph{réflexion} par rapport à $H$ un hyperplan de $E$, l'application $s_{H} \in O(E)$ définie par : $s_{H}(h + d) = h - d$ où $h, d \in H \times H^{\perp}$. Pour $v \in E$ non nul, on appelle aussi \emph{réflexion de vecteur } $v$ la réflexion $s_{v} = s_{v^{\perp}}$.
+\end{definition}
+
+\begin{theorem}[Cartan-Dieudonné] 
+    Tout élément de $O(E)$ est produit d'au plus $n$ réflexions. En particulier, tout élément de $SO(E)$ est produit d'au plus $n/2$ produits de deux réflexions.   
+\end{theorem}
+\begin{remark}
+    $SO(2)$ est isomorphe au groupe $S^{1}$ des rotations du plan. On peut également montrer que $O(2) \simeq SO(2) \rtimes_{\alpha} \znz{2}$ avec $\alpha_{\bar{1}}(g) = g^{-1}$.
+\end{remark}
+
+\begin{corollary}
+    Tout élément non trivial de $SO(3)$ possède une et une seule droite fixe dans $E$.
+\end{corollary}
+
+\begin{lemma}
+    Si $g\in O(E)$ préserve $F \subset E$, il préserve $F^{\perp}$.
+\end{lemma}
+
+\begin{definition}
+    Pour $P \subset E$, on note $\text{Iso}(P) = \left\{g \in O(E) \mid g(P) = P\right\}$ le sous-groupe des isométries orthogonales de $P$.
+\end{definition}
+
+\begin{definition}
+    On note $\mathscr{P}_{m}$ un polygone régulier du plan à $m \geq 3$ côtés centré en $0$.
+\end{definition}
+
+\begin{proposition}
+    $\text{Iso}(\poly{m})$ agit sur l'ensemble $\mathscr{S}$ des sommets de $\poly{m}$, puisque ce sont les points à distance maximale de $0$. Cette action définit un morphisme $f$ qui induit un isomorphisme $\text{Iso}(\poly{m}) \xrightarrow{\sim} D_{2m}$. De plus, $\text{Iso}^{+}(\poly{m}) \simeq \znz{m}$.
+\end{proposition}
+
+En considérant les groupes d'isométries de figures planes bien choisies, on trouve trois autres classes de conjugaison.
+
+\begin{proposition}
+    Soit $G \leq O(2)$ fini. Alors, soit $G$ est isomorphe à $1$, $\znz{2}$ ou $\left(\znz{2}\right)^{2}$, soit il existe un polygone régulier $\poly{}$ du plan euclidien tel que $G = \text{Iso}(\poly{})$ ou $G = \text{Iso}^{+}(\poly)$
+\end{proposition}
+\begin{remark}
+    Le groupe des isométries de $\left[-1, 1\right] \times \{0\}$ est isomorphe à $\left(\znz{2}\right)^{2}$, qu'on note parfois $D_{4}$.
+\end{remark}
+
+\begin{definition}
+    $G \leq O(E)$ est dit irréductible, s'il n'existe aucun sous-espace non-dégénéré stable par $G$.
+\end{definition}
+
+On suppose désormais $n = 3$. 
+
+\begin{remark}
+    Un groupe est irréductible s'il stabilise un plan ou, de manière équivalente, une droite. On a donc un morphisme injectif \emph{diagonal} :
+    $\applic{O(2)}{SO(3)}{g}{\begin{matrix}g & 0\\ 0 & \det g\end{matrix}}$
+\end{remark}
+
+\begin{definition}
+    Soit $P \subset E$ un \emph{solide de Platon}\footnote{polyèdre régulier}. On définit ses sommets, ses arêtes et ses faces comme ses parties extrémales de dimension 0, 1 et 2 : 
+    \[
+        \forall x, y \in P, \ \left]x, y \right[\ \cap F \neq \emptyset \Rightarrow \left[x, y\right]\subset F
+    \]
+    L'action de $\text{Iso}(P)$ préserve l'ensemble $\mathscr{S}$ des sommets, celui $\mathscr{A}$ des arêtes et celui $\mathscr{F}$ des faces. On note que l'action de $\text{Iso}(P)$ sur $\mathscr{S}$ engendre $E$. Notons que dès que $-1 \in \text{Iso}(P)$, $\text{Iso}(P) = \left\{\pm 1\right\} \times \text{Iso}^{+}(P)$.
+\end{definition}
+
+\begin{itemize}
+    \item \textsc{Le Tétraèdre Régulier} $T$ : En regardant l'action sur les sommets, on obtient : 
+    \begin{proposition}
+        $\text{Iso}(T) \simeq S_{4}$ et $\text{Iso}^{+}(T) \simeq A_{4}$.
+    \end{proposition} Le déterminant sur $\text{Iso}(T)$ correspond à la signature sur $S_{4}$. En regardant de plus les paires d'arêtes orthogonales, on fournit un morphisme $\text{Iso}(T) \rightarrow S_{3}$.
+    \item \textsc{Le Cube} ou \textsc{Hexaèdre Régulier} $C$ : En regardant l'action sur les paires de sommets, on obtient : 
+    \begin{proposition}
+        $\text{Iso}^{+}(C) \simeq S_{4}$ et $\text{Iso}(C) = \{\pm 1\} \times \text{Iso}^{+}(C)$.
+    \end{proposition}
+    En considérant l'action sur les paires de faces opposées, on retrouverait un morphisme $S_{4} \rightarrow S_{3}$.
+    \item \textsc{L'Octaèdre Régulier} $O$ : En regardant les centres des faces, on trouve un cube $C$ appelé cube dual et dont les centres des faces sont les sommets d'un nouvel octaèdre $O^{'}$. On en déduit que : 
+    \begin{proposition}
+        $\text{Iso}(O) = \text{Iso}(C) = \text{Iso}(O^{'})$
+    \end{proposition}
+    \item \textsc{Le Dodécaèdre Régulier} $D$ : En regardant l'action sur les sommets, et en regardant les triplets de diarête\footnote{couples d'arêtes parallèles} deux à deux orthogonales, on obtient :
+    \begin{proposition}
+         $\text{Iso}^{+}(D) \simeq A_{5}$ et on conclut car $-1 \in \text{Iso}(P)$.
+    \end{proposition}
+    \item \textsc{L'Icosaèdre Régulier} $I$ : On vérifie comme pour le cube que le dual de $I$ est un dodécaèdre et que l'on a :
+    \begin{proposition}
+        $\text{Iso}(I) = \text{Iso}(D)$.
+    \end{proposition}
+    En regardant l'action sur les faces opposées, on retrouve l'action sur les pentagones mystiques.
+\end{itemize}
+
+\begin{theorem}[Klein]
+    Tout sous-groupe fini irréductible de $SO(3)$ est le groupe des isométries directes d'un solide de Platon, et donc isomorphe à $A_{4}, S_{4}$ ou $A_{5}$.
+\end{theorem}
+
+\begin{lemma}[Burnside-Frobenius]
+    Soit $G$ fini agissant sur un ensemble fini $X$. On note $r$ le nombre de $G$-orbites dans $X$ et pour $g \in G$ on note $\text{Fix}(g)$ l'ensemble des points fixes de $g$ dans $X$. On a alors :
+    \[
+        r = \frac{1}{\abs{G}} \sum_{g \in G}  \abs{\text{Fix}(g)}
+    \]
+\end{lemma}
+
+\begin{lemma}
+    Si $G \leq SO(3)$ est fini, soit $X \subset S^{2}$ l'ensemble des pôles\footnote{couples de points fixes} des éléments non triviaux de $G$, soient $x_{1}, \ldots, x_{r}$ des représentants des orbites de $G$ dans $X$ et $n_{i} = \abs{G_{x_{i}}}$ triés dans l'ordre croissant. Alors, on a soit $r = 2$, $\abs{X} = 2$ et $G = G_{x_{1}} = G_{x_{2}}$ soit $r = 3$ et $\abs{G}$ et les $n_{i}$ sont données par : 
+    \begin{center}
+        \begin{tabular}{cccccccc}
+            $\abs{G}$ & $n_{1}$ & $n_{2}$ & $n_{3}$ & $\abs{O_{x_{1}}}$ & $\abs{O_{x_{2}}}$ & $\abs{O_{x_{3}}}$ & $\abs{X}$\\
+            \midrule
+            $2m$ & $2$ & $2$ & $m$ & $m$ & $m$ & $2$ & $2m+2$\\
+            \midrule
+            $12$ & $2$ & $3$ & $3$ & $6$ & $4$ & $4$ & $14$\\
+            \midrule
+            $24$ & $2$ & $3$ & $4$ & $12$ & $8$ & $6$ & $26$\\
+            \midrule
+            $60$ & $2$ & $3$ & $5$ & $30$ & $20$ & $12$ & $60$            
+        \end{tabular}
+    \end{center}
+\end{lemma}
+
+\subsection{Le Groupe $SP(1)$}
+\subsubsection{L'algèbre des quaternions de Hamilton}
+\begin{definition}
+    On se place dans $\mat{2}(\C)$ et considère :
+    \[
+        I = \begin{matrix}
+            i & 0\\ 0 & -i
+        \end{matrix},
+        J = \begin{matrix}
+            0 & -1 \\ 1 & 0
+        \end{matrix}
+        \text{ et } K = IJ = \begin{matrix}
+            0 & -i\\ -i & 0
+        \end{matrix}
+    \]
+    On définit alors $\mathbb{H} = \vect[\R]{1, I, J, K} \subset \mat{2}{\C}$\\
+
+    On définit de plus : 
+    \[
+        t(q) = \Tr(q), n(q) = \det q \text{ et } q^{\star} = \transpose{\bar{q}} = t(q)1 - q \in \H
+    \]
+\end{definition}
+
+\begin{proposition}
+    $\H$ est un corps gauche de centre $\R$.
+\end{proposition}
+
+\begin{proposition}[Cayley - Hamilton]
+    Par théorème de Cayley-Hamilton sur $\mat{2}{\C}$ : $q^{2}t(q)q + n(q)1 = 0$ ce qui ici vaut : 
+    \[qq^{\star} = q^{\star}q = n(q)1\]
+\end{proposition}
+
+
+\subsubsection{Le groupe $Sp(1)$}
+\begin{definition}
+    On pose $Sp(1) = \left\{q \in \H \mid n(q) = 1\right\}$. C'est un sous-groupe de $\H^{\times}$
+\end{definition}
+
+\begin{remark}
+    L'application : 
+    \[
+        \applic{\R^{4}}{\H}{\left(t, x, y, z\right)}{t + xI + yJ + zK}
+    \]
+    identifie la sphère unité euclidienne $S^{3}$ à $Sp(1)$, ce qui munit $S^{3}$ d'une loi de groupe non commutative par transfert de structure. On sait que $S^{1}$ et $S^{3}$ sont les deux seules sphères euclidiennes que l'on peut munir d'une loi de groupe topologique.
+\end{remark}
+
+\begin{remark}
+    $Sp(1)$ s'identifie à $\left\{\begin{matrix}\alpha & -\bar{\beta} \\ \beta & \bar{\alpha}\end{matrix}\mid \abs{\alpha}^{2} + \abs{\beta}^{2} = 1\right\}$ de $SL_{2}(\C)$.
+\end{remark}
+
+\begin{proposition}
+    Par décomposition polaire : $\H^{\times} = \R_{> 0} \times Sp(1)$
+\end{proposition}
+
+\begin{proposition}
+    L'élément $-1$ est l'unique élément d'ordre $2$ de $Sp(1)$
+\end{proposition}
+
+\begin{proposition}
+    Un élément $q \in Sp(1)$ est d'ordre $m > 2$ si et seulement si $t(q) = 2 \cos(2k / m)$ avec $k \in \Z$ et $k \wedge m = 1$
+\end{proposition}
+
+\subsubsection{L'espace euclidien $\H$}
+\begin{definition}
+    On définit sur $\H$ un produit scalair réel par $\scalar(q, q^{'}) = \frac{1}{2}t(q^{\star}q^{'})$
+\end{definition}
+
+\begin{proposition}
+    L'application $Sp(1) \times Sp(1) \to O(\H)$ qui à $\left(q_{1}, q_{2}\right) \mapsto L_{q_{1}}R_{q_{2}}$ est un morphisme d'image $SO(\H)$ et de noyau $\scalar{(-1, -1)} \simeq \znz{2}$ où $L_{q}$ désigne la translation à gauche par $q$ et $R_{q}$ la translation à droite. 
+\end{proposition}
+
+\begin{proposition}
+    L'application $Sp(1) \rightarrow SO(\H^{0})$, $q\mapsto \text{int}_{q_{\mid\H^{0}}}$ ou $\H^{0} = 1^{\perp} = \left\{q \in \H \mid t(q) = 0\right\}$.
+\end{proposition}
+
+
+
 \end{document}
+
+
 

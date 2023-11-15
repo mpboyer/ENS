@@ -577,7 +577,17 @@
 \end{theorem}
 
 \subsection{Intégrale de Riemann pour les fonctions de la variable réelle à valeurs dans un Banach}
-
+\begin{theorem}
+    Soit $X$ un Banach, $\left[a, b\right] \subset \R$. On note $\A(\left[a, b\right], X) \subset \cont\left(\left[a, b\right], X\right)$ l'ensemble des fonctions affines par morceaux. C'est un sev de $\cont(\left[a, b\right], X)$
+    Il existe une unique application liénaire continue $I : \cont(\left[a, b\right]) \rightarrow X$ telle que pour tout fonction $f \in \A(\left[a, b\right], X)$ affine par morceaux associée à une subdivision $a = a_{0} < \ldots < a_{n} = b$ et à des valeurs $f_{0}, \ldots, f_{n} \in X$ :
+    \[
+        I(f) = \sum_{i = 0}^{n - 1}(a_{i + 1} - a_{i})\frac{f_{i} + f_{i + 1}}{2}
+    \]
+    On note : $\int\limits_{a}^{b} = I(f)$. De plus pour tout $f \in \cont\left(\left[a, b\right], X\right)$ :
+    \[
+        \norm{\int_{a}^{b} f(t) \d t} \leq \int_{a}^{b}\norm{f(t)}\d t
+    \]
+\end{theorem}
 
 
 \end{document}
