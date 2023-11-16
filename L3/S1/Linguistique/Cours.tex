@@ -32,7 +32,7 @@
     \item Language (non-)variation : Universals, variation within parameters
     \item \textbf{Morphology}, language typology
     \item \textbf{Syntax I} constituent structure; selection and subcategorization
-    \item \textbf{Syntax II} subcategorization; X-bar theory
+    \item \textbf{Syntax II} subcategorization; X-overline theory
     \item \textbf{Semantics I} first look at meaning \textsl{Studied by Salvador}
     \item \textbf{Semantics II} philosophy of language and the case for methodological solipism.
     \item \textbf{Phonology} phonetic macro classes;
@@ -47,7 +47,7 @@ R.Descartes \textit{"Discourse on the Method"} : Humans, everyone of them, can s
 Insights :
 \begin{enumerate}
     \item It doesn't matter on general intelligence, social intelligence or any measure of your intellectual abilities. Happens despite any other difficulties.
-    \item \emph{To Our Knowledge} Not any other animal can do what we can do. Article from the \textit{NYT}, saying animals \textbf{can} speak, though it's embarassing. A Chasm \textit{appears} between humans and animals. Yet, it is continuous of what happens in the animal kingdom.
+    \item \emph{To Our Knowledge} Not any other animal can do what we can do. Article from the \textit{NYT}, saying animals \textbf{can} speak, though it's emoverlineassing. A Chasm \textit{appears} between humans and animals. Yet, it is continuous of what happens in the animal kingdom.
     \item Animals are not incapable of language because they can reproduce human language, or use signs to communicate. Studies on Non-Human primate vocalizations, 3-4 words, all alarm calls $\rightarrow$ Language is independent on organs and communication systems. Yet is it a panic reaction or a real communication. Cannot conclude on A.Is then...
 \end{enumerate}
 
@@ -536,7 +536,7 @@ In \textsl{The accident deprived him of his mobility}, we cannot regroup \textsl
 Passive sentences cause mayhem in syntax, so transformational grammar was created to derive transformation rules that would modify an hypothetical arrangement of the informations in the sentence into the arrangement that comes out of speaking. 
 
 \section{Inflection Phrases}
-Modern syntactic theories postulate the existence of Inflection Phrases (IP) instead of S phrase. This addresses the embarrassment of having a phrasal constituent without a head. The inflection (tense, mood, person/number), seen on the verb, is the head category of a sentence. Then, using $\overline{\text{I}}$ we can retrieve the information on the tense/modality by separating the verb from the inflection : 
+Modern syntactic theories postulate the existence of Inflection Phrases (IP) instead of S phrase. This addresses the emoverlinerassment of having a phrasal constituent without a head. The inflection (tense, mood, person/number), seen on the verb, is the head category of a sentence. Then, using $\overline{\text{I}}$ we can retrieve the information on the tense/modality by separating the verb from the inflection : 
 \begin{center}
     \Tree [.IP \qroof{John}.NP [.$\text{I}^{'}$ [.I \textsc{Past} ] [.VP [.V saw ] \qroof{Mary}.NP ] ] ] 
 \end{center}
@@ -716,6 +716,45 @@ And even then, what can we say about \textsl{tall} ? It cannot simply represent 
 More over, even for non-intersective adjectives, sometimes the argument is not made of morphemes : \textsl{Pat is an excellent carpenter} and \textsl{That carpenter is excellent}. Then, we may say that there is a placeholder of some sort filling the argument, which is resolved by contextuality. Same thing : \textsl{Last night there was an excellent politician and a pretty awful carpenter}, what is the carpenter \textsl{awful} at ? Eventually, there is some intersection between excellent and carpenter.
 
 
+\part{TA 7 : 15/11}
+\section{One Last Big Syntax Tree}
+We draw the tree for \textsl{The poor doctor thinks that the black cat walks quietly}. We start by mapping the words to their parts of speech. We assume the DP hypothesis and will use $\overline{\text{X}}$-trees. For example, \textsl{The poor doctor} and \textsl{The black cat} become : 
+\begin{center}
+    \Tree [.DP [.{$\overline{\text{D}}$} [.D The ] ] [.NP [.{$\overline{\text{N}}$} [.AP [.{$\overline{\text{A}}$} [.A poor ] ] ] [.{$\overline{\text{N}}$} [.N doctor ] ] ] ] ] and 
+    \Tree [.DP [.{$\overline{\text{D}}$} [.D The ] ] [.NP [.{$\overline{\text{N}}$} [.AP [.{$\overline{\text{A}}$} [.A black ] ] ] [.{$\overline{\text{N}}$} [.N cat ] ] ] ] ]
+\end{center}
+
+Then, we get for \textsl{the black cat walks quietly} :
+\begin{center}
+    \Tree [.IP \qroof{the black cat}.DP [.{$\overline{\text{I}}$} [.I {$\left[\text{present}\right] \emptyset$} ]  [.VP [.{$\overline{\text{V}}$} [.{$\overline{\text{V}}$} [.V walks ] ] [.AdvP [.{$\overline{\text{Adv}}$} [.Adv quietly ] ] ] ] ] ] ]
+\end{center}
+This shows why we need to use the $\overline{\cdot}$ structure, as it allows us to differentiate complements (that attach to the lowest $\overline{X}$, next to the head $X$), adjuncts (that attach to the other $\overline{X}$) and an eventual specifier that attaches directly to the $XP$. Then : 
+\begin{center}
+    \Tree [.VP [.{$\overline{\text{V}}$} [.V thinks ] [.CP [.$\overline{\text{C}}$ [.C that ] \qroof{the black cat walks quietly}.IP ] ] ] ]
+\end{center}
+Then, the global structure becomes : 
+\begin{center}
+    \Tree [.CP [.{$\overline{\text{C}}$} [.C {$\left[\text{decl}\right]\ \emptyset$} ] [.IP \qroof{The poor doctor}.DP [.{$\overline{\text{I}}$} [.I {$\left[\text{present}\right]\ \emptyset$} \qroof{thinks that the black cat walks quietly}.VP ] ] ] ] ]
+\end{center}
+
+Finally : 
+\begin{center}
+    \Tree [.CP [.{$\overline{\text{C}}$} [.C {$\left[\text{decl}\right] \emptyset$} ] [.IP [.DP [.{$\overline{\text{D}}$} [.D The ] ] [.NP [.{$\overline{\text{N}}$} [.AP [.{$\overline{\text{A}}$} [.A poor ] ] ] [.{$\overline{\text{N}}$} [.N doctor ] ] ] ] ] [.{$\overline{\text{I}}$} [.I {$\left[\text{present}\right]\ \emptyset$} [.IP \qroof{the black cat}.DP [.{$\overline{\text{I}}$} [.I {$\left[\text{present}\right] \emptyset$} ]  [.VP [.{$\overline{\text{V}}$} [.{$\overline{\text{V}}$} [.V walks ] ] [.AdvP [.{$\overline{\text{Adv}}$} [.Adv quietly ] ] ] ] ] ] ] ] ] ] ] ]
+\end{center}
+
+\section{Entailment}
+For sentences, we describe their entailment : 
+\begin{itemize}
+    \item $\textsl{John is a man} \vdash \textsl{John is a human}$ : This gives an idea on the way we understand words.
+    \item $\textsl{John blicketed Mary} \equiv \textsl{Mary was blicketed by John}$ : This is purely based on syntax.
+    \item $\textsl{Everybody left} \vdash \textsl{John left}$ : This is only true based on the contextual restriction of \textsl{Everybody} : it is true if and only if \textsl{John} is a member of the \textsl{Everybody} considered.
+    \item $\textsl{John read and Mary sang} \vdash \textsl{John read}$ and $\textsl{John read and Mary sang} \vdash \textsl{Mary sang}$ : This comes from the definition of the logical and.
+    \item $\textsl{John read} \vdash \textsl{John read or Mary sang}$ : This is always true.
+    \item $\textsl{All lemons are yellow and not all lemons are yellow} \vdash \textsl{Charles the Fifth is a horse}$ : A false statement implies any statement.
+    \item $\textsl{John killed Mary} \vdash \textsl{John caused Mary to die}$ : The reciprocal seems to not be always true. It depends on the way we interpret \textsl{killed}. Yet, it seems hard to find a counter-example : maybe thinking about a long enough causal chain : \textsl{Franz Ferdinand} caused all the deaths in WW1, but he didn't kill some random soldier. A way to visualise the difference would be to look at the scenari that come to mind when hearing these sentences. 
+    \item $\textsl{John did some of his homework} \nvdash \textsl{John did not do all of his homework}$ : \textsl{Some} implies a part of his homework, which can be the whole homework. Thus, the first sentence does not \emph{entail} the second. We then talk about \emph{implicatures}, which are away to think about pragmatic reasoning. This comes from the fact that people mostly want to be as precise as possible. They might disappear under \textsl{if}-\textsl{then} statements. 
+    \item $\textsl{The King of France is not bald} \nvdash \textsl{The King of France exists}$ : Again, this is not entailment, but the fact that the first sentence does not make sense if the second if false makes a \emph{presupposition} mandatory. Another example is \textsl{I stopped smoking} which implies that \textsl{I used to smoke}.
+\end{itemize}
 
 
 

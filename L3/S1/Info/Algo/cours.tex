@@ -1350,4 +1350,358 @@ We can generalise this to any $m$ strings in time $\O(n)$ where $n = \sum_{k = 1
     where $L$ is answer.
     What is the optimal trade-off.
 \end{openpb}
+
+\part[Disjoint-Set Structure]{Lecture 6 : 23/11}
+
+OUIIIIIIIIIIIIIII UNIOOOOOOOOOON-FIIIIIIIIIIIIIIND
+
+\part[DFS-Matroids-MST]{Lecture 7 : 16/11}  % By Pierre Aboulpierre
+\section{Definitions}
+All along the course : 
+\begin{definition}
+    \begin{itemize}
+        \item $n$ is the number of vertices
+        \item $m$ is the number of edges
+        \item An algorithm in $\O(n + m)$ is said to be linear
+        \item $K_{n}$ is the complete graph on $n$ vertices
+        \item $G = \left(U, V, E\right)$ is a bipartite graph means $U$ and $V$ is the partition.
+        \item $K_{a, b}$ denotes the complete bipartite graph with parts of size $a$ and $b$.
+        \item $H$ is a subgraph of $G$ if $H$ can be obtained from $G$ by deleting vertices and edges.
+        \item $H$ is a induced subgraph of $G$ if $H$ can be obtained from $G$ by deleting vertices.
+        \item $H$ is a subdivision of $G$ if $H$ can be obtained  from $G$ by subdividing some edges.
+        \item $H$ is a minor of $G$ if $H$ can be obtained from $G$ by deleting vertices, edges and contracting edges.
+        \item A sink is a vertex of outdegree 0
+    \end{itemize}
+\end{definition}
+\begin{table*}
+    \caption{Some Graph Parameters}
+    \begin{tabular*}{cc}
+        $\delta(G)$ & minimum degree \\
+        $\Delta(G)$ & maximum degree\\
+        $\omega(G)$ & clique number\\
+        $\alpha(G)$ & size of a maximum independent set\\
+        $\chi(G)$ & chromatic number\\
+        $\tau(G)$ & vertex cover\\
+        $\kappa(G)$ & vertex connectivity\\
+        $\lambda(G)$ & edge connectivit\\
+        $\mu(G)$ & size of a maximum matching\\
+        Girth & length of a shortest cycle \\
+    \end{tabular*}
+\end{table*}
+
+
+\begin{definition}[Generic Graph Search]
+    The problem is to visit the vertices following the edges of the graph. A search also outputs a search tree, and an ordering on the vertices.
+\end{definition}
+
+\section{BFS, DFS and Graph Encoding}
+    \subsection{The Algorithms}
+        Nan mais flemme à un moment.\\
+
+    \subsection{Properties}
+        \begin{definition}
+            We will denote by $v.d$ the time at which a vertex is discovered, and $v.f$ the time at which a vertex is finished, i.e. all of its neighbour are discovered.
+        \end{definition}
+        \begin{theorem}[Parenthesis Theorem]
+            In any DFS of a graph, for any two vertices $u$ and $v$ either : 
+            \begin{itemize}
+                \item $\left[u.d, u.f\right]\cap \left[v.d, v.f\right] = \emptyset$ and $u$ is not a descendant nor an ancestor of $v$.
+                \item $\left[u.d, u.f\right] \subset \left[v.d, v.f\right]$ and $u$ is a descendant of $v$
+                \item $\left[v.d, v.f\right] \subset \left[u.d, u.f\right]$ and $v$ is a descendant of $u$
+            \end{itemize}
+        \end{theorem}
+
+        \begin{corollary}
+            A vertex $v$ is a descendant of $u$ in the DFS forest if and only if $u.d < v.d < v.f < u.f$.
+        \end{corollary}
+
+        \begin{theorem}[White-path Theorem]
+            In a DFS forest of a digraph, a vertex $v$ is a descendant of a vertex $u$ if and only if at time $u.d$, there is a $(u, v)$-path made of undiscovered vertices.
+        \end{theorem}
+
+        \begin{definition}
+            We define arc types in terms of the DFS forest $G_{\pi}$ :
+            \begin{itemize}
+                \item Tree arcs are arcs of $G_{\pi}$
+                \item Forward arcs are arcs $uv$ such that $u$ in an ancestor of $v$
+                \item Back arcs are arcs $uv$ such that $u$ is a descendant of $v$
+                \item Cross arc are arcs $uv$ such that $u$ is not an ancestor of $v$ and $v$ is not an ancestor of $u$.
+            \end{itemize}
+        \end{definition}
+
+        \begin{proposition}
+            A digraph has a directed cycle if and only (any) DFS produces a back arc.
+        \end{proposition}
+    
+        \subsection{Topological Sort}
+        \begin{definition}
+            A topological ordering of the vertices of a digraph is a labeling $f$ such that $uv \in E only if f(u) < f(v)$.
+        \end{definition}
+
+        \begin{theorem}
+            $G$ has a topological ordering if and only if it is a DAG.
+        \end{theorem}
+
+        \begin{theorem}
+            The problem of finding a topological is solved in linear time using a DFS.
+        \end{theorem}
+
+        \begin{lemma}
+            A digraph is acyclic if and only if a DFS of the graph yields no back edges.
+        \end{lemma}
+
+        \subsection{Strongly Connected Components}
+        \begin{definition}
+            A strong connected component (scc) of a directed graph $G$ is a maximum set of vertices such that every pair of vertices as a directed path from the first to the second and from the second to the first. \\ We define $G^{SCC}$ the quotient graph for $u \mathcal{R} v \Leftrightarrow u \leadsto v \wedge v \leadsto u$.
+        \end{definition}
+        
+        \begin{proposition}
+            $G^{SCC}$ is a DAG.
+        \end{proposition}
+
+        \begin{lemma}
+            Let $C$, $C^{'}$ be two scc of a digraph. Let $u, v \in C$ and $u^{'}, v^{'} \in C^{'}$. If $u \leads to u^{'}$ then there is no path from $v^{'}$ to $v$.
+        \end{lemma}
+
+        \begin{definition}
+            We extend the discovery and finishing times to sets of vertices : 
+            \begin{itemize}
+                \item $d(S) = \min \left\{u.d \mid u \in S\right\}$
+                \item $f(S) = \max \left\{u.f \mid u \in S \right\}$
+            \end{itemize}
+        \end{definition}
+
+        \begin{lemma}
+            Let $C$ and $C^{'}$ be two scc and let $u \in C$, $v \in C^{'}$ such that $uv \in E$. Then $f(C) > f(C^{'})$.
+        \end{lemma}
+
+        \begin{definition}
+            We define $G^{R} = \left(V, E^{R}\right)$ where $E^{R} = \left\{uv \mid vu \in E\right\}$.
+        \end{definition}
+
+        \begin{proposition}
+            $G^{R}$ has the same scc as $G$
+        \end{proposition}
+
+        \begin{algorithm}
+            \Caption{Kosaraju's Two Pass Algorithm}
+            \begin{algorithmic}
+                \State Call $\texttt{DFS}(G$) 
+                \State Compute $G^{R}$
+                \State Call $\texttt{DFS}(G^{R})$ considering vertices in order of decreasing $u.f$
+                \Return Output the vertices of each tree in the DFS forest computed by $\texttt{DFS}(G^{R})$
+            \end{algorithmic}
+        \end{algorithm}
+
+        \begin{theorem}
+            Kosaraju's two pass algorithm computes the scc in linear-time.   
+        \end{theorem}
+        
+
+        \section{Minimum Weighted Spanning Tree - MWST}
+        \subsection{Trees}
+        \begin{definition}
+            A tree is a connected acyclic graph. A forest is an acyclic graph. A leaf of a tree is a vertex of degree $1$.
+        \end{definition}
+
+        \begin{proposition}
+            \begin{itemize}
+                \item Every tree contains at least two leaves
+                \item Every tree $T$ satifies : $\abs{E(T)} = \abs{V(T)} - 1$.
+                \item Every subgraph of a tree is a forest.
+            \end{itemize}
+        \end{proposition}
+
+        \begin{proposition}
+            Let $G = (V, E)$ be a graph. The following are equivalent : 
+            \begin{itemize}
+                \item $G$ is a tree
+                \item Any two vertices in $G$ are linked by a unique path
+                \item $G$ is connected and $\abs{E} = \abs{V} - 1$
+                \item $G$ is acyclic and $\abs{E} = \abs{V} - 1$
+                \item $G$ is connected but for every edge $uv$, $G - \{uv\}$ has exactly two connected components, one containg $u$ and the other $v$.
+                \item $G$ is acyclic but if any edge is added to $G$, the resulting graph contains a unique cycle going through this added edge.
+            \end{itemize}
+        \end{proposition}
+
+        \begin{definition}
+            $\omega : E \to \R$ is called a weight function. A spanning tree is a subgraph of $G$ that is a tree and contains all vertices of $G$. The weight of a subgraph is the sum of the weights of its edges.
+        \end{definition}
+
+
+        \begin{proposition}[Cut and Paste Technic]
+            Let $G = (V, E)$ and let $T$ be a spanning tree of $G$. Let $uv \in E(G) - T$ and let $T_{uv}$ be the unique path linking $u$ and $v$ in $T$. Then for every edge $xy$ of $T_{uv}$ $T\setminus \{xy\} \cup \{uv\}$ is a spanning tree of $T$. 
+        \end{proposition}
+        \begin{proof}
+            Since $T_{uv}$ is in the unique path of $T$ linking $u$ and $v$, removing any edge $xy \in T_{uv}$ from $T$ breaks $T$ into two connected components, one containing $u$ and the other $v$. Adding $uv$ reconnects the two parts and form a new spanning tree $T \setminus \{xy\} \cup \{uv\}$.
+        \end{proof}
+
+        \begin{theorem}
+            Let $G = \left(V, E, \omega\right)$. A spanning tree $T$ of $G$ is a minimum spanning tree if and only if for every edge $e \in E \setminus T$ :
+            \[
+                \omega(e) \geq \omega(f) \forall f \in \text{ the unique cycle of } T \cup \{e\}
+            \]
+        \end{theorem}
+
+        \begin{definition}
+            A set of edges $A$ is said to be promising if it can be completed into a minimum spanning tree. At each step, we determine an edge $uv$ that we can add to $A$ without violating this invariant, that is $A \cup \{uv\}$ is still a promising set.
+            Such an edge $uv$ is said to be safe with respect to $A$.
+        \end{definition}
+
+        The algorithm works as follows : We start with an empty set, and while our set is not a spanning tree, we find a safe edge and add it to the set.
+        How to find safe edges ? 
+
+        \begin{definition}
+            A cut $\left(S, V - S\right)$ is a partition of $V$. An edge of the cut or crossing edge is an edge with one end in $S$ and the other in $V - S$. A cut respects a set of edges if no edge of the set is a crossing edge of the cut.
+        \end{definition}
+
+        \begin{proposition}
+            Let $A$ be a promising set of edges. Let $\left(S, V - S\right)$ be a cut respecting $A$ and $uv$ be a lightest crossing edge. Then $uv$ is safe.
+        \end{proposition}
+        \begin{proof}
+            Let $T$ be a MST containing $A$. If $T$ contains $uv$ we are done, so assume it does not. Let $T_{uv}$ be the unique path linking $u$ and $v$ in $T$. Since $uv$ is a crossing edge of $(S, V - S)$, $T_{uv}$ contains an edge $xy$ of $(S, V - S)$. By the cut and paste technique, $T^{'} = (T \setminus \{xy\} ) \cup \{uv\}$ is a spanning tree of $G$. By hypothesis, $uv$ is a lightest edge of $(S, V - S)$, so $\omega(uv) \leq \omega(xy)$ and thus: \[\omega(T^{'}) = \omega(T) + \omega(uv) - \omega(xy) \leq \omega(T)\]
+            So $T^{'}$ is a MST containing $uv$ 
+        \end{proof}
+
+        \subsection{KRUSKAAAAAAAAL}
+        Kruskal algorithm grows a promising forest $A$ : 
+        \begin{itemize}
+            \item Sort the edges by non-decreasing order of weight
+            \item Start with the empty set
+            \item Add a minimum weighted edge that does not create a cycle which is equivalent to add a minimum weighted edge that connects two connected components of the growing forest.
+        \end{itemize}
+
+        \begin{algorithm}
+            \caption{Kruskal}
+            \begin{algorithm}
+                \Input \ \ $G = \left(V, E, \omega\right)$
+                \EndInput
+                \State $A \gets \emptyset$
+                \For {$u \in V$} 
+                    \State $\texttt{Make-Set}(u)$
+                \EndFor
+                \State $\texttt{Sort}(E)$ \Comment{Sort by non-decreasing order of weight}
+                \For {$uv \in E$}
+                    \If {$\texttt{Find}(u) \neq \texttt{Find}(v)$} 
+                        \State $A \gets A \cup \{uv\}$
+                        \State $\texttt{Union}(u, v)$
+                    \EndIf
+                \EndFor
+                \Return \ \ A
+            \end{algorithm}
+        \end{algorithm}
+
+        \begin{theorem}
+            The Kruskal algorithm answers the problem in $\O(m \log(n))$ time
+        \end{theorem}
+
+        \begin{proof}
+            \begin{itemize}
+                \item Complexity : from union-find, we do $\O(m)$ \texttt{Find-Set} and $\O(n)$ \texttt{Union} and \texttt{Make-Set} in $\O(m + n)\alpha(n)^{4}$. As we do one sort, the total complexity is $\O(m\log(n))$.
+                \item Correctness : Comes from the safe property, by considering the loop invariant : Prior to each iteration, $A$ is promising. 
+            \end{itemize}
+        \end{proof}
+
+        \subsection{Prim}
+        This algorithm works like Kruskal's, but instead of growing a forest, we grow a tree $A$. At each iteration, we add the lightest edge with exactly one extremity in $V(A)$.
+        \begin{definition}
+            A Priority Queue is a data structure that maintains a set $S$ of elements, each with an associated value called a key. TIt supports the following : 
+            \begin{itemize}
+                \item $\texttt{Insert}(S, x)$
+                \item $\texttt{Minimum}(S)$
+                \item $\texttt{Extract-Min}(S)$
+                \item $\texttt{Decrease-Key}(S, x, k)$ does $x.key \gets k$.
+            \end{itemize}
+        \end{definition}
+        \begin{remark}
+            This is for a min-queue, we can also do a max-queue.
+        \end{remark}
+
+        We implement priority queues using a heap.
+        \begin{definition}
+            A max-heap is a complete binary tree where the key of a node is larger than the keys of its children. It can be implemented in an array : $\texttt{Parent}(i) = \lfloor \frac{i}{2}\rfloor, \texttt{Left}(i) = 2 i + 1, \texttt{Right}(i) = 2i + 2$. It supports the same operations as a max-queue.
+        \end{definition}
+
+        \begin{theorem}
+            Using a binary heap, insertion is done in $\log N$, max-retrieval is done in constant time and max-deletion is done in $\log N$.
+        \end{theorem}
+        \begin{proof}
+            See implementation.
+        \end{proof}
+
+        \begin{algorithm}
+            \Caption{PRIM}
+            \begin{algorithmic}
+                \Input \ $G = \left(V, E, \omega\right), r$
+                \EndInput
+                \For {$v \in V$} 
+                    \State $v.\pi \gets \texttt{NIL}$ and $v.key \gets + \infty$
+                \EndFor
+                \State $r.key \gets 0$
+                \State $Q \gets V$
+                \While {$Q \neq \emtpyset$}
+                    \State $u \gets \texttt{Extract-Min}(Q)$
+                    \For $v \in \texttt{Adj}[u]$ 
+                        \If $v \in Q \wedge v.key > \omega(uv)$
+                            \State $v.key \gets \omega(uv)$
+                            \State $v.\pi \gets u$
+                        \EndIf
+                    \EndFor
+                \EndWhile
+            \end{algorithmic}
+        \end{algorithm}
+
+        \begin{theorem}
+            This algorithm solves the problem in $\O(m + n\log n)$.
+        \end{theorem}
+
+        \begin{proof}
+            \begin{itemize}
+                \item Correctness comes from the safe property
+                \item Complexity is in $\O(m\log n)$ with a min-heap and $\O(m + n\log n)$ with a Fibonacci Heap
+            \end{itemize}
+        \end{proof}
+
+        \section{Matroids and Greedy Algorithms}
+        \subsection{Definitions}
+        \begin{definition}
+            Let $E$ be a set of elements and $\mathcal{I} \subseteq 2^{E}$. $\left(E, \mathcal{I}\right)$ is a hereditary set system if it satisfies
+            \begin{itemize}
+                \item M1 : $\emptyset \in \mathcal{I}$
+                \item M2 : If $X \subeteq Y \in \mathcal{I}$, $X \in \mathcal{I}$.
+            \end{itemize}
+            \begin{itemize}
+                \item $E$ is called the ground set.
+                \item Sets in $\mathcal{I}$ are called independent sets.
+                \item Maximal independent sets are called bases.
+                \item For $X \subseteq E$, the rank of $X$ denoted by $rk(X)$ is the size of a maximum independent set included in $X$.
+                \item Sets not in $\mathcal{I}$ are called dependent sets.
+                \item Minimal dependent sets are called circuit.
+            \end{itemize}
+        \end{definition}
+
+        Given a positive weight function, we want to find a maximum independent set such that its weight is maximum.
+
+        \begin{example}
+            \begin{itemize}
+                \item MST : $\mathcal{I} = \left\{I \subseteq E \mid I \text{ is a forest } \right\}$
+                \item TSP, SPP, Maximum Matching Problem, Maximum Stable Set, Knapsack are also of the sort.
+            \end{itemize}
+        \end{example}
+
+        \begin{theorem}[Rado - Edmonds]
+            The greedy algorithm for this problem is optimal for any weight function if and only if $\left(E, \mathcal{I}\right)$ is a matroid.
+        \end{theorem}
+
+        \begin{definition}
+            A matroid is a hereditary set system $E, \mathcal{I}$ such that : if $X, Y \in \mathcal{I}$ and $\abs{X} > \abs{Y}$, there is $x \in X \setminus Y$ such that $Y \cup \{x\} \in \mathcal{I}$
+        \end{definition}
+
+
+
+
+
+
+
 \end{document}
+
