@@ -40,7 +40,7 @@
 \title{None}
 
 
-\AtBeginDocument{\def\labelitemi{$\bullet$}}
+% \AtBeginDocument{\def\labelitemi{$\bullet$}}
 \AfterBeginDocument{
     \maketitle
     \begin{center}

@@ -7,7 +7,7 @@
 \date{\today}
 
 \begin{document}
-\part{Cours 1 28/09}
+\part[Langages Réguliers]{Cours 1 28/09}
 \section{Langages, Automates, RegExp, Monoïdes finis}
 \begin{definition}
     On appelle \emph{alphabet} un ensemble fini $\Sigma$ de lettres. \\
@@ -79,7 +79,7 @@
     \end{itemize}
 \end{proof}
 
-\part{Cours 2 - 5/10}
+\part[Quotients et Automates Minimaux]{Cours 2 - 5/10}
 
 \section{Lemme de Pompage}
 \begin{theorem}[Lemme de Pompage/Lemme de l'Etoile]
@@ -135,7 +135,7 @@
     La relation $q, q'$ sont distingables est une relation d'équivalence. 
 \end{proposition}
 
-\part{Cours 3 - 12/10}
+\part[Logique Monadique]{Cours 3 - 12/10}
 \section{Langages et Logique}
 \subsection{Objectif}
 On associe à $w \in \Sigma^{*}$ une structure $D_{w}$ et à $L \subseteq \Sigma^{*}$ une structure $\phi_{L}$ telles que : $w \in L\setminus \left\{\epsilon\right\} \Leftrightarrow D_{w} \vdash \phi_{L}$. On se place dans le cadre de la logique du premier ordre et de la monadique du second ordre.\\
@@ -220,7 +220,7 @@ Ainsi, on peut en déduire une méthode pour reconnaître le langage d'un automa
     \end{itemize}
 \end{proof}
 
-\part{Cours 4 : 26/10}
+\part[Langages Algébriques]{Cours 4 : 26/10}
 On a déjà vu le type 3 de la hiérarchie de Chomsky : les langages réguliers. On passe aux langages algébriques, ou hors-contexte, définis par des grammaires hors-contextes.
 
 \section{Limites des Langages Réguliers}
@@ -384,5 +384,132 @@ Pour les langages de Dyck, on peut les reconnaître par :
     
     Une grammaire est dite ambigue lorsqu'il existe un mot qui possède au moins deux arbres de dérivation syntaxique possible. Un langage est innéramment ambigu si toute grammaire qui le reconnaît est ambigu. 
 \end{definition}
+
+\part[Automates à Pile]{Cours 5 : 9/11}
+
+
+
+\part[Machines de Turing]{Cours 6 : 16/11}
+\section{Définitions}
+\subsection{Décision}
+\begin{definition}[Problèmes de Décision]
+    Un problème de décision est un langage $L \subseteq \Sigma^{\star}$ sur l'alphabet $\Sigma$.
+\end{definition}
+\begin{example} 
+    On écrit un problème sous cette forme : 
+    \begin{itemize}
+        \item Entrée : Un graphe non orienté $G$
+        \item Sortie : Vrai ssi $G$ est $3$-coloriable
+    \end{itemize}
+    Passer d'une forme à l'autre est un problème d'encodage.
+\end{example}
+
+\subsection{Machine de Turing Déterministe à une Bande}
+Prenons $L = \left\{w \# w \mid w \in \left\{0, 1\right\}^{\star}\right\}$. Une machine de Turing contient une mémoire, qu'on représente par une bande, et une tête de lecture et d'écriture, qui peut accéder à une case, et la remplir ou d'une lettre, ou d'un blanc. Ici, par exemple, on peut lire le premier caractère à gauche, s'en souvenir, l'effacer, lire le premier caractère à droite, le comparer au caractère lu à gauche, s'arrêter si c'est différent, l'effacer et continuer sinon...
+
+\begin{definition}[Machine de Turing]
+    Une machine de Turing est un uplet $\left(Q, \Sigma, \Sigma \subseteq \Gamma, \delta, q_{0}, q_{accept}, q_{reject}\right)$ où :
+    \begin{itemize}
+        \item $Q$ est un ensemble d'états
+        \item $\Sigma$ est un alphabet
+        \item $\Gamma$ est un alphabet (caractères sur la bande)
+        \item $\delta : Q \times \Gamma \rightarrow Q \times \Gamma \times \left\{\leftarrow, \rightarrow\right\}$ est une fonction de transition.
+        \item $\textvisiblespace \in \Gamma \setminus \Sigma$ est un symbole blanc.
+    \end{itemize}
+
+    Une configuration $w_{1}qw_{2}$ où $w_{1}, w_{2} \in \Gamma^{\star}$, $q\in Q$. 
+\end{definition}
+
+\begin{definition}
+    La configuration initiale est $q_{0}w$. Une configuration acceptante est $w_{1}q_{accept}w_{2}$ et une configuration rejetante est $w_{1}q_{reject}w_{2}$.\\
+    Si on est dans une configuration $w_{1}aqbw_{2}$, on utilise donc la transition $\delta(q, b) = q^{'}, b^{'} \leftarrow$, et on atterit dans la configuration $w_{1}q^{'}ab^{'}w_{2}$. On note cela $w_{1}aqbw_{2} \vdash w_{1}q^{'}qb^{'}w_{2}$.
+\end{definition}
+
+\begin{definition}
+    $\mL(T) = \left\{w \in \Sigma^{*}a\mid \exists C_{accept}, q_{0}w \vdash^{*} C_{accept}\right\}$
+\end{definition}
+
+\begin{remark}
+    Si à un moment, il n'y a plus de transition possible, cela revient à rejeter le résultat.
+\end{remark}
+
+\begin{definition}
+    Soit $M$ une machine de Turing, on dit que : $M$ décide $L$ si :
+    \begin{itemize}
+        \item Tout calcul est fini
+        \item $\mL(M) = L$
+    \end{itemize}
+    $M$ reconnaît $L$ si $\mL(M) = L$.\\
+    $L$ est décidable (récursivement énumérable) s'il existe une TM qui décide (reconnaît) $L$.
+\end{definition}
+
+\subsection{Extensions}
+On peut avoir plusieurs bandes, mais cela n'apporte pas d'expressivité.
+
+\begin{definition}[Machines de Turing non-déterministes]
+    C'est une machine de Turing pour laquelle $\delta : Q \times \Gamma \rightarrow 2^{Q} \times \Gamma \times \left\{\leftarrow, \rightarrow\right\}$
+\end{definition}
+
+\begin{proposition}
+    Le non-déterminisme n'apporte pas d'expressivité.
+\end{proposition}
+\begin{proof}
+    On fait un BFS sur l'arbre des calculs possibles, sur une TM avec 3 bandes.
+\end{proof}
+
+
+\subsection{Machine de Turing Universelle}
+\begin{definition}[Machine de Turing Universelle]
+    Une TM universelle est une machine qui permet de simuler, étant donné un encodage, une machine de Turing.    
+\end{definition}
+
+On peut par exemple encoder une TM $(Q, \Sigma, \Gamma, \delta, q_{0}, q_{accept}, q_{reject})$ et un encodage $\scalar{w}$ d'un input sur une bande par le code :
+\[
+    \abs{Q}_{binaire} \# \abs{\Sigma} \# \ldots \# \abs{\Gamma} \# a, q, a^{'}, q^{'}, \rightarrow, \#, \ldots, \scalar{w}
+\]
+On se donne ensuite une seconde bande sur laquelle on va effectuer les calculs.
+
+
+\section{Limites - 1ère Partie}
+\subsection{indécidabilité}
+En réalité, tous les langages ne sont pas décidables : 
+\begin{proposition}
+    Le langage $A_{TM} = \left\{\scalar{M}, \scalar{w} \mid M \text{ accepte } w\right\}$ n'est pas décidable.
+\end{proposition}
+
+\begin{proof}
+    S'il était décidable, soit $D$ une TM qui décide $A_{TM}$. Soit $D^{'}(\scalar{M})$ telle que si $D(\scalar{M}, \scalar{M})$ accepte, $D^{'}$ rejette et si $D(\scalar{M},\scalar{M})$ rejette, $D^{'}$ accepte. Alors, $D^{'}(\scalar{D^{'}})$ accepte si et seulement si il rejette. Contradiction.
+\end{proof}
+
+\begin{proposition}
+    Le problème de l'arrêt $H_{TM} = \left\{\scalar{M}\mid M \text{ s'arrête sur le mot vide}\right\}$ est indécidable. 
+\end{proposition}
+
+\subsection{Propriétés de Langages}
+\begin{definition}
+    Une propriété de langage est un ensemble $\mathcal{P}$ de codes de machine de Turing, tq $\forall M_{1}, M_{2}$, $\scalar{M_{1}} \in \mathcal{P} \wedge \mL(M_{1}) = \mL(M_{2}) \Leftrightarrow \scalar{M_{2}} \in \mathcal{P}$. \\
+    Une propriété est non triviale si : $\exists M_{1}, \ \scalar{M_{1}} \notin \mathcal{P}$ et $\exists M_{2}, \ \scalar{M_{2}}$.
+\end{definition}
+
+\begin{theorem}[Rice]
+    Toute propriété de langage non triviale est indécidable.
+\end{theorem}
+
+\begin{proof}
+    Cf plus tard    
+\end{proof}
+
+\begin{proposition}[Réduction de Turing]
+    Supposons que $A$ décide $L$. Pour décider $L^{'}$, on construit $B$ utilisant $A$ comme sous-outil. Alors :
+    \begin{itemize}
+        \item Si $L$ est décidable, $L^{'}$ est décidable
+        \item Si $L^{'}$ est indécidable, $L$ est indécidable
+    \end{itemize}
+    On a construit : $f : \Sigma_{L} \rightarrow \Sigma_{L^{'}}$ telle que $w\in L \Leftrightarrow f(w) \in L^{'}$.
+\end{proposition}
+
+
+
+
 
 \end{document}

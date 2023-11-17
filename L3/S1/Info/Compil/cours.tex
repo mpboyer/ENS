@@ -360,7 +360,7 @@ Le fonctionnement de l'analyseur lexical est différent de la simple reconnaissa
 \begin{itemize}
     \item Il faut décomposer un mot (le source) en une suite de mots reconnus
     \item Il peut y avoir des ambiguïtés
-    \item Il faut construire les lex`emes (les états finaux contiennent des actions)
+    \item Il faut construire les lexèmes (les états finaux contiennent des actions)
 \end{itemize}
 
 \paragraph*{Ambiguïtés}
@@ -972,7 +972,7 @@ try
     let t = Typing.program p in
     ...
 with Error (loc, msg) ->
-    Format.eprintf "File ’%s’, line ...\n" file loc;
+    Format.eprintf "File '%s', line ...\n" file loc;
     Format.eprintf "error: %s@." msg;
     exit 1
 \end{minted}
@@ -1278,5 +1278,656 @@ Ceci permet une solution très simple pour contourner le problème, c'est une re
 
 Toutefois, dans ce cas là, après une première unification, on fixe le type. La solution est alors d'$\eta$-expanser pour faire apparaître une fonction, i.e. une valeur. En présence d'un système de modules, la réalité est encore plus complexe.
 
+
+\part[Mode de Passage des Paramètres]{Cours 7 : 17/11}
+\section{Stratégie d'évaluation et passage des paramètres}
+\subsection{Evaluation}
+\begin{definition}
+    Dans la déclaration d'une fonction \texttt{function f(x1, \dots, xn) = \dots}, les variables \texttt{x1, \dots, xn} dont appelées paramètres formels de \texttt{f}. Dans l'appel de cette fonction \texttt{f(e1, \dots, en)}, les expressions \texttt{e1, \dots, en} sont les paramètres effectifs de \texttt{f}.
+\end{definition}
+
+\begin{definition}
+    Dans un langage comprenant des modifications en place, une affectation \texttt{e1 := e2} modifie un emplacement mémoire désigné par l'expression \texttt{e1}. Celle-ci est limitée à certaines constructions, on parle de valeur gauche pour désigner les expressions légales à gauche d'une affectation.
+\end{definition}
+
+\begin{definition}
+    La stratégie d'évaluation d'un langage spécifie l'ordre dans lequel les calculs sont effectués. On peut la définir à l'aide d'une sémantique formelle (cf cours 2). Le compilateur se doit de respecter la stratégie d'évaluation. \\
+    On distingue : 
+    \begin{itemize}
+        \item L'évaluation stricte : les opérandes/paramètres effectifs sont évalués avant l'opération/l'appel, par exemple en C, C++, Python, Java, OCamL
+        \item L'évaluation paresseuse : les opérandes/paramètres effectifs ne sont que si nécessaire, par exemple en Haskell, Clojure ou pour les connectives logiques. 
+    \end{itemize}
+\end{definition}
+
+\begin{itemize}
+    \item Un langage impératif adopte systématiquement une évaluation stricte, pour garantir une séquentialité des effets de bord qui coïncide avec le texte source. On fait souvent exception des connectives logiques. La non-terminaison est également un effet. 
+    \item Un langage purement applicatif, c'est-à-dire sans effets de bord, peut en revanche adopter la stratégie d'évaluation de son choix, car une expression aura toujours la même valeur. On parle de transparence référentielle.
+\end{itemize}
+
+
+\subsection{Passage des Paramètres}
+La sémantique précise également le mode de passage des paramètres lors d'un appel. On distingue : 
+\begin{itemize}
+    \item L'appel par valeur : de nouvelles variables représentant les paramètres formels reçoivent les valeurs des paramètres effectifs.
+    \begin{minted}{ocaml}
+        let f(x) =
+            x := x + 1
+        
+        main() =
+            let v = 41
+            f(v)
+            print(v) (*affiche 41*)
+    \end{minted}
+
+    \item L'appel par référence : les paramètres formels désignent les mêmes valeurs gauches que les paramètres effectifs
+    \begin{minted}{ocaml}
+        let f(x) =
+            x := x + 1
+        
+        main() =
+            let v = 41
+            f(v)
+            print(v) (*affiche 42*)
+    \end{minted}
+    \item L'appel par nom : les paramètres effectifs sont substitués aux paramètres formels, et donc évalués seulement si nécessaire
+    \begin{minted}{ocaml}
+        let f(x, y, z) =
+            x*x + y*y
+        
+        main() =
+            int v := 41
+            f(v)
+            print(v) (*affiche 41*)
+    \end{minted}
+    \item L'appel par nécessité : les paramètres effectifs ne sont évalués que si nécessaire, mais au plus une fois
+\end{itemize}
+
+
+\subsection{Exemples}
+\subsubsection{Le Langage C}
+Le langage C est un langage impératif relativement bas niveau, notamment parce que la notion de pointeur, et d'arithmétique de pointeur, y est explicite.
+On peut le considérer inversement comme un assembleur de haut niveau.
+
+Le langage C est muni d'une stratégie d'évaluation stricte avec appel par valeur. L'ordre d'évaluation n'est pas spécifié.
+
+On trouve en C :  
+\begin{itemize}
+    \item Des types de base tels que \texttt{char, int, bool, float}...
+    \item Un type $\tau*$ des pointeurs vers des valeurs de type $\tau$. Si $p$ est un pointeur de type $\tau*$, alors $*p$ désigne la valeur pointée par $p$, de type $\tau$. Si $e$ est une valeur gauche de type $\tau$, alors $\&e$ est un pointeur sur l'emplacement mémoire correspondant de type $\tau*$.
+    \item Des enregistrements appelés structures.
+\end{itemize}
+
+En C une valeur gauche est de la forme : 
+\begin{itemize}
+    \item \texttt{x}, une variable
+    \item \texttt{*e}, le déréférencement d'un pointeur
+    \item \texttt{e.x} l'accès à un champ de structure si \texttt{e} est elle-même une valeur gauche
+    \item \texttt{t[e]} qui est en réalité \texttt{*(t+e)}
+    \item \texttt{e -> x} qui n'est autre que \texttt{(*e).x}
+\end{itemize}
+
+L'appel par valeur implique que les structures sont copiées lorsqu'elles sont passées en paramètres ou renvoyées.
+Les structures sont également copiées lors des affectations de structures, i.e. des affectations de la forme \texttt{x = y}, où \texttt{x} et \texttt{y} ont le type \texttt{struct S} :
+\begin{minted}{c}
+    struct S { int a; int b; };
+    
+    void f(struct S x) {
+        x.b = x.b + 1;
+    }
+    
+    int main() {
+        struct S v = { 1, 2 };
+        f(v);
+        // v.b vaut toujours 2
+    }
+\end{minted}
+
+On peut simuler un pasage par référence en passant un pointeur explicite : 
+
+\begin{minted}{c}
+    void incr(int *x) {
+        *x = *x + 1;
+    }
+
+    int main() {
+        int v = 41;
+        incr(&v);
+        // v vaut maintenant 42
+    }
+\end{minted}
+Mais ce n'est que le passage d'un pointeur par valeur.
+
+Pour éviter le coût des copies, on passe des pointeurs sur les structures le plus souvent.
+\begin{minted}{c}
+    struct S { int a; int b; };
+
+    void f(struct S *x) {
+        x->b = x->b + 1;
+    }
+
+    int main() {
+        struct S v = { 1, 2 };
+        f(&v);
+        // v.b vaut maintenant 3
+    }
+\end{minted}
+
+La manipulation explicite de pointeurs peut être dangereuse : 
+\begin{minted}{c}
+int* p() {
+    int x;
+    ...
+    return &x;
+}
+\end{minted}
+
+Cette fonction renvoie un pointeur qui correspond à un emplacement sur la pile qui vient justement de disparaître (à savoir le tableau d'activation de p), et qui sera très probablement réutilisé rapidement par un autre tableau d'activation.
+On parle de référence fantôme (dangling reference).
+
+On peut déclarer un tableau ainsi : \texttt{int t[10];}. La notation \texttt{t[i]} n'est que du sucre syntaxique pour \texttt{*(t+i)} où \texttt{t} désigne un pointeur sur le début d'une zone contenant 10 entiers et \texttt{+} désigne une opération d'arithmétique de pointeur. Le premier élément du tableau est donc \texttt{t[0]} i.e. \texttt{*t}. Quand on passe un tableau en paramètre, on ne fait que passer le pointeur. On ne peut pas affecter des tableaux, seulement des pointeurs : 
+On ne peut pas écrire : 
+\begin{minted}{c}
+void p() {
+    int t[3];
+    int u[3];
+    t = u; // <- erreur
+}
+\end{minted}
+car \texttt{t} et \texttt{u} sont des tableaux.
+Mais on peut écrire :
+\begin{minted}{c}
+    void q(int t[3], int u[3]) {
+        t = u;
+    }
+\end{minted}
+car c'est exactement pareil que : 
+\begin{minted}{c}
+    void q(int *t, int *t) {
+        t = u;
+    }
+\end{minted}
+et l'affectation de pointeurs est autorisée.
+
+\subsubsection{Le langage C++}
+En C++ on trouve les types et constructions du C, avec une stratégie d'évaluation stricte. Le mode de passage est par valeur par défaut, mais on trouve aussi un passage par référence indiqué par le symbole \texttt{\&} au niveau de l'argument formel :
+\begin{minted}{cpp}
+void f(int &x) {
+    x = x + 1;
+}
+
+int main() {
+    int v = 41;
+    f(v);
+    // v vaut maintenant 42
+}
+\end{minted}
+En particulier, c'est le compilateur qui a pris l'adresse de \texttt{v} au moment de l'appel, et qui a déréférencé l'adresse \texttt{x} dans la fonction \texttt{f}. On peut aussi passer une structure par référence : 
+\begin{minted}{cpp}
+    struct S { int a; int b; };
+    void f(struct S &x) {
+        x.b = x.b + 1;
+    }
+    int main() {
+        struct S v = { 1, 2 };
+        f(v);
+        // v.b vaut maintenant 3
+    }
+\end{minted}
+et des pointeurs par référence, par exemple pour ajouter un élément dans un arbre :
+\begin{minted}{cpp}
+struct Node { int elt; Node *left, *right; };
+
+void add(Node* &t, int x) {
+    if (t == NULL ) t = create(NULL, x, NULL);
+    else if (x < t->elt) add(t->left, x);
+    else if (x > t->elt) add(t->right, x);
+}
+\end{minted}
+
+\subsubsection{Le langage OCamL}
+OCamL est muni d'une stratégie d'évaluation stricte, avec appel par valeur. L'ordre d'évaluation n'est pas spécifié.
+
+Une valeur est soit d'un type primitif (booléen, caractère, entier machine, \dots), soit un pointeur vers un bloc mémoire (tableau, enregistrement, constructeur non constant, \dots) alloué sur le tas en général. Les valeurs gauches sont les éléments de tableaux et les champs mutables d'enregistrements. \\
+
+Une référence est un enregistrement : 
+\begin{minted}{ocaml}
+    type 'a ref = { mutable contents: 'a }
+    let (!) r = r.contents
+    let (:=) r v = r.contents <- v
+\end{minted}
+
+Une référence est allouée sur le tas. C'est toujours un passage par valeur, d'une valeur qui est un pointeur implicite vers une valeur mutable. Un tableau est également alloué sur le tas.
+
+On peut simuler l'appel par nom en OCamL, en remplaçant les arguments par des fonctions : 
+\begin{minted}{ocaml}
+    let f x y =
+        if x = 0 then 42 else y + y
+    (*Peut être réécrite en : *)
+    let f x y =
+        if x () = 0 then 42 else y () + y ()
+
+    let v = f (fun () -> 0) (fun () -> failwith "oups")
+\end{minted}
+
+Plus subtilement, on peut aussi simuler l'appel par nécessité :
+\begin{itemize}
+    \item On commence par introduire un type pour représenter les calculs paresseux : 
+    \begin{minted}{ocaml}
+        type 'a value = Value of 'a
+            | Frozen of (unit -> 'a)
+        type 'a by_need = 'a value ref
+    \end{minted}
+    \item et une fonction qui évalue un tel calcul si ce n'est pas déjà fait : 
+    \begin{minted}{ocaml}
+        let force l = match !l with
+            | Value v -> v
+            | Frozen f -> let v = f () in l := Value v; v
+    \end{minted}
+    C'est de la mémoïsation. 
+\end{itemize}
+\begin{remark}
+    La construction \texttt{lazy} d'OCamL fait quelque chose de semblable. 
+\end{remark}
+
+\subsubsection{Le langage Java}
+Java est muni d'une stratégie d'évaluation stricte, avec appel par valeur. L'ordre d'évaluation est spécifié gauche-droite. \\
+Une valeur est soit d'un type primitif (booléen, caractère, entier machine, \dots), soit un pointeur vers un object alloué sur le tas.
+\begin{minted}{java}
+void f(int x) {
+    x = x + 1;
+}
+int main() {
+    int v = 41;
+    f(v);
+    // v vaut toujours 41
+}
+\end{minted}
+Un objet est alloué sur le tas : 
+\begin{minted}{java}
+    class C { int f; }
+        void incr(C x) {
+        x.f += 1;
+    }
+    void main () {
+        C r = new C();
+        r.f = 41;
+        incr(r);
+        // r.f vaut maintenant 42
+    }
+\end{minted}
+C'est toujours un passage par valeur, d'une valeur qui est un pointeur implicite vers un objet. 
+
+\subsubsection{Le Langage Python}
+Python est muni d'une stratégie d'évaluation stricte, avec appel par valeur. L'ordre d'évaluation est spécifié gauche-droite (mais droite-gauche pour une affectation). Une valeur est un pointeur vers un objet alloué sur le tas. Un entier est un objet immuable : 
+\begin{minted}{python}
+    def f(x) :
+        x += 1
+    v = 41
+    f(v)
+    print(v)
+\end{minted}
+Un tableau est un objet mutable : 
+\begin{minted}{python}
+    def incr(x):
+        x[1] += 1 
+    a = [0] * 17
+    a[1] = 41
+    incra(a)
+\end{minted}
+
+Les modèles d'exécutions de Java, OCamL et Python sont très semblables : uniquement du passage par valeurs, de valeurs atomiques (64 bits), et ce, même si leurs langages de surface sont très différents.
+
+\section{Compilation du passage par valeur et par référence}
+\subsection{Micro C++}
+Considérons la compilation d'un micro fragment de C++ avec :
+\begin{itemize}
+    \item des entiers
+    \item des fonctions (mais qui ne renvoient rien)
+    \item du passage par valeur et par référence
+\end{itemize}
+
+On considère le fragment suivant : 
+\[
+    \begin{aligned}
+        E \rightarrow & n &\\
+        \mid & x &\\
+        \mid & E + E \mid E - E\\
+        \mid & E * E \mid E/E\\
+        \mid & - E
+    \end{aligned}    
+    \begin{aligned}
+        C \rightarrow & E == E \mid E!= E \\
+        \mid & E<E \mid E<= E \mid E > E \mid E >= E\\
+        \mid C && C\\
+        \mid C || C \\
+        \mid !C
+    \end{aligned}
+\]
+\[
+    \begin{aligned}
+        S \rightarrow & x = E;\\
+        \mid & \texttt{if } (\ C\ )\ S\\
+        \mid & \texttt{if } (\ C\ )\ S \texttt{ else } S\\
+        \mid & \texttt{while } (\ C\ )\ S\\
+        \mid & f(E, \ldots, E);\\
+        \mid & \texttt{printf}(\texttt{"\%d /n"}, E);\\
+        \mid & \texttt{int } x, \ldots, x;\\
+        \mid & B
+    \end{aligned}    
+    \begin{aligned}
+        B \rightarrow & \left\{\ S \ldots\ S\ \right\}\\
+        & \\
+        F \rightarrow &\texttt{void } f(X, \ldots, X) \ B\\
+        & \\
+        X \rightarrow& \texttt{int} x\\
+        \mid & \texttt{int } \texttt{\&}x\\
+        & \\
+        P \rightarrow &F \ldots F\\
+        &\texttt{int main() } B
+    \end{aligned}
+\]
+
+Par exemple, le programme suivant est correct et compile :
+\begin{minted}{cpp}
+    void fib(int n, int &r) {
+    if (n <= 1)
+        r = n;
+    else {
+        int tmp;
+        fib(n - 2, tmp);
+        fib(n - 1, r);
+        r = r + tmp;
+        }
+    }
+    int main() {
+        int f;
+        fib(10, f);
+        printf("%d\n", f);
+    }
+\end{minted}
+
+
+\subsection{Variables et Portées}
+\begin{definition}
+    La portée définit les portions du programme où une variable est visible. Ici, si le corps d'une fonction $f$ mentionne une variable $x$ alors :
+    \begin{itemize}
+        \item Soit $x$ est un paramètre de $f$
+        \item Soit $x$ est déclarée plus haut dans un bloc englobant
+    \end{itemize}
+    Par ailleurs, un train peut en cacher un autre.
+\end{definition}
+
+Par exemple le programme suivant compile : 
+\begin{minted}{cpp}
+    void f(int n) {
+        printf("%d\n", n); // affiche 34
+        if (n > 0) {
+            int n; n = 89;
+            printf("%d\n", n); // affiche 89
+        }
+        if (n > 21) {
+            printf("%d\n", n); // affiche 34
+            int n; n = 55;
+            printf("%d\n", n); // affiche 55
+        }
+        printf("%d\n", n); // affiche 34
+    }
+    int main() {
+        f(34);
+    }
+\end{minted}
+Ici, la portée ne dépend que du texte source, on parle de portée lexicale. On peut la réaliser avant ou pendant le typage. La syntaxe abstraite conserve une trace de cette analyse, en identifiant chaque variable de façon unique. 
+\begin{center}
+    \begin{tabular}{p{.4\linewidth}p{.4\linewidth}}
+        Avant & Après\\
+        Arbres de syntaxe abstraite issus de l'analyse syntaxique & Arbres de syntaxe abstraite après le typage\\
+        \begin{minted}{ocaml}
+            type pint_expr =
+                | PEconst of int
+                | PEvar of string
+                | ...
+            type pstmt =
+                | PSvars of string list
+                | PSblock of pstmt list
+                | ...
+        \end{minted}
+        & 
+        \begin{minted}{ocaml}
+            type int_expr =
+            | Econst of int
+            | Evar of ident
+            | ...
+            type func = {
+                locals: ident list;
+                ... }
+        \end{minted}
+        \\
+        Pour l'instant, les variables sont des chaînes de caractères. & Maintenant \texttt{ident} est un identifiant : entier, nom unique, enregistrement, etc.
+    \end{tabular}
+\end{center}
+
+Il existe des langages ou la portée est dynamique, i.e. dépend de l'exécution du programme, par exemple Bash.
+
+Il faut choisir un emplacement mémoire pour chaque variable et être capable de calculer cet emplacement à l'exécution. Ici, les variables vont toutes être stockées sur la pile. A chaque fonction en cours d'exécution correspond une portion de la pile, appelée tableau d'activation, qui contient notamment ses paramères effectifs, l'adresse de retour et ses variables locales. On positionne le registre \texttt{\%rbp} au milieu de la pile de sorte à retrouver facilement l'emplacement d'une variable en ajoutant 8, 16 etc... En effet, le sommet de pile peut bouger si on y stocke des calculs intermédiaires ou si on est en train de préparer un appel de fonction. Pour chaque variable, le compilateur détermine une position dans la pile. Par exemple, dans le type \texttt{ident} :
+\begin{minted}{ocaml}
+    type ident = { offset : int; ... }    
+\end{minted}
+Pour les paramètres, ce sont +16, +24, etc... Pour les variables, ce sont -8, -16, etc, avec souvent plusieurs solutions possibles.
+
+\subsection{Passage Par Valeu}
+On utilise la bibliothèque \texttt{X86\_64} pour produire du code assembleur. On concatène les morceaux d'assembleur avec une opération \texttt{++}. On suit un schéma de compilation simpliste, utilisant la pile pour stocker les résultats intermédiaires : A l'issue de l'exécution d'une fonction de compilation d'une expression arithmétique, la valeur de l'expression se trouve dans le registre \texttt{\%rdi} : 
+\begin{minted}{ocaml}
+    let rec int_expr = function
+        (*on commence par les constantes*)
+        | Econst n ->
+            movq (imm n) (reg rdi)
+        (*et le opérations arithmétiques*)
+        | Ebinop (Badd, e1, e2) ->
+            int_expr e1 ++
+            pushq (reg rdi) ++
+            int_expr e2 ++
+            popq rsi ++
+            addq (reg rsi) (reg rdi)
+        | Ebinop (Bsub, e1, e2) ->
+            ...
+\end{minted}
+
+Pour une variable, on utilise l'adressage indirect, car la position par rapport à \texttt{\%rbp} est une constante connue : 
+\begin{minted}{ocaml}
+    | Evar { offset = ofs } ->
+        movq (ind ~ofs rbp) (reg rdi)
+\end{minted}
+
+De même, les expressions booléennes sont compilées d'une manière très analogue. On prend juste garde au fait que les opérateurs \texttt{\&\&} et \texttt{||} doivent être évalués paresseusement :
+\begin{minted}{ocaml}
+    let rec bool_expr = function
+    | Bcmp (Beq, e1, e2) ->
+        int_expr e1 ++ pushq (reg rdi) ++
+        int_expr e2 ++ popq rsi ++
+        cmpq (reg rdi) (reg rsi) ++
+        sete (reg dil) ++ movzbq (reg dil) rdi
+    | ...
+\end{minted}
+
+Les instructions sont compilées avec une fonction : 
+\begin{minted}{ocaml}
+    let rec stmt = function 
+        | Sprintf e -> 
+            int_expr e ++ call "print_int"
+        | Sif (e, s1, s2) ->
+            ...
+        | Swhile (e, s) ->
+            ...
+        | Sblock sl ->
+            List.fold_left (fun code s -> code ++ stmt s) nop sl
+\end{minted}
+avec : 
+\begin{minted}{nasm}
+    print int: # (en pratique, il faut aussi aligner la pile)
+        movq %rdi, %rsi
+        movq $.Sprint int, %rdi
+        movq $0, %rax
+        call printf
+        ret
+    .data
+    .Sprint int:
+        .string "%d\n"
+\end{minted}
+
+Pour appeler une fonction $f$ il faut : 
+\begin{enumerate}
+    \item Empiler les arguments
+    \item Appeler le code situé à l'étiquette $f$
+    \item Dépiler les arguments
+\end{enumerate}
+\begin{minted}{ocaml}
+    | Scall (id, el) ->
+        List.fold_left
+            (fun acc e -> int_expr e ++ pushq (reg rdi) ++ acc)
+            nop el ++
+        call (symb id) ++
+        addq (imm (8 * List.length el)) (reg rsp)
+\end{minted}
+
+Reste l'affectation \texttt{x = e} : le membre de gauche est ici réduit à une variable \texttt{x} et on sait où cette variable est stockée sur la pile :
+\begin{minted}{ocaml}
+    | Sassign ({ offset = ofs }, e) ->
+        int_expr e ++
+        movq (reg rdi) (ind ~ofs rbp)
+\end{minted}
+
+
+\subsection{Passage par Référence}
+Pour l'instant on a passé les paramètres par valeur, i.e. le paramètre formel est une nouvelle variable qui prend comme valeur initiale celle du paramètre effectif. En C++, le qualificatif \texttt{\&} permet de spécifier un passage par référence. Dans ce cas, le paramètre formel désigne la même variable que le paramètre effectif, qui doit donc être une valeur gauche. 
+Pour prendre en compte le passage par référence, on étend encore le type \texttt{ident} pour indiquer s'il s'agit d'une variable passée par référence. Dans un appel tel que $f(e)$, le paramètre effectif $e$ n'est plus typé ni compilé de la même manière selon qu'il s'agit d'un paramètre passé par valeur ou par référence. Lorsque le paramètre est passé par référence le typage va donc :
+\begin{enumerate}
+    \item Vérifier qu'il s'agit bien d'une valeur gauche (une variable ici)
+    \item Indiquer qu'elle doit être passée par référence
+\end{enumerate}
+
+Une façon de procéder consiste à ajouter une construction de calcul de valeur gauche dans la syntaxe des expressions, et à remplacer le cas échéant, le paramètre effectif \texttt{e} par \texttt{Eaddr e}.
+On modifie alors : 
+\begin{minted}{ocaml}
+    type int_expr =
+        ...
+        | Eaddr of ident
+
+    let rec int_expr = function
+        | Eaddr { offset = ofs; by_reference = br } ->
+            leaq (ind ~ofs rbp) rdi ++
+            if br then movq (ind rdi) (reg rdi) else nop
+    
+\end{minted}
+
+Il faut modifier aussi le calcul des valeurs droites et de l'affectation, mais pas celui de l'appel grâce à la nouvelle construction : 
+\begin{minted}{ocaml}
+    | Evar { offset = ofs; by_reference = br } ->
+        movq (ind ~ofs rbp) (reg rdi) ++
+        if br then movq (ind rdi) (reg rdi) else nop
+\end{minted}
+
+\begin{minted}{ocaml}
+    | Sassign ({ offset = ofs; by_reference = br}, e) ->
+        int_expr e ++
+        (if br then movq (ind ~ofs rbp) (reg rsi)
+         else leaq (ind ~ofs rbp) rsi) ++
+        movq (reg rdi) (ind rsi)
+\end{minted}
+
+Il reste à compiler les déclarations des fonctions : 
+\begin{minted}{ocaml}
+    type function_decl =
+    { fname : string;
+      formals: ident list;
+      locals : ident list;
+      body : stmt; }
+    
+    let function_decl f =
+        let fs = List.fold_left (fun fs x -> max fs (abs x.offset)) 0 f.locals in
+        ++ stmt f.body ++
+\end{minted}
+
+On obtient alors pour la fonction \texttt{swap} par exemple : 
+\begin{minted}{cpp}
+    void swap(int &x, int &y) {
+        int tmp;
+        tmp = x;
+        x = y;
+        y = tmp;
+    }
+\end{minted}
+
+\begin{minted}{nasm}
+swap:   pushq %rbp
+        movq %rsp, %rbp
+        subq $8, %rsp
+        movq 16(%rbp), %rdi
+        movq 0(%rdi), %rdi
+        leaq -8(%rbp), %rsi
+        movq %rdi, 0(%rsi)
+        movq 24(%rbp), %rdi
+        movq 0(%rdi), %rdi
+        movq 16(%rbp), %rsi
+        movq %rdi, 0(%rsi)
+        movq -8(%rbp), %rdi
+        movq 24(%rbp), %rsi
+        movq %rdi, 0(%rsi)
+        movq %rbp, %rsp
+        popq %rbp
+        ret
+\end{minted}
+
+\section{Correction de la Compilation}
+\subsection{Définition de la Correction}
+Le compilateur doit respecter la sémantique du langage : 
+Si le langage source est muni d'une sémantique $\rightarrow_{s}$ et le langage machine $\rightarrow_{m}$ et si $e$ est compilée en $C(e)$ on doit avoir un diagramme commutatif : 
+\begin{tabular}{ccc}
+    $e$ &$\xrightarrow{\star}_{s}$ & $v$\\
+    $\downarrow$ & & $\approx$\\
+    $C(e)$ & $\xrightarrow{\star}_{m}$ & $v^{'}$\\
+\end{tabular}
+où $v \approx v^{'}$ exprime que les valeurs coïncident.
+
+\subsection{Une Preuve de Correction}
+On montre ici la correction de la compilation sur les expressions arithmétiques sans variable : 
+$e \rightarrow n \mid e + e$
+
+On se donne une sémantique à réductions pour le langage source : 
+\[
+    \begin{aligned}
+        v \rightarrow& n\\
+        E \rightarrow& \Box \mid E + e \mid v + E\\
+    \end{aligned}    
+\]
+et $n_{1} + n_{2} \xrightarrow{\epsilon} n$ avec $n = n_{1} +n_{2}$.
+
+On se donne aussi une sémantique à réductions pour le langage cible. Un état est la donnée de valeurs pour les registres $R$ et d'un état de la mémoire $M$ : 
+\[
+    \begin{aligned}
+        R =& \{\texttt{\%rdi}\mapsto n; \texttt{\%rsi} \mapsto n; \texttt{\%rsp} \mapsto n\} \\
+        M =& \N \rightarrow \Z
+    \end{aligned}    
+\]
+La sémantique d'une instruction $m$ se définit par une réduciton : 
+\[
+    R, M, m \xrightarrow{m} R^{'}, M^{'}
+\]
+La réduction se définit aisément.
+
+On souhaite montrer que si $e\xrightarrow{\star} n$ et si $R, M, \texttt{code}(e) \xrightarrow{m}^{\star} R^{'}, M^{'}$ alors $R^{'}(\texttt{\%rdi}) = n$, où \texttt{code} désigne la fonction de compilation. On procède alors par induction structurelle sur $e$.
+On établit alors un résultat plus fort : 
+\begin{proposition}
+    Si $e\xrightarrow{\star} n$ et $R, M, \texttt{code}(e)\xrightarrow{m}^{\star} R^{'}, M^{'}$ alors : 
+    \[
+        \begin{cases}
+            R^{'}(\texttt{\%rdi}) =& n\\
+            R^{'}(\texttt{\%rsp}) =& R(\texttt{\%rsp})\\
+            \forall a \geq R(\texttt{\%rsp}),\ M^{'}(a) = M(a)
+        \end{cases}    
+    \]
+\end{proposition}
+
+\subsection{A Grande Echelle}
+Une telle preuve put être effectuée sur un vrai compilateur : CompCert, un compilateur C produisant du code efficace a été formellement vérifié avec Coq. Voir \url{http://compcert.inria.fr/}
 
 \end{document}
