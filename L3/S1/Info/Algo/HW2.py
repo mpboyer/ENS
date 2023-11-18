@@ -1,19 +1,11 @@
-"""An optimized implementation of Suffix-Tree."""
-
-# For more infor about the comments you can read http://web.stanford.edu/~mjkay/gusfield.pdf
 from operator import attrgetter
 import re
 leafEnd = -1
 
 
 class Node:
-    """The Suffix-tree's node."""
-
     def __init__(self, leaf):
-        # self.__identifier = identifier
         self.children = {}
-        # for leaf nodes, it stores the index of suffix for
-        # the path  from root to leaf"""
         self.leaf = leaf
         self.suffixIndex = None
         self.start = None
@@ -80,9 +72,7 @@ class SuffixTree:
                 if (self.lastNewNode is not None):
                     self.lastNewNode.suffixLink = self.activeNode
                     self.lastNewNode = None
-            
-            else:
-                
+            else:                
                 if self.walk_down(nxt): 
                     continue
                 
@@ -91,7 +81,7 @@ class SuffixTree:
                     if((self.lastNewNode is not None) and (self.activeNode != self.root)):
                         self.lastNewNode.suffixLink = self.activeNode
                         self.lastNewNode = None
-                    
+                
                     self.activeLength += 1
                     break
                 
@@ -103,9 +93,10 @@ class SuffixTree:
                 split.children[self.text[nxt.start]] = nxt
                 
                 if (self.lastNewNode is not None):
-                
                     self.lastNewNode.suffixLink = split
+                
                 self.lastNewNode = split
+
             self.remainingSuffixCount -= 1
             if ((self.activeNode == self.root) and (self.activeLength > 0)):
                 self.activeLength -= 1
@@ -122,28 +113,34 @@ class SuffixTree:
 
     def build_suffix_tree(self):
         self.root = self.new_node(-1, -1)
-        self.activeNode = self.root  # First activeNode will be root
+        self.activeNode = self.root  
         for i in range(len(self.text)):
             self.extend_suffix_tree(i)
         return self
 
     def print_dfs(self):
-        def str_dfs(current):
-            res = ""
-            start, end = current.start, current.end
-            res += self.text[start: end + 1] + "\n"
-            for node in current.children.values():
-                if node : 
-                    res += "\t" + re.sub("\n", "\n|\t", str_dfs(node))
-            return res
-        print(str_dfs(self.root))
-    
+        def string_dfs(current):
+            r = self.text[current.start: current.start + self.edge_length(current)] 
+            for node in current.children.values() :
+                r_ = string_dfs(node)
+                r_ = re.sub(f"\n", f"\n|\t", r_)
+                r += f"\n" + r_
+            return r
+        return string_dfs(self.root)
+
     def substrings(self):
         r = 0
-        for sub in self.walk_dfs(self.root):
-            r += len(sub)
+        def sub_dfs(current, z):
+            z += len(self.text[current.start - 1: current.start + self.edge_length(current)])
+            for node in current.children.values():
+                sub_dfs(node, z)
+        sub_dfs(self.root, r)
         return r
-        
 
 def substrings(text):
     return SuffixTree(text).build_suffix_tree().substrings()
+
+def substrings_b(text):
+    return len(list(set([[text[i:j+1] for i in range(len(text))] for j in range(len(text))])))
+
+print(substrings("a"))

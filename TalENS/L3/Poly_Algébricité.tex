@@ -1,15 +1,30 @@
 \documentclass{cours}
-\title{Nombre de nombres et nombres\\ \small Cours TalENS n°1}
+\title{Nombre de Nombres et Nombres\\ \small Cours TalENS n°1}
 \author{Matthieu Boyer}
 \date{}
  
 \renewcommand*{\K}{\mathbb{K}}
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems}
+
+\NewTcbTheorem[auto counter, number within=section]{définition}{Définition}%
+ {colback=green!5, colframe=green!35!black, fonttitle=\bfseries}{def}
+\NewTcbTheorem[use counter from=définition]{théorème}{Théorème}%
+ {colback=blue!5, colframe=blue!35!black, fonttitle=\bfseries}{thm}
+\NewTcbTheorem[use counter from=définition]{propositionfr}{Proposition}%
+ {colback=black!5!white, colframe=black!10!black, fonttitle=\bfseries}{propo}
+\NewTcbTheorem[auto counter, number within=propositionfr]{corollaire}{Corollaire}%
+ {colback=blue!5, colframe=blue!20!black, fonttitle=\bfseries}{cor}
+\NewTcbTheorem[use counter from=définition]{lemme}{Lemme}%
+ {colback=gray!95!black, colframe=black, fonttitle=\bfseries}{lemme}
+\NewTcbTheorem[use counter from=définition]{remarque}{Remarque}%
+ {colback=white!55!black, colframe=white!5!black, fonttitle=\bfseries}{rem}
 
 \begin{document}
     \section{Quelques Définitions Utiles}
-    \begin{definition}
+    \begin{définition}{Ensembles}{}
         On appelle ensemble une collection d'objets. On l'écrit entre accolades. 
-    \end{definition}
+    \end{définition}
     \begin{example}
         Quelques exemples d'ensembles : 
         \begin{itemize}
@@ -21,63 +36,63 @@
         \end{itemize}
     \end{example}
     Les ensembles ci-dessus sont écrits par énumération, mais on peut aussi les écrire par description : 
-    \begin{definition}
-        On note : $\N$ l'ensemble des nombres entiers et alors $2\N = \left\{2n \mid n \in \N\right\}$ est l'ensemble des nombres pairs.
-    \end{definition}
+    \begin{définition}{Nombres Entiers}{}
+        On note $\N$ l'ensemble des nombres entiers et alors $2\N = \left\{2n \mid n \in \N\right\}$ est l'ensemble des nombres pairs.
+    \end{définition}
 
-    \begin{definition}
+    \begin{définition}{Image par une Fonction}{}
         Pour une fonction $f : A \rightarrow B$, on note $f(A) = \left\{f(x) \mid x \in A\right\}$ et $f^{-1}(C) = \left\{x \in A \mid f(x) \in C\right\}$ si $C$ est inclus dans $B$.
-    \end{definition}
+    \end{définition}
     \begin{example}
         $\left\{x \in \R \mid P(x) = x^{3} + 2x^{2} - \frac{1}{5}x + 3 = 0\right\} = P^{-1}(\{0\}) = P^{-1}(0)$
     \end{example}
 
     \section{La Taille d'un Ensemble}
     \subsection{Bijections et Cardinaux}
-    \begin{definition}
+    \begin{définition}{Bijection}{}
         Une application $f : A \rightarrow B$ est dite \emph{bijective} si elle permet une correspondance un à un entre $A$ et $B$. Deux ensembles ont même \emph{cardinal} noté $\abs{A}$ s'ils sont en bijection.    
-    \end{definition}
+    \end{définition}
     \begin{example}
         On a une bijection entre $\llbracket 0, 3\rrbracket$ et $\llbracket 1, 4\rrbracket$.
     \end{example}
 
-    \begin{definition}
+    \begin{définition}{Cardinal}{}
         Le cardinal d'un ensemble est une quantité invariante par bijection, i.e. si $F$ et $G$ sont en bijection ils ont même cardinal. On notera $\abs{\llbracket 1, n \rrbracket} = n$.
-    \end{definition}
+    \end{définition}
 
-    \begin{remark}
+    \begin{remarque}{}{}
         Le cardinal représente le nombre d'éléments pour un ensemble fini, donc deux ensembles avec le même nombre d'éléments sont en bijection.
-    \end{remark}
+    \end{remarque}
     
     Et pour un ensemble infini alors ? \\
     On ne peut pas mesurer directement le nombre d'éléments, seulement le comparer à d'autres        
     
-    \begin{definition}
+    \begin{définition}{Surjectivité}{}
         \begin{itemize}
             \item Une application $f : A \rightarrow B$ est dite \emph{surjective} si elle prend toute les valeurs dans $B$, donc si $\abs{A} \geq \abs{B}$
             \item Une application $f : A \rightarrow B$ est dite \emph{injective} si deux éléments de $A$ ont toujours une image distincte, donc si $\abs{A} \leq \abs{B}$
         \end{itemize}       
-    \end{definition}
+    \end{définition}
 
-    \begin{remark}
+    \begin{remarque}{}{}
         Ces définitions sont valables aussi pour des ensembles infinis, et ont un sens dès qu'on dessine des patates. Maintenant, on peut partir mesurer l'infini.
-    \end{remark}
+    \end{remarque}
 
     \subsection{Dénombrabilité}
-    \begin{proposition}
+    \begin{propositionfr}{Cardinalité de $\N$}{}
         $\N$ est infini, et c'est le plus petit ensemble infini, en terme de cardinal. Autrement dit, si $\abs{A} \leq \abs{\N}$, soit il y a égalité, soit $A$ est fini. On dit que $\N$ est infini dénombrable.
-    \end{proposition}
+    \end{propositionfr}
     
-    \begin{remark}
+    \begin{remarque}{}{}
         Que dire de $p : n \in \N \mapsto 2n$ et $i : n \in \N \mapsto 2n + 1$ ? \\
         Elles sont bijectives. Donc il y a `autant` de nombres pairs que de nombre impairs (logique) que de nombres entiers...
-    \end{remark}
+    \end{remarque}
 
-    \begin{definition}
+    \begin{définition}{Constructions Entières}{}
         On note $\Z$ l'ensemble des nombres relatifs (entiers, négatifs compris). On note $\N^{2}$ l'ensemble des couples de nombre entiers, i.e. l'ensemble des points du plan situés à une abscisse entière et une ordonnée entière. On note $\Q$ l'ensemble des fractions de nombres entiers, appelé l'ensemble des nombres \emph{rationnels} (qui viennent d'un ration/d'une division). $\Q$ est en bijection avec $\N$, donc est dénombrable. On note $\mathcal{P}$ l'ensemble des nombres premiers. Il est infini et inclus dans $\N$, il est donc en bijection avec $\N$ et est donc dénombrable.
-    \end{definition}
+    \end{définition}
 
-    \begin{proposition}
+    \begin{propositionfr}{Dénombrabilité}{}
         \begin{itemize}
             \item L'application \[
                 r : n \in \N \mapsto \begin{cases} n/2 & \text{ si } n \text{ est pair}\\ -\frac{n+1}{2} & \text{ sinon}
@@ -86,16 +101,16 @@
                 est bijective. Il y a donc autant de nombre relatifs que de nombres positifs.
             \item L'application $\psi : (p, q) \mapsto 2^{p}(2q + 1)$ est bijective. Il y a donc autant de couples d'entiers que d'entiers.
         \end{itemize}
-    \end{proposition}
+    \end{propositionfr}
 
-    \begin{remark}
+    \begin{remarque}{}{}
         Plus généralement, on montre qu'une union finie d'ensemble dénombrables est dénombrables, qu'une intersection quelconque d'ensembles dénombrables est au plus dénombrable (finie ou dénombrable). Un produit fini d'ensemble dénombrable est dénombrable. Un produit dénombrable d'ensemble finis, comme une union dénombrable d'ensemble finis est au plus dénombrable. 
-    \end{remark}
+    \end{remarque}
 
     \subsection{Indénombrabilité}
-    \begin{theorem}
+    \begin{théorème}{Indénombrabilité de $\R$ et de $\mathcal{P}(\N)$}{}
         L'ensemble des parties de $\N$ n'est pas dénombrable, et $\R$ non plus.
-    \end{theorem}
+    \end{théorème}
     \begin{proof}
         On ne démontre ici que la partie sur $\R$ : \\
         Supposons qu'on a une bijection de $\N$ dans $\R$. Cela revient à numéroter les nombres réels entre $0$ et $1$, car $\left[0, 1\right]$ et $\R$ sont en bijection.\\
@@ -103,44 +118,47 @@
         \begin{center}
             \begin{tabular}{lc}
                 $0$ & $0.189280493920472\ldots$\\
-                $0$ & $0.892019759218405\ldots$\\
-                $0$ & $0.249200000000000\ldots$\\
-                $0$ & $0.361846238100291\ldots$\\
+                $1$ & $0.892019759218405\ldots$\\
+                $2$ & $0.249200000000000\ldots$\\
+                $3$ & $0.361846238100291\ldots$\\
                 $\vdots$ & $\vdots$
             \end{tabular}
         \end{center}
         En prenant le premier chiffre après la virgule du premier nombre, puis le second chiffre du second nombre puis ainsi de suite et en leur ajoutant tous $1$, on crée un nombre qui diffère de chacun des nombres de la liste d'au moins un chiffre. Donc on ne peut pas avoir de bijection... 
     \end{proof}
 
-    \begin{remark}
+    \begin{remarque}{}{}
         En fait, on a montré qu'il n'y avait pas de surjection de $\N$ dans $\R$.
-    \end{remark}
+    \end{remarque}
     
-    \begin{remark}
+    \begin{remarque}{}{}
         On a utilisé une méthode appelée \emph{Procédé Diagonal de Cantor}. On montre de même que jamais $A$ et $\mathcal{P}(A)$ ne sont en bijection, c'est le théorème de Cantor.
-    \end{remark}
+    \end{remarque}
 
-    \begin{definition}
+    \begin{définition}{Cardinaux Infinis}{}
         On note $\aleph_{0} = \abs{\N} = \abs{\Q} < \abs{\R} = \aleph_{1}$. On appelle ces nombres les premiers et seconds cardinaux infinis et on dit que $\R$ est indénombrable. Il existe des cardinaux infinis encore plus grand. En fait, il en existe une infinité, en considérant $P(P(P(\ldots P(P(\R)))))$ autant de fois qu'on veut.
-    \end{definition}
+    \end{définition}
 
     Si $\Q$ contient les nombres rationnels, $\R \setminus \Q$ est l'ensemble des nombres irrationnels.
 
     \section{Nombres dans $\R$}
     \subsection{Nombres Irrationels}
-    \begin{definition}
+    \begin{définition}{Irrationalité}{}
         Un nombre irrationnel est un nombre dont le développement décimal est apériodique et infini (dénombrable !). De manière équivalente, ce sont des nombres qui ne s'écrivent pas sous la forme $\frac{p}{q}$ avec $\text{pgcd}(p, q) = 1$.
-    \end{definition}
+    \end{définition}
 
-    \begin{proposition}
-        $\sqrt{2}, e, \pi$ sont irrationnels.
-    \end{proposition}
-    \begin{lemma}
+    
+    \begin{lemme}{Préservation de la parité}{}
         Un nombre est pair si et seulement si son carré est pair.
-    \end{lemma}
+    \end{lemme}
     \begin{proof}
         Si $n = 2k$, $n^{2} = 4k^{2} = 2\times 2k^{2}$ est pair. Si $n = 2k +1$, $n^{2} = 4k^{2} + 4k + 1 = 2\times(2k^{2} + 2k) + 1$ est impair.
     \end{proof}
+
+    \begin{propositionfr}{Irrationalité}{}
+        $\sqrt{2}, e, \pi$ sont irrationnels.
+    \end{propositionfr}
+    
     \begin{proof}[Des Irrationalités Promises]
         \begin{itemize}
             \item Irrationalité de $\sqrt{2}$ : Si $\sqrt{2} = \frac{p}{q}$ avec $p \wedge q = 1$. Alors, $2 = \frac{p^{2}}{q^{2}}$ Donc $p^{2}$ est pair et donc $p$ est pair et donc $q$ est impair. Or, avec $p = 2r$, on trouve que $q^{2} = 2r^{2}$ est pair et donc que $q$ est pair.
@@ -149,87 +167,87 @@
         \end{itemize}
     \end{proof}
 
-    \begin{corollary}[Théorème de Lambert]
+    \begin{corollaire}{Théorème de Lambert}{}
         La tangente d'un nombre rationnel est irrationnelle.
-    \end{corollary}
+    \end{corollaire}
 
     \subsubsection{Nombre de Nombres Irrationnels}
-    \begin{theorem}
+    \begin{théorème}{Indénombrabilité des nombres Irrationnels}{}
         Il y a infiniment plus de nombres irrationels que de nombres rationnels. Autrement dit, si on prend un nombre réel `au hasard`, il sera irrationnel.
-    \end{theorem}
+    \end{théorème}
     \begin{proof}
         En effet, sinon, on pourrait écrire $\R$ comme l'union de deux ensembles dénombrables $\Q$ et $\R\setminus\Q$, et on montre qu'alors $\R$ est dénombrable, en choissant à tour de rôle dans le premier ensemble ou dans le second.
     \end{proof}
 
     Toutefois, on peut toujours approcher un nombre irrationnel par une suite de nombre rationnels : c'est le développement décimal :
     
-    \begin{theorem}
+    \begin{théorème}{Densité de $\Q$}{}
         Pour $u \in \R$, la suite de terme général $u_{n} = \frac{\lfloor 10^{n}u\rfloor}{10^{n}}$ converge vers $u$. On dit que $\Q$ est dense dans $\R$
-    \end{theorem}
+    \end{théorème}
     \begin{proof}
         On a : $\abs{u_{n} - u} \leq \frac{1}{10^{n}} \to 0$ par construction.
     \end{proof}
 
     \subsection{Quelques autres types de Nombres}
     Nous ne démontrerons rien sur ces nombres, il s'agit plus de présentation culturelles.
-    \begin{definition}[Nombres Normaux]
+    \begin{définition}{Nombres Normaux}{}
         Les Nombres Normaux, sont des nombres dont les décimales sont équiréparties. C'est à dire, qu'en moyenne, chacun des chiffres de $0$ à $b$ apparaît autant de fois dans leur développement en base $b$: 
     \[
         \lim_{n \to \infty} \frac{b_{n}}{n} = \frac{1}{b}
     \]        
-    \end{definition}
+    \end{définition}
 
     Presque tout nombre réel est un nombre normal.
 
     Il existe des liens entre ces nombres et la théorie des langages formels\footnote{Voir plus tard\dots}, puisque ces nombres sont \og facilement \fg représentés en base dix.    
 
-    \begin{definition}
+    \begin{définition}{Nombres Univers}{}
         On appelle nombre univers tout nombre qui contient toute suite finie de chiffre.
-    \end{definition}
+    \end{définition}
 
-    \begin{proposition}
+    \begin{propositionfr}{Existence de Nombres Univers}{}
         Le nombre $123456789101112131415161718192021\ldots$ (constante de Champernowne) est un nombre univers. Depuis l'invention du CD-Rom, on sait que chaque nombre univers contient l'entièreté des livres, films, musiques jamais écrits.
-    \end{proposition}
-    \begin{proposition}
+    \end{propositionfr}
+    \begin{propositionfr}{Nombre de Nombres Univers}{}
         Presque tout réel est un nombre univers, ce qui fait que si on prend un réel au hasard, il sera un nombre univers.
-    \end{proposition}
+    \end{propositionfr}
+    \begin{remarque}{}{}
+        La communauté mathématique pense que $e$ et $\pi$ sont des nombres univers, mais cela n'a pas été prouvé.
+    \end{remarque}
 
     \section{Algébricité}
     \subsection{Polynômes et Equation Polynomiales}
-    \begin{definition}
+    \begin{définition}{Equations et Polnyômes}{}
         Une équation Polynomiale est une équation de la forme : $a_{n}x^{n} + a_{n-1}x^{n-1} + \ldots + a_{1}x + a_{0} = 0$ où les $a_{i}$ sont des nombres appartenant à un corps\footnote{On ne définit pas vraiment les corps ici, comprendre $\K \in \left\{\Q, \R, \C\right\}$} $\K$. Elle est dite de degré $n$ sur $\K$. \\ 
         On dit que $P = a_{n}X + \ldots + a_{0}$ est un polynôme (formel) sur $\K\left[X\right]$, appelé anneaux\footnote{On ne définit pas non plus cette notion ici.} des polynômes sur $\K$. On dit que $n$ est le degré $\deg(P)$ du polynôme.\\
         On appelle solution tout $x$ vérifiant l'équation.
-    \end{definition}   
+    \end{définition}   
     
-    \begin{proposition}
+    \begin{propositionfr}{Racines des Equations Quadratiques}{}
         Dans le cas $n = 2$, on a : $ax^{2} + bx + c$ et on connaît les solutions : $x_{+, -} = \frac{-b \pm \sqrt{b^{2} - 4ac}}{2a}$
-    \end{proposition}
+    \end{propositionfr}
 
-    \begin{theorem}
+    \begin{théorème}{Intégrité de l'anneau des Polynômes}{}
         Une équation de degré $n$ admet au plus $n$ solutions. Toutes ne sont pas dans $\K$.
-    \end{theorem}
+    \end{théorème}
     \begin{proof}
         Si $\lambda$ est une solution de $P(x) = 0$ où $P$ est un polynôme de degré $n$ sur $\K$, $P$ peut s'écrire $(X - \lambda)Q(x) = 0$ et le degré d'un produit de polynôme étant la somme des degrés, $\deg Q = n - 1$. On conclut par récurrence.
     \end{proof}
 
-    \begin{definition}
+    \begin{définition}{Algébricité}{}
         On appelle nombre algébrique sur $\K$ tout nombre $x$ tel qu'il existe une équation sur $\K$ dont il est solution : 
         \[
             \mathcal{A}(\K) = \left\{x \mid \exists \ P \in E[X], P(x) = 0\right\}    
         \]
         Un nombre non algébrique est dit transcendant.
-    \end{definition}
-    \begin{proposition}
+    \end{définition}
+    \begin{propositionfr}{Transcendance de Certains Nombres}{}
         $\pi$ et $e$ sont transcendants.
-    \end{proposition}
-    \begin{proof}
-        Ces preuves sont largement hors de portée. 
-    \end{proof}
+    \end{propositionfr}
 
-    \begin{proposition}
+    \begin{propositionfr}{Possible Non Clôture d'un Corps}{}
         Tous les nombres algébriques ne sont pas dans $\K$, mais tout nombre $a$ de $\K$ est algébrique.
-    \end{proposition}
+    \end{propositionfr}
     \begin{proof}
         \begin{itemize}
             \item $a$ est solution de $x - a = 0$. 
@@ -240,17 +258,17 @@
     Dans la suite, on dira qu'un nombre est algébrique s'il est algébrique sur $\Q$.\\
     On cherche l'ensemble des nombres algébriques. On sait que ce n'est pas $\R$ car il y a des nombres dans $\R$ qui ne sont pas algébriques, et que $x^{2} = -1$ n'a pas de solution sur $\R$.
 
-    \begin{definition}
-        La cloture algébrique $\overline{\Q}$ de $\Q$ est le plus petit ensemble contenant $\Q$ et tel que toute équation de degré au moins $1$ sur $\overline{\Q}$ admet au moins une solution sur $\overline{\Q}$. C'est équivalent au fait que toutes les solutions d'une équation de degré au moins $1$ sur $\overline{\Q}$ sont dans $\overline{\Q}$, ce qui se montre par récurrence sur le degré.
-    \end{definition}
+    \begin{définition}{Clôture Algébrique}{}
+        La clôture algébrique $\overline{\Q}$ de $\Q$ est le plus petit ensemble contenant $\Q$ et tel que toute équation de degré au moins $1$ sur $\overline{\Q}$ admet au moins une solution sur $\overline{\Q}$. C'est équivalent au fait que toutes les solutions d'une équation de degré au moins $1$ sur $\overline{\Q}$ sont dans $\overline{\Q}$, ce qui se montre par récurrence sur le degré.
+    \end{définition}
 
-    Trouver la cloture algébrique d'un ensemble n'est pas un problème très compliqué en théorie.  On peut s'en rendre compte en regardant $\Q[\sqrt{2}] = \left\{a + \sqrt{2}b \mid (a, b) \in \Q^{2}\right\}$ : il suffit de rajouter toutes les solutions aux équations sur $\Q$. Toutefois, en pratique, cela génère des ensembles abstraits et sans forme simple.\\
+    Trouver la clôture algébrique d'un ensemble n'est pas un problème très compliqué en théorie.  On peut s'en rendre compte en regardant $\Q[\sqrt{2}] = \left\{a + \sqrt{2}b \mid (a, b) \in \Q^{2}\right\}$ : il suffit de rajouter toutes les solutions aux équations sur $\Q$. Toutefois, en pratique, cela génère des ensembles abstraits et sans forme simple.\\
 
     Un Théorème dû à Kedlaya fait état d'un lien entre la clôture algébrique d'un espace de fonctions, i.e. les solutions à des équations à coefficients fonctionels, et les développements numériques en base $q$. Mais ce théorème qui se base sur la théorie des séries de Laurent et celle des langages formels (voir plus tard...) est hors de notre portée.
 
     \section{Extensions}
     \subsection{Tous Ensembles Alors ?}
-    \begin{definition}
+    \begin{définition}{Groupe}{}
         Un groupe est un ensemble muni d'une loi interne, associative, unifère, inversible. C'est à dire une application $\cdot : G \times G \rightarrow G$ qui vérifie : 
     \begin{itemize}
         \item Pour tous $a, b, c$ dans $G$, $a \cdot (b \cdot c) = (a\cdot b) \cdot c$
@@ -258,46 +276,46 @@
         \item Pour tout $x$, il existe $y$ tel que $xy = e$.
     \end{itemize}
     Ici le groupe est noté multiplicativement, mais on aurait pû choisir d'adopter une convention additive, c'est à dire pour une loi $+$.
-    \end{definition}
+    \end{définition}
 
-    \begin{definition}
+    \begin{définition}{Espace Vectoriel Réel}{}
         Un espace vectoriel réel\footnote{On peut les définir sur tout corps} sur $\R$ est un groupe $E$, noté additivement, stable par multiplication par un réel, i.e. si $x \in E$, $\lambda \in \R$ alors $\lambda x \in E$. \\
         Deux espaces vectoriels sont dit isomorphes s'ils sont en bijection par une application linéaire $f$, i.e. qui préserve la somme.
-    \end{definition}
+    \end{définition}
 
-    \begin{definition}
+    \begin{définition}{Familles Génératrices, Bases}{}
         Les groupes (resp. les espaces vectoriels) reposent parfois (resp. toujours) sur une famille d'éléments qui les engendre, i.e. un ensemble $\left\{g_{1},\ldots, g_{n}\right\}$ tel que si $g \in G$, $g = g_{1}^{t_{1}}g_{2}^{t_{2}}\ldots g_{n}^{t_{n}}$ pour certains $t_{i}$.\\
         On appelle un tel ensemble une famille génératrice. Une famille génératrice de cardinal minimal est appelée une base. \\
         On appelle Indice d'un groupe le cardinal d'une base de ce groupe (elles ont toutes le même). C'est une nouvelle notion de taille d'ensemble qui est invariante par la notion d'isomorphisme, une notion de bijection remaniée.
-    \end{definition}
+    \end{définition}
     
     Dans le cadre d'un espace vectoriel $E$ sur $\R$, le cardinal d'une base est appelé \emph{dimension} de l'espace et noté $\dim E$. Lorsqu'il est fini, $E$ est de cardinal indénombrable égal à $\aleph_{1}$. Toutefois, on peut montrer que $E$ est en bijection avec $\R^{\dim E}$, et donc, lorsqu'il est infini, selon sa valeur, $E$ va devenir plus ou moins grand.\\
-    \begin{proposition}
+    \begin{propositionfr}{Dimension et Cardinal}{}
         \begin{itemize}
             \item Si $\dim E = \aleph_{0}$, $E$ est en bijection avec $\R^{\N}$ l'ensemble des suites à valeurs réelles.
             \item Lorsque $\dim E = \aleph_{1}$, $E$ est en bijection avec $\R^{\R}$ l'ensemble des fonctions réelles.
         \end{itemize}
-    \end{proposition}
+    \end{propositionfr}
 
-    \begin{remark}
+    \begin{remarque}{}{}
         En réalité, il s'agit plus que d'une bijection, puisqu'il s'agit d'un isomorphisme, mais cela importe peu. 
-    \end{remark}
+    \end{remarque}
 
     \subsection{Encore plus de Nombres}
-    \begin{definition}
+    \begin{définition}{Nombres de Liouville}{}
         Un nombre de Liouville est un nombre vérifiant : 
     \[
-        \forall n \in \N, \exists\ q_{n} > 1, p_{n}, 0 < \abs{x - \frac{p_{n}}{q_{n}}} <= \frac{1}{q_{n}^{n}}
+        \forall n \in \N, \exists\ q_{n} > 1, p_{n}, 0 < \abs{x - \frac{p_{n}}{q_{n}}} \leq \frac{1}{q_{n}^{n}}
     \]
-    \end{definition}
+    \end{définition}
 
-    \begin{remark}
+    \begin{remarque}{}{}
         Ce sont des nombres facilement approchés par des nombres rationnels.
-    \end{remark}
+    \end{remarque}
 
-    \begin{theorem}
+    \begin{théorème}{Transcendance des Nombres de Liouville}{}
         Tout nombre de Liouville est transcendant (voir plus haut), mais que à presque tout nombre réel est transcendant sans être de Liouville.
-    \end{theorem}
+    \end{théorème}
     
 \end{document}
 
