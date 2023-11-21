@@ -126,16 +126,20 @@ class SuffixTree:
                 r_ = re.sub(f"\n", f"\n|\t", r_)
                 r += f"\n" + r_
             return r
-        return string_dfs(self.root)
-
+        return string_dfs(self.root)[1:]
+    
     def substrings(self):
-        r = 0
-        def sub_dfs(current, z):
-            z += len(self.text[current.start - 1: current.start + self.edge_length(current)])
+        def dfs_string(current):
+            if current.end == -1 : 
+                res = 0
+            if not current.leaf :
+                res = current.end - current.start + 1
+            else :
+                res = current.end - current.start + 1
             for node in current.children.values():
-                sub_dfs(node, z)
-        sub_dfs(self.root, r)
-        return r
+                res += dfs_string(node)
+            return res
+        return dfs_string(self.root) - 1
 
 def substrings(text):
     return SuffixTree(text).build_suffix_tree().substrings()
@@ -143,4 +147,6 @@ def substrings(text):
 def substrings_b(text):
     return len(list(set([[text[i:j+1] for i in range(len(text))] for j in range(len(text))])))
 
-print(substrings("a"))
+print(substrings("bcedgfhecgdgdfcegdaechfhehef"))
+
+

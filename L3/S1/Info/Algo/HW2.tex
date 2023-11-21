@@ -84,5 +84,54 @@
             \[\sum_{k = l}^{n} a_{k}b_{k} < \frac{m_{1}m_{2}}{l}\]
 
         \subsection{Question 6}
+        We will first prove correctness by induction : \\
+        Initialization : If $m^{2} \leq n^{2}$, it is clear.\\
+        Heredity : Since $\pi$ is bijective, $I\sqcup J = \llbracket 1, n \rrbracket$, we get that no two columns in $A_{*I}$ and $A_{*J}$ have an element in the same spot. Then, if $i, j \in \llbracket 1, n \rrbracket$, we get : 
+        \[
+            \left[AB\right]_{i, j} = \sum_{k\in \llbracket 1, n\rrbracket} a_{i, k}b_{k, j} = \sum_{k\in I}a_{i, k}b_{k,j} + \sum_{k \in J}a_{i,k}b_{k,j} = \left[A_{*I}B_{I*}\right]_{i, j} + \left[A_{*J}B_{J*}\right]_{i, j}
+        \]
+        Hence, the algorithm is correct.
+
+        Then, for the complexity we get that :
+        \begin{itemize}
+            \item If $m \leq n$, the algorithm runs in $\O(mn)$.
+            \item Else, its complexity is the sum of three steps :
+            \begin{itemize}
+                \item Calculating $C_{1} = A_{*I}B_{I*}$ takes $M(n, l, n) = \O(n^{w(1, r, 1) + o(1)})$ multplications for $r = \frac{\ln l}{\ln n} < 1$.
+                \item From question 5), calculating $C_{2} = A_{*J}B_{J*}$ takes at most $\frac{m^{2}}{l}$ multiplications. 
+                \item Summing the results takes $\O(n^{2})$ operations.
+            \end{itemize}
+        \end{itemize}
+
+        We obtain a time complexity in the worst case in $\O(n^{w(1, r, 1) + o(1)} + \frac{m^{2}}{l} + n^{2})$, assuming that $m^{2} > n^{2}$.
+        In that case, we let $l = m^{\frac{2}{\beta + 1}}n^{\frac{\alpha\beta - 2}{\beta + 1}}$.
+        Then, the computation of $C_{1}$ takes $\O(n^{w(1, r, 1) + o(1)}) = \O(n^{2 + \beta\left(\frac{\ln l}{\ln n} - \alpha\right)})$ from question 4. Then, we get : 
+        \[
+            \begin{aligned}
+                n^{2 + \beta\left(\frac{\ln l}{\ln n} - \alpha\right)} =& n^{2 - \alpha\beta} l^{\beta} \\
+                =& n^{2 - \alpha\beta}m^{\frac{2\beta}{\beta + 1}}n^{\frac{\alpha\beta^{2} - 2\beta}{\beta + 1}}\\
+                =& m^{\frac{2\beta}{\beta + 1}}n^{2 - \alpha\beta + \frac{\alpha\beta^{2}}{\beta + 1} - \frac{2 \beta}{\beta + 1}}\\
+                =& m^{\frac{2\beta}{\beta + 1}}n^{\frac{2}{\beta+1} + \frac{\alpha\beta^{2} - \alpha\beta\left(\beta + 1\right)}{\beta + 1}}\\
+                =& m^{\frac{2\beta}{\beta + 1}}n^{\frac{2 - \alpha \beta}{\beta + 1}}\\
+            \end{aligned}
+        \]
+
+        Moreover, since the computation of $C_{2}$ is done in $\O(\frac{m^{2}{l}})$, replacing $l$ by its value : 
+        \[
+            \frac{m^{2}}{l} = m^{2 - \frac{2}{\beta + 1}}n^{\frac{2}{\beta + 1} - \frac{\alpha \beta}{\beta + 1}} = m^{\frac{2\beta}{\beta + 1}}n^{\frac{2 - \alpha\beta}{\beta + 1}}
+        \]
             
+        In the end, we get a total complexity in : 
+        \[
+            \O\left(m^{\frac{2\beta}{\beta + 1}}n^{\frac{2 - \alpha \beta}{\beta + 1}} + o(1)\right) + \O\left(m^{\frac{2\beta}{\beta + 1}}n^{\frac{2 - \alpha \beta}{\beta + 1}}\right) + \O(n^{2}) = \O\left(m^{\frac{2\beta}{\beta + 1}}n^{\frac{2 - \alpha \beta}{\beta + 1} + o(1)}\right)
+        \]
+
+        Using the given values for $\alpha$ and $\beta$, this time complexity is in \[\O(m^{0.7}n^{1.21} + n^{2 + o(1)})\]   
+
+    \section{Exercise 2}
+        \subsection{Question 1}
+            Since concatenation is associative, we can look at the concatenation of a list of length $n$ as the concatenation of the numbers resulting of the concatenation of any partition $A_{1}, \ldots, A_{d}$ of the list such that if $i < j$, $a_{j} \in A_{k} \Rightarrow a_{i} \in A_{l}$ where $l \leq k$.
+            
+            Since for one and two elements, it is clear that results hold, we only need to cover the case of an insertion. Indeed, if sorting by insertion gives a correct result, then any sorting algorithm gives a correct result. Suppose that a list with $n$ elements $a_{0}, \ldots, a_{n- 1}$ is sorted using the order defined. Let $a_{n}$ be another number, and suppose it is inserted between $a_{i}$ and $a_{i + 1}$ by insertion sort.
+            Then, suppose that the result we obtain is not the right one. We return to the case of three elements, since the final concatenation can be seen as the one of the results of the concatenation of $a_{0}, \ldots, a_{j}$, $a_{n}$ and $a_{j + 1}, \ldots, a_{n - 1}$.  
 \end{document}

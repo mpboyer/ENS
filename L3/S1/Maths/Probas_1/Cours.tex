@@ -496,8 +496,286 @@
 
 
     \part{Probabilités}
+    \section{Théorie des Probabilités}
+    \subsection{Loi de Probabilité}
+    \begin{definition}
+        Un espace probabilisé est un espace mesurable $\left(\Omega, \A\right)$ muni d'une mesure $P$ de masse totale $1$. Pour $A\in \A, P(A)$ représente la probabilité d'occurrence de l'évènement $A$. 
+    \end{definition}
+
+    \begin{definition}
+        Une application mesurable $X : \Omega \rightarrow E$ est appelée variable aléatoire à valeurs dans $E$. \\
+        La loi de la variable aléatoire $X$ est la mesure image de $P$ par $X$ notée
+        \[
+            P(X\in B) = P_{X}(B)= P\left(X^{-1}(B)\right)
+        \]
+    \end{definition}
+
+    \begin{definition}
+        \begin{itemize}
+            \item Variables Aléatoires Discrètes : C'est le cas où $E$ est dénombrable et $\mathcal{E} = \mathcal{P}(E)$. La loi de $X$ est alors \[P_{X} = \sum_{x \in E}P(X = x)\delta_{x}\]
+            \item Variables Aléatoires à Densité : Une variable aléatoire $X$ à valeurs dans $\left(\R^{d}, \B(\R^{d})\right)$ est dite à densité si $P_{X}$ est absolument continue par rapport à la mesure de Lebesgue $\lambda$. Il existe alors $p : \R^{d} \rightarrow \R_{+}$ telle que \[P_{X}(B) = \int_{B}p(x)\d x\] La fonction $p$, unique à un ensemble de mesure nulle près, est appelée la densité de $X$.
+        \end{itemize}
+    \end{definition}
+
+    \begin{definition}
+        Soit $X$ une variable aléatoire réelle. On note \[E[X] = \int_{\Omega}X(\omega)P(\d \omega)\]
+        qui est bien définie si $X \geq 0$ et alors $E[X] \in \left[0, \infty\right]$ ou si $E[\abs{X}] < \infty$. On étend cette définition dans $\R^{d}$ avec $E\left[\left(X_{1}, \ldots, X_{d}\right)\right] = \left(E[X_{1}], \ldots, E[X_{d}]\right)$.
+    \end{definition}
+
+    \begin{proposition}
+        Si $X = \mathds{1}_{B}, E[X] = P(B)$ 
+    \end{proposition}
+
+    \begin{proposition}
+        Soit $X$ v.a. à valeurs dans $E$. Si $f : E \rightarrow \left[0, \infty\right]$ est mesurable : 
+        \[
+            E[f(X)] = \int_{E} f(x)P_{X}\left(\d x\right)
+        \]
+    \end{proposition}
+    \begin{proof}
+        Découle des propositions sur la composition de fonctions mesurables.
+    \end{proof}
+
+    \begin{proposition}
+        Soit $X = \left(X_{1}, \ldots, X_{d}\right)$ une v.a. à valeurs dans $\R^{d}$. Supposons que la loi de $X$ a densité $p\left(x_{1}, \ldots, x_{d}\right)$. Alors, pour tout $j$, la loi de $X_{j}$ a une densité donnée par 
+        \[
+            p_{j}(x) = \int_{\R^{d - 1}} p\left(x_{1}, \ldots, x_{j - 1}, x_{j + 1}, \ldots, x_{d}\right)\d x_{1} \ldots \d x_{j - 1} \d x_{j + 1}\ldots \d x_{d}
+        \]
+        La loi de $X$ détermine entièrement les lois marginales de $X$, mais la réciproque est fausse. 
+    \end{proposition}
+    \begin{proof}
+        Direct.
+    \end{proof}
+
+    \subsubsection{Lois de Probabilité}
+    \begin{definition}
+        \begin{itemize}
+            \item Lois Discrètes : 
+            \begin{itemize}
+                \item Loi Uniforme: Si $E$ est un ensemble fini, $\abs{E} = n$, une v.a. $X$ est de loi uniforme sur $E$, $X \sim \mathcal{U}(E)$, si \[P(X = x) = \frac{1}{n}\]
+                \item Loi de Bernoulli de paramètre $p \in \left[0, 1\right]$ : $X$ à valeurs dans $\{0, 1\}$ suit une telle loi, $X \sim \B(p)$ si $P(X = 1) = p$, $P(X = 0) = 1- p$.
+                \item Loi Binômiale $\B(n, p), n\in \N^{*}, p\in\left[0, 1\right]$ : $P(X = k) = C_{n}^{k}\left(1 - p\right)^{n - k}p^{k}$. 
+                \item Loi Géométrique de paramètre $p \in \left]0, 1\right[$ : $X \sim \mathcal{G}(p)$ si $P(X = k) = \left(1 - p\right)p^{k}$
+                \item Loi de poisson de paramètre $\lambda > 0$ : $X \sim \mathcal{P}(\lambda)$ si $P(X = k) = \frac{\lambda^{k}}{k!}e^{-\lambda}$. 
+            \end{itemize}
+            \item Lois Continues/à Densité : 
+            \begin{itemize}
+                \item Loi Uniforme sur $\left[a, b\right]$ : $p(x) = \frac{1}{b - a}\mathds{1}_{\left[a, b\right]}(x)$
+                \item Loi Exponentielle de paramètre $\lambda > 0$ : $p(x) = \lambda e^{-\lambda x}\mathds{1}_{\R_{+}}(x)$
+                \item Loi Gaussienne ou Normale $\mathcal{N}(m,\sigma^{2}), m \in \R, \sigma > 0$ : $p(x) = \frac{1}{\sigma\sqrt{2\pi}} \exp\left(- \frac{\left(x - m\right)^{2}}{2 \sigma^{2}}\right)$
+            \end{itemize}
+        \end{itemize}
+    \end{definition}
+
+    \subsubsection{Des Propriétés}
+    \begin{definition}
+        La fonction de répartition d'une variable aléatoire réelle $X$ est la fonction $F_{X} : \R \rightarrow \left[0, 1\right]$ définie par : 
+        \[
+            F_{X}(t) = P(X \leq t) = P_{X}\left(\left]- \infty t\right]\right)
+        \]
+        La fonction $F_{X}$ est croissante, continue à droite, et a pour limites $0$ en $-\infty$ et $1$ en $+\infty$.
+    \end{definition}
+
+    \begin{proposition}
+        La fonction de répartition caractérise la variable aléatoire et les sauts de $F_{X}$ correspondent aux atomes de $P_{X}$. De plus : 
+        \[
+            \begin{aligned}
+                P\left(a \leq X \leq b\right) &= F_{X}(b) - F_{X}(a^{-})\\
+                P\left(a < X < b\right) &= F_{X}(b^{-}) - F_{X}(a)
+            \end{aligned}    
+        \]
+    \end{proposition}
+    \begin{proof}
+        Découle des résultats d'intégration.
+    \end{proof}
+
+    \begin{definition}
+        On définit la tribu engendrée par une variable aléatoire dans un espace mesurable comme la plus petite tribu sur $\Omega$ qui rende $X$ mesurable : 
+        \[
+            \sigma(X) = \left\{A = X^{-1}(B)\mid B\in \mathcal{E}\right\}    
+        \]
+    \end{definition}
+
+    \begin{proposition}
+        Soit $X$ une variable aléatoire à valeurs dans $E, \mathcal{E}$. Soit $Y$ une v.a. réelle. Il y a équivalence entre :
+        \begin{enumerate}
+            \item $Y$ est $\sigma(X)$-mesurable. 
+            \item Il existe une fonction mesurable de $E, \mathcal{E}$ dans $\R, \B(\R)$ telle que $Y = f(X)$.
+        \end{enumerate}
+    \end{proposition}
+    \begin{proof}
+        ii) implique i) est directe. Si $Y$ est $\sigma(X)$-mesurable. On traite le cas où $Y$ est étagée, puis on conclut car $Y$ est limite simple de v.a. $Y_{n}$ étagées et $\sigma(X)$-mesurables.
+    \end{proof}
+    
+    \subsection{Moments de Variables Aléatoires}
+    \begin{definition}
+        Le moment d'ordre $p$ de $X$ est $E[X^{p}]$. On appelle moment absolu d'ordre $p$ de $X$ la quantité $E\left[X^{p}\right]$.
+    \end{definition}
+
+    \begin{proposition}
+        \begin{itemize}
+            \item Par Convergence Monotone : $X_{n} \geq 0, X_{n} \uparrow X \Rightarrow E[X_{n}] \uparrow E[X]$
+            \item Lemme de Fatou : $X_{n} \geq 0 \Rightarrow E[\liminf X_{n}] \leq \liminf E[X_{n}]$ 
+            \item Convergence Dominée : $\abs{X_{n}} \leq Z, \ E[Z] < \infty, \ X_{n} \rightarrow X$ p.p. $\Rightarrow E[X_{n}] \rightarrow E[X]$.
+        \end{itemize}
+    \end{proposition}
+
+    \begin{proposition}
+        Inégalité de Cauchy-Schwarz : $E[\abs{XY}] \leq \sqrt{E[X^{2}]E[Y^{2}]}$. Dans le cas où $Y = 1$ on a : $E[\abs{X}]^{2} \leq E[X^{2}]$
+    \end{proposition}
+
+    Les espaces $\mL^{p}(\Omega, \A, P)$ sont définis pour tout $p \in \left[1, \infty\right]$ par le quotient pour la relation "$P$ presque partout" des fonctions dont le moment d'ordre $p$ est défini. 
+
+    \begin{definition}
+        Soit $X \in \mL^{2}$, la variance de $X$ est : 
+        \[
+            \var(X) = E\left[\left(X - E[X]\right)^{2}\right]
+        \]
+        et l'écart-type de $X$ est :
+        \[
+            \sigma_{X} = \sqrt{\var(X)}  
+        \]
+    \end{definition}
+
+    \begin{proposition}
+        On a : $\var(X) = E[X^{2}] - \left(E[X]\right)^{2}$ et si $a \in \R$ : 
+        \[
+            E[\left(X - a\right)^{2}] = \var(X) + \left(E[X] - a\right)^{2}
+        \]
+        Ainsi : 
+        \[
+            \var(X) = \inf_{a\in \R} E[\left(X - a\right)^{2}]
+        \]
+    \end{proposition}
+    \begin{proof}
+        Calculer.
+    \end{proof}
+
+
+    \begin{proposition}
+        Si $X \in \mL^{2}$ et $a > 0$ : 
+        \begin{itemize}
+            \item Inégalité de Markov : $P(X \geq a) \leq \frac{1}{a}E[X]$
+            \item Inégalité de Bienaymé-Tchébychev : $P(\abs{X - E[X]} \geq a) \leq \frac{1}{a^{2}}\var(X)$
+        \end{itemize}
+    \end{proposition}
+    \begin{proof}
+        Utiliser l'Inégalité de Markov pour $\left(X - E[X]\right)^{2}$. 
+    \end{proof}
+
+    \begin{definition}
+        Si $X, Y \in \mL^{2}$, la covariance de $X$ et $Y$ est :
+        \[
+            \cov(X, Y) = E[\left(X - E[X]\right)\left(Y - E[Y]\right)] = E[XY] - E[X]E[Y]
+        \]
+        On définit pour un vecteur aléatoire à valeurs dans $R^{d}$ : 
+        \[
+            K_{X} = \left(\co(X_{i}, X_{j})\right)_{i, j \in \llbracket 1,d\rrbracket}
+        \]
+        $X, Y \rightarrow \cov(X, Y)$ est bilinéaire et $K_{X}$ est symétrique positive. 
+    \end{definition}
+
+    \begin{definition}
+        Si $X$ est une v.a. à valeurs dans $\R^{d}$ la fonction caractéristique de $X$ est $\Phi_{X} : \R^{d} \rightarrow \C$ définie par : 
+        \[
+            \Phi_{X}(\xi) = E[\exp\left(i\xi \dot X\right)] = \int e^{i\xi \dot x}P_{X}(\d x)
+        \]
+    \end{definition}
+
+    \begin{lemma}
+        Soit $X \sim \mathcal{N}(0, \sigma^{2})$ : 
+        \[
+            \Phi_{X}(\xi) = \exp\left(-\frac{\sigma^{2}\xi^{2}}{2}\right)
+        \]
+    \end{lemma}
+    \begin{proof}
+        On calcule, en dérivant sous le signe intégrale. 
+    \end{proof}
+
+    \begin{theorem}
+        La fonction caractéristique caractérise la loi.
+    \end{theorem}
+    \begin{proof}
+        On traite le cas $d = 1$ puis on applique le théorème de Fubini-Lebesgue.
+    \end{proof}
+
+    \begin{definition}
+        On définit la fonction génératrice $g_{X}$ d'une variable aléatoire à valeurs dans $\N$ sur l'intervalle $\left[0, 1\right]$ par : 
+        \[
+            g_{X}(r) = E[r^{X}] = \sum_{n = 0}^{\infty}P(X = n)r^{n}
+        \]
+    \end{definition}
+
+    \begin{proposition}
+        \begin{itemize}
+            \item $g_{X}$ est continue sur $\left[0, 1\right]$
+            \item $g_{X}(0) = P(X = 0), g_{X}(1) = 1$.
+            \item La focntion caractéristique caractérise la loi puisque les $P(X = n)$ sont les coefficients (uniques) du développement de Taylor de $g_{X}$ en $0$.
+            \item $\lim_{r \uparrow 1}g_{X}^{(p)}(r) = E\left[X(X - 1)\cdots(X - p + 1)\right]$
+        \end{itemize}
+    \end{proposition}
 
     \section{Indépendance}
+        \subsection{Définitions}
+            \begin{definition}
+                Deux évènements sont indépendants si $P(A\cap B) = P(A)P(B)$. $n$ évènements sont indépendants si pour tout sous-ensemble non vide de $\left\{1, \ldots, n\right\}$ on a :
+                \[
+                    P\left(\bigcap_{j \in J \subset \llbracket 1, n\rrbracket} A_{j}\right) = \prod_{j \in J} P(A_{j})
+                \]
+            \end{definition}
+
+            \begin{proposition}
+                Les $n$ évènements $A_{1}, \ldots, A_{n}$ sont indépendants si et seulement si, quand $B_{i} \in \sigma\left(A_{i}\right) = \left\{\emptyset, A_{i}, A_{i}^{\complement}, \Omega\right\}$ : 
+                \[
+                    P\left(\bigcap_{j \in \onen{n}} B_{j}\right) = \prod_{j \in \onen{n}} P(B_{j})      
+                \]
+            \end{proposition}
+            
+            \begin{definition}
+                \begin{itemize}
+                    \item Soient $\B_{1}, \ldots \B_{n}$ $n$ sous-tribus de $\A$. Ces sous-tribus sont indépendantes si et seulement si toute familles d'évènements de ces tribus l'est.
+                    \item Soient $X_{1}, \ldots, X_{n}$ $n$ v.a. à valeurs dans $E_{1}, \ldots, E_{n}$. Ces variables sont indépendantes si les tribus qu'elles engendrent le sont, i.e. si 
+                    \[
+                        \forall F_{1} \in \mathcal{E}_{1}, \ldots, \forall F_{n} \in \mathcal{E}_{n}, \ P\left(\bigcap_{i \in \onen{n}}\left\{X_{i} \in F_{i}\right\}\right) = \prod_{i \in \onen{n}} P\left(X_{i} \in F_{i}\right)
+                    \]
+                \end{itemize}
+            \end{definition}
+
+            \begin{theorem}
+                Les $n$ variables aléatoires sont indépendantes si et seulement si la loi du $n$-uplet $\left(X_{1}, \ldots, X_{n}\right)$ est le produit des lois de ses composantes : 
+                \[
+                    P_{\left(X_{1}, \ldots, X_{n}\right)} = P_{X_{1}} \bigotimes \cdots \bigotimes P_{X_{n}}
+                \]
+                On a alors, si les $f_{i}$ sont mesurables positives sur $\left(E_{i}, \mathcal{E}_{i}\right)$: 
+                \[
+                    E\left[\prod_{i = 1}^{n}f_{i}(X_{i})\right] = \prod_{i = 1}^{n} E\left[f_{i}(X_{i})\right]
+                \]
+            \end{theorem}
+            \begin{corollary}
+                Si $X_{1}, X_{2} \in \mL^{2}$ sont indépendantes : $\cov(X_{1}, X_{2}) = 0$.
+            \end{corollary}
+
+            \begin{corollary}
+                Soient $X_{1}, X_{n}$ $n$ v.a. réelles.
+                \begin{enumerate}
+                    \item Si $P_{X_{i}}$ est de densité $p_{i}$ et que les variables sont indépendantes. Alors : 
+                    \[p(x_{1}, \ldots, x_{n}) = \prod_{i\in \onen{n}} p_{i}(x_{i})\]
+                    \item Inversement, si la loi de $\left(X_{1}, \ldots, X_{n}\right)$ a une densité de la forme \[p(x_{1}, \ldots, x_{n}) = \prod_{i\in \onen{n}} q_{i}(x_{i})\] où les $q_{i}$ sont boréliennes positives sur $\R$. Alors les variables sont indépendantes et leurs densités sont proportionelles à $q_{i}$.
+                \end{enumerate}
+            \end{corollary}
+
+            \begin{proposition}
+                Soient $\B_{1}, \ldots, \B_{n}$ des sous-tribus de $\A$. Pour tout $i\in \onen{n}$, soit $\cont_{i} \subset \B_{i}$ une classe stable par intersections finies, contentant $\Omega$ et engendrant $\B_{i}$. Si 
+                \[
+                    \forall C_{1}, \ldots, C_{n} \in \cont_{1} \times \ldots \cont_{n}, P\left(\bigcap_{i \in \onen{n}} C_{i}\right) = \prod_{i \in \onen{n}}P(C_{i})
+                \]
+                alors les tribus $\B_{i}$ sont indépendantes.
+            \end{proposition}
+            \begin{corollary}
+                On en déduit le lemme de regroupement par paquets. Si on regroupe des tribus en partition, les tribus que chacune des classes engendrent sont indépendantes, et de même pour des variables aléatoires. 
+            \end{corollary}
+            
+
         \subsection{Hahn-Kolmogorov}
             \begin{theorem}[de Hahn-Kolmogorov]
                 Soit $\Omega$ un ensemble, $\A$ une algèbre sur $\Omega$.
