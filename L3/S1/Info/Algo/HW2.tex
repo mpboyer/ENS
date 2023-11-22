@@ -1,7 +1,10 @@
-\documentclass{Cours}
+\documentclass{cours}
 \date{\today}
 \author{Matthieu Boyer}
 \title{Homework Assignment 2}
+
+\markright{Matthieu Boyer}
+\pagestyle{myheadings}
 
 \begin{document}
     \section{Exercise 1}
@@ -86,7 +89,7 @@
         \subsection{Question 6}
         We will first prove correctness by induction : \\
         Initialization : If $m^{2} \leq n^{2}$, it is clear.\\
-        Heredity : Since $\pi$ is bijective, $I\sqcup J = \llbracket 1, n \rrbracket$, we get that no two columns in $A_{*I}$ and $A_{*J}$ have an element in the same spot. Then, if $i, j \in \llbracket 1, n \rrbracket$, we get : 
+        Heredity : Since $\pi$ is bijective, $I\sqcup J = \llbracket 1, n \rrbracket$, we get that no two columns in $A_{*I}$ and $A_{*J}$ have an element in the same row. Then, if $i, j \in \llbracket 1, n \rrbracket$, we get : 
         \[
             \left[AB\right]_{i, j} = \sum_{k\in \llbracket 1, n\rrbracket} a_{i, k}b_{k, j} = \sum_{k\in I}a_{i, k}b_{k,j} + \sum_{k \in J}a_{i,k}b_{k,j} = \left[A_{*I}B_{I*}\right]_{i, j} + \left[A_{*J}B_{J*}\right]_{i, j}
         \]
@@ -116,7 +119,7 @@
             \end{aligned}
         \]
 
-        Moreover, since the computation of $C_{2}$ is done in $\O(\frac{m^{2}{l}})$, replacing $l$ by its value : 
+        Moreover, since the computation of $C_{2}$ is done in $\O(\frac{m^{2}}{l})$, replacing $l$ by its value : 
         \[
             \frac{m^{2}}{l} = m^{2 - \frac{2}{\beta + 1}}n^{\frac{2}{\beta + 1} - \frac{\alpha \beta}{\beta + 1}} = m^{\frac{2\beta}{\beta + 1}}n^{\frac{2 - \alpha\beta}{\beta + 1}}
         \]
@@ -130,8 +133,40 @@
 
     \section{Exercise 2}
         \subsection{Question 1}
-            Since concatenation is associative, we can look at the concatenation of a list of length $n$ as the concatenation of the numbers resulting of the concatenation of any partition $A_{1}, \ldots, A_{d}$ of the list such that if $i < j$, $a_{j} \in A_{k} \Rightarrow a_{i} \in A_{l}$ where $l \leq k$.
+            Since concatenation is associative, we can look at the concatenation of a list of length $n$ as the concatenation of the numbers resulting of the concatenation of any partition $A_{1}, \ldots, A_{d}$ of the list such that if $i < j$, $a_{j} \in A_{k} \Rightarrow a_{i} \in A_{l}$ where $l \leq k$. Thus, if the list is sorted, after concatenation of a part of its elements (provided they are neighbours), the obtained list remains sorted. 
             
             Since for one and two elements, it is clear that results hold, we only need to cover the case of an insertion. Indeed, if sorting by insertion gives a correct result, then any sorting algorithm gives a correct result. Suppose that a list with $n$ elements $a_{0}, \ldots, a_{n- 1}$ is sorted using the order defined. Let $a_{n}$ be another number, and suppose it is inserted between $a_{i}$ and $a_{i + 1}$ by insertion sort.
-            Then, suppose that the result we obtain is not the right one. We return to the case of three elements, since the final concatenation can be seen as the one of the results of the concatenation of $a_{0}, \ldots, a_{j}$, $a_{n}$ and $a_{j + 1}, \ldots, a_{n - 1}$.  
+            Then, suppose that the result we obtain is not the right one. We return to the case of three elements, since the final concatenation can be seen as the one of the results of the concatenation of $(a_{0}, \ldots, a_{j})$, $(a_{n})$ and $(a_{j + 1}, \ldots, a_{n - 1})$. Indeed, the values are still sorted using our order. The result obtained by the case of three elements would not be right, and thus the list would not be sorted. 
+
+            In the case of three elements, $a_{0} \preceq a_{1} \preceq a_{2}$. By checking all $6$ permutations of the elements, we obtain the wanted result. 
+
+        \subsection{Question 2}
+            Consider two integers $X$ and $Y$. Using their generalised suffix tree (that we suppose to have been preprocessed), we can find the Lowest Common Ancestor of the numbers as a whole in constant time. We then can compare $X$ and $Y$ in constant time, by looking at the next digit in both numbers from the LCA. If the LCA is $X$, then $X$ is a prefix of $Y$ and either $Y$ is longer than $X$ and then we return $Y$ if $Y[\abs{X} + 1] > Y[0]$ or $X = Y$. Else, we return the number with the greatest next digit. 
+        
+        \subsection{Question 3}
+            There are $10^{\log_{10}(n)/4} = \sqrt[4]{n}$ numbers that, in base $10$, are written using at most $\frac{\log_{10}n}{4}$ digits. Then, we can sort all the integers using counting sort : we create an array $A$ of size $\sqrt[4]{n}$ with only zeros. We first need to sort the indices in this array using the relationship defined in 1), which is done using an optimal sorting algorithm in $\O(\sqrt[4]{n}\log n) = \O(n)$.
+            Then, if we see $i$ in the list of numbers with at most $\frac{\log_{10} n}{4}$ digits, we increase the slot in array corresponding to $i$ by $1$. This is done in $\O(n)$ since we see each digit at most once. Then, again, by iterating through $i \in \llbracket 0, \sqrt[4]{n} - 1 \rrbracket$ we can add $i$ to a list $A[i]$ times. This is again done in $\O(n)$.
+
+        \subsection{Question 4}
+            There are at most $\frac{n}{\frac{\log_{10} n}{4}}$ numbers with at least $\frac{\log_{10} n}{4}$ digits. Then using an optimal sorting algorithm, since the comparisons are done in $\O(1)$ by question 2), we get a complexity in : 
+            \[ 
+                \begin{aligned}
+                    \O\left(\frac{4n}{\log_{10}n}\log_{10}\left(\frac{4n}{\log_{10}n}\right)\right) = &\ \O\left(4n\times\frac{\log_{10}(4) + \log_{10}(n) - \log_{10}(\log_{10}(n))}{\log_{10}(n)}\right)\\
+                    = &\ \O\left(n\times\left(1 + \frac{\log_{10}(4)}{\log_{10}(n)} - \frac{\log_{10}\left(\log_{10}(n)\right)}{\log_{10}(n)}\right)\right)\\
+                    = &\ \O(n)
+                \end{aligned}
+            \]
+
+        \subsection{Question 5}
+        We will denote by $\abs{X}$ the number of digits of $X$ and by $A, k$ the input array and its length.\\
+        Based on the previous questions, we propose the following algorithm : 
+        \begin{enumerate}
+            \item We compute the generalised suffix tree of the numbers. This is done in \[\O\left(\sum_{i \in \llbracket 0, k - 1\rrbracket}\abs{A[i]}\right) = \O(n)\]
+            \item We first sort the digits with at most $\frac{\log_{10} n}{4}$ digits.  From this, by question 3), we can sort all the numbers is $\O(n)$ time. 
+            \item Then, by question 4), we can sort the rest of the numbers in $\O(n)$ time. 
+            \item We then merge the two sorted arrays in linear time in the sum of the lengths, thus in $\O(n)$.
+            \item Finally, we can compute the concatenation in $\O(n)$.
+        \end{enumerate}
+        This algorithm is correct by question 1), and has time complexity $\O(n)$.
+
 \end{document}

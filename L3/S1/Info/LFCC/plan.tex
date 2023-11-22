@@ -1,0 +1,72 @@
+\documentclass{cours}
+
+\title{Jeux et Automates\\ \small Plan Présentation LFCC}
+\author{Matthieu Boyer}
+\date{}
+
+\begin{document}
+\section*{Introduction}
+\begin{itemize}
+    \item Définition d'un Jeu : Un jeu est un triplet $\left(P, A_{i}, \succeq_{i}\right)$ où $P$ est un ensemble de joueurs, $A_{i}$ est un ensemble d'actions pour le joueur $i \in P$ et $\succeq_{i}$ est une relation de préférence pour le joueur $i$. Exemple du dilemme du prisonnier par exemple.
+    \item Jeu extensif, jeu à information partielle.
+\end{itemize}
+
+\section{Jeux et Automates}
+\subsection{Les Automates vus comme des Jeux}
+\begin{itemize}
+    \item Définition du Jeu d'un automate : Si $A = \left(Q, \Sigma, \delta, \iota, F\right)$ est un automate, on définit $G_{A}$ un jeu à deux joueurs $P_{1}$ et $P_{2}$. Dans ce jeu, $P_{1}$ joue des états de $Q$ et $P_{2}$ joue des lettres de $\Sigma$. Si $P_{1}$ joue $q \in \Sigma$ alors $P_{2}$ doit jouer $s$ tel que $\delta(q, s) \neq \emptyset$.
+\end{itemize}
+
+\subsection{Information et Déterminisme}
+\begin{itemize}
+    \item Si $A$ est déterministe, $G_{A}$ est équivalent à un jeu à information parfaite, ou jeu extensif.
+    \item Réciproquement, si $A$ n'est pas déterministe, on peut d'une meilleure manière définir des ensembles d'informations pour chacun des joueurs récursivement.
+\end{itemize}
+
+\subsection{Langage et Stratégies Gagnantes}
+\begin{itemize}
+    \item Une stratégie gagnante pour $P_{1}$ est une stratégie telle que $P_{1}$ a joué un état final et $P_{2}$ ne peut plus jouer.
+    \item Une stratégie pour $P_{2}$ définie par $w \in \Sigma^{\star}$ est telle que $P_{2}$ joue les lettres de $w$ indépendamment de ce que $P_{1}$ joue. 
+    \item Une stratégie gagnante pour $P_{2}$ est une stratégie $w$ de longueur $n$ où $P_{1}$ n'a pas de coup valide.
+    \item On note $S(G_{A})^{n}$ l'ensemble de ces stratégies, et $L(A)^{n}$ l'ensemble des mots de longueur $n$ reconnus par $A$. Alors, on prouve que $S(G_{A})^{n} = L(A)^{n}$.
+\end{itemize}
+
+\section{Jeux et Grammaires}
+\subsection{Jeux Hors-Contexte}
+\begin{itemize}
+    \item Définition d'un Jeu par une Grammaire
+    \item Définition de la Victoire d'un Jeu pour un mot (similaire à ce qui précède).
+\end{itemize}
+
+\subsection{Jeux et Systèmes à Pile}
+\begin{itemize}
+    \item Définition d'un Système à Pile comme un automate à pile sans entrée.
+    \item Preuve qu'on peut construire un automate à pile de sorte qu'un joueur gagne le jeu $G, w$ si et seulement si le calcul sur $w$ de l'automate atteint un état $gagnant$ et réciproquement, qu'on peut construire un jeu à partir d'un automate à pile. 
+\end{itemize}
+
+\subsection{Application aux Jeux de Cartes}
+\begin{itemize}
+    \item Description du Uno par une Grammaire.
+\end{itemize}
+
+
+\section{Game Design et Automates}
+Je ne sais pas encore exactement à quel point aller loin dans ce sujet. 
+\begin{itemize}
+    \item Définition des objets par des alphabets
+    \item Représentation du fil du jeu par un automate dont les transitions sont liées aux actions du joueur. 
+\end{itemize}
+
+
+\begin{thebibliography}{5}
+    \bibitem{game-rep-automata} A-Games: using game-like representation for representing finite automatas \textit{Cleyton Slaviero, Edward Hermann Haeusler}
+    \bibitem{card-game-lang} A Card Game Description Language \textit{Jose M. Font, Tobias Mahlmann, Daniel Manrique, and Julian Togelius}
+    \bibitem{cfgames} Active Context-Free Games \textit{Anca Muscholl, Thomas Schwentick, and Luc Segoufin}
+    \bibitem{game-desing-automata} Computing Game Design with Automata Theory \textit{Noman Sohaib Qureshi, Hassan Mushtaq, Muhammad Shehzad Aslam, Muhammad Ahsan, Mohsin Ali and Muhammad Aqib Atta}
+    \bibitem{cfgames-sum} Summary for Context Free Games \textit{Lukáš Holík, Roland Meyer and Sebastian Muskalla}
+\end{thebibliography}
+
+
+
+\end{document}
+

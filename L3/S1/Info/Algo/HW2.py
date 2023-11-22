@@ -147,6 +147,6 @@ def substrings(text):
 def substrings_b(text):
     return len(list(set([[text[i:j+1] for i in range(len(text))] for j in range(len(text))])))
 
-print(substrings("bcedgfhecgdgdfcegdaechfhehef"))
+print(substrings("tatiana"))
 
 

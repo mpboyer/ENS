@@ -834,7 +834,6 @@ On suppose désormais $n = 3$.
     \end{center}
 \end{lemma}
 
-<<<<<<< HEAD
 \subsection{Le Groupe $SP(1)$}
 \subsubsection{L'algèbre des quaternions de Hamilton}
 \begin{definition}
@@ -909,10 +908,139 @@ On suppose désormais $n = 3$.
 \begin{proposition}
     L'application $Sp(1) \rightarrow SO(\H^{0})$, $q\mapsto \text{int}_{q_{\mid\H^{0}}}$ ou $\H^{0} = 1^{\perp} = \left\{q \in \H \mid t(q) = 0\right\}$.
 \end{proposition}
-=======
->>>>>>> d3f8ccda5fc06e4828340c67f282e2474a630bdf
+
+\subsection{Groupes Linéaires et Simplicité de $PSL_{n}(k)$}
+
+\subsubsection{Transvections}
+
+\subsubsection{Centre et Groupe Dérivé de $SL_{n}(k)$}
+
+\subsubsection{Le critère de Simplicité d'Iwasawa}
+
+\subsubsection{Groupes Linéaires sur les Corps Finis}
+\begin{lemma}
+    Soit $k$ un corps fini de cardinal $q$. Alors, 
+    \[
+        \abs{GL_{n}(k)} = \prod_{i = 0}^{n - 1} \left(q^{n} - q^{i}\right) = q^{\frac{n(n-1)}{2}}\prod_{i = 1}^{n}q^{i - 1}
+    \]
+\end{lemma}
+\begin{corollary}
+    \[\abs{SL_{n}(k)} = \frac{\abs{GL_{n}(k)}}{q - 1}\]
+\end{corollary}
+\begin{corollary}
+    $\mu_{n}(k)$ est cyclique d'ordre $n \wedge q - 1$ et donc : $\abs{PSL_{n}(k)} = \frac{\abs{SL_{n}(k)}}{n \wedge (q - 1)}$
+\end{corollary}
+
+\begin{definition}
+    On pose $PGL_{n}(k) = GL_{n}(k)/k^{\times}I_{n}$. Ce groupe agit fidèlement sur $P^{n - 1}(k) = \left\{\text{ droites de } k^{n}\right\}$.
+\end{definition}
+
+\subsection{Le groupe $PGL_{2}(k)$ et quelques (iso)morphismes miraculeux}
+\begin{definition}
+    On appelle $\hat{P}(k)$ l'ensemble des droites de $k^{2}$. On définit $\hat{k} = k \sqcup \{\infty\}$. On définit :
+    \[
+        \beta : \left\{\begin{array}{ccc}
+            \hat{k} &\longrightarrow& \hat{P}(k)\\
+            x \in k &\longmapsto & k\left(\begin{array}{c} x \\ 1               
+            \end{array}\right)\\
+            \infty & \longmapsto &k\left(\begin{array}{c} 1 \\ 0
+            \end{array}\right)
+        \end{array}\right.    
+    \]
+\end{definition}
+
+\begin{proposition}
+    $\beta$ est une bijection. Si on se donne une matrice $g = \left(\begin{array}{cc} a & b \\ c & d     
+    \end{array}\right)$ de $GL_{2}(k)$ envoie le point $x \in \hat{k}$ sur :
+    \[
+        g.x = \beta^{-1}\left(g\beta(x)\right) = \frac{ax + b}{cx + d} \in \hat{k}
+    \]
+\end{proposition}
+
+\begin{definition}
+    Les bijections de $\hat{k}$ de la forme $x \mapsto \frac{ax +b}{cx +d}$ sont appelées homographies. Elles forment un sous-groupe de $S_{\hat{k}}$ isomorphe à $PGL_{2}(k)$.
+\end{definition}
+\begin{proposition}
+    Pour tout triplet $\left(\alpha, \beta, \gamma\right)$. Il existe une et une seule homographie $g \in PGL_{2}(k)$ telle que $\left(g(\alpha), g(\beta), g(\gamma)\right) = \left(0, 1, \infty\right)$
+\end{proposition}
+\begin{proposition}
+    Pour $p$ premier, l'action fidèle de $PGL_{2}(\znz{p})$ induit un morphisme injectif de dans $S_{p + 1}$.
+\end{proposition}
+\begin{corollary}
+    Comme $\left(p + 1\right)! = (p + 1) p (p-1)(p - 2)!$, le morphisme de la proposition ci-dessus induit des isomorphismes $PGL_{2}\left(\znz{2}\right) \simeq S_{3}$ et $PGL_{2}(\znz{3}) \simeq S_{4}$. Les morphismes naturels : 
+    \[
+        PSL_{2}(\znz{2}) \leftarrow SL_{2}(\znz{2}) \rightarrow GL_{2}(\znz{2}) \rightarrow PGL_{2}(\znz{2})
+    \]
+    De même, $PSL_{2}(\znz{3}) \simeq A_{4}$.
+\end{corollary}
+
+\begin{proposition}
+    Tout sous-groupe d'indice $2$ de $S_{n}$ est isomorphe à $A_{n}$. Tout sous-groupe d'indice $n$ de $S_n$ est isomorphe à $S_{n - 1}$.
+\end{proposition}
+
+\begin{corollary}
+    $PGL_{2}\left(\znz{5}\right) \simeq S_{5}$ et $A_{n} \simeq PSL_{2}(\znz{p})$ si et seulement si $n = p = 5$.
+\end{corollary}
+
+\begin{remark}
+    Parmi les groupes simples de la forme $A_{n}$ et $PSL_{n}(\znz{p})$ on a seulement : 
+    \[
+        A_{5} \simeq PSL_{2}(\znz{5}), \ PSL_{2}(\znz{7}) \simeq PSL_{3}(\znz{2}) \text{ et } PSL_{4}(\znz{2}) \simeq A_{8}
+    \]
+    Pour des corps plus généraux : 
+    \[
+        A_{5} \simeq PSL_{2}(\mathbb{F}_{4}), \ A_{6} \simeq PSL_{2}(\mathbb{F}_{9})    
+    \]
+\end{remark}
+
+\begin{theorem}
+    $PSL_{2}(\znz{p})$ agit transitivement sur un ensemble à $p$ éléments si et seulement si $p \leq 11$. 
+\end{theorem}
+
+\section{Elements de structures des groupes finis}
+\subsection{$p$-groupes}
+On fixe $p \in \mathcal{P}$ 
+
+\begin{definition}
+    Un $p$-groupe est un groupe fini d'ordre $p^{n}, n\geq 0$.    
+\end{definition}
 
 
+\begin{proposition}
+    Un sous-groupe d'un $p$-groupe est un $p$-groupe. Un produit fini de $p$-groupes est un $p$-groupe. Un $p$-sous-groupe d'un groupe $G$ est un sous-groupe de $G$ qui est un $p$-groupe. Si $G$ est fini quelconque, $p \mid \abs{G}$, les $p$-Sylow de $G$ sont des $p$-sous-groupes.
+\end{proposition}
+
+\begin{definition}
+    Le sous-groupe unipotent supérieur $U_{n}(\znz{p})$ des matrices triangulaires supérieures de diagonale égale à $1$ est d'ordre $p^{\frac{n(n-1)}{2}}$.
+\end{definition}
+
+\begin{proposition}
+    Soit $P$ un $p$-groupe agissant sur un ensemble fini $X$. On note $Fix X = \left\{x \in X \mid gx = x \forall g\right\}$. Alors, $\abs{X} \equiv \abs{Fix X} \mod p$.
+\end{proposition}
+
+\begin{proposition}
+    Pour tout $p$-groupe $P \subset GL_{n}(\znz{p})$, il existe $g \in GL_{n}(\znz{p})$ tel que $gPg^{-1}$ est inclus dans $U_{n}(\znz{p})$.
+\end{proposition}
+
+\begin{corollary}
+    Tout $p$-groupe fini est isomorphe à un sous-groupe de $U_{n}(\znz{p})$ pour $n$ assez grand.
+\end{corollary}
+
+\begin{proposition}
+    Si $P$ est un $p$-groupe non trivial, son centre est non trivial. 
+\end{proposition}
+
+\begin{corollary}
+    Un groupe d'ordre $p^{2}$ est abélien, donc isomorphe à $\left(\znz{p}\right)^{2}$ ou $\znz{p^{2}}$.
+\end{corollary}
+
+\begin{remark}
+    Il existe des groupes d'ordre $p^{3}$ non-abéliens, comme le $p$-groupe $U_{3}(\znz{p})$ appelé Groupe de Heisenberg.
+\end{remark}
+
+\begin{corollary}
+    Les $p$-groupes sont résolubles. 
+\end{corollary}
 
 \end{document}
 
