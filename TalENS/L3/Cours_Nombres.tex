@@ -164,6 +164,21 @@
 \end{frame}
 
 \begin{frame}
+    \frametitle{(Ir)rationnels}
+    \begin{theorem}
+        Le développement décimal d'un nombre rationnel est périodique.
+    \end{theorem}
+
+    \begin{proof}
+        \only<1>{On ne change pas le caractère (a)périodique du développement en multipliant par un nombre entier. On s'intéresse donc uniquement aux développements décimaux de la forme $\frac{1}{q}$.}
+        \only<2->{Pour calculer les termes du développement décimal, il suffit de diviser par l'entier $q$ les restes successifs en partant de la première puissance de $10$ supérieure à $q$.}
+        \only<3>{\\ Puisqu'il existe un nombre fini de restes (au plus $q-1$), on va nécessairement calculer deux fois un même reste, auquel cas on tombe dans une période du développement.}
+    \end{proof}
+    
+
+\end{frame}
+
+\begin{frame}
     \frametitle{Nombre de Nombres Irrationnels}
     L'indénombrabilité de $\R$ montre qu'il y a infiniment plus de nombres irrationels que de nombres rationnels. Autrement dit, si on prend un nombre réel `au hasard`, il sera irrationnel.
     \only<1>{En effet, sinon, on pourrait écrire $\R$ comme l'union de deux ensembles dénombrables $\Q$ et $\R\setminus\Q$, et on montre qu'alors $\R$ est dénombrable, en choissant à tour de rôle dans le premier ensemble ou dans le second.}

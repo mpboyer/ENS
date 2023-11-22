@@ -646,16 +646,25 @@ Remember that the interpretation of a formal system (whatever complex), is alway
 
 \subsection{First Order Logic}
 FoL is a particularly powerful artificial language that constitutes the logical foundation for most of modern science. 
-\begin{tabular}{cc}
-    $\exists x$ & There is an individual, call it $x$.\\
-    $xKf$ & $x$ stands in the $K$ relation with $f$\\
-    $\forall y$ & For any individual, call it $y$\\
-    $yKf \rightarrow y = x$ & $y$ stands in the $K$ relation with $f$ imposes $y$ to be equal to $x$\\
-    $\wedge$ & conjunction, meaning and\\
-    $\exists x.xKf\wedge \left(yKf \rightarrow y = x\right)$ & There is exactly one individual standing in the $K$ relation with something called $f$.\\
-    $B(x)$ & $x$ has the property $B$\\
-    $\exists x.xKf\wedge \left(yKf \rightarrow y = x\right) \wedge B(x)$ & There is exactly one individual standing in the $K$ relation with something called $f$. Let's call that individual $x$.
-\end{tabular}
+\begin{center}
+    \begin{tabular}{cp{.5\textwidth}}
+        $\exists x$ & There is an individual, call it $x$.\\
+        \midrule
+        $xKf$ & $x$ stands in the $K$ relation with $f$\\
+        \midrule
+        $\forall y$ & For any individual, call it $y$\\
+        \midrule
+        $yKf \rightarrow y = x$ & $y$ stands in the $K$ relation with $f$ imposes $y$ to be equal to $x$\\
+        \midrule
+        $\wedge$ & conjunction, meaning and\\
+        \midrule
+        $\exists x.xKf\wedge \left(yKf \rightarrow y = x\right)$ & There is exactly one individual standing in the $K$ relation with something called $f$.\\
+        \midrule
+        $B(x)$ & $x$ has the property $B$\\
+        \midrule
+        $\exists x.xKf\wedge \left(yKf \rightarrow y = x\right) \wedge B(x)$ & There is exactly one individual standing in the $K$ relation with something called $f$. Let's call that individual $x$.
+    \end{tabular}
+\end{center}
 This table gives a way to model in FoL the sentence \textsl{The King of France is Bald}.
 
 This is insufficient to understand the sentence, since we don't know what \textsl{King}, \textsl{France} nor \textsl{Bald} means. We have only explained the word \textsl{the}, by asserting the existence and the unicity. $B(x)$ here can be viewed as an interpreation of \textsl{is} and $xKf$ as an interpretation of \textsl{of}. Yet, here, \textsl{of} seems to only be verbal tissue. Here we have understood a part of functional words, but not lingual functions of words, and this is insufficient to end the analysis : \textsl{The day was lovely}, is not fully understood, there might have been many loverly days. We then need to use some kind of contextual restriction. \\
@@ -879,7 +888,18 @@ Take \textsl{If John or Mary came to the party, then Bill was pleased} and \text
 For the anecdote : the US Supreme Court ruled that "A jury should not be permitted to engage in conjecture whether an unresponsive answer, true, and complete on its face, was intended to mislead or divert the examiner", and thus established the literal truth rule. 
 
 \part{TA 9 : 22/11}
-\section{}
+\section{Free Variables and Unpronounced Argument}
+\subsection{Free Variables}
+\textsl{Talented Lawyer} seems to mean that the man is talented at being a lawyer, but again, in the example about Dancing with the Stars, it might mean the lawyer is talented at dancing. We want to say that we make an assumption about the argument of \textsl{talented}, while it actually is a free variable. \\
+In \textsl{John ate to a local restaurant}, \textsl{local} has a free variable, as it might mean 'of the locality' as well as 'serving a cuisine from the region'.\\
+We can see a free variable as in the phrase : $ate(j, x)$ where $x$ is not pre-defined and $j$ is a constant.
+We can often bind free variables with a prepositional phrase : \textsl{local (to-x)} or \textsl{beautiful (at-x)}.
+
+\subsection{Unpronounced Argument}
+However, in \textsl{John ate}, while we can have an argument to \textsl{ate}, the sentence is sufficient to itself.
+It thus seems that there is only an un pronounced argument, from the logic phrase $\exists x, ate(j, x)$. \\
+In French, \textsl{Jean a vu} when answering a affirmation \textsl{Il s'est passé ça}. \\
+
 
 
 \end{document}

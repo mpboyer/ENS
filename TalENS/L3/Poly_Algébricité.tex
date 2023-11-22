@@ -16,7 +16,7 @@
 \NewTcbTheorem[use counter from=définition]{propositionfr}{Proposition}%
  {colback=green!5!white, colframe=green!35!black, fonttitle=\bfseries}{propo}
 
-\NewTcbTheorem[auto counter, number within=propositionfr]{corollaire}{Corollaire}%
+\NewTcbTheorem[use counter from=définition]{corollaire}{Corollaire}%
  {colback=green!5, colframe=green!45!black, fonttitle=\bfseries}{cor}
 
 \NewTcbTheorem[use counter from=définition]{lemme}{Lemme}%
@@ -152,6 +152,15 @@
         Un nombre irrationnel est un nombre dont le développement décimal est apériodique et infini (dénombrable !). De manière équivalente, ce sont des nombres qui ne s'écrivent pas sous la forme $\frac{p}{q}$ avec $\text{pgcd}(p, q) = 1$.
     \end{définition}
 
+    \begin{théorème}{Périodicité rationelle}{}
+        Le développement décimal d'un nombre rationnel est périodique.
+    \end{théorème}
+
+    \begin{proof}
+        On ne change pas le caractère (a)périodique du développement en multipliant par un nombre entier. On s'intéresse donc uniquement aux développements décimaux de la forme $\frac{1}{q}$.\\
+        Pour calculer les termes du développement décimal, il suffit de diviser par l'entier $q$ les restes successifs en partant de la première puissance de $10$ supérieure à $q$.\\
+        Puisqu'il existe un nombre fini de restes (au plus $q-1$), on va nécessairement calculer deux fois un même reste, auquel cas on tombe dans une période du développement.
+    \end{proof}
     
     \begin{lemme}{Préservation de la parité}{}
         Un nombre est pair si et seulement si son carré est pair.

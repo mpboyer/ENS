@@ -131,6 +131,7 @@
 
         Using the given values for $\alpha$ and $\beta$, this time complexity is in \[\O(m^{0.7}n^{1.21} + n^{2 + o(1)})\]   
 
+    \newpage
     \section{Exercise 2}
         \subsection{Question 1}
             Since concatenation is associative, we can look at the concatenation of a list of length $n$ as the concatenation of the numbers resulting of the concatenation of any partition $A_{1}, \ldots, A_{d}$ of the list such that if $i < j$, $a_{j} \in A_{k} \Rightarrow a_{i} \in A_{l}$ where $l \leq k$. Thus, if the list is sorted, after concatenation of a part of its elements (provided they are neighbours), the obtained list remains sorted. 
@@ -141,7 +142,7 @@
             In the case of three elements, $a_{0} \preceq a_{1} \preceq a_{2}$. By checking all $6$ permutations of the elements, we obtain the wanted result. 
 
         \subsection{Question 2}
-            Consider two integers $X$ and $Y$. Using their generalised suffix tree (that we suppose to have been preprocessed), we can find the Lowest Common Ancestor of the numbers as a whole in constant time. We then can compare $X$ and $Y$ in constant time, by looking at the next digit in both numbers from the LCA. If the LCA is $X$, then $X$ is a prefix of $Y$ and either $Y$ is longer than $X$ and then we return $Y$ if $Y[\abs{X} + 1] > Y[0]$ or $X = Y$. Else, we return the number with the greatest next digit. 
+            Consider two integers $X = X_{1}\ldots X_{n}$ and $Y = Y_{1}\ldots Y_{m}$. We suppose without loss of generality that $n \leq m$. We need to compare the strings $X_{1}\ldots X_{n}\mid Y_{1}\ldots Y_{m - n}\mid Y_{m - n + 1}\ldots Y_{m}$ and $Y_{1}\ldots Y_{n}\mid Y_{n + 1}\ldots Y_{m}\mid X_{1}\ldots X_{n}$. The vertical bars $\mid$ serve only as placeholders for the next step. We will first get the Lowest Common Ancestor (LCA) of $X$ and $Y$. If it is strictly smaller than $\abs{X}$, we return the comparison of the next digits in $X$ and $Y$, else, if it is of length $\abs{X}$, we go to next step : we apply the same operations to $Y_{n + 1}\ldots Y_{m}$ and $Y$. If we still have an equality, we then go to the final step and start over with $Y_{m - n + 1}\ldots Y_{m}$ and $X$.
         
         \subsection{Question 3}
             There are $10^{\log_{10}(n)/4} = \sqrt[4]{n}$ numbers that, in base $10$, are written using at most $\frac{\log_{10}n}{4}$ digits. Then, we can sort all the integers using counting sort : we create an array $A$ of size $\sqrt[4]{n}$ with only zeros. We first need to sort the indices in this array using the relationship defined in 1), which is done using an optimal sorting algorithm in $\O(\sqrt[4]{n}\log n) = \O(n)$.
