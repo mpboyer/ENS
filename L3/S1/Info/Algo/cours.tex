@@ -1352,8 +1352,66 @@ We can generalise this to any $m$ strings in time $\O(n)$ where $n = \sum_{k = 1
 \end{openpb}
 
 \part[Disjoint-Set Structure]{Lecture 6 : 23/11}
+\section{Disjoint-set Data Structure}
+\begin{definition}
+    A disjoint-set data structure is a way to maintain a collection of disjoint sets with 3 operations : 
+    \begin{itemize}
+        \item \texttt{make_set($x$)} : create a new set containing one element, $x$
+        \item \texttt{union_set($x, y$)} : union the sets containing $x$ and $y$
+        \item \texttt{find_set($x$)} : return a pointer to the representative of the set containing $x$
+    \end{itemize}
+    We will parametrize by $n$ the number of elements and $m$ the number of operations.
+\end{definition}
 
-OUIIIIIIIIIIIIIII UNIOOOOOOOOOON-FIIIIIIIIIIIIIIND
+It can be used to preprocess the connected components of a graph, so as to maintain the queries of the paths between two vertices.\\
+
+It can also be used to represent the ways player play in the HEX game.
+
+
+\section{Linked-list Representation}
+Here, each set is a linked list, and the representative is the head of the list. For every element, we store a pointer to the node containing it. In that node, we store a pointer to the representative.
+\begin{proposition}
+    In this situation : \texttt{make_set} and \texttt{find_set} are done in $\O(1)$.
+\end{proposition}
+
+For \texttt{union_set}, it requires more work.\\
+Indeed, simply appending the set of $y$ to the set of $x$ takes constant time, but updating the pointers to the representatives is done in $\Theta\left(\abs{\text{set of }y}\right)$. By doing the following sequence of operation : 
+\[
+    \texttt{make_set}(x_{1}), \texttt{make_set}(x_{2}), \ldots, \texttt{make_set}(x_{n});\\
+    \texttt{union_set}(x_{2}, x_{1}), \texttt{union_set}(x_{3}, x_{2}),\ldots, \texttt{union_set}(x_{n}, x_{n-1})
+\]
+we see that even the amortised time per operation can be large, as it takes a total time of $\Theta\left(n^{2}\right)$ and the amortised being $\Theta(n)$.
+
+Then, we propose a weighted-union strategy : if the set of $x$ is larger than the set of $y$, we append the latter to the former, else we append the set of $x$ to the set of $y$.
+
+\begin{theorem}
+    Using linked-lists and the weighted-union strategy, doing $m$ \texttt{make_set}, \texttt{union_set} and \texttt{find_set}, $n$ of which are \texttt{union_set} takes $\O\left(m + n\log n\right)$
+\end{theorem}
+
+\begin{proof}
+    At any moment, the largest size of a set is bounded by $n$. Therefore, an element can change its set representative at most $\log_{2} n$, as every time it happends the size of the set at least doubles in size. Therefore, the total time for updating the representatives is $\O(n \log n)$. All other operations take $\O(m)$ time.
+\end{proof}
+
+\section{Disjoint-set forests}
+Here, each set is a treee whose root is the representative. Each node stores a pointer to its parent. \texttt{make_set}($x$) creates a tree containing only one node, \texttt{find_set}($x$) follows the path from $x$ to the root and \texttt{union_set}($x, y$) makes the root of the tree of $y$ become a child of the root of the tree of $x$.\\
+We will use two strategies : 
+\begin{itemize}
+    \item Path Compression : During \texttt{find_set}($x$), we make each node on the path to the root be a child of the root.
+    \item Union by Rank : During \texttt{union_set}, the root of the tree with smaller rank becomes a child of the root of the tree with larger rank.
+\end{itemize}
+
+\begin{definition}
+    We define ranks as upper bounds on the height of the node :
+    \begin{itemize}
+        \item When we add a new node $x$, we initialise the rank of $x$ with $0$.
+        \item If we union two trees (i.e.,two sets) of different ranks, ranks do not change. If we union two trees of equal ranks, the rank of the root of the resulting tree increases by one.
+    \end{itemize}
+\end{definition}
+
+
+
+
+
 
 \part[DFS-Matroids-MST]{Lecture 7 : 16/11}  % By Pierre Aboulpierre
 \section{Definitions}
