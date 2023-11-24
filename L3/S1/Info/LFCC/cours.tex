@@ -1,7 +1,5 @@
 \documentclass{cours}
 
-\newtheorem{example}{Exemple}[section]
-
 \title{Langages Formels, Calculabilité, Complexité}
 \author{Mickaël Thomazo \\ \small{Lucas Larroque}}
 \date{\today}
@@ -509,7 +507,122 @@ En réalité, tous les langages ne sont pas décidables :
 \end{proposition}
 
 
+\part[Indécidabilité]{Cours 7 : 23/11}
 
+\section{Problèmes Indécidables}
+\subsection{Théorème de Rice}
+\begin{theorem}[Rice]
+    Toute propriété de langage non triviale est indécidable.
+\end{theorem}
+
+\begin{proof}
+    Supposons que $M_{\emptyset} \notin P$ avec $L\left(M_{\emptyset}\right) = \emptyset$. Soit $M_{1}$ tel que $\scalar{M_{1}} \in P$. On cherche $M_{M_{1}, M, x}$ de langage $L = \emptyset$ si $M$ ne reconnait pas $X$, $L(M_{1})$ sinon. On la définit ainsi, en notant $Y$ l'entrée : \\
+    \begin{itemize}
+        \item On simule $M$ sur $X$.
+        \item Si $M$ rejette $X$, on rejette $Y$.
+        \item Sinon, on simule $M_{1}$ sur $Y$. 
+    \end{itemize}
+\end{proof}
+
+\subsection{Problèmes des Correspondances de Post}
+\begin{definition}
+    On appelle une tuile un objet de la forme : $\left[\begin{array}{c}u_{1} \\ v_{1} \end{array}\right]$ où $u_{1}, v_{1} \in \Sigma^{\star}$ 
+\end{definition}
+
+\begin{definition}[$PCP$]
+    Etant données plusieurs tuiles, on cherche à les concaténer pour obtenir la même suite de lettres en haut de la tuile et en bas. On définit aussi le MPCP, un problème modifié où on fixe la première tuile.
+\end{definition}
+
+\begin{definition}[$Mot$]
+    Le problème du mot consiste à renvoyer vrai si et seulement si une machine accepte un mot.
+\end{definition}
+
+\begin{proposition}
+    Le problème $PCP$ est indécidable.
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item On réduit d'abord $PCP$ à $MPCP$ : On rajoute un symbole hors de l'alphabet considéré avant chacune des lettres des $u_{i}$, autour des lettres de $v_{1}$ et après les lettres de $v_{i}, i \geq 2$. On rajoute de plus une tuile de la forme $\left[\begin{array}{c}\$\$ \\ \cdot\$\end{array}\right]$.
+        \item On réduit maintenant $MPCP$ à $PCP$ : On construit des tuiles ainsi
+        \begin{itemize}
+            \item La première paire $u_{1} = \$q_{0}w\$$ et $v_{1} = \$$
+            \item Une paire $u_{a} = a$ et $v_{a} = a$ pour tout $a \in \Gamma$ pour recopier cette lettre
+            \item Une paire $u = \$$, $v=\$$ pour passer à la configuration suivante
+            \item Une paire $u = \$$ et $v = \#\$$ pour passer à la configuration suivante en ajoutant un $\#$ implicite à la fin de la configuration
+            \item Une paire $u_{\tau} = pa$ et $v_{\tau} = bq$ pur toute transition $\tau = p, a \rightarrow (q, b, \rightarrow)$ de $M$
+            \item Une paire $u_{\tau} = cpa$ et $v_{\tau} = qcb$ pur toute transition $\tau = p, a \rightarrow (q, b, \leftarrow)$ de $M$ et toute lettre $c \in \Gamma$.
+            \item Une paire $u = aq_{+}$, $v = q_{+}$ et une paire $u = q_{accept}a$, $v = q_{accept}$ pour toute lettre $a \in \Gamma$ afin de réduire la configuration une fois l'état $q_{accept}$ atteint.
+            \item Une paire $u = q_{accept}\$$ et $v = \epsilon$ pour terminer.        
+        \end{itemize}
+        Sous forme de dominos : 
+        \[
+            \left[\begin{array}{c}
+                \$q_{0}w\$ \\ \$
+            \end{array}\right], \left[\begin{array}{c}
+                a \\ a
+            \end{array}\right], \left[\begin{array}{c}
+                b \\ b
+            \end{array}\right], \ldots, \left[\begin{array}{c}
+                \# \\ \#
+            \end{array}\right], \left[\begin{array}{c}
+                \$ \\ \#\$
+            \end{array}\right]
+        \]
+        et :
+        \[   
+            \left[\begin{array}{c}
+                pa \\ bq
+            \end{array}\right], \ldots,
+            \left[\begin{array}{c}
+                cpa \\ qcb
+            \end{array}\right], \ldots, 
+            \left[\begin{array}{c}
+                aq_{accept} \\ q_{accept}
+            \end{array}\right], \ldots,
+            \left[\begin{array}{c}
+                q_{accept}a\\ q_{accept}
+            \end{array}\right], \ldots,
+            \left[\begin{array}{c}
+                q_{accept}\$ \\ \epsilon
+            \end{array}\right]
+        \]
+    \end{enumerate}
+\end{proof}
+
+\begin{theorem}
+    Décider de la vacuité de l'intersection de deux langages algébriques n'est pas décidable.
+\end{theorem}
+\begin{proof}
+    Soit une instance de $PCP$ donnée par deux suites $u_{1}, \ldots, u_{m}$, $v_{1}, \ldots, v_{m}$ sur un alphabet $\Sigma$.\\
+    On introduit un alphabet formé de $m$ nouvelles lettres n'appartenant pas à $\Sigma$ et on définit 
+    \[
+        L_{u} = \left\{u_{i_{1}}u_{i_{2}}\ldots u_{i_{n}}a_{i_{n}}a_{i_{n - 1}}\ldots a_{i_{1}}\mid n \geq 0, 1 \leq i_{k} \leq m\right\}\\ 
+        L_{u^{'}} \left\{wa_{i_{n}}a_{i_{n-1}}\ldots a_{i_{1}}\mid n \geq 0, w \in \Sigma^{\star}, w \neq u_{i_{1}}\ldots u_{i_{n}}\right\}
+    \]
+    Ces deux langages sont engendrés respectivement par :
+    \[
+        S \rightarrow \sum_{i = 1}^{n}u_{i}Sa_{i} + \epsilon
+    \]
+    et : 
+    \[
+        \begin{aligned}
+            S \rightarrow & \sum_{i = 1}^{n} u_{i}Sa_{i} + \sum_{1 \leq i \leq m \\ \abs{u} = \abs{u_{i}}\\ u \neq u_{i}} uRa_{i} + \sum_{1 \leq i \leq m \\ \abs{u} < \abs{u_{i}}} uTa_{i} + \sum_{1 \leq i \leq m\\ b \in \Sigma} u_{i}bVa_{i}\\
+            R \rightarrow & \sum_{i = 1}^{n} Ra_{i} + \sum_{b \in \Sigma} bR + \epsilon\\
+            T \rightarrow & \sum_{i = 1}^{n} Ta_{i} + \epsilon\\
+            V \rightarrow & \sum_{b \in V}bV + \epsilon
+        \end{aligned}    
+    \]
+    On a donc réduit l'intersection de ces grammaires à PSP.
+\end{proof}
+
+\begin{proposition}
+    Les problèmes suivants sont indécidables : 
+    \begin{itemize}
+        \item Décision de l'Ambiguïté d'une grammaire
+        \item Egalité des langages de deux grammaires
+        \item Totalité du langage d'une grammaire (vacuité de son complémentaire)
+    \end{itemize}
+\end{proposition}
 
 
 \end{document}

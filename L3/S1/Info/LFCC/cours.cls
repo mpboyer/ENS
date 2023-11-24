@@ -44,8 +44,9 @@
 \AtBeginDocument{\def\labelitemi{$\bullet$}}
 \AfterBeginDocument{
     \maketitle
-    % \begin{center}\includegraphics[height=6em]{/home/matthieu/Documents/ETUDES/ENS/ens_psl.pdf} \end{center}\newpage
-    % \tableofcontents
+    % \begin{center}\includegraphics[height=6em]{/home/matthieu/Documents/ETUDES/ENS/ens_psl.pdf} \end{center}
+    \newpage
+    \tableofcontents
     }
 
 

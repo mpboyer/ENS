@@ -17,7 +17,7 @@ Textbooks :
     \item \textsl{Introduction to Algorithms} - Cormen, Leiserson, Riverst, Stein
     \item \textsl{Algorithms on strings, trees, and sequences} - Gusfield
     \item \textsl{Approximation Algorithms} - Vazirani
-    \item \textsl{Parametrized Algorithms} - Cygan, Fomin, Kowalik, Lokshtanov, Marx, Pilipczuk, Pilipczuk, Saurabh
+    \item \textsl{Parametrized Algorithms} - Cygan, Fomin, Kowalik, Lokshtanov, Marx, Pilipczuk, Saurabh
 \end{itemize}
 
 \section{Introduction}
@@ -1408,8 +1408,282 @@ We will use two strategies :
     \end{itemize}
 \end{definition}
 
+\begin{algorithm}
+    \caption{Union-Find}
+    \begin{algorithmic}
+        \Function \texttt{make_set}
+        \Input \ \ $x$
+        \EndInput
+        \State $x.p \gets x$
+        \State $x.rank \gets 0$
+        \EndFunction
+
+        \Function \texttt{union_set}
+        \Input \ \ $x, y$
+        \EndInput
+        \State \texttt{link(find_set($x$), find_set($y$))}
+        \EndFunction
+
+        \Function \texttt{find_set}
+        \Input \ \ $x$
+        \EndInput
+        \If {$x \neq x.p$}
+            \State $x.p \gets find_set(x.p)$
+        \EndIf
+        \Return $x.p$
+        \EndFunction
+
+        \Function \texttt{link}
+        \Input \ \ $x, y$
+        \If {$x \neq y$}
+            \If {$x.rank > y.rank$}
+                \State $y.p \gets x$
+            \Else 
+                \State $x.p \gets y$
+                \If {$x.rank = y.rank$}
+                    \State $y.rank \gets y.rank + 1$
+                \EndIf
+            \EndIf
+        \EndIf
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}
 
 
+\section{Time Analysis}
+We defined $n$ as the number of elements, i.e. of \texttt{make_set} and $m$ the total number of operations.
+
+\begin{theorem}[Tarjan] % FUCK TARJAN
+    Using both Union by Rank and Path Compression, the time complexity for any sequence of Find and Union is $\O(m + n\alpha(n))$ where $\alpha(4)$ is the inverse of the Ackermann function. In any conceivable application $\alpha(n) \leq 4$. This time complexity is tight.
+\end{theorem}
+
+\subsection{A simpler Bound}
+We will first start with a simpler analysis showing $\O(m \log^{\star} n)$.\\
+
+\begin{proposition}
+    Suppose we convert a sequence of $m^{'}$ operations \texttt{make_set, union_set, find_set} into $m$ operations \texttt{make_set, link, find_set}. If we can execute the latter in $\O(m \cdot \alpha(n))$, we can execute the former in $\O(m^{'} \cdot \alpha(n))$.
+\end{proposition}
+
+\begin{proof}
+    $m^{'} \leq m \leq 3m^{'}$
+\end{proof}
+We will thus assume we have only \texttt{make_set, link, find_set} operations.
+
+\begin{proposition}
+    \begin{itemize}
+        \item The rank of a node can only increase with time. Rank of non-root nodes are frozen forever.
+        \item For every node $x$, $x.rank \leq x.p.rank$ and the inequality is strict unless $x$ is a root node.
+        \item The ranks of nodes in any path strictly increase
+        \item The rank of any node is bounded by $n - 1$.
+    \end{itemize}
+\end{proposition}
+
+\begin{proposition}[Rank Lemma]
+    At any moment, for every $r \in \N$, there are at most $\frac{n}{2^{r}}$.
+\end{proposition}
+
+\begin{proof}
+    By induction, the number of nodes in a tree with a root of rank $r$ is at least $2^{r}$ : 
+    \begin{itemize}
+        \item Base Case : $r = 0$ is true
+        \item Induction Step : After linking two trees with roots of rank $r_{1}, r_{2}$ : 
+        \begin{itemize}
+            \item If $r_{1} < r_{2}$ the claim is true by induction for $r_{2}$.
+            \item If $r = r_{1} = r_{2}$, then the root of the resulting tree has rank $r + 1$ and the tree has at least $2^{r} + 2^{r} = 2^{r + 1}$ nodes.
+        \end{itemize}
+    \end{itemize}
+    Consider all nodes of rank $r$. None of them is not and was not an ancestor of another, so there are $2^{r}$ nodes corresponding to each of them in the forest, and these sets are independent. As we have $n$ nodes in total, the bound follows. 
+\end{proof}
+
+\subsection{Buckets}
+\begin{definition}
+    We define buckets so they form a partition of $\N$ with : $B_{0} = \left[0, 0\right], B_{1} = \left[1, 1\right]$, $B_{2} = \left[2, 2^{2} - 1\right], B_{3} = \left[2^{2}, 2^{(2^{2})} - 1\right]$ and so on. They are not implemented, bu only used for the analysis. The total number of buckets is at most $\log^{\star} n$.
+\end{definition}
+
+\begin{proposition}\label{bucketlemma}
+    Put a node with rank $r$ into the bucket $B$ containing $r$. The number of nodes in a bucket $B = \left[b, 2^{b} - 1\right]$ is at most : 
+    \[
+        \sum_{r \in B} \frac{n}{2^{r}} \leq \frac{2n}{2^{b}}
+    \]
+\end{proposition}
+
+\begin{definition}
+    At a given time a node is good if : 
+    \begin{itemize}
+        \item It is a root
+        \item It is a child of a root
+        \item It is in a smaller bucket than its parent
+    \end{itemize}
+    It is bad otherwise.
+\end{definition}
+
+A \texttt{find_set} visits $\O(\log^{\star} n)$ good nodes. Therefore, the total time complexity is $\O(m\log^{\star} n + \abs{\left\{\text{bad nodes visited}\right\}})$. 
+
+\begin{proposition}
+    The total number of visits of bad nodes is $\O(n\log^{\star} n)$
+\end{proposition}
+\begin{proof}
+    Bad nodes have frozen rank. When a bad node $x$ is visited by a \texttt{find_set}, the new $x.p$ has rank strictly larger than the previous one. Hence, for each bad node $x$ in a bucket $B = \left[b, 2^{b}-1\right]$ the number of times $x$ is visited while $x$ is bad is at most $2^{b} - 1$, so by \ref{bucketlemma}, it is at mode $\O\left(\frac{2n}{2^{b}}\right)$. So the number of times we visit a bad node in $B$ is $\O(n)$.
+\end{proof}
+
+Thus, the total complexity is $\O\left(m \log^{\star} n\right)$
+
+In the following sections, we will try to improve this complexity. 
+\subsection{Ackermann's function}
+\begin{definition}
+    For $k \geq 0$, $j \geq 1$ two integers, the Ackermann function of $k$ and $j$ is defined as : 
+    \[
+        A_{k}(j) = \begin{cases}
+            j + 1 &\text{ if } k = 0 \\
+            A_{k - 1}^{j + 1}(j) &\text{ if } k \geq 1
+        \end{cases}
+    \]
+\end{definition}
+
+\begin{proposition}[Properties]
+    \begin{itemize}
+        \item Lemma 1 : $\forall j \geq 1, A_{1}(j) = 2j + 1$
+        \item Lemma 2 : $\forall j \geq 1, A_{2}(j) = 2^{j + 1}(j + 1) - 1$
+    \end{itemize}
+\end{proposition}
+\begin{proof}
+    Both are done by induction.
+\end{proof}
+
+\begin{definition}
+    We define reverse Ackermann's function by : 
+    \[
+        \alpha(n) = \min \left\{k \mid A_{k}(1) \geq n\right\}
+    \]
+    We have : 
+    \[
+        \alpha(n) = \begin{cases}
+            0 & \text{ if } 0 \leq n \leq 2\\
+            1 & n = 3\\
+            2 & 4 \leq n \leq 7\\
+            3 & 8 \leq n \leq 2047\\
+            4 & 2048 \leq n \leq A_{4}(1)\\
+        \end{cases}    
+    \]
+\end{definition}
+
+\subsection{Potential Function}
+We define a potential function : 
+\begin{definition}
+    \begin{itemize}
+        \item $\texttt{level}(x) = \max \left\{k \mid x.p.rank \geq A_{k}(x.rank)\right\}$
+        \item $\texttt{iter}(x) = \max \left\{i \mid x.p.rank \geq A_{\texttt{level}(x)}^{(i)}(x.rank)\right\}$
+    \end{itemize}
+    For a node $x$, we define : 
+    \[
+        \Phi_{q}(x) = \begin{cases}
+            \alpha(n)\cdot x.rank &\text{ if $x$ if root or } x.rank = 0\\
+            \left(\alpha(n) - \texttt{level}(x)\right)  \cdot x.rank - \texttt{iter}(x) & \text{ otherwise}
+        \end{cases}
+    \]
+    For a forest, define : 
+    \[
+        \Phi_{0}(F) = 0 \text{ and } \Phi_{q}(F) = \sum_{x \in F} \Phi_{q}(x)
+    \]
+\end{definition}
+
+We will show that $\Phi_{q}(F) \geq 0$ : 
+Then, if we denote by $t_{q}$ the time for the $q$-th operation : 
+\[
+    \sum_{q} t_{q} \leq \sum_{q} t_{q} + \Phi_{q}(F) - \Phi_{0}(F) = \sum_{q}t_{q} + \sum_{q}\left(\Phi_{q + 1}(F) - \Phi_{q}(F)\right) = \sum_{q}\left(t_{q} + \Phi_{q + 1}(F) - \Phi_{q}(F)\right)   
+\]
+
+\begin{lemma}
+    If $x \neq x.p$ and $x.rank \geq 1$ : $0 \leq \texttt{level}(x) \leq \alpha(n) - 1$
+\end{lemma}
+\begin{proof}
+    We have $x.p.rank \geq x.rank + 1 = A_{0}(x.rank)$, hence $\texttt{level}(x) \geq 0$.\\
+    As $A_{\alpha(n)}(x.rank) \geq A_{\alpha(n)}(1) \geq n \geq x.p.rank$, we get the other inequality.
+\end{proof}
+
+\begin{lemma}
+    If $x.rank \geq 1$, $1 \leq \texttt{iter}(x) \leq x.rank$.
+\end{lemma}
+\begin{proof}
+    We have $x.p.rank \geq A_{\texttt{level}(x)}(x.rank) = A_{\texttt{level}(x)}^{1}$ thus $\texttt{iter}(x) \geq 1$.\\
+    Since : $A_{\texttt{level}(x)}^{x.rank + 1}(x.rank) = A_{\texttt{level}(x) + 1}(x.rank) > x.p.rank$ and thus $\texttt{iter}(x) \leq x.rank$.
+\end{proof}
+
+\begin{lemma}
+    $\forall x, q, 0 \leq \Phi_{q}(x) \leq \alpha(n)x.rank$
+\end{lemma}
+\begin{proof}
+    If $x$ is the root or $x.rank = 0$, there is equality and we are done. Otherwise : 
+    \[
+        \Phi_{q}(x) = \left(\alpha(n) - \texttt{level}(x)\right) \cdot x.rank - \texttt{iter}(x) \geq \left(\alpha(n) - (\alpha(n) - 1)\right) \cdot x.rank - \texttt{iter}(x) \geq x.rank - x.rank = 0
+    \]
+    Also : 
+    \[
+        \Phi_{q}(x) \leq \alpha(n)\cdot x.rank - 1 < \alpah(n) x.rank
+    \]
+\end{proof}
+\begin{corollary}\label{cor9}
+    If $x$ is not a root and $x.rank > 0$, then $\Phi_{q}(x) < \alpha(n)x.rank$
+\end{corollary}
+
+\begin{lemma}\label{lemma10}
+    If $x$ is not a root, the $q$-th operation is \texttt{link} or \texttt{find_set} then $\Phi_{q}(x) \leq \Phi_{q - 1}(x)$. Moreover, if $x.rank \geq 1$ and either $\texttt{level}(x)$ or $\texttt{iter}(x)$ changes, then $\Phi_{q}(x) \leq \Phi_{q - 1}(x) - 1$.
+\end{lemma}
+\begin{proof}
+    Since $x$ is not a root, the rank of $x$ is frozen.
+    \begin{enumerate}
+        \item If $x.rank = 0$ then $\Phi_{q}(x) = \Phi_{q - 1}(x) = 0$
+        \item Assume $x.rank \geq 1$.
+        \begin{itemize}
+            \item If \texttt{level}($x$) increases, $\left(\alpha(n) - \texttt{level}(x)\right)x.rank$ drops by at least $x.rank$ but $\texttt{iter}(x)$ can drop by at most $x.rank - 1$ therefore, $\Phi_{q}(x) \leq \Phi_{q - 1}(x) - 1$.
+            \item If \texttt{level}($x$) is unchanged, \texttt{iter}$(x)$ remains unchanged or increases. If it does not change $\Phi_{q}(x) = \Phi_{q - 1}(x)$, otherwise, $\Phi_{q}(x) \leq \Phi_{q - 1}(x) - 1$
+        \end{itemize}
+    \end{enumerate}
+\end{proof}
+
+\subsection{Time Bound}
+More lemmas : 
+\begin{lemma}
+    The amortised cost of each \texttt{make_set} is $\O(1)$
+\end{lemma}
+\begin{proof}
+    \texttt{make_set} creates a node $x$ with $\Phi_{q}(x) = 0$. Hence, $\Phi_{q}(F) = \Phi_{q - 1}(F)$ and the amortised time is $1$.
+\end{proof}
+
+\begin{lemma}
+    The amortised time of $\texttt{link}(x, y)$ is $\O(\alpha(n))$.
+\end{lemma}
+\begin{proof}
+    WLOG, $y$ becomes the parent of $x$. By \ref{lemma10}, the potentials of any node but $x$ and $y$ cannot increase. Before \texttt{link}, the node $x$ is a root and $\Phi_{q - 1}(x) = \alpha(n)x.rank$. If $x.rank = 0$, we have $\Phi_{q - 1}(x) = \Phi_{q}(x) = 0$. Otherwise by \ref{cor9}, $\Phi_{q}(x) < \alpha(n)x.rank = \Phi_{q - 1}(x)$.\\
+    For $y$, either $\Phi_{q - 1}(y) = \Phi_{q}(y)$ or $\Phi_{q}(y) = \Phi_{q - 1}(y) + \alpha(n)$.
+
+    Hence, $\Phi_{q}(F) - \Phi_{q - 1}(F) \leq \alpha(n)$. The actual time of $\texttt{link}(x, y)$ is $1$ and thus the lemma follows. 
+\end{proof}
+
+\begin{lemma}
+    The amortised time of \texttt{find_set} is $\O(\alpha(n))$.
+\end{lemma}
+\begin{proof}
+    Assume the find path contains $s$ nodes : 
+    \begin{enumerate}
+        \item There are no potential increases from \ref{lemma10}.
+        \item The potential of at least $\max \left\{0, s - \alpha(n) - 2\right\}$ decreases by at least one.
+        Consider all nodes $x$ on the find path with rank at least $1$ and such that there exists $y$ an ancestor of $x$ with the same \texttt{level}. There are at least $s - \left(\alpha(n) + 2\right)$ such nodes. 
+
+        Consider such a node $x$, let $k = \texttt{level}(x)$ : 
+        
+        Prior to path compression, $x.p.rank \geq A_{k}^{\texttt{iter}(x)}(x.rank)$ and $y.p.rank \geq A_{k}(y.rank)$. Then, by monotony of $rank$ along a path, $y.rank \geq x.p.rank$. Let $i = \texttt{iter}(x)$. We have $y.p.rank \geq A_{k}\left(A_{k}^{i}(x.rank)\right)$
+
+        After path compression, $x$ and $y$ have the same parent, the root so $x.p.rank = y.p.rank \geq A_{k}^{i + 1}(x.rank)$. since $x.rank$ does not change. Therefore, either \texttt{iter}($x$) or \texttt{level}($x$) increases, and hence, $\Phi_{q}(x) \leq \Phi_{q - 1}(x) - 1$ from \ref{lemma10}.
+    \end{enumerate}
+    As a corollary, we obtain that $\Phi_{q}(F) \leq \Phi_{q - 1}(F) - \max \left\{0, s - \left(\alpha(n) + 2\right)\right\}$. Since the actual time of \texttt{find_path} is $s$, the amortised time is $\O\left(\alpha(n) + 2\right)$.
+\end{proof}
+
+Finally : 
+
+\begin{theorem}
+    A sequence of $m$ \texttt{make_set, union_set, find_set}, out of which $n$ are \texttt{make_set} takes $\O\left(m \alpha(n)\right)$ time. In other words, one operation takes $\O(\alpha(n))$ amortised time.
+\end{theorem}
 
 
 

@@ -1930,4 +1930,152 @@ On établit alors un résultat plus fort :
 \subsection{A Grande Echelle}
 Une telle preuve put être effectuée sur un vrai compilateur : CompCert, un compilateur C produisant du code efficace a été formellement vérifié avec Coq. Voir \url{http://compcert.inria.fr/}
 
+
+\part[Compilation des Langages Fonctionnels]{Cours 24/11}
+\section{Fonctions comme Valeurs de Première Classe}
+On va étudier un fragment d'OcamL : 
+\[
+    \begin{aligned}
+        e =& c \\
+        \mid & x \\
+        \mid & \texttt{fun } x \rightarrow e \\
+        \mid & e e \\
+        \mid & \texttt{let [rec] } x = e \\
+        \mid & \texttt{if } e \texttt{ then } e \texttt{ else } e\\
+        & \\
+        d =& \texttt{let [rec] } x = e \\
+        & \\
+        p =& d \ \ldots \ d
+    \end{aligned}    
+\]
+\begin{remark}
+    Les fonctions peuvent ici être imbriquées. La compilation des fonctions imbriquées exploite le fait que toute variable qui est référencée est contenue dans un tableau d'activation quelque part sur la pile. Le compilateur chaîne les tableaux d'activation, de façon à toujours pouvoir retrouver celui qui nous intéresse.\\
+\end{remark}
+
+\subsection{Fonctions en Paramètres}
+OCamL permet de recevoir des fonctions en argument ainsi que d'en renvoyer. La solution consiste à utiliser une fermeture. 
+\begin{definition}
+    Une fermeture est une structure de données allouée sur le tas contenant un pointeur vers le code de la fonction à appeler et les valeurs des variables susceptibles d'être utilisées par ce code, ensemble appelés l'environnement.
+\end{definition}
+
+On considère l'exemple suivant de fermeture : 
+\begin{minted}{ocaml}
+    let rec pow i x =
+        if i = 0 then 1. else x *. pow (i-1) x
+    
+    let integrate_xn n =
+        let f = pow n in
+        let eps = 0.001 in
+        let rec sum x =
+            if x >= 1. then 0. else f x +. sum (x +. eps) in
+        sum 0. *. eps
+\end{minted}
+On peut faire apparaître la construction \texttt{fun} explicitement : 
+\begin{minted}{ocaml}
+    let rec pow =
+        fun i ->
+            fun x -> if i = 0 then 1. else x *. pow (i-1) x
+\end{minted}
+
+Dans la première fermeture \texttt{fun i ->}, l'environnement est $\{\texttt{pow}\}$. Dans la seconde c'est $\{\texttt{i, pow}\}$. De même : 
+\begin{minted}{ocaml}
+    let integrate_xn = fun n ->
+        let f = pow n in
+        let eps = 0.001 in
+        let rec sum = 
+            fun x -> if x >= 1. then 0. else f x +. sum (x+. eps) in
+        sum 0. *. eps
+\end{minted}
+Pour \texttt{fun n ->} la fermeture est $\{\texttt{pow}\}$ et pour \texttt{fun x ->} c'est $\{\texttt{eps, f, sum}\}$.
+
+
+La fermeture peut être représentée comme un unique bloc sur le tas dont le premier champ contient l'adresse du code, et les champs suivants contiennent les valeurs des variables libres et uniquement celle-là. 
+
+\subsection{Compilation}
+Une façon relativement simple de compiler les fermetures consiste à procéder en deux temps: 
+\begin{enumerate}
+    \item On recherche dans le code toutes les constructions \texttt{fun x -> e} et on les remplace par une construction explicite de fermeture \texttt{clos f } $[y_{1}, \ldots, y_{n}]$ où les $y_{i}$ sont des variables libres de \texttt{fun x -> e} et \texttt{f} le nom donné à une déclaration globale de fonction de la forme \texttt{let fun f} $[y_{1}, \ldots, y_{n}]\ x = e^{'}$ où $e^{'}$ est obtenu à partir de $e$ en supprimant récursivement les constructions \texttt{fun}.
+    \item On compile le code obtenu qui ne contient plus que des déclarations de fonction de la forme \texttt{let fun}. 
+\end{enumerate}
+
+Sur notre exemple : 
+\begin{minted}{ocaml}
+    letfun fun2 [i,pow] x =
+        if i = 0 then 1. else x *. pow (i-1) x
+    letfun fun1 [pow] i =
+        clos fun2 [i,pow]
+    let rec pow =
+        clos fun1 [pow]
+    letfun fun3 [eps,f,sum] x =
+        if x >= 1. then 0. else f x +. sum (x +. eps)
+    letfun fun4 [pow] n =
+        let f = pow n in
+        let eps = 0.001 in
+        let rec sum = clos fun3 [eps,f,sum] in
+        sum 0. *. eps
+    let integrate_xn =
+        clos fun4 [pow]
+\end{minted}
+
+Toutefois, on a énormément agrandi notre grammaire : \\
+\begin{tabular}{p{.5\textwidth}p{.5\textwidth}}
+    Avant & Après \\
+    \begin{minted}{ocaml}
+        type var = string
+
+
+
+
+        type expr =
+            | Evar of var
+            | Efun of var * expr
+            | Eapp of expr * expr
+            | Elet of var * expr * expr
+            | Eif of expr * expr * expr
+            | ...
+        type decl = var * expr
+
+
+        type prog = decl list
+    \end{minted} 
+    & 
+    \begin{minted}{ocaml}
+        type var =
+            | Vglobal of string
+            | Vlocal of int
+            | Vclos of int
+            | Varg
+        type expr =
+            | Evar of var
+            | Eclos of string * var list
+            | Eapp of expr * expr
+            | Elet of int * expr * expr
+            | Eif of expr * expr * expr
+            | ...
+        type decl =
+            | Let of string * expr
+            | Letfun of string * expr
+        type prog = decl list
+    \end{minted}
+\end{tabular}
+
+En particulier, un identificateur peut représenter soit une variable globale, soit une variable locale, soit une variable contenue dans une fermeture, soit l'unique argument d'une fonction.\\
+On a alors le schéma de compilation suivant : 
+\begin{enumerate}
+    \item Chaque fonction a un unique argument, passé dans \texttt{\%rdi}
+    \item On passe la fermeture dans \texttt{\%rsi}
+    \item Le tableau d'activation étant donc composé de l'adresse de retour, du \texttt{\%rbp} sauvegardé, et d'emplacements pour des variables locales. Il est intégralement construir par l'appelé. 
+\end{enumerate}
+
+Pour compiler la construction $\texttt{Eclos}(f, [y_{1}, \ldots, y_{n}])$ :
+\begin{enumerate}
+    \item On alloue un bloc de taille $n + 1$ sur le tas.
+    \item On stocke l'adresse de $f$ dans le champ $0$.
+    \item On stocke les valeurs des bariables dans les champs $1$ à $n$.
+    \item On renvoie le pointeur sur le bloc. 
+\end{enumerate}
+
+
+
+
 \end{document}
