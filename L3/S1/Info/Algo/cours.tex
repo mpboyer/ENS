@@ -194,99 +194,6 @@ Algorithm : Iteratively select the greatest value-per-weight ratio. \\
     Yet, $\sum\limits_{i = 1}^{n} q_{i}^{'} \cdot v_{i} > \sum\limits_{i = 1}^{n} q_{i} \cdot v_{i}$, ce qui contredit la 
 \end{proof}
 
-\part{TD 1 - 29/09}
-\localtableofcontents
-\section{Mathematical Complexity}
-\subsection{Exercice 1}
-\subsubsection{Question 1}
-Non : prendre $f = 1$ et $g = exp$.
-\subsection{Question 2}
-Non, si g = h = f.
-\subsubsection{Question 3}
-Non : Si on a $f = n, g = n^{2} \in \Omega(f(n)), h = f \in \Theta(f(n))$ alors $g + h \neq \O(f(n))$
-
-\subsection{Exercice 2}
-On rappelle la formule de Stirling : \[n! \sim \left(\frac{n^{n}}{e^{n}}\right)\sqrt{2\pi n}\]
-Immédiatement, on en déduit la première relation.
-
-On a par ailleurs la seconde égalité en passant au logarithme, fonction continue en $+\infty$
-
-\subsection{Exercice 3}
-On rappelle les formules suivantes: 
-\[\begin{cases}    
-    (n+a)^{b} &= n^{b}(1 + \frac{a}{n})^{b}\\
-    (1+\frac{a}{n})^{b} &= 1 + b\frac{a}{n} + o(\frac{a}{n}) \in \left[1; 1+ba\right]
-\end{cases}\]
-Immédiatement, on a la relation souhaité.
-
-\section{Data Structures}
-\subsection{Exercice 4}
-Il suffit de diviser l'array en deux sous arrays de taille $n/2$, une array commençant en $i = 0$, une commençant en $j = -1$ et on stocke les deux indices de fin de la pile courant.
-
-\subsection{Exercice 5}
-\subsubsection{Question 1}
-On définit un algorithme de $reverse$ de list en temps linéaire en ajoutant tous les éléments dans une pile puis en dépilant dans une liste. On effectue bien $2n = \O(n)$ opérations.\\
-Il suffit alors de comparer les deux listes en temps linéaire.
-
-\subsubsection{Question 2}
-Pour une liste vide, ou d'un seul élément on renvoie True. 
-On reverse en place la première moitié de la liste et on la compare à la seconde et normalement ça marche. 
-
-\subsection{Exercice 6}
-On utilise deux piles : On push dans la première, et on pop de la seconde. Lorsque la seconde pile est vide, on pop de la première et on push dans la seconde, ce qui permet bien de former une pile. 
-
-\subsection{Exercice 7}
-\subsubsection{Question 1}
-On utilise les arrays standards et lorsqu'on dépasse la capacité, on double le nombre de cases, qu'on initialise à -1, en stockant l'indice du dernier élément de la liste. On a alors toujours une complexité en espace en $\O(n)$ puisqu'on a toujours au plus $2n$ cases. \\
-
-\subsubsection{Question 2}
-On effectue la suite suivante d'instructions, pour $n \in \N$ : \begin{enumerate}
-    \item On ajoute $2n$ éléments
-    \item On retire $n+1$ éléments
-    \item On ajoute $1$ élément
-    \item On recommence en modifiant $n$
-\end{enumerate}
-
-\subsubsection{Question 3}
-Il suffit alors d'attendre de passer en dessous de la barre de 25\% du tableau rempli. On a bien tout de même une complexité en $\O(n)$.
-
- \section{Greedy Algorithms}
-\subsection{Exercice 8}
-\subsubsection{Question 1}
-\begin{algorithm}
-   \caption{Greedy Algorithm for Scheduling Problem} 
-   \begin{algorithmic}
-        \Input $\ a$ \Comment Vecteur de tuples correspondant aux activités 
-        \EndInput
-        \State $E \gets ListeVide()$
-        \State $Sort(a, (fun : x, y \mapsto x[1] \leq y[1]))$ \Comment On trie les activités par date de fin croissante
-        \State $s \gets PileVide()$
-        \State $Push(a, s)$  \Comment On ajoute une à une les activités de $a$ dans une pile.
-        \While ($s$)
-            \State $ac \gets Pop(s)$
-            \If ($ac$ est compatible)
-                \State $Ajouter(E, ac)$
-            \EndIf
-        \EndWhile\\
-        \Return $E$
-   \end{algorithmic}
-\end{algorithm}
-\begin{proof}[Correction]
-    On introduit une solution optimale, la plus proche possible de l'algo.     
-\end{proof}
-
-\subsubsection{Question 2}
-On prend $T1 = \left[1, 2\right], T2 = \left[3, 4\right], T3 = \left[1.5, 2.5\right]$
-
-\subsubsection{Question 3}
-Bon on fait de la Programmation Dynamique. Relation de récurrence $\forall i DP(i)$ est le max des poids sur $\left\{T_{1}, \ldots, T_{i}\right\}$
-\[
-\begin{cases}
-    DP(0) &= 0\\
-    DP(i+1) &= \max(DP(i), w_{i+1} + DP(p(i+1))) \text{ où } p(i) \text{ est le dernier indice de la dernière tâche compatible} 
-\end{cases}    
-\]
-
 \part[Recursion]{Lecture 2 - 5/10}
 \localtableofcontents
 \section{Divide and Conquer}
@@ -474,7 +381,7 @@ Then we insert a key in constant time $\O(1)$, search a key in time $\O(\left|h[
 
 Further analysis leads to the following theorem. 
 \begin{theorem}[Simple Uniform Hashing Assumption]
-    Assuming SUHA : \og \textit{$h$ equally distributes the keys into the table slots}\fg, and assuming $h(x)$ can be computed in $\O(1)$, $E\left[T_{search}(n)\right] = \O\left(1 + \frac{n}{m}\right)$, and same for deletion time. \\
+    Assuming SUHA : "\textit{$h$ equally distributes the keys into the table slots}", and assuming $h(x)$ can be computed in $\O(1)$, $E\left[T_{search}(n)\right] = \O\left(1 + \frac{n}{m}\right)$, and same for deletion time. \\
     Formally, SUHA is : 
     \[
         \begin{aligned}
@@ -486,8 +393,8 @@ Further analysis leads to the following theorem.
 \begin{proof}
     \begin{enumerate}
         \item Unsuccessful Search : Suppose that $k_{0}, \ldots, k_{n-1}$ are keys in the dictionary and we perform an unsuccessful search for a key $k$.
-        The number of comparisons is : $\sum_{i = 0}^{n-1} \mathds{1}_{h(k) = h(k_{i})}$. Then, the expected time is : $\mathbb{E}[T_{search}] = \frac{n}{\abs{T}}$ by SUHA.
-        \item Successful Search : Suppose keys were introduced in order $k_{0}, \ldots, k_{n-1}$. $k_{i}$ appears before any of $k_{0}, \ldots, k_{i-1}$ and after any of $k_{i+1}, \ldots, k_{n-1}$ that are in the same linked list. Then, to search for $k_{i}$, we need $\sum_{j = i + 1}^{n- 1} \mathds{1}_{h(k_{j}) = h(k_{i})}$. Under SUHA, the expectation of each of these variables is $\frac{1}{\abs{T}}$. Then, the average expected search time is : $\frac{1}{n}\sum_{i = 0}^{n-1} = 1 + \frac{1}{n}\sum_{i = 0}^{n-1}\frac{(n-1-i)}{\abs{T}} = \O(1 + \frac{n}{\abs{T}})$
+        The number of comparisons is : $\sum_{i = 0}^{n-1} \mathbb{1}_{h(k) = h(k_{i})}$. Then, the expected time is : $\mathbb{E}[T_{search}] = \frac{n}{\abs{T}}$ by SUHA.
+        \item Successful Search : Suppose keys were introduced in order $k_{0}, \ldots, k_{n-1}$. $k_{i}$ appears before any of $k_{0}, \ldots, k_{i-1}$ and after any of $k_{i+1}, \ldots, k_{n-1}$ that are in the same linked list. Then, to search for $k_{i}$, we need $\sum_{j = i + 1}^{n- 1} \mathbb{1}_{h(k_{j}) = h(k_{i})}$. Under SUHA, the expectation of each of these variables is $\frac{1}{\abs{T}}$. Then, the average expected search time is : $\frac{1}{n}\sum_{i = 0}^{n-1} = 1 + \frac{1}{n}\sum_{i = 0}^{n-1}\frac{(n-1-i)}{\abs{T}} = \O(1 + \frac{n}{\abs{T}})$
     \end{enumerate}
     This concludes the proof of the theorem. 
 \end{proof}
@@ -532,7 +439,7 @@ Elements are stored in the table. To insert, we probe the hash table until we fi
 \end{theorem}
 \begin{proof}
     An unsuccessful search on $x$ means that every probed slot except the last one is occupied and does not contain $x$, and the last one is empty. 
-    We define $A_{i}$ the event \og The $i$-th probe occurs and is occupied.\fg. By Bayes's Theorem, we must estimate : 
+    We define $A_{i}$ the event " The $i$-th probe occurs and is occupied.". By Bayes's Theorem, we must estimate : 
     \[
         \mathbb{P}[\text{\# of probes} \geq i] = \prod_{k = 1}^{i - 1} \mathbb{P}[A_{k} \mid \bigcap\limits_{j = 1}^{k - 1} A_{j}]
     \]
@@ -695,7 +602,7 @@ It is sufficient to find the cardinality of the set $\left\{ih_{2}(k) \mid i \in
 \subsubsection{Question a.}
 We know that the number of probes during insertion is the number of probes seen during search.\\
 An unsuccessful search on $x$ means that every probed slot except the last one is occupied and does not contain $x$, and the last one is empty. 
-We define $A_{i}$ the event \og The $i$-th probe occurs and is occupied.\fg. By Bayes's Theorem, we must estimate : 
+We define $A_{i}$ the event " The $i$-th probe occurs and is occupied.". By Bayes's Theorem, we must estimate : 
 \[
     \mathbb{P}[\text{\# of probes} \geq i] = \prod_{k = 1}^{i - 1} \mathbb{P}[A_{k} \mid \bigcap\limits_{j = 1}^{k - 1} A_{j}]
 \]
@@ -740,6 +647,7 @@ This is Langrange's Theorem.
 As there is an even number of elements in $\mathbb{F}$, there are as many elements in $\mathbb{F}$ ordered with an even and an odd number. Then, by question 1, since there is a one-to-one mapping between $\mathbb{F}^{4}$ and $G$, there are, for each tuple in $\left\{\pm 1\right\}^{4}$, $2^{4} = m^{4}$ functions that suit. Thus, $H$ is 4-independent. 
 
 \part[Integer Sets]{Lecture 4 : 26/10}
+\localtableofcontents
 \section{Binary Search Trees}
 \begin{definition}
     A Binary Tree is a rooted tree with every node having at most two children. Binary search trees are binary trees verifying the following : 
@@ -825,15 +733,15 @@ We define right rotations to be the reverse operation.
 \end{definition}
 
 \begin{proposition}[Search]
-    The usual algorithm yields time in $\O(depth of the node)$ for a successful search and $\O(\max \left(\textmd{depth}(v^{-}), \textmd{depth}(v^{+})\right))$ where $\textmd{key}(v^{-})$ is the predecessor of the searched key.
+    The usual algorithm yields time in $\O(depth of the node)$ for a successful search and $\O(\max \left(\texttt{depth}(v^{-}), \texttt{depth}(v^{+})\right))$ where $\texttt{key}(v^{-})$ is the predecessor of the searched key.
 \end{proposition}
 
 \begin{proposition}[Insertion]
-    The standard BST algorithm with added rotations to fix the heap properties (if $p(z) \leq p(z.p)$, rotate auround $(z, z.p)$) yields time complexity in $\O(\max\left(\textmd{depth}(v^{-}), \textmd{depth}(v^{+})\right))$.
+    The standard BST algorithm with added rotations to fix the heap properties (if $p(z) \leq p(z.p)$, rotate auround $(z, z.p)$) yields time complexity in $\O(\max\left(\texttt{depth}(v^{-}), \texttt{depth}(v^{+})\right))$.
 \end{proposition}
 
 \begin{proposition}[Deletion]
-    We run the insertion algorithm backwards : let $\textmd{light}(z)$ be the child of $z$ with smaller priority. The choice of this edge preserves the heap property everywhere except at $z$. As long as $z$ is not a leaft, rotate around $(z, \textmd{ligth}(z))$, then chop it off.
+    We run the insertion algorithm backwards : let $\texttt{light}(z)$ be the child of $z$ with smaller priority. The choice of this edge preserves the heap property everywhere except at $z$. As long as $z$ is not a leaft, rotate around $(z, \texttt{ligth}(z))$, then chop it off.
 \end{proposition}
 
 \begin{proposition}[Split]
@@ -846,16 +754,16 @@ We define right rotations to be the reverse operation.
 
 \begin{proposition}[Complexity]
     \begin{itemize}
-        \item Time for a successful search : $\O(\textmd{depth(v)})$ where $\textmd{key}(v) = k$.
-        \item Time for an unsuccessful search : $\O(\max \left(\textmd{depth}(v^{-}), \textmd{depth}(v^{+})\right))$ where $\textmd{key}(v^{-})$ is the predecessor of the searched key.
-        \item Insertion Time : $\O(\max \left(\textmd{depth}(v^{-}), \textmd{depth}(v^{+})\right))$ where $\textmd{key}(v^{-})$ is the predecessor of the searched key.
+        \item Time for a successful search : $\O(\texttt{depth(v)})$ where $\texttt{key}(v) = k$.
+        \item Time for an unsuccessful search : $\O(\max \left(\texttt{depth}(v^{-}), \texttt{depth}(v^{+})\right))$ where $\texttt{key}(v^{-})$ is the predecessor of the searched key.
+        \item Insertion Time : $\O(\max \left(\texttt{depth}(v^{-}), \texttt{depth}(v^{+})\right))$ where $\texttt{key}(v^{-})$ is the predecessor of the searched key.
         \item Deletion Time : $\O(\text{tree depth})$
         \item Split/Merge Time : same as insertion / deletion
     \end{itemize}
 \end{proposition}
 
 We will choose the priorities to be independently and uniformly distributed continuous random variables. We denote by $x_{1}, \ldots, x_{n}$ the nodes of the tree in the increasing order of the keys.
-We denote  by $i \uparrow k$, the event $x_{i}$ if a proper ancestor of $x_{k}$ : $\textmd{depth}(x_{k}) = \sum_{i = 1}^{i = n} \left[i \uparrow k\right]$
+We denote  by $i \uparrow k$, the event $x_{i}$ if a proper ancestor of $x_{k}$ : $\texttt{depth}(x_{k}) = \sum_{i = 1}^{i = n} \left[i \uparrow k\right]$
 
 \begin{lemma}
     Define \[
@@ -886,7 +794,7 @@ We denote  by $i \uparrow k$, the event $x_{i}$ if a proper ancestor of $x_{k}$ 
     \]
     Then : 
     \[
-        \mathbb{E}\left[\textmd{depth}(x_{k})\right] = \sum_{i = 1}^{i = n}\mathbb{P}\left[i \uparrow k\right] = \sum_{i = 1}^{k - 1}\frac{1}{k - i + 1} + \sum_{k+1}^{n}\frac{1}{i - k + 1} = H_{k} - 1 + H_{n - k + 1} - 1 < 2 \ln n - 2
+        \mathbb{E}\left[\texttt{depth}(x_{k})\right] = \sum_{i = 1}^{i = n}\mathbb{P}\left[i \uparrow k\right] = \sum_{i = 1}^{k - 1}\frac{1}{k - i + 1} + \sum_{k+1}^{n}\frac{1}{i - k + 1} = H_{k} - 1 + H_{n - k + 1} - 1 < 2 \ln n - 2
     \]
     Thus, all treap operations take $\O(\log n)$ time in expectation
 \end{corollary}
@@ -929,14 +837,14 @@ We want to maintain a set $S$ of integers from a universe $U = \left[1, u\right]
 If the time per operation satisfies : $T(u) = T(\sqrt{u}) + \O(1)$, by Substitution, $T(u) = \O(\log \log u)$. We will split $U$ into $\sqrt{u}$ chunks of size $\sqrt{u}$ size, and the recurse. 
 \begin{definition}[Recursive van Emde Boas Trees]
     \begin{itemize}
-        \item \textmd{T.summary} is a vEB-tree of size $\sqrt{u}$ containing all $i$ such that the $i$-th chunk is not empty. 
-        \item For each $1 \leq i \leq \sqrt{u}$, \textmd{T.chunk[$i$]} is a vEB-tree of size $\sqrt{u}$ containing $x \textmd{mod} \sqrt{u}$ for each $x$ in the $i$-th tree. 
-        \item \textmd{T.min} is the smallest element in $T$, not stored recursively. 
+        \item \texttt{T.summary} is a vEB-tree of size $\sqrt{u}$ containing all $i$ such that the $i$-th chunk is not empty. 
+        \item For each $1 \leq i \leq \sqrt{u}$, \texttt{T.chunk[$i$]} is a vEB-tree of size $\sqrt{u}$ containing $x \texttt{mod} \sqrt{u}$ for each $x$ in the $i$-th tree. 
+        \item \texttt{T.min} is the smallest element in $T$, not stored recursively. 
     \end{itemize}    
     We represent each integer $x = \langle c, i \rangle$ where 
     \begin{itemize}
         \item $c$ is the chunk coordinates : $c = x // \sqrt{u}$
-        \item $i$ is the position of $x$ in the chunk : $i = x \textmd{mod} \sqrt{u}$
+        \item $i$ is the position of $x$ in the chunk : $i = x \texttt{mod} \sqrt{u}$
     \end{itemize}
 \end{definition}
 
@@ -945,16 +853,16 @@ If the time per operation satisfies : $T(u) = T(\sqrt{u}) + \O(1)$, by Substitut
     \begin{algorithm}
         \caption{Successor Complexity Verifies : $T(u) = T(\sqrt{u}) + \O(1)$}
         \begin{algorithmic}
-            \Function \textmd{Successor}
+            \Function \texttt{Successor}
                 \Input $\ \ (T, x = \langle c, i \rangle)$
                 \EndInput
                 \If {$x < T.min$} 
                     \State \Return $T.min$
                 \EndIf
                 \If {$i < T.chunk[c].max$}
-                    \State \Return $\langle c, \textmd{Successor}\left(T.chunk[c], i\right) \rangle$
+                    \State \Return $\langle c, \texttt{Successor}\left(T.chunk[c], i\right) \rangle$
                 \Else 
-                    \State $c^{'} = \textmd{Successor}(T.summary, c)$
+                    \State $c^{'} = \texttt{Successor}(T.summary, c)$
                     \State \Return $\langle c^{'}, T.chunk[c^{'}].min\rangle$
                 \EndIf
             \EndFunction
@@ -967,7 +875,7 @@ If the time per operation satisfies : $T(u) = T(\sqrt{u}) + \O(1)$, by Substitut
     \begin{algorithm}
         \caption{Insertion Complexity Verifies : $T(u) = T(\sqrt{u}) + \O(1)$}
         \begin{algorithmic}
-            \Function \textmd{Insert}
+            \Function \texttt{Insert}
                 \Input $\ \ (T, x = \langle c, i \rangle)$
                 \EndInput
                 \If {$T.min = None$} 
@@ -975,15 +883,15 @@ If the time per operation satisfies : $T(u) = T(\sqrt{u}) + \O(1)$, by Substitut
                     \State \Return
                 \EndIf
                 \If {$x < T.min$}
-                    \State $\textmd{swap}(x, T.min)$
+                    \State $\texttt{swap}(x, T.min)$
                 \EndIf
                 \If {$x > T.max$}
                     \State $T.max = x$
                 \EndIf
                 \If {$T.chunk[c].min = None$}
-                    \State $\textmd{Insert}(T.summary, c)$
+                    \State $\texttt{Insert}(T.summary, c)$
                 \EndIf
-                \State $\textmd{Insert}(T.chunk[c], i)$
+                \State $\texttt{Insert}(T.chunk[c], i)$
             \EndFunction
         \end{algorithmic}
     \end{algorithm}    
@@ -994,7 +902,7 @@ If the time per operation satisfies : $T(u) = T(\sqrt{u}) + \O(1)$, by Substitut
     \begin{algorithm}
         \caption{Deletion Complexity Verifies : $T(u) = T(\sqrt{u}) + \O(1)$}
         \begin{algorithmic}
-            \Function \textmd{Delete}
+            \Function \texttt{Delete}
                 \Input $\ \ (T, x = \langle c, i \rangle)$
                 \EndInput
                 \If {$x = T.min$} 
@@ -1004,9 +912,9 @@ If the time per operation satisfies : $T(u) = T(\sqrt{u}) + \O(1)$, by Substitut
                     \EndIf
                     \State $x = T.min = \langle c, i = T.chunk[c].min \rangle$
                 \EndIf
-                \State $\textmd{Delete}(T.chunk[c], i)$
+                \State $\texttt{Delete}(T.chunk[c], i)$
                 \If {$T.chunk[c].min = None$}
-                    \State $\textmd{Delete}(T.summary, c)$
+                    \State $\texttt{Delete}(T.summary, c)$
                 \EndIf
                 \If {$T.summary.min = None$}
                     \State $T.max = T.min$
@@ -1027,7 +935,7 @@ If the time per operation satisfies : $T(u) = T(\sqrt{u}) + \O(1)$, by Substitut
 \end{proposition}
 
 \begin{proposition}[Original van Emde Boad trees]
-    For $\textmd{Successor}(x)$, as the path from the root to $x$ is monotone, binary searching the path to find the lowest 1 gives us either the predecessor or the successor of $x$. By storing all nodes in an array of size $\O(u)$ to allow efficient binary search; a pointer from each node to the maximum and minimum of their subtree; all the elements as a doubly-linked list, we find the successor and the predecessor of $x$ in $\O(\log \log u)$ time.\\
+    For $\texttt{Successor}(x)$, as the path from the root to $x$ is monotone, binary searching the path to find the lowest 1 gives us either the predecessor or the successor of $x$. By storing all nodes in an array of size $\O(u)$ to allow efficient binary search; a pointer from each node to the maximum and minimum of their subtree; all the elements as a doubly-linked list, we find the successor and the predecessor of $x$ in $\O(\log \log u)$ time.\\
     Update is done in $\O(\log u)$ time, since we only need to update the element-to-root path, in $\Theta(u)$ space
 \end{proposition}
 
@@ -1060,6 +968,7 @@ If the time per operation satisfies : $T(u) = T(\sqrt{u}) + \O(1)$, by Substitut
 \end{proof}
 
 \part[Algorithms on strings]{Lecture 5 : 9/11}
+\localtableofcontents
 \section{General Definitions}
 \begin{definition}
     An alphabet $\Sigma$ is a finite set. Elements of $\Sigma$ are letters, characters or symbols, denoted by small letters. A string (or word), is a finite sequence of letters, denoted by a capital letter. \\
@@ -1107,7 +1016,7 @@ The naïve algorithm consists of looking, for each possible starting position in
         \item Correctness : In fact, $B[1, k] \in \left\{B[k - 1] + 1, B^{2}[k - 1] + 1, \ldots, 0\right\}$.\\
         From property 2, any border of $P[1, k]$ can be obtained by appending $P[k]$ to some border of $P[1, k - 1]$.\\
         From property 4, $B^{j}[k - 1]$ is the $j$-th longest border of $P[1, k - 1]$.
-        \item Time : $\textmd{Time}(B[k]) \leq \abs{B[k] - B[k - 1]}$, indeed, if $B[k] = B^{j}[k - 1] + 1$, we use $j$ steps.
+        \item Time : $\texttt{Time}(B[k]) \leq \abs{B[k] - B[k - 1]}$, indeed, if $B[k] = B^{j}[k - 1] + 1$, we use $j$ steps.
         Observe that : 
         \[
             -1 \leq \sum_{k}\left(B[k] - B[k - 1]\right) = \sum^{-}\left(B[k] - B[k - 1]\right) + \sum^{+}\left(B[k] - B[k - 1]\right) \leq m
@@ -1122,11 +1031,11 @@ The naïve algorithm consists of looking, for each possible starting position in
     \begin{algorithmic}
         \Input $\ \ T, P, n, m$
         \EndInput
-        \State $B \gets \textmd{BorderArray}(P)$
+        \State $B \gets \texttt{BorderArray}(P)$
         \State $L \gets []$
         \State $i \gets 1, \ j\gets 1$
         \While {$i \leq n - m + j$}
-            \State $(i, j) \gets \textmd{match}(i, j, m)$
+            \State $(i, j) \gets \texttt{match}(i, j, m)$
             \If {$j = m + 1$} 
                 \State $L \gets (i - m)::L$
             \Else 
@@ -1237,19 +1146,19 @@ We will first assume that no pattern in $D$ is a substring of another.
     \begin{algorithmic}
         \Input \ $T, D, n$
         \EndInput
-        \State $curr_node \gets root, i \gets 1, L \gets []$
+        \State $curr\_node \gets root, i \gets 1, L \gets []$
         \While {$i \leq n$}
-            \If {$\exists e = (curr_node, u)$ labeled with $T[i]$}
-                \State $curr_node \gets u$
-                \If {$curr_node$ corresponds to a pattern}  
+            \If {$\exists e = (curr \_node, u)$ labeled with $T[i]$}
+                \State $curr\_node \gets u$
+                \If {$curr\_node$ corresponds to a pattern}  
                     \State $L \gets i :: L$
                 \EndIf
                 \State $i \gets i + 1$
             \Else
-                \If {$curr_node = root$}
+                \If {$curr \_node = root$}
                     \State $i \gets i + 1$
                 \Else
-                    \State $curr_node = \textmd{failure_link}(curr_node)$
+                    \State $curr_node = \texttt{failure\_link}(curr\_node)$
                 \EndIf
             \EndIf
         \EndWhile
@@ -1262,7 +1171,7 @@ We will first assume that no pattern in $D$ is a substring of another.
 \begin{proof}
     \begin{itemize}
         \item Space : $m$ is the total length of the patterns
-        \item Time : We need $\O(m)$ time to build the trie. Consider how the depth of $curr_node$ changes during the algorithm.
+        \item Time : We need $\O(m)$ time to build the trie. Consider how the depth of $curr\_node$ changes during the algorithm.
         \begin{itemize}
             \item Every time we do down an edge (happens $\leq n$ times), it increases by $1$. Every time we follow a failure link, it decreases by $\geq 1$.
             \item Therefore, as the depth is always positive, we follow a failure link at most $n$ times.
@@ -1282,7 +1191,7 @@ We will first assume that no pattern in $D$ is a substring of another.
     Output links can be built in $\O(m)$ time by one top-down traversal of the failure link tree.
 \end{proposition}
 
-We modify the algorithm : at each step it follows the path from $curr_node$ and outputs the patterns in the output link path.
+We modify the algorithm : at each step it follows the path from $curr \_node$ and outputs the patterns in the output link path.
 
 \begin{theorem} 
     The multiple pattern matching problem can ve solved in $\O(m)$ space and $\O(n + m + occ)$ where $occ$ is the total number of occurences of the patterns in the text.
@@ -1340,7 +1249,7 @@ By bottom-up traversal, we find the deepest node in the tree such that its subtr
     This algorithm has time complexity $\O(\abs{T_{1}} + \abs{T_{2}})$.
 \end{proposition}
 
-We can generalise this to any $m$ strings in time $\O(n)$ where $n = \sum_{k = 1}^{m} \abs{T_{k}}$. We will use the following fact : we can preprocess a tree of size $\O(n)$ in time $\O(n)$ to support lowest common ancestor ($LCA$) queries in constant time. (see \href{this}{http://static.aminer.org/pdf/PDF/000/118/469/theoretical_and_practical_improvements_on_the_rmq_problem_with_applications.pdf}) $LCA(u, v)$ must return the lowest node that is an ancestor of both $u$ and $v$.
+We can generalise this to any $m$ strings in time $\O(n)$ where $n = \sum_{k = 1}^{m} \abs{T_{k}}$. We will use the following fact : we can preprocess a tree of size $\O(n)$ in time $\O(n)$ to support lowest common ancestor ($LCA$) queries in constant time. (see ) $LCA(u, v)$ must return the lowest node that is an ancestor of both $u$ and $v$.
 
 \begin{openpb}
     We showed that the longest common substring problem for two string can be solved in $\O(n)$ space and $\O(n)$ time. It is also known that the problem can be solved in $\O(s)$ extra space and time 
@@ -1352,13 +1261,14 @@ We can generalise this to any $m$ strings in time $\O(n)$ where $n = \sum_{k = 1
 \end{openpb}
 
 \part[Disjoint-Set Structure]{Lecture 6 : 23/11}
+\localtableofcontents
 \section{Disjoint-set Data Structure}
 \begin{definition}
     A disjoint-set data structure is a way to maintain a collection of disjoint sets with 3 operations : 
     \begin{itemize}
-        \item \texttt{make_set($x$)} : create a new set containing one element, $x$
-        \item \texttt{union_set($x, y$)} : union the sets containing $x$ and $y$
-        \item \texttt{find_set($x$)} : return a pointer to the representative of the set containing $x$
+        \item \texttt{make\_set($x$)} : create a new set containing one element, $x$
+        \item \texttt{union\_set($x, y$)} : union the sets containing $x$ and $y$
+        \item \texttt{find\_set($x$)} : return a pointer to the representative of the set containing $x$
     \end{itemize}
     We will parametrize by $n$ the number of elements and $m$ the number of operations.
 \end{definition}
@@ -1371,21 +1281,21 @@ It can also be used to represent the ways player play in the HEX game.
 \section{Linked-list Representation}
 Here, each set is a linked list, and the representative is the head of the list. For every element, we store a pointer to the node containing it. In that node, we store a pointer to the representative.
 \begin{proposition}
-    In this situation : \texttt{make_set} and \texttt{find_set} are done in $\O(1)$.
+    In this situation : \texttt{make\_set} and \texttt{find\_set} are done in $\O(1)$.
 \end{proposition}
 
-For \texttt{union_set}, it requires more work.\\
+For \texttt{union\_set}, it requires more work.\\
 Indeed, simply appending the set of $y$ to the set of $x$ takes constant time, but updating the pointers to the representatives is done in $\Theta\left(\abs{\text{set of }y}\right)$. By doing the following sequence of operation : 
 \[
-    \texttt{make_set}(x_{1}), \texttt{make_set}(x_{2}), \ldots, \texttt{make_set}(x_{n});\\
-    \texttt{union_set}(x_{2}, x_{1}), \texttt{union_set}(x_{3}, x_{2}),\ldots, \texttt{union_set}(x_{n}, x_{n-1})
+    \texttt{make\_set}(x_{1}), \texttt{make\_set}(x_{2}), \ldots, \texttt{make\_set}(x_{n});\\
+    \texttt{union\_set}(x_{2}, x_{1}), \texttt{union\_set}(x_{3}, x_{2}),\ldots, \texttt{union\_set}(x_{n}, x_{n-1})
 \]
 we see that even the amortised time per operation can be large, as it takes a total time of $\Theta\left(n^{2}\right)$ and the amortised being $\Theta(n)$.
 
 Then, we propose a weighted-union strategy : if the set of $x$ is larger than the set of $y$, we append the latter to the former, else we append the set of $x$ to the set of $y$.
 
 \begin{theorem}
-    Using linked-lists and the weighted-union strategy, doing $m$ \texttt{make_set}, \texttt{union_set} and \texttt{find_set}, $n$ of which are \texttt{union_set} takes $\O\left(m + n\log n\right)$
+    Using linked-lists and the weighted-union strategy, doing $m$ \texttt{make\_set}, \texttt{union\_set} and \texttt{find\_set}, $n$ of which are \texttt{union\_set} takes $\O\left(m + n\log n\right)$
 \end{theorem}
 
 \begin{proof}
@@ -1393,11 +1303,11 @@ Then, we propose a weighted-union strategy : if the set of $x$ is larger than th
 \end{proof}
 
 \section{Disjoint-set forests}
-Here, each set is a treee whose root is the representative. Each node stores a pointer to its parent. \texttt{make_set}($x$) creates a tree containing only one node, \texttt{find_set}($x$) follows the path from $x$ to the root and \texttt{union_set}($x, y$) makes the root of the tree of $y$ become a child of the root of the tree of $x$.\\
+Here, each set is a treee whose root is the representative. Each node stores a pointer to its parent. \texttt{make\_set}($x$) creates a tree containing only one node, \texttt{find\_set}($x$) follows the path from $x$ to the root and \texttt{union\_set}($x, y$) makes the root of the tree of $y$ become a child of the root of the tree of $x$.\\
 We will use two strategies : 
 \begin{itemize}
-    \item Path Compression : During \texttt{find_set}($x$), we make each node on the path to the root be a child of the root.
-    \item Union by Rank : During \texttt{union_set}, the root of the tree with smaller rank becomes a child of the root of the tree with larger rank.
+    \item Path Compression : During \texttt{find\_set}($x$), we make each node on the path to the root be a child of the root.
+    \item Union by Rank : During \texttt{union\_set}, the root of the tree with smaller rank becomes a child of the root of the tree with larger rank.
 \end{itemize}
 
 \begin{definition}
@@ -1411,30 +1321,31 @@ We will use two strategies :
 \begin{algorithm}
     \caption{Union-Find}
     \begin{algorithmic}
-        \Function \texttt{make_set}
+        \Function \texttt{make\_set}
         \Input \ \ $x$
         \EndInput
         \State $x.p \gets x$
         \State $x.rank \gets 0$
         \EndFunction
 
-        \Function \texttt{union_set}
+        \Function \texttt{union\_set}
         \Input \ \ $x, y$
         \EndInput
-        \State \texttt{link(find_set($x$), find_set($y$))}
+        \State \texttt{link(find\_set($x$), find\_set($y$))}
         \EndFunction
 
-        \Function \texttt{find_set}
+        \Function \texttt{find\_set}
         \Input \ \ $x$
         \EndInput
         \If {$x \neq x.p$}
-            \State $x.p \gets find_set(x.p)$
+            \State $x.p \gets find\_set(x.p)$
         \EndIf
         \Return $x.p$
         \EndFunction
 
         \Function \texttt{link}
         \Input \ \ $x, y$
+        \EndInput
         \If {$x \neq y$}
             \If {$x.rank > y.rank$}
                 \State $y.p \gets x$
@@ -1451,7 +1362,7 @@ We will use two strategies :
 
 
 \section{Time Analysis}
-We defined $n$ as the number of elements, i.e. of \texttt{make_set} and $m$ the total number of operations.
+We defined $n$ as the number of elements, i.e. of \texttt{make\_set} and $m$ the total number of operations.
 
 \begin{theorem}[Tarjan] % FUCK TARJAN
     Using both Union by Rank and Path Compression, the time complexity for any sequence of Find and Union is $\O(m + n\alpha(n))$ where $\alpha(4)$ is the inverse of the Ackermann function. In any conceivable application $\alpha(n) \leq 4$. This time complexity is tight.
@@ -1461,13 +1372,13 @@ We defined $n$ as the number of elements, i.e. of \texttt{make_set} and $m$ the 
 We will first start with a simpler analysis showing $\O(m \log^{\star} n)$.\\
 
 \begin{proposition}
-    Suppose we convert a sequence of $m^{'}$ operations \texttt{make_set, union_set, find_set} into $m$ operations \texttt{make_set, link, find_set}. If we can execute the latter in $\O(m \cdot \alpha(n))$, we can execute the former in $\O(m^{'} \cdot \alpha(n))$.
+    Suppose we convert a sequence of $m^{'}$ operations \texttt{make\_set, union\_set, find\_set} into $m$ operations \texttt{make\_set, link, find\_set}. If we can execute the latter in $\O(m \cdot \alpha(n))$, we can execute the former in $\O(m^{'} \cdot \alpha(n))$.
 \end{proposition}
 
 \begin{proof}
     $m^{'} \leq m \leq 3m^{'}$
 \end{proof}
-We will thus assume we have only \texttt{make_set, link, find_set} operations.
+We will thus assume we have only \texttt{make\_set, link, find\_set} operations.
 
 \begin{proposition}
     \begin{itemize}
@@ -1517,13 +1428,13 @@ We will thus assume we have only \texttt{make_set, link, find_set} operations.
     It is bad otherwise.
 \end{definition}
 
-A \texttt{find_set} visits $\O(\log^{\star} n)$ good nodes. Therefore, the total time complexity is $\O(m\log^{\star} n + \abs{\left\{\text{bad nodes visited}\right\}})$. 
+A \texttt{find\_set} visits $\O(\log^{\star} n)$ good nodes. Therefore, the total time complexity is $\O(m\log^{\star} n + \abs{\left\{\text{bad nodes visited}\right\}})$. 
 
 \begin{proposition}
     The total number of visits of bad nodes is $\O(n\log^{\star} n)$
 \end{proposition}
 \begin{proof}
-    Bad nodes have frozen rank. When a bad node $x$ is visited by a \texttt{find_set}, the new $x.p$ has rank strictly larger than the previous one. Hence, for each bad node $x$ in a bucket $B = \left[b, 2^{b}-1\right]$ the number of times $x$ is visited while $x$ is bad is at most $2^{b} - 1$, so by \ref{bucketlemma}, it is at mode $\O\left(\frac{2n}{2^{b}}\right)$. So the number of times we visit a bad node in $B$ is $\O(n)$.
+    Bad nodes have frozen rank. When a bad node $x$ is visited by a \texttt{find\_set}, the new $x.p$ has rank strictly larger than the previous one. Hence, for each bad node $x$ in a bucket $B = \left[b, 2^{b}-1\right]$ the number of times $x$ is visited while $x$ is bad is at most $2^{b} - 1$, so by \ref{bucketlemma}, it is at mode $\O\left(\frac{2n}{2^{b}}\right)$. So the number of times we visit a bad node in $B$ is $\O(n)$.
 \end{proof}
 
 Thus, the total complexity is $\O\left(m \log^{\star} n\right)$
@@ -1619,7 +1530,7 @@ Then, if we denote by $t_{q}$ the time for the $q$-th operation :
     \]
     Also : 
     \[
-        \Phi_{q}(x) \leq \alpha(n)\cdot x.rank - 1 < \alpah(n) x.rank
+        \Phi_{q}(x) \leq \alpha(n)\cdot x.rank - 1 < \alpha(n) x.rank
     \]
 \end{proof}
 \begin{corollary}\label{cor9}
@@ -1627,7 +1538,7 @@ Then, if we denote by $t_{q}$ the time for the $q$-th operation :
 \end{corollary}
 
 \begin{lemma}\label{lemma10}
-    If $x$ is not a root, the $q$-th operation is \texttt{link} or \texttt{find_set} then $\Phi_{q}(x) \leq \Phi_{q - 1}(x)$. Moreover, if $x.rank \geq 1$ and either $\texttt{level}(x)$ or $\texttt{iter}(x)$ changes, then $\Phi_{q}(x) \leq \Phi_{q - 1}(x) - 1$.
+    If $x$ is not a root, the $q$-th operation is \texttt{link} or \texttt{find\_set} then $\Phi_{q}(x) \leq \Phi_{q - 1}(x)$. Moreover, if $x.rank \geq 1$ and either $\texttt{level}(x)$ or $\texttt{iter}(x)$ changes, then $\Phi_{q}(x) \leq \Phi_{q - 1}(x) - 1$.
 \end{lemma}
 \begin{proof}
     Since $x$ is not a root, the rank of $x$ is frozen.
@@ -1644,10 +1555,10 @@ Then, if we denote by $t_{q}$ the time for the $q$-th operation :
 \subsection{Time Bound}
 More lemmas : 
 \begin{lemma}
-    The amortised cost of each \texttt{make_set} is $\O(1)$
+    The amortised cost of each \texttt{make\_set} is $\O(1)$
 \end{lemma}
 \begin{proof}
-    \texttt{make_set} creates a node $x$ with $\Phi_{q}(x) = 0$. Hence, $\Phi_{q}(F) = \Phi_{q - 1}(F)$ and the amortised time is $1$.
+    \texttt{make\_set} creates a node $x$ with $\Phi_{q}(x) = 0$. Hence, $\Phi_{q}(F) = \Phi_{q - 1}(F)$ and the amortised time is $1$.
 \end{proof}
 
 \begin{lemma}
@@ -1661,7 +1572,7 @@ More lemmas :
 \end{proof}
 
 \begin{lemma}
-    The amortised time of \texttt{find_set} is $\O(\alpha(n))$.
+    The amortised time of \texttt{find\_set} is $\O(\alpha(n))$.
 \end{lemma}
 \begin{proof}
     Assume the find path contains $s$ nodes : 
@@ -1676,18 +1587,17 @@ More lemmas :
 
         After path compression, $x$ and $y$ have the same parent, the root so $x.p.rank = y.p.rank \geq A_{k}^{i + 1}(x.rank)$. since $x.rank$ does not change. Therefore, either \texttt{iter}($x$) or \texttt{level}($x$) increases, and hence, $\Phi_{q}(x) \leq \Phi_{q - 1}(x) - 1$ from \ref{lemma10}.
     \end{enumerate}
-    As a corollary, we obtain that $\Phi_{q}(F) \leq \Phi_{q - 1}(F) - \max \left\{0, s - \left(\alpha(n) + 2\right)\right\}$. Since the actual time of \texttt{find_path} is $s$, the amortised time is $\O\left(\alpha(n) + 2\right)$.
+    As a corollary, we obtain that $\Phi_{q}(F) \leq \Phi_{q - 1}(F) - \max \left\{0, s - \left(\alpha(n) + 2\right)\right\}$. Since the actual time of \texttt{find\_path} is $s$, the amortised time is $\O\left(\alpha(n) + 2\right)$.
 \end{proof}
 
 Finally : 
 
 \begin{theorem}
-    A sequence of $m$ \texttt{make_set, union_set, find_set}, out of which $n$ are \texttt{make_set} takes $\O\left(m \alpha(n)\right)$ time. In other words, one operation takes $\O(\alpha(n))$ amortised time.
+    A sequence of $m$ \texttt{make\_set, union\_set, find\_set}, out of which $n$ are \texttt{make\_set} takes $\O\left(m \alpha(n)\right)$ time. In other words, one operation takes $\O(\alpha(n))$ amortised time.
 \end{theorem}
 
-
-
 \part[DFS-Matroids-MST]{Lecture 7 : 16/11}  % By Pierre Aboulpierre
+\localtableofcontents
 \section{Definitions}
 All along the course : 
 \begin{definition}
@@ -1707,7 +1617,7 @@ All along the course :
 \end{definition}
 \begin{table*}
     \caption{Some Graph Parameters}
-    \begin{tabular*}{cc}
+    \begin{tabular}{cc}
         $\delta(G)$ & minimum degree \\
         $\Delta(G)$ & maximum degree\\
         $\omega(G)$ & clique number\\
@@ -1718,7 +1628,7 @@ All along the course :
         $\lambda(G)$ & edge connectivit\\
         $\mu(G)$ & size of a maximum matching\\
         Girth & length of a shortest cycle \\
-    \end{tabular*}
+    \end{tabular}
 \end{table*}
 
 
@@ -1792,7 +1702,7 @@ All along the course :
         \end{proposition}
 
         \begin{lemma}
-            Let $C$, $C^{'}$ be two scc of a digraph. Let $u, v \in C$ and $u^{'}, v^{'} \in C^{'}$. If $u \leads to u^{'}$ then there is no path from $v^{'}$ to $v$.
+            Let $C$, $C^{'}$ be two scc of a digraph. Let $u, v \in C$ and $u^{'}, v^{'} \in C^{'}$. If $u \leadsto u^{'}$ then there is no path from $v^{'}$ to $v$.
         \end{lemma}
 
         \begin{definition}
@@ -1816,7 +1726,7 @@ All along the course :
         \end{proposition}
 
         \begin{algorithm}
-            \Caption{Kosaraju's Two Pass Algorithm}
+            \caption{Kosaraju's Two Pass Algorithm}
             \begin{algorithmic}
                 \State Call $\texttt{DFS}(G$) 
                 \State Compute $G^{R}$
@@ -1905,7 +1815,7 @@ All along the course :
 
         \begin{algorithm}
             \caption{Kruskal}
-            \begin{algorithm}
+            \begin{algorithmic}
                 \Input \ \ $G = \left(V, E, \omega\right)$
                 \EndInput
                 \State $A \gets \emptyset$
@@ -1920,7 +1830,7 @@ All along the course :
                     \EndIf
                 \EndFor
                 \Return \ \ A
-            \end{algorithm}
+            \end{algorithmic}
         \end{algorithm}
 
         \begin{theorem}
@@ -1962,7 +1872,7 @@ All along the course :
         \end{proof}
 
         \begin{algorithm}
-            \Caption{PRIM}
+            \caption{PRIM}
             \begin{algorithmic}
                 \Input \ $G = \left(V, E, \omega\right), r$
                 \EndInput
@@ -1971,7 +1881,7 @@ All along the course :
                 \EndFor
                 \State $r.key \gets 0$
                 \State $Q \gets V$
-                \While {$Q \neq \emtpyset$}
+                \While {$Q \neq \emptyset$}
                     \State $u \gets \texttt{Extract-Min}(Q)$
                     \For $v \in \texttt{Adj}[u]$ 
                         \If $v \in Q \wedge v.key > \omega(uv)$
@@ -2000,7 +1910,7 @@ All along the course :
             Let $E$ be a set of elements and $\mathcal{I} \subseteq 2^{E}$. $\left(E, \mathcal{I}\right)$ is a hereditary set system if it satisfies
             \begin{itemize}
                 \item M1 : $\emptyset \in \mathcal{I}$
-                \item M2 : If $X \subeteq Y \in \mathcal{I}$, $X \in \mathcal{I}$.
+                \item M2 : If $X \subseteq Y \in \mathcal{I}$, $X \in \mathcal{I}$.
             \end{itemize}
             \begin{itemize}
                 \item $E$ is called the ground set.
@@ -2012,14 +1922,13 @@ All along the course :
             \end{itemize}
         \end{definition}
 
-        Given a positive weight function, we want to find a maximum independent set such that its weight is maximum.
+        Given a positive weight function, we want to find a maximum independent set such that its weight is maximum. For example : 
 
-        \begin{example}
             \begin{itemize}
                 \item MST : $\mathcal{I} = \left\{I \subseteq E \mid I \text{ is a forest } \right\}$
                 \item TSP, SPP, Maximum Matching Problem, Maximum Stable Set, Knapsack are also of the sort.
             \end{itemize}
-        \end{example}
+  
 
         \begin{theorem}[Rado - Edmonds]
             The greedy algorithm for this problem is optimal for any weight function if and only if $\left(E, \mathcal{I}\right)$ is a matroid.
