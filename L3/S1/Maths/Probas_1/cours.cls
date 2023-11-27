@@ -78,6 +78,7 @@
 \newcommand{\U}{\mathbb{U}}
 \renewcommand{\O}{\mathcal{O}}
 \newcommand{\A}{\mathcal{A}}
+\newcommand{\B}{\mathcal{B}}
 \newcommand{\mL}{\mathcal{L}}
 \newcommand{\ml}{\mathcal{l}}
 

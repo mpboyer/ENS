@@ -492,10 +492,113 @@
         \[
             \gamma_{d} = \frac{\pi^{d/2}}{\Gamma\left(\frac{d}{2} + 1\right)}
         \]
-        
+
+    \section{Espaces $L^{p}$}
+        \subsection{Définition et Inégalités}
+        \begin{definition}
+            Soit $f$ et $g$ des fonctions mesurables à valeurs réelles, on dit que $f \sim g$ si et seulement si $f = g, \ \mu$ p.p. C'est une relation d'équivalence. 
+        \end{definition}
+
+        \begin{definition}
+            Soit alors : $p \in \left[1, +\infty\right)$. On note : 
+            \[
+                \mL^{p}(E, \A, \mu) = \left\{f : E \rightarrow \R, \text{ mesurable } \mid \int_{E}\abs{f}^{p}\d \mu < \infty \right\}
+            \]
+            On définit alors : $L^{p}(E, \A, \mu) = \mL^{p}(E, \A, \mu)/\sim$.
+
+            On définit de plus : 
+            \[
+                \mL^{\infty}(E, \A, \mu) = \left\{f : E \rightarrow \R, \text{ mesurable } \mid \exists C > 0,\ \abs{f} \leq C,\ \mu \text{ p.p.}\right\}
+            \]
+            On définit alors : $L^{\infty}(E, \A, \mu) = \mL^{\infty}(E, \A, \mu)/\sim$.
+        \end{definition}
+
+        On fera systématiquement l'abus d'utiliser un système de représentants. 
+
+        \begin{definition}
+            On note, pour $f : E \rightarrow \R$ mesurable, avec $\infty^{\frac{1}{p}}$, si $p \in \left[1, \infty\right[$ :
+            \[
+                \norm{f}_{p} = \left(\int \abs{f}^{p}\d \mu\right)^{\frac{1}{p}}    
+            \]
+            et :
+            \[
+                \norm{f}_{\infty} = \inf \left\{C \in \left[0, \infty\right] \mid \abs{f} \leq C, \mu \text{ p.p.}\right\}
+            \]
+        \end{definition}
+
+        \begin{proposition}
+            \begin{itemize}
+                \item Si $f \in L^{\infty}$, alors $\abs{f} \leq \norm{f}_{\infty}, \mu$ p.p.
+                \item Si $f \in L^{p}, p \in \left[1, \infty\right]$, $\norm{f}_{p} = 0 \Leftrightarrow f = 0$.
+                \item Les $\norm{\cdot}_{p}$ sont des normes.
+            \end{itemize}
+        \end{proposition}
+
+        \begin{definition}
+            Soient $p, q \in \left[1, \infty\right]^{2}$, on dit que $p$ et $q$ sont conjugués si 
+            \[
+                \frac{1}{p} + \frac{1}{q} = 1    
+            \]
+            En particulier, $p = 1$ et $q = \infty$ tout comme $2$ et $2$ sont conjugués
+        \end{definition}
+
+        \begin{lemma}[Inégalité d'Young]
+            Soit $p, q \in \left]1, \infty\right[$ conjugués. Pour tous $a, b \in \R$ : 
+            \[
+                \abs{ab} \leq \frac{1}{p}\abs{a}^{p} + \frac{1}{q}\abs{b}^{q}
+            \]  
+        \end{lemma}
+        \begin{proposition}[Inégalité de Hölder]
+            Soient $p, q$ conjugués. Soit $f \in L^{p}$, $g \in L^{q}$. Alors, $fg$ est intégrable et : 
+            \[  
+                \int \abs{fg} \d \mu \leq \norm{f}_{p}\norm{g}_{q}
+            \]
+        \end{proposition}
+        \begin{remark}
+            Cas d'égalité : 
+            \begin{itemize}
+                \item Si $p = 1, q = \infty$, et que $f = 0$ ou $g = \nomr{g}_{\infty}$ presque partout.
+                \item Si $p, q < \infty$ : Il y a égalité si $f$ ou $g$ est nulle. Sinon si et seulement si il y a égalité dans l'inégalité de Young $\mu$ presque partout. 
+            \end{itemize}
+        \end{remark}
+        \begin{remark}
+            Si $g \in L^{q}$ est fixée : L'application 
+            \[
+                f \in L^{p} \mapsto \int_{E}fg \d \mu    
+            \]
+            est une forme linéaire continue. 
+        \end{remark}
+        \begin{remark}
+            Dans le cas $E = \N$, $\A = \mathcal{P}(\N)$, on note $\ml^{p}(\N)$ l'ensemble des suites dont la série des puissances $p$-ième est sommable.
+        \end{remark}
+
+        \begin{remark}
+            Dans le cas où $\mu(E)< \infty$, en prenant $g = 1$ dans l'inégalité de Hölder : 
+            \[
+                \int \abs{f} \d \mu \leq \mu(E)^{1 - \frac{1}{p}} \left(\int \abs{f}^{p} \d\mu\right)^{\frac{1}{p}} < + \infty
+            \]
+        \end{remark}
+
+        \begin{proposition}[Inégalité de Jensen]
+            Soit $\phi : \R \rightarrow \R_{+}$ convexe. Pour $f \in L^{1}$ :
+            \[
+                \int \phi \circ f \d\mu \geq \phi \left(\int f \d\mu\right)    
+            \]
+        \end{proposition}
+
+        \subsection{L'espace de Banach $L^{p}$}
+        \begin{proposition}[Inégalité de Minkowski]
+            Soit $p \in \left[1, \infty\right]$ :
+            \[
+                    \norm{f + g}_{p} \leq \norm{f}_{p} + \norm{g}_{p}
+            \]
+        \end{proposition}
+        \begin{theorem}[Riesz/de Complétude des $L^{p}$]
+            L'espace $L^{p}$ est un Banach.
+        \end{theorem}
 
 
-    \part{Probabilités}
+\part{Probabilités}
     \section{Théorie des Probabilités}
     \subsection{Loi de Probabilité}
     \begin{definition}
@@ -606,7 +709,7 @@
     \begin{proof}
         ii) implique i) est directe. Si $Y$ est $\sigma(X)$-mesurable. On traite le cas où $Y$ est étagée, puis on conclut car $Y$ est limite simple de v.a. $Y_{n}$ étagées et $\sigma(X)$-mesurables.
     \end{proof}
-    
+
     \subsection{Moments de Variables Aléatoires}
     \begin{definition}
         Le moment d'ordre $p$ de $X$ est $E[X^{p}]$. On appelle moment absolu d'ordre $p$ de $X$ la quantité $E\left[X^{p}\right]$.
@@ -670,7 +773,7 @@
         \]
         On définit pour un vecteur aléatoire à valeurs dans $R^{d}$ : 
         \[
-            K_{X} = \left(\co(X_{i}, X_{j})\right)_{i, j \in \llbracket 1,d\rrbracket}
+            K_{X} = \left(\cov(X_{i}, X_{j})\right)_{i, j \in \llbracket 1,d\rrbracket}
         \]
         $X, Y \rightarrow \cov(X, Y)$ est bilinéaire et $K_{X}$ est symétrique positive. 
     \end{definition}
@@ -794,7 +897,7 @@
                 On définit pour $A \in P(\Omega)$, \[m^{\star}(A) = \inf_{A \subset \bigcup_{n} A_{n}} \sum_{n \in \N} m(A_{n})\]
                 Alors $m^{\star}$ est une mesure extérieure :
                 \begin{itemize}
-                    \item $m^{\start}(\emptyset) = 0$
+                    \item $m^{\star}(\emptyset) = 0$
                     \item Si $A \subset B$, $m^{\star}(A) \leq m^{\star}(B)$.
                     \item $\forall \ A_{n} \in P(\Omega)^{\N}$ \[
                         m^{\star}\left(\bigcup_{n} A_{n}\right) \leq \sum_{n \in \N} m^{\star}(A_{n})
@@ -802,5 +905,7 @@
                 \end{itemize}
                 De plus $m^{\star}$ est égale à $m$ sur $\A$.
             \end{lemma}
+
+        
 
 \end{document}

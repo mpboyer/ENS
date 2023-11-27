@@ -3,7 +3,6 @@
 \author{Jean-Cristophe Filliâtre}
 \date{\today}
 
-
 \begin{document}
 
 \newpage
@@ -2075,7 +2074,233 @@ Pour compiler la construction $\texttt{Eclos}(f, [y_{1}, \ldots, y_{n}])$ :
     \item On renvoie le pointeur sur le bloc. 
 \end{enumerate}
 
+Pour compiler un appel de fonction $\texttt{Eapp}(e_{1}, e_{2})$ :
+\begin{enumerate}
+    \item On compile $e_{1}$ dans le registre $\texttt{\%rsi}$
+    \item On compile $e_{2}$ dans le registre $\texttt{\%rdi}$
+    \item On appelle la fonction dont l'adresse est contenue dans le premier champ de la fermeture avec \texttt{call *(\%rsi)}.
+\end{enumerate}
 
+Pour compiler un accès à une variable : 
+\begin{itemize}
+    \item Si c'est une variable globale, elle se trouve à l'adresse donnée par l'étiquette.
+    \item Si c'est une variable locale, elle se trouve à l'adresse donnée par lui même.
+    \item Si c'est une variable dans la fermeture, la valeur se trouve à l'adresse donnée par lui même.
+    \item Si c'est un argument, la valeur se trouve dans \texttt{\%rdi}. 
+\end{itemize}
+
+Pour compiler la déclaration, comme pour une déclaration usuelle : 
+\begin{enumerate}
+    \item On sauvegarde et positionne \texttt{\%rbp}
+    \item On alloue le tableau d'activation
+    \item On évalue $e$ dans \texttt{\%rax}
+    \item On désalloue le tableau d'activation et on restaure \texttt{\%rbp}
+    \item On exécute \texttt{ret}
+\end{enumerate}
+
+Il est inutilement coûteux de créer des fermetures intermédiaires dans un appel où tous les arguments sont fournis. Un appel traditionnel pourrait être fait. En revanche, une application partielle produirait une fermeture. CamL ait cette optimisation.
+Une autre optimisation est possible : lorsqu'on crée une fermeture dans une fonction à laquelle elle ne survivra pas, elle peut être allouée sur la pile plutôt que sur le tas. Mais pour s'assurer que cette optimisation est possible, il faut effectuer une analyse statique non triviale.
+
+\section{Optimisation des appels terminaux.}
+\subsection{Appel Terminal}
+\begin{definition}
+    On dit qu'un appel $f\ e_{1}, \ldots e_{n}$ qui apparaît dans le corps d'une fonction $g$ est terminal si c'est la dernière chose que $g$ calcule avant de renvoyer son résultat. Par extension, une fonction est récursive terminale s'il s'agit d'une fonction récursive dont tous les appels récursifs sont terminaux.
+\end{definition}
+
+Du point de vue de la compilation, on peut détruire le tableau d'activation de la fonction où se trouve l'appel avant de faire l'appel, puisqu'il ne servira plus ensuite. Mieux, on peut le réutiliser pour l'appel terminal que l'on doit faire (en particulier, l'adresse de retour sauvegardée y est la bonne). Dit autrement, on peut faire un saut (\texttt{jump}) plutôt qu'un appel (\texttt{call}).
+Le programme obtenu est alors plus efficace, en particulier car on accède moins à la mémoire. Une autre conséquence étant que l'espace de pile utilisé devient constant. En particulier, on évite ainsi tout débordement de pile qui serait dû à un trop grand nombre d'appels imbriqués.
+
+\subsection{Codé Main}
+Quand le compilateur n'optimise pas les appels terminaux, on peut toujours le faire soi même dans le code. Toutefois, il n'est pas toujours facile de remplacer les appels par des appels terminaux. 
+Par exemple la fonction suivante fait déborder la pile pour de trop grands arbres : 
+\begin{minted}{ocaml}
+    type 'a tree = Empty | Node of 'a tree * 'a * 'a tree
+
+    let rec height = function 
+        |Empty -> 0
+        | Node (l, _, r) -> 1 + max (height l) (height r)
+\end{minted}
+
+Au lieu de calculer la hauteur $h$ de l'arbre, on calcule $k(h)$ pour une fonction $k$ quelconque, appelée continuation. On appelle ça la programmation par continuations. On déduit le programme voulu par la continuation identité : 
+
+\begin{minted}{ocaml}
+    let rec height t k = match t with 
+        | Empty -> k 0
+        | Node (l, _, r) -> 
+            height l (fun hl ->
+            height r (fun hr ->
+            k (1 + max hl hr)))
+\end{minted}
+Tous les appels à \texttt{height} et \texttt{k} sont terminaux. Le calcul se fait donc en espace de pile constant. 
+
+\subsection{Explication}
+On a remplacé l'espace sur la pile par de l'espace sur le tas, qui est occupé par des fermetures. Il y a bien sûr d'autres solutions, mais la méthode à base de CPS est mécanique.
+
+Dans le cas où le langage optimise l'appel terminal mais n'a pas de fonctions anonymes (e.g. C), on construit des fermetures soi-même, à la main : 
+\begin{minted}{c}
+    enum kind { Kid, Kleft, Kright };
+    struct Kont {
+        enum kind kind;
+        union { struct Node *r; int hl; };
+        struct Kont *kont;
+    };
+    int apply(struct Kont *k, int v) {...}
+\end{minted}
+
+Cela s'appelle la défonctionnalisation.
+
+\section{Filtrage}
+\subsection{Définition}
+Dans les langages fonctionnels, on trouve une construction appelée filtrage, utilisée dans les définitions de fonctions, les conditionnelles généralisées et les gestionnaires d'exceptions. L'objectif du compilateur est de transformer ces constructions de haut niveau en des séquences de tests élémentaires. On considère dans la suite la construction 
+\[
+    \texttt{match } x \texttt{ with } p_{1} \rightarrow e_{1} \mid \ldots \mid p_{n} \rightarrow e_{n}
+\]
+Un motif est défini par $p = x \mid C(p, \ldots, p)$. où $C$ est un constructeur qui peut être : 
+\begin{itemize}
+    \item Une constante telle que \texttt{false, true, 0, 1, "hello"}, etc\dots
+    \item Un constructeur constant de type somme, tel que \texttt{[]}
+    \item Un constructeur d'arité $n \geq 1$ tel que \texttt{::}
+    \item Un constructeur de $n$-uplet avec $n \geq 2$.
+\end{itemize}
+
+\begin{definition}[motif linéaire]
+    On dit qu'un motif est linéaire si toute variable apparaît au plus une fois dans $p$. 
+\end{definition}
+
+Dans ce qui suit, on ne considère que des motifs linéaires. 
+\begin{definition}
+    Les valeurs sont ici $v = C(v, \ldots, v)$ où $C$ est le même que dans la définition des motifs.
+\end{definition}
+\begin{definition}
+    On dit qu'une valeur $v$ filtre un motif $p$ s'il existe une substitution $\sigma$ de variables par des valeurs telle que $v = \sigma(p)$.
+\end{definition}
+
+Il est clair que toute valeur filtre $p = x$
+\begin{proposition}
+    Une valeur $v$ filtre $p = C(p_{1}, \ldots, p_{n})$ si et seulement si $v$ est de la forme $v = C(v_{1},\ldots, v_{n})$ avec $v_{i}$ qui filtre $p_{i}$ pour tout $i = 1, \ldots, n$.
+\end{proposition}
+\begin{proof}
+    \begin{itemize}
+        \item Soit $v$ qui filtre $p$. On a $v = \sigma(p)$ pour un certain $\sigma$ soit $v = C(\sigma(p_{1}),\ldots, \sigma(p_{n}))$ et on pose donc $v_{i} = \sigma(p_{i})$.
+        \item Réciproquement, si $v_{i}$ filtre $p_{i}$ pour tout $i$ alors il existe des $\sigma_{i}$ telles que $v_{i} = \sigma_{i}(p_{i})$. Comme $p$ est linéaire, les domaines des $\sigma_{i}$ sont deux à deux disjoints et on a donc $\sigma_{i}(p_{j}) = p_{j}$ si $i \neq j$. En prenant $\sigma = \sigma_{1} \circ \ldots \circ \sigma_{n}$, on a bien le résultat. 
+    \end{itemize}
+\end{proof}
+\begin{definition}
+    Dans le filtrage : \texttt{match x with } $p_{1} \rightarrow e_{1} \mid \ldots \mid p_{n} \rightarrow e_{n}$, si $v$ est la valeur de $x$ on dit que $v$ filtre le cas $p_{i}$ si $v$ filtre $p_{i}$ et si $v$ ne filtre aucun $p_{j}$ pour $j < i$. Le résultat du filtrage est alors $\sigma(e_{i})$ où $\sigma$ est la substitution telle que $\sigma(p_{i}) = v$.
+\end{definition}
+
+\subsection{Compilation}
+On cosidère un premier algorithme de compilation du filtrage. On suppose disposer de :
+\begin{itemize}
+    \item \texttt{constr}$(e)$ qui renvoie le constructeur de la valeur $e$
+    \item $\texttt{\#}_{i}(e)$ qui renvoie sa $i$-ème composante.
+\end{itemize}
+Autrement dit, si $e = C(v_{1}, \ldots, v_{n})$ alors \texttt{constr}$(e) = C$ et $\texttt{\#}_{i}(e) = v_{i}$
+
+On commence par la compilation d'une ligne de filtrage : 
+\[
+    code(\texttt{match } e \texttt{ with } p \rightarrow action) = F(p, e, action)
+\]
+où la fonction de compilation $F$ est définie ainsi : 
+\begin{itemize}
+    \item $F(x, e, action) = \letin{x = e}{action}$
+    \item $F(C, e, action) = \texttt{if constr}(e) = C \texttt{ then } action \texttt{ else } error$
+    \item $F(C(p), e, action) = \texttt{if constr}(e) = C \texttt{ then } F(p, \texttt{\#}_{1}(e), action) \texttt{ else } error$
+    \item $F(C(p_{1}, \ldots, p_{n}), e, action) = \texttt{if constr}(e) = C \texttt{ then } F(p_{1}, \texttt{\#}_{1}(e), F(p_{2}, \texttt{\#}_{2}(e), \ldots F(p_{n}, \texttt{\#}_{n}(e), action)) \ldots) \texttt{ else } error$
+\end{itemize} 
+
+\begin{proposition}
+    Cette compilation est correcte
+\end{proposition}
+\begin{proof}
+    On montre simplement par récurrence sur $p$ que si $e\xrightarrow{\star} v$ alors $F(p, e, action) \xrightarrow{\star} \sigma(action)$ s'il existe $\sigma$ telle que $v = \sigma(p)$ et $F(p, e, action) \xrightarrow{\star} error$ sinon. 
+\end{proof}
+
+Pour filtrer plusieurs lignes, on remplace $error$ par le passage à la ligne. Toutefois, cet algorithme est peu efficace car on effectue plusieurs fois les mêmes tests, et on effectue des tests redondants\footnote{NDS : comme le fenouil}.
+
+\subsection{Un Algorithme plus Efficace}
+On proopose un algorithme qui considère le problème du filtrage des $n$ lignes dans sa globalité. On représente le problème sous forme d'une matrice : 
+\[
+    \abs{\begin{array}{cccccc}
+        e_{1} & e_{2} & \cdots & e_{m} & &\\
+        p_{1, 1} & p_{1, 2} & \cdots & p_{1, m} & \rightarrow & action_{1}\\
+        \vdots & \vdots & \ddots & \vdots & \vdots & \vdots\\
+        p_{n, 1} & p_{n, 2} & \cdots & p_{n, m} & \rightarrow & action_{n}\\
+    \end{array}}
+\]
+L'algorithme $F$ procède récursivement sur la matrice : 
+Pour $n = 0$ on renvoie $error$ et pour $m = 0$ on renvoie $action_{1}$.
+Si toute la colonne de gauche se compose de variables : 
+\[
+    M = \abs{\begin{array}{cccccc}
+        e_{1} & e_{2} & \cdots & e_{m} & &\\
+        x_{1, 1} & p_{1, 2} & \cdots & p_{1, m} & \rightarrow & action_{1}\\
+        \vdots & \vdots & \ddots & \vdots & \vdots & \vdots\\
+        x_{n, 1} & p_{n, 2} & \cdots & p_{n, m} & \rightarrow & action_{n}\\
+    \end{array}}   
+\]
+On élimine cette colonne en introduisant des \texttt{let} : 
+\[
+    F(M) = F \abs{\begin{array}{ccccc}
+        e_{2} & \cdots & e_{m} & &\\
+        p_{1, 2} & \cdots & p_{1, m} & \rightarrow & \letin{x_{1,1} = e_{1}}{action_{1}}\\
+        \vdots & \ddots & \vdots & \vdots & \vdots\\
+        p_{n, 2} & \cdots & p_{n, m} & \rightarrow & \letin{x_{n,1} = e_{1}}{action_{n}}\\
+    \end{array}} 
+\]
+Sinon, c'est que la colonnne de gauche contient au moins un motif construit. Pour chaque constructeur dans cette colonne, on construit la sous-matrice correspondant au filtrage d'une valeur pour ce constructeur : si
+\[
+    M = \abs{\begin{array}{cccccc}
+        e_{1} & e_{2} & \cdots & e_{m} & &\\
+        C(q) & p_{1, 2} & \cdots & p_{1, m} & \rightarrow & action_{1}\\
+        D & p_{2, 2} & \cdots & p_{2, m} & \rightarrow & action_{2}\\
+        x & p_{3, 2} & \cdots & p_{3, m} & \rightarrow & action_{3}\\
+        E(r, s) & p_{4, 2} & \cdots & p_{4, m} & \rightarrow & action_{4}\\
+        y & p_{5, 2} & \cdots & p_{5, m} & \rightarrow & action_{5}\\
+        C(t)& p_{6, 2} & \cdots & p_{6, m} & \rightarrow & action_{6}\\
+        E(u, v) & p_{7, 2} & \cdots & p_{7, m} & \rightarrow & action_{7}\\
+    \end{array}}   
+\]
+on pose pour le constructeur $C$ : 
+\[
+    M_{C} = \abs{\begin{array}{cccccc}
+        \texttt{\#}_{1}(e_{1}) & e_{2} & \cdots & e_{m} & &\\
+        q & p_{1, 2} & \cdots & p_{1, m} & \rightarrow & action_{1}\\
+        - & p_{2, 2} & \cdots & p_{2, m} & \rightarrow & \letin{x = e_{1}{action_{2}}\\
+        - & p_{3, 2} & \cdots & p_{3, m} & \rightarrow & \letin{y = e_{1}}{action_{3}}\\
+        t& p_{6, 2} & \cdots & p_{6, m} & \rightarrow & action_{6}\\
+    \end{array}}} 
+\]
+On fait de même pour $D$ et $E$ ainsi que pour les variables. 
+
+On pose alors : 
+\[
+    \begin{split}
+        F(M) = &\texttt{ case } multlineconstr(e_{1}) \texttt{ in }\\
+        &C \Rightarrow F(M_{C})\\
+        &D \Rightarrow F(M_{D})\\
+        &E \Rightarrow F(M_{E})\\
+        &\texttt{otherwise } \Rightarrow F(M_{R})
+    \end{split}    
+\]
+
+\begin{proposition}
+    Cet algorithme termine et est correct
+\end{proposition}
+\begin{proof}
+    La grandeur $\sum_{i, j} taille(p_{i, j})$ diminue strictement à chaque appel.
+\end{proof}
+
+Le type de l'expression $e_{1}$ permet d'optimiser la construction dans de nombreux cas : 
+\begin{itemize}
+    \item Pas de test si un seul constructeur
+    \item Pas de cas \texttt{otherwise} si on peut restreindre à des constructeurs. 
+    \item Un simple \texttt{if then else} s'il n'y a que deux constructeurs
+    \item Une table de saut lorsqu'il y a un nombre fini de constructeurs.
+    \item Un arbre binaire ou une table de hachage lorsqu'il y a une infinité de constructeurs. 
+\end{itemize}
+
+On peut par ailleur détecter les cas redondants lorsqu'une action n'apparaît pas dans le code produit, et détecter les filtrages non exhaustifs lorsque $error$ apparaît dans le code produit. 
 
 
 \end{document}
