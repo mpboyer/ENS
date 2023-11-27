@@ -589,5 +589,25 @@
     \]
 \end{theorem}
 
+\section{Espaces de Hilbert}
+\subsection{Projection Orthogonale sur un Convexe Fermé}
+\begin{theorem}
+    Si $X$ est un Hilbert, $C \subseteq X$ un convexe fermé, pour tout $x \in X$, il existe un unique $p_{C}(x) \in C$ tel que :
+    \[
+        \norm{x - p_{C}(x)} = d(x, C)
+    \]
+\end{theorem}
+\begin{corollary}
+    Si $X$ est un Hilbert et $F$ est un sev de $X$ fermé alors : 
+    \begin{enumerate}
+        \item $p_{F}$ est linéaire
+        \item $p_{F}(x)$ est caractérisé par $x - p_{F}(x) \perp F$
+        \item $p_{F}$ est $1$-Lipschitz donc continue
+        \item Si $dim F = n < \infty$, $p_{F}(x) = \sum_{i = 1}^{n}\scalar{x, e_{i}}e_{i}$
+        \item $X = F \bigoplus F^{\perp}$ et $\left(F^{\perp}\right)^{\perp} = F$.
+    \end{enumerate}
+\end{corollary}
+
+
 
 \end{document}
