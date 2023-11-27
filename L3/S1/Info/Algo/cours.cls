@@ -70,6 +70,7 @@
 \algblock{Input}{EndInput}
 \algnotext{EndInput}
 
+
 \renewcommand{\O}{\mathcal{O}}
 \newcommand{\Z}{\mathbb{Z}}
 \newcommand{\R}{\mathbb{R}}
