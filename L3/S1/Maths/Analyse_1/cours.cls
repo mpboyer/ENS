@@ -93,6 +93,7 @@
 \DeclareMathOperator{\rg}{rg}
 \DeclareMathOperator{\ch}{ch}
 \DeclareMathOperator{\sh}{sh}
+\DeclareMathOperator{\Jac}{Jac}
 
 \renewcommand{\th}{\mathop{\rm th}}
 \makeatletter

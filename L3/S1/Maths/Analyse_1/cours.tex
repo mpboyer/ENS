@@ -608,6 +608,157 @@
     \end{enumerate}
 \end{corollary}
 
+\subsection{Théorème de Représentation de Riesz}
+\begin{theorem}[de Représentation de Riesz des fomes linéaires continues]
+    Si $X$ est un Hilbert sur $\K \in \left\{\R, \C\right\}$ : 
+    \begin{enumerate}
+        \item Pour tout $u \in X^{'} = L(X, \K)$, il existe un unique $a\in X$ tel que $u(x) = \scalar{x, a}$.
+        \item L'application $a \in X \mapsto \scalar{\cdot, a} \in X^{'}$ est un isomorphisme anti-linéaire et une isométrie. 
+    \end{enumerate}    
+\end{theorem}
 
+\begin{remark}
+    \begin{itemize}
+        \item Les formes linéaires continues sur $X = \ml^{2}(\N, \K)$ sont de la forme : 
+        \[
+            x \in \ml^{2}(\N, \K) \mapsto \sum_{n} x_{n}\overline{y_{n}} \text{ pour un } y \in \ml^{2}(\N, \K)
+        \]
+        \item Le dual topologique $X^{'}$ d'un Hilbert est un Hilbert : si $u, v \in X^{'}$ alors $\scalar{u, v}_{X^{'}} = \scalar{a_{v}, a_{u}}$
+        \item Théorème de Hahn-Banach sur un Hilbert : Si $F$ est un sev d'un Hilbert $X$ et $u \in L(F, \K)$, alors il existe $u_{X} \in X^{'} = L(X, \K)$ tel que $u_{X \mid_{F}} = u$ et $\norm{u_{X}} = \norm{u}$.
+        \item Si $F$ est un sev d'un Hilbert non dense, alors pour tout $x \notin \overline{F}$ il existe $u \in X^{'}$ nulle sur $F$ valant $1$ en $x$.
+        \item Un sev $F$ d'un Hilbert est dense si et seulement si $F^{\perp}= \{0\}$.
+        \item Pour toute application linéaire continue $u \in L(X, X)$ sur $X$ un Hilbert, il existe un unique $u^{\star} \in L(X, X)$ appelé adjoint de $u$ tel que, pour tous $x, y$ : 
+        \[
+            \scalar{u(x), y} = \scalar{x, u^{\star}(y)}
+        \]
+    \end{itemize}
+\end{remark}
+
+\subsection{Bases Hilbertiennes et Parseval}
+\begin{definition}
+    Une base hilbertienne d'un Hilbert $X$ est une suite $e_{n}$ finie ou pas d'éléments de $X$ vérifiant : 
+    \begin{itemize}
+        \item Orthonormalité : pour tous $m, n$, $\scalar{e_{m}, e_{n}} = \mathds{1}_{n = m}$
+        \item L'espace vectoriel engendré par $(e_{n})$ est dense dans $X$. 
+    \end{itemize}
+\end{definition}
+
+\begin{theorem}[Séparabilité et Identité de Parseval]
+    \begin{enumerate}
+        \item Un Hilbert $X$ admet une base hilbertienne ssi il est séparable.
+        \item Tout $\K$ Hilbert séparable de dimension $\infty$ est isomorphe isométriquement à $\ml^{2}(\N,\K)$
+        \item Si $e_{n}$ est une base hilbertienne de $X$ : 
+        \begin{itemize}
+            \item Pour tout $x \in X$, $x = \sum_{n} \scalar{x, e_{n}} e_{n}$
+            \item Pour tout $x \in X$ : $\norm{x}^{2} = \sum_{n}\abs{\scalar{x, e_{n}}}^{2}$
+            \item $\sum_{n} \lambda_{n}e_{n}$ converge si et seulement si $\sum_{n} \lambda_{n}^{2} < \infty$ 
+        \end{itemize}
+    \end{enumerate}    
+\end{theorem}
+
+\section{Dérivation dans les Espaces Vectoriels Normés}
+Ici, $X, X_{1}, \ldots, X_{n}, Y, Z$ sont des evn réels.
+
+\subsection{Dérivée, Dérivées Partielles, Gradient}
+\begin{definition}
+    Soit $O \subset X$ un ouvert. Une application $f : O \rightarrow Y$ est dérivable ou différentiable en $a \in O$ lorsqu'il existe $u \in L(X, Y)$ tel que : 
+    \[
+        f(x) = f(a) + u(x - a) + o(x - a) \text{ quand } x \rightarrow a
+    \]
+    On note $u = (Df)(a)$ et on dit que $(Df)(a)$ est la dérivée ou différentielle de $f$ en $a$. On dit que $f$ est $\cont^{1}(O, Y)$ quand $f$ est dérivable en tout point de $O$ et que $Df : O \rightarrow L(X, Y)$ est continue
+\end{definition}
+
+\begin{definition}
+    La dérivée directionnelle de $f$ en $a$ par rapport à la direction $h$ est définie lorsqu'il existe $(Df)(a, h) \in Y$ tel que : 
+    \[
+        f(a + th) = f(a) + t(Df)(a, h) + o(t) \text{ quand } t\rightarrow 0
+    \]
+    Etre dérivable dans toutes les directions n'est pas équivalent à être dérivable. On ne demande par ailleurs pas la linéarité ni la continuité en $h$.
+\end{definition}
+
+\begin{example}
+    \begin{itemize}
+        \item Si $\norm{\cdot}$ est hilbertienne, alors : $f(x) = \norm{x}^{2}$ est dérivable partout et $(Df)(a)(h) = \scalar{2a, h}$.
+        \item La norme n'est jamais dérivable en $0$.
+        \item Si $m \in \N$, $f : x \in L(X, X) \mapsto x^{m}$ est dérivable partout et \[(Df)(a)(h) = \sum_{k = 0}^{m - 1}a^{k}ha^{m - 1 - k}\]
+        \item On sait que sur un Banach $X$, $O = \left\{x \in L(X, X)\mid x^{-1} \text{ existe}\right\}$ est un ouvert et que $f : x \in O \rightarrow x^{-1} \in L(X, X)$ est bien définie. On a alors : 
+        \[
+            (Df)(a)(h) = - a^{-1}ha^{-1}
+        \]
+    \end{itemize}
+\end{example}
+
+\begin{theorem}
+    \begin{itemize}
+        \item Linéarité : Si $f, g$ sont dérivables en $a$ alors pour tout $\lambda \in \R$ : 
+        \[
+            (D(\lambda f + g))(a) = \lambda(Df)(a) + (Dg)(a)
+        \]
+        \item Composition : Si $f : O \subseteq X \rightarrow Y$ et $g : O^{'} \subseteq Y \rightarrow Z$ avec $f$ différentiable en $a$ et $g$ différentiable en $f(a)$, $g \circ f$ est différentiable en $a$ et : 
+        \[
+            (Dg \circ f)(a) = (Dg)(f(a)) \circ Df(a)
+        \]
+    \end{itemize}
+\end{theorem}
+
+\begin{proposition}
+    \begin{itemize}
+        \item Espace de départ est de dimension $1$ : Comme $L(\R, Y)$ est isomorphe isométriquement à $Y$, $u \in L(\R, Y) \rightarrow u(1) \in Y$, si $f : O\subseteq \R \rightarrow Y$ est dérivable en $a$, alors $Df(a)$ est identifiable à $Df(a)(1) = f^{'}(a)$ et $(Df)(a)(h) = (Df)(1)h$ 
+        \item Espace de départ Hilbert et espace d'arrivée de dimension $1$. Par théorème de Représentation de Riesz, pour tout $a \in O$, il existe un vecteur de $X$ noté $\nabla f(a)$ appelé gradient de $f$ en $a$ tel que $(Df)(a)(h) = \scalar{\nabla f(a), h}$.
+        \item Si $f : \R \rightarrow X$ et $g : X\rightarrow \R$ avec $X$ un Hilbert, dérivables en $a$ et $f(a)$ respectivement, on a : 
+        \[
+            (g \circ f)^{'}(a) = \scalar{(\nabla g)(f(a)), f^{'}(a)}
+        \]
+    \end{itemize}
+\end{proposition}
+
+\begin{definition}
+    Soit $O \subseteq X_{1} \times \cdots \times X_{n}$ un ouvert. Pour $a \in O$, $1 \leq i \leq n$, on note :
+    \[
+        O^{\hat{a_{i}}} = \left\{x_{i}\mid x \in O, x_{j} = a_{j}, j \neq i\right\}
+    \]
+    et 
+    \[
+        f^{\hat{a}_{i}} : x_{i} \mapsto f(a_{1}, \ldots, a_{i - 1}, x_{i}, a_{i + 1}, \ldots, a_{n})
+    \]
+    $f$ admet des dérivées partielles en $a$ lorsque ces applications sont dérivables et on note : 
+    \[
+        (D_{x_{i}}f)(a) = (Df^{\hat{a}_{i}})(a_{i}) 
+    \]
+    et parfois : $\frac{\partial}{\partial x_{i}}f$ ou $\partial_{x_{i}}f$ voire $\partial_{i}f$
+\end{definition}
+
+\begin{proposition}
+    Si $f$ est dérivable en $a$, les dérivées partielles existent toutes mais la réciproque et fausse, l'existence de dérivées partielles n'impliquant même pas la continuité. 
+\end{proposition}
+
+\subsection{Inégalité des Accroissements Finis, Jacobienne}
+\begin{lemma}
+    Si $O$ est un ouvert, $\left[a, b\right] \subseteq O$ et $f : O \rightarrow Y$ est dérivable en tout point de $\left[a, b\right]$ alors :
+    \[
+        \norm{f(b) - f(a)} \leq \sup_{x \in \left[a, b \right]} \norm{Df(x)}_{L(X, Y)} \norm{b - a}
+    \]
+\end{lemma}
+
+\begin{proposition}
+    Si $\phi \in \cont^{1}(I, X)$ où $I \subseteq \R$ est ouvert et $X$ un Banach, alors, pour tout $t \in I$ :
+    \[
+        \phi(\beta) - \phi(\alpha) = \int_{\alpha}^{\beta}\left(D\phi\right)(t)\d t
+    \]
+\end{proposition}
+
+\begin{corollary}
+    Si une fonction $f$ sur $O$ possède des dérivées partielles sur $O$ continues en $a$ alors elle est dérivable en $a$ et : 
+    \[
+        (Df)(a)(h) = \sum_{i = 1}^{n}(D_{x_{i}}f)(a)(h_{i})
+    \]
+\end{corollary}
+
+\begin{definition}
+    Si $f : O \subset \R^{n} \rightarrow \R^{m}$, $(Df)(a)$ est identifiable à une matrice $n \times m$ appelée jacobienne :
+    \[
+        (\Jac f)(a) = \left(\partial_{x_{i}}f_{j}(a)\right)_{1\leq i \leq n, 1\leq j\leq m} = \left(\nabla f_{1}, \ldots, \nabla f_{m}\right)
+    \] 
+\end{definition}
 
 \end{document}
