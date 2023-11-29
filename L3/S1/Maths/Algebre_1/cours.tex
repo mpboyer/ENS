@@ -1042,6 +1042,56 @@ On fixe $p \in \mathcal{P}$
     Les $p$-groupes sont résolubles. 
 \end{corollary}
 
+\subsection{Les Théorèmes de Sylow}
+Rappel : Si $\abs{G} = p^{\alpha}m$ avec $p \wedge m = 1$, un $p$-sylow de $G$ est un $p$-sous-groupe de $G$ de cardinal $p^{\alpha}$.
+
+\begin{theorem}[Sylw]
+    Soient $G$ un groupe fini et $p$ premier divisant $\abs{G}$ :
+    \begin{enumerate}
+        \item $G$ possède des $p$-Sylow.
+        \item Tout $p$-sous-groupe de $G$ est inclus dans un $p$-Sylow de $G$.
+        \item Deux $p$-Sylow de $G$ sont conjugués (en particulier, isomorphes.)
+    \end{enumerate}
+\end{theorem}
+
+\begin{lemma}[Alignement des $p$-Sylow]
+    Soient $G$ un groupe fini, $H \leq G$ et $p \mid \abs{H}$ premier. Si $P$ est un $p$-Sylow de $G$, il existe $g \in G$ tel que $gPg^{-1} \cap H$ est un $p$-Sylow de $H$. 
+\end{lemma}
+
+\begin{definition}
+    On notera $n_{p}(G)$ le nombre de $p$-Sylow de $G$ et $Syl_{p}(G)$ l'ensemble des $p$-Sylow de $G$. 
+\end{definition}
+\begin{corollary}
+    On a : $n_{p}(G) = 1 \Leftrightarrow G$ possède un $p$-Sylow distingué.
+\end{corollary}
+
+\begin{theorem}[3ème Théorème de Sylow]
+    Soit $G$ un groupe $fini$ de cardinal $p^{\alpha}m$. On a : $n_{p}(G) \mid m$ et $ n_{p}(G) \equiv 1 \mod p$
+\end{theorem}
+
+\begin{lemma}[Frattini]
+    Soient $G$ un groupe fini, $N \lhd G$, $P$ un $p$-Sylow de $N$ et $N_{G}(P)$ le normalisateur de $P$ dans $G$. On a $G = N N_{G}(P)$.
+\end{lemma}
+
+\subsection{Le Théorème de Schur-Zassenhaus}
+\begin{theorem}[Schur-Zassenhaus]
+    Soient $G$ un groupe fini d'ordre $mn$ avec $m\wedge n = 1$ et possédant $N \lhd G$ d'ordre $n$. Alors $N$ admet un complément dans $G$ (nécessairement d'ordre $m$).
+\end{theorem}
+
+\begin{lemma}
+    Le cas particulier où $N$ est abélien du théorème implique le cas général. 
+\end{lemma}
+
+\subsection{Théorèmes de Hall}
+\begin{theorem}[P.Hall]
+    Soit $G$ un groupe fini résoluble. Si $\abs{G} = mn, m\land n = 1$, alors $G$ possède un sous groupe d'ordre $m$.
+\end{theorem}
+
+\begin{theorem}[P.Hall]
+    Soit $G$ un groupe fini d'ordre $d$. Si pour toute factorisation $d = mn$ avec $m\land n = 1$, $G$ possède un sous-groupe d'ordre $m$, alors $G$ est résoluble. 
+\end{theorem}
+
+
 \end{document}
 
 
