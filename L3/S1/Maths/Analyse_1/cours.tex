@@ -638,7 +638,7 @@
 \begin{definition}
     Une base hilbertienne d'un Hilbert $X$ est une suite $e_{n}$ finie ou pas d'éléments de $X$ vérifiant : 
     \begin{itemize}
-        \item Orthonormalité : pour tous $m, n$, $\scalar{e_{m}, e_{n}} = \mathds{1}_{n = m}$
+        \item Orthonormalité : pour tous $m, n$, $\scalar{e_{m}, e_{n}} = \mathbf{1}_{n = m}$
         \item L'espace vectoriel engendré par $(e_{n})$ est dense dans $X$. 
     \end{itemize}
 \end{definition}
@@ -676,7 +676,7 @@ Ici, $X, X_{1}, \ldots, X_{n}, Y, Z$ sont des evn réels.
     Etre dérivable dans toutes les directions n'est pas équivalent à être dérivable. On ne demande par ailleurs pas la linéarité ni la continuité en $h$.
 \end{definition}
 
-\begin{example}
+\begin{proposition}
     \begin{itemize}
         \item Si $\norm{\cdot}$ est hilbertienne, alors : $f(x) = \norm{x}^{2}$ est dérivable partout et $(Df)(a)(h) = \scalar{2a, h}$.
         \item La norme n'est jamais dérivable en $0$.
@@ -686,7 +686,7 @@ Ici, $X, X_{1}, \ldots, X_{n}, Y, Z$ sont des evn réels.
             (Df)(a)(h) = - a^{-1}ha^{-1}
         \]
     \end{itemize}
-\end{example}
+\end{proposition}
 
 \begin{theorem}
     \begin{itemize}
@@ -760,5 +760,120 @@ Ici, $X, X_{1}, \ldots, X_{n}, Y, Z$ sont des evn réels.
         (\Jac f)(a) = \left(\partial_{x_{i}}f_{j}(a)\right)_{1\leq i \leq n, 1\leq j\leq m} = \left(\nabla f_{1}, \ldots, \nabla f_{m}\right)
     \] 
 \end{definition}
+
+\subsection{Dérivées successives, lemme de Schwarz, formule de Taylor, extrema}
+\begin{definition}
+    \begin{itemize}
+        \item $u : X_{1} \times \ldots \times X_{m} \rightarrow Y$ est multilinéaire lorsqu'elle est linéaire en chaque $X_{i}$
+        \item On note $L(X_{1}, \ldots, X_{m}; Y)$ l'ensemble des applications multilinéaires continues. 
+        \item On note $L_{m}(X, Y)$ les applications multilinéaires continues sur $X^{m}$.
+    \end{itemize}
+\end{definition}
+
+\begin{remark}
+    \begin{itemize}
+        \item $u$ multilinéaire est continue si et seulement si elle est bornée. 
+        \item $L(X_{1}, \ldots, X_{m}; Y)$ est un evn
+        \item $L(X, L(X, Y))$ et $L(X, X; Y)$ sont isomorphes.
+        \item Un polynôme de degré $n$ : $(h_{1}, \ldots, h_{n}) \in X^{n} \mapsto \sum_{m = 0}^{n} u_{m}(h_{1}, \ldots, h_{m}) \in Y$
+    \end{itemize}
+\end{remark}
+
+\begin{definition}
+    \begin{itemize}
+        \item Pour $m \geq 1$, une fonction $f : O\subseteq X \rightarrow Y$ est dérivable $m$ fois en $a \in O$ lorsque $f \in \cont^{m - 1}(O^{'}, Y)$ avec $a \in O^{'} \subseteq O$ et $D^{m - 1}(f) : O^{'} \rightarrow L_{m - 1}(X, Y)$ est dérivable en $a$.
+        \item On dit que $f$ est un $\cont^{m}$-difféomorphisme lorsque c'est un homéomorphisme et $f$ et $f^{-1}$ sont $\cont^{m}$.
+    \end{itemize}
+\end{definition}
+
+\begin{proposition}
+    \begin{itemize}
+        \item Pour $f(u) = u^{m}$, 
+        \[
+            (D^{2})f(a)(h_{1}, h_{2}) = \sum_{l_{i} \in \left\{a, h_{1}, h_{2}\right\}\\ \abs{i \mid l_{i} = h_{1}} = \abs{i \mid l_{i} = h_{2}} = 1} l_{1}\ldots l_{m}
+        \]
+        \item Pour $f(u) = u^{-1}$ :
+        \[
+            (D^{2}f)(a)(h_{1}, h_{2}) = a^{-1}h_{1}a^{-1}h_{2}a^{-1} + a^{-1}h_{2}a^{-1}h_{1}a^{-1}
+        \]
+    \end{itemize}
+\end{proposition}
+
+\begin{lemma}
+    Soit $0, 0 \in O \subseteq X = \R^{2}$ et $f \in \cont^{1}(O, Y)$, en particulier, $\partial_{x_{1}}f $ et $\partial_{x_{2}}$ existent sur $O$. Si $\partial_{x_{1}}f$ admet une dérivée partielle par rapport à $x_{2}$ dans un voisinage de $0, 0$ et de même pour $\partial_{x_{2}}f$ : 
+    \[
+        \frac{\partial^{2}f}{\partial_{x_{1}}\partial_{x_{2}}}(0, 0) = \frac{\partial^{2}f}{\partial_{x_{2}}\partial{x_{1}}}(0, 0)
+    \]
+\end{lemma}
+
+\begin{definition}
+    On note $L_{m}^{sym}(X, Y)$ le sev de $L_{m}(X, Y)$ formé des applications multilinéaires continues symétriques.
+\end{definition}
+
+\begin{theorem}
+    Soit $O$ un ouvert de $X$, $f \in \cont^{m}(O, Y), m\geq 2$. Alors $D^{m}f \in \cont(O, L_{m}^{sym}(X, Y))$
+\end{theorem}
+
+\begin{corollary}
+    Si $f \in \cont^{2}(O, Y)$, pour tous $a \in O, h, k \in X$ et $1 \leq i,j \leq n$.
+    \[
+        (\partial_{x_{i}}\partial_{x_{j}}f)(a)(h, k) = (\partial_{x_{i}}\partial_{x_{j}}f)(a)(k, h)
+    \]
+\end{corollary}
+
+\begin{remark}
+    Si $u \in L_{2}^{sym}(X, Y)$ alors $u(h_{1}, h_{2}) = \frac{1}{4}(u(h_{1} + h_{2}, h_{1} + h_{2})) - \frac{1}{4}(u(h_{1} - h_{2}, h_{1} - h_{2}))$
+\end{remark}
+
+\begin{definition}
+    Si $f$ est $\cont^{2}$ et $a \in O$, dans la base canonique, la forme bilinéaire $(D^{2}f)(a)$ est identifiable à la matrice symétrique $\left(\partial_{x_{i}}\partial_{x_{j}}f(a)\right)_{1 \leq i, j \leq n}$. On note $Hess(f)(a)$ ou $\nabla^{2}f(a)$ cette matrice, qui est égale à $\Jac\nabla f(a)$.
+\end{definition}
+\begin{theorem}[Formule de Taylor]
+    Si $f \in \cont^{m - 1}(O \subseteq X, Y), m\geq 1$, si $a \in O$ et $\left(D^{m}f\right)(a)$ existe alors : 
+    \[
+        f(x) = \sum_{k = 0}^{m}\frac{1}{k!}\left(D^{k}f\right)(a)(x - a, \ldots, x - a) + r_{a}(x) \text{ où } r_{a}(x) = o_{x \rightarrow a}\left(\norm{x - a}^{m}\right)
+    \]
+    et si $D^{m}f$ existe sur tout le segment $\left[a, x\right]$ alors : 
+    \[
+        \norm{r_{a}(x)} \leq \frac{\norm{x - a}^{m + 1}}{(m + 1)!}\sup_{y \in \left[a, x\right]}\norm{\left((D^{m + 1}f)(y)\right)}
+    \]
+\end{theorem}
+\begin{lemma}
+    Si $I$ est un intervalle ouvert de $\R$, $\left[0, 1\right] \subset I$, $F : I \rightarrow Y$ et $G : I \rightarrow \R$ sont dérivables en tout point de $\left[0, 1\right]$ et telles que $\norm{F^{'}(t)} \leq G^{'}(t)$ pour tout $t$, alors $\norm{F(1) - F(0)} \leq G(1) - G(0)$.
+\end{lemma}
+
+\begin{corollary}
+    Soit $f \in \cont^{1}(O \subset X, \R)$, $a \in O$ telle que $\left(D^{2}f\right)(a) \in L_{2}^{sym}(X, \R)$ existe.
+    \begin{itemize}
+        \item Si $a$ est un extremum local de $f$ alors : $\left(Df\right)(a) = 0$ et : 
+        \begin{itemize}
+            \item Quand $a$ est un minimum : $\forall h \in X, \left(D^{2}f\right)(a)(h,h) \geq 0$
+            \item Quand $a$ est un maximum : $\forall h \in X, \left(D^{2}f\right)(a)(h,h) \leq 0$
+        \end{itemize}
+        \item Si $\left(Df\right)(a) = 0$ et s'il existe $c$ telle que : 
+        \begin{itemize}
+            \item $(D^{2}f)(a)(h, h) \geq c \norm{h}^{2}$ alors $a$ est un minimum local de $f$
+            \item $(D^{2}f)(a)(h, h) \leq -c \norm{h}^{2}$ alors $a$ est un maximum local de $f$.
+        \end{itemize}
+    \end{itemize}
+    Lorsque $X = \R^{n}$ ces conditions portent sur le gradient et la hessienne. 
+\end{corollary}
+
+\subsection{Théorème d'inversion Locale et Théorème des Fonctions Implicites}
+\begin{lemma}[de point fixe de Picard]
+    Si $X, d$ est métrique complet non vide et si $f : X \rightarrow X$ est une contraction, elle admet un unique point fixe.
+\end{lemma}
+
+\begin{lemma}
+    Soit $X$ un Banach, $O$ un ouvert de $X$, $g : O \subseteq X \rightarrow X$ $c$-contractante. Alors $f : x \mapsto x + g(x)$ est un homéomorphisme entre $O$ et $f(O)$ et $\norm{f^{-1}}_{Lip} \leq \left(1 - c\right)^{-1}$.
+\end{lemma}
+
+\begin{theorem}[Inversion Locale]
+    Soient $X$ et $Y$ des Banach, $O \subseteq X$ et $a \in O$. Soit $f \in \cont^{m}(O, Y)$, $m \geq 1$.\\
+    Si $(Df)(a)$ est une bijection à inverse borné $\left[(Df)(a)\right]^{-1} \in L(Y, X)$ alors il existe $O^{'} \subseteq X$ tel que $a \in O^{'} \subseteq O$ et $f : O^{'} \rightarrow f(O^{'})$ est un $\cont^{m}$-difféomorphisme et pour tout $x \in O^{'}$ : 
+    \[
+        \left(Df^{-1}\right)(f(x)) = \left[(Df)(x)\right]^{-1}
+    \]
+\end{theorem}
 
 \end{document}
