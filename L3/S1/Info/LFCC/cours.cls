@@ -7,7 +7,7 @@
 \RequirePackage{lmodern}
 \RequirePackage[utf8]{inputenc}
 \RequirePackage[T1]{fontenc}
-\RequirePackage[british, french]{babel}
+\RequirePackage[british]{babel}
 \RequirePackage{texnames}
 \RequirePackage{array}
 \RequirePackage{tikz}
@@ -131,3 +131,4 @@
 \newcommand{\vect}[2][]{\text{Vect}_{#2}\left(#1\right)}
 \renewcommand{\H}{\mathbb{H}}
 \newcommand{\transpose}[1]{{^{\mathsf{t}}}#1}
+\newcommand{\comp}[1]{\textsc{#1}}

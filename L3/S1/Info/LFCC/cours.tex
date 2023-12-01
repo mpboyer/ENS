@@ -606,7 +606,7 @@ En réalité, tous les langages ne sont pas décidables :
     et : 
     \[
         \begin{aligned}
-            S \rightarrow & \sum_{i = 1}^{n} u_{i}Sa_{i} + \sum_{1 \leq i \leq m \\ \abs{u} = \abs{u_{i}}\\ u \neq u_{i}} uRa_{i} + \sum_{1 \leq i \leq m \\ \abs{u} < \abs{u_{i}}} uTa_{i} + \sum_{1 \leq i \leq m\\ b \in \Sigma} u_{i}bVa_{i}\\
+            S \rightarrow & \sum_{i = 1}^{n} u_{i}Sa_{i} + \sum_{1 \leq i \leq m, \abs{u} = \abs{u_{i}}, u \neq u_{i}} uRa_{i} + \sum_{1 \leq i \leq m, \abs{u} < \abs{u_{i}}} uTa_{i} + \sum_{1 \leq i \leq m, b \in \Sigma} u_{i}bVa_{i}\\
             R \rightarrow & \sum_{i = 1}^{n} Ra_{i} + \sum_{b \in \Sigma} bR + \epsilon\\
             T \rightarrow & \sum_{i = 1}^{n} Ta_{i} + \epsilon\\
             V \rightarrow & \sum_{b \in V}bV + \epsilon
@@ -624,5 +624,90 @@ En réalité, tous les langages ne sont pas décidables :
     \end{itemize}
 \end{proposition}
 
+
+\part[Classes de Complexité]{Cours 8 : 30/11}
+\section{Temps d'un Calcul et Premières Classes}
+\subsection{Définitions}
+Dans la suite on se donne une machine de Turing (non nécessairement déterministe) avec une bande d'entrée, une bande de sortie et $k$ bandes de travail.
+\begin{definition}
+    Pour un calcul $\gamma$ $q_{0}w \rightarrow Oq_{1}w \rightarrow \cdots \rightarrow C_{n}$ sur un mot $w$ on définit son temps comme $n$, on définit alors : \[t_{M}(w) = \max_{\gamma} t_{M}(\gamma)\\ t_{M}(n) = \max_{\abs{w} = n}t_{M}(w)\]
+    De même, on définit son espace comme $\max{\abs{C_{i}}}$ et alors : 
+    \[
+        s_{M}(w) = max_{\gamma} s_{M}(\gamma)\\
+        s_{M}(n) = \max_{\abs{w} = n}s_{M}(w)
+    \]
+\end{definition}
+
+On définit alors :
+\begin{definition}
+    \begin{itemize}
+        \item \textsc{DTime}$(f(n))$ est l'ensemble des problèmes résolubles en temps $\O(f(n))$ par une machine déterministe
+        \item \textsc{NDTime}$(f(n))$ est l'ensemble des problèmes résolubles en temps $\O(f(n))$ par une machine non-déterministe
+    \end{itemize}
+\end{definition}
+
+\begin{definition}
+    On définit :
+    \[
+        \textsc{P} = \bigcup_{k \geq 0} \textsc{Time}(n^{k}) \ \    \textsc{NP} = \bigcup_{k \geq 0} \textsc{NTime}(n^{k})\\
+        \textsc{ExpTime} = \bigcup_{k \geq 0} \textsc{Time}(2^{n^{k}}) \ \ \textsc{NExpTime} = \bigcup_{k \geq 0} \textsc{NTime}(2^{n^{k}})
+    \]
+    et de même en espace.
+\end{definition}
+
+\subsection{Inclusions et Accélération}
+\begin{theorem}[Linear Speed Up Theorem]
+    Soit $k \geq 0$ un entier, et soit $\M$ une machine de Turing. Si $n = \O(t_{M}(n))$ alors il existe une TM $\M^{'}$ équivalente à $\M$ telle que $t_{\M^{'}} \leq \frac{t_{\M}(n)}{k}$
+\end{theorem}
+\begin{proof}
+    On opère la transformation $\Sigma^{'} = \Sigma^{k}$.
+\end{proof}
+
+\begin{proposition}
+    On a les inclusions suivantes : 
+    \[
+        \comp{P} \subseteq \comp{NP} \subseteq \comp{PSpace} \subseteq \comp{ExpTime} \subseteq \comp{NExpTime} \subseteq \comp{ExpSpace}
+    \]
+\end{proposition}
+
+\begin{proposition}[Théorème du Gap]
+    Si $g$ est calculable, il existe $f$ calculable telle que $\comp{DTime}(f(n)) = \comp{DTime}(g(f(n)))$.
+\end{proposition}
+
+\subsection{Fonctions Constructibles}
+\begin{definition}
+    On dit que $f$ est constructible en temps si : 
+    \begin{itemize}
+        \item $f(n) \geq n$
+        \item $\exists$ une machine de Turing qui sort sur sa bande de sortie $1^{f(n)}$\footnote{On parle ici du mot $1\ldots 1$ $f(n)$ fois} en temps $\O(f(n))$ sur l'entrée $1^{n}$
+    \end{itemize}
+    On dit que $f$ est constructible en espace si :
+    \begin{itemize}
+        \item $f(n) \geq \log n$
+        \item $\exists$ une machine de Turing qui sort $1^{f(n)}$ sur sa bande de sortie en espace $\O(f(n))$ sur l'entrée $1^{n}$
+    \end{itemize}
+\end{definition}
+
+Pour justifier la bonne définition des classes de complexité $\comp{DTime}(f(n))$ en supposant $f$ constructible. On va alors construire $f(n)$ et limiter à ce nombre le nombre d'étapes du calcul. On évite dans le $\max$ de la définition du temps et de l'espace les calculs qui bouclent indéfiniment/qui ne sont pas bornés.
+
+\begin{theorem}
+    Si $f(n) = o(g(n))$ et $g$ est constructible en espace, alors : 
+    \[
+        \comp{Dspace}(f(n)) \subsetneq \comp{Dspace}(g(n))
+    \]
+\end{theorem}
+\begin{proof}
+    Montrons qu'il existe $L \in \comp{DSpace}(g(n)) \setminus \comp{DSpace}(f(n))$ : Sur l'entrée $M, w$, on va : 
+    \begin{itemize}
+        \item Calculer $g(\abs{\scalar{M, w}})$ et marquer ce nombre de cases.
+        \item Simuler $M$ sur $M, w$ pendant $g(\abs{\scalar{M, w}})$ étapes
+        \item Si la simulation arrive au bout, on inverse le résultat, sinon on rejette
+    \end{itemize}
+    On note $L$ le langage reconnu ci-dessus. On a alors : 
+    \begin{itemize}
+        \item $L \in \comp{DSpace}(g(n))$ car $g(n) \geq \log n$ et que l'encodage d'un mot $w$ se fait en $\O(\log \abs{w})$
+        \item Supposons maintenant qu'il existe $\hat{M}$ qui calcule $L$ en $\O(f(n))$. Alors en calculant $\hat{M}(\hat{M}, w)$ : si $M$ s'arrête en moins   
+    \end{itemize}
+\end{proof}
 
 \end{document}

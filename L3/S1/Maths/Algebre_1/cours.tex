@@ -1091,6 +1091,111 @@ Rappel : Si $\abs{G} = p^{\alpha}m$ avec $p \wedge m = 1$, un $p$-sylow de $G$ e
     Soit $G$ un groupe fini d'ordre $d$. Si pour toute factorisation $d = mn$ avec $m\land n = 1$, $G$ possède un sous-groupe d'ordre $m$, alors $G$ est résoluble. 
 \end{theorem}
 
+\subsection{Extensions et Cohomologie}
+Si $A$ et $G$ sont fixés, on veut classifier les suites exactes courtes :
+\begin{equation}\label{Extension}
+    1 \rightarrow A \xrightarrow{i} \tilde{G} \xrightarrow{\pi} G \rightarrow 1   
+\end{equation}
+Etant donné une telle sec est-ce que $i(A)$ admet un complément dans $\tilde{G}$?
+
+\begin{lemma}
+    Soit une extension comme ci-dessus. Il y a équivalence entre : 
+    \begin{enumerate}
+        \item $i(A)$ admet un complément dans $\tilde{G}$
+        \item $\pi$ admet une section ensembliste qui est un morphisme de groupes. 
+    \end{enumerate}
+\end{lemma}
+
+\begin{definition}
+    On dit que la suite exacte courte est scindée si les conditions équivalentes du lemme précédent sont satisfaites. 
+\end{definition}
+
+\begin{theorem}[Schur-Zassenhaus]
+    Toute extension de $G$ par $A$ avec $\abs{G} \wedge \abs{A} = 1$ est scindée
+\end{theorem}
+
+Dans la suite, on suppose que $A$ est abélien.
+
+\begin{definition}
+    Un $G$-module est la donnée d'un groupe abélien $(A, +)$ muni d'une action de $G$ sur $A$ vérifiant $g(a + b) = ga + gb$ ou, ce qui revient au même, telle que le morphisme $G \rightarrow S_{A}$ associé soit à valeurs dans $Aut(A)$.
+\end{definition}
+
+\begin{proposition}
+    La donnée de la suite exacte courte \ref{Extension} munit le groupe abélien $A$ d'une structure de $G$-module par : 
+    \[
+        g.a = i^{-1}\left(\tilde{g}i(a)\tilde{g}^{-1}\right)    
+    \]
+    où $\tilde{g} \in \tilde{G}$ est un relevé de $g$ par $\pi$.
+\end{proposition}
+
+\begin{example}[Extensions Centrales]
+    Une extension \ref{Extension} de $G$ par $A$ est dite \emph{centrale} si $i(A) \subseteq Z(\tilde{G})$.  
+\end{example}
+
+On fixe une extension \ref{Extension} de $G$ par $A$, et on considère une section ensembliste $s : G \rightarrow \tilde{G}$. Il existe un unique élément $c(g, g^{'})$ dans $A$ tel que : 
+\[
+    s(g)s(g^{'}) = i(c(g, g^{'}))s(gg^{'})
+\]
+On remarque qu'alors $s$ est un morphisme si et seulement si $c = Ob(s)$ est nulle.
+
+\begin{lemma}
+    Soient $s$ une section ensembliste de $\pi$ et $c = Ob(s)$. On a : 
+    \[
+        g.c(g^{'}g^{''}) - c(gg^{'}, g^{''}) + c(g, g^{'}g^{''}) - c(g, g^{'}) = 0, \ \forall g, g^{'}, g^{''} \in G
+    \]
+\end{lemma}
+
+\begin{definition}
+    Si $A$ est un $G$-module, on note $Z^{2}(G, A)$ l'ensemble des fonctions vérifiant l'identité du lemme précédent. Une telle fonction est appelée $2$-cocycle de $G$ à valeurs dans $A$.
+\end{definition}
+
+Une autre section de $\pi$ que $s$ est de la forme $s_{\epsilon} : g \mapsto i(\epsilon(g))s(g)$ où $\epsilon$ est une fonction arbitraire de $G$ dans $A$. Les deux $2$-cocycles $c = Ob(s)$ et $c_{\epsilon} = Ob(s_{\epsilon})$ sont alors liés par : 
+\[
+    c_{\epsilon}(g, g^{'}) = c(g, g^{'}) + g.\epsilon(g^{'}) - \epsilon(gg^{'}) + \epsilon(g)    
+\]
+
+\begin{definition}
+    Si $A$ est un $G$-module, on note $B^{2}(G, A)$ l'ensemble des fonctions $\partial\epsilon : G \times G \rightarrow A$ de la forme $g, g^{'} \mapsto g.\epsilon(g^{'}) - \epsilon(gg^{'}) + \epsilon(g)$ avec $\epsilon : G\rightarrow A$. Une telle fonction $f$ est appelée $2$-cobord de $G$ à valeurs dans $A$.
+\end{definition} 
+
+\begin{definition}
+    Pour tout $G$-module $A$, le groupe $B^{2}(G, A)$ est un sous-groupe de $Z^{2}(G, A)$ et on définit le $2$-ème groupe de cohomologie de $G$ à valeurs dans $A$ comme le groupe abélien quotient : 
+    \[
+        H^{2}(G, A) = Z^{2}(G, A)/B^{2}(G, A)
+    \]
+\end{definition}
+
+\begin{proposition}
+    Si $s$ est une section de $\pi$, la classe de $Ob(s)$ ne dépend pas du choix de la section $s$. On la note $\left[E\right]$ et on l'appelle classe de cohomologie assoicée à \ref{Extension}. La sec \ref{Extension} est scindée si, et seulement si sa classe $\left[E\right]$ est nulle. 
+\end{proposition}
+
+\begin{theorem}[Schur-Zassenhaus, Cohomologique]
+    Soient $G$ un groupe et $A$ un $G$-module : 
+    \begin{enumerate}
+        \item Si $G$ est fini, alors $\abs{G}x = 0$ pour tout $x \in H^{2}(G, A)$
+        \item Si $A$ est fini, alors $\abs{A}x = 0$ pour tout $x \in H^{2}(G, A)$
+    \end{enumerate}
+    En particulier, si $G$ et $A$ sont finis avec $\abs{G} \wedge \abs{A} = 1$, on a $H^{2}(G, A) = 0$.
+\end{theorem}
+
+\begin{proposition}
+    Pour tout $G$-module $A$ et $x \in H^{2}(G, A)$, il existe une extension de $G$ par $A$ vérifiant $\left[E\right] = x$. 
+\end{proposition}
+\begin{proposition}
+    Soient $A$ un $G$-module et $E_{k} = \left(\tilde{G}_{k}, i_{k}, \pi_{k}\right)$ pour $k = 1, 2$ deux extensions de $G$ par le même $G$-module $A$. On a $\left[E_{1}\right] = \left[E_{2}\right]$ si et seulement si il existe un isomorphisme $\phi : \tilde{G}_{1} \rightarrow \tilde{G}_{2}$ vérifiant $\phi \circ i_{1} = i_{2}$ et $\pi_{2} \circ \phi = \pi_{1}$
+\end{proposition}
+\begin{corollary}
+    Soit $A$ un $G$-module, l'application $(E) \mapsto \left[E\right]$ induit une bijection entre l'ensemble $\mathcal{E}(G, A)$ des classes d'isomorphisme d'extensions de $G$ par le $G$-module $A$ et l'ensemble $H^{2}(G, A)$.
+\end{corollary}
+
+\begin{theorem}[Schur]
+    Considérons $\znz{2}$ comme $A_{n}$-module trivial. On a, pour $n \geq 4$ : 
+    \[
+        H^{2}(A_{n, \znz{2}}) \simeq \znz{2}
+    \]
+\end{theorem}
+
+
 
 \end{document}
 
