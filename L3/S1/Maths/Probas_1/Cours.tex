@@ -831,7 +831,7 @@
         \[
             K_{X} = \left(\cov(X_{i}, X_{j})\right)_{i, j \in \llbracket 1,d\rrbracket}
         \]
-        $X, Y \rightarrow \cov(X, Y)$ est bilinéaire et $K_{X}$ est symétrique positive. 
+        $X, Y \mapsto \cov(X, Y)$ est bilinéaire et $K_{X}$ est symétrique positive. 
     \end{definition}
 
     \begin{definition}
@@ -984,6 +984,72 @@
             \end{enumerate}
         \end{proposition}
 
+        \begin{definition}
+            Soit $X_n$ une suite de v.a. à valeurs dans $\R^{d}$, $X$ une v.a. à valeurs dans $\R^{d}$. On dit que $X_{n}$ converge en probabilité vers $X$ si : 
+            \[
+                \forall \epsilon > 0, \lim_{n \to \infty} \mathbb{P}\left(\abs{X_{n} - X} \geq \epsilon\right) = 0
+            \]
+        \end{definition}
+
+        \begin{definition}
+            Pour $X, Y$ dans $L_{\R^{d}}^{0}$, on pose : $d(X, Y) = E[Inf(\abs{X - Y}, 1)]$. C'est une distance.
+        \end{definition}
+
+        \begin{proposition}
+            Si $\left(X_{n}\right)$ est une suite de $L^{0}$, alors $X_{n} \rightarrow X$ si et seulement si $d(X_{n}, X) \xrightarrow[n \to \infty]{} 0$. De plus, $L^{0}$ est complet.             
+        \end{proposition}
+
+        
+        \begin{corollary}
+            On a de plus que si $d(X_{n}, X) \rightarrow 0$, il existe une sous-suite qui converge p.s. 
+        \end{corollary}
+
+        \begin{corollary}
+            Soit $X_{n}$ une suite de v.a. qui converge en proba vers $X$. S'il existe $r > 1$ tel que : 
+            \[
+                \sup_{n \in \N} E[\abs{X_{n}}^{r}] < \infty \text{ et } E[\abs{X}^{r}] < \infty
+            \]
+            Il y a convergence dans $L^{1}$. 
+        \end{corollary}
+
+        \begin{definition}
+            Une suite $\mu_{n}$ de mesures de probabilité sur $\R^{d}$ converge étroitement vers une mesure de probabilité $\mu$ sur $\R^{d}$ si 
+            \[
+                \forall \phi \in \cont_{b}(\R^{d}, \R), \int \phi \d\mu_{n} \xrightarrow[n \to \infty]{} \int \phi \d\mu
+            \]
+            Une suite $X_{n}$ de variable aléatoires à valeurs dans $\R^{d}$ converge en loi vers une variable aléatoire $X$ à valeures dans $\R^{d}$ si 
+            \[
+                P_{X_{n}} \xrightarrow[n \to \infty]{(e)} P_{X}
+            \]
+            Cela équivaut à : 
+            \[
+                \forall \phi \in \cont_{b}(\R^{d}, \R), E[\phi(X_{n})] \xrightarrow[n \to \infty]{} E[\phi(X)]
+            \]
+        \end{definition}
+
+        \begin{proposition}
+            Si la suite $\left(X_{n}\right)$ converge en probabilité vers $X$ alors la suite $X_{n}$ converge en loi vers $X$. 
+        \end{proposition}
+
+        \begin{proposition}
+            Soient $\mu_{n}, \mu$ des mesures de probabilité sur $\R^{d}$. Les quatre assertions suivantes sont équivalentes :
+            \begin{enumerate}
+                \item $\mu_{n} \xrightarrow{(e)} \mu$
+                \item Pour tout ouvert $G$ de $\R^{d}$
+                \[
+                    \liminf \mu_{n}(G) \geq \mu(G)
+                \]
+                \item Pour tout fermé $F$ de $\R^{d}$
+                \[
+                    \limsup \mu_{n}(F) \leq \mu(F)
+                \]
+                \item Pour tout $B \in \B(\R^{d})$ tel que $\mu\left(\partial B\right) = 0$ : 
+                \[
+                    \lim \mu_{n}(B) = \mu(B)
+                \]
+            \end{enumerate} 
+        \end{proposition}
+
         \begin{theorem}[Loi Faible des Grands Nombres]
             Soit $X_{n}$ une suite de variables aléatoires réelles indépendantes et de même loi. Si $E[X_{1}^{2}] < \infty$ : 
             \[
@@ -996,6 +1062,7 @@
             \[
                 \frac{1}{n}\left(X_{1} + \ldots + X_{n}\right) \xrightarrow[n \to \infty]{} E[X_{1}]
             \]
+        \end{proposition}
 
         \begin{corollary}
             Si $\left(A_{n}\right)_{n \geq 1}$ est une suite d'évènements indépendants de même probabilité, on a : 

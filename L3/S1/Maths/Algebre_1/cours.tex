@@ -1195,7 +1195,98 @@ Une autre section de $\pi$ que $s$ est de la forme $s_{\epsilon} : g \mapsto i(\
     \]
 \end{theorem}
 
+\section{Arithmétique des Anneaux}
+\subsection{Les anneaux $\Z[\sqrt{d}]$}
+On fixe dans la suite un entier $d \in \Z$ non carré\footnote{$z$ négatif convient} dans $\Z$. 
 
+\begin{definition}
+    On définit, pour $z = x + y\sqrt{d}$ :
+    \[
+        \begin{cases}
+            \bar{z} = x - y\sqrt{d} & \text{ le conjugué de } z\\
+            T(z) = z + \bar{z} = 2x & \text{ la trace de } z\\
+            N(z) = z\bar{z} = x^{2} - dy^{2} & \text{ la norme de } z
+        \end{cases}    
+    \]
+    On a donc : $z^{2} - T(z)z + N(z) = 0$, c'est l'identité de Cayley-Hamilton
+\end{definition}
+
+\begin{lemma}
+    \begin{enumerate}
+        \item $z \mapsto \bar{z}$ est un automorphisme
+        \item $\Q\left[\sqrt(d)\right]$ est le corps des fractions de $\Z[\sqrt{d}]$
+        \item $N : \Q[\sqrt{d}]^{\times} \mapsto \Q^{\times}$ est un morphisme de groupes et $N\left(\Z\left[\sqrt{d}\right]\right) \subseteq \Z$.
+    \end{enumerate}
+\end{lemma}
+
+\begin{lemma}
+    On a $ \Z\left[\sqrt{d}\right]^{\times} = \left\{z \in \Z\left[\sqrt{d}\right] \mid N(z) = \pm 1\right\}$
+\end{lemma}
+
+\begin{corollary}
+    On a $\Z[i]^{\times} = \left\{\pm 1, \pm i\right\}$ et $\Z\left[\sqrt{d}\right]^{\times} = \left\{\pm 1\right\} \text{ pour } d < -1$.
+\end{corollary}
+
+\begin{remark}
+    On appelle équation de Pell-Fermat l'équation $x^{2} - dy^{2} = 1$ pour $d > 0$.
+\end{remark}
+
+\begin{proposition}
+    Soit $d > 0$ non carré. Tout élément $> 1$ de $\Z\left[\sqrt{d}\right]^{\times}$ est de la forme $x + y\sqrt{d}$ avec $x, y \in \Z_{\geq 1}$. De plus il existe un plus petit tel élément $\eta_{d}$ appelé unité fondamentale de $\Z\left[\sqrt{d}\right]$, et on a $\Z\left[\sqrt{d}\right]^{\times} = \scalar{-1, \eta_{d}} \simeq \znz{2} \times \Z$
+\end{proposition}
+
+\subsection{Divisibilité}
+\begin{definition}
+    Pour un anneau $A$ commutatif intègre, si $a, b \in A$, on a $a\mid b$ s'il existe $c\in A$ tel que $b = ac$. Les diviseurs de $1$ sont appelés les unités de $A$. 
+\end{definition}
+
+\begin{definition}
+    On dit que $a, b \in A$ sont associés noté $a \sim b$ si $b \mid a$ et $a \mid b$. 
+\end{definition}
+
+\begin{lemma}
+    Pour $a, b \in A$, $a \sim b \Leftrightarrow \exists u \in A^{\times}, a = bu$
+\end{lemma}
+
+\begin{definition}
+    Un élément non nul $\pi \in A$ est dit irréductible si ce n'est pas une unité et si pour tout $a, b \in A$, $\pi = ab$ implique $a \in A^{\times}$ ou $b\in A^{\times}$.
+\end{definition}
+
+\begin{definition}
+    Un élément non nul $\pi \in A$ est dit premier si ce n'est pas une unité et s'il satisfait la propriété d'Euclide-Gauss : 
+    \[
+        \forall a,b \in A, \pi \mid ab \Longrightarrow \pi \mid a \text{ ou } \pi \mid b
+    \]
+\end{definition}
+
+\subsection{Anneaux Factoriels}
+\begin{definition}
+    On convient qu'un produit vide dans un anneau vaut $1$ et aussi que l'on a $a^{0} = 1$ pour tout $a \in A$. On choisit un ensemble arbitraire $\mP$ de représentants des éléments irréductibles pour la relation d'association. 
+\end{definition}
+
+\begin{definition}
+    \begin{enumerate}
+        \item On dit que $A$ a la \emph{propriété de factorisation} (\textbf{PF}) si tout élément de $A\setminus \left\{0\right\}$ est un produit fini d'éléments irréductibles et d'une unité. 
+        \item On dit que $A$ est \emph{factoriel} si pour tout $a \in A\setminus \left\{0\right\}$, il existe un unique $u \in A^{\times}$ et une unique fonction $\left(\nu_{\pi}(a)\right) \in \N^{\left(\mathcal{P}\right)}$
+    \end{enumerate}
+\end{definition}
+
+\begin{example}
+    \begin{enumerate}
+        \item $\Z$ et $\K[X]$ sont factoriels
+        \item Les $\Z\left[\sqrt{d}\right]$ sont \textbf{(PF)}
+        \item L'anneau $H(\C)$ des séries entières convergentes sur $\C$ est intègre par le principe des zéros isolés. On peut montrer que les unités de $H(\C)$ sont exactement les fonctions qui ne s'annulent pas sur $\C$ et ses irréductibles sont les associés des $z - a, a\in \C$. Mais certains éléments de $H(\C)$ comme $\sin\left(\pi z\right)$ ont une infinité de zéros donc l'anneau $H(\C)$ ne vérifie pas $\left(\textbf{PF}\right)$.
+    \end{enumerate}
+\end{example}
+
+
+\begin{proposition}
+    Supposons que $A$ satisfait \textbf{(PF)}. Alors, $A$ est factoriel si et seulement si tout irréductible de $A$ est premier. 
+\end{proposition}
+
+\begin{lemma}
+    Les pgcd et ppcm existent dans un anneau factoriel.
+\end{lemma}
 
 \end{document}
 

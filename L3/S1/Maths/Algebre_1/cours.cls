@@ -80,8 +80,8 @@
 \newcommand{\A}{\mathcal{A}}
 \newcommand{\mL}{\mathcal{L}}
 \newcommand{\ml}{\mathcal{l}}
-
 \renewcommand{\P}{\mathbb{P}}
+\newcommand{\mP}{\mathcal{P}}
 \renewcommand{\d}{{\rm \, d}}
 
 \newcommand{\asympt}{\mathop{\sim}}
