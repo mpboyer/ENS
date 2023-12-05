@@ -1,0 +1,94 @@
+\documentclass{beamercours}
+
+\title{Cours TalENS 2023-2024}
+\subtitle{Goûters, Socialisme, Chaleur et PB\&J} 
+\date{16 Décembre 2023}
+
+
+\begin{document}
+\maketitle
+
+\section{Mise en Situation}
+\subsection{Le Problème}
+\begin{frame}
+    \frametitle{Vie en Communauté}
+    Placez vous dans la situation suivante : \\
+    \begin{itemize}
+        \visible<2-> {\item Avec plusieurs de vos amis, vous avez décidé de faire un gâteau.}
+        \visible<3-> {\item Une fois celui-ci cuit, vient le moment de le découper.}
+        \visible<4-> {\item Cependant, vous n'avez pas tous aussi faim les uns que les autres.}
+        \visible<5-> {\item Comment faire pour le découper sans que personne ne soit lésé et que le découpeur ne soit assailli pour ses préférences dans le groupe d'amis.}
+    \end{itemize}
+\end{frame}
+
+\subsection{Mathématiquement}
+\begin{frame}
+    \frametitle{Modélisation}
+    \visible<1-> {On modélise l'ensemble des mangeurs de gâteau par le segment d'entier $\onen{n}$\\}
+    \visible<2-> {On note $\mathfrak{S}_{n}$ l'ensemble des permutations de ce segment d'entier. \\}
+    \visible<3-> {On représente la faim du mangeur $i$ par une mesure de probabilité $\mu_{i}$ de densité $f_{i}$. \\}
+    \visible<4-> {On cherche une partition $X_{1}, \ldots, X_{n}$ du gâteau, que l'on modélise par l'ensemble $\left[0, 1\right]$.}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Théorème de Partage de Gâteau}
+    \visible<1->{\begin{theorem}[De Partage de Gâteau]
+        Pour toutes fonctions de densités $f_{i}$ et permutations $\sigma \in \mathfrak{S}_{n}$, on considère le système $(\star)$ suivant : 
+        \begin{equation*}\tag{$\star$}
+            \int_{0}^{x_{1}}f_{\sigma(1)}(x) \mathrm{d}x = \int_{x_{1}}^{x_{2}}f_{\sigma(2)}(x)\mathrm{d}x = \ldots = \int_{x_{n}}^{1}f_{\sigma(n)}(x) \mathrm{d}x 
+        \end{equation*}  
+        Celui-ci a une solution. 
+    \end{theorem}}
+    \visible<2>{ On cherche donc à démontrer ce Théorème.  }
+\end{frame}
+
+\section{Formalisations}
+\subsection{Combinatoire}
+\begin{frame}
+    \frametitle{Partitions}
+    \only<1> {On appelle partition d'un ensemble toute sous division de cet ensemble en plusieurs parties sans recouvrement.\\}
+    \only<2-> {Formellement, pour un ensemble $X$, il s'agit d'un ensemble $(X_{i})_{i\in I}$ tel que : 
+    \[
+        \bigcup_{i\in I}X_{i} = X \text{ et } X_{i} \cap X_{j} = \emptyset
+    \]}
+    \only<3> {Par exemple, $\left\{\left\{1, 3\right\}, \left\{2, 4\right\}\right\}$ est une partition de $\onen{4}$}
+    \only<4> {Dans le cas de $\left[0, 1\right]$ on dénote une partition comme une suite strictement croissante de réels $x_{1}, \ldots, x_{n}$ de sorte qu'on \textit{découpe} l'intervalle en plus petits intervalles.}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Permutations}
+    \only<1> {On appelle permutation d'un ensemble, toute manière de le réordonner.\\}
+    \visible<2-> {Formellement, il s'agit d'une bijection d'un ensemble et dans lui-même, puisqu'il s'agit juste de renommer chaque élément.\\}
+    \visible<3-> {On note souvent les permutations entre parenthèses : $\left(1 \ 2 \ 3\right)$ est une permutation de l'ensemble $\onen{3}$ mais aussi de $\onen{4}$.\\}
+    \visible<4-> {Dans le cas de l'ensemble $\onen{n}$, on note l'ensemble de ses permutations $\mathfrak{S}_{n}$ et on l'appelle Groupe Symétrique d'ordre $n$. Il est de cardinal $n!$ (c'est beaucoup)}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Modélisation}
+    \visible<1-> {Ici, on représente le gâteau de manière continue par le segment $\left[0, 1\right]$. On dit que c'est une description continue du problème puisque l'ensemble considéré n'est pas dénombrable.\\}
+    \visible<2-> {Puisque la faim de chacun ne dépend pas de la position autour de la table, on doit pouvoir résoudre le problème, quel que soit l'ordre des mangeurs, i.e. quelle que soit la permutation de l'ensemble $\onen{n}$ des mangeurs. \\}
+    \visible<3-> {On cherche alors une partition du gâteau, i.e. du segment $\left[0, 1\right]$, dépendant de la permutation $\sigma \in \mathfrak{S}_{n}$ des mangeurs.}
+\end{frame}
+
+\subsection{Probabilités}
+\begin{frame}
+    \frametitle{Mesure de Probabilité}
+    \visible<1-> {Une mesure de probabilité $p$ sur un univers (un ensemble $\Omega$) est une fonction des parties de cet univers (les évènements) dans $\R^{+}$ \\}
+    \visible<2-> {Cette application doit vérifier les propriétés suivantes : 
+    \[
+        p(\Omega) = 1, \text{, si } A \cap B = \emptyset, p(A \cup B) = p(A) + p(B) \text{ et } p(A^{\complement}) = 1 - p(A)
+    \]}
+    \visible<3-> {L'application de cette fonction à un évènement représente la probabilité de celui-ci. On peut généraliser la propriété sur l'union ci-dessus à un nombre dénombrable d'évènements. }
+\end{frame}
+
+\begin{frame}
+    \frametitle{Densité}
+    \visible<1-> {Dans le cas d'une mesure de probabilité $p$ sur un ensemble continu, on dit qu'elle est non-atomique lorsque $p(\left\{x\right\}) = 0$.}
+    \visible<2-> {On dit de plus qu'elle est à densité lorsqu'il existe une fonction $\mu_{p}$ telle que : 
+    \[
+        \forall A \subseteq \Omega, p(A) = \int_{A} \mu_{p} \d\lambda
+    \]
+    où $\lambda$ correspond \textit{intuitivement} à la taille de l'ensemble $A$. En particulier $\lambda(\left[a, b\right]) = b - a$.}
+\end{frame}
+\end{document}
+

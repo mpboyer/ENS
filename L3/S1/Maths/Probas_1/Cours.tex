@@ -557,7 +557,7 @@
         \begin{remark}
             Cas d'égalité : 
             \begin{itemize}
-                \item Si $p = 1, q = \infty$, et que $f = 0$ ou $g = \nomr{g}_{\infty}$ presque partout.
+                \item Si $p = 1, q = \infty$, et que $f = 0$ ou $g = \norm{g}_{\infty}$ presque partout.
                 \item Si $p, q < \infty$ : Il y a égalité si $f$ ou $g$ est nulle. Sinon si et seulement si il y a égalité dans l'inégalité de Young $\mu$ presque partout. 
             \end{itemize}
         \end{remark}
@@ -629,8 +629,29 @@
             Les fonctions Lipschitziennes qui sont dans $L^{p}$ sont denses dans $L^{p}$.
         \end{lemma}
 
+        \subsection{Radon-Nikodym}
+        \begin{definition}
+            Soient $\mu$ et $\nu$ deux mesures sur $\left(E, \A\right)$. On dit que :
+            \begin{enumerate}
+                \item $\nu$ est absolument continue par rapport à $\mu$, noté $\nu \ll \mu$ si :
+                \[
+                    \forall A \in \A, \mu(A) = 0 \Rightarrow \nu(A) = 0
+                \] 
+                \item $\nu$ est étrangère à $\mu$, noté $\nu \perp \mu$ s'il existe $N \in \A$ tel que $\mu(N) = 0$ et $\nu(N^{\complement}) = 0$
+            \end{enumerate}
+        \end{definition}
 
-
+        \begin{theorem}[Radon-Nikodym]
+            Soit $\mu, \nu$ deux mesures $\sigma$-finies sur $\left(E, \A\right)$. Il existe alors un unique couple $\left(\nu_{a}, \nu_{s}\right)$ de mesures $\sigma$-finies sur $\left(E, \A\right)$ telle que : 
+            \begin{itemize}
+                \item $\nu = \nu_{a} + \nu_{s}$
+                \item $\nu_{a} \ll \mu$ et $\nu_{s} \perp \nu$.
+            \end{itemize}
+            De plus il existe une fonction mesurable $h : E \rightarrow \R_{\star}^{+}$ telle que : 
+            \[
+                \forall A \in \A, \nu_{a}(A) = \int_{A}f \d\mu
+            \]
+        \end{theorem}
 
 
 \part{Probabilités}
@@ -940,7 +961,47 @@
                 \end{itemize}
                 De plus $m^{\star}$ est égale à $m$ sur $\A$.
             \end{lemma}
-
         
+        \section{Convergence de sommes de variables aléatoires indépendantes}
+        \subsection{Remarques Préliminaires}
+        \begin{definition}
+            Soit $\mu$ et $\nu$ deux lois de probabilités sur $\R^{d}$. On note $\mu \star \nu$ la loi de probabilité définie par :
+            \[
+                (\mu \star \nu)(A) = \int_{\R^{d} \times \R^{d}} \mathds{1}_{(x + y) \in A} \mu(\d x) \nu(\d y)
+            \]
+            Autrement dit, pour $f \geq 0$ mesurable : 
+            \[
+                \int f \d(\mu \star \nu) = \int_{\R^{d} \times \R^{d}} f(x + y)\mu(\d x) \nu(\d y)
+            \]
+        \end{definition}
+
+        \begin{proposition}
+            Soient $X$ et $Y$ deux v.a. indépendantes à valeurs dans $\R^{d}$ :
+            \begin{enumerate}
+                \item La loi de $X + Y$ est $P_{X} \star P_{Y}$. En particulier, si $X$ et $Y$ sont à densité : $X + Y$ a pour densité $p_{X} \star p_{Y}$
+                \item La fonction caractéristique de $X + Y$ est : $\Phi_{X + Y}(\xi) = \Phi_{X}(\xi)\Phi_{Y}(\xi)$
+                \item Si $X$ et $Y$ sont de carré intégrable : $K_{X + Y} = K_{X} + K_{Y}$.
+            \end{enumerate}
+        \end{proposition}
+
+        \begin{theorem}[Loi Faible des Grands Nombres]
+            Soit $X_{n}$ une suite de variables aléatoires réelles indépendantes et de même loi. Si $E[X_{1}^{2}] < \infty$ : 
+            \[
+                \frac{1}{n}\left(X_{1} + \ldots + X_{n}\right) \xrightarrow[n \to \infty]{L^{2}} E[X_{1}]
+            \]
+        \end{theorem}
+        
+        \begin{proposition}
+            Sous les hypothèses du théorème précédent, si $E\left[X_{1}^{4}\right] < \infty$, on a presque sûrement 
+            \[
+                \frac{1}{n}\left(X_{1} + \ldots + X_{n}\right) \xrightarrow[n \to \infty]{} E[X_{1}]
+            \]
+
+        \begin{corollary}
+            Si $\left(A_{n}\right)_{n \geq 1}$ est une suite d'évènements indépendants de même probabilité, on a : 
+            \[
+                \frac{1}{n}\sum_{i = 1}^{n}\mathds{1}_{A_{i}} \xrightarrow[n \to \infty]{p.s.} P(A_{1})
+            \]
+        \end{corollary}
 
 \end{document}
