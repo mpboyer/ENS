@@ -1,0 +1,69 @@
+\documentclass{cours}
+\usepackage{tipa}
+\title{Homework Assignment 7}
+\author{Matthieu Boyer}
+
+\begin{document}
+\section{Exercise 1 : Phonetics}
+\subsection{Question 1}
+\begin{itemize}
+    \item a) [\textipa{m, n, N}] are all voiced nasals consonants
+    \item b) [\textipa{s,S,f,T}] are all voiceless fricative consonants
+    \item c) [\textipa{O, a}] are both vowels made with the tongue in the back and in a low position. 
+    \item c) [\textipa{tS, dZ, Z, S}] are all palatal consonants
+\end{itemize}
+
+\subsection{Question 2}
+My English is not good enough for me to see a problem with those transcriptions. To me, the only critic to be made is of the word \textsl{pass} which I believe is made with a long vowel instead : [pa\textipa{:}s]
+
+
+\section{Exercise 2 : Phonology}
+\subsection{Part 1 : Contrastive segments and rule-based phonology}
+\subsubsection{Question 1}
+This is false since we might find that two consonants are always followed by different vowels for example. We might want to take as an example the following : 
+In French, \textipa{z} is always followed by either \textipa{e} or \textsl{E} while \textipa{w} is never followed by those vowels. 
+
+\subsubsection{Question 2}
+\begin{itemize}
+    \item a) [r] and [l] do not appear in minimal pairs. 
+    \item b) [r] and [l] do appear in complementary distribution in this subset of Korean, since they never appear between the same vowels nor consonants, [l] does not appear at the beginning of words and [r] at the end.
+    \item c) [l] is always preceeded by a vowel and followed either by nothing or by a consonant, while [r] is always followed by a vowel and preceeded by either nothing or a vowel.
+\end{itemize}
+
+\subsubsection{Question 3}
+\begin{itemize}
+    \item a) From this subset, we seemingly get for \textsl{to} the following forms : [\textipa{ap}], [\textipa{ab}], [\textipa{api}]
+    \item b) The first occurs before a vowel or any of [\textipa{m, t, s}], the second before [\textipa{g, z, d}] and the last before [\textipa{b, d}]. 
+    \item c) The underlying representation of the prefix is [\textipa{ap}] since the sound [\textipa{b}] can be produce by voicing the sound [\textipa{p}] and [\textipa{pi}] can be produced by adding a liaison vowel when voicing would not make the sounds more distinct. 
+\end{itemize}
+
+\subsection{Part 2 : Optimality Theory}
+\subsubsection{Question 1}
+\begin{itemize}
+    \item a) Based on the fact that \textsl{kurisumasu} is the valid proposition, we have evidence in favor of the second ordering \textsc{CV > Max-IO}. However, we cannot conclude for the other two orderings.
+    \item b) The following orderings are correct based on this example alone : \textsc{CV > Dep-IO > Max-IO}, \textsc{CV > Max-IO > Dep-IO} and \textsc{Dep-IO > CV > Max-IO}
+\end{itemize}
+
+\subsubsection{Question 2}
+First, we propose the following ordering : \textsc{Dep-Syll-IO > Max-Stress > NIAO > Max-Syll-IO}. It indeed produces /\textipa{se.ry.ri}/ as its candidate. We use Nil to denote a case there is no need to fill.\\
+\begin{center}
+    \begin{tabular}{ccccc}
+        \toprule
+        & \textsc{Dep-Syll-IO} & \textsc{Max-Stress} & \textsc{NIAO} & \textsc{Max-Syll-IO}\\
+        \midrule
+        \textipa{se.ry.r@.ri} & & & $\times$ $\times$ ! & Nil\\
+        \textipa{se.ry} & & $\times$! & Nil & Nil\\
+        \textipa{se.ry.r@} & & $\times$! & Nil & Nil\\
+        \textipa{se.ry.ri} & & & $\times$ & Nil\\
+        \textipa{se.ry.m@.r@.t@.ri} & $\times$ $\times$ ! & Nil & Nil & Nil\\
+        \bottomrule
+    \end{tabular}
+\end{center}
+
+\begin{itemize}
+    \item a) This ordering is not the only that will work. Indeed, \textsc{Max-Stress > Dep-Syll-IO > NIAO > Max-Syll-IO} would also produce /\textipa/ as its candidate. 
+    \item b) We could have included \textipa{se.r@.ri} in the candidate set. This would have brought ambiguity in the set of candidates. Indeed, we would have a tie between \textipa{se.ry.ri} and \textipa{se.r@.ri}, since they have the same score in all the rules. 
+\end{itemize}
+
+
+\end{document}
