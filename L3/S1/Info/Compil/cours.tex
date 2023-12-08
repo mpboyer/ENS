@@ -2302,5 +2302,472 @@ Le type de l'expression $e_{1}$ permet d'optimiser la construction dans de nombr
 
 On peut par ailleur détecter les cas redondants lorsqu'une action n'apparaît pas dans le code produit, et détecter les filtrages non exhaustifs lorsque $error$ apparaît dans le code produit. 
 
+\part[Compilateur Optimisant]{Cours 08/12}
+\section{Phases du Compilateur}
+On décompose la production de code en plusieurs phases :
+\begin{enumerate}
+    \item Sélection d'Instructions
+    \item Register Transfer Language
+    \item Explicit Register Transfer Language
+    \item Location Transfer Language
+    \item Code Linéarisé (assembleur)
+\end{enumerate}
+
+Le point de départ est l'arbre de syntaxe abstraite issu du typage. Cet architecture de compilateur est valable pour tous les grands paradigmes de programmation. On va l'illustrer sur un fragment du langage C. 
+
+On se donne un langage mini-C avec : 
+\begin{itemize}
+    \item Des entiers
+    \item Des structures allouées sur le tas avec \texttt{malloc} (uniquement des pointeurs sur ces structures et pas d'arithmétique de pointeurs)
+    \item Des fonctions
+    \item Une primitive pour afficher un entier. 
+\end{itemize}
+
+On suppose l'analyse sémantique effectuée et le résultat : 
+\begin{minted}{ocaml}
+    type file = { gvars: decl_var list; funs: decl_fun list; }
+    and decl_var = typ * ident
+    and decl_fun = {
+        fun_typ: typ; fun_name: ident;
+        fun_formals: decl_var list; fun_body: block; }
+    and block = decl_var list * stmt list
+    and stmt =
+        | Sskip
+        | Sexpr of expr
+        | Sif of expr * stmt * stmt
+        | Swhile of expr * stmt
+        | Sblock of block
+        | Sreturn of expr
+        | Sprintf of expr
+    and expr = { expr_node: expr_node; expr_typ: typ }
+    and expr_node =
+        | Econst of int32
+        | Eaccess_local of ident
+        | Eassign_local of ident * expr
+        | Eaccess_global of ident
+        | Eassign_global of ident * expr
+        | Eaccess_field of expr * int (* indice du champ *)
+        | Eassign_field of expr * int * expr
+        | Eunop of unop * expr (* - ! *)
+        | Ebinop of binop * expr * expr (* + - == etc. *)
+        | Ecall of ident * expr list
+        | Emalloc of structure
+\end{minted}
+
+\section{Phase 1 : Sélection d'Instructions}
+Son objectif est de : 
+\begin{enumerate}
+    \item Remplacer les opérations arithmétiques du C par celles de \texttt{x86-64}
+    \item Remplacer les accès aux champs de structures par des opérations \texttt{mov}
+\end{enumerate}
+\subsection{Opérations Arithmétiques}
+On pourrait traduire naïvement chaque opération arithmétique de C par l'instruction correspondante de \texttt{x86-64}. Cependant, ce langage fournit des instructions permettant une plus grande efficacité, notamment : 
+\begin{itemize}
+    \item L'addition d'un registre et d'une constante
+    \item Le décalage des bits vers la gauche ou la droit, correspondant à une multiplication ou à une division par une puissance de deux. 
+    \item La comparaison d'un registre avec une constante. 
+\end{itemize}
+
+D'autre part, il est souhaitable d'évaluer autant d'expressions que possible pendant la compilation. 
+On se donne de nouveaux arbres pour le résultat de la sélection d'instructions. L'objectif étant de traduire les précédents arbres. Les opérations sont maintenant celles de \texttt{x86-64} : 
+\begin{minted}{ocaml}
+    type munop = Maddi of int32 | Msetei of int32 | ...
+type mbinop = Mmov | Madd | Msub ... | Msete | Msetne ...
+type expr =
+| Emunop of munop * expr (* remplace Eunop *)
+| Embinop of mbinop * expr * expr (* remplace Ebinop *)
+| Eand of expr * expr
+| Eor of expr * expr
+| ...
+\end{minted}
+
+Pour réaliser l'évaluation partielle on va utiliser des \textit{smart constructors}. On introduit une fonction \texttt{mk\_add} qui effectue d'éventuelles simplifications et se comporte comme le constructeur sinon : 
+\begin{minted}{ocaml}
+    let rec mk_add e1 e2 = match e1, e2 with
+    | Econst n1, Econst n2 ->
+        Econst (Int32.add n1 n2)
+    | e, Econst 0l | Econst 0l, e ->
+        e
+    | Emunop (Maddi n1, e), Econst n2
+    | Econst n2, Emunop (Maddi n1, e) ->
+        mk_add (Econst (Int32.add n1 n2)) e
+    | e, Econst n | Econst n, e ->
+        Emunop (Maddi n, e)
+    | _ ->
+        Embinop (Madd, e1, e2)
+\end{minted}
+
+Deux aspects sont essentiels concernant ces simplifications : 
+\begin{itemize}
+    \item La sémantique des programmes doit être préservée.
+    \item La fonction de simplification doit terminer.
+\end{itemize}
+La traduction se fait alors mot à mot, et c'est un morphisme pour les autres constructions : 
+\begin{minted}{ocaml}
+    let rec expr e = match e.Ttree.expr_node with
+    | Ttree.Ebinop (Badd, e1, e2) ->
+        mk_add (expr e1) (expr e2)
+    | Ttree.Ebinop (Bsub, e1, e2) ->
+        mk_sub (expr e1) (expr e2)
+    | Ttree.Eunop (Unot, e) ->
+        mk_not (expr e)
+    | Ttree.Eunop (Uminus, e) ->
+        mk_sub (Econst 0l) (expr e)
+    | ...
+\end{minted}
+\subsection{Accès à la Mémoire}
+Une adresse mémoire est donnée par une expression et un décalage.\\
+Ici, on transforme en accès à la mémoire les accès aux champs de structures. On adopte un schéma simple où chaque champ occupe exactement un mot. Pour le reste, rien à signaler, on en profite simplement pour oublier les types et regrouper les variables locales dans la fonction qui les a introduit : 
+\begin{minted}{ocaml}
+    type expr =
+        | ...
+        | Eload of expr * int
+        | Estore of expr * int * expr
+
+    let rec expr e = match e.Ttree.expr_node with
+        | ...
+        | Ttree.Eaccess_field (e, n) ->
+            Eload (expr e, n * word_size)
+        | Ttree.Eassign_field (e1, n, e2) ->
+            Estore (expr e1, n * word_size, expr e2)
+
+    type deffun = {
+        fun_name : ident;
+        fun_formals: ident list;
+        fun_locals : ident list;
+        fun_body : stmt list;
+    }
+        type file = {
+        gvars: ident list;
+        funs : deffun list;
+}
+\end{minted}
+
+\section{RTL : Register Transfer Language}
+Ici, l'objectif est de : 
+\begin{itemize}
+    \item Détruire la structure arborescente des expressions et des instructions au profit d'un graphe de flot de contrôle, qui facilitera la suite. On supprime en particulier la distinction entre expressions et instructions. 
+    \item Introduire des pseudo-registres pour représenter les calculs intermédiaires. Ces pseudo-registres sont en nombre illimité et deviendront des registres ou des emplacements de pile. 
+\end{itemize}
+\subsection{Représentation}
+On se donne un module pour les pseudo-registres et un module pour des étiquettes représentant les sommes du graphe de flot de contrôle : 
+\begin{minted}{ocaml}
+    type t
+    val fresh: unit -> t
+    module S: Set.S with type elt = t
+    type set = S.t
+    module M: Map.S with type key = t
+    type 'a map = 'a M.t
+    type graph = instr Label.map
+
+\end{minted}
+Inversement, chaque instruction RTL indique quelle est l'étiquette suivante : \texttt{Econstr (n, r, l)} signifie : charger $n$ dans le pseudo-registre $n$ et transférer les contrôle à l'étiquette $l$. Enfin, les opérations arithmétiques manipulent maintenant des pseudo-registres. Pour construire le graphe de flot on le stocke dans une référence et on se donne une fonction d'ajout d'instruction. 
+
+\subsection{Traduction des Expressions}
+On traduit les expressions grâce à une fonction qui prend en arguments : 
+\begin{itemize}
+    \item Le registre de destination de la valeur de l'expression
+    \item L'expression à traduire
+    \item L'étiquette de sortie
+\end{itemize}
+et revoie l'étiquette d'entrée du calcul. 
+
+La traduction est relativement aisée, quitte à introduire des pseudo-registres : 
+\begin{minted}{ocaml}
+    let rec expr destr e destl = match e with
+        | Istree.Econst n ->
+            generate (Econst (n, destr, destl))
+        | Istree.Embinop (op, e1, e2) ->
+    let tmp2 = Register.fresh () in
+        expr destr e1 (
+        expr tmp2 e2 (generate (
+        Embinop (op, tmp2, destr, destl))))
+\end{minted}
+
+\begin{itemize}
+    \item Pour les variables locales, on se donne une table indiquant quel pseudo-registre est associé à chaque variable : 
+    \begin{minted}{ocaml}
+        | Istree.Eaccess_local x ->
+let rx = Hashtbl.find locals x in
+generate (Embinop (Mmov, rx, destr, destl))
+    \end{minted}
+    \item Pour traduire les opérateurs \texttt{\&\&} et \texttt{||} et les instructions \texttt{if, while} il nous faut des instructions RTL de branchement : 
+    \begin{minted}{ocaml}
+        type instr =
+...
+| Emubranch of mubranch * register * label * label
+| Embbranch of mbbranch * register * register
+* label * label
+| Egoto of label
+
+type mubranch = Mjz | Mjnz | Mjlei of int32 | ...
+type mbbranch = Mjl | Mjle | ...
+    \end{minted}
+    On traduit alors les conditions ainsi : 
+    \begin{minted}{ocaml}
+        let rec condition e truel falsel = match e with
+| Istree.Eand (e1, e2) ->
+condition e1 (condition e2 truel falsel) falsel
+| Istree.Eor (e1, e2) ->
+condition e1 truel (condition e2 truel falsel)
+| Istree.Embinop (Mjle, e1, e2) ->
+let tmp1 = Register.fresh () in
+let tmp2 = Register.fresh () in
+expr tmp1 e1 (
+expr tmp2 e2 (generate (
+Embbranch (Mjle, tmp2, tmp1, truel, falsel))))
+| e ->
+let tmp = Register.fresh () in
+expr tmp e (generate (
+Emubranch (Mjz, tmp, falsel, truel)))
+    \end{minted}
+    On pourrait traiter plus de cas particuliers.
+    \item Pour traduire \texttt{return}, on se donne un pseudo-registre pour recevoir le résultat de la fonction et une étiquette \texttt{exitl} correspondant à la sortie de la fonction. Sinon, on se donne une étiquette correspondant à la suite du calcul. 
+    \begin{minted}{ocaml}
+        let rec stmt retr s exitl destl = match s with
+            | Istree.Sskip ->
+                destl
+            | Istree.Sreturn e ->
+                expr retr e exitl
+            | Istree.Sif (e, s1, s2) ->
+                condition e
+                    (stmt retr s1 exitl destl)
+                    (stmt retr s2 exitl destl)
+    \end{minted}
+    \item Pour une boucle \texttt{while}, on crée une boucle dans le graphe. Ceci peut se faire directement : 
+    \begin{minted}{ocaml}
+        | Istree.Swhile (e, s) ->
+let l = Label.fresh () in
+let entry = condition e (stmt retr s exitl l) destl in
+graph := Label.M.add l (Egoto entry) !graph;
+entry
+    \end{minted}
+    ou en l'écrivant comme un opérateur de point fixe : 
+    \begin{minted}{ocaml}
+        let loop f =
+let l = Label.fresh () in
+let entry = f l in
+graph := Label.M.add l (Egoto entry) !graph;
+entry
+(*Avec*)
+| Istree.Swhile (e, s) ->
+loop (fun l -> condition e (stmt retr s exitl l) destl)
+    \end{minted}
+    \item Les paramètres d'une fonction et son résultat sont désormais maintenus dans des pseudo-registres. La traduction d'une fonction se compose de 4 étapes : 
+    \begin{enumerate}
+        \item On alloue des pseudo-registres frais pour ses arguments, son résultat et ses variables locales.
+        \item On part d'un graphe vide
+        \item On crée une étiquette fraîche pour la sortie de la fonction.
+        \item On traduit le corps de la fonction dans RTL et le résultat est l'étiquette d'\emph{entrée} de la fonction
+    \end{enumerate}
+\end{itemize}
+
+\section{ERTL : Explicit Register Transfer Language}
+On cherche à expliciter les conventions d'appel, ici : 
+\begin{itemize}
+    \item Les six premiers arguments sont passés dans \texttt{\%rdi, \%rsi, \%rdx, \%rcx, \%r8, \%r9} et les suivants sur la pile.
+    \item Le résultat est renvoyé dans \texttt{\%rax}.
+    \item Les registres \emph{callee-saved} doivent être sauvegardés par l'appelé (\texttt{\%rbx, \%r12, \%r13, \%r14, \%r15, \%rbp})
+    \item La division \texttt{idivq} impose dividende et quotient dans \texttt{\%rax}
+    \item \texttt{malloc, printf} sont des fonctions de bibliothèques, avec argument dans \texttt{\%rdi} et résultat dans \texttt{\%rax}.
+\end{itemize}
+
+\subsection{Formalisation}
+On suppose que le module \texttt{Register} décrit aussi les registres physiques. Dans ERTL, il ne reste plus dans les opérations d'appel de fonction que le nom de la fonction à appeler, car de nouvelles instructions vont être insérées pour charger les arguments dans des registres et sur la pile, et pour récupérer le résultat dans \texttt{\%rax}. On conserve tout de même le nombre de paramètres passés dans des registres. Les autres instructions sont inchangées, mais on ajoute des instructions : 
+\begin{itemize}
+    \item Pour allouer et désallouer le tableau d'activation
+    \item Pour lire/écrire sur la pile
+    \item Pour rendre le retour explicite. 
+\end{itemize}
+\begin{minted}{ocaml}
+    type t
+    ...
+    val parameters: t list (* pour les n premiers arguments *)
+    val rax: t (* pour résultat, division *)
+    val callee_saved: t list
+    val rdi: t (* pour malloc et printf *)
+
+    | Ecall of ident * int * label
+
+    | Ealloc_frame of label
+    | Edelete_frame of label
+
+    | Eget_param of int * register * label
+    | Epush_param of register * label
+
+    | Ereturn
+\end{minted}
+
+On ne change pas la structure du graphe de flot de contrôle. On se contente d'insérer de nouvelles instructions :
+\begin{itemize}
+    \item Au début de chaque fonction, pour :
+    \begin{enumerate}
+        \item Allouer le tableau d'activation
+        \item Sauvegarder les registres \textit{callee-saved}
+        \item Copier les arguments dans les pseudo-registres correspondants
+    \end{enumerate}
+    \item A la fin de chaque fonction, pour : 
+    \begin{enumerate}
+        \item Copier le pseudo-registre contenant le résultat dans \texttt{\%rax}
+        \item Restaurer les registres \textit{callee-saved}
+        \item Désallouer le tableau d'activation
+    \end{enumerate}
+    \item A chaque appel, pour 
+    \begin{enumerate}
+        \item Copier les pseudo-registres contenant les arguments dans les registres d'entrée/sur la pile
+        \item Copier le registre de résultat dans le pseudo-registre contenant le résultat après l'appel. 
+    \end{enumerate}
+\end{itemize}
+
+\subsection{Traduction}
+Pour traduire les instructions de RTL vers ERTL, il y a peu de changement, si ce n'est concernant la division, les appels, les malloc et les printf : 
+\begin{minted}{ocaml}
+    | Rtltree.Emalloc (r, n, l) ->
+        Econst (n, Register.rdi, generate (
+        Ecall ("malloc", 1, generate (
+        Embinop (Mmov, Register.rax, r, l)))))
+    | Rtltree.Eprintf (r, l) ->
+        Embinop (Mmov, r, Register.rdi, generate (
+        Ecall ("print_int", 1, l)))
+    | Rtltree.Embinop (Mdiv, r1, r2, l) ->
+        Embinop (Mmov, r2, Register.rax, generate (
+        Embinop (Mdiv, r1, Register.rax, generate (
+        Embinop (Mmov, Register.rax, r2, l)))))
+\end{minted}
+
+Pour ce qui est de l'appel, on commence par associer les premiers paramètres aux registres physiques correspondants : 
+\begin{minted}{ocaml}
+    let assoc_formals formals =
+        let rec assoc = function
+            | [] , _ -> [], []
+            | rl , [] -> [], rl
+            | r :: rl, p :: pl -> let a, rl = assoc (rl, pl) in
+                                    (r, p) :: a, rl
+        in
+        assoc (formals, Register.parameters)
+
+
+    let move src dst l = generate (Embinop (Mmov, src, dst, l))
+    let push_param r l = generate (Epush_param (r, l))
+    let pop n l =
+    if n = 0 then l else generate (Emunop (Maddi n, rsp, l))
+
+    | Rtltree.Ecall (r, x, rl, l) ->
+        let frl, fsl = assoc_formals rl in
+        let n = List.length frl in
+        let l = pop (word_size * List.length fsl) l in
+        let l = generate (Ecall (x, n, move rax r l)) in
+        let l = List.fold_left (fun l t -> push_param t l) l fsl in
+        let l = List.fold_right (fun (t, r) l -> move t r l) frl l in
+        Egoto l
+\end{minted}
+Il reste à traduire chaque fonction. On associe un pseudo-registre à chaque registre physique qui doit être sauvegardé : 
+\begin{minted}{ocaml}
+    let deffun f =
+        graph := ...on traduit chaque instruction...
+        let savers =
+            List.map (fun r -> Register.fresh(), r) callee_saved in
+        let entry = fun_entry savers f.Rtltree.fun_formals
+            f.Rtltree.fun_entry in
+        fun_exit savers f.Rtltree.fun_result f.Rtltree.fun_exit;
+        { fun_name = f.Rtltree.fun_name;
+        ...
+        fun_body = !graph; }
+\end{minted}
+Ensuite, on ajoute les instructions à l'entrée et à la sortie de la fonction : 
+\begin{minted}{ocaml}
+    let fun_entry savers formals entry =
+        let frl, fsl = assoc_formals formals in
+        let ofs = ref word_size in
+        let l = List.fold_left
+            (fun l t -> ofs := !ofs + word_size; get_param t !ofs l)
+            entry fsl in
+        let l = List.fold_right (fun (t, r) l -> move r t l) frl l in
+        let l = List.fold_right (fun (t, r) l -> move r t l) savers l in
+        generate (Ealloc_frame l)
+
+    let fun_exit savers retr exitl =
+        let l = generate (Edelete_frame (generate Ereturn)) in
+        let l = List.fold_right (fun (t, r) l -> move t r l) savers l in
+        let l = move retr Register.rax l in
+        graph := Label.M.add exitl (Egoto l) !graph
+\end{minted}
+
+\subsection{Imperfection}
+En appliquant les étapes ci-dessus, on est encore loin d'obtenir un bon code \texttt{x86-64}. En effet : 
+\begin{itemize}
+    \item L'allocation de registres tâchera d'associer des registres physiques aux pseudo-registres de manière à limiter l'usage de la pile mais aussi de supprimer certaines instructions. 
+    \item Le code n'est pas encore organisé linéairement. 
+\end{itemize}
+Dans le cadre des fonctions récursives, c'est aussi à cette étape qu'il faut réaliser l'optimisation des appels terminaux. En effet, les instructions à produire ne sont pas les mêmes et ce changement aura une influence dans la phase suivante d'allocation de registres. Il y a une difficulté cependant, si la fonction appelée par un appel terminal n'a pas le même nombre d'arguments passés sur la pile ou de variables locales, car le tableau d'activation doit être modifié. On peut alors :
+\begin{itemize}
+    \item Limiter l'optimisation de l'appel terminal aux cas où le tableau d'activation n'est pas modifié (c'est le cas notamment s'il s'agit d'un appel terminal d'une fonction récursive à elle-même)
+    \item Faire de sorte que l'appelant modifie le tableau d'activation et transfère le contrôle à l'appelé \emph{après} l'instruction de création de son tableau d'activation.
+\end{itemize}
+
+\section{LTL : Location Transfer Language}
+L'objectif est ici de faire disparaître les pseudo-registres au profit de registres physiques et d'emplacements de pile. 
+\subsection{Allocation de Registres}
+On décompose l'allocation de registres en plusieurs étapes : 
+\begin{enumerate}
+    \item Analyse de durée de vie : on détermine à quels moments précis la valeur d'un pseudo-registre est nécessaire pour la suite du calcul. 
+    \item Construction d'un graphe d'interférence : on crée un graphe indiquant quels sont les pseudo-registres qui ne peuvent pas être réalisés par le même emplacement
+    \item Allocation de registres par coloration de graphe : on affecte des registres physiques et d'emplacements de pile aux pseudo-registres
+\end{enumerate}
+
+Dans la suite, on appelle \textit{variable} un pseudo-registre ou un registre physique : 
+\begin{definition}
+    En un point de programme, une variable est dite vivante si la valeur qu'elle contient peut être utilisée dans la suite de l'exécution. 
+\end{definition}
+La propriété \textit{est utilisée} n'étant pas décidable, on se contente de l'approximation \textit{peut être utilisée}.\\
+
+On attache les variables vivantes aux arêtes du graphe de flot de contrôle. La notion de variable vivante se déduit de : 
+\begin{definition}
+    Pour une instruction $I$ du graphe de flot de contrôle, on note :
+    \begin{itemize}
+        \item $def(I)$ les variables définies par cette instruction
+        \item $use(I)$ les variables utilisées par cette instruction
+    \end{itemize}
+\end{definition}
+
+Pour calculer les variables vivantes, il est commode de les associer non pas aux arêtes mais plutôt aux noeuds du graphe de flot de contrôle, c'est à dire aux instructions. On distingue alors : 
+\begin{definition}
+    Pour une instruction $I$ du graphe de flot de contrôle, on note :
+    \begin{itemize}
+        \item $in(I)$ les variables vivantes à l'entrée de cette instruction
+        \item $out(I)$ les variables vivantes à la sortie de cette instruction
+    \end{itemize}
+\end{definition}
+
+On obtient : 
+\[
+    \begin{cases}
+        in(I) = & use(I) \cup \left(out(I)\setminus def(I)\right) \\
+        out(I) = & \bigcup_{s \in succ(I)} in(s)
+    \end{cases}
+\]
+On applique alors le théorème de Tarski pour trouver un plus petit point fixe. En supposant un graphe de flot de contrôle à $N$ sommets et $N$ variables, un calcul brutal a une complexité $\O(N^{4})$ dans le pire des cas. On peut améliorer l'efficacité du calcul de plusieurs façons : 
+\begin{itemize}
+    \item En calculant dans l'ordre inverse du graphe, et en calculant $out$ avant $in$.
+    \item En fusionnant les sommets qui n'ont qu'un prédécesseur et qu'un successeur avec ces derniers.
+    \item En utilisant un algorithme plus subtil qui ne recalcule que les valeurs de $in$ et $out$ qui peuvent avoir changées.
+\end{itemize}
+
+\subsection{Algorithme de Kildall}
+Si $in(I)$ change, il n'est nécessaire de refaire le calcul que pour les prédécesseurs de $I$.  D'où l'algorithme suivant : 
+\begin{verbatim}
+    soit WS un ensemble contenant tous les sommets
+    tant que WS n'est pas vide
+        extraire un sommet l de WS
+        old_in <- in(l)
+        out(l) <- ...
+        in(l) <- ...
+        si in(l) est différent de old_in(l) alors
+            ajouter tous les prédécesseurs de l dans WS
+\end{verbatim}
+
+Le calcul des ensemble $def$ et $use$ est immédiat pour la plupart des instructions. Toutefois, pour les appels, il est un peu plus subtil : on exprime que les $\min(6, n)$ premiers registres de la liste des paramètres vont être utilisés et que tous les registres \textit{caller-saved} peuvent être écrasés. Enfin, pour \texttt{return}, \texttt{\%rax} et les registres \textit{callee-saved} vont être utilisés.
+
+
 
 \end{document}
