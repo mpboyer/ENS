@@ -876,4 +876,118 @@ Ici, $X, X_{1}, \ldots, X_{n}, Y, Z$ sont des evn réels.
     \]
 \end{theorem}
 
+\section{EDO}
+\subsection*{Introduction}
+\begin{definition}
+	On considère $X$ un Banach, $I \subseteq \R$ un intervalle ouvert, $O\subseteq X$ un ouvert, $f : I\times O\rightarrow X$ continue. Pour un certain $(t_{0}, x_{0})$ dans $I \times O$, on considère le problème de Cauchy : 
+	\begin{equation}
+		x^{'}(t) = f(t, x(t)) \text{ et } x(t_{0}) = x_{0}
+	\end{equation}
+\end{definition}
+
+\begin{definition}
+	\begin{itemize}
+		\item Pour tout $t \in I$, $x\in O \mapsto f(t, x) \in X$ est un champ de vecteurs.
+		\item Lorsque $f$ ne dépend pas du temps $t$, on parle d'EDO autonome. On prend alors $I = \R$.
+		\item Il est toujours possible de transformer (EDO) en une EDO autonome en rajoutant le temps à l'espace.
+		\item Toute EDO d'ordre plus élevé $x_{t}^{k} = f(t, x(t), \ldots, x^{\left(k-1\right)}(t))$ peut se réécrire en $X^{'}(t) = F(t, X(t))$ où $X(t) = \left(x(t), \ldots, x^{(k-1)}(t)\right)\in X^{k}$ et $F(t, a_{0}, \ldots, a_{k-1}) = (a_{1}, \ldots, a_{k-1}, f(t, a_{0}, \ldots, a_{k-1}))$.
+	\end{itemize}
+\end{definition}
+
+\begin{definition}
+	Une solution locale de (EDO) est une fonction $x \in \cont^{1}\left(J, X\right)$ où $J$ est un intervalle ouvert tel que : $t_{0}\in J \subseteq I, x(J) \subseteq O$ et (EDO) a lieu pour tout $t \in J$.
+\end{definition}
+
+\begin{lemma}
+	Une fonction $x$ est solution locale sur $J$ de (EDO) si et seulement si $x \in \cont^{0}(J, X), x(J) \subseteq O$ et si $t \in J$ : 
+	\begin{equation}
+		x(t) = x_{0} + \int_{t_{0}}^{t} f(s, x(s)) \d s
+	\end{equation}
+	En particulier, cette équation EDOI implique que $x \in \cont^{1}(J, X)$
+\end{lemma}
+
+
+\begin{definition}
+	\begin{itemize}
+		\item Existence Locale : $\exists J \subseteq I$ ouvert, $t_{0} \in J$ et $x$ une solution de EDO. 
+		\item Unicité Locale : Si $J_{1}, x_{1}$ et $J_{2}, x_{2}$ sont deux solutions de EDO, alors $\exists J_{3} \subseteq J_{1} \cap J_{2}$ tel que $t_{0} \in J_{3}$ et sur cet intervalle ouvert : $x_{1}(t) = x_{2}(t)$
+		\item Solution Maximale : Supposons qu'on a existence et unicité locale en tout point. Dans ce cas, si on a deux solutions locales, elles sont égales sur l'intersection de leurs domaines de définition. 
+    \end{itemize}
+\end{definition}
+
+\begin{remark}
+	On considère l'EDO autonome $x^{'} = \abs{x}^{\alpha}$ sur $X = \R$ avec $\alpha \neq 0$ fixé. 
+	\begin{enumerate}
+		\item Si $\alpha > 0$, $x = 0$ est toujours solution sur tout $\R$. 
+		\item Si $\alpha = 1$ alors la solution est $x(t) = x_{0}e^{\sgn(x_{0})(t - t_{0})}$. 
+		\item Si $\alpha > 1$, la seule solution non identiquement nulle vérifie : 
+			\[
+				x(t) = \abs{(\alpha - 1)(T - t)}^{- 1 / (\alpha - 1)}\sgn{(T-t)}
+			\]
+			Il y a existence et unicité locale en tout point, mais $I_{max} = \left(-\infty, T\right)$ si $x_{0}  > 0$ et $I_{max} = \left(T, +\infty\right)$ sinon. 
+    \end{enumerate}
+\end{remark}
+
+	\subsection{Théorèmes d'Existence}
+	\begin{theorem}[Cauchy-Lipschitz ou Picard-Lindehöf]
+Supposons que $f$ dans (EDO) est localement bornée (automatique si $f$ est continue) et localement Lipschitz en $x$ en $(t_{0}, x_{0})$ : Il existe $\tau, \rho, M, L > 0$ tels que $\overline{B}(t_{0}, \tau) \times \overline{B}(x_{0}, \rho) \subseteq I \times O$ et : 
+		\begin{itemize}
+			\item $\norm{f(t, x)} \leq M$ pour tout $(t, x) \in B$
+			\item $\norm{f(t, x) - f(t, y)} \leq L\norm{x - y}$
+		\end{itemize}
+	Alors, $\forall \epsilon < \min\left(\tau, \frac{\rho}{M}\right)$, en notant $I_{\epsilon} = \left(t_{0} - \epsilon, t_{0} + \epsilon\right)$, on a : 
+		\begin{itemize}
+			\item Existence et Unicité : Il existe une unique solution $x$ sur $I_{\epsilon}$ et il y a unicité locale en $(t_{0}, x_{0})$
+			\item Constructibilité par Itération de Picard : $x^{(0)} = x_{0}$ et $x^{(n+1)} = Ax^{(n)} \xrightarrow[n \to \infty]{} x$ dans $\cont\left(\overline{I}_{\epsilon}, X\right)$ où :
+				\[
+					(Ax)(t) = x_{0} + \int_{t_{0}}^{t} f(s, x(s))\d s
+				\]
+		\end{itemize}
+	\end{theorem}
+
+	\begin{remark}
+		L'approximation numérique de la solution de (EDO) peut être menée en discrétisant le temps. Cela revient à se promener par petits sauts dans un champ de vecteurs.
+	\end{remark}
+
+	\begin{theorem}[de Peano]
+		Si $X$ est localement compact $(X = \R^{n})$ alors il y a existence locale de solution pour (EDO)
+	\end{theorem}
+
+	\subsection{Solutions Globales et Lemme de Grönwall}
+	\begin{theorem}
+		Supposons qu'il y a existence et unicité locale pour EDO en tout point. \\
+		Soit $x$ une solution maximale de (EDO) et $I_{\max} \subseteq I$ son intervalle de définition. 
+		\begin{itemize}
+			\item Si $T_{\max} = \sup I_{\max} < \sup I$ alors $x$ explose (sort de tout compact) au bord droit de $I_{\max}$ : Pour tout compact $K \subseteq O$, il existe $T_{K} < T_{\max}$ tel que $x(t) \notin K$ pour $t > T_{K}$.
+			\item De même à gauche en considérent les $\min$ et $\inf$. 
+		\end{itemize}
+	\end{theorem}
+
+Les hypothèses de ce théorème sont toujours vérifiées lorsque celles du théorème de Cauchy-Lipschitz le sont. 
+
+
+	\begin{lemma}[de Grönwall]
+		Si $u \in \cont\left(\left[0, T\right], \R\right)$ et pour $a \geq 0, c \in \R$ et pour tout $t \in \left[0, T\right]$ on a : 
+		\[
+			u(t) \leq c + a \int_{0}^{t} u(s) \d s
+		\]
+		alors $u(t) \leq ce^{at}$ pour tout $t \in \left[0, T\right]$. \\
+		Plus généralement, si $v$ est continue sur $\left[0, T\right]$ et si pour des constantes $a > 0, b, c \in \R$ on a : 
+		\[
+			v(t) \leq c + \int_{0}^{t}\left(av(s) + b\right) \d s \Rightarrow v(t) + \frac{b}{a} \leq \left(c + \frac{b}{a}\right)e^{at} \text{ pour tout } t \in \left[0, T\right]
+		\]
+	\end{lemma}
+
+	\begin{theorem}
+		Si $\sup_{t \in J} L_{t} < \infty$ pour tout intervalle borné $J \subseteq I$ où :
+		\[
+			L_{t} = \sup_{x, y \in X} \frac{\norm{f(t, x) - f(t, y)}}{\norm{x - y}}
+		\]
+		alors : 
+		\begin{itemize} 
+			\item Il y a existence et unicité locales pour EDO en tout point
+			\item Toute solution maximale de EDO est globale.
+        \end{itemize}
+
+    \end{theorem}
 \end{document}

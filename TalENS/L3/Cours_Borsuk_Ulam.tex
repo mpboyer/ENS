@@ -72,13 +72,15 @@
 
 \subsection{Probabilités}
 \begin{frame}
+    \frametitle{Théorie de la Mesure}
+    \visible<1-> {On appelle mesure sur un ensemble $E$ une application de l'ensemble de ses parties $\A$ à valeurs positives qui vérifie certaines propriétés. }
+    
+
+\end{frame}
+\begin{frame}
     \frametitle{Mesure de Probabilité}
-    \visible<1-> {Une mesure de probabilité $p$ sur un univers (un ensemble $\Omega$) est une fonction des parties de cet univers (les évènements) dans $\R^{+}$ \\}
-    \visible<2-> {Cette application doit vérifier les propriétés suivantes : 
-    \[
-        p(\Omega) = 1, \text{, si } A \cap B = \emptyset, p(A \cup B) = p(A) + p(B) \text{ et } p(A^{\complement}) = 1 - p(A)
-    \]}
-    \visible<3-> {L'application de cette fonction à un évènement représente la probabilité de celui-ci. On peut généraliser la propriété sur l'union ci-dessus à un nombre dénombrable d'évènements. }
+    \visible<1-> {Une mesure de probabilité $p$ sur un univers (un ensemble $\Omega$) est une mesure sur les parties de cet univers (les évènements) de masse totale $1$.\\}
+    \visible<2-> {L'application de cette fonction à un évènement représente la probabilité de celui-ci. On peut généraliser la propriété sur l'union ci-dessus à un nombre dénombrable d'évènements. }
 \end{frame}
 
 \begin{frame}

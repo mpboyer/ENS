@@ -94,7 +94,7 @@
 \DeclareMathOperator{\ch}{ch}
 \DeclareMathOperator{\sh}{sh}
 \DeclareMathOperator{\Jac}{Jac}
-
+\DeclareMathOperator{\sgn}{sign}
 \renewcommand{\th}{\mathop{\rm th}}
 \makeatletter
 \renewcommand{\ALG@name}{Algorithme}

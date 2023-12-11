@@ -34,7 +34,7 @@
 
 \mode<presentation>
 \usetheme{Dresden}
-%\AtBeginSubsection[]{\begin{frame}{Plan}\tableofcontents[subsectionstyle=show/shaded/hide,sectionstyle=show/shaded]\end{frame}}
+\AtBeginSubsection[]{\begin{frame}{Plan}\tableofcontents[subsectionstyle=show/shaded/hide,sectionstyle=show/shaded]\end{frame}}
 \setbeamertemplate{navigation symbols}{}
 \lstset{showstringspaces=false}
 
