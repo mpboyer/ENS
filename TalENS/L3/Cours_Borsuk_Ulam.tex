@@ -123,7 +123,7 @@
         \[
             \forall A \subseteq \Omega, p(A) = \int_{A} \mu_{p} \d\lambda
         \]
-        où $\lambda$ correspond \textit{intuitivement} à la taille de l'ensemble $A$. En particulier $\lambda(\left[a, b\right]) = b - a$.}
+        où $\lambda$ correspond \textit{intuitivement} à la taille de l'ensemble $A$ puisqu'en particulier $\lambda(\left[a, b\right]) = b - a$.}
 \end{frame}
 
 \begin{frame}
@@ -152,7 +152,7 @@
 \begin{frame}
     \frametitle{Catégorie de Lusternick-Schnirelmann}
     \only<1>{\begin{definition}
-            On définit la Catégorie de Lusternick-Schnirelmann d'un espace $X$ noté $\text{cat}(X)$ comme le nombre minimal d'ensembles ouverts (moins 1) suffisant à le recouvrir.
+            On définit la Catégorie de Lusternick-Schnirelmann d'un espace $X$ noté $\text{cat}(X)$ comme le nombre minimal (moins 1) d'ensembles ouverts contractables en un point suffisant à le recouvrir.
         \end{definition}}
     \only<2>{
         \begin{theorem}[Catégorie des Espaces Projectifs]
@@ -192,16 +192,28 @@
 
 \subsection{La Démonstration à proprement dit}
 \begin{frame}
+    \frametitle{Théorème de Partage de Nouilles}
+    \begin{theorem}[De Partage de Nouilles]
+            Pour toutes fonctions de densités $f_{i}$ et permutations $\sigma \in \mathfrak{S}_{n}$, on considère le système $(\star)$ suivant :
+            \begin{equation*}\tag{$\star$}
+                \int_{0}^{x_{1}}f_{\sigma(1)}(x) \mathrm{d}x = \int_{x_{1}}^{x_{2}}f_{\sigma(2)}(x)\mathrm{d}x = \ldots = \int_{x_{n}}^{1}f_{\sigma(n)}(x) \mathrm{d}x
+            \end{equation*}
+            Celui-ci a une solution.
+        \end{theorem}
+\end{frame}
+\begin{frame}
     \frametitle{Démonstration}
-    \only<1>{On ne va pas rentrer dans les détails d'une démonstration horriblement calculatoire.}
-    \only<2->{\only<2-3>{\visible<2-3>{On introduit les fonctions $\left(F_{i}\right)_{i\in \onen{n - 1}}$ suivantes sur $S^{n - 1} = \left\{e = (e_{1}, \ldots, e_{n}) \in \R^{n} \mid \sum_{i = 1}^{n} e_{i}^{2} = 1\right\}$ :
-    \[
-        \begin{split}
-            F_{i}(e) = \sgn(e_{i + 1}) &\times \int_{e_{1}^{2} + \cdots + e_{i}^{2}}^{e_{1}^{2} + \cdots + e_{i}^{2} + e_{i + 1}^{2}} f_{\sigma(i + 1)}(x)\d x \\ &- \sgn{e_{1}}\int_{0}^{e_{1}^{2}}f_{\sigma(1)}(x)\d x
-        \end{split}\]}}
-    \visible<3-4>{On définit alors $f(e) = \left(F_{1}(e), \ldots, F_{n - 1}(e)\right)$. Il est clair que $f$ est continue et antipodale, donc par le Théorème de Borsuk-Ulam, elle est nulle en un certain point $\tilde{e}$.}
-    \only<4->{On pose alors $x_{0} = 0$ puis $x_{i} = x_{i - 1} + \tilde{e}_{i}^{2}$}
-    }
+    \begin{proof}
+        \only<1>{On ne va pas rentrer dans les détails d'une démonstration horriblement calculatoire.}
+        \only<2->{\only<2-3>{\visible<2-3>{On introduit les fonctions $\left(F_{i}\right)_{i\in \onen{n - 1}}$ suivantes sur $S^{n - 1} = \left\{e = (e_{1}, \ldots, e_{n}) \in \R^{n} \mid \sum_{i = 1}^{n} e_{i}^{2} = 1\right\}$ :
+        \[
+            \begin{split}
+                F_{i}(e) = \sgn(e_{i + 1}) &\times \int_{e_{1}^{2} + \cdots + e_{i}^{2}}^{e_{1}^{2} + \cdots + e_{i}^{2} + e_{i + 1}^{2}} f_{\sigma(i + 1)}(x)\d x \\ &- \sgn{e_{1}}\int_{0}^{e_{1}^{2}}f_{\sigma(1)}(x)\d x
+            \end{split}\]}}
+        \visible<3-4>{On définit alors $f(e) = \left(F_{1}(e), \ldots, F_{n - 1}(e)\right)$. Il est clair que $f$ est continue et antipodale, donc par le Théorème de Borsuk-Ulam, elle est nulle en un certain point $\tilde{e}$.\\}
+        \only<4->{On pose alors $x_{0} = 0$ puis $x_{i} = x_{i - 1} + \tilde{e}_{i}^{2}$}
+        }
+    \end{proof}
 \end{frame}
 
 

@@ -47,7 +47,7 @@
     \begin{center}
         \includegraphics[height=6em]{/home/matthieu/Documents/ETUDES/ENS/ens_psl.pdf}
     \end{center}
-    \newpage
+    %\newpage
     \tableofcontents}
 
 
@@ -79,6 +79,7 @@
 \renewcommand{\O}{\mathcal{O}}
 \newcommand{\A}{\mathcal{A}}
 \newcommand{\mL}{\mathcal{L}}
+\newcommand{\B}{\mathcal{B}}
 \newcommand{\ml}{\mathcal{l}}
 
 \renewcommand{\P}{\mathbb{P}}
@@ -88,7 +89,6 @@
 \newcommand{\lin}{\mathcal{L}}
 \newcommand{\M}{\mathcal{M}}
 \newcommand{\cont}{\mathcal{C}}
-
 \renewcommand{\phi}{\varphi}
 \renewcommand{\epsilon}{\varepsilon}
 \renewcommand{\emptyset}{\varnothing}
@@ -102,7 +102,7 @@
 \DeclareMathOperator{\rg}{rg}
 \DeclareMathOperator{\ch}{ch}
 \DeclareMathOperator{\sh}{sh}
-
+\DeclareMathOperator{\sgn}{sgn}
 \renewcommand{\th}{\mathop{\rm th}}
 \makeatletter
 \renewcommand{\ALG@name}{Algorithme}
@@ -132,3 +132,4 @@
 \newcommand{\vect}[2][]{\text{Vect}_{#2}\left(#1\right)}
 \renewcommand{\H}{\mathbb{H}}
 \newcommand{\transpose}[1]{{^{\mathsf{t}}}#1}
+\newcommand{\onen}[1]{\left\llbracket 1, #1\right\rrbracket}

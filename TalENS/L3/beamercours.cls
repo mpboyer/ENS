@@ -34,11 +34,12 @@
 
 \mode<presentation>
 \usetheme{Dresden}
-%\AtBeginSubsection[]{\begin{frame}\frametitle{Plan}\tableofcontents[subsectionstyle=show/shaded/hide,sectionstyle=show/shaded]\end{frame}}
-\AtBeginSubsection[]{\begin{frame}\frametitle{Plan}\tableofcontents[currentsection]\end{frame}}
+\AtBeginSubsection[]{\begin{frame}\frametitle{Plan}\tableofcontents[subsectionstyle=show/shaded/hide,sectionstyle=show/shaded]\end{frame}}
+%\AtBeginSubsection[]{\begin{frame}\frametitle{Plan}\tableofcontents[currentsection]\end{frame}}
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{sections/subsections in toc}[square]
 \lstset{showstringspaces=false}
+\def\labelitemi{$\bullet$}
 
 \author{Matthieu Boyer}
 \institute{\includegraphics[height=3em]{ens_psl}}

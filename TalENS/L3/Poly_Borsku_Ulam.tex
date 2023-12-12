@@ -1,0 +1,348 @@
+\documentclass{cours}
+\title{Sur le Théorème de Partage des Nouilles\\ \small Cours TalENS n°1}
+\author{Matthieu Boyer}
+\date{}
+ 
+\renewcommand*{\K}{\mathbb{K}}
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems}
+
+\NewTcbTheorem[auto counter, number within=section]{définition}{Définition}%
+ {colback=green!5, colframe=green!15!black, fonttitle=\bfseries}{def}
+
+\NewTcbTheorem[use counter from=définition]{théorème}{Théorème}%
+ {colback=green!5!white, colframe=green!25!black, fonttitle=\bfseries}{thm}
+
+\NewTcbTheorem[use counter from=définition]{propositionfr}{Proposition}%
+ {colback=green!5!white, colframe=green!35!black, fonttitle=\bfseries}{propo}
+
+\NewTcbTheorem[use counter from=définition]{corollaire}{Corollaire}%
+ {colback=green!5, colframe=green!45!black, fonttitle=\bfseries}{cor}
+
+\NewTcbTheorem[use counter from=définition]{lemme}{Lemme}%
+ {colback=green!5, colframe=green!55!black, fonttitle=\bfseries}{lemme}
+
+\NewTcbTheorem[use counter from=définition]{remarque}{Remarque}%
+ {colback=green!5, colframe=green!65!black, fonttitle=\bfseries}{rem}
+
+
+
+\begin{document}
+\section*{Introduction}
+Placez vous dans la situation suivante :
+\begin{itemize}
+    \item Avec plusieurs de vos amis, vous avez décidé de faire un gâteau.
+    \item Une fois celui-ci cuit, vient le moment de le découper.
+    \item Comment faire pour le découper sans que personne ne soit lésé et que le découpeur ne soit assailli pour ses préférences dans le groupe d'amis.
+\end{itemize}
+Vous apprendrez plus tard dans votre vie, qu'en réalité, l'application la plus utile de ce que nous allons voir est en réalité une application au découpage de nouilles.
+
+\section{Préliminaires}
+\subsection{Combinatoire}
+\begin{définition}{Partition d'un Ensemble}{}
+On appelle partition d'un ensemble toute sous division de cet ensemble en plusieurs parties sans recouvrement.\\
+Formellement, pour un ensemble $X$, il s'agit d'un ensemble $(X_{i})_{i\in I}$ tel que :
+\[
+    \bigcup_{i\in I}X_{i} = X \text{ et } X_{i} \cap X_{j} = \emptyset
+\]
+\end{définition}
+
+Par exemple :
+\begin{itemize}
+    \item $\left\{\left\{1, 3\right\}, \left\{2, 4\right\}\right\}$ est une partition de $\onen{4}$
+    \item Dans le cas de $\left[0, 1\right]$ on dénote une partition comme une suite strictement croissante de réels $x_{1}, \ldots, x_{n}$ de sorte qu'on \textit{découpe} l'intervalle en plus petits intervalles.
+\end{itemize}
+
+\begin{définition}{Permutations d'un Ensemble}{}
+On appelle permutation d'un ensemble, toute manière de le réordonner.\\
+Formellement, il s'agit d'une bijection d'un ensemble et dans lui-même, puisqu'il s'agit juste de renommer chaque élément.\\
+On note souvent les permutations entre parenthèses : $\left(1 \ 2 \ 3\right)$ est une permutation de l'ensemble $\onen{3}$ mais aussi de $\onen{4}$.\\
+Dans le cas de l'ensemble $\onen{n}$, on note l'ensemble de ses permutations $\mathfrak{S}_{n}$ et on l'appelle Groupe Symétrique d'ordre $n$.
+\end{définition}
+
+\begin{propositionfr}{Cardinal de $\mathfrak{S}_{n}$}
+    On a :
+    \[
+        \abs{\mathfrak{S}_{n}} = n! = \prod_{i = 1}^{n} i
+    \]
+    avec la convention usuelle :
+    \[
+        \prod_{i \in \emptyset} = 1
+    \]
+\end{propositionfr}
+\begin{proof}
+    Choisir une bijection de $\onen{n}$ dans $\onen{n}$ c'est :
+    \begin{itemize}
+        \item Choisir l'image de $1$ : $n$ choix
+        \item Choisir l'image de $2$ dans $\onen{n}\setminus \left\{\sigma(1)\right\}$ pour ne pas briser l'injectivité : $n - 1$ choix
+        \item $\vdots$
+        \item Choisir l'image de $i$ dans les valeurs restantes : $n - i + 1$ choix
+        \item $\vdots$
+        \item Choisir l'image de $n - 1$ : $2$ choix
+        \item Choisir l'image de $n$ : $1$ choix
+    \end{itemize}
+    Finalement on a bien :
+    \[
+        \prod_{i = 1}^{n} (n - i + 1) = \prod_{i = 1}^{n} i = n!
+    \]
+    choix de permutations possibles.
+\end{proof}
+
+\begin{table}
+    \begin{tabular}{cc|cc}
+        \toprule
+        $n$ & $n!$ & $n$ & $n!$     \\
+        \midrule
+        $0$ & $1$  & $5$ & $120$    \\
+        $1$ & $1$  & $6$ & $720$    \\
+        $2$ & $2$  & $7$ & $5040$   \\
+        $3$ & $6$  & $8$ & $40320$  \\
+        $4$ & $24$ & $9$ & $362880$ \\
+        \bottomrule
+    \end{tabular}
+    \caption{Quelques valeurs de $n!$}
+\end{table}
+
+\subsection{Mesures et Probabilités}
+\begin{définition}{Mesure Positive sur une Tribu}{}
+On appelle mesure $\mu$ sur un ensemble $E$ une application d'une tribu $\A$ de l'ensemble de ses parties à valeurs positives qui vérifie deux propriétés:
+\begin{itemize}
+    \item $\mu(A \sqcup B) = \mu(A) + \mu(B)$
+    \item $\mu(\emptyset) = 0$
+\end{itemize}
+\end{définition}
+
+\begin{propositionfr}{Propriétés des Mesures}{}
+    On a :
+    \begin{itemize}
+        \item $\mu(A \cup B) = \mu(A) + \mu(B) - \mu(A \cap B)$
+        \item Si $A \subseteq B$ : $\mu(A) \leq \mu(B)$ et $\mu(B \setminus A) = \mu(B) - \mu(A)$
+    \end{itemize}
+\end{propositionfr}
+
+\begin{proof}
+    Découle immédiatement de la propriété d'additivité en remarquant que : $A \cup B$ = $A \sqcup \left(B \setminus \left(A \cap B\right)\right)$ et $B = A \sqcup \left(B \setminus A\right)$ puis par positivité de la mesure.
+\end{proof}
+
+Quelques Mesures :
+\begin{itemize}
+    \item La mesure de comptage sur $\left(\N, \P(\N)\right)$ : $\mu(A) = \abs{A}$
+    \item La mesure de Dirac en $x$ sur $\left(E, \A\right)$ quelconque : $\delta_{x}(A) = \begin{cases} 1 &\text{ si } x\in A\\ 0  &\text{ sinon} \end{cases}$
+    \item La mesure de Lebesgue sur $\left(\R, \B(\R)\right)$ : $\lambda\left(\left[a, b\right]\right) = b - a$
+\end{itemize}
+
+\begin{définition}{Mesure de Probabilité}
+Une mesure de probabilité $p$ sur un univers (un ensemble $\Omega$) est une mesure sur les parties de cet univers (les évènements) de masse totale $\mu(\Omega) = 1$.\\
+L'application de cette fonction à un évènement représente la probabilité de celui-ci. On peut généraliser la propriété sur l'union ci-dessus à un nombre dénombrable d'évènements.
+\end{définition}
+
+\begin{définition}{Atomicité et Densité}{}
+Dans le cas d'une mesure de probabilité $p$ sur un ensemble continu, on dit qu'elle est non-atomique lorsque $p(\left\{x\right\}) = 0$.\\
+On dit de plus qu'elle est à densité lorsqu'il existe une fonction $\mu_{p}$ telle que :
+\[
+    \forall A \subseteq \Omega, p(A) = \int_{A} \mu_{p} \d\lambda
+\]
+où la mesure de Lebesgue $\lambda$ correspond \textit{intuitivement} à la taille de l'ensemble $A$ puisqu'en particulier $\lambda(\left[a, b\right]) = b - a$.
+\end{définition}
+
+\section{Modélisation Mathématique}
+\subsection{Situation Initiale}
+\subsubsection{Combinatoire}
+Ici, on représente le gâteau de manière continue par le segment $\left[0, 1\right]$. On dit que c'est une description continue du problème puisque l'ensemble considéré n'est pas dénombrable.\\
+Puisque la faim de chacun ne dépend pas de la position autour de la table, on doit pouvoir résoudre le problème, quel que soit l'ordre des mangeurs, i.e. quelle que soit la permutation\footnote{Ceci n'a en réalité presqu'aucune importance, il s'agit plus d'un prétexte pour parler de permutations...} de l'ensemble $\onen{n}$ des mangeurs. \\
+On cherche alors une partition du gâteau, i.e. du segment $\left[0, 1\right]$, dépendant de la permutation $\sigma \in \mathfrak{S}_{n}$ des mangeurs.
+
+\subsubsection{Mesures et Probabilités}
+Supposons notre gâteau hétérogène (mettons, un gâteau marbré). Chacun de nos mangeurs ayant sa préférence, on représente leur appétance pour les parties du gâteau par une mesure de probabilité à densité sur ce gâteau.\\
+La part que l'un de nos mangeurs va manger est alors, par définition de l'intégrale par rapport à une mesure :
+\[
+    \mu_{i}(X_{i}) = \int_{X_{i}}f_{i} \d\mu_{i}
+\]
+Intuitivement, c'est une somme\footnote{C'est une vision très physicienne/historique de l'intégrale} sur chaque petite portion du gâteau de l'appétance du mangeur $i$ pour cette portion.
+
+\subsection{Objectif}
+On a plusieurs manières de juger de la manière de couper le gâteau :
+\begin{itemize}
+    \item Proportionellement: $\forall i \in \onen{n}, \mu_{i}(X_{i}) \geq \frac{1}{n}$
+    \item Exactement: $\forall i \forall j, \mu_{i}(X_{j}) = \frac{1}{n}$
+    \item Sans Avarice: $\forall i, \forall j, \mu_{i}(X_{i}) \geq \mu_{i}(X_{j})$
+    \item Equitablement: $\forall i, \forall j, \mu_{i}(X_{i}) = \mu_{j}(X_{j})$
+\end{itemize}
+On choisit ici de s'intéresser au partage Équitable du gâteau, mais des résultats existent sur les autres types de partage.\\
+On veut alors démontrer le théorème suivant :
+
+\begin{théorème}{de Partage des Nouilles\footnote{Notation Étudiante}}{}
+Pour toutes fonctions de densités $f_{i}$ et permutations $\sigma \in \mathfrak{S}_{n}$, on considère le système $(\star)$ suivant :
+\begin{equation*}\tag{$\star$}
+    \int_{0}^{x_{1}}f_{\sigma(1)}(x) \mathrm{d}x = \int_{x_{1}}^{x_{2}}f_{\sigma(2)}(x)\mathrm{d}x = \ldots = \int_{x_{n}}^{1}f_{\sigma(n)}(x) \mathrm{d}x
+\end{equation*}
+Celui-ci a une solution.
+\end{théorème}
+
+\section{La Démonstration}
+\subsection{Quelques Lemmes}
+\begin{définition}{Catégorie de Lusternick-Schnirelmann}{}
+On définit la Catégorie de Lusternick-Schnirelmann d'un espace $X$ noté $\text{cat}(X)$ comme le nombre minimal (moins 1) d'ensembles ouverts contractables en un point suffisant à le recouvrir. Un ensemble est contractable à un point si il se déforme continuement en un point.
+\end{définition}
+
+\begin{lemme}{Catégorie des Espaces Projectifs}{}
+    On a : $\text{cat}(\R P^{n}) = n$
+\end{lemme}
+\begin{proof}
+    On a $H^{\star}(\R P^{n}; \Z_{2}) = \Z_{2}\left[X_{1}\right]/\left(x_{1}^{n + 1}\right)$. Donc $\text{cup}(\R P^{n}) = n$ et comme on a toujours :
+    $\text{cup}(X) \leq \text{cat}(X)\leq \dim(X)$ d'où : $n = \text{cup}(\R P^{n}) \leq \text{cat}(\R P^{n}) \leq \dim(\R P^{n}) = n$
+\end{proof}
+
+\begin{théorème}{de Lusternick-Schnirelmann}{}
+Si $S^{n}$ est recouvert par des ensembles ouverts $C_{0}, \ldots, C_{n - 1}$, alors au moins l'un d'entre eux contient des points antipodaux.
+\end{théorème}
+\begin{proof}
+    Supposons qu'aucun ne contiennent de points antipodaux. Soit $A_{i} \subseteq B^{n + 1}$ l'ensemble fermé des rayons aux points de $C_{i}$. En notant la relation $\sim$ d'indentification de $S^{n}$ aux antipodes, on a : $\R P^{n + 1} = B^{n + 1}/\sim$. Par hypothèse comme $C_{i}$ n'a pas de points antipodaux, $A_{i} \hookrightarrow \R P^{n+1}$ est injective et donc, $A_{i}$ se contractant en un point, $\R P^{n + 1}$ est recouvert par $A_{0}, \ldots, A_{n - 1}$, ce qui contredit le théorème précédent.
+\end{proof}
+
+Une conséquence assez directe de résultat est le théorème suivant :
+\begin{théorème}{Borsuk-Ulam}{}
+Si $f$ est une fonction continue sur une sphère de dimension $n$ à valeurs dans un espace euclidien de dimension $n$, il existe deux points antipodaux sur cette sphère de même image par $f$. Autrement dit, à isomorphisme près :
+\[
+    \forall f \in \cont^{0}\left(S^{n}, \R^{n}\right), \ \exists x_{0} \in S^{n}, \ f(x_{0}) = f(-x_{0})
+\]
+\end{théorème}
+
+\begin{remarque}{}{}
+    En physique, on considère que toutes les fonctions de l'espace (pression, température, humidité\dots) sont continues, dérivables et même à peu près tout ce dont on a envie.\\
+    Mais, puisque toutes les sphères s'obtiennent par homothétie et translation les unes par rapport aux autres, le théorème de Borsuk-Ulam est valide sur toute sphère.\\
+    Et, en physique, on connaît quelque chose qui ressemble très fortement à une sphère.\\
+    Ainsi, à tout instant, il existe sur Terre deux points antipodaux qui ont même pression, même température et même taux d'humidité.
+\end{remarque}
+
+\subsection{Démonstration du Théorème de Partage des Nouilles}
+On rappelle le Théorème :
+\begin{théorème}{de Partage des Nouilles}{}
+Pour toutes fonctions de densités $f_{i}$ et permutations $\sigma \in \mathfrak{S}_{n}$, on considère le système $(\star)$ suivant :
+\begin{equation*}\tag{$\star$}
+    \int_{0}^{x_{1}}f_{\sigma(1)}(x) \mathrm{d}x = \int_{x_{1}}^{x_{2}}f_{\sigma(2)}(x)\mathrm{d}x = \ldots = \int_{x_{n}}^{1}f_{\sigma(n)}(x) \mathrm{d}x
+\end{equation*}
+Celui-ci a une solution.
+\end{théorème}
+
+\begin{proof}
+    On introduit les fonctions $\left(F_{i}\right)_{i\in \onen{n - 1}}$  : 
+    \[
+        F_{i} : \left\{
+        \begin{aligned}
+            &S^{n - 1} = \left\{e = (e_{1}, \ldots, e_{n}) \in \R^{n} \mid \sum_{i = 1}^{n} e_{i}^{2} = 1\right\} \longrightarrow \R\\
+            &e \mapsto \sgn(e_{i + 1}) \times \int_{e_{1}^{2} + \cdots + e_{i}^{2}}^{e_{1}^{2} + \cdots + e_{i}^{2} + e_{i + 1}^{2}} f_{\sigma(i + 1)}(x)\d x - \sgn{e_{1}}\int_{0}^{e_{1}^{2}}f_{\sigma(1)}(x)\d x
+        \end{aligned}\right.
+    \]
+    On définit alors $f(e) = \left(F_{1}(e), \ldots, F_{n - 1}(e)\right)$. Il est clair que $f$ est continue et antipodale, donc par le Théorème de Borsuk-Ulam, elle est nulle en un certain point $\tilde{e}$.\\
+    On pose alors $x_{0} = 0$ puis $x_{i} = x_{i - 1} + \tilde{e}_{i}^{2}$
+\end{proof}
+
+
+\section{Extensions}
+\subsection{De Borsuk-Ulam}
+Dans la suite, on ne détaille que certaines preuves intéressantes et plutôt graphiques
+Il existe de nombreuses démonstrations du théorème de Borsuk-Ulam se basant sur de nombreux domaines :
+\begin{itemize}
+    \item Par la topologie algébrique : En réduisant le groupe fondamental (trivial) de la sphère (simplement connexe) à un groupe isomorphe à $\Z$ en étudiant l'image d'un lacet de $S^{2}$ par $g(x) = \frac{f(x) - f(-x)}{\norm{f(x) - f(-x)}}$ :
+          \begin{proof}
+              On ne démontre ici que le cas en dimension $2$, celui-ci se généralisant aisément par le lecteur curieux en dimension $n$. On raisonne par l'absurde, avec les notations ci-dessus.
+              On rappelle que $S^{2}$ est simplement connexe et que son groupe fondamental est trivial.
+              On définit sur $S^{2}$:
+              \[g: x \in S^{2} \mapsto \frac{f(x)-f(-x)}{\left\lVert f(x) - f(-x)\right\rVert}\]
+              $g$ est bien définie puisqu'on suppose qu'il n'existe pas de point $x_{0}$ convenable. On considère le lacet $\alpha$ de $S^{2}$ défini par: $\alpha(t) = (\cos{(2\pi t)}, \sin{(2\pi t)})$.
+              Comme $g$ est impaire, on a, en notant $g_{*}$ le morphisme du groupe fondamental de $S^{2}$ dans celui de $S^{1}$ induit par $g$:
+              \begin{equation}
+                  \label{9}
+                  \forall t \in \left[0, \frac{1}{2}\right], g_{*}\alpha(t + 1/2) = -g_{*}\alpha(t)
+              \end{equation}
+              Par ailleurs, il existe une homotopie $\rho$ de $\left[0, 1\right]$ dans $\mathbb{R}$ telle que le lacet $g_{*}\alpha$ de $S^{1}$ s'écrive:
+              \begin{equation*}
+                  \forall t \in \left[0, 1\right], g_{*}\alpha(t) = (\cos{(2\pi \rho(t))}, \sin{(2\pi \rho(t))}), \text{avec } \rho(0) = 0
+              \end{equation*}
+              De \eqref{9} on déduit alors:
+              \begin{equation*}
+                  \forall t \in \left[0, 1/2\right] \ 2\nu(t) = 2(\rho(t + 1/2) - \rho(t)) \in \mathbb{Z}
+              \end{equation*}
+              D'où, par continuité de la fonction $\nu$, celle-ci étant définie sur un connexe et à valeurs dans un ensemble discret, elle est constante et s'écrit sous la forme $c/2$ où $c\mod 2 = 1$. On en déduit que:
+              \begin{equation*}
+                  \rho(1) = \rho \left(\frac{1}{2} \right) + \frac{c}{2} = \left(\rho(0) + \frac{c}{2} \right) + \frac{c}{2} = c
+              \end{equation*}
+              Donc $\rho(1)$ est impair, différent de $0$. En particulier, $g_{*}\alpha$ n'est pas homotope à un point, et fait $c$ tours autour du cercle. Ainsi, l'image de $g_{*}$ est différente de l'élément neutre, mais $g_{*}$ est un morphisme du groupe trivial dans un groupe isomorphe à $\mathbb{Z}$, ce qui conclut le raisonnement par l'absurde.
+          \end{proof}
+    \item Par le Lemme de Tucker : Une triangulation antipodalement symétrique sur la boule contient une arête complémentaire. L'avantage de cette méthode étant qu'on connaît une démonstration algorithmique\footnote{Qui reste un peu hors de votre portée...} de ce lemme.
+\end{itemize}
+
+Le Théorème de Borsuk-Ulam est très, très, très utile, dans de nombreux domaines, comme l'indiquent ses multiples démonstrations :
+\begin{itemize}
+    \item Théorème de Point Fixe de Brouwer : 
+    \begin{théorème}{de Point Fixe de Brouwer}{}
+        Toute fonction continue de $D^{n}$ dans $D^{n}$ a un point fixe.
+    \end{théorème}
+    \begin{proof}
+        
+    \end{proof}
+    \item Théorème du Sandwich au Jambon : 
+    \begin{théorème}{du Sandwich au Jambon}{}
+        Etant données $n$ parties Lebesgue-Mesurables d'un espace de dimension $n$, il existe au moins un hyperplan affine divisant chaque parties en deux sous-ensembles de mesure égales.
+    \end{théorème}
+    \begin{proof}
+        On se donne $n$ parties de $\R^{n}$ notées $X_{i}$ de mesure\footnote{Attention, ce n'est pas le cardinal !} $\lambda\left(X_{i}\right)$. Soient $s \in S^{n - 1}$ et $t\in \R$. On considère
+        \[
+            H^{+}(s, t) = \left\{z \in R^{n}, \scalar{z, s} > t\right\}
+        \]
+        Pour une valeur de $s$ et pour $i$ fixés, $f : t \mapsto \lambda\left(X_{i} \cap H^{+}(s, t)\right)$ est continue et satisfait la condition de partionnage des $X_{i}$ puisque $H^{+}(-s, -t) = \overline{H^{+}(s, t)}^{\complement}$.\\
+        Cette fonction est aussi décroissante sur son domaine et prend donc toutes les valeurs entre $\lambda\left(X_{i}\right)$ et $0$. Donc il existe une valeur de $t$ pour laquelle $f$ \textit{coupe} $X_{i}$ en deux. De plus la fonction $g$ telle que $\lambda\left(X_{1}\cap H^{+}(s, g(s))\right) = \frac{\lambda\left(X_{1}\right)}{2}$ est continue en $s$. Cette fonction partage pour tout point de la sphère $X_{1}$ en deux parts égales. \\
+        On pose alors : 
+        \[
+            h : \applic{S^{n - 1}}{\R^{n - 1}}{s}{\left(\lambda\left(X_{2} \cap H^{+}(s, g(s))\right), \ldots, \lambda\left(X_{n} \cap H^{+}(s, g(s))\right)\right)}
+        \]
+        et on conclut par récurrence, puisque $h$ possède une valeur $s$ pour laquelle $h(s) = h(-s)$. Pour ce point, l'hyperplan $\left\{z \in \R^{n} \mid \scalar{z, s} = g(s)\right\}$ divise chacun des $X_{i}$ en parts égales. 
+    \end{proof}
+    \item Théorème de Lovász : 
+    \begin{théorème}{de Lovász}{}
+        Si le complexe de voisinage d'un graphe est $k$-connecté, alors $\chi(G) \geq k + 3$.
+    \end{théorème}
+    \begin{proof}
+        Ceci est beaucoup, beaucoup trop compliqué pour la portée de ce cours. 
+        \begin{itemize}
+            \item On associe à $\mathcal{N}(G)$ un complexe simplicial $L(G)$ qui est une rétraction. 
+            \item Pour $m \geq \chi(G)$, on a une carte équivariante de $L(G)$ vers le complexe $B(K_{m})$. D'où $\chi(G) \geq \text{ind}L(G) + 1$
+            \item Mais un complexe simplicial $k$-connecté à un indice d'équivariance supérieur à $k + 1$ donc $\chi(G) \geq k + 1 + 2 = k + 3$
+        \end{itemize}
+    \end{proof}
+\end{itemize}
+
+De part ces corollaires, on peut appliquer le Théorème de Borsuk-Ulam a un grand nombre de problèmes sans rapport immédiat : 
+\begin{itemize}
+    \item Au jeu de Hex, inventé par John Conway : 
+    \begin{théorème}{Nullité du Jeu}{}
+        La partie nulle du jeu de Hex n'existe pas. 
+    \end{théorème}
+    \begin{proof}
+        C'est une application du Théorème de Point Fixe de Brouwer. Pour cela, on étudie la fonction qui a une tuile associe un coup possible selon sa position en utilisant le fait qu'un polygone convexe est homéomorphe\footnote{A la même forme que} au disque unité. Cette démonstration est assez longue, et peu intéressante.
+    \end{proof}
+    \item On définit le problème du collier : Deux voleurs ont dérobé un collier fait de $n$ types de perles et souhaitent le partager également en deux\footnote{Le lecteur attentif remarquera les similarités de ce problème et du théorème de partage des nouilles.}.
+    \begin{théorème}{Solution du Problème du Collier}{}
+        Le problème du collier dérobé a une solution en $n$ coupes
+    \end{théorème} 
+    \begin{proof}
+        On considère la courbe des moments $\gamma : t \mapsto \left(t, \ldots, t^{n}\right)$. Tout hyperplan touche $\gamma(t)$ en au plus $n$ points. En effet, si $H$ est l'hyperplan donné par : 
+        \[
+            \sum_{i = 1}^{n} a_{i}x_{i} = b
+        \]
+        ces points sont les racines de l'équation polynomiale de degré $n$ : 
+        \[
+            \sum_{i = 1}^{n}a_{i}t^{i} = b
+        \]
+        En discrétisant le théorème du Sandwich au Jambon, on obtient un hyperplan qui divise chacun des $n$ ensembles de pierres en $2$. En plaçant le collier sur la courbe $\gamma$, on a bien le résultat en au plus $n$ coupes.  
+    \end{proof}
+
+    \item A la Coloration des Graphes : on parlera sans doute de ce sujet plus en détail dans un prochain cours, mais voici tout de même un résultat sur la coloration des graphes qui découle du théorème de Borsuk-Ulam : 
+    \begin{théorème}{Nombre Chromatique des Graphes de Kesner}{}
+        On peut partitionner les $\binom{n}{k}$ parties à $k$ éléments d'un ensemble de $n$ éléments en $n - 2k + 2$ classes de sorte que dans chacune des classes, on ne peut choisir deux sous-ensembles disjoints. Autrement dit, si on note $KN(n, k)$ le graphe de ces parties, $\chi\left(KN(n, k)\right) = n - 2k + 2$.
+    \end{théorème}
+\end{itemize}
+
+
+\end{document}
