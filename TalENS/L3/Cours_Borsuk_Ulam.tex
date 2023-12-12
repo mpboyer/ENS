@@ -7,18 +7,18 @@
 
 \begin{document}
 \maketitle
-
 \section{Mise en Situation}
 \subsection{Le Problème}
 \begin{frame}
     \frametitle{Vie en Communauté}
-    Placez vous dans la situation suivante : \\
+    \only<1-5>{\visible<1-5>{Placez vous dans la situation suivante : \\}
     \begin{itemize}
-        \visible<2-> {\item Avec plusieurs de vos amis, vous avez décidé de faire un gâteau.}
-        \visible<3-> {\item Une fois celui-ci cuit, vient le moment de le découper.}
-        \visible<4-> {\item Cependant, vous n'avez pas tous aussi faim les uns que les autres.}
-        \visible<5-> {\item Comment faire pour le découper sans que personne ne soit lésé et que le découpeur ne soit assailli pour ses préférences dans le groupe d'amis.}
-    \end{itemize}
+        \visible<2-5> {\item Avec plusieurs de vos amis, vous avez décidé de faire un gâteau.}
+              \visible<3-5> {\item Une fois celui-ci cuit, vient le moment de le découper.}
+              \visible<4-5> {\item Cependant, vous n'avez pas tous aussi faim les uns que les autres.}
+              \visible<5-5> {\item Comment faire pour le découper sans que personne ne soit lésé et que le découpeur ne soit assailli pour ses préférences dans le groupe d'amis.}
+    \end{itemize}}
+    \only<6>{Vous apprendrez plus tard dans votre vie, qu'en réalité, l'application la plus utile de ce que nous allons voir est en réalité une application au découpage de nouilles.}
 \end{frame}
 
 \subsection{Mathématiquement}
@@ -31,15 +31,27 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Théorème de Partage de Gâteau}
-    \visible<1->{\begin{theorem}[De Partage de Gâteau]
-        Pour toutes fonctions de densités $f_{i}$ et permutations $\sigma \in \mathfrak{S}_{n}$, on considère le système $(\star)$ suivant : 
-        \begin{equation*}\tag{$\star$}
-            \int_{0}^{x_{1}}f_{\sigma(1)}(x) \mathrm{d}x = \int_{x_{1}}^{x_{2}}f_{\sigma(2)}(x)\mathrm{d}x = \ldots = \int_{x_{n}}^{1}f_{\sigma(n)}(x) \mathrm{d}x 
-        \end{equation*}  
-        Celui-ci a une solution. 
-    \end{theorem}}
-    \visible<2>{ On cherche donc à démontrer ce Théorème.  }
+    \frametitle{Equitabilité du Partage}
+    On a plusieurs manières de juger de la manière de couper le gâteau :
+    \begin{itemize}
+        \visible<2->{\item Proportionellement: $\forall i \in \onen{n}, \mu_{i}(X_{i}) \geq \frac{1}{n}$}
+              \visible<3->{\item Exactement: $\forall i \forall j, \mu_{i}(X_{j}) = \frac{1}{n}$}
+              \visible<4->{\item Sans Avarice: $\forall i, \forall j, \mu_{i}(X_{i}) \geq \mu_{i}(X_{j})$}
+              \visible<5->{\item Equitablement: $\forall i, \forall j, \mu_{i}(X_{i}) = \mu_{j}(X_{j})$}
+    \end{itemize}
+    \visible<6>{On choisit ici de s'intéresser au partage Équitable du gâteau, mais des résultats existent sur les autres types de partage.}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Théorème de Partage de Nouilles}
+    \visible<1->{\begin{theorem}[De Partage de Nouilles]
+            Pour toutes fonctions de densités $f_{i}$ et permutations $\sigma \in \mathfrak{S}_{n}$, on considère le système $(\star)$ suivant :
+            \begin{equation*}\tag{$\star$}
+                \int_{0}^{x_{1}}f_{\sigma(1)}(x) \mathrm{d}x = \int_{x_{1}}^{x_{2}}f_{\sigma(2)}(x)\mathrm{d}x = \ldots = \int_{x_{n}}^{1}f_{\sigma(n)}(x) \mathrm{d}x
+            \end{equation*}
+            Celui-ci a une solution.
+        \end{theorem}}
+    \visible<2>{On cherche donc à démontrer ce Théorème.}
 \end{frame}
 
 \section{Formalisations}
@@ -47,7 +59,7 @@
 \begin{frame}
     \frametitle{Partitions}
     \only<1> {On appelle partition d'un ensemble toute sous division de cet ensemble en plusieurs parties sans recouvrement.\\}
-    \only<2-> {Formellement, pour un ensemble $X$, il s'agit d'un ensemble $(X_{i})_{i\in I}$ tel que : 
+    \only<2-> {Formellement, pour un ensemble $X$, il s'agit d'un ensemble $(X_{i})_{i\in I}$ tel que :
     \[
         \bigcup_{i\in I}X_{i} = X \text{ et } X_{i} \cap X_{j} = \emptyset
     \]}
@@ -73,24 +85,162 @@
 \subsection{Probabilités}
 \begin{frame}
     \frametitle{Théorie de la Mesure}
-    \visible<1-> {On appelle mesure sur un ensemble $E$ une application de l'ensemble de ses parties $\A$ à valeurs positives qui vérifie certaines propriétés. }
-    
+    \only<1-3>{\visible<1-3>{On appelle mesure $\mu$ sur un ensemble $E$ une application d'une tribu $\A$ de l'ensemble de ses parties à valeurs positives qui vérifie certaines propriétés:}
+
+    \begin{itemize}
+        \visible<2-3>{\item $\mu(A \sqcup B) = \mu(A) + \mu(B)$}
+              \visible<3-3>{\item $\mu(\emptyset) = 0$}
+
+    \end{itemize}}
+    \only<4->{
+        \visible<4->{De ces propriétés de base on en déduit quelques propriétés :}
+        \begin{itemize}
+            \visible<5->{\item $\mu(A \cup B) = \mu(A) + \mu(B) - \mu(A \cap B)$}
+                  \visible<6->{\item Si $A \subseteq B$ : $\mu(A) \leq \mu(B)$ et $\mu(B \setminus A) = \mu(B) - \mu(A)$}
+        \end{itemize}}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Quelques Mesures}
+    Voici quelques mesures déjà connues :
+    \begin{itemize}
+        \visible<1->{\item La mesure de comptage sur $\left(\N, \P(\N)\right)$ : $\mu(A) = \abs{A}$ }
+              \visible<2->{\item La mesure de Dirac en $x$ sur $\left(E, \A\right)$ quelconque : $\delta_{x}(A) = \begin{cases} 1 &\text{ si } x\in A\\ 0  &\text{ sinon} \end{cases}$}
+              \visible<3->{\item La mesure de Lebesgue sur $\left(\R, \B(\R)\right)$ : $\lambda\left(\left[a, b\right]\right) = b - a$}
+    \end{itemize}
 
 \end{frame}
 \begin{frame}
     \frametitle{Mesure de Probabilité}
-    \visible<1-> {Une mesure de probabilité $p$ sur un univers (un ensemble $\Omega$) est une mesure sur les parties de cet univers (les évènements) de masse totale $1$.\\}
-    \visible<2-> {L'application de cette fonction à un évènement représente la probabilité de celui-ci. On peut généraliser la propriété sur l'union ci-dessus à un nombre dénombrable d'évènements. }
+    \visible<1->{Une mesure de probabilité $p$ sur un univers (un ensemble $\Omega$) est une mesure sur les parties de cet univers (les évènements) de masse totale $1$.\\}
+    \visible<2->{L'application de cette fonction à un évènement représente la probabilité de celui-ci. On peut généraliser la propriété sur l'union ci-dessus à un nombre dénombrable d'évènements. }
 \end{frame}
 
 \begin{frame}
     \frametitle{Densité}
-    \visible<1-> {Dans le cas d'une mesure de probabilité $p$ sur un ensemble continu, on dit qu'elle est non-atomique lorsque $p(\left\{x\right\}) = 0$.}
-    \visible<2-> {On dit de plus qu'elle est à densité lorsqu'il existe une fonction $\mu_{p}$ telle que : 
+    \visible<1->{Dans le cas d'une mesure de probabilité $p$ sur un ensemble continu, on dit qu'elle est non-atomique lorsque $p(\left\{x\right\}) = 0$.\\}
+    \visible<2->{On dit de plus qu'elle est à densité lorsqu'il existe une fonction $\mu_{p}$ telle que :
+        \[
+            \forall A \subseteq \Omega, p(A) = \int_{A} \mu_{p} \d\lambda
+        \]
+        où $\lambda$ correspond \textit{intuitivement} à la taille de l'ensemble $A$. En particulier $\lambda(\left[a, b\right]) = b - a$.}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Modélisation}
+    \only<1-2>{\visible<1->{Supposons notre gâteau hétérogène (mettons, un gâteau marbré). Chacun de nos mangeurs ayant sa préférence, on représente leur appétance pour les parties du gâteau par une mesure de probabilité à densité sur ce gâteau.\\}
+    \visible<2->{La part que l'un de nos mangeurs va manger est alors, par définition de l'intégrale par rapport à une mesure :
     \[
-        \forall A \subseteq \Omega, p(A) = \int_{A} \mu_{p} \d\lambda
-    \]
-    où $\lambda$ correspond \textit{intuitivement} à la taille de l'ensemble $A$. En particulier $\lambda(\left[a, b\right]) = b - a$.}
+        \mu_{i}(X_{i}) = \int_{X_{i}}f_{i} \d\mu_{i}
+    \]}}
+    \only<3>{Intuitivement, c'est une somme (C'est une vision très physicienne/historique de l'intégrale) sur chaque petite portion du gâteau de l'appétance du mangeur $i$ pour cette portion.}
+\end{frame}
+
+
+\section{Une Démonstration du Théorème}
+\subsection{Quelques Lemmes Utiles}
+\begin{frame}
+    \frametitle{Borsuk-Ulam ?}
+    \begin{theorem}[Borsuk-Ulam]
+        Si $f$ est une fonction continue sur une sphère de dimension $n$ à valeurs dans un espace euclidien de dimension $n$, il existe deux points antipodaux sur cette sphère de même image par $f$. Autrement dit, à isomorphisme près :
+        \[
+            \forall f \in \cont^{0}\left(S^{n}, \R^{n}\right), \ \exists x_{0} \in S^{n}, \ f(x_{0}) = f(-x_{0})
+        \]
+    \end{theorem}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Catégorie de Lusternick-Schnirelmann}
+    \only<1>{\begin{definition}
+            On définit la Catégorie de Lusternick-Schnirelmann d'un espace $X$ noté $\text{cat}(X)$ comme le nombre minimal d'ensembles ouverts (moins 1) suffisant à le recouvrir.
+        \end{definition}}
+    \only<2>{
+        \begin{theorem}[Catégorie des Espaces Projectifs]
+            On a : $\text{cat}(\R P^{n}) = n$
+        \end{theorem}
+        \begin{proof}
+            On a $H^{\star}(\R P^{n}; \Z_{2}) = \Z_{2}\left[X_{1}\right]/\left(x_{1}^{n + 1}\right)$. Donc $\text{cup}(\R P^{n}) = n$ et comme on a toujours :
+            $\text{cup}(X) \leq \text{cat}(X)\leq \dim(X)$ d'où : $n = \text{cup}(\R P^{n}) \leq \text{cat}(\R P^{n}) \leq \dim(\R P^{n}) = n$
+        \end{proof}
+    }
+\end{frame}
+
+\begin{frame}
+    \frametitle{Lusternick-Schnirelmann et Borsuk-Ulam}
+    \only<1-2>{
+        \visible<1-2>{
+            \begin{theorem}[Lusternick-Schnirelmann]
+                Si $S^{n}$ est recouvert par des ensembles ouverts $C_{0}, \ldots, C_{n - 1}$, alors au moins l'un d'entre eux contient des points antipodaux.
+            \end{theorem}
+        }
+        \visible<2>{On en déduit assez immédiatement le théorème de Borsuk-Ulam.}}
+    \only<3>{
+        \begin{proof}
+            Supposons qu'aucun ne contiennent de points antipodaux. Soit $A_{i} \subseteq B^{n + 1}$ l'ensemble fermé des rayons aux points de $C_{i}$. En notant la relation $\sim$ d'indentification de $S^{n}$ aux antipodes, on a : $\R P^{n + 1} = B^{n + 1}/\sim$. Par hypothèse comme $C_{i}$ n'a pas de points antipodaux, $A_{i} \hookrightarrow \R P^{n+1}$ est injective et donc, $A_{i}$ se contractant en un point, $\R P^{n + 1}$ est recouvert par $A_{0}, \ldots, A_{n - 1}$, ce qui contredit le théorème précédent.
+        \end{proof}}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Une conséquence de Borsuk-Ulam}
+    En physique, on considère que toutes les fonctions de l'espace (pression, température, humidité\dots) sont continues, dérivables et même à peu près tout ce dont on a envie.\\
+    \visible<2->{Mais, puisque toutes les sphères s'obtiennent par homothétie et translation les unes par rapport aux autres, le théorème de Borsuk-Ulam est valide sur toute sphère.\\}
+    \visible<3->{Et, en physique, on connaît quelque chose qui ressemble très fortement à une sphère.\\}
+    \visible<4->{Ainsi, à tout instant, il existe sur Terre deux points antipodaux qui ont même pression, même température et même taux d'humidité.}
+\end{frame}
+
+
+
+\subsection{La Démonstration à proprement dit}
+\begin{frame}
+    \frametitle{Démonstration}
+    \only<1>{On ne va pas rentrer dans les détails d'une démonstration horriblement calculatoire.}
+    \only<2->{\only<2-3>{\visible<2-3>{On introduit les fonctions $\left(F_{i}\right)_{i\in \onen{n - 1}}$ suivantes sur $S^{n - 1} = \left\{e = (e_{1}, \ldots, e_{n}) \in \R^{n} \mid \sum_{i = 1}^{n} e_{i}^{2} = 1\right\}$ :
+    \[
+        \begin{split}
+            F_{i}(e) = \sgn(e_{i + 1}) &\times \int_{e_{1}^{2} + \cdots + e_{i}^{2}}^{e_{1}^{2} + \cdots + e_{i}^{2} + e_{i + 1}^{2}} f_{\sigma(i + 1)}(x)\d x \\ &- \sgn{e_{1}}\int_{0}^{e_{1}^{2}}f_{\sigma(1)}(x)\d x
+        \end{split}\]}}
+    \visible<3-4>{On définit alors $f(e) = \left(F_{1}(e), \ldots, F_{n - 1}(e)\right)$. Il est clair que $f$ est continue et antipodale, donc par le Théorème de Borsuk-Ulam, elle est nulle en un certain point $\tilde{e}$.}
+    \only<4->{On pose alors $x_{0} = 0$ puis $x_{i} = x_{i - 1} + \tilde{e}_{i}^{2}$}
+    }
+\end{frame}
+
+
+\section{Extensions}
+\subsection{De Borsuk-Ulam}
+\begin{frame}
+    \frametitle{D'autres démonstrations}
+    Il existe de nombreuses démonstrations du théorème de Borsuk-Ulam se basant sur de nombreux domaines :
+    \begin{itemize}
+        \visible<2->{\item Par la topologie algébrique : En réduisant le groupe fondamental (trivial) de la sphère (simplement connexe) à un groupe isomorphe à $\Z$ en étudiant l'image d'un lacet de $S^{2}$ par $g(x) = \frac{f(x) - f(-x)}{\norm{f(x) - f(-x)}}$}
+              \visible<3>{\item Par le Lemme de Tucker : Une triangulation antipodalement symétrique sur la boule contient une arête complémentaire. L'avantage de cette méthode étant qu'on connaît une démonstration algorithmique de ce lemme.}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Des Corollaires}
+    Le Théorème de Borsuk-Ulam est très, très, très utile, dans de nombreux domaines, notamment du fait de ses multiples démonstrations :
+    \begin{itemize}
+        \visible<2->{\item Théorème de Point Fixe de Brouwer : Toute fonction continue de $D^{n}$ dans $D^{n}$ a un point fixe.}
+              \visible<3->{\item Théorème du Sandwich au Jambon : Étant données $n$ parties Lebesgue-Mesurables d'un espace de dimension $n$, il existe au moins un hyperplan affine divisant chaque parties en deux sous-ensembles de mesure égales.}
+              \visible<4->{\item Théorème de Lovász : Si le complexe de voisinage d'un graphe est $k$-connecté, alors $\chi(G) \geq k + 3$.}
+    \end{itemize}
+\end{frame}
+\begin{frame}
+    \frametitle{D'autres Applications}
+    De parts ses nombreux corollaires, il a aussi de nombreuses applications :
+    \begin{itemize}
+        \visible<2-3>{\item La partie nulle du jeu de Hex n'existe pas. C'est une application du Théorème de Point Fixe de Brouwer.}
+              \visible<3-3>{\item Le problème du collier dérobé a une solution en $n$ coupes : Deux voleurs ont dérobé un collier fait de $n$ types de perles et souhaitent le partager également en deux.}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Coloration de Graphes}
+    On parlera sans doute de ce sujet plus en détail dans un prochain cours, mais voici tout de même un résultat qui découle du théorème de Borsuk-Ulam : \\
+    \begin{theorem}
+        On peut partitionner les $\binom{n}{k}$ parties à $k$ éléments d'un ensemble de $n$ éléments en $n - 2k + 2$ classes de sorte que dans chacune des classes, on ne peut choisir deux sous-ensembles disjoints. Autrement dit, si on note $KN(n, k)$ le graphe de ces parties, $\chi\left(KN(n, k)\right) = n - 2k + 2$.
+    \end{theorem}
+
 \end{frame}
 \end{document}
 

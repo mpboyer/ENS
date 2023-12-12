@@ -34,8 +34,10 @@
 
 \mode<presentation>
 \usetheme{Dresden}
-\AtBeginSubsection[]{\begin{frame}{Plan}\tableofcontents[subsectionstyle=show/shaded/hide,sectionstyle=show/shaded]\end{frame}}
+%\AtBeginSubsection[]{\begin{frame}\frametitle{Plan}\tableofcontents[subsectionstyle=show/shaded/hide,sectionstyle=show/shaded]\end{frame}}
+\AtBeginSubsection[]{\begin{frame}\frametitle{Plan}\tableofcontents[currentsection]\end{frame}}
 \setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{sections/subsections in toc}[square]
 \lstset{showstringspaces=false}
 
 \author{Matthieu Boyer}
@@ -46,6 +48,7 @@
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\Z}{\mathbb{Z}}
 \newcommand{\Q}{\mathbb{Q}}
+\newcommand{\B}{\mathcal{B}}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\C}{\mathbb{C}}
 \newcommand{\K}{\mathbb{K}}
@@ -76,6 +79,7 @@
 \DeclareMathOperator{\rg}{rg}
 \DeclareMathOperator{\ch}{ch}
 \DeclareMathOperator{\sh}{sh}
+\DeclareMathOperator{\sgn}{sgn}
 \renewcommand{\d}{{\, \rm d}}
 \renewcommand{\th}{\mathop{\rm th}}
 
