@@ -1288,6 +1288,133 @@ On fixe dans la suite un entier $d \in \Z$ non carré\footnote{$z$ négatif conv
     Les pgcd et ppcm existent dans un anneau factoriel.
 \end{lemma}
 
+
+\section{Modules sur les Anneaux Prcinipaux}
+\subsection{Modules sur un Anneau}
+\begin{definition}
+    Soit $A$ un anneau. Un $A$-module est la donnée d'un groupe abélien $\left(M, +\right)$ et d'une application $A \times M \rightarrow M$ telle que pour tout $a, a^{'} \in A, m, m^{'} \in M$ : 
+    \begin{enumerate}
+        \item $a.(m+m^{'}) = a.m + a.m^{'}$
+        \item $(a+a^{'}).m = a.m + a^{'}.m$
+        \item $a.(a^{'}.m) = (a.a^{'})m$
+        \item $1.m = m$
+    \end{enumerate}
+\end{definition}
+
+\begin{proposition}
+    Soient $A$ un anneau et $M$ un groupe abélien. Il est équivalent de se donner une structure de $A$-module sur $M$ et un morphisme d'anneaux $A \rightarrow \text{End}_{\Z}(M)$.
+\end{proposition}
+
+\begin{definition}
+    Soient $A$ un anneau et $M$ un $A$-module. Un sous-module de $M$ est un sous-groupe $N \subseteq M$ tel que $an \in N$ pour tout $a \in A, n \in N$. 
+\end{definition}
+\begin{definition}
+    Soient $M$ et $N$ des $A$-modules. Un morphisme de $M$ vers $N$ aussi appelé application $A$-linéaire est une application $f : M \to N$ telle que $f(m + m^{'}) = f(m) + f(m^{'})$ et $f(am) = af(m)$.
+\end{definition}
+
+\begin{definition}
+    Un $A$-module $M$ est dit monogène si on a $M = Am$ pour un certain $m$.
+\end{definition}
+
+\begin{definition}
+    Un $A$-module est de type fini s'il possède une famille fini génératrice. Un $A$-module est dit libre de rang $n$ s'il possède une base à $n$ éléments.
+\end{definition}
+
+\begin{theorem}
+    Supposons $A$ commutatif non nul. Les $A$-modules $A^{n}$ et $A^{m}$ sont isomorphes si et seulement si on a $n = m$. En particulier, toutes les bases d'un $A$-module libre de rang fini ont même cardinal. 
+\end{theorem}
+
+
+\subsection{Classes d'équivalence de matrices sur un anneau principal}
+Dans la suite, $A$ est un anneau commutatif et $n \geq 1$ un entier.
+
+\begin{definition}
+    On définit $GL_{n}(A) = M_{n}(A)^{\times}$ et 
+    \[
+        \det : \applic{M_{n}(A)}{A}{\left(m_{i,j}\right)}{\sum_{\sigma \in \mathfrak{S}_{n}}\epsilon\left(\sigma\right)\prod_{j = 1}^{n}m_{\sigma(j), j}}
+    \]
+\end{definition}
+
+\begin{lemma}
+    Pour tout anneau commutatif $A$ et tout $M, N \in M_{n}(A)$ on a :
+    \[
+        \det MN = \det M \det N \text{ et } M\transpose{Co}(M) = \transpose{Co}(M)M = \det M I_{n}
+    \] 
+\end{lemma}
+
+\begin{proposition}
+    Pour tout anneau commutatif $A$ on a : 
+    \[
+        GL_{n}(A) = \left\{M \in M_{n}(A) \mid \det M \in A^{\times}\right\}
+    \]
+\end{proposition}
+
+\begin{theorem}[Forme Normale de Smith]
+    Soient $A$ un anneau principal, et $M \in M_{p, q}(A)$ avec $p,q \geq 1$ et $r = \min({p, q})$. Il existe $P \in GL_{p}(A), Q \in GL_{q}(A)$ et $a_{1}, \ldots, a_{r} \in A$ avec $a_{1}\mid \cdots \mid a_{r}$ et 
+    \[
+        PMQ = \begin{matrix}
+            a_{1}& & & &\\
+            & a_{2} & & &\\
+            & & \ddots & &\\
+            & & & a_{r} & 
+        \end{matrix}
+    \]
+    On appelle les éléments $a_{i}$ non nuls, uniques modulo $A^{\times}$, les facteurs invariants de la matrice $M$. 
+\end{theorem}
+
+\begin{definition}
+    On note $SL_{n}(A)$ le noyau du morphisme $\det$. C'est un sous-groupe distingué de $GL_{n}(A)$.
+\end{definition}
+
+\begin{definition}
+    Soit $M \in M_{p, q}(A)$ et $k \in \Z$. Le contenu d'ordre de $k$ de $M$ est l'idéal $c_{k}(M)$ de $A$ engendré par les mineurs de taille $k$ de $M$ avec les conventions $c_{k}(M) = A$ pour $k \leq 0$ et $c_{k}(M) = \left\{0\right\}$.
+\end{definition}
+
+\begin{lemma}
+    Soient $A$ un anneau commutatif ainsi que $M, N \in M_{p, q}(A)$ deux matrices équivalentes. Pour tout $k \in \Z$ on a $c_{k}(M) = c_{k}(N)$
+\end{lemma}
+
+\subsection{Modules de type fini sur un anneau principal}
+\begin{theorem}
+    Soient $E$ et $F$ des $A$-modules et $u : E \to F$ une application $A$-linéaire. On suppose $A$ principal, $E$ et $F$ libres sur $A$ de rangs respectifs $q$ et $p$. On pose $r = \min p, q$.
+    Alors, il existe une base $e = \left(e_{1},\ldots, e_{q}\right)$ de $E$ et une $f = \left(f_{1}, \ldots, f_{p}\right)$ de $F$ et des éléments $a_{1}, \ldots, a_{r}$ de $A$ avec $a_{1} \mid \ldots \mid a_{r}$ vérifiant : 
+    \[
+        u(f_{i}) = a_{i}e_{i} \text{ pour } i \leq r \text{ et } u(f_{i}) = 0 \text{ pour } i > r
+    \]
+\end{theorem}
+
+\begin{theorem}
+    Soient $A$ un anneau principal, $M$ un $A$-module libre de rang fini $m$ et $N$ un sous-module de $M$. Il existe une base $e_{1}, \ldots, e_{m}$ de $M$, un entier $0 \leq p \leq m$ et des élements $a_{1}, \ldots, a_{p} \in A$ non nuls tels que : 
+    \begin{itemize}
+        \item $a_{1}e_{1}, \ldots, a_{p}e_{p}$ est une base de $N$.
+        \item $a_{1} \mid \ldots \mid a_{p}$
+    \end{itemize}
+    En particulier, $N$ est libre sur $A$ de rang $p \leq n$. 
+\end{theorem}
+
+\begin{theorem}
+    Soient $A$ un anneau principal et $M$ un $A$-module de type fini. Il existe un unique entier $r \geq 0$ appelé rang de $M$, un unique entier $n \geq 0$ et des éléments non nuls $a_{1}, \ldots, a_{n} \in A$ uniques modulo association avec : 
+    \[
+        M \simeq A^{r} \bigoplus A/a_{1}A \bigoplus \cdots \bigoplus A/a_{n}A, a_{1} \mid \cdots \mid a_{n} \text{ et } a_{1} \notin A^{\times}
+    \] 
+\end{theorem}
+
+\begin{theorem}
+    Soient $k$ un courps et $V$ un $k$-ev de dimension finie : 
+    \begin{enumerate}
+        \item Pour tout endomorphisme $u$ de $V$, il existe un unique entier $s \leq \dim V$ et une unique suite de polynômes $P_{1}, \ldots, P_{s} \in k[X]$ unitaires de degré $\geq 1$ avec $P_{1} \mid \cdots \mid P_{s}$ tels que dans une base $e$ convenable de $V$ on ait : 
+        \[
+            Mat_{e}(u) = \begin{matrix}
+                C(P1) & & \\
+                & \ddots & \\
+                & & C(P_{s})
+            \end{matrix}
+        \]
+        On appelle ces polynômes les invariants de similitude de $u$. 
+        \item Deux endomorphismes sont conjugués si et seulement si ils ont même invariants de similitudes. 
+    \end{enumerate}
+\end{theorem}
+
 \end{document}
 
 
