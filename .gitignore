@@ -307,8 +307,7 @@ L3/S1/Info/SysNum/sysnum-2023/minijazz
 L3/S1/Info/SysNum/sysnum-2023/tp1/*.mll
 L3/S1/Info/SysNum/sysnum-2023/tp1/*.byte
 L3/S1/Info/SysNum/sysnum-2023/tp1/_build
-L3/S1/Info/Compil/TD1
-L3/S1/Info/Compil/TD2
-L3/S1/Info/Compil/TD4
+L3/S1/Info/Compil/TD*
+*_build
 
 Cours Particuliers/*
