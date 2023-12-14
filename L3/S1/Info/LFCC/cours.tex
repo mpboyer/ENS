@@ -710,4 +710,146 @@ Pour justifier la bonne définition des classes de complexité $\comp{DTime}(f(n
     \end{itemize}
 \end{proof}
 
+\part[NP-Complétude]{Cours 9 : 7/12}
+\section{NP-Complétude}
+
+\subsection{Vérification}
+\begin{definition}
+    Un vérificateur en temps polynomial pour un langage $L$ est une machine déterministe $\mathcal{V}$ qui accepte des entrées de la forme $\scalar{w, c}$ en temps polynomial en $\abs{w}$ telle que $L = \left\{w \mid \exists c, \ \scalar{w, c} \in L(\mathcal{V})\right\}$
+\end{definition}
+
+\begin{theorem}
+    Un langage $L$ est dans la classe $NP$ si et seulement si il existe un vérificateur polynômial pour $L$. 
+\end{theorem}
+
+
+\subsection{Réduction}
+\begin{definition}
+    Soient $A$ et $B$ des problèmes codés par $L_{A}$ et $L_{B}$ sur les alphabets $\Sigma_{A}$ et $\Sigma_{B}$. Une réduction polynomiale de $A$ à $B$ est une fonction calculable en temps polynomial par une machine de Turing déterministe telle que : 
+    \[
+        w \in L_{A} \Leftrightarrow f(w) \in L_{B}
+    \]
+    On note ceci : $A \leq_{P} B$.
+\end{definition}
+
+\begin{proposition}
+    Si $A \leq_{P} B$ et $B \in P$ alors $A\in P$ 
+\end{proposition}
+
+\subsection{Complétude}
+\begin{definition}
+    Un problème $A$ est dit $\comp{D}$-difficile si tout problème $B$ de $\comp{D}$ se réduit à $A$ en temps polynomial. S'il est de plus dans $\comp{D}$, il est dit $\comp{D}$-complet.
+\end{definition}
+
+\begin{proposition}
+    Si $A$ est $\comp{D}$-difficile, et si $A \leq_{P} B$ alors $B$ est $\comp{D}$-difficile. 
+\end{proposition}
+
+
+\subsection{Théorème de Cook-Levin}
+\begin{definition}
+    Le problème SAT est le problème de la satisfiabilité d'une formul de calcul propositionnel. Le problème 3SAT couvre le cas où cette formule est en forme normale conjonctive avec au plus trois littéraux par clause. 
+\end{definition}
+
+\part[Précisions sur la Complétude]{Cours 10 : 14/12}
+\section{Précision sur la complétude}
+\subsection{FPT}
+\begin{definition}
+    Un langage $L \subset \Sigma^{\star} \times \N$ est \textsc{Fixed Parameter Tractable} s'il existe un algo qui tourne en $f(k)n^{\O(1)}$ et décide $L$
+\end{definition}
+
+\begin{definition}
+    $L$ se $\comp{Fpt}$-réduit vers $L$ s'il existe $f, g$ tel que : 
+    \begin{itemize}
+        \item $(x, k) \in L \Leftrightarrow \left(f(x, k), g(x, k)\right) \in L^{'}$
+        \item $\forall x, g(x, k) \leq g^{'}(k)$
+        \item $g(x, k)$ est calculable en temps qqch
+    \end{itemize}
+\end{definition}
+
+\subsection{DP}
+\begin{definition}
+    Un langage est $\comp{DP}$ s'il est l'intersection d'un langage de $\comp{NP}$ et d'un de $\comp{coNP}$.
+\end{definition}
+
+\begin{definition}
+    Le problème du voyageur de commerce exact, qui prend en entrée une matrice de poids et un entier $k$ et renvoie vraie si et seulement si le tour optimal est de poids $k$. 
+\end{definition}
+
+\begin{proposition}
+    \textsc{Exact TSP} est \comp{DP}-complet. 
+\end{proposition}
+
+\begin{definition}
+    \textsc{Sat-Unsat}($\phi_{1}, \phi_{2}$) consiste à vérifier si $\phi_{1}$ est satisfiable et si $\phi_{2}$ n'est pas satisfiable. 
+\end{definition}
+
+\begin{proposition}
+    \textsc{Sat-Unsat} est $\comp{DP}$-complet
+\end{proposition}
+\begin{proof}
+    \begin{itemize}
+        \item Soit $L \in \comp{DP}, L = A\cap B$. Puisque $\textsc{Sat}$ est $\textsc{NP}$-Complet, $L$ se réduit bien à $\textsc{Sat-Unsat}$. 
+        \item Il est clair par ailleurs que ce problème est bien dans $\comp{DP}$
+    \end{itemize}
+\end{proof}
+
+\section{Oraclicité}
+\subsection{Machines à Oracle}
+\begin{definition}
+    Une machine à oracle $L$ est un machine de Turing étendue par: 
+    \begin{itemize}
+        \item Une bande de requête
+        \item Trois états $q_{?}, q_{\text{oui}}, q_{\text{non}}$
+    \end{itemize}
+\end{definition}
+
+\begin{definition}
+    On définit $\comp{P}^{\comp{Sat}}$ comme l'ensemble des langages qui peuvent être décidés par une machine déterministe avec oracle $\textsc{Sat}$ en temps polynomial. 
+\end{definition}
+
+\begin{proposition}
+    Puisqu'on peut réduire \comp{Sat} en temps polynomial, $\comp{P}^{\comp{Sat}} = \comp{P}^{\comp{NP}}$
+\end{proposition}
+
+\subsection{Hiérarchie Polynomiale}
+\begin{definition}
+    On définit par récurrence : 
+    \begin{itemize}
+        \item $\Delta_{0}^{\comp{P}} = \Sigma_{0}^{\comp{P}} = \Pi_{0}^{\comp{P}} = \comp{P}$
+        \item $\Delta_{i}^{\comp{P}} = \comp{P}^{\Sigma_{i - 1}^{\comp{P}}}$
+        \item $\Sigma_{i}^{\comp{P}} = \comp{NP}^{\Sigma_{i - 1}^{\comp{P}}}$
+    \end{itemize}
+    On définit enfin : $\comp{PH} = \bigcup_{i}\Sigma_{i}^{\comp{P}}$
+\end{definition}
+
+\begin{proposition}
+    On a : $\comp{co-NP} \subseteq \comp{P}^{\comp{NP}} \subseteq \comp{NP}^{\comp{NP}}$
+    \begin{itemize}
+        \item Si $P = NP$ la hiérarchie s'effondre.
+        \item Si $\Sigma_{i}^{\comp{P}} = \Pi_{i}^{\comp{P}}$ alors $\comp{PH} = \Sigma_{i}^{\comp{P}}$
+    \end{itemize}
+\end{proposition}
+
+\subsection{Par les machines Alternantes}
+\begin{definition}
+    Une machine alternante est une machine de Turing où les états sont typés entre universels et existentiels.
+\end{definition}
+
+\begin{proposition}
+    On a alors : 
+    \begin{itemize}
+        \item $\Sigma_{i}^{\comp{P}}$ l'ensemble des langages reconnaissables par une MT alternante avec au plus $i$ alternations sur n'importe quel calcul d'état initial $\exists$.
+        \item $\Pi_{i}^{\comp{P}}$ de même lorsque l'état initial est $\forall$.
+    \end{itemize}
+\end{proposition}
+
+\subsection{Par certificat}
+\begin{proposition}
+    $L \in \Sigma_{i}^{\comp{P}}$ s'il existe $M$ une machine de Turing déterministe en temps polynomial et un polynôme $q$ tel que : 
+    \[
+        \forall x \in \Sigma^{\star}, x \in L \Leftrightarrow \exists u_{1} \in \left\{0, 1\right\}^{q(x)}, \forall u_{2} \in \left\{0, 1\right\}^{q(x)}, \ldots, Q_{i}u_{i} \in \left\{0, 1\right\}^{q(x)}, M(x, u_{1}, \ldots, u_{i}) = 1
+    \]
+\end{proposition}
+
 \end{document}
