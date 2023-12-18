@@ -77,3 +77,4 @@
 \newcommand{\Q}{\mathbb{Q}}
 \newcommand{\C}{\mathbb{C}}
 \newcommand{\N}{\mathbb{N}}
+\newcommand{\onen}[1]{\left\llbracket 1, #1\right\rrbracket}

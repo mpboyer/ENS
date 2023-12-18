@@ -7,7 +7,7 @@
 \RequirePackage{lmodern}
 \RequirePackage[utf8]{inputenc}
 \RequirePackage[T1]{fontenc}
-\RequirePackage[british]{babel}
+\RequirePackage[french]{babel}
 \RequirePackage{texnames}
 \RequirePackage{array}
 \RequirePackage{tikz}
@@ -18,7 +18,6 @@
 \RequirePackage{ragged2e}
 \RequirePackage{amsmath}
 \RequirePackage{dsfont}
-
 \RequirePackage{amsfonts}
 \RequirePackage{mathrsfs}
 \RequirePackage{amsthm}
@@ -40,12 +39,13 @@
 \author{Null}
 \title{None}
 
+\usetikzlibrary{trees}
 
 \AtBeginDocument{\def\labelitemi{$\bullet$}}
 \AfterBeginDocument{
     \maketitle
     % \begin{center}\includegraphics[height=6em]{/home/matthieu/Documents/ETUDES/ENS/ens_psl.pdf} \end{center}
-    \newpage
+    %\newpage
     \tableofcontents
     }
 
