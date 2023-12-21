@@ -132,3 +132,4 @@
 \renewcommand{\H}{\mathbb{H}}
 \newcommand{\transpose}[1]{{^{\mathsf{t}}}#1}
 \newcommand{\comp}[1]{\textsc{#1}}
+\newcommand{\onen}[1]{\left\llbracket 1, #1\right\rrbracket}

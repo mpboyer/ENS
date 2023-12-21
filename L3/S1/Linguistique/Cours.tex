@@ -1127,4 +1127,57 @@ Sound reasoning is possible. So there must be some strategy using our natural fa
 We can induce the representations of a disjunction with visual animations. This has been done to demonstrate that infants can construct complex representations of alternative possibilities such as induced by a disjunction. \\
 From other experiments, we get that children under 4 have impoverished symbolic system and cannot represent alternative possibilities. Children acquire more complex representational arsenal thanks to linguistic bootsrapping wia the language of modality which appears around the same age. 
 
+\section{TA 12 20/12}
+\subsection{Erotetic Theory Formalisation}
+We don't use $P \land R$ to symbolise \textsl{P and R}, but prefer $P\sqcup R$. \\
+For disjunctions, we use sets containing all the possible propositions : $\left\{P \sqcup R, J\right\}$. \\
+We represent our situation as a tuple, with our propositions on the first dimension, and the set og things we know to be true in the second dimensions : $\scalar{\left\{P \sqcup R, J\right\}, \emptyset}$. \\
+We symbolise updates such as this : $\scalar{\left\{P \sqcup R, J\right\}, \emptyset}\left[j\right]^{up}$ which means that we have learned for sure that $j$ is true. \\
+Then, we can chain updates : $\scalar{\left\{P \sqcup R, J\right\}, \emptyset}\left[j\right]^{up}\left[\left\{m, r\right\}\right]^{up}$ is equivalent to $\scalar{j, \left\{\left\{j\right\}\right\}}\left[\left\{m, r\right\}\right]^{up}$ which is equivalent to $\scalar{\left\{j\sqcup m, j \sqcup r\right\}, \{j\}}$
+
+\subsection{Disjunction Reduction}
+People are better at resolving disjunctions when we update with the negative : we talk about $\lnot P$ and $P \lor Q$ which implies $Q$ :
+\[
+    \begin{aligned}
+        &\scalar{0, \emptyset}\left[\lnot P\right]\\
+        &\scalar{\lnot P, \left\{\{\lnot P\}\right\}}\left[\left\{P, Q\right\}\right]\\
+        &\scalar{\lnot P \sqcup Q, \left\{\left\{\lnot P\right\}\right\}}\left[Q\right]^{MR}
+    \end{aligned} 
+\]
+is easier than 
+\[
+    \begin{aligned}
+        &\scalar{0, \emptyset}\left[\left\{P, Q\right\}\right]^{up}\\
+        &\scalar{\left\{P, Q\right\}, \emptyset}[\lnot P]\\
+        &\scalar{\left\{\lnot P \sqcup P, \lnot P \sqcup Q\right\}, Q}
+    \end{aligned}
+\]
+Here, $MR$ means \textit{Moleculary Reduction}.
+\subsection{Inquiry Operation}
+
+The inquiry operation works as such : 
+\[
+\begin{aligned}
+    &\scalar{\left\{\lnot a, \lnot b, \lnot c\right\}, Q}\left[a\right]^{inq}\\
+    &\scalar{\left\{\lnot a, \lnot b \sqcup a, \lnot b \sqcup \lnot a, \lnot c \sqcup a, \lnot c \sqcup \lnot a\right\}}
+\end{aligned}    
+\]
+We can then go and explicit every formula based on any possible atoms. \\
+This is of use when resolving $c$ and \textsl{a and b or c and d}
+\[
+    \begin{aligned}
+        &\scalar{\left\{a \sqcup b, c \sqcup d\right\}, \emptyset}\left[c\right]^{up}\\
+        &\scalar{\left\{c \sqcup d\right\}, \left\{\{c\}\right\}}\\
+        &d
+    \end{aligned}    
+\]
+Remind this is not supposed to be classically true, but it models what people do. Then using inquiries : 
+\[
+    \begin{aligned}
+        &\scalar{\left\{a \sqcup b, c \sqcup d\right\}, \emptyset}\left[c\right]^{inq}\\
+        &\scalar{\left\{a \sqcup b \sqcup c, a \sqcup b \sqcup \lnot c, c \sqcup d\right\}, \emptyset}\left[c\right]^{up}\\
+        &\scalar{\left\{a \sqcup b \sqcup c, c \sqcup d\right\}, \left\{\left\{c\right\}\right\}}
+    \end{aligned}
+\]
+
 \end{document}

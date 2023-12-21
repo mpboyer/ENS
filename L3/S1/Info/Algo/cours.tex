@@ -12,7 +12,7 @@
 \section{Organisation}
 Mail Tatiana : \url{starikovskaya@di.ens.fr}
 Homeworks are 30\% of the final grade, final (theory from lecture)
-Textbooks : 
+Textbooks :
 \begin{itemize}
     \item \textsl{Introduction to Algorithms} - Cormen, Leiserson, Riverst, Stein
     \item \textsl{Algorithms on strings, trees, and sequences} - Gusfield
@@ -26,16 +26,16 @@ Algorithm take Inputs and give an output.
     Find a new prime of form $2^{n} - 1$
 \end{openpb}
 Algorithms do not depend on the language. Algorithms should be simple, fast to write and efficient.
-Word RAM model : Two Parts : one with a constant number of registers of $w$ bits with direct access, and one with any number of registers, only with indirect access (pointers). 
-Allows for elementary operations: basic arithmetic and bitwise operations on registers, conditionals, goto, copying registers, halt and malloc. 
+Word RAM model : Two Parts : one with a constant number of registers of $w$ bits with direct access, and one with any number of registers, only with indirect access (pointers).
+Allows for elementary operations: basic arithmetic and bitwise operations on registers, conditionals, goto, copying registers, halt and malloc.
 To index the memory storing input of size $n$ with $n$ words, we need register length to verify $w \geq \log n$
-Algorithms can always be rewritten using only elementary operations. 
-Complexity : 
+Algorithms can always be rewritten using only elementary operations.
+Complexity :
 \begin{itemize}
     \item $Space(n)$ is the maximum number of memory words used for input of size $n$
     \item $Time(n)$ is the maximum number of \textsl{elementary} operations used for input of size $n$
 \end{itemize}
-Complexity Notations : 
+Complexity Notations :
 \begin{itemize}
     \item $f \in \mathcal{O}(g)$ if $\exists n_0 \in \mathbb{N}, c \in \mathbb{R}_{+},\ f(n) \leq c \cdot g(n), \ \forall n \geq n_0$
     \item $f \in \Omega(g)$ if $\exists n_0 \in \mathbb{N}, c \in \mathbb{R}_{+},\ f(n) \geq c \cdot g(n), \ \forall n \geq n_0$
@@ -47,13 +47,13 @@ Complexity Notations :
 Way to store elements of a data base that is created to answer frequently asked queries using pre-processing.
 We care about space used, construction, query and update time.
 Can be viewed as an algorithm, which analysed on basics.
-Containers are basic Data Structures, maintaining the following operations : 
+Containers are basic Data Structures, maintaining the following operations :
 \begin{enumerate}
     \item Random Access : given $i$, access $e_{i}$
     \item Access first/last element
     \item Insert an element anywher
     \item Delete any element
-\end{enumerate} 
+\end{enumerate}
 
 \subsection{Array}
 An array is a pre-allocated contiguous memory area of a \emph{fixed} size. It has random access in $\mathcal{O}(1)$, but doesn't allow insertion nor deletion.
@@ -77,9 +77,9 @@ It has random access in $\mathcal{O}(n)$, access/insertion/deletion at head/tail
         \Input
         $ L, x$
         \EndInput
-        \State $x.next \gets L.head$ 
+        \State $x.next \gets L.head$
         \If{$L.head \neq NIL$}
-            \State $L.head.prev \gets x$
+        \State $L.head.prev \gets x$
         \EndIf
         \State $L.head \gets x$
         \State $x.prev = Nil$
@@ -103,7 +103,7 @@ Solve smalle sub-problems to solve a large one.
 \subsection{Dynamic Programming}
 Break the problem into many closely related sub-problems, memorize the result of the sub-problems to avoid repeated computation
 
-Examples : 
+Examples :
 \begin{algorithm}
     \caption{Recursive Fibonacci Numbers \\ Complexity: Exponential}
     \begin{algorithmic}
@@ -113,10 +113,10 @@ Examples :
         \EndInput
         \If {$n \leq 1$}
 
-            \Return $n$
+        \Return $n$
         \EndIf\\
         \Return RFibo($n-1$) + RFibo($n-2$)
-    \end{algorithmic}        
+    \end{algorithmic}
 \end{algorithm}
 
 \begin{algorithm}
@@ -128,14 +128,14 @@ Examples :
         \State $Tab \gets zeros(n)$ \Comment $zeros(n)$ returns a $n$-array of zeros.
         \State $Tab[0] \gets 0$
         \State $Tab[1] \gets 1$
-        \For{$i \gets 2$ to $n$} 
-            \State $Tab[i] = Tab[i-1] + Tab[i-2]$
+        \For{$i \gets 2$ to $n$}
+        \State $Tab[i] = Tab[i-1] + Tab[i-2]$
         \EndFor\\
         \Return Tab[n]
-    \end{algorithmic}        
+    \end{algorithmic}
 \end{algorithm}
 
-Levenshtein Distance between two strings can be computed in $\mathcal{O}(mn)$ instead of exponential time. Based on \url{https://arxiv.org/pdf/1412.0348.pdf}, this is the best one can do. 
+Levenshtein Distance between two strings can be computed in $\mathcal{O}(mn)$ instead of exponential time. Based on \url{https://arxiv.org/pdf/1412.0348.pdf}, this is the best one can do.
 RNA folding : retrieving the 3D shape of RNA based on their representation as strings. Currently, we know it is possible to find $\mathcal{O}(n^3)$, in $\tilde{\mathcal{O}}(n^{2.8606})$ and if \emph{SETH} is true, there is no $\mathcal{O}(n^{\omega - \epsilon})$. We know $\omega \in \left[2, 2.3703\right)$
 
 \begin{openpb}
@@ -145,32 +145,32 @@ RNA folding : retrieving the 3D shape of RNA based on their representation as st
 Knapsack problem : An optimization problem with bruteforce complexity $\mathcal{O}(2^{n})$.
 \begin{algorithm}
     \caption{Knapsack : Dynamic Programming \\
-    Time = $\mathcal{O}(nW)$ | Space = $\mathcal{O}(nW)$}
+        Time = $\mathcal{O}(nW)$ | Space = $\mathcal{O}(nW)$}
     \begin{algorithmic}
         \Input $\ W, w, v$ \Comment Capacity, weight and values vectors.
         \EndInput
 
         \State $KP = zeros(n, W)$
 
-        \For {$i \gets 0$ to $n$}  
-            \State $KP[i, 0] = 0$
+        \For {$i \gets 0$ to $n$}
+        \State $KP[i, 0] = 0$
         \EndFor
 
-        \For {$w \gets 0$ to $W$}  
-            \State $KP[0, w] = 0$
+        \For {$w \gets 0$ to $W$}
+        \State $KP[0, w] = 0$
         \EndFor
-    
-        \For {$i \gets 0$ to $n$}  
-            \For {$w \gets 0$ to $W$}  
-                \If {$w < w_{i}$}
-                    \State $KP[i, w] \gets KP[i-1, w]$
-                \Else
-                    \State $KP[i, w] = \max\begin{cases}
-                        &KP[i-1, w] \\
-                        &KP[i-1, w - w_{i}] + v_{i}
-                    \end{cases}$.
-                \EndIf
-            \EndFor
+
+        \For {$i \gets 0$ to $n$}
+        \For {$w \gets 0$ to $W$}
+        \If {$w < w_{i}$}
+        \State $KP[i, w] \gets KP[i-1, w]$
+        \Else
+        \State $KP[i, w] = \max\begin{cases}
+                 & KP[i-1, w]                 \\
+                 & KP[i-1, w - w_{i}] + v_{i}
+            \end{cases}$.
+        \EndIf
+        \EndFor
         \EndFor\\
         \Return $KP[n, W]$
     \end{algorithmic}
@@ -191,7 +191,7 @@ Algorithm : Iteratively select the greatest value-per-weight ratio. \\
     Assume that $OPT \neq ALG$, let $i$ be the smallesst index such $p_{i} \neq q_{i}$. There is $p_{i} > q_{i}$ by construct. \\
     Thus, there exists $j > i$ such that $p_{j} < q_{j}$. We set $q' = (q_{1}^{'}, \ldots, q_{n}^{'}) = (q_{1}, \ldots, q_{i-1}, q_{i} + \epsilon, q_{i+1}, \ldots, q_{j} - \epsilon\frac{w_{i}}{w_{j}}, \ldots, q_{n})$\\
     $q^{'}$ is a feasible solution : $\sum\limits_{i = 1}^{n} q_{i}^{'} \cdot w_{i} = \sum\limits_{i = 1}^{n} q_{i} w_{i} \leq W$\\
-    Yet, $\sum\limits_{i = 1}^{n} q_{i}^{'} \cdot v_{i} > \sum\limits_{i = 1}^{n} q_{i} \cdot v_{i}$, ce qui contredit la 
+    Yet, $\sum\limits_{i = 1}^{n} q_{i}^{'} \cdot v_{i} > \sum\limits_{i = 1}^{n} q_{i} \cdot v_{i}$, ce qui contredit la
 \end{proof}
 
 \part[Recursion]{Lecture 2 - 5/10}
@@ -201,7 +201,7 @@ Divide a problem into smaller ones to solve those, then combine the solutions to
 Example : \textsl{Merge Sort} : Its complexity verifies $T(n) = T(\lceil n/2\rceil) + T(\lfloor n/2 \rfloor) + \O(n)$. From that we will derive that $T(n) = \O(n\log n)$
 
 \section{Analysis of Recursive Algorithms}
-We have recurrences we want to solve. We have three methods : 
+We have recurrences we want to solve. We have three methods :
 
 
 \subsection{Substitution Method}
@@ -212,16 +212,16 @@ The method :
 \end{enumerate}
 For \textsl{Merge Sort}: we guess $T(n) \leq c \cdot n\log_{2}n, \forall n \geq 2$. We choose $c$ that verifies that property until $n = 6$. \\
 Substituting in the recurrence equation : \[T(n) \leq cn\log_{2}\frac{n}{2} + c\log_{2}\frac{n}{2} + c\frac{n+2}{2} + a\cdot n = c \dot n\log_{2}n + a \cdot n + c \cdot \log_{2}n - c\frac{n}{2}\]
-If we then choose $c$ so that it is bigger than $20a$ we get : 
+If we then choose $c$ so that it is bigger than $20a$ we get :
 \[T(n) \leq cn\log_{2}n + a\cdot n - c\cdot n/20 \leq cn\log_{2}n\]
 
 \subsection{Recursion-tree Method}
 \begin{enumerate}
-    \item Simplify the equation : 
-    \begin{itemize}
-        \item Delete floors and ceils
-        \item Suppose $n$ is of a good form
-    \end{itemize}
+    \item Simplify the equation :
+          \begin{itemize}
+              \item Delete floors and ceils
+              \item Suppose $n$ is of a good form
+          \end{itemize}
     \item Draw a tree, rooted with the added term and the recursive calls
     \item Start again, and recursively fill the tree
 \end{enumerate}
@@ -230,12 +230,12 @@ We get a tree of depth $\log_{k}n$ if $n$ is divided by $k$ in recursive calls. 
 \section{Master Theorem}
 \subsection{The Theorem}
 \begin{theorem}[Master Theorem]\label{thm:MT}
-    If we have recurrence equation $T(n) = aT(n/b) + f(n)$ where $a \geq 1, b > 1$ are integers, $f(n)$ is asymptotically positive. Let $r = \log_{b}a$, we have : 
+    If we have recurrence equation $T(n) = aT(n/b) + f(n)$ where $a \geq 1, b > 1$ are integers, $f(n)$ is asymptotically positive. Let $r = \log_{b}a$, we have :
     \begin{enumerate}
         \item If $f(n) = \O(n^{r-\epsilon})$ for some $\epsilon > 0$, then $T(n) = \Theta(n^r)$
         \item If $f(n) = \Theta(n^{r})$ then $T(n) = \Theta(n^{r}\log n)$
         \item If $f(n) = \Omega(n^{r + \epsilon})$ for some $\epsilon > 0$, and $af(n/b) \leq cf(n)$ for some constant $c < 1$ and all sufficiently large $n$ (regularity condition) then $T(n) = \Theta(f(n))$.
-    \end{enumerate} 
+    \end{enumerate}
 \end{theorem}
 \begin{remark}
     The Master Theorem \ref{thm:MT} does not cover all possible cases for $f(n)$. Example : $f(h) = h^{r}/\log h$
@@ -245,31 +245,31 @@ We get a tree of depth $\log_{k}n$ if $n$ is divided by $k$ in recursive calls. 
 \end{remark}
 
 \section{The Proof}
-    Plan : \begin{itemize}
-        \item Analyse the recurrence as if $T$ is defined over reals (continuous version)
-        \item Prove the discrete version
-    \end{itemize}
+Plan : \begin{itemize}
+    \item Analyse the recurrence as if $T$ is defined over reals (continuous version)
+    \item Prove the discrete version
+\end{itemize}
 
 \subsection{Continuous Master Theorem}
 \begin{proof}
     \begin{lemma}
         Define $T(n) = \begin{cases}
-            \Theta(1) &\text{if } n \leq \hat{n}\\
-            aT(n/b) + f(n) &\text{if } n > \hat{n}
-        \end{cases}$
+                \Theta(1)      & \text{if } n \leq \hat{n} \\
+                aT(n/b) + f(n) & \text{if } n > \hat{n}
+            \end{cases}$
         Then \[T(n) = \Theta\left(n^{r}\right) + \sum_{k=0}^{\lceil \log_{b}(n/\hat{n})\rceil - 1}a^{k}f(n/b^{k})\]
     \end{lemma}
     \begin{proof}
-        In the Recursion-Tree, stopped when the argument of $T$ is smaller than $\hat{n}$ which is when depth is $\lceil \log_{b}(n/\hat{n})\rceil - 1$, we get : 
+        In the Recursion-Tree, stopped when the argument of $T$ is smaller than $\hat{n}$ which is when depth is $\lceil \log_{b}(n/\hat{n})\rceil - 1$, we get :
         \[
             \begin{aligned}
-            T(n) &\leq \sum_{k=0}^{\lceil \log_{b}(n/\hat{n})\rceil - 1}a^{k}f(n/b^{k}) + \Theta(a^{log_{b}(n/\hat{n})})\\ &= \sum_{k=0}^{\lceil \log_{b}(n/\hat{n})\rceil - 1}a^{k}f(n/b^{k}) + \Theta(a^{\log_{b}(n)})\\ &= \sum_{k=0}^{\lceil \log_{b}(n/\hat{n})\rceil - 1}a^{k}f(n/b^{k}) + \Theta(n^{\log_{b}(a)})
+                T(n) & \leq \sum_{k=0}^{\lceil \log_{b}(n/\hat{n})\rceil - 1}a^{k}f(n/b^{k}) + \Theta(a^{log_{b}(n/\hat{n})}) \\ &= \sum_{k=0}^{\lceil \log_{b}(n/\hat{n})\rceil - 1}a^{k}f(n/b^{k}) + \Theta(a^{\log_{b}(n)})\\ &= \sum_{k=0}^{\lceil \log_{b}(n/\hat{n})\rceil - 1}a^{k}f(n/b^{k}) + \Theta(n^{\log_{b}(a)})
             \end{aligned}
         \]
     \end{proof}
-    Back to the proof : 
+    Back to the proof :
     \begin{lemma}
-        Define $g(n) = \Theta(n^{r}) + \sum_{k= 0}^{q} a^{k}f(n/b^{k})$ Then : 
+        Define $g(n) = \Theta(n^{r}) + \sum_{k= 0}^{q} a^{k}f(n/b^{k})$ Then :
         \begin{enumerate}
             \item If $f(n) = \O(n^{r - \epsilon})$ then $g(n) = \Theta(n^{r})$
             \item If $f(n) = \Theta(n^{r})$ then $g(n) = \Theta(n^{r}\log{n})$
@@ -279,64 +279,64 @@ We get a tree of depth $\log_{k}n$ if $n$ is divided by $k$ in recursive calls. 
     \begin{proof}
         \begin{enumerate}
             \item Case 1 : \[
-            g(n)  
-            \begin{aligned}
-                &= \Theta(n^{r}) + \sum_{k= 0}^{q} a^{k}f(n/b^{k}) \\ 
-                &= \Theta(n^{r}) + \O\left(\sum_{k= 0}^{q} a^{k}(n/b^{k})^{r - \epsilon}\right)\\
-            \end{aligned}
-            \]
-            However : 
-            \[
-                \begin{aligned}
-                    \sum_{k= 0}^{q} a^{k}(n/b^{k})^{r - \epsilon} &= n^{r-\epsilon}\sum_{k = 0}^{q} (ab^{\epsilon}/b^{r})^{k}\\
-                    &= n^{r-\epsilon}\sum_{k=0}^{\lceil \log_{b}(n/\hat{n})\rceil - 1}(b^{\epsilon})^{k} = \O(n^{r - \epsilon}(n/\hat{n})^{epsilon})
-                \end{aligned}    
-            \]
-            Thus : $g(n) = \Theta(n^{r})$
-            % --------------------------------------------------------------------------
-            \item Case 2 : We have : 
-            \[
-            \begin{aligned}
-                g(n) &= \Theta(n^{r}) + \sum_{k=0}^{q} a^{k}f(n/b^{k})\\
-                &= \Theta(n^{r}) + \Theta\left(\sum_{k=0}^{q}a^{k}(n/b^{k})^{r}\right)\\
-            \end{aligned}    
-            \]
-            However : 
-            \[
-              \begin{aligned}
-                \sum_{k=0}^{q}a^{k}(n/b^{k})^{r} &= n^{r}\sum_{k = 0}^{q} (a/b^{r})^{k}\\
-                &= n^{r}\sum_{k = 0}^{\lceil \log_{b}(n/\hat{n})\rceil - 1}1 = n^{r}\Theta(\log_{b}n/\hat{n})
-              \end{aligned}  
-            \]
-            % ----------------------------------------------------------------------------
-            \item Case 3 : By induction on $k$ : $a^{k}f(n/b^{k}) \leq c^{k}f(n)$. Thus : 
-            \[
-                \sum_{k = 0}^{q}a^{k}f(n/b^{k}) \leq \sum_{k = 0}^{q}c^{k}f(n) = f(n) \sum_{k= 0}^{q}c^{k} = \Theta(f(n))
-            \]
+                      g(n)
+                      \begin{aligned}
+                           & = \Theta(n^{r}) + \sum_{k= 0}^{q} a^{k}f(n/b^{k})                              \\
+                           & = \Theta(n^{r}) + \O\left(\sum_{k= 0}^{q} a^{k}(n/b^{k})^{r - \epsilon}\right) \\
+                      \end{aligned}
+                  \]
+                  However :
+                  \[
+                      \begin{aligned}
+                          \sum_{k= 0}^{q} a^{k}(n/b^{k})^{r - \epsilon} & = n^{r-\epsilon}\sum_{k = 0}^{q} (ab^{\epsilon}/b^{r})^{k}                                                                      \\
+                                                                        & = n^{r-\epsilon}\sum_{k=0}^{\lceil \log_{b}(n/\hat{n})\rceil - 1}(b^{\epsilon})^{k} = \O(n^{r - \epsilon}(n/\hat{n})^{epsilon})
+                      \end{aligned}
+                  \]
+                  Thus : $g(n) = \Theta(n^{r})$
+                  % --------------------------------------------------------------------------
+            \item Case 2 : We have :
+                  \[
+                      \begin{aligned}
+                          g(n) & = \Theta(n^{r}) + \sum_{k=0}^{q} a^{k}f(n/b^{k})                      \\
+                               & = \Theta(n^{r}) + \Theta\left(\sum_{k=0}^{q}a^{k}(n/b^{k})^{r}\right) \\
+                      \end{aligned}
+                  \]
+                  However :
+                  \[
+                      \begin{aligned}
+                          \sum_{k=0}^{q}a^{k}(n/b^{k})^{r} & = n^{r}\sum_{k = 0}^{q} (a/b^{r})^{k}                                                        \\
+                                                           & = n^{r}\sum_{k = 0}^{\lceil \log_{b}(n/\hat{n})\rceil - 1}1 = n^{r}\Theta(\log_{b}n/\hat{n})
+                      \end{aligned}
+                  \]
+                  % ----------------------------------------------------------------------------
+            \item Case 3 : By induction on $k$ : $a^{k}f(n/b^{k}) \leq c^{k}f(n)$. Thus :
+                  \[
+                      \sum_{k = 0}^{q}a^{k}f(n/b^{k}) \leq \sum_{k = 0}^{q}c^{k}f(n) = f(n) \sum_{k= 0}^{q}c^{k} = \Theta(f(n))
+                  \]
         \end{enumerate}
     \end{proof}
     We thus have proved the continuous Master Theorem.
 \end{proof}
 
-    \subsection{Discrete Master Theorem}
-    We have now showed the continuous Master Theorem, following \textsc{William Kuszmaul, Charles E. Leiserson}, \href{https://epubs.siam.org/doi/pdf/10.1137/1.9781611976496.15}{\textit{Floors and Ceilings in Divide-and-Conquer Recurrences}}, Symposium on Simplicity in Algorithms 2021.\\
-        \begin{proof}
-            See slides below
-            \includepdf[nup = 1x2, pages = 32-45]{Lecture_2.pdf}    
-        \end{proof}
-        \begin{remark}[Remarks on the Proof]
-            \begin{itemize}
-                \item Lemmas 1 to 3 serve to show that the argument does not go too far when it is rounded up or down.
-                \item Slide 36 Last Line : $\frac{2}{\beta^{i} - 1} < \frac{4}{\beta^{i}}$ for $i \geq i_{0}$. Thus : $\sum_{i = 1}^{\infty} \frac{2}{\beta^{i} - 1} < \sum_{i = 1}^{\infty}\frac{4}{\beta^{i}} + \sum_{i = 0}^{i_0}\frac{2}{\beta^{i} - 1}$ and that last sum is $\O(1)$
-                \item Slide 37 Line 3 : The first inequalities comes from the Recursion-Tree, so that we can ensure the argument does not deviate to much, by the second inequalities. 
-            \end{itemize}
-        \end{remark}
-    \subsection{Use Cases}
-    Using the Master Theorem we can show the complexity of many algorithms :
-    \begin{enumerate}
-        \item Merge Sort Complexity : $T(n) = T(\lceil n/2 \rceil) + T(\lfloor n/2 \rfloor) + \O(n) = \Theta(n\log n)$
-        \item Strassen's Algorithm for Matrix Multiplication : $T(n) = 7 T(n/2) + \Theta(n^{2}) \Rightarrow T(n) = \O(n^{\log_{2}7}) = \O(n^{2.8074})$
-    \end{enumerate}
+\subsection{Discrete Master Theorem}
+We have now showed the continuous Master Theorem, following \textsc{William Kuszmaul, Charles E. Leiserson}, \href{https://epubs.siam.org/doi/pdf/10.1137/1.9781611976496.15}{\textit{Floors and Ceilings in Divide-and-Conquer Recurrences}}, Symposium on Simplicity in Algorithms 2021.\\
+\begin{proof}
+    See slides below
+    \includepdf[nup = 1x2, pages = 32-45]{Lecture_2.pdf}
+\end{proof}
+\begin{remark}[Remarks on the Proof]
+    \begin{itemize}
+        \item Lemmas 1 to 3 serve to show that the argument does not go too far when it is rounded up or down.
+        \item Slide 36 Last Line : $\frac{2}{\beta^{i} - 1} < \frac{4}{\beta^{i}}$ for $i \geq i_{0}$. Thus : $\sum_{i = 1}^{\infty} \frac{2}{\beta^{i} - 1} < \sum_{i = 1}^{\infty}\frac{4}{\beta^{i}} + \sum_{i = 0}^{i_0}\frac{2}{\beta^{i} - 1}$ and that last sum is $\O(1)$
+        \item Slide 37 Line 3 : The first inequalities comes from the Recursion-Tree, so that we can ensure the argument does not deviate to much, by the second inequalities.
+    \end{itemize}
+\end{remark}
+\subsection{Use Cases}
+Using the Master Theorem we can show the complexity of many algorithms :
+\begin{enumerate}
+    \item Merge Sort Complexity : $T(n) = T(\lceil n/2 \rceil) + T(\lfloor n/2 \rfloor) + \O(n) = \Theta(n\log n)$
+    \item Strassen's Algorithm for Matrix Multiplication : $T(n) = 7 T(n/2) + \Theta(n^{2}) \Rightarrow T(n) = \O(n^{\log_{2}7}) = \O(n^{2.8074})$
+\end{enumerate}
 
 \section{Fast Multiplication of Polynomials}
 The sum of two degree $n$ polynomials can be done in $\O(n)$, Horner's rule for evaluation produces $\O(n)$ complexity. The naïve product can be done in $\O(n^2)$\\
@@ -348,10 +348,10 @@ It is easily done in $\O(n)$ if both polynomials are represented over the same a
 
 \subsection{Coefficient to Point-Value Conversion - Fast Fourier Transform}
 For $P = \sum_{i = 0}^{n-1} a_{i}x^{i}$, we define : \[
-  \begin{aligned}
-    &P_{odd}(x) &= a_{n-1}x^{n/2-1} + a_{n-3}x^{n/2-3} + \ldots + a_{1}x\\
-    &P_{even}(x) &= a_{n-2}x^{n/2-2} + a_{n-4}x^{n/2-4} + \ldots+ a_{2}x^{2/2} + a_{0}
-  \end{aligned}  
+    \begin{aligned}
+         & P_{odd}(x)  & = a_{n-1}x^{n/2-1} + a_{n-3}x^{n/2-3} + \ldots + a_{1}x              \\
+         & P_{even}(x) & = a_{n-2}x^{n/2-2} + a_{n-4}x^{n/2-4} + \ldots+ a_{2}x^{2/2} + a_{0}
+    \end{aligned}
 \]
 \begin{enumerate}
     \item We have : $P = xP_{odd}(x^{2}) + P_{even}(x^{2})$
@@ -372,40 +372,40 @@ Suppose we have a set $S$ over a universe $U$. We dnote by $n$ the number of key
 
 \section{Naïve Array-based implementation}
 Here we assume that no two objects have equal keys. We store $1$ in a bitvector of length $|U|$ at each position $i$ such that $i$ is in $S$.\\
-This takes $\O(|U|)$ space, for $\O(1)$ search time, and $\O(1)$ modification time. 
+This takes $\O(|U|)$ space, for $\O(1)$ search time, and $\O(1)$ modification time.
 
 \section{Chained Hash Tables}
 We give ourselves a function $h : U \rightarrow \left[1, m\right]$. We send the keys to their image by $h$ in a table. However, since we have no guarantee that $\left|U\right| \leq m$, there might be collisions.\\
 To deal with that, instead of storing in the table a boolean, we store a list of all the keys corresponding to $h(k)$. \\
 Then we insert a key in constant time $\O(1)$, search a key in time $\O(\left|h[key]\right|)$ and delete a key in time $\O(\left|h[key]\right|)$ since in the worst case the key is at the end of the list.\\
 
-Further analysis leads to the following theorem. 
+Further analysis leads to the following theorem.
 \begin{theorem}[Simple Uniform Hashing Assumption]
     Assuming SUHA : "\textit{$h$ equally distributes the keys into the table slots}", and assuming $h(x)$ can be computed in $\O(1)$, $E\left[T_{search}(n)\right] = \O\left(1 + \frac{n}{m}\right)$, and same for deletion time. \\
-    Formally, SUHA is : 
+    Formally, SUHA is :
     \[
         \begin{aligned}
-            \forall y \in \left[1, \abs{T}\right] & \mathbb{P}\left(h(x) = y\right) = \frac{1}{\abs{T}}\\
+            \forall y \in \left[1, \abs{T}\right]                & \mathbb{P}\left(h(x) = y\right) = \frac{1}{\abs{T}}                                \\
             \forall y_{1}, y_{2} \in \left[1, \abs{T}\right]^{2} & \mathbb{P}\left(h(x_{1}) = y_{1},\ h(x_{2}) = y_{2}\right) = \frac{1}{\abs{t}^{2}}
-        \end{aligned}    
+        \end{aligned}
     \]
 \end{theorem}
 \begin{proof}
     \begin{enumerate}
         \item Unsuccessful Search : Suppose that $k_{0}, \ldots, k_{n-1}$ are keys in the dictionary and we perform an unsuccessful search for a key $k$.
-        The number of comparisons is : $\sum_{i = 0}^{n-1} \mathbb{1}_{h(k) = h(k_{i})}$. Then, the expected time is : $\mathbb{E}[T_{search}] = \frac{n}{\abs{T}}$ by SUHA.
+              The number of comparisons is : $\sum_{i = 0}^{n-1} \mathbb{1}_{h(k) = h(k_{i})}$. Then, the expected time is : $\mathbb{E}[T_{search}] = \frac{n}{\abs{T}}$ by SUHA.
         \item Successful Search : Suppose keys were introduced in order $k_{0}, \ldots, k_{n-1}$. $k_{i}$ appears before any of $k_{0}, \ldots, k_{i-1}$ and after any of $k_{i+1}, \ldots, k_{n-1}$ that are in the same linked list. Then, to search for $k_{i}$, we need $\sum_{j = i + 1}^{n- 1} \mathbb{1}_{h(k_{j}) = h(k_{i})}$. Under SUHA, the expectation of each of these variables is $\frac{1}{\abs{T}}$. Then, the average expected search time is : $\frac{1}{n}\sum_{i = 0}^{n-1} = 1 + \frac{1}{n}\sum_{i = 0}^{n-1}\frac{(n-1-i)}{\abs{T}} = \O(1 + \frac{n}{\abs{T}})$
     \end{enumerate}
-    This concludes the proof of the theorem. 
+    This concludes the proof of the theorem.
 \end{proof}
 
 Good hash functions are functions that distribute the keys evenly. Yet, we do not know what the keys are, and thus will need various heuristics to answer this question. At least, without loss of generality, we can assume that keys are integers.
 
 \subsection{Heuristic Hash Functions}
-    \begin{itemize}
-        \item Division Method : $h(k) = k \mod m$. It is better to choose $m$ to be a prime number, and avoid $m = 2^{p}$.
-        \item Multiplication Method : $h(k) = \left\lfloor m \left\{k\cdot A\right\}\right\rfloor$. $A \in (0, 1)$ and $m = 2^{p}$.
-    \end{itemize}
+\begin{itemize}
+    \item Division Method : $h(k) = k \mod m$. It is better to choose $m$ to be a prime number, and avoid $m = 2^{p}$.
+    \item Multiplication Method : $h(k) = \left\lfloor m \left\{k\cdot A\right\}\right\rfloor$. $A \in (0, 1)$ and $m = 2^{p}$.
+\end{itemize}
 Yet, fixing the function can allow anyone to construct a probability distribution for which the function will be "bad".
 
 \subsection{Universal Family of Hash Functions}
@@ -417,7 +417,7 @@ $H = \left\{h : U \rightarrow \left[0, \abs{T}-1\right]\right\}$ is Universal if
     If $h$ is a hash function chosen uniformly at random from a universal family of hash functions. Suppose that $h(k)$ can be computed in constant time and there are at most $n$ keys. Then the expected search time is $\O(1 + \frac{n}{\abs{T}})$
 \end{theorem}
 \begin{proof}
-    Same as the case when $h$ satisfies SUHA. Observe that the probability comes this time from choosing the function. 
+    Same as the case when $h$ satisfies SUHA. Observe that the probability comes this time from choosing the function.
 \end{proof}
 
 \begin{theorem}
@@ -432,20 +432,20 @@ $H = \left\{h : U \rightarrow \left[0, \abs{T}-1\right]\right\}$ is Universal if
 
 
 \section{Open Addressing}
-Elements are stored in the table. To insert, we probe the hash table until we find $x$ or an empty slot. If we find an empty slot, insert $x$ here. To define which slots to probe, we use a hash function that depends on the key and the probe number. To search, we probe the hash table until we either find $x$ (return YES) or an empty slot (return NO). In the analysis, we will assume $h$ to be uniform. 
+Elements are stored in the table. To insert, we probe the hash table until we find $x$ or an empty slot. If we find an empty slot, insert $x$ here. To define which slots to probe, we use a hash function that depends on the key and the probe number. To search, we probe the hash table until we either find $x$ (return YES) or an empty slot (return NO). In the analysis, we will assume $h$ to be uniform.
 
 \begin{theorem}[Analysis]
-    Given an open-address hash-table with load factor $\alpha = \frac{n}{\abs{T}} < 1$, the expected number of probes in an unsuccessfulsearch is at most $\frac{1}{1-\alpha}$, assuming uniform hashing. 
+    Given an open-address hash-table with load factor $\alpha = \frac{n}{\abs{T}} < 1$, the expected number of probes in an unsuccessfulsearch is at most $\frac{1}{1-\alpha}$, assuming uniform hashing.
 \end{theorem}
 \begin{proof}
-    An unsuccessful search on $x$ means that every probed slot except the last one is occupied and does not contain $x$, and the last one is empty. 
-    We define $A_{i}$ the event " The $i$-th probe occurs and is occupied.". By Bayes's Theorem, we must estimate : 
+    An unsuccessful search on $x$ means that every probed slot except the last one is occupied and does not contain $x$, and the last one is empty.
+    We define $A_{i}$ the event " The $i$-th probe occurs and is occupied.". By Bayes's Theorem, we must estimate :
     \[
         \mathbb{P}[\text{\# of probes} \geq i] = \prod_{k = 1}^{i - 1} \mathbb{P}[A_{k} \mid \bigcap\limits_{j = 1}^{k - 1} A_{j}]
     \]
     But we have : $\mathbb{P}[A_{j}\mid A_{1} \cap \ldots \cap A_{j - 1}] = \frac{n - j + 2}{\abs{T} - j + 2}$
     So we have : $\mathbb{P}[\text{\# of probes} \geq i] \leq \frac{n}{\abs{T}}^{i - 1} = \alpha^{i - 1}$
-    Then, the expected number of probes is : 
+    Then, the expected number of probes is :
     \[
         \sum_{i = 1}^{+\infty} \mathbb{P}[\text{\# of probes} \geq i] \leq \sum_{i = 1}^{+\infty} \alpha^{i - 1} = \frac{1}{1 - \alpha}
     \]
@@ -463,7 +463,7 @@ Elements are stored in the table. To insert, we probe the hash table until we fi
 \begin{proof}
     A successful search for $x$ probes the same sequence of slots as insertion.\\
     If $x$ is the $i$-th element inserted into the table, insertion probes less than $\frac{1}{1 - \frac{i}{\abs{T}}}$ slots in expectation.
-    Therefore, the expected time of a successful search is at most : 
+    Therefore, the expected time of a successful search is at most :
     \[
         \frac{1}{n}\sum_{i = 0}^{n - 1}\frac{\abs{T}}{\abs{T} - i} = \frac{\abs{T}}{n}\sum_{i = 0}^{n - 1}\frac{1}{\abs{T} - i} = \sum_{i = 0}^{\abs{T}}\frac{1}{i} - \sum_{i = 0}^{\abs{T}-n} \frac{1}{i} \leq \frac{\abs{T}}{n}\ln\frac{\abs{T}}{\abs{T} - n} = \frac{1}{\alpha}\ln\frac{1}{1 - \alpha}
     \]
@@ -472,14 +472,14 @@ Elements are stored in the table. To insert, we probe the hash table until we fi
 This is hard to implement, so we will use heuristics.
 
 \subsection{Heuristic hash functions}
-Let $h^{'}, h^{''}$ be two auxiliary hash functions. 
+Let $h^{'}, h^{''}$ be two auxiliary hash functions.
 \begin{itemize}
     \item Linear Probing : $h(k, i) = (h^{'}(k) + i) \mod \abs{T}$
-    This is easy to implement but it suffers from clustering. 
+          This is easy to implement but it suffers from clustering.
     \item Quadratic Probing : $h(k, i) = (h^{'}(k) + c_{1}i + c_{2}i^{2}) \mod \abs{T}$
-    We must choose the constants $c_{1}$ and $c_{2}$ carefully, and this still suffers from clustering. 
+          We must choose the constants $c_{1}$ and $c_{2}$ carefully, and this still suffers from clustering.
     \item Double Hashing : $h(k, i) = (h^{'}(k) + i h^{''}(k)) \mod \abs{T}$
-    To use the whole table, $h^{''}(k)$ must be relatively prime to $m$, e.g. $h^{''}(k)$ is always odd, $m = 2^{i}$.
+          To use the whole table, $h^{''}(k)$ must be relatively prime to $m$, e.g. $h^{''}(k)$ is always odd, $m = 2^{i}$.
 \end{itemize}
 
 \section{Cuckoo Hashing}
@@ -489,21 +489,21 @@ Assume that we have two hash functions $h_{1}, h_{2}$ that satisfy SUHA. We stor
 \begin{algorithmic}
     \Function{Insert}x
     \If {$ x = T[h_{1}(x)] \text{ or } x = T[h_{2}(x)]$}
-        \Return
+    \Return
     \EndIf
 
     \State $pos \gets h_{1}(x)$
     \For {$i \gets 0 \text{ to } n$}
-        \If $T[pos] = Null$
-            \State $T[pos] = x$; \Return
-        \EndIf
+    \If $T[pos] = Null$
+    \State $T[pos] = x$; \Return
+    \EndIf
 
-        \State $x \longleftrightarrow T[pos]$
-        \If {$pos = h_{1}(x)$} 
-            \State $pos \gets h_{2}(x)$
-        \Else 
-            \State $pos \gets h_{1}(x)$
-        \EndIf
+    \State $x \longleftrightarrow T[pos]$
+    \If {$pos = h_{1}(x)$}
+    \State $pos \gets h_{2}(x)$
+    \Else
+    \State $pos \gets h_{1}(x)$
+    \EndIf
     \EndFor
     \State \textsc{Rehash}
     \State \textsc{Insert}(x)
@@ -524,28 +524,28 @@ Assume that we have two hash functions $h_{1}, h_{2}$ that satisfy SUHA. We stor
 \end{proof}
 \begin{proof}
     We define the bucket of $x$ as all the cells that can be reached either from $h_{1}(x)$ or $h_{2}(x)$. $x, y$ are in the same bucket if and only if there is a path from $\left\{h_{1}(x), h_{2}(x)\right\}$ to $\left\{h_{1}(y), h_{2}(y)\right\}$. Then :
-\[
-    \mathbb{P}[x, y \text{ are in the same bucket}] \leq 4 \sum_{l = 1}^{\infty}\frac{1}{c^{l}\abs{T}} = \frac{4}{(c - 1)\abs{T}}
-\]
-So : 
-\[
-    \mathbb{E}[\abs{\text{bucket of } x}] = \mathbb{E}\sum X_{x, y} = \sum \mathbb{E}[X_{x, y}] = \sum \mathbb{P}[x, y \text{ are in the same bucket}] \leq \frac{4}{c - 1}
-\]    
-Hence, in the absence of rehash, expected insertion time in constant.\\
+    \[
+        \mathbb{P}[x, y \text{ are in the same bucket}] \leq 4 \sum_{l = 1}^{\infty}\frac{1}{c^{l}\abs{T}} = \frac{4}{(c - 1)\abs{T}}
+    \]
+    So :
+    \[
+        \mathbb{E}[\abs{\text{bucket of } x}] = \mathbb{E}\sum X_{x, y} = \sum \mathbb{E}[X_{x, y}] = \sum \mathbb{P}[x, y \text{ are in the same bucket}] \leq \frac{4}{c - 1}
+    \]
+    Hence, in the absence of rehash, expected insertion time in constant.\\
 
-The probability that we need a rehash is at most probability that there is a cycle, i.e. a path from $i$ to $i$ : $\frac{4}{c - 1} \leq \frac{1}{2}$.
-The probability that we will need $d$ rehashes is then at most $\frac{1}{2^{d}}$.
-Thus, the expected time per insertion is : 
-\[
-    \frac{1}{n}\cdot\O(n)\sum_{d = 1}^{+\infty}\frac{1}{2^{d}} = \O(1)
-\]
+    The probability that we need a rehash is at most probability that there is a cycle, i.e. a path from $i$ to $i$ : $\frac{4}{c - 1} \leq \frac{1}{2}$.
+    The probability that we will need $d$ rehashes is then at most $\frac{1}{2^{d}}$.
+    Thus, the expected time per insertion is :
+    \[
+        \frac{1}{n}\cdot\O(n)\sum_{d = 1}^{+\infty}\frac{1}{2^{d}} = \O(1)
+    \]
 \end{proof}
 
 \subsection{Rolling Hash Functions}
 \begin{definition}
-    The Karp-Rabin fingerprint of a string $S = s_{1}\ldots s_{m}$ is : 
+    The Karp-Rabin fingerprint of a string $S = s_{1}\ldots s_{m}$ is :
     \[
-        \phi(s_{1}\ldots s_{m}) = \sum_{i = 1}^{m}s_{i}r^{m - 1}\mod p    
+        \phi(s_{1}\ldots s_{m}) = \sum_{i = 1}^{m}s_{i}r^{m - 1}\mod p
     \]
     where $p$ is a big enough prime and $r \in \mathbb{F}_{p}$.
 \end{definition}
@@ -556,30 +556,30 @@ Thus, the expected time per insertion is :
     \end{itemize}
 \end{proposition}
 \begin{proof}
-    Let $\sigma$ be the size of the alphabet, $p \geq max \left\{\sigma, n^{c}\right\}$ where $c > 1$ is a constant. We have: 
+    Let $\sigma$ be the size of the alphabet, $p \geq max \left\{\sigma, n^{c}\right\}$ where $c > 1$ is a constant. We have:
     \[
         \phi(S) = \phi(T) \Leftrightarrow \sum_{i = 1}^{m}(s_{i} - t_{i}) \cdot r^{m - i} \mod p = 0
     \]
     Hence, $r$ is a root of $P(x) = \sum_{i = 1}^{m}(s_{i} - t_{i}) \cdot x^{m-i}$ a polynomial over $\mathbb{F}_{p}$. The probability of such event is at most $\frac{m}{p} \leq \frac{1}{n^{c-1}}$.
 \end{proof}
-The Karp-Rabin algorithm is as follows : 
+The Karp-Rabin algorithm is as follows :
 \begin{itemize}
     \item Compute the fingerprint of the pattern
     \item Compare it with the fingerprint of each $m$-length substring of the text. If the fingerprint is equal to the fingerprint of a substring, report it as an occurrence
 \end{itemize}
 \begin{proposition}
-    We have : 
+    We have :
     \[
-        \phi(s_{1}\ldots s_{j+1}) = \phi(s_{1}\ldots s_{j})\cdot r + s_{j+1} \mod p    
+        \phi(s_{1}\ldots s_{j+1}) = \phi(s_{1}\ldots s_{j})\cdot r + s_{j+1} \mod p
     \]
 \end{proposition}
 \begin{proof}
-    Observe that : 
+    Observe that :
     \[
-    \begin{aligned}
-        \phi(s_{1}\ldots s_{j+1}) &= \sum_{i = 1}^{j+1}s_{i}r^{j+1-i} \mod p \\
-        \
-    \end{aligned}    
+        \begin{aligned}
+            \phi(s_{1}\ldots s_{j+1}) & = \sum_{i = 1}^{j+1}s_{i}r^{j+1-i} \mod p \\
+            \
+        \end{aligned}
     \]
 \end{proof}
 
@@ -588,7 +588,7 @@ The Karp-Rabin algorithm is as follows :
 We can expect to have $\frac{n(n-1)}{m} - 1$ collisions, i.e. if we consider the sets of pairs of values with collisions, we can expect its cardinality to be $2\times (\frac{n(n-1)}{m} - 1)$.
 
 \subsection{Exercise 2}
-By definition of $h$, the sets $\left(h^{-1}(i)\right)_{i \in \left[1, m\right]}$ form a partition of $U$. Thus, since $\abs{U} > nm$, there exists $i$ such that $\abs{h^{-1}(i)} > n$, giving us the result. 
+By definition of $h$, the sets $\left(h^{-1}(i)\right)_{i \in \left[1, m\right]}$ form a partition of $U$. Thus, since $\abs{U} > nm$, there exists $i$ such that $\abs{h^{-1}(i)} > n$, giving us the result.
 
 \subsection{Exercise 3}
 We get, by sum, if $k = k_{n}\ldots k_{0}$, $h(k) = \sum_{i = 0}^{n} k_{i}*(2^{p})^{i} \mod 2^{p}-1 = \left[\sum_{i = 0}^{n} k_{i}\right] \mod 2^{p}-1$. This formula shows the order of the caracters doesn't matter in the value by the hash function.
@@ -601,56 +601,56 @@ It is sufficient to find the cardinality of the set $\left\{ih_{2}(k) \mid i \in
 \subsection{Exercise 6}
 \subsubsection{Question a.}
 We know that the number of probes during insertion is the number of probes seen during search.\\
-An unsuccessful search on $x$ means that every probed slot except the last one is occupied and does not contain $x$, and the last one is empty. 
-We define $A_{i}$ the event " The $i$-th probe occurs and is occupied.". By Bayes's Theorem, we must estimate : 
+An unsuccessful search on $x$ means that every probed slot except the last one is occupied and does not contain $x$, and the last one is empty.
+We define $A_{i}$ the event " The $i$-th probe occurs and is occupied.". By Bayes's Theorem, we must estimate :
 \[
     \mathbb{P}[\text{\# of probes} \geq i] = \prod_{k = 1}^{i - 1} \mathbb{P}[A_{k} \mid \bigcap\limits_{j = 1}^{k - 1} A_{j}]
 \]
 But we have : $\mathbb{P}[A_{j}\mid A_{1} \cap \ldots \cap A_{j - 1}] = \frac{n - j + 2}{\abs{T} - j + 2}$\\
 So we have : $\mathbb{P}[\text{\# of probes} \geq i] \leq \frac{n}{\abs{T}}^{i - 1} = \alpha^{i - 1}$\\
-Here, $\alpha \leq \frac{1}{2}$ thus we have the result. 
+Here, $\alpha \leq \frac{1}{2}$ thus we have the result.
 
 Then, we get that the probability of the $i$-th insertion requiring strictly more than $2\log_{2}(n)$ probes is at most $\frac{1}{n^{2}}$
 
 
 \subsubsection{Question b.}
-We have : $\mathbb{P}[X > 2\log_{2}(n)] = \mathbb{P}\left[\bigcup_{i=1}^{n}{X_{i} > 2 \log_{2}(n)}\right] < \sum_{i = 1}^{n}\mathbb{P}\left[X_{i} > 2\log_{2}(n)\right] = \frac{1}{n}$. 
-The last inequality is strict as these events are not independent. 
+We have : $\mathbb{P}[X > 2\log_{2}(n)] = \mathbb{P}\left[\bigcup_{i=1}^{n}{X_{i} > 2 \log_{2}(n)}\right] < \sum_{i = 1}^{n}\mathbb{P}\left[X_{i} > 2\log_{2}(n)\right] = \frac{1}{n}$.
+The last inequality is strict as these events are not independent.
 
 \subsubsection{Question c.}
 The expected length of the longest probe sequence is :
 \[
-        \mathbb{E}[X] \leq \mathbb{P}[X \leq 2\log_{2}(n)]\times 2\log_{2}(n) + \mathbb{P}[X > 2\log_{2}(n)]\times n = \O(\log_{2}(n))
+    \mathbb{E}[X] \leq \mathbb{P}[X \leq 2\log_{2}(n)]\times 2\log_{2}(n) + \mathbb{P}[X > 2\log_{2}(n)]\times n = \O(\log_{2}(n))
 \]
 
 \subsection{Exercise 7}
 \subsubsection{Question a.}
-If $H$ is $2$-independent, then for each pair of distinct keys $x_{1}, x_{2}$ and $y_{1}, y_{2}$ is $\mathbb{P}[h(x_{1}) = y_{1}, h(x_{2}) = y_{2}] = \frac{1}{m^{2}}$. 
+If $H$ is $2$-independent, then for each pair of distinct keys $x_{1}, x_{2}$ and $y_{1}, y_{2}$ is $\mathbb{P}[h(x_{1}) = y_{1}, h(x_{2}) = y_{2}] = \frac{1}{m^{2}}$.
 If we fix $y_{1} = y_{2}$, we have : $\mathbb{P}[h(x_{1}) =y_{1}= h(x_{2})] = \frac{1}{m^{2}}$. By summing over all values for $y_{1}$ :
 $\mathbb{P}[h(x_{1}) = h(x_{2})] = \frac{1}{m}$.\\
-However, as $H$ is universal if and only if : $\mathbb{P}[h(x_{1} = h(x_{2}))\mid h \gets^{s} H] \leq \frac{1}{m}$, we have the result. 
+However, as $H$ is universal if and only if : $\mathbb{P}[h(x_{1} = h(x_{2}))\mid h \gets^{s} H] \leq \frac{1}{m}$, we have the result.
 
 \subsubsection{Question b.}
-By the same argument as in the class, $H$ is universal because we have a one-to-one mapping between $U$ and $H$. Moreover, with $x = (0, \ldots, 0) \mod p$, we get the result. 
+By the same argument as in the class, $H$ is universal because we have a one-to-one mapping between $U$ and $H$. Moreover, with $x = (0, \ldots, 0) \mod p$, we get the result.
 
 \subsubsection{Question c.}
-Again this family is universal. We have : $\mathbb{P}[h^{'}_{a, b}(x_{1}) = y_{1} \wedge h^{'}_{a, b}(x_{2}) = y_{2}] = \frac{1}{m^{2}}$ since $a$ and $b$ are uniquely determined by $h^{'}(a, b)$. 
+Again this family is universal. We have : $\mathbb{P}[h^{'}_{a, b}(x_{1}) = y_{1} \wedge h^{'}_{a, b}(x_{2}) = y_{2}] = \frac{1}{m^{2}}$ since $a$ and $b$ are uniquely determined by $h^{'}(a, b)$.
 
 \subsubsection{Question d.}
 Given the fact that we $H$ is $2$-independent, we get the result since this comes from : $\mathbb{P}[h(m) = t \wedge h(m_{0}) = t_{0}] = \frac{1}{p}^{2}$. But, knowing the family, since this family is universal, the adversary might have better knowledge of which functions have same image over $m$, he can succeed to fool Bob with probability at most $\frac{1}{p}$.
 
 \subsection{Exercise 8.}
 \subsubsection{Question a.}
-This is Langrange's Theorem. 
+This is Langrange's Theorem.
 
 \subsubsection{Question b.}
-As there is an even number of elements in $\mathbb{F}$, there are as many elements in $\mathbb{F}$ ordered with an even and an odd number. Then, by question 1, since there is a one-to-one mapping between $\mathbb{F}^{4}$ and $G$, there are, for each tuple in $\left\{\pm 1\right\}^{4}$, $2^{4} = m^{4}$ functions that suit. Thus, $H$ is 4-independent. 
+As there is an even number of elements in $\mathbb{F}$, there are as many elements in $\mathbb{F}$ ordered with an even and an odd number. Then, by question 1, since there is a one-to-one mapping between $\mathbb{F}^{4}$ and $G$, there are, for each tuple in $\left\{\pm 1\right\}^{4}$, $2^{4} = m^{4}$ functions that suit. Thus, $H$ is 4-independent.
 
 \part[Integer Sets]{Lecture 4 : 26/10}
 \localtableofcontents
 \section{Binary Search Trees}
 \begin{definition}
-    A Binary Tree is a rooted tree with every node having at most two children. Binary search trees are binary trees verifying the following : 
+    A Binary Tree is a rooted tree with every node having at most two children. Binary search trees are binary trees verifying the following :
     \begin{center}
         If a node contains element $l$, the left subtree rooted at the left child contains only elements $\leq l$ and the right subtree elements $> l$.
     \end{center}
@@ -669,7 +669,7 @@ $h$ is not necessarily small, there are many implementations to bound $h$.
         \item The root is black
         \item Every leaf (NIL) is black
         \item If a node is red, both its children are black
-        \item For each node, all paths from the node to descendant leaves contain the same number of black nodes. 
+        \item For each node, all paths from the node to descendant leaves contain the same number of black nodes.
     \end{enumerate}
 \end{definition}
 \begin{lemma}
@@ -677,20 +677,20 @@ $h$ is not necessarily small, there are many implementations to bound $h$.
 \end{lemma}
 \begin{proof}
     We introduce $bh(x)$ the number of black nodes in a path from $x$ to a leaf.\\
-    By induction on $bh(x)$, the subtree rooted at $x$ contains at least $2^{bh(x)} - 1$ : 
+    By induction on $bh(x)$, the subtree rooted at $x$ contains at least $2^{bh(x)} - 1$ :
     \begin{itemize}
         \item Initialization : $bh(x) = 0$ implies the tree has more than $0$ nodes which is true.
-        \item Heredity : 
-        \begin{itemize}
-            \item If $x$ is black, let $y_{1}, y_{2}$ denote its children. We have $bh(y_{1}) = bh(x) - 1 = bh(y_{2}) - 1$. By summing, we get the result.
-            \item If $x$ is red, both of its children are black by rule 4. Let us denote the grand children of $x$ by $z_{1}, \ldots, z_{4}$. We have : $bh(z_{i}) = bh(x) - 1$. By sum, we get the result.
-        \end{itemize} 
+        \item Heredity :
+              \begin{itemize}
+                  \item If $x$ is black, let $y_{1}, y_{2}$ denote its children. We have $bh(y_{1}) = bh(x) - 1 = bh(y_{2}) - 1$. By summing, we get the result.
+                  \item If $x$ is red, both of its children are black by rule 4. Let us denote the grand children of $x$ by $z_{1}, \ldots, z_{4}$. We have : $bh(z_{i}) = bh(x) - 1$. By sum, we get the result.
+              \end{itemize}
     \end{itemize}
-    Then if $h$ the black height of the tree, $n\geq 2^{h}-1$ and $h \leq \log{n+1}$. Since in any root-to-leaf path, the number of nodes is at most twice the number of black nodes per rule 4, the lemma follows. 
+    Then if $h$ the black height of the tree, $n\geq 2^{h}-1$ and $h \leq \log{n+1}$. Since in any root-to-leaf path, the number of nodes is at most twice the number of black nodes per rule 4, the lemma follows.
 \end{proof}
 
 \begin{proposition}[Insertion]
-    We insert a node into a n-node red-black tree by : 
+    We insert a node into a n-node red-black tree by :
     \begin{itemize}
         \item Inserting the node into $T$ as if it were an ordinary binary search tree
         \item We color it red
@@ -699,7 +699,7 @@ $h$ is not necessarily small, there are many implementations to bound $h$.
     This is done in $\O(\log n)$.
 \end{proposition}
 
-We define the left rotation on a node $x$ whose right child is not null like this : 
+We define the left rotation on a node $x$ whose right child is not null like this :
 \[Tree(x , \alpha, Tree(y, \beta, \gamma)) \mapsto Tree(y, Tree(x, \alpha, \beta), \gamma)\]
 We define right rotations to be the reverse operation.
 \begin{proposition}
@@ -711,7 +711,7 @@ We define right rotations to be the reverse operation.
 
 \begin{proposition}[Restoring red-black properties]
     Rule $1$ is never violated. Rules $2$ and $3$ can be fixed in $\O(1)$ time. Rule $5$ is never violated as we colour the new node red.\\
-    We will try and maintain the invariant that the properties are broken in at most one node. There are three cases in which Rule $4$ can be violated : Let $z$ be the node that violates the red-black properties. 
+    We will try and maintain the invariant that the properties are broken in at most one node. There are three cases in which Rule $4$ can be violated : Let $z$ be the node that violates the red-black properties.
     \begin{enumerate}
         \item $z$'s uncle $y$ is red $\Rightarrow$ We colour $z.p$ black, colour $y$ black and $z.p.p$ red. We moved the problematic node up by two layers.
         \item $z$'s uncle $y$ is black and $z$ is a right child $\Rightarrow$ We left-rotate around the edge $z.p$-$z$, we then have $z$'s uncle $y$ to be black and $z$ to be a left child, i.e. case 3.
@@ -749,7 +749,7 @@ We define right rotations to be the reverse operation.
 \end{proposition}
 
 \begin{proposition}[Merge]
-    Suppose that we want to merge two treaps $T_{-}$ and $T_{+}$, where keys in the first tree are smaller than the keys in the second tree. We create a dummy root with priority $-\infty$ and then delete it. 
+    Suppose that we want to merge two treaps $T_{-}$ and $T_{+}$, where keys in the first tree are smaller than the keys in the second tree. We create a dummy root with priority $-\infty$ and then delete it.
 \end{proposition}
 
 \begin{proposition}[Complexity]
@@ -767,8 +767,8 @@ We denote  by $i \uparrow k$, the event $x_{i}$ if a proper ancestor of $x_{k}$ 
 
 \begin{lemma}
     Define \[
-        X(i, k) = \left\{\begin{aligned} &x_{i},\ldots, x_{k} &\text{ if } i < k \\
-            & x_{k},\ldots, x_{i} & \text{ otherwise}.
+        X(i, k) = \left\{\begin{aligned}  & x_{i},\ldots, x_{k} & \text{ if } i < k  \\
+                 & x_{k},\ldots, x_{i} & \text{ otherwise}.
         \end{aligned}\right.\]
 
     For all $i \neq k$ we have $i \uparrow k$ iff $x_{i}$ has the smallest priority in $X(i, k)$.
@@ -783,16 +783,16 @@ We denote  by $i \uparrow k$, the event $x_{i}$ if a proper ancestor of $x_{k}$ 
 \end{proof}
 
 \begin{corollary}
-    \[\mathbb{P}\left[i \uparrow k\right] = 
-    \left\{
+    \[\mathbb{P}\left[i \uparrow k\right] =
+        \left\{
         \begin{aligned}
-            \frac{1}{k - i + 1} &\text{ if } i < k\\
-            0 & \text{ if } i = k\\
+            \frac{1}{k - i + 1} & \text{ if } i < k \\
+            0                   & \text{ if } i = k \\
             \frac{1}{i - k + 1} & \text{ if } i > k
         \end{aligned}
-    \right.
+        \right.
     \]
-    Then : 
+    Then :
     \[
         \mathbb{E}\left[\texttt{depth}(x_{k})\right] = \sum_{i = 1}^{i = n}\mathbb{P}\left[i \uparrow k\right] = \sum_{i = 1}^{k - 1}\frac{1}{k - i + 1} + \sum_{k+1}^{n}\frac{1}{i - k + 1} = H_{k} - 1 + H_{n - k + 1} - 1 < 2 \ln n - 2
     \]
@@ -800,16 +800,16 @@ We denote  by $i \uparrow k$, the event $x_{i}$ if a proper ancestor of $x_{k}$ 
 \end{corollary}
 
 \begin{remark}
-    The fastest sorting algorithm is Quicksort, and it can be seen as inputing all the values in the list in a treap then taking the infix order of the treap. 
+    The fastest sorting algorithm is Quicksort, and it can be seen as inputing all the values in the list in a treap then taking the infix order of the treap.
 \end{remark}
 
 \begin{remark}
-    Tango trees are $\O(\log \log n)$-competitive and Splay trees are conjecture to be fastest in $\O(1)$-competitive, but we do not know if this is true. 
+    Tango trees are $\O(\log \log n)$-competitive and Splay trees are conjecture to be fastest in $\O(1)$-competitive, but we do not know if this is true.
 \end{remark}
 
 \section{Lower Bound for Sorting}
 The question here is : can we sort in $\O(n\log n)$ or better ?
-If comparisons only are allowed then no : indeed, any comparison-based sorting program can be thought of as defining a decision tree of possible executions. Running the same program twice on the same permutation causes it to do the exact same thing bu running it on different permutations of the same data causes a different sequence of comparisons to be made on each. 
+If comparisons only are allowed then no : indeed, any comparison-based sorting program can be thought of as defining a decision tree of possible executions. Running the same program twice on the same permutation causes it to do the exact same thing bu running it on different permutations of the same data causes a different sequence of comparisons to be made on each.
 
 \subsection{Decision Tree}
 \begin{definition}
@@ -817,13 +817,13 @@ If comparisons only are allowed then no : indeed, any comparison-based sorting p
 \end{definition}
 
 \begin{proposition}
-    The minimum height of a decision tree is the worst-case complexity of comparison-based sorting. 
+    The minimum height of a decision tree is the worst-case complexity of comparison-based sorting.
 \end{proposition}
 \begin{lemma}
     The height of any decision tree is $\Omega(n \log n)$
 \end{lemma}
 \begin{proof}
-    Since any two different permutations of $n$ elements require a different sequence of steps to sort, there must be at least $n!$ different paths from the root to leaves in the decision tree. 
+    Since any two different permutations of $n$ elements require a different sequence of steps to sort, there must be at least $n!$ different paths from the root to leaves in the decision tree.
     Thus there must be at least $n!$ different leaves in this binary tree. Since a binary tree of height $h$ has at most $2^{h}$ leaves, we know that : $n! \leq 2^{h}$ i.e. $h\geq \log(n!)$. Finally, we have $\log n! = \Omega (n \log n)$.
 \end{proof}
 \begin{theorem}
@@ -831,17 +831,17 @@ If comparisons only are allowed then no : indeed, any comparison-based sorting p
 \end{theorem}
 
 \section{Predecessor Problem}
-We want to maintain a set $S$ of integers from a universe $U = \left[1, u\right]$ subject to insertions, deletions, predecessor and succesor queries. This problem is harder than dictionaries and hashing. BTSs give a solution in $\O(n)$ space and $\Theta(\log n)$ time. 
+We want to maintain a set $S$ of integers from a universe $U = \left[1, u\right]$ subject to insertions, deletions, predecessor and succesor queries. This problem is harder than dictionaries and hashing. BTSs give a solution in $\O(n)$ space and $\Theta(\log n)$ time.
 
 \subsection{van Emde Boas Trees}
-If the time per operation satisfies : $T(u) = T(\sqrt{u}) + \O(1)$, by Substitution, $T(u) = \O(\log \log u)$. We will split $U$ into $\sqrt{u}$ chunks of size $\sqrt{u}$ size, and the recurse. 
+If the time per operation satisfies : $T(u) = T(\sqrt{u}) + \O(1)$, by Substitution, $T(u) = \O(\log \log u)$. We will split $U$ into $\sqrt{u}$ chunks of size $\sqrt{u}$ size, and the recurse.
 \begin{definition}[Recursive van Emde Boas Trees]
     \begin{itemize}
-        \item \texttt{T.summary} is a vEB-tree of size $\sqrt{u}$ containing all $i$ such that the $i$-th chunk is not empty. 
-        \item For each $1 \leq i \leq \sqrt{u}$, \texttt{T.chunk[$i$]} is a vEB-tree of size $\sqrt{u}$ containing $x \texttt{mod} \sqrt{u}$ for each $x$ in the $i$-th tree. 
-        \item \texttt{T.min} is the smallest element in $T$, not stored recursively. 
-    \end{itemize}    
-    We represent each integer $x = \langle c, i \rangle$ where 
+        \item \texttt{T.summary} is a vEB-tree of size $\sqrt{u}$ containing all $i$ such that the $i$-th chunk is not empty.
+        \item For each $1 \leq i \leq \sqrt{u}$, \texttt{T.chunk[$i$]} is a vEB-tree of size $\sqrt{u}$ containing $x \texttt{mod} \sqrt{u}$ for each $x$ in the $i$-th tree.
+        \item \texttt{T.min} is the smallest element in $T$, not stored recursively.
+    \end{itemize}
+    We represent each integer $x = \langle c, i \rangle$ where
     \begin{itemize}
         \item $c$ is the chunk coordinates : $c = x // \sqrt{u}$
         \item $i$ is the position of $x$ in the chunk : $i = x \texttt{mod} \sqrt{u}$
@@ -849,22 +849,22 @@ If the time per operation satisfies : $T(u) = T(\sqrt{u}) + \O(1)$, by Substitut
 \end{definition}
 
 \begin{proposition}[Successor Operation]
-    With the following algorithm we get the wanted complexity : 
+    With the following algorithm we get the wanted complexity :
     \begin{algorithm}
         \caption{Successor Complexity Verifies : $T(u) = T(\sqrt{u}) + \O(1)$}
         \begin{algorithmic}
             \Function \texttt{Successor}
-                \Input $\ \ (T, x = \langle c, i \rangle)$
-                \EndInput
-                \If {$x < T.min$} 
-                    \State \Return $T.min$
-                \EndIf
-                \If {$i < T.chunk[c].max$}
-                    \State \Return $\langle c, \texttt{Successor}\left(T.chunk[c], i\right) \rangle$
-                \Else 
-                    \State $c^{'} = \texttt{Successor}(T.summary, c)$
-                    \State \Return $\langle c^{'}, T.chunk[c^{'}].min\rangle$
-                \EndIf
+            \Input $\ \ (T, x = \langle c, i \rangle)$
+            \EndInput
+            \If {$x < T.min$}
+            \State \Return $T.min$
+            \EndIf
+            \If {$i < T.chunk[c].max$}
+            \State \Return $\langle c, \texttt{Successor}\left(T.chunk[c], i\right) \rangle$
+            \Else
+            \State $c^{'} = \texttt{Successor}(T.summary, c)$
+            \State \Return $\langle c^{'}, T.chunk[c^{'}].min\rangle$
+            \EndIf
             \EndFunction
         \end{algorithmic}
     \end{algorithm}
@@ -876,25 +876,25 @@ If the time per operation satisfies : $T(u) = T(\sqrt{u}) + \O(1)$, by Substitut
         \caption{Insertion Complexity Verifies : $T(u) = T(\sqrt{u}) + \O(1)$}
         \begin{algorithmic}
             \Function \texttt{Insert}
-                \Input $\ \ (T, x = \langle c, i \rangle)$
-                \EndInput
-                \If {$T.min = None$} 
-                    \State $T.min = T.max = x$
-                    \State \Return
-                \EndIf
-                \If {$x < T.min$}
-                    \State $\texttt{swap}(x, T.min)$
-                \EndIf
-                \If {$x > T.max$}
-                    \State $T.max = x$
-                \EndIf
-                \If {$T.chunk[c].min = None$}
-                    \State $\texttt{Insert}(T.summary, c)$
-                \EndIf
-                \State $\texttt{Insert}(T.chunk[c], i)$
+            \Input $\ \ (T, x = \langle c, i \rangle)$
+            \EndInput
+            \If {$T.min = None$}
+            \State $T.min = T.max = x$
+            \State \Return
+            \EndIf
+            \If {$x < T.min$}
+            \State $\texttt{swap}(x, T.min)$
+            \EndIf
+            \If {$x > T.max$}
+            \State $T.max = x$
+            \EndIf
+            \If {$T.chunk[c].min = None$}
+            \State $\texttt{Insert}(T.summary, c)$
+            \EndIf
+            \State $\texttt{Insert}(T.chunk[c], i)$
             \EndFunction
         \end{algorithmic}
-    \end{algorithm}    
+    \end{algorithm}
 \end{proposition}
 
 \begin{proposition}[Deletion]
@@ -903,25 +903,25 @@ If the time per operation satisfies : $T(u) = T(\sqrt{u}) + \O(1)$, by Substitut
         \caption{Deletion Complexity Verifies : $T(u) = T(\sqrt{u}) + \O(1)$}
         \begin{algorithmic}
             \Function \texttt{Delete}
-                \Input $\ \ (T, x = \langle c, i \rangle)$
-                \EndInput
-                \If {$x = T.min$} 
-                    \State $c = T.summary.min$
-                    \If {c = None}
-                        \State $T.min = None$. \Return
-                    \EndIf
-                    \State $x = T.min = \langle c, i = T.chunk[c].min \rangle$
-                \EndIf
-                \State $\texttt{Delete}(T.chunk[c], i)$
-                \If {$T.chunk[c].min = None$}
-                    \State $\texttt{Delete}(T.summary, c)$
-                \EndIf
-                \If {$T.summary.min = None$}
-                    \State $T.max = T.min$
-                \Else 
-                    \State {$c^{'} = T.summary.max$}
-                    \State {$T.max = \langle c^{'}, T.chunk[c^{'}].max \rangle$}
-                \EndIf
+            \Input $\ \ (T, x = \langle c, i \rangle)$
+            \EndInput
+            \If {$x = T.min$}
+            \State $c = T.summary.min$
+            \If {c = None}
+            \State $T.min = None$. \Return
+            \EndIf
+            \State $x = T.min = \langle c, i = T.chunk[c].min \rangle$
+            \EndIf
+            \State $\texttt{Delete}(T.chunk[c], i)$
+            \If {$T.chunk[c].min = None$}
+            \State $\texttt{Delete}(T.summary, c)$
+            \EndIf
+            \If {$T.summary.min = None$}
+            \State $T.max = T.min$
+            \Else
+            \State {$c^{'} = T.summary.max$}
+            \State {$T.max = \langle c^{'}, T.chunk[c^{'}].max \rangle$}
+            \EndIf
             \EndFunction
         \end{algorithmic}
     \end{algorithm}
@@ -956,7 +956,7 @@ If the time per operation satisfies : $T(u) = T(\sqrt{u}) + \O(1)$, by Substitut
     We maintain elements in groups of size in $\left[\frac{\log u}{4}, 2\log u\right]$. For each group, we build a BST, and we store representatives of the group using an x-fast tree :
     \begin{itemize}
         \item If there are fewer than $\frac{\log u}{2}$ elements, we store them in a single BST.
-        \item otherwise, suppose we add/delete an element. If a group becomes too large, we split it in two. If a group becomes too small, we merge it with its neighbour, then split if needed. 
+        \item otherwise, suppose we add/delete an element. If a group becomes too large, we split it in two. If a group becomes too small, we merge it with its neighbour, then split if needed.
     \end{itemize}
 \end{definition}
 
@@ -964,7 +964,7 @@ If the time per operation satisfies : $T(u) = T(\sqrt{u}) + \O(1)$, by Substitut
     Predecessor queries are in $\O(\log \log u)$ time, updates in $\O(\log \log u)$ expected amortised time, since insertion into the x-fast trie happens only once per $\Theta(\log u)$ new elements.
 \end{proposition}
 \begin{proof}
-    This comes directly from the definition and the definition of the x-fast trees. 
+    This comes directly from the definition and the definition of the x-fast trees.
 \end{proof}
 
 \part[Algorithms on strings]{Lecture 5 : 9/11}
@@ -973,8 +973,8 @@ If the time per operation satisfies : $T(u) = T(\sqrt{u}) + \O(1)$, by Substitut
 \begin{definition}
     An alphabet $\Sigma$ is a finite set. Elements of $\Sigma$ are letters, characters or symbols, denoted by small letters. A string (or word), is a finite sequence of letters, denoted by a capital letter. \\
     The length of a string $S = s_{1}s_{2}\ldots s_{n}$ where $s_{i} \in \Sigma$ is denoted by $\abs{S}$ and defined to be equal to $n$.\\
-    For $1 \leq i \leq j \leq S$, we say that $S[i, j] = s_{i}\ldots s_{j}$ is a substring of $S$. If $i = 1$, $S[i, j]$ is a prefix of $s$. If $j = \abs{S}$, $S[i, j]$ is a suffix of $S$. 
-    $S[i,j]$ is an occurence of a string $X$ in $S$ if $S[i, j] = X$ 
+    For $1 \leq i \leq j \leq S$, we say that $S[i, j] = s_{i}\ldots s_{j}$ is a substring of $S$. If $i = 1$, $S[i, j]$ is a prefix of $s$. If $j = \abs{S}$, $S[i, j]$ is a suffix of $S$.
+    $S[i,j]$ is an occurence of a string $X$ in $S$ if $S[i, j] = X$
 \end{definition}
 
 \section{Pattern Matching}
@@ -998,12 +998,12 @@ The naïve algorithm consists of looking, for each possible starting position in
     $B$ can be computed in $\O(\abs{P})$ time.
 \end{proposition}
 \begin{lemma}
-    First, note that : 
+    First, note that :
     \begin{enumerate}
         \item $B[1] = 0$
         \item If $X$ is a border of $P[1, k]$ of length $x$, then $X^{'} = X[1, x - 1]$ is a border of $P[1, k - 1]$.
         \item $B[k] - 1 = B[k - 1]$ if and only if $P[k] = P[B[k - 1] + 1]$.
-        \item If $X$ is a border of $X$ and $Y$ is a border of $X$, $Y$ is a border of $S$. 
+        \item If $X$ is a border of $X$ and $Y$ is a border of $X$, $Y$ is a border of $S$.
     \end{enumerate}
     Suppose that we have computed $B[1], \ldots, B[k - 1]$. We will now compute $B[k]$.\\
     By property 3, if $P[k] = P[B[k - 1] + 1]$, then $B[k] = B[k - 1] + 1$.\\
@@ -1014,14 +1014,14 @@ The naïve algorithm consists of looking, for each possible starting position in
 \begin{proof}
     \begin{itemize}
         \item Correctness : In fact, $B[1, k] \in \left\{B[k - 1] + 1, B^{2}[k - 1] + 1, \ldots, 0\right\}$.\\
-        From property 2, any border of $P[1, k]$ can be obtained by appending $P[k]$ to some border of $P[1, k - 1]$.\\
-        From property 4, $B^{j}[k - 1]$ is the $j$-th longest border of $P[1, k - 1]$.
+              From property 2, any border of $P[1, k]$ can be obtained by appending $P[k]$ to some border of $P[1, k - 1]$.\\
+              From property 4, $B^{j}[k - 1]$ is the $j$-th longest border of $P[1, k - 1]$.
         \item Time : $\texttt{Time}(B[k]) \leq \abs{B[k] - B[k - 1]}$, indeed, if $B[k] = B^{j}[k - 1] + 1$, we use $j$ steps.
-        Observe that : 
-        \[
-            -1 \leq \sum_{k}\left(B[k] - B[k - 1]\right) = \sum^{-}\left(B[k] - B[k - 1]\right) + \sum^{+}\left(B[k] - B[k - 1]\right) \leq m
-        \]
-        However, by property $2$, the sum on the positive differences if $\O(m)$. Hence, the total time is in $\O\left(\sum \abs{B[k] - B[k - 1]}\right) = \O(m)$
+              Observe that :
+              \[
+                  -1 \leq \sum_{k}\left(B[k] - B[k - 1]\right) = \sum^{-}\left(B[k] - B[k - 1]\right) + \sum^{+}\left(B[k] - B[k - 1]\right) \leq m
+              \]
+              However, by property $2$, the sum on the positive differences if $\O(m)$. Hence, the total time is in $\O\left(\sum \abs{B[k] - B[k - 1]}\right) = \O(m)$
     \end{itemize}
 \end{proof}
 
@@ -1035,16 +1035,16 @@ The naïve algorithm consists of looking, for each possible starting position in
         \State $L \gets []$
         \State $i \gets 1, \ j\gets 1$
         \While {$i \leq n - m + j$}
-            \State $(i, j) \gets \texttt{match}(i, j, m)$
-            \If {$j = m + 1$} 
-                \State $L \gets (i - m)::L$
-            \Else 
-                \If {$j = 1$}
-                    \State $i \gets i + 1$
-                \Else 
-                    \State $j \gets B[j - 1] + 1$
-                \EndIf
-            \EndIf
+        \State $(i, j) \gets \texttt{match}(i, j, m)$
+        \If {$j = m + 1$}
+        \State $L \gets (i - m)::L$
+        \Else
+        \If {$j = 1$}
+        \State $i \gets i + 1$
+        \Else
+        \State $j \gets B[j - 1] + 1$
+        \EndIf
+        \EndIf
         \EndWhile
         \Return \ $L$
     \end{algorithmic}
@@ -1085,18 +1085,18 @@ The naïve algorithm consists of looking, for each possible starting position in
 \end{definition}
 
 \begin{proposition}
-    We can construct a real-time version of KMP, by using $B^{'}[j, T[i]]$ to decide how to shift the pattern, where : 
+    We can construct a real-time version of KMP, by using $B^{'}[j, T[i]]$ to decide how to shift the pattern, where :
     \[
         B^{'}[j, a] = \max{\left\{k \mid k < j,\ P[1, k] = P[j - k + 1, j], \ P[k + 1] = a\right\}}
     \]
-    $B^{'}$ occupies $\O(m)$ space and is computed in $\O\left(m \cdot \abs{\Sigma}\right)$ time. 
+    $B^{'}$ occupies $\O(m)$ space and is computed in $\O\left(m \cdot \abs{\Sigma}\right)$ time.
     The modified KMP is real-time and correct.
 \end{proposition}
 
 \section{Dictionaries, Multiple Pattern Matching}
 \subsection{Tries}
 \begin{definition}
-    A dictionary $D$ is a set of string. A trie of $D$ is a tree with every node being labeled by a letter such that : 
+    A dictionary $D$ is a set of string. A trie of $D$ is a tree with every node being labeled by a letter such that :
     \begin{itemize}
         \item For every node, outgoing edges are labeled with different letters
         \item For every string $S \in D$, there is a root-to-node path that spells out $S$. The end of the path is labeled with the id of $S$.
@@ -1110,7 +1110,7 @@ The naïve algorithm consists of looking, for each possible starting position in
     By laying out each root-to-leaf path.
 \end{proof}
 
-We will consider two applications : 
+We will consider two applications :
 \begin{enumerate}
     \item Dictionary Look-Up : Given a string $P$, decide if it belongs to the dictionary.
     \item Multiple Pattern Matching : Given a dictionary of patterns $D$, find all their occurences in a text $T$.
@@ -1122,7 +1122,7 @@ We will consider two applications :
 \end{proposition}
 
 \subsection{Aho-Corasick Algorithm}
-We will first assume that no pattern in $D$ is a substring of another. 
+We will first assume that no pattern in $D$ is a substring of another.
 \begin{definition}
     The failure link from a node $u$ labeled by a string $S$ points to the deepest node $v$ labeled by a proper suffix of $S$.
 \end{definition}
@@ -1134,9 +1134,9 @@ We will first assume that no pattern in $D$ is a substring of another.
     \begin{itemize}
         \item Space : There are $\O(m)$ nodes, each node has exactly one failure link.
         \item Time : Failure links are built top-to-down. Links from nodes of depth $1$ point to the root.
-        Suppose that we have built links for all nodes to depth $\leq d - 1$. The failure link from a node labeled with $Sa$ must point to a node labeled with $S^{'}a$, where $S^{'}$ is a suffix of $S$. In other words, the parent of the end of the failure link from the node must belong to the failure link path from the node $p(u)$ , and it must be the deepest node that has an outgoing edge labeled with $a$.
-        The algorithm works as follows: we follow the failure link path from $p(u)$. The first node with an outgoing edge labeled with $a$ is the end of the failure link for $u$.
-        Consider the time needed to build the failure links for one root-to-leaf path. Let $root, u_{1}, \ldots, u_{k}$ be the nodes in this path, and denote by $f(u_{i})$ the depth of the end of the failure link for $u_{i}$. The time to find the link for $u_{i}$ is $\leq c \times \left(2 + f(u_{i-1} - f(u_{i}))\right)$. Thus the total time for the trie is $\O(m)$.
+              Suppose that we have built links for all nodes to depth $\leq d - 1$. The failure link from a node labeled with $Sa$ must point to a node labeled with $S^{'}a$, where $S^{'}$ is a suffix of $S$. In other words, the parent of the end of the failure link from the node must belong to the failure link path from the node $p(u)$ , and it must be the deepest node that has an outgoing edge labeled with $a$.
+              The algorithm works as follows: we follow the failure link path from $p(u)$. The first node with an outgoing edge labeled with $a$ is the end of the failure link for $u$.
+              Consider the time needed to build the failure links for one root-to-leaf path. Let $root, u_{1}, \ldots, u_{k}$ be the nodes in this path, and denote by $f(u_{i})$ the depth of the end of the failure link for $u_{i}$. The time to find the link for $u_{i}$ is $\leq c \times \left(2 + f(u_{i-1} - f(u_{i}))\right)$. Thus the total time for the trie is $\O(m)$.
     \end{itemize}
 \end{proof}
 
@@ -1148,19 +1148,19 @@ We will first assume that no pattern in $D$ is a substring of another.
         \EndInput
         \State $curr\_node \gets root, i \gets 1, L \gets []$
         \While {$i \leq n$}
-            \If {$\exists e = (curr \_node, u)$ labeled with $T[i]$}
-                \State $curr\_node \gets u$
-                \If {$curr\_node$ corresponds to a pattern}  
-                    \State $L \gets i :: L$
-                \EndIf
-                \State $i \gets i + 1$
-            \Else
-                \If {$curr \_node = root$}
-                    \State $i \gets i + 1$
-                \Else
-                    \State $curr_node = \texttt{failure\_link}(curr\_node)$
-                \EndIf
-            \EndIf
+        \If {$\exists e = (curr \_node, u)$ labeled with $T[i]$}
+        \State $curr\_node \gets u$
+        \If {$curr\_node$ corresponds to a pattern}
+        \State $L \gets i :: L$
+        \EndIf
+        \State $i \gets i + 1$
+        \Else
+        \If {$curr \_node = root$}
+        \State $i \gets i + 1$
+        \Else
+        \State $curr_node = \texttt{failure\_link}(curr\_node)$
+        \EndIf
+        \EndIf
         \EndWhile
     \end{algorithmic}
 \end{algorithm}
@@ -1172,10 +1172,10 @@ We will first assume that no pattern in $D$ is a substring of another.
     \begin{itemize}
         \item Space : $m$ is the total length of the patterns
         \item Time : We need $\O(m)$ time to build the trie. Consider how the depth of $curr\_node$ changes during the algorithm.
-        \begin{itemize}
-            \item Every time we do down an edge (happens $\leq n$ times), it increases by $1$. Every time we follow a failure link, it decreases by $\geq 1$.
-            \item Therefore, as the depth is always positive, we follow a failure link at most $n$ times.
-        \end{itemize}
+              \begin{itemize}
+                  \item Every time we do down an edge (happens $\leq n$ times), it increases by $1$. Every time we follow a failure link, it decreases by $\geq 1$.
+                  \item Therefore, as the depth is always positive, we follow a failure link at most $n$ times.
+              \end{itemize}
     \end{itemize}
 \end{proof}
 
@@ -1193,13 +1193,13 @@ We will first assume that no pattern in $D$ is a substring of another.
 
 We modify the algorithm : at each step it follows the path from $curr \_node$ and outputs the patterns in the output link path.
 
-\begin{theorem} 
+\begin{theorem}
     The multiple pattern matching problem can ve solved in $\O(m)$ space and $\O(n + m + occ)$ where $occ$ is the total number of occurences of the patterns in the text.
 \end{theorem}
 
 \section{Suffix Trees and Applications}
 \begin{definition}
-    A text index is a data structure that represents a text and supports pattern matching queries. The suffix tree is one of them. 
+    A text index is a data structure that represents a text and supports pattern matching queries. The suffix tree is one of them.
 
     We define the compact trie for $D$ as the trie for $D$ where nodes with only one child have been replaced by an edge. The suffix tree of a string is the compact trie for the set of the suffixes of that string with \$ appended (\$ must not be in $\Sigma$).
 \end{definition}
@@ -1234,7 +1234,7 @@ To answer pattern matching queries, we start at the root. Then, we follow the pa
 \subsection{Longest Common Substring}
 Given two strings, find the longest substring that occurs both in $T_{1}$ and $T_{2}$. We will denote $n = \abs{T_{1}} + \abs{T_{2}}$.
 
-To find the longest common substring of $T_{1}$ and $T_{2}$, we need the suffix tree containing the suffixes of both string (sometimes called generalised suffix tree). 
+To find the longest common substring of $T_{1}$ and $T_{2}$, we need the suffix tree containing the suffixes of both string (sometimes called generalised suffix tree).
 
 \begin{proposition}
     This suffix tree can be built in $\O\left(\abs{T_{1}} + \abs{T_{2}}\right)$.
@@ -1252,7 +1252,7 @@ By bottom-up traversal, we find the deepest node in the tree such that its subtr
 We can generalise this to any $m$ strings in time $\O(n)$ where $n = \sum_{k = 1}^{m} \abs{T_{k}}$. We will use the following fact : we can preprocess a tree of size $\O(n)$ in time $\O(n)$ to support lowest common ancestor ($LCA$) queries in constant time. (see ) $LCA(u, v)$ must return the lowest node that is an ancestor of both $u$ and $v$.
 
 \begin{openpb}
-    We showed that the longest common substring problem for two string can be solved in $\O(n)$ space and $\O(n)$ time. It is also known that the problem can be solved in $\O(s)$ extra space and time 
+    We showed that the longest common substring problem for two string can be solved in $\O(n)$ space and $\O(n)$ time. It is also known that the problem can be solved in $\O(s)$ extra space and time
     \[
         \O\left(\frac{n^{2}\log(n)\log^{*}(n)}{L\cdot s} + n \log n\right)
     \]
@@ -1264,7 +1264,7 @@ We can generalise this to any $m$ strings in time $\O(n)$ where $n = \sum_{k = 1
 \localtableofcontents
 \section{Disjoint-set Data Structure}
 \begin{definition}
-    A disjoint-set data structure is a way to maintain a collection of disjoint sets with 3 operations : 
+    A disjoint-set data structure is a way to maintain a collection of disjoint sets with 3 operations :
     \begin{itemize}
         \item \texttt{make\_set($x$)} : create a new set containing one element, $x$
         \item \texttt{union\_set($x, y$)} : union the sets containing $x$ and $y$
@@ -1285,7 +1285,7 @@ Here, each set is a linked list, and the representative is the head of the list.
 \end{proposition}
 
 For \texttt{union\_set}, it requires more work.\\
-Indeed, simply appending the set of $y$ to the set of $x$ takes constant time, but updating the pointers to the representatives is done in $\Theta\left(\abs{\text{set of }y}\right)$. By doing the following sequence of operation : 
+Indeed, simply appending the set of $y$ to the set of $x$ takes constant time, but updating the pointers to the representatives is done in $\Theta\left(\abs{\text{set of }y}\right)$. By doing the following sequence of operation :
 \[
     \texttt{make\_set}(x_{1}), \texttt{make\_set}(x_{2}), \ldots, \texttt{make\_set}(x_{n});\\
     \texttt{union\_set}(x_{2}, x_{1}), \texttt{union\_set}(x_{3}, x_{2}),\ldots, \texttt{union\_set}(x_{n}, x_{n-1})
@@ -1304,7 +1304,7 @@ Then, we propose a weighted-union strategy : if the set of $x$ is larger than th
 
 \section{Disjoint-set forests}
 Here, each set is a treee whose root is the representative. Each node stores a pointer to its parent. \texttt{make\_set}($x$) creates a tree containing only one node, \texttt{find\_set}($x$) follows the path from $x$ to the root and \texttt{union\_set}($x, y$) makes the root of the tree of $y$ become a child of the root of the tree of $x$.\\
-We will use two strategies : 
+We will use two strategies :
 \begin{itemize}
     \item Path Compression : During \texttt{find\_set}($x$), we make each node on the path to the root be a child of the root.
     \item Union by Rank : During \texttt{union\_set}, the root of the tree with smaller rank becomes a child of the root of the tree with larger rank.
@@ -1338,7 +1338,7 @@ We will use two strategies :
         \Input \ \ $x$
         \EndInput
         \If {$x \neq x.p$}
-            \State $x.p \gets find\_set(x.p)$
+        \State $x.p \gets find\_set(x.p)$
         \EndIf
         \Return $x.p$
         \EndFunction
@@ -1347,14 +1347,14 @@ We will use two strategies :
         \Input \ \ $x, y$
         \EndInput
         \If {$x \neq y$}
-            \If {$x.rank > y.rank$}
-                \State $y.p \gets x$
-            \Else 
-                \State $x.p \gets y$
-                \If {$x.rank = y.rank$}
-                    \State $y.rank \gets y.rank + 1$
-                \EndIf
-            \EndIf
+        \If {$x.rank > y.rank$}
+        \State $y.p \gets x$
+        \Else
+        \State $x.p \gets y$
+        \If {$x.rank = y.rank$}
+        \State $y.rank \gets y.rank + 1$
+        \EndIf
+        \EndIf
         \EndIf
         \EndFunction
     \end{algorithmic}
@@ -1394,16 +1394,16 @@ We will thus assume we have only \texttt{make\_set, link, find\_set} operations.
 \end{proposition}
 
 \begin{proof}
-    By induction, the number of nodes in a tree with a root of rank $r$ is at least $2^{r}$ : 
+    By induction, the number of nodes in a tree with a root of rank $r$ is at least $2^{r}$ :
     \begin{itemize}
         \item Base Case : $r = 0$ is true
-        \item Induction Step : After linking two trees with roots of rank $r_{1}, r_{2}$ : 
-        \begin{itemize}
-            \item If $r_{1} < r_{2}$ the claim is true by induction for $r_{2}$.
-            \item If $r = r_{1} = r_{2}$, then the root of the resulting tree has rank $r + 1$ and the tree has at least $2^{r} + 2^{r} = 2^{r + 1}$ nodes.
-        \end{itemize}
+        \item Induction Step : After linking two trees with roots of rank $r_{1}, r_{2}$ :
+              \begin{itemize}
+                  \item If $r_{1} < r_{2}$ the claim is true by induction for $r_{2}$.
+                  \item If $r = r_{1} = r_{2}$, then the root of the resulting tree has rank $r + 1$ and the tree has at least $2^{r} + 2^{r} = 2^{r + 1}$ nodes.
+              \end{itemize}
     \end{itemize}
-    Consider all nodes of rank $r$. None of them is not and was not an ancestor of another, so there are $2^{r}$ nodes corresponding to each of them in the forest, and these sets are independent. As we have $n$ nodes in total, the bound follows. 
+    Consider all nodes of rank $r$. None of them is not and was not an ancestor of another, so there are $2^{r}$ nodes corresponding to each of them in the forest, and these sets are independent. As we have $n$ nodes in total, the bound follows.
 \end{proof}
 
 \subsection{Buckets}
@@ -1412,14 +1412,14 @@ We will thus assume we have only \texttt{make\_set, link, find\_set} operations.
 \end{definition}
 
 \begin{proposition}\label{bucketlemma}
-    Put a node with rank $r$ into the bucket $B$ containing $r$. The number of nodes in a bucket $B = \left[b, 2^{b} - 1\right]$ is at most : 
+    Put a node with rank $r$ into the bucket $B$ containing $r$. The number of nodes in a bucket $B = \left[b, 2^{b} - 1\right]$ is at most :
     \[
         \sum_{r \in B} \frac{n}{2^{r}} \leq \frac{2n}{2^{b}}
     \]
 \end{proposition}
 
 \begin{definition}
-    At a given time a node is good if : 
+    At a given time a node is good if :
     \begin{itemize}
         \item It is a root
         \item It is a child of a root
@@ -1428,7 +1428,7 @@ We will thus assume we have only \texttt{make\_set, link, find\_set} operations.
     It is bad otherwise.
 \end{definition}
 
-A \texttt{find\_set} visits $\O(\log^{\star} n)$ good nodes. Therefore, the total time complexity is $\O(m\log^{\star} n + \abs{\left\{\text{bad nodes visited}\right\}})$. 
+A \texttt{find\_set} visits $\O(\log^{\star} n)$ good nodes. Therefore, the total time complexity is $\O(m\log^{\star} n + \abs{\left\{\text{bad nodes visited}\right\}})$.
 
 \begin{proposition}
     The total number of visits of bad nodes is $\O(n\log^{\star} n)$
@@ -1439,14 +1439,14 @@ A \texttt{find\_set} visits $\O(\log^{\star} n)$ good nodes. Therefore, the tota
 
 Thus, the total complexity is $\O\left(m \log^{\star} n\right)$
 
-In the following sections, we will try to improve this complexity. 
+In the following sections, we will try to improve this complexity.
 \subsection{Ackermann's function}
 \begin{definition}
-    For $k \geq 0$, $j \geq 1$ two integers, the Ackermann function of $k$ and $j$ is defined as : 
+    For $k \geq 0$, $j \geq 1$ two integers, the Ackermann function of $k$ and $j$ is defined as :
     \[
         A_{k}(j) = \begin{cases}
-            j + 1 &\text{ if } k = 0 \\
-            A_{k - 1}^{j + 1}(j) &\text{ if } k \geq 1
+            j + 1                & \text{ if } k = 0    \\
+            A_{k - 1}^{j + 1}(j) & \text{ if } k \geq 1
         \end{cases}
     \]
 \end{definition}
@@ -1462,46 +1462,46 @@ In the following sections, we will try to improve this complexity.
 \end{proof}
 
 \begin{definition}
-    We define reverse Ackermann's function by : 
+    We define reverse Ackermann's function by :
     \[
         \alpha(n) = \min \left\{k \mid A_{k}(1) \geq n\right\}
     \]
-    We have : 
+    We have :
     \[
         \alpha(n) = \begin{cases}
-            0 & \text{ if } 0 \leq n \leq 2\\
-            1 & n = 3\\
-            2 & 4 \leq n \leq 7\\
-            3 & 8 \leq n \leq 2047\\
-            4 & 2048 \leq n \leq A_{4}(1)\\
-        \end{cases}    
+            0 & \text{ if } 0 \leq n \leq 2 \\
+            1 & n = 3                       \\
+            2 & 4 \leq n \leq 7             \\
+            3 & 8 \leq n \leq 2047          \\
+            4 & 2048 \leq n \leq A_{4}(1)   \\
+        \end{cases}
     \]
 \end{definition}
 
 \subsection{Potential Function}
-We define a potential function : 
+We define a potential function :
 \begin{definition}
     \begin{itemize}
         \item $\texttt{level}(x) = \max \left\{k \mid x.p.rank \geq A_{k}(x.rank)\right\}$
         \item $\texttt{iter}(x) = \max \left\{i \mid x.p.rank \geq A_{\texttt{level}(x)}^{(i)}(x.rank)\right\}$
     \end{itemize}
-    For a node $x$, we define : 
+    For a node $x$, we define :
     \[
         \Phi_{q}(x) = \begin{cases}
-            \alpha(n)\cdot x.rank &\text{ if $x$ if root or } x.rank = 0\\
+            \alpha(n)\cdot x.rank                                                       & \text{ if $x$ if root or } x.rank = 0 \\
             \left(\alpha(n) - \texttt{level}(x)\right)  \cdot x.rank - \texttt{iter}(x) & \text{ otherwise}
         \end{cases}
     \]
-    For a forest, define : 
+    For a forest, define :
     \[
         \Phi_{0}(F) = 0 \text{ and } \Phi_{q}(F) = \sum_{x \in F} \Phi_{q}(x)
     \]
 \end{definition}
 
-We will show that $\Phi_{q}(F) \geq 0$ : 
-Then, if we denote by $t_{q}$ the time for the $q$-th operation : 
+We will show that $\Phi_{q}(F) \geq 0$ :
+Then, if we denote by $t_{q}$ the time for the $q$-th operation :
 \[
-    \sum_{q} t_{q} \leq \sum_{q} t_{q} + \Phi_{q}(F) - \Phi_{0}(F) = \sum_{q}t_{q} + \sum_{q}\left(\Phi_{q + 1}(F) - \Phi_{q}(F)\right) = \sum_{q}\left(t_{q} + \Phi_{q + 1}(F) - \Phi_{q}(F)\right)   
+    \sum_{q} t_{q} \leq \sum_{q} t_{q} + \Phi_{q}(F) - \Phi_{0}(F) = \sum_{q}t_{q} + \sum_{q}\left(\Phi_{q + 1}(F) - \Phi_{q}(F)\right) = \sum_{q}\left(t_{q} + \Phi_{q + 1}(F) - \Phi_{q}(F)\right)
 \]
 
 \begin{lemma}
@@ -1524,11 +1524,11 @@ Then, if we denote by $t_{q}$ the time for the $q$-th operation :
     $\forall x, q, 0 \leq \Phi_{q}(x) \leq \alpha(n)x.rank$
 \end{lemma}
 \begin{proof}
-    If $x$ is the root or $x.rank = 0$, there is equality and we are done. Otherwise : 
+    If $x$ is the root or $x.rank = 0$, there is equality and we are done. Otherwise :
     \[
         \Phi_{q}(x) = \left(\alpha(n) - \texttt{level}(x)\right) \cdot x.rank - \texttt{iter}(x) \geq \left(\alpha(n) - (\alpha(n) - 1)\right) \cdot x.rank - \texttt{iter}(x) \geq x.rank - x.rank = 0
     \]
-    Also : 
+    Also :
     \[
         \Phi_{q}(x) \leq \alpha(n)\cdot x.rank - 1 < \alpha(n) x.rank
     \]
@@ -1545,15 +1545,15 @@ Then, if we denote by $t_{q}$ the time for the $q$-th operation :
     \begin{enumerate}
         \item If $x.rank = 0$ then $\Phi_{q}(x) = \Phi_{q - 1}(x) = 0$
         \item Assume $x.rank \geq 1$.
-        \begin{itemize}
-            \item If \texttt{level}($x$) increases, $\left(\alpha(n) - \texttt{level}(x)\right)x.rank$ drops by at least $x.rank$ but $\texttt{iter}(x)$ can drop by at most $x.rank - 1$ therefore, $\Phi_{q}(x) \leq \Phi_{q - 1}(x) - 1$.
-            \item If \texttt{level}($x$) is unchanged, \texttt{iter}$(x)$ remains unchanged or increases. If it does not change $\Phi_{q}(x) = \Phi_{q - 1}(x)$, otherwise, $\Phi_{q}(x) \leq \Phi_{q - 1}(x) - 1$
-        \end{itemize}
+              \begin{itemize}
+                  \item If \texttt{level}($x$) increases, $\left(\alpha(n) - \texttt{level}(x)\right)x.rank$ drops by at least $x.rank$ but $\texttt{iter}(x)$ can drop by at most $x.rank - 1$ therefore, $\Phi_{q}(x) \leq \Phi_{q - 1}(x) - 1$.
+                  \item If \texttt{level}($x$) is unchanged, \texttt{iter}$(x)$ remains unchanged or increases. If it does not change $\Phi_{q}(x) = \Phi_{q - 1}(x)$, otherwise, $\Phi_{q}(x) \leq \Phi_{q - 1}(x) - 1$
+              \end{itemize}
     \end{enumerate}
 \end{proof}
 
 \subsection{Time Bound}
-More lemmas : 
+More lemmas :
 \begin{lemma}
     The amortised cost of each \texttt{make\_set} is $\O(1)$
 \end{lemma}
@@ -1568,29 +1568,29 @@ More lemmas :
     WLOG, $y$ becomes the parent of $x$. By \ref{lemma10}, the potentials of any node but $x$ and $y$ cannot increase. Before \texttt{link}, the node $x$ is a root and $\Phi_{q - 1}(x) = \alpha(n)x.rank$. If $x.rank = 0$, we have $\Phi_{q - 1}(x) = \Phi_{q}(x) = 0$. Otherwise by \ref{cor9}, $\Phi_{q}(x) < \alpha(n)x.rank = \Phi_{q - 1}(x)$.\\
     For $y$, either $\Phi_{q - 1}(y) = \Phi_{q}(y)$ or $\Phi_{q}(y) = \Phi_{q - 1}(y) + \alpha(n)$.
 
-    Hence, $\Phi_{q}(F) - \Phi_{q - 1}(F) \leq \alpha(n)$. The actual time of $\texttt{link}(x, y)$ is $1$ and thus the lemma follows. 
+    Hence, $\Phi_{q}(F) - \Phi_{q - 1}(F) \leq \alpha(n)$. The actual time of $\texttt{link}(x, y)$ is $1$ and thus the lemma follows.
 \end{proof}
 
 \begin{lemma}
     The amortised time of \texttt{find\_set} is $\O(\alpha(n))$.
 \end{lemma}
 \begin{proof}
-    Assume the find path contains $s$ nodes : 
+    Assume the find path contains $s$ nodes :
     \begin{enumerate}
         \item There are no potential increases from \ref{lemma10}.
         \item The potential of at least $\max \left\{0, s - \alpha(n) - 2\right\}$ decreases by at least one.
-        Consider all nodes $x$ on the find path with rank at least $1$ and such that there exists $y$ an ancestor of $x$ with the same \texttt{level}. There are at least $s - \left(\alpha(n) + 2\right)$ such nodes. 
+              Consider all nodes $x$ on the find path with rank at least $1$ and such that there exists $y$ an ancestor of $x$ with the same \texttt{level}. There are at least $s - \left(\alpha(n) + 2\right)$ such nodes.
 
-        Consider such a node $x$, let $k = \texttt{level}(x)$ : 
-        
-        Prior to path compression, $x.p.rank \geq A_{k}^{\texttt{iter}(x)}(x.rank)$ and $y.p.rank \geq A_{k}(y.rank)$. Then, by monotony of $rank$ along a path, $y.rank \geq x.p.rank$. Let $i = \texttt{iter}(x)$. We have $y.p.rank \geq A_{k}\left(A_{k}^{i}(x.rank)\right)$
+              Consider such a node $x$, let $k = \texttt{level}(x)$ :
 
-        After path compression, $x$ and $y$ have the same parent, the root so $x.p.rank = y.p.rank \geq A_{k}^{i + 1}(x.rank)$. since $x.rank$ does not change. Therefore, either \texttt{iter}($x$) or \texttt{level}($x$) increases, and hence, $\Phi_{q}(x) \leq \Phi_{q - 1}(x) - 1$ from \ref{lemma10}.
+              Prior to path compression, $x.p.rank \geq A_{k}^{\texttt{iter}(x)}(x.rank)$ and $y.p.rank \geq A_{k}(y.rank)$. Then, by monotony of $rank$ along a path, $y.rank \geq x.p.rank$. Let $i = \texttt{iter}(x)$. We have $y.p.rank \geq A_{k}\left(A_{k}^{i}(x.rank)\right)$
+
+              After path compression, $x$ and $y$ have the same parent, the root so $x.p.rank = y.p.rank \geq A_{k}^{i + 1}(x.rank)$. since $x.rank$ does not change. Therefore, either \texttt{iter}($x$) or \texttt{level}($x$) increases, and hence, $\Phi_{q}(x) \leq \Phi_{q - 1}(x) - 1$ from \ref{lemma10}.
     \end{enumerate}
     As a corollary, we obtain that $\Phi_{q}(F) \leq \Phi_{q - 1}(F) - \max \left\{0, s - \left(\alpha(n) + 2\right)\right\}$. Since the actual time of \texttt{find\_path} is $s$, the amortised time is $\O\left(\alpha(n) + 2\right)$.
 \end{proof}
 
-Finally : 
+Finally :
 
 \begin{theorem}
     A sequence of $m$ \texttt{make\_set, union\_set, find\_set}, out of which $n$ are \texttt{make\_set} takes $\O\left(m \alpha(n)\right)$ time. In other words, one operation takes $\O(\alpha(n))$ amortised time.
@@ -1599,7 +1599,7 @@ Finally :
 \part[DFS-Matroids-MST]{Lecture 7 : 16/11}  % By Pierre Aboulpierre
 \localtableofcontents
 \section{Definitions}
-All along the course : 
+All along the course :
 \begin{definition}
     \begin{itemize}
         \item $n$ is the number of vertices
@@ -1618,16 +1618,16 @@ All along the course :
 \begin{table*}
     \caption{Some Graph Parameters}
     \begin{tabular}{cc}
-        $\delta(G)$ & minimum degree \\
-        $\Delta(G)$ & maximum degree\\
-        $\omega(G)$ & clique number\\
-        $\alpha(G)$ & size of a maximum independent set\\
-        $\chi(G)$ & chromatic number\\
-        $\tau(G)$ & vertex cover\\
-        $\kappa(G)$ & vertex connectivity\\
-        $\lambda(G)$ & edge connectivit\\
-        $\mu(G)$ & size of a maximum matching\\
-        Girth & length of a shortest cycle \\
+        $\delta(G)$  & minimum degree                    \\
+        $\Delta(G)$  & maximum degree                    \\
+        $\omega(G)$  & clique number                     \\
+        $\alpha(G)$  & size of a maximum independent set \\
+        $\chi(G)$    & chromatic number                  \\
+        $\tau(G)$    & vertex cover                      \\
+        $\kappa(G)$  & vertex connectivity               \\
+        $\lambda(G)$ & edge connectivit                  \\
+        $\mu(G)$     & size of a maximum matching        \\
+        Girth        & length of a shortest cycle        \\
     \end{tabular}
 \end{table*}
 
@@ -1637,311 +1637,546 @@ All along the course :
 \end{definition}
 
 \section{BFS, DFS and Graph Encoding}
-    \subsection{The Algorithms}
-        Nan mais flemme à un moment.\\
+\subsection{The Algorithms}
+Nan mais flemme à un moment.\\
 
-    \subsection{Properties}
-        \begin{definition}
-            We will denote by $v.d$ the time at which a vertex is discovered, and $v.f$ the time at which a vertex is finished, i.e. all of its neighbour are discovered.
-        \end{definition}
-        \begin{theorem}[Parenthesis Theorem]
-            In any DFS of a graph, for any two vertices $u$ and $v$ either : 
-            \begin{itemize}
-                \item $\left[u.d, u.f\right]\cap \left[v.d, v.f\right] = \emptyset$ and $u$ is not a descendant nor an ancestor of $v$.
-                \item $\left[u.d, u.f\right] \subset \left[v.d, v.f\right]$ and $u$ is a descendant of $v$
-                \item $\left[v.d, v.f\right] \subset \left[u.d, u.f\right]$ and $v$ is a descendant of $u$
-            \end{itemize}
-        \end{theorem}
+\subsection{Properties}
+\begin{definition}
+    We will denote by $v.d$ the time at which a vertex is discovered, and $v.f$ the time at which a vertex is finished, i.e. all of its neighbour are discovered.
+\end{definition}
+\begin{theorem}[Parenthesis Theorem]
+    In any DFS of a graph, for any two vertices $u$ and $v$ either :
+    \begin{itemize}
+        \item $\left[u.d, u.f\right]\cap \left[v.d, v.f\right] = \emptyset$ and $u$ is not a descendant nor an ancestor of $v$.
+        \item $\left[u.d, u.f\right] \subset \left[v.d, v.f\right]$ and $u$ is a descendant of $v$
+        \item $\left[v.d, v.f\right] \subset \left[u.d, u.f\right]$ and $v$ is a descendant of $u$
+    \end{itemize}
+\end{theorem}
 
-        \begin{corollary}
-            A vertex $v$ is a descendant of $u$ in the DFS forest if and only if $u.d < v.d < v.f < u.f$.
-        \end{corollary}
+\begin{corollary}
+    A vertex $v$ is a descendant of $u$ in the DFS forest if and only if $u.d < v.d < v.f < u.f$.
+\end{corollary}
 
-        \begin{theorem}[White-path Theorem]
-            In a DFS forest of a digraph, a vertex $v$ is a descendant of a vertex $u$ if and only if at time $u.d$, there is a $(u, v)$-path made of undiscovered vertices.
-        \end{theorem}
+\begin{theorem}[White-path Theorem]
+    In a DFS forest of a digraph, a vertex $v$ is a descendant of a vertex $u$ if and only if at time $u.d$, there is a $(u, v)$-path made of undiscovered vertices.
+\end{theorem}
 
-        \begin{definition}
-            We define arc types in terms of the DFS forest $G_{\pi}$ :
-            \begin{itemize}
-                \item Tree arcs are arcs of $G_{\pi}$
-                \item Forward arcs are arcs $uv$ such that $u$ in an ancestor of $v$
-                \item Back arcs are arcs $uv$ such that $u$ is a descendant of $v$
-                \item Cross arc are arcs $uv$ such that $u$ is not an ancestor of $v$ and $v$ is not an ancestor of $u$.
-            \end{itemize}
-        \end{definition}
+\begin{definition}
+    We define arc types in terms of the DFS forest $G_{\pi}$ :
+    \begin{itemize}
+        \item Tree arcs are arcs of $G_{\pi}$
+        \item Forward arcs are arcs $uv$ such that $u$ in an ancestor of $v$
+        \item Back arcs are arcs $uv$ such that $u$ is a descendant of $v$
+        \item Cross arc are arcs $uv$ such that $u$ is not an ancestor of $v$ and $v$ is not an ancestor of $u$.
+    \end{itemize}
+\end{definition}
 
-        \begin{proposition}
-            A digraph has a directed cycle if and only (any) DFS produces a back arc.
-        \end{proposition}
-    
-        \subsection{Topological Sort}
-        \begin{definition}
-            A topological ordering of the vertices of a digraph is a labeling $f$ such that $uv \in E only if f(u) < f(v)$.
-        \end{definition}
+\begin{proposition}
+    A digraph has a directed cycle if and only (any) DFS produces a back arc.
+\end{proposition}
 
-        \begin{theorem}
-            $G$ has a topological ordering if and only if it is a DAG.
-        \end{theorem}
+\subsection{Topological Sort}
+\begin{definition}
+    A topological ordering of the vertices of a digraph is a labeling $f$ such that $uv \in E only if f(u) < f(v)$.
+\end{definition}
 
-        \begin{theorem}
-            The problem of finding a topological is solved in linear time using a DFS.
-        \end{theorem}
+\begin{theorem}
+    $G$ has a topological ordering if and only if it is a DAG.
+\end{theorem}
 
-        \begin{lemma}
-            A digraph is acyclic if and only if a DFS of the graph yields no back edges.
-        \end{lemma}
+\begin{theorem}
+    The problem of finding a topological is solved in linear time using a DFS.
+\end{theorem}
 
-        \subsection{Strongly Connected Components}
-        \begin{definition}
-            A strong connected component (scc) of a directed graph $G$ is a maximum set of vertices such that every pair of vertices as a directed path from the first to the second and from the second to the first. \\ We define $G^{SCC}$ the quotient graph for $u \mathcal{R} v \Leftrightarrow u \leadsto v \wedge v \leadsto u$.
-        \end{definition}
-        
-        \begin{proposition}
-            $G^{SCC}$ is a DAG.
-        \end{proposition}
+\begin{lemma}
+    A digraph is acyclic if and only if a DFS of the graph yields no back edges.
+\end{lemma}
 
-        \begin{lemma}
-            Let $C$, $C^{'}$ be two scc of a digraph. Let $u, v \in C$ and $u^{'}, v^{'} \in C^{'}$. If $u \leadsto u^{'}$ then there is no path from $v^{'}$ to $v$.
-        \end{lemma}
+\subsection{Strongly Connected Components}
+\begin{definition}
+    A strong connected component (scc) of a directed graph $G$ is a maximum set of vertices such that every pair of vertices as a directed path from the first to the second and from the second to the first. \\ We define $G^{SCC}$ the quotient graph for $u \mathcal{R} v \Leftrightarrow u \leadsto v \wedge v \leadsto u$.
+\end{definition}
 
-        \begin{definition}
-            We extend the discovery and finishing times to sets of vertices : 
-            \begin{itemize}
-                \item $d(S) = \min \left\{u.d \mid u \in S\right\}$
-                \item $f(S) = \max \left\{u.f \mid u \in S \right\}$
-            \end{itemize}
-        \end{definition}
+\begin{proposition}
+    $G^{SCC}$ is a DAG.
+\end{proposition}
 
-        \begin{lemma}
-            Let $C$ and $C^{'}$ be two scc and let $u \in C$, $v \in C^{'}$ such that $uv \in E$. Then $f(C) > f(C^{'})$.
-        \end{lemma}
+\begin{lemma}
+    Let $C$, $C^{'}$ be two scc of a digraph. Let $u, v \in C$ and $u^{'}, v^{'} \in C^{'}$. If $u \leadsto u^{'}$ then there is no path from $v^{'}$ to $v$.
+\end{lemma}
 
-        \begin{definition}
-            We define $G^{R} = \left(V, E^{R}\right)$ where $E^{R} = \left\{uv \mid vu \in E\right\}$.
-        \end{definition}
+\begin{definition}
+    We extend the discovery and finishing times to sets of vertices :
+    \begin{itemize}
+        \item $d(S) = \min \left\{u.d \mid u \in S\right\}$
+        \item $f(S) = \max \left\{u.f \mid u \in S \right\}$
+    \end{itemize}
+\end{definition}
 
-        \begin{proposition}
-            $G^{R}$ has the same scc as $G$
-        \end{proposition}
+\begin{lemma}
+    Let $C$ and $C^{'}$ be two scc and let $u \in C$, $v \in C^{'}$ such that $uv \in E$. Then $f(C) > f(C^{'})$.
+\end{lemma}
 
-        \begin{algorithm}
-            \caption{Kosaraju's Two Pass Algorithm}
-            \begin{algorithmic}
-                \State Call $\texttt{DFS}(G$) 
-                \State Compute $G^{R}$
-                \State Call $\texttt{DFS}(G^{R})$ considering vertices in order of decreasing $u.f$
-                \Return Output the vertices of each tree in the DFS forest computed by $\texttt{DFS}(G^{R})$
-            \end{algorithmic}
-        \end{algorithm}
+\begin{definition}
+    We define $G^{R} = \left(V, E^{R}\right)$ where $E^{R} = \left\{uv \mid vu \in E\right\}$.
+\end{definition}
 
-        \begin{theorem}
-            Kosaraju's two pass algorithm computes the scc in linear-time.   
-        \end{theorem}
-        
+\begin{proposition}
+    $G^{R}$ has the same scc as $G$
+\end{proposition}
 
-        \section{Minimum Weighted Spanning Tree - MWST}
-        \subsection{Trees}
-        \begin{definition}
-            A tree is a connected acyclic graph. A forest is an acyclic graph. A leaf of a tree is a vertex of degree $1$.
-        \end{definition}
+\begin{algorithm}
+    \caption{Kosaraju's Two Pass Algorithm}
+    \begin{algorithmic}
+        \State Call $\texttt{DFS}(G$)
+            \State Compute $G^{R}$
+            \State Call $\texttt{DFS}(G^{R})$ considering vertices in order of decreasing $u.f$
+            \Return Output the vertices of each tree in the DFS forest computed by $\texttt{DFS}(G^{R})$
+    \end{algorithmic}
+\end{algorithm}
 
-        \begin{proposition}
-            \begin{itemize}
-                \item Every tree contains at least two leaves
-                \item Every tree $T$ satifies : $\abs{E(T)} = \abs{V(T)} - 1$.
-                \item Every subgraph of a tree is a forest.
-            \end{itemize}
-        \end{proposition}
-
-        \begin{proposition}
-            Let $G = (V, E)$ be a graph. The following are equivalent : 
-            \begin{itemize}
-                \item $G$ is a tree
-                \item Any two vertices in $G$ are linked by a unique path
-                \item $G$ is connected and $\abs{E} = \abs{V} - 1$
-                \item $G$ is acyclic and $\abs{E} = \abs{V} - 1$
-                \item $G$ is connected but for every edge $uv$, $G - \{uv\}$ has exactly two connected components, one containg $u$ and the other $v$.
-                \item $G$ is acyclic but if any edge is added to $G$, the resulting graph contains a unique cycle going through this added edge.
-            \end{itemize}
-        \end{proposition}
-
-        \begin{definition}
-            $\omega : E \to \R$ is called a weight function. A spanning tree is a subgraph of $G$ that is a tree and contains all vertices of $G$. The weight of a subgraph is the sum of the weights of its edges.
-        \end{definition}
+\begin{theorem}
+    Kosaraju's two pass algorithm computes the scc in linear-time.
+\end{theorem}
 
 
-        \begin{proposition}[Cut and Paste Technic]
-            Let $G = (V, E)$ and let $T$ be a spanning tree of $G$. Let $uv \in E(G) - T$ and let $T_{uv}$ be the unique path linking $u$ and $v$ in $T$. Then for every edge $xy$ of $T_{uv}$ $T\setminus \{xy\} \cup \{uv\}$ is a spanning tree of $T$. 
-        \end{proposition}
-        \begin{proof}
-            Since $T_{uv}$ is in the unique path of $T$ linking $u$ and $v$, removing any edge $xy \in T_{uv}$ from $T$ breaks $T$ into two connected components, one containing $u$ and the other $v$. Adding $uv$ reconnects the two parts and form a new spanning tree $T \setminus \{xy\} \cup \{uv\}$.
-        \end{proof}
+\section{Minimum Weighted Spanning Tree - MWST}
+\subsection{Trees}
+\begin{definition}
+    A tree is a connected acyclic graph. A forest is an acyclic graph. A leaf of a tree is a vertex of degree $1$.
+\end{definition}
 
-        \begin{theorem}
-            Let $G = \left(V, E, \omega\right)$. A spanning tree $T$ of $G$ is a minimum spanning tree if and only if for every edge $e \in E \setminus T$ :
-            \[
-                \omega(e) \geq \omega(f) \forall f \in \text{ the unique cycle of } T \cup \{e\}
-            \]
-        \end{theorem}
+\begin{proposition}
+    \begin{itemize}
+        \item Every tree contains at least two leaves
+        \item Every tree $T$ satifies : $\abs{E(T)} = \abs{V(T)} - 1$.
+        \item Every subgraph of a tree is a forest.
+    \end{itemize}
+\end{proposition}
 
-        \begin{definition}
-            A set of edges $A$ is said to be promising if it can be completed into a minimum spanning tree. At each step, we determine an edge $uv$ that we can add to $A$ without violating this invariant, that is $A \cup \{uv\}$ is still a promising set.
-            Such an edge $uv$ is said to be safe with respect to $A$.
-        \end{definition}
+\begin{proposition}
+    Let $G = (V, E)$ be a graph. The following are equivalent :
+    \begin{itemize}
+        \item $G$ is a tree
+        \item Any two vertices in $G$ are linked by a unique path
+        \item $G$ is connected and $\abs{E} = \abs{V} - 1$
+        \item $G$ is acyclic and $\abs{E} = \abs{V} - 1$
+        \item $G$ is connected but for every edge $uv$, $G - \{uv\}$ has exactly two connected components, one containg $u$ and the other $v$.
+        \item $G$ is acyclic but if any edge is added to $G$, the resulting graph contains a unique cycle going through this added edge.
+    \end{itemize}
+\end{proposition}
 
-        The algorithm works as follows : We start with an empty set, and while our set is not a spanning tree, we find a safe edge and add it to the set.
-        How to find safe edges ? 
+\begin{definition}
+    $\omega : E \to \R$ is called a weight function. A spanning tree is a subgraph of $G$ that is a tree and contains all vertices of $G$. The weight of a subgraph is the sum of the weights of its edges.
+\end{definition}
 
-        \begin{definition}
-            A cut $\left(S, V - S\right)$ is a partition of $V$. An edge of the cut or crossing edge is an edge with one end in $S$ and the other in $V - S$. A cut respects a set of edges if no edge of the set is a crossing edge of the cut.
-        \end{definition}
 
-        \begin{proposition}
-            Let $A$ be a promising set of edges. Let $\left(S, V - S\right)$ be a cut respecting $A$ and $uv$ be a lightest crossing edge. Then $uv$ is safe.
-        \end{proposition}
-        \begin{proof}
-            Let $T$ be a MST containing $A$. If $T$ contains $uv$ we are done, so assume it does not. Let $T_{uv}$ be the unique path linking $u$ and $v$ in $T$. Since $uv$ is a crossing edge of $(S, V - S)$, $T_{uv}$ contains an edge $xy$ of $(S, V - S)$. By the cut and paste technique, $T^{'} = (T \setminus \{xy\} ) \cup \{uv\}$ is a spanning tree of $G$. By hypothesis, $uv$ is a lightest edge of $(S, V - S)$, so $\omega(uv) \leq \omega(xy)$ and thus: \[\omega(T^{'}) = \omega(T) + \omega(uv) - \omega(xy) \leq \omega(T)\]
-            So $T^{'}$ is a MST containing $uv$ 
-        \end{proof}
+\begin{proposition}[Cut and Paste Technic]
+    Let $G = (V, E)$ and let $T$ be a spanning tree of $G$. Let $uv \in E(G) - T$ and let $T_{uv}$ be the unique path linking $u$ and $v$ in $T$. Then for every edge $xy$ of $T_{uv}$ $T\setminus \{xy\} \cup \{uv\}$ is a spanning tree of $T$.
+\end{proposition}
+\begin{proof}
+    Since $T_{uv}$ is in the unique path of $T$ linking $u$ and $v$, removing any edge $xy \in T_{uv}$ from $T$ breaks $T$ into two connected components, one containing $u$ and the other $v$. Adding $uv$ reconnects the two parts and form a new spanning tree $T \setminus \{xy\} \cup \{uv\}$.
+\end{proof}
 
-        \subsection{KRUSKAAAAAAAAL}
-        Kruskal algorithm grows a promising forest $A$ : 
-        \begin{itemize}
-            \item Sort the edges by non-decreasing order of weight
-            \item Start with the empty set
-            \item Add a minimum weighted edge that does not create a cycle which is equivalent to add a minimum weighted edge that connects two connected components of the growing forest.
-        \end{itemize}
+\begin{theorem}
+    Let $G = \left(V, E, \omega\right)$. A spanning tree $T$ of $G$ is a minimum spanning tree if and only if for every edge $e \in E \setminus T$ :
+    \[
+        \omega(e) \geq \omega(f) \forall f \in \text{ the unique cycle of } T \cup \{e\}
+    \]
+\end{theorem}
 
-        \begin{algorithm}
-            \caption{Kruskal}
-            \begin{algorithmic}
-                \Input \ \ $G = \left(V, E, \omega\right)$
-                \EndInput
-                \State $A \gets \emptyset$
-                \For {$u \in V$} 
-                    \State $\texttt{Make-Set}(u)$
-                \EndFor
-                \State $\texttt{Sort}(E)$ \Comment{Sort by non-decreasing order of weight}
-                \For {$uv \in E$}
-                    \If {$\texttt{Find}(u) \neq \texttt{Find}(v)$} 
-                        \State $A \gets A \cup \{uv\}$
-                        \State $\texttt{Union}(u, v)$
-                    \EndIf
-                \EndFor
-                \Return \ \ A
-            \end{algorithmic}
-        \end{algorithm}
+\begin{definition}
+    A set of edges $A$ is said to be promising if it can be completed into a minimum spanning tree. At each step, we determine an edge $uv$ that we can add to $A$ without violating this invariant, that is $A \cup \{uv\}$ is still a promising set.
+    Such an edge $uv$ is said to be safe with respect to $A$.
+\end{definition}
 
-        \begin{theorem}
-            The Kruskal algorithm answers the problem in $\O(m \log(n))$ time
-        \end{theorem}
+The algorithm works as follows : We start with an empty set, and while our set is not a spanning tree, we find a safe edge and add it to the set.
+How to find safe edges ?
 
-        \begin{proof}
-            \begin{itemize}
-                \item Complexity : from union-find, we do $\O(m)$ \texttt{Find-Set} and $\O(n)$ \texttt{Union} and \texttt{Make-Set} in $\O(m + n)\alpha(n)^{4}$. As we do one sort, the total complexity is $\O(m\log(n))$.
-                \item Correctness : Comes from the safe property, by considering the loop invariant : Prior to each iteration, $A$ is promising. 
-            \end{itemize}
-        \end{proof}
+\begin{definition}
+    A cut $\left(S, V - S\right)$ is a partition of $V$. An edge of the cut or crossing edge is an edge with one end in $S$ and the other in $V - S$. A cut respects a set of edges if no edge of the set is a crossing edge of the cut.
+\end{definition}
 
-        \subsection{Prim}
-        This algorithm works like Kruskal's, but instead of growing a forest, we grow a tree $A$. At each iteration, we add the lightest edge with exactly one extremity in $V(A)$.
-        \begin{definition}
-            A Priority Queue is a data structure that maintains a set $S$ of elements, each with an associated value called a key. TIt supports the following : 
-            \begin{itemize}
-                \item $\texttt{Insert}(S, x)$
-                \item $\texttt{Minimum}(S)$
-                \item $\texttt{Extract-Min}(S)$
-                \item $\texttt{Decrease-Key}(S, x, k)$ does $x.key \gets k$.
-            \end{itemize}
-        \end{definition}
-        \begin{remark}
-            This is for a min-queue, we can also do a max-queue.
-        \end{remark}
+\begin{proposition}
+    Let $A$ be a promising set of edges. Let $\left(S, V - S\right)$ be a cut respecting $A$ and $uv$ be a lightest crossing edge. Then $uv$ is safe.
+\end{proposition}
+\begin{proof}
+    Let $T$ be a MST containing $A$. If $T$ contains $uv$ we are done, so assume it does not. Let $T_{uv}$ be the unique path linking $u$ and $v$ in $T$. Since $uv$ is a crossing edge of $(S, V - S)$, $T_{uv}$ contains an edge $xy$ of $(S, V - S)$. By the cut and paste technique, $T^{'} = (T \setminus \{xy\} ) \cup \{uv\}$ is a spanning tree of $G$. By hypothesis, $uv$ is a lightest edge of $(S, V - S)$, so $\omega(uv) \leq \omega(xy)$ and thus: \[\omega(T^{'}) = \omega(T) + \omega(uv) - \omega(xy) \leq \omega(T)\]
+    So $T^{'}$ is a MST containing $uv$
+\end{proof}
 
-        We implement priority queues using a heap.
-        \begin{definition}
-            A max-heap is a complete binary tree where the key of a node is larger than the keys of its children. It can be implemented in an array : $\texttt{Parent}(i) = \lfloor \frac{i}{2}\rfloor, \texttt{Left}(i) = 2 i + 1, \texttt{Right}(i) = 2i + 2$. It supports the same operations as a max-queue.
-        \end{definition}
+\subsection{KRUSKAAAAAAAAL}
+Kruskal algorithm grows a promising forest $A$ :
+\begin{itemize}
+    \item Sort the edges by non-decreasing order of weight
+    \item Start with the empty set
+    \item Add a minimum weighted edge that does not create a cycle which is equivalent to add a minimum weighted edge that connects two connected components of the growing forest.
+\end{itemize}
 
-        \begin{theorem}
-            Using a binary heap, insertion is done in $\log N$, max-retrieval is done in constant time and max-deletion is done in $\log N$.
-        \end{theorem}
-        \begin{proof}
-            See implementation.
-        \end{proof}
+\begin{algorithm}
+    \caption{Kruskal}
+    \begin{algorithmic}
+        \Input \ \ $G = \left(V, E, \omega\right)$
+        \EndInput
+        \State $A \gets \emptyset$
+        \For {$u \in V$}
+        \State $\texttt{Make-Set}(u)$
+        \EndFor
+        \State $\texttt{Sort}(E)$ \Comment{Sort by non-decreasing order of weight}
+        \For {$uv \in E$}
+        \If {$\texttt{Find}(u) \neq \texttt{Find}(v)$}
+        \State $A \gets A \cup \{uv\}$
+        \State $\texttt{Union}(u, v)$
+        \EndIf
+        \EndFor
+        \Return \ \ A
+    \end{algorithmic}
+\end{algorithm}
 
-        \begin{algorithm}
-            \caption{PRIM}
-            \begin{algorithmic}
-                \Input \ $G = \left(V, E, \omega\right), r$
-                \EndInput
-                \For {$v \in V$} 
-                    \State $v.\pi \gets \texttt{NIL}$ and $v.key \gets + \infty$
-                \EndFor
-                \State $r.key \gets 0$
-                \State $Q \gets V$
-                \While {$Q \neq \emptyset$}
-                    \State $u \gets \texttt{Extract-Min}(Q)$
-                    \For $v \in \texttt{Adj}[u]$ 
-                        \If $v \in Q \wedge v.key > \omega(uv)$
-                            \State $v.key \gets \omega(uv)$
-                            \State $v.\pi \gets u$
-                        \EndIf
-                    \EndFor
-                \EndWhile
-            \end{algorithmic}
-        \end{algorithm}
+\begin{theorem}
+    The Kruskal algorithm answers the problem in $\O(m \log(n))$ time
+\end{theorem}
 
-        \begin{theorem}
-            This algorithm solves the problem in $\O(m + n\log n)$.
-        \end{theorem}
+\begin{proof}
+    \begin{itemize}
+        \item Complexity : from union-find, we do $\O(m)$ \texttt{Find-Set} and $\O(n)$ \texttt{Union} and \texttt{Make-Set} in $\O(m + n)\alpha(n)^{4}$. As we do one sort, the total complexity is $\O(m\log(n))$.
+        \item Correctness : Comes from the safe property, by considering the loop invariant : Prior to each iteration, $A$ is promising.
+    \end{itemize}
+\end{proof}
 
-        \begin{proof}
-            \begin{itemize}
-                \item Correctness comes from the safe property
-                \item Complexity is in $\O(m\log n)$ with a min-heap and $\O(m + n\log n)$ with a Fibonacci Heap
-            \end{itemize}
-        \end{proof}
+\subsection{Prim}
+This algorithm works like Kruskal's, but instead of growing a forest, we grow a tree $A$. At each iteration, we add the lightest edge with exactly one extremity in $V(A)$.
+\begin{definition}
+    A Priority Queue is a data structure that maintains a set $S$ of elements, each with an associated value called a key. TIt supports the following :
+    \begin{itemize}
+        \item $\texttt{Insert}(S, x)$
+        \item $\texttt{Minimum}(S)$
+        \item $\texttt{Extract-Min}(S)$
+        \item $\texttt{Decrease-Key}(S, x, k)$ does $x.key \gets k$.
+    \end{itemize}
+\end{definition}
+\begin{remark}
+    This is for a min-queue, we can also do a max-queue.
+\end{remark}
 
-        \section{Matroids and Greedy Algorithms}
-        \subsection{Definitions}
-        \begin{definition}
-            Let $E$ be a set of elements and $\mathcal{I} \subseteq 2^{E}$. $\left(E, \mathcal{I}\right)$ is a hereditary set system if it satisfies
-            \begin{itemize}
-                \item M1 : $\emptyset \in \mathcal{I}$
-                \item M2 : If $X \subseteq Y \in \mathcal{I}$, $X \in \mathcal{I}$.
-            \end{itemize}
-            \begin{itemize}
-                \item $E$ is called the ground set.
-                \item Sets in $\mathcal{I}$ are called independent sets.
-                \item Maximal independent sets are called bases.
-                \item For $X \subseteq E$, the rank of $X$ denoted by $rk(X)$ is the size of a maximum independent set included in $X$.
-                \item Sets not in $\mathcal{I}$ are called dependent sets.
-                \item Minimal dependent sets are called circuit.
-            \end{itemize}
-        \end{definition}
+We implement priority queues using a heap.
+\begin{definition}
+    A max-heap is a complete binary tree where the key of a node is larger than the keys of its children. It can be implemented in an array : $\texttt{Parent}(i) = \lfloor \frac{i}{2}\rfloor, \texttt{Left}(i) = 2 i + 1, \texttt{Right}(i) = 2i + 2$. It supports the same operations as a max-queue.
+\end{definition}
 
-        Given a positive weight function, we want to find a maximum independent set such that its weight is maximum. For example : 
+\begin{theorem}
+    Using a binary heap, insertion is done in $\log N$, max-retrieval is done in constant time and max-deletion is done in $\log N$.
+\end{theorem}
+\begin{proof}
+    See implementation.
+\end{proof}
 
-            \begin{itemize}
-                \item MST : $\mathcal{I} = \left\{I \subseteq E \mid I \text{ is a forest } \right\}$
-                \item TSP, SPP, Maximum Matching Problem, Maximum Stable Set, Knapsack are also of the sort.
-            \end{itemize}
-  
+\begin{algorithm}
+    \caption{PRIM}
+    \begin{algorithmic}
+        \Input \ $G = \left(V, E, \omega\right), r$
+        \EndInput
+        \For {$v \in V$}
+        \State $v.\pi \gets \texttt{NIL}$ and $v.key \gets + \infty$
+        \EndFor
+        \State $r.key \gets 0$
+        \State $Q \gets V$
+        \While {$Q \neq \emptyset$}
+        \State $u \gets \texttt{Extract-Min}(Q)$
+        \For $v \in \texttt{Adj}[u]$
+        \If $v \in Q \wedge v.key > \omega(uv)$
+        \State $v.key \gets \omega(uv)$
+        \State $v.\pi \gets u$
+        \EndIf
+        \EndFor
+        \EndWhile
+    \end{algorithmic}
+\end{algorithm}
 
-        \begin{theorem}[Rado - Edmonds]
-            The greedy algorithm for this problem is optimal for any weight function if and only if $\left(E, \mathcal{I}\right)$ is a matroid.
-        \end{theorem}
+\begin{theorem}
+    This algorithm solves the problem in $\O(m + n\log n)$.
+\end{theorem}
 
-        \begin{definition}
-            A matroid is a hereditary set system $E, \mathcal{I}$ such that : if $X, Y \in \mathcal{I}$ and $\abs{X} > \abs{Y}$, there is $x \in X \setminus Y$ such that $Y \cup \{x\} \in \mathcal{I}$
-        \end{definition}
+\begin{proof}
+    \begin{itemize}
+        \item Correctness comes from the safe property
+        \item Complexity is in $\O(m\log n)$ with a min-heap and $\O(m + n\log n)$ with a Fibonacci Heap
+    \end{itemize}
+\end{proof}
+
+\section{Matroids and Greedy Algorithms}
+\subsection{Definitions}
+\begin{definition}
+    Let $E$ be a set of elements and $\mathcal{I} \subseteq 2^{E}$. $\left(E, \mathcal{I}\right)$ is a hereditary set system if it satisfies
+    \begin{itemize}
+        \item M1 : $\emptyset \in \mathcal{I}$
+        \item M2 : If $X \subseteq Y \in \mathcal{I}$, $X \in \mathcal{I}$.
+    \end{itemize}
+    \begin{itemize}
+        \item $E$ is called the ground set.
+        \item Sets in $\mathcal{I}$ are called independent sets.
+        \item Maximal independent sets are called bases.
+        \item For $X \subseteq E$, the rank of $X$ denoted by $rk(X)$ is the size of a maximum independent set included in $X$.
+        \item Sets not in $\mathcal{I}$ are called dependent sets.
+        \item Minimal dependent sets are called circuit.
+    \end{itemize}
+\end{definition}
+
+Given a positive weight function, we want to find a maximum independent set such that its weight is maximum. For example :
+
+\begin{itemize}
+    \item MST : $\mathcal{I} = \left\{I \subseteq E \mid I \text{ is a forest } \right\}$
+    \item TSP, SPP, Maximum Matching Problem, Maximum Stable Set, Knapsack are also of the sort.
+\end{itemize}
+
+
+\begin{theorem}[Rado - Edmonds]
+    The greedy algorithm for this problem is optimal for any weight function if and only if $\left(E, \mathcal{I}\right)$ is a matroid.
+\end{theorem}
+
+\begin{definition}
+    A matroid is a hereditary set system $E, \mathcal{I}$ such that : if $X, Y \in \mathcal{I}$ and $\abs{X} > \abs{Y}$, there is $x \in X \setminus Y$ such that $Y \cup \{x\} \in \mathcal{I}$
+\end{definition}
 
 \part[Shortest Paths / Graph Coloring]{Lecture 8 : 30/11}
 Vraiment, mais vraiment très très la flemme
 
+\path[Parametrized Complexity]{Lecture 9 : 21/12}
+\section{Complexity}
+\subsection{Definitions}
+We usually aim for poly-time algorithm in worst case. Since many problems of interest are $NP$-hard, we want to find better complexity than $\O(c^{n})$ for them, as poly-time in unlikely. \\
+For $NP$-hard problems, there is no algorithm that solves all instances optimally in poly-time. We will now look to measure the complexity in term of the input size and a parameter of the input.
 
+For example, \textsc{Vertex Cover} is $NP$-complete, and looks for a graph $G$ and an integer $k$, is it possible to cover the edges with $k$ vertices ? In Brute-Force, there are $\O(n^{k})$ possibilities but a $\O(2^{k}n^{2})$ algorithm exists. Yet, for $k$-\textsc{Independent Set}, there are no $n^{o(k)}$ algorithm known.
+
+\begin{definition}
+    A parametrized algorithmic problem is a problem where a certain parameter $k$ is given in addition to the input. The complexity is studied as a function of $n$ and $k$. $k$ can be the size of the solution, or an implicit parameter of the input graph.
+\end{definition}
+
+We then have three main possibilities :
+\begin{enumerate}
+    \item Either the problem is already hard for fixed $k$ : $\chi(G) \leq k$.
+    \item Or the problem is $NP$-hard for $k$ in the input but polynomial for fixed $k$ : $\alpha(G) \leq k$. We say the problem is $XP$
+    \item Or it is FPT for $k$, there is an algorithm in $\O(f(k)\times n^{\O(1)})$
+\end{enumerate}
+
+Formally :
+\begin{definition}
+    Let $\Sigma$ be a finite alphabet used to encode the input. A parametrized problem is a set $\mathcal{P} \subseteq \Sigma^{\star} \times \N$. The set $\mathcal{P}$ contains $(x, k)$ if the answer to the question encoded by $x, k$ is \texttt{true}. $k$ is the parameter.
+\end{definition}
+
+\begin{definition}
+    \begin{itemize}
+        \item A parametrized problem is Fixed-Parameter Tractable if there is an algorithm deciding $\mathcal{P}$ in time $f(k)n^{c}$ where $f$ is computable and $c$ is constant.
+        \item A parametrize problem $\mathcal{P}$ is $XP$ if there is an algorithm deciding $\mathcal{P}$ in time $n^{f(k)}$ for some computable $f$ and constanc $c$.
+    \end{itemize}
+\end{definition}
+
+The $W$ hierarchy is a hierarchy inside of $XP$ that looks at the parametrized problems in the same way as $P$ hierarchy.
+
+\begin{openpb}
+    $n$-variable $3$-SAT cannot be solved in time $2^{o(n)}$
+\end{openpb}
+
+\subsection{Clique by Degree}
+We define :
+\begin{definition}
+    Given a graph $G$ with maximum degree $\Delta$ and an integer $k$, does $G$ have a clique of size at least $k$ ?
+\end{definition}
+
+This is FPT since looking at the neighbourhoods of each vertex gives us $\O(2^{\Delta}n)$ time complexity. There might be no FPT solution for \textsc{Clique} parametrized by $k$.
+
+\section{Algorithmic Techniques}
+\subsection{Branching Method}
+
+
+\subsubsection{$k$-\textsc{Vertex Cover}.}
+
+\begin{definition}
+    The main idea of the branching method is to reduce the problem to solving a bounded number of problems with parameter $k' < k$. Since the parameter decreases in every recursive call, the depth of the search tree is at most $k$. The size of the search tree branching into $c$ directions in $c^{k}$.\\
+    We denote $\O(\alpha^{k}n^{\O(1)})$ by $\O^{\star}(\alpha^{k})$
+\end{definition}
+
+Then, for \textsc{Vertex Cover} we branch on vertices of degree at least $3$ :
+\begin{itemize}
+    \item For each vertex $u$ of degree at least $3$, either $u$ is in the solution, or all the neighbours of $u$ are in the solution.
+    \item If every vertex has degree at most $2$, we can solve \textsc{Vertex Cover} in poly-time because the graph is the disjoint union of paths and cycles. These graphs will be the leaves of our search-tree.
+\end{itemize}
+
+
+% \begin{proposition} 
+%     We have : \\
+%     % $(G, k)$ is a YES instance if and only if $\left(G\setminus\left\{u\right\}, k - 1\right)$ or $\left(G \setminus \mathcal{N}\left[u\right],\, k - d(u)\right)$ is. 
+% \end{proposition}
+
+\begin{proposition}
+    The above algorithm gives us a solution to \textsc{Vertex Cover} in $\O*(1.4656^{k})$
+\end{proposition}
+\begin{proof}
+    Let $T(k)$ be the number of leaves in the search tree and $T(k) = 0$ if $k \leq 1$. \\
+    We have $T(k) \leq T(k - 1) + T(k - 3)$. We want to find $c \geq 1$ such that $T(k) \leq c^{k}$ for all $k$. \\
+    We see that $c$ such that $c^{k} \geq c^{k - 1} + c^{k - 3}$. In particular, $c^{3} - c^{2} - 1 \geq 0$. Then $c = 1.4656$ is valid.
+\end{proof}
+\begin{remark}
+    There exists an algorithm in $\O*(1.2738^{k})$.
+\end{remark}
+
+\begin{definition}
+    We define the branching vector of an algorithm as the vector with the decrease parameters.
+\end{definition}
+Here it was $(1, 3)$. If we find an algorithm that branches for $(2, 5, 6, 6, 7, 7)$, we will get $\O*(1.4483^{k})$
+
+\subsubsection{$k$-\textsc{Feedback Vertex Set}}
+\begin{definition}
+    Given a multigraph $G$ and an integer $k$, find a set $S$ of at most $k$ vertices such that $G \setminus S$ is a forest.
+\end{definition}
+A feedback vertex set is a set of vertices that hits every cycle of the graph.
+
+Here, at least one vertex of each cycle must be in the solution, but the size of a cycle can be arbitrarily large. We are going to identify a set of $\O(k)$ vertices such that any size $k$-FVS has to contain one of these vertices and branch on it. To do so, we need reduction rules.
+
+\begin{proposition}[Reduction Rules for FVS]
+    \begin{enumerate}
+        \item If there is a loop at $v$, then delete $v$ and decrease $k$ by one.
+        \item If there is an edge of multiplicity large than $2$, reduce its multiplicity to $2$
+        \item If there is a vertex $v$ of degree $\leq 1$, delete it.
+        \item If there is a vertex $v$ of degree $2$, delete $v$ and add an edge between the neighbours of $v$.
+    \end{enumerate}
+    Applying the reduction rules returns a graph $G^{'}, k'$ with no loops, edge multiplicty > 2, minimum degree $3$.
+
+    We have $G, k$ a YES instance if and only if $G^{'}, k'$ is a YES instance.
+\end{proposition}
+
+\begin{lemma}
+    Let $G$ be a graph with minimum degree $3$, let $V_{3k}$ be the $3k$ largest degree vertices. Then every $FVS$ of size at least $k$ contains at least a vertex of $V_{3k}$.
+\end{lemma}
+\begin{proof}
+    Suppose there is $S$ a solution disjoint frome $V_{3k}$ and let $d = \min d(V_{3k})$. Let $X = V(G) \setminus \left(S \cup V_{3k}\right)$.
+    \[
+        \sum_{v \in X \sqcup V_{3k}} d(v) \geq 3 \abs{X} + 3kd
+    \]
+    But $G[X \cup V_{3k}]$ is a forest so its number of edges is $\leq \abs{X} + 3k - 1$. So the sum of degrees in it is at most $2\abs{X} + 6k - 2$. \\
+    Thus we get the number of edges to be :
+    \begin{itemize}
+        \item $\geq 3kd + 3\abs{X} - \left(2 \abs{X} + -k - 2\right) > 3kd - 6k$
+        \item $\leq dk$ because $S$ has $k$ vertices of degree at most $d$.
+    \end{itemize}
+    So we would have $2kd - 6k < 0$ which is impossible since $d \geq 3$.
+\end{proof}
+
+We then get an algorithm to compute a solution by applying the reduction rules and branching (in polynomial time) on each vertex in $V_{3k}$. Since we branch into $3k$ directions, we get a time complexity in $\O*\left((3k)^{k}\right)$
+
+\subsection{Kernelization}
+\subsubsection{Definitions}
+Kernelization is a method for parametrized preprocessing. We want to reduce the size of the instance $(x, k)$ to an equivalent instance with size bounded by $f(k)$.
+\begin{definition}
+    Let $\mathcal{P}$ be a parametrized problem and $f$ a computable function.\\
+    A kernel of size $f(k)$ is an algorithm that, given $(x, k)$, runs in polynomial-time in $\abs{x} + k$ and outputs an instance $x', k'$ such that :
+    \begin{itemize}
+        \item $x, k \in \mathcal{P} \Leftrightarrow x', k' \in \mathcal{P}$
+        \item $\abs{x^{'}} \leq f(k)$ and $k' \leq k$.
+    \end{itemize}
+    We say the kernel is polynomial is $f$ is polynomial.
+\end{definition}
+
+\begin{theorem}
+    A parametrized problem is FPT if and only if it is decidable and has a kernel.
+\end{theorem}
+\begin{proof}
+    \begin{itemize}
+        \item If the problem has a kernel, we reduce the size of the instance in poly-time and bruteforce on it.
+        \item If the problem is solved in $f(k)\cdot \abs{x}^{c}$.\\
+        If $\abs{x} \leq f(k)$ then we have our kernel. Else, if $\abs{x} \geq f(k)$ then we can solve the problem in time $f(k) \cdot \abs{x}^{c} \leq \abs{x}^{c + 1}$
+    \end{itemize}
+\end{proof}
+
+The real issue is to know which problems have polynomial kernels. 
+
+\subsubsection{\textsc{Vertex Cover}}
+We define two reduction rules for $k$-\textsc{Vertex Cover} : 
+\begin{proposition}
+    \begin{itemize}
+        \item If $v$ has degree $0$, then reduce to $(G - v, k)$
+        \item If $v$ has degree $k + 1$, then reduce to $(G - v, k - 1)$.
+    \end{itemize}
+\end{proposition}
+
+\begin{lemma}
+    If $(G, k)$ is a YES instance for $k$-\textsc{Vertex Cover} on which reduction rules cannot be applied, $G$ has at most $k^{2}$ edges and $k^{2} + k$ vertices.
+\end{lemma}
+\begin{proof}
+    Let $S$ be a vertex cover of $G$ of size at most $k$. Each vertex hits at most $k$ edges because of the second rule. So there is at most $k^{2}$ edges. Each vertex is either in $S$ or is one of the at most $k$ neighbours of a vertex in $S$ so there are at most $k^{2} + k$ vertices. 
+\end{proof}
+
+\begin{proposition}[Kernelization for \textsc{Vertex Cover}]
+    \begin{itemize}
+        \item Apply reduction rules exhaustively. 
+        \item We get an equivalent instance $(G^{'}, k')$ with $k' \leq k$.
+        \item If $\abs{E(g)} > k'^{2}$ $\abs{V}(G) > k'^{2} + k'$ return NO
+        \item Otherwise we have a kernel of size $\O(2k^{2} + k)$.
+    \end{itemize}
+\end{proposition}
+
+\begin{theorem}
+    \textsc{Vertex Cover} has a kernel with at most $2k$ vertices. 
+\end{theorem}
+This is done using Linear Programming. 
+
+\subsection{Color Coding}
+ENVIE DE MOURIR NIQUE L'ALEATOIRE
+
+\subsubsection{$k$-\textsc{Path}}
+\begin{definition}
+    Given $G, k$, decide if $G$ contains a path on $k$ vertices. 
+\end{definition}
+
+We will use a randomize\footnote{BOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO} algorithm that can be determinized.
+
+We transform the problem into the following : 
+\begin{itemize}
+    \item Assume the vertices are colored randomly with $\left\{1, \ldots, k\right\}$. 
+    \item Find a path colored $1 - 2 - \cdots - k$. 
+\end{itemize}
+
+The algorithm is the following : 
+\begin{itemize}
+    \item Assign color from $\left[k\right]$ to the vertices uniformly and independently at random
+    \item Output YES if there is a path colored $1 - 2 - \cdots - k$ else NO
+\end{itemize}
+\begin{proposition}
+    If $G$ has a $k$-path, the probability that this $k$-path is colored $1 - 2 - \cdots - k$ is $1/k^{k}$. So if $G$ is a YES instance the algo outputs YES with probability at least $1/(k^k)$, and if it is a NO instance, the algorithm outputs NO. Then, after $k$ repetitions, error probability is at most $1/e$. 
+\end{proposition}
+
+To find a colored path, we delete edges in the graph from vertices colored $i$ to vertices colored $j$ for $j \neq i-1, i + 1$ and orient edges towards the larger class. We can find a path in linear time with BFS. 
+
+\begin{proposition}
+    The final complexity of this algorithm is $\O(c\cdot k^{k} \cdot (n + m))$ and it has probability of success $1/e^{c}$.
+\end{proposition}
+
+We can still improve color coding by solving the existence of a colorful path instead of the existence of an ordered coloured path. Indeed, if there is $k$-path, the probability that is it colorful is $> e^{- k}$. We now only need to solve the problem $e^{k}$ times instead of $k^{k}$.\\
+We can solve this problem using Dynamic Programming : we solve for each vertex $v$ and set of color $C \subseteq \onen{k}$, the value of $D(v, C)$ that is YES is there is path ending at $v$ using each colour of $C$. \\
+If we denote by $\chi : V \rightarrow [k]$ the random coloring, $D(v, C)$ is YES if and only if $\chi(v) \in C$ and there is an edge $uv$ for which $D(u, C\setminus \chi(v))$ is YES. We thus can solve this in time $2^{k}\times \abs{E}$.
+
+Finally we get the following algorithm : 
+\begin{proposition}
+    Repeat $e^{k}$ times : 
+    \begin{enumerate}
+        \item Sample a coloring $c$
+        \item Check if $G$ contains a colorful $k$-path in time $\O(2^{k}\cdot \abs{E})$ and return YES if it does. 
+    \end{enumerate}
+    If no colorful $k$-path was found, return NO. 
+\end{proposition}
+
+FINALLY : 
+\subsubsection{Derandomization}
+\begin{definition}
+    A family $\mathcal{H}$ of function $\onen{n} \rightarrow \onen{k}$ is a $k$-perfect family of hash functions if for every $S \subseteq \onen{n}$ with $\abs{S} = k$, there is an $h \in \mathcal{H}$ such that $h(x) \neq h(y)$ for any $x\neq y \in S$.
+\end{definition}
+
+\begin{theorem}
+    There is a $k$-perfect family of functions $\onen{n} \rightarrow \onen{k}$ with size $2^{\O(k)}\log n$ and can be constructed in poly-time in the size of the family. 
+\end{theorem}
+
+Then, instead of trying $\O(e^{k})$ random colorings, we go through a $k$-perfect family $\mathcal{H}$ of functions $\onen{n} \rightarrow \onen{k}$. Then, $k$-\textsc{Path} can be solved in deterministic time $2^{\O(k)}\cdot n^{\O(1)}$.
 
 
 
