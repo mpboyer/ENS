@@ -16,7 +16,7 @@
 
 \section*{Introduction}
 Dans la suite on ne s'intéresse qu'à des jeux à plusieurs joueurs i.e. plus de deux.\\
-Un jeu à plusieurs joueurs est, de manière informelle, une abstraction d'un jeu ressemblant par exemple à la belote : Chaque joueur, à son tour, va choisir, parmi un éventail de coups possibles, celui qu'il souhaite effectuer, modifiant alors l'état du jeu. En reprenant l'exemple de la belote, un coup est une carte de la main du joueur, qui ne sait pas exactement quelles cartes ont ses adversaires, et qui ne peut la jouer que sous certaines conditions, à résoudre dans l'ordre :
+Un jeu à plusieurs joueurs est, de manière informelle, une abstraction d'un jeu ressemblant par exemple à la belote : chaque joueur, à son tour, va choisir, parmi un éventail de coups possibles, celui qu'il souhaite effectuer, modifiant alors l'état du jeu. En reprenant l'exemple de la belote, un coup est une carte de la main du joueur, qui ne sait pas exactement quelles cartes ont ses adversaires, et qui ne peut la jouer que sous certaines conditions, à résoudre dans l'ordre :
 \begin{enumerate}
     \item Soit il est le premier à jouer
     \item Soit la carte est de la \textit{bonne} couleur
@@ -330,7 +330,7 @@ On peut alors de même définir la notion de stratégie gagnante :
 \subsection{Jeux Hors-Contexte, Machines de Turing et Automates à Pile}
 On commence déjà par démontrer un résultat sur l'expressivité des jeux hors-contexte. 
 \begin{theorem}
-    Soit $M$ une machine de Turing. On peut construire un jeu de sorte que pour tout mot $w = a_{1}\ldots a_{n}$, on ait : 
+    Soit $M$ une machine de Turing bornée en espace par $s(n)$. On peut construire un jeu de sorte que pour tout mot $w = a_{1}\ldots a_{n}$, on ait : 
     \[
         M \text{ accepte } w \Leftrightarrow \textsc{Tatiana} \text{ gagne } (G, \$q_{0}a_{1}\ldots a_{n}\sqcup^{s(n) - n}\#)  
     \]
@@ -361,7 +361,7 @@ On obtient alors le théorème suivant, qui donne l'équivalence d'expressivité
     \begin{enumerate}
         \item On ne donne qu'un squelette de la (longue) preuve de ce résultat qui peut être retrouvée dans \cite{cfgames}. 
         \begin{itemize}
-            \item On suppose sans perte de généralité que $\mathcal{P} = \scalar{S = S_{T} \cup S_{P}, \Gamma, \delta, F}$ ne modifie la pile que d'au plus un caractère. 
+            \item On suppose sans perte de généralité que $\mathcal{P} = \scalar{S = S_{T} \cup S_{P}, \Gamma, \delta, F}$ modifie la pile d'au plus un caractère. 
             \item On définit un jeu pour lequel les configurations $\left[q, a_{1}\ldots a_{n}\right]$ de $\mathcal{P}$ correspondent aux configurations $\left(u, \boxed{q, a_{1}}\ldots a_{n}\right)$ du jeu, où $u$ est un mot sur les états de $\mathcal{P}$ auxquels on ajoute des symboles vides.
             \item On simule alors les étapes d'ajout/de retrait de la pile en ajoutant des règles. 
         \end{itemize}
@@ -563,9 +563,20 @@ Dans ce jeu, on va mettre en place $12$ phases du jeu qui vont couvrir les étap
     \bibitem{game-desing-automata} Computing Game Design with Automata Theory \textit{Noman Sohaib Qureshi, Hassan Mushtaq, Muhammad Shehzad Aslam, Muhammad Ahsan, Mohsin Ali and Muhammad Aqib Atta}
     \bibitem{cfgames-sum} Summary for Context Free Games \textit{Lukáš Holík, Roland Meyer and Sebastian Muskalla}
     \bibitem{permut-grammar} Permutational Grammar for free word order languages, \textit{Mats Eeg-Olofsson and Bengt Sigurd}
+    \bibitem{timed-automatas-games} Timed Automata for Video Games and Interaction, \textit{Jaime Arias, Raphael Marczak, Myriam Desainte-Catherine}
 \end{thebibliography}
 
-
+\begin{figure}
+    \centering
+    \caption{\textsc{Le Jeu}}
+    \label{fig:dfa:lejeu}
+    Pour finir voici une réminiscence de la supposée troisième partie sur le game design et l'utilisations d'automates pour observer le déroulé d'une partie. \cite{game-desing-automata} propose une méthode de ce style, tandis que \cite{timed-automatas-games} propose d'utiliser des délais pour décrire, en temps réel, le déroulé d'une partie. 
+    \begin{tikzpicture}[shorten >=1pt,node distance=1cm,>={stealth}, initial text = ,
+        every state/.style={draw=vulm!50,very thick,fill=yulm!20, text = vulm}, accepting/.style={accepting by arrow, double}]
+        \node[state, initial] (q) {J'ai perdu.};
+        \path[->, vulm] (q) edge[loop right] node [right] {Attendre 30mn} (q);
+    \end{tikzpicture}
+\end{figure}
 
 \end{document}
 

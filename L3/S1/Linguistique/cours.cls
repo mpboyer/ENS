@@ -55,12 +55,12 @@
 \titlespacing*{\paragraph}
 {0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
 
-\newtheorem{theorem}{Théorème}[subsection]
-\newtheorem{corollary}{Corollaire}[theorem]
+\newtheorem{theorem}{Theorem}[subsection]
+\newtheorem{corollary}{Corollary}[theorem]
 \newtheorem{lemma}[theorem]{Lemme}
-\newtheorem{remark}{Remarque}[theorem]
+\newtheorem{remark}{Remark}[theorem]
 \newtheorem{proposition}{Proposition}[subsection]
-\newtheorem{definition}{Définition}[subsection]
+\newtheorem{definition}{Definition}[subsection]
 \newtheorem{example}{Exemple}[subsection]
 
 

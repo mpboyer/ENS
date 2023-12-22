@@ -751,6 +751,17 @@ Pour justifier la bonne définition des classes de complexité $\comp{DTime}(f(n
     Le problème SAT est le problème de la satisfiabilité d'une formul de calcul propositionnel. Le problème 3SAT couvre le cas où cette formule est en forme normale conjonctive avec au plus trois littéraux par clause. 
 \end{definition}
 
+\begin{theorem}[Cook-Levin]\label{thm:cook}
+    \comp{SAT} est \comp{NP}-complet. 
+\end{theorem}
+
+\begin{theorem}
+    $3$-\comp{SAT} est \comp{NP}-complet
+\end{theorem}
+\begin{proof}
+    Par réduction de \comp{SAT}
+\end{proof}
+
 \part[Précisions sur la Complétude]{Cours 10 : 14/12}
 \section{Précision sur la complétude}
 \subsection{FPT}
@@ -851,5 +862,106 @@ Pour justifier la bonne définition des classes de complexité $\comp{DTime}(f(n
         \forall x \in \Sigma^{\star}, x \in L \Leftrightarrow \exists u_{1} \in \left\{0, 1\right\}^{q(x)}, \forall u_{2} \in \left\{0, 1\right\}^{q(x)}, \ldots, Q_{i}u_{i} \in \left\{0, 1\right\}^{q(x)}, M(x, u_{1}, \ldots, u_{i}) = 1
     \]
 \end{proposition}
+
+\part[Classes en Espace]{Cours 11 : 21/12}
+\section{Définition de \comp{PSpace}, \comp{NPSpace}, \comp{NL}, \comp{L}}
+Dans toute la suite, on considère qu'on a une bande d'entrée, une ou plusieurs bande de travail, et une bande de sortie sur laquelle on ne peut qu'écrire et se déplacer à droite. 
+\begin{definition}
+    L'espace utilisé est le nombre de cases utilisées sur les bandes de travail. 
+\end{definition}
+
+\begin{definition}
+    \comp{PSpace} 
+\end{definition}
+
+
+\begin{definition}[Configurations]
+    On appelle configuration une description de l'état de la machine de Turing.\\
+    Le graphe de configuration pour $M$ et $x$ a : 
+    \begin{itemize}
+        \item Pour sommets les configurations de $M$ sur $x$
+        \item Pour arcs, un arc de $C$ vers $C^{'}$ si et seulement si $M$ peut passer de $C$ en $C^{'}$ en une transition. 
+    \end{itemize}
+\end{definition}
+
+Dans la suite, lorsqu'on parle d'une machine bornée en espace par $s(n)$, on suppose que $s$ est constructible en espace. 
+
+\begin{proposition}
+    Pour une machine qui utilise un espace en $\O(s(n))$, la machine possède $\O(2^{\O(s(n))})$.
+\end{proposition}
+\begin{proof}
+    On dénombre.
+\end{proof}
+
+\begin{definition}[QBF]
+    \comp{Quantified Boolean Formula} est un problème qui, à partir d'une formule $\phi$ revoie vrai si et seulement si $\phi$ est valide où $\phi$ est de la forme $Q_{1}x_{1} \ldots Q_{n}x_{n}\psi(x_{1}, \ldots, x_{n})$ et $\psi$ une formule propositionnelle. 
+\end{definition}
+
+\begin{proposition}
+    \comp{QBF} est \comp{PSpace}-complet
+\end{proposition}
+\begin{proof}
+    \begin{itemize}
+        \item \comp{QBF} $\in$ \comp{PSpace} : On va sur la deuxième bande de travail maintenir la valeur des $n$ variables lors du test courant. On teste pour $x_{0}$ une formule $\phi'$ où on a remplacé $x_{0}$ par $0$ puis une formule $\phi''$ où on a remplacé $x_{1}$ par $1$. 
+        \item \comp{QBF} est \comp{PSpace}-difficile : Soit $L \in \comp{PSpace}$. On construit $f : \Sigma^{\star} \rightarrow$ input de \comp{QBF} tel que $\forall x \in \Sigma^{\star}, x \in L \Leftrightarrow f(x)$ est valide et $f$ calculable en temps polynomial. \\
+        Il existe une machine de Turing $M_{L}$ fonctionnant en espace polynomial $x\in L \Leftrightarrow M_{L}(x) = 1$. Ceci est équivalent au fait qu'il existe un chemin dans le graphe des configurations de $M_{L}$ sur $x$ qui part de $C_{init}$ à $C_{accept}$ de taille au plus $2^{O(s(n))}$.\\
+        On définit par induction $\phi_{M, x, i}$ (à deux variables libres $C_{1}, C_{2}$) valide si et seulement si il existe un chemin de taille au plus $2^{i}$ allant de $C_{1}$ à $C_{2}$ dans le graphe des configurations de $M$ sur $x$ : 
+        \begin{itemize}
+            \item $\phi_{M, x, 0}(C_{1}, C_{2})$ : cf.théorème de Cook \ref{thm:cook} avec une bande de taille $s(\abs{x})$
+            \item $\phi_{M, x, i}(C_{1}, C_{2}) = \exists C^{'}\forall D \forall D^{'}\left(\left((D = C_{1})\land (D = C_{2})\right)\lor \left((D = C^{'}) \land (D^{'} = C_{2})\right)\right) \Rightarrow \phi_{M, x, i - 1}(D, D^{'})$
+        \end{itemize}
+        On pose alors $\phi = \phi_{M, x, \log(G)}(C_{init}, C_{accept})$ où $G$ est la taille du graphe de configuration. 
+    \end{itemize}
+\end{proof}
+
+\begin{definition}
+    On déifnit \comp{L} la classe des problèmes résolubles en espace logarithmique pour une machine déterministe et \comp{NL} la version non-déterministe. 
+\end{definition}
+On considère des réductions en espace logarithmique. On peut effectivement les composer, à condition de recalculer, dès qu'on en a besoin, le résultat intermédiaire, pusiqu'on a pas le droit de le stocker. 
+
+\begin{definition}
+    Le problème \comp{Reachability} est un problème qui, étant donné un digraph $G$ et deux sommets $s$ et $t$ renvoie vrai si et seulement si $t$ est accessible depuis $s$. 
+\end{definition}
+
+\begin{proposition}
+    \comp{Reachability} est \comp{NL}-complet.
+\end{proposition}
+\begin{proof}
+    \begin{itemize}
+        \item Etapes de l'algorithme : 
+        \begin{itemize}
+            \item $current = s$
+            \item $step = 0$
+            \item tant que $current \neq t$ et $step < n$
+            \item $current = x \in N(s)$
+            \item $step += 1$
+            \item fin tant que
+            \item si $current = t$
+            \item renvoyer vrai
+            \item sinon renvoyer faux
+        \end{itemize}
+        \item \comp{Reachability} est \comp{NL}-difficile :\\
+        Soit $L\in \comp{NL}$
+    \end{itemize}
+\end{proof}
+
+
+\section{\comp{PSpace}-complétude}
+
+\section{Théorème de Savitch}
+\begin{theorem}
+    Si $s(n) \geq \log n$, alors $\comp{NSpace}(s(n)) \subseteq \comp{Space}(s^{2}(n))$
+\end{theorem}
+
+
+
+
+\section{Liens à \comp{PSpace}}
+\subsection{Relations \comp{PH} - \comp{PSpace}}
+
+\subsection{\comp{AP} = \comp{PSpace}}
+On a aussi \comp{APSpace} = \comp{ExpTime} et \comp{AExpTime} = \comp{ExpSpace}
+
+
 
 \end{document}
