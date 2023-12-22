@@ -560,7 +560,7 @@ Dans ce jeu, on va mettre en place $12$ phases du jeu qui vont couvrir les étap
     \bibitem{game-rep-automata} A-Games: using game-like representation for representing finite automatas \textit{Cleyton Slaviero, Edward Hermann Haeusler}
     \bibitem{card-game-lang} A Card Game Description Language \textit{Jose M. Font, Tobias Mahlmann, Daniel Manrique, and Julian Togelius}
     \bibitem{cfgames} Active Context-Free Games \textit{Anca Muscholl, Thomas Schwentick, and Luc Segoufin}
-    \bibitem{game-desing-automata} Computing Game Design with Automata Theory \textit{Noman Sohaib Qureshi, Hassan Mushtaq, Muhammad Shehzad Aslam, Muhammad Ahsan, Mohsin Ali and Muhammad Aqib Atta}
+    \bibitem{game-design-automata} Computing Game Design with Automata Theory \textit{Noman Sohaib Qureshi, Hassan Mushtaq, Muhammad Shehzad Aslam, Muhammad Ahsan, Mohsin Ali and Muhammad Aqib Atta}
     \bibitem{cfgames-sum} Summary for Context Free Games \textit{Lukáš Holík, Roland Meyer and Sebastian Muskalla}
     \bibitem{permut-grammar} Permutational Grammar for free word order languages, \textit{Mats Eeg-Olofsson and Bengt Sigurd}
     \bibitem{timed-automatas-games} Timed Automata for Video Games and Interaction, \textit{Jaime Arias, Raphael Marczak, Myriam Desainte-Catherine}
@@ -570,7 +570,9 @@ Dans ce jeu, on va mettre en place $12$ phases du jeu qui vont couvrir les étap
     \centering
     \caption{\textsc{Le Jeu}}
     \label{fig:dfa:lejeu}
-    Pour finir voici une réminiscence de la supposée troisième partie sur le game design et l'utilisations d'automates pour observer le déroulé d'une partie. \cite{game-desing-automata} propose une méthode de ce style, tandis que \cite{timed-automatas-games} propose d'utiliser des délais pour décrire, en temps réel, le déroulé d'une partie. 
+    \begin{center}
+        Pour finir voici une réminiscence de la supposée troisième partie sur le game design et l'utilisations d'automates pour observer le déroulé d'une partie.\\ \cite{game-design-automata} propose une méthode de ce style, tandis que \cite{timed-automatas-games} propose d'utiliser des délais pour décrire, en temps réel, le déroulé d'une partie. 
+    \end{center}
     \begin{tikzpicture}[shorten >=1pt,node distance=1cm,>={stealth}, initial text = ,
         every state/.style={draw=vulm!50,very thick,fill=yulm!20, text = vulm}, accepting/.style={accepting by arrow, double}]
         \node[state, initial] (q) {J'ai perdu.};
