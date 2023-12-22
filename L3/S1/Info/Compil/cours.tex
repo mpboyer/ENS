@@ -28,19 +28,19 @@ On juge un compilateur à : \begin{enumerate}
 \end{quote}
 
 \subsection{Le Travail d'un Compilateur}
-Le travail d'un compilateur se compose : 
+Le travail d'un compilateur se compose :
 \begin{itemize}
-    \item d'une phase d'analyse qui : 
-    \begin{enumerate}
-        \item reconnaît le programme à traduire et sa signification
-        \item signale les erreurs et peut donc échouer
-    \end{enumerate}
-    \item d'une phase de synthèse qui : 
-    \begin{enumerate}
-        \item produit du langage cible 
-        \item utilise de nombreux langages intermédiaires
-        \item n'échoue pas
-    \end{enumerate}
+    \item d'une phase d'analyse qui :
+          \begin{enumerate}
+              \item reconnaît le programme à traduire et sa signification
+              \item signale les erreurs et peut donc échouer
+          \end{enumerate}
+    \item d'une phase de synthèse qui :
+          \begin{enumerate}
+              \item produit du langage cible
+              \item utilise de nombreux langages intermédiaires
+              \item n'échoue pas
+          \end{enumerate}
 \end{itemize}
 Processus : source $\rightarrow$ analyse lexicale $\rightarrow$ suite de lexèmes (tokens) $\rightarrow$ analyse syntaxique $\rightarrow$ Arbre de syntaxe abstraite $\rightarrow$ analyse sémantique $\rightarrow$ syntaxe abstraite + table des symboles $\rightarrow$ production de code $\rightarrow$ langage assembleur $\rightarrow$ assembleur $\rightarrow$ langage machine $\rightarrow$ éditeur de liens $\rightarrow$ exécutable.
 
@@ -49,7 +49,7 @@ Processus : source $\rightarrow$ analyse lexicale $\rightarrow$ suite de lexème
 On représente les entiers sur $n$ bits numérotés de droite à gauche. Typiquement, $n$ vaut 8, 16, 32 ou 64. On peut représenter des entiers non signés jusqu'à $2^{n} - 1$. On peut représenter les entiers en définissant $b_{n-1}$ comme un bit de signe, on peut alors représenter $\left[-2^{n-1}, 2^{n-1}-1\right]$. La valeur d'une suite de bits est alors : $-b_{n-1}2^{n-1} + \sum_{k = 0}^{n-2} b_{k} 2^{k}$. On ne peut pas savoir si un entier est signé sans le contexte. \\
 La machine fournit des opérations logiques (bit à bit), de décalage (ajout de bits 0 de poids fort, 0 de poids faible ou réplication du bit de signe pour interpréter une division), d'arithmétique (addition, soustraction, multiplication). \\
 \subsection{Architecture}
-Un ordinateur contient : 
+Un ordinateur contient :
 \begin{itemize}
     \item Une unité de calcul (CPU) qui contient un petit nombre de registres et des capactités de calcul
     \item Une mémoire vive (RAM), composée d'un très grand nombre d'octets (8 bits), et des données et des instructions, indifférenciables sans contexte.
@@ -64,7 +64,7 @@ Extension 64 bits d'une famille d'architectures compatibles Intel par AMD adopt�
 On ne programme pas en langage machine mais en assembleur, langage symbolique avec allocation de données globales, qui est transformé en langage machine par un assembleur qui est en réalité un compilateur. On utilise l'assembleur GNU avec la syntaxe AT\&T (la syntaxe Intel existe aussi).
 
 \subsection{L'assembleur \texttt{x86-64}}
-Pour assembler un programme assembleur, appeler \texttt{as -o file.o} puis appeler l'édition de lien avec \texttt{gcc -no-pie file.s -o exec-name}. 
+Pour assembler un programme assembleur, appeler \texttt{as -o file.o} puis appeler l'édition de lien avec \texttt{gcc -no-pie file.s -o exec-name}.
 On peut débuguer en ajoutant l'option \texttt{-g}.
 La machine est petite boutiste (little-endian) si elle stocke les valeurs dans la RAM en commençant par le bit de poids faible, gros boutiste (big-endian) pour le poids fort. \\
 Commandes : Dans cette liste, \%($r$) désigne l'adresse mémoire stockée dans $r$
@@ -72,14 +72,14 @@ Commandes : Dans cette liste, \%($r$) désigne l'adresse mémoire stockée dans 
     \item \texttt{movq \$a \%b} permet de mettre la valeur $a$ dans le registre $b$
     \item \texttt{movq \%a \%b} permet de copier le registre $a$ dans le registre $b$
     \item \texttt{movq \$label \%b} permet de changer l'adresse de l'étiquette dans le registre $b$
-    \item \texttt{addq \%a \%b} permet d'additionner les registres $a$ et $b$. 
+    \item \texttt{addq \%a \%b} permet d'additionner les registres $a$ et $b$.
     \item \texttt{incq \%r} permet d'incrémenter le registre $r$, de même pour \texttt{decq}.
     \item \texttt{negq \%r} permet de modifier la valeur de $r$ en sa négation
     \item \texttt{notq \%r} permet de modifier la valeur de $r$ en sa négation logique.
     \item \texttt{orq \%r1 \%r2} (resp. \texttt{andq} et \texttt{xorq}) permet d'affecter à $r2$, $or(r1, r2)$ (resp. $and, xor$)
-    \item \texttt{salq \$n \%r}/\texttt{salq \%cl \%r} décale la valeur de $r$ de $n$ (ou $\%cl$) zéros à gauche. 
-    \item \texttt{sarq} est le décalage à droite arithmétique, \texttt{shrq} le décalage à droite logique. 
-    \item Le suffixe \texttt{q} désigne une opération sur 64 bits. \texttt{b} désigne 1 octet, \texttt{w} désigne 2 octets, \texttt{l} désigne 4 octets. Il faut préciser les deux extensions si celles-ci diffèrent. 
+    \item \texttt{salq \$n \%r}/\texttt{salq \%cl \%r} décale la valeur de $r$ de $n$ (ou $\%cl$) zéros à gauche.
+    \item \texttt{sarq} est le décalage à droite arithmétique, \texttt{shrq} le décalage à droite logique.
+    \item Le suffixe \texttt{q} désigne une opération sur 64 bits. \texttt{b} désigne 1 octet, \texttt{w} désigne 2 octets, \texttt{l} désigne 4 octets. Il faut préciser les deux extensions si celles-ci diffèrent.
     \item \texttt{jmp label} permet de jump à une étiquette.
 \end{itemize}
 
@@ -92,36 +92,36 @@ On ne sait pas combien il y a d'instructions en \texttt{x86-64}.
 C'est de traduire un programme d'un langage de haut niveau vers ce jeu d'instruction.\\
 Constat : les appels de fonctions peuvent être arbitrairement imbriqués et les registres ne suffisent pas $\Rightarrow$ on crée alors une pile car les fonctions procèdent majoritairement selon un mode LIFO.\\
 La pile est stockée tout en haut, et croît dans le sens des adresses décroissantes, \texttt{\%rsp} poînte sur le sommet de la pile. Les données dynamiques sont allouées sur le tas, en bas de la zone de données. Chaque programme a l'illusion d'avoir toute la mémoire pour lui tout seul, illusion créée par l'OS. \\
-En assembleur on a des facilités d'utilisation de la pile : 
+En assembleur on a des facilités d'utilisation de la pile :
 \begin{itemize}
     \item \texttt{pushq \$a} push $a$ dans la pile
     \item \texttt{popq \%rdi} dépile
 \end{itemize}
 Lorsque $f$ (caller) appelle une fonction $g$ (callee), on ne peut pas juste \texttt{jmp g}. On utilise \texttt{call g} puis une fois que c'est terminé \texttt{ret}.\\
-Mézalor tout registre utilisé par $g$ sera perdu par $f$. On s'accorde alors sur des \textbf{conventions d'appel}. Des arguments sont passés dans certains registres, puis sur la pile, la valeur de retour est passéee dans \texttt{\%rax}. 
+Mézalor tout registre utilisé par $g$ sera perdu par $f$. On s'accorde alors sur des \textbf{conventions d'appel}. Des arguments sont passés dans certains registres, puis sur la pile, la valeur de retour est passéee dans \texttt{\%rax}.
 Certains registres sont \textit{callee-saved} i.e. l'appelé doit les sauvegarder pour qu'elle survivent aux appels. Les autres registres sont dit \textit{caller-saved} et ne vont pas survivre aux appels. \\
 Il faut également qu'en entrée de fonction \texttt{\%rsp + 8} doît être multiple de $16$, sinon des fonctions peuvent planter. \\
-Il y a quatres temps dans un appel : 
+Il y a quatres temps dans un appel :
 \begin{enumerate}
-    \item Pour l'appelant, juste avant l'appel : 
+    \item Pour l'appelant, juste avant l'appel :
     \item Pour l'appelé, au début de l'appel :
-    \begin{enumerate}
-        \item Sauvegarde \texttt{\%rbp} puis le positionne.
-        \item Alloue son tableau d'activation.
-        \item Sauvegarde les registres \textit{callee-saved}.
-    \end{enumerate}
-    \item Pour l'appelé, à la fin de l'appel : 
-    \begin{enumerate}
-        \item Placer le résultat dans \texttt{\%rax}
-        \item Restaure les registres sauvegardés
-        \item Dépile sont tableau d'activation
-        \item Exécute \texttt{ret}
-    \end{enumerate}
-    \item Pour l'appelant, juste après l'appel : 
-    \begin{enumerate}
-        \item Dépile les éventuels arguments
-        \item Restaure les registres \textit{caller-saved}
-    \end{enumerate}
+          \begin{enumerate}
+              \item Sauvegarde \texttt{\%rbp} puis le positionne.
+              \item Alloue son tableau d'activation.
+              \item Sauvegarde les registres \textit{callee-saved}.
+          \end{enumerate}
+    \item Pour l'appelé, à la fin de l'appel :
+          \begin{enumerate}
+              \item Placer le résultat dans \texttt{\%rax}
+              \item Restaure les registres sauvegardés
+              \item Dépile sont tableau d'activation
+              \item Exécute \texttt{ret}
+          \end{enumerate}
+    \item Pour l'appelant, juste après l'appel :
+          \begin{enumerate}
+              \item Dépile les éventuels arguments
+              \item Restaure les registres \textit{caller-saved}
+          \end{enumerate}
 \end{enumerate}
 \newpage
 \part[Syntaxe abstraite, sémantique, interprètes]{Cours 2: 6/10}
@@ -148,7 +148,7 @@ On caractérise les programmes par l'intermédiaire des propriétés satsfaites 
 A chaque expression $e$, on associe sa définition $\left\lVert e\right\rVert $ qui est un objet représentant le calcul désigné par $e$. On définit cet objet récursivement.\\
 
 \subsubsection{Sémantique Par Traduction}
-On définit la sémantique d'un langage en le traduisant vers un langage dont la sémantique est connue. 
+On définit la sémantique d'un langage en le traduisant vers un langage dont la sémantique est connue.
 
 \subsection{Sémantique Opérationnelle}
 La sémantique opérationnelle décrit l'enchaînement des calculs élémentaires qui mènent de l'expression à son résultat.\\
@@ -157,7 +157,7 @@ Il y a deux formes de sémantique opérationelle :
     \item La sémantique naturelle (big-steps semantics) : $e \twoheadrightarrow v$
     \item La sémantique par réduction (small steps semantics) $e \rightarrow e_{1} \rightarrow e_{2} \rightarrow \ldots \rightarrow v$
 \end{enumerate}
-On applique ça à Mini-ML (qui est Turing-Complet). 
+On applique ça à Mini-ML (qui est Turing-Complet).
 
 \subsubsection{Sémantique Opérationnelle à Grand Pas}
 On cherche à définir $e \twoheadrightarrow v$. On définit les valeurs parmi les constantes, les primitives non appliquées, les fonctions et les paires. \\
@@ -166,34 +166,34 @@ Une dérivation est un arbre dont les noeuds correspondent aux règles et les fe
 \begin{definition}
     On définit les variables libres d'une expression $e$, noté $fv(e)$ par récurrence sur $e$ avec :
     \begin{tabular}{rcl}
-        $fv(x)$ &$=$&$\left\{x\right\}$\\
-        $fv(c)$ &$=$&$\emptyset$\\
-        $fv(op)$ &$=$&$\emptyset$\\
-        $fv(\fun{x}{e})$ &$=$&$fv(e) \setminus \left\{x\right\}$\\
-        $fv(e_{1} e_{2})$ &$=$&$fv(e_{1}) \cup fv(e_{2})$\\
-        $fv((e_{1}, e_{2}))$ &$=$&$fv(e_{1}) \cup fv(e_{2})$\\
-        $fv(\letin{x = e_{1}} e_{2})$ &$=$&$fv(e_{1}) \cup \left(fv(e_{2})\setminus \left\{x\right\}\right)$\\
-        $fv(x)$ &$=$&$\left\{x\right\}$\\        
+        $fv(x)$                       & $=$ & $\left\{x\right\}$                                                \\
+        $fv(c)$                       & $=$ & $\emptyset$                                                       \\
+        $fv(op)$                      & $=$ & $\emptyset$                                                       \\
+        $fv(\fun{x}{e})$              & $=$ & $fv(e) \setminus \left\{x\right\}$                                \\
+        $fv(e_{1} e_{2})$             & $=$ & $fv(e_{1}) \cup fv(e_{2})$                                        \\
+        $fv((e_{1}, e_{2}))$          & $=$ & $fv(e_{1}) \cup fv(e_{2})$                                        \\
+        $fv(\letin{x = e_{1}} e_{2})$ & $=$ & $fv(e_{1}) \cup \left(fv(e_{2})\setminus \left\{x\right\}\right)$ \\
+        $fv(x)$                       & $=$ & $\left\{x\right\}$                                                \\
     \end{tabular}\\
-    On défnit la substitution  de toute occurence libre de $x$ dans $e$ par $v$ définie par : 
+    On défnit la substitution  de toute occurence libre de $x$ dans $e$ par $v$ définie par :
     \begin{tabular}{rcl}
-        $x[x\leftarrow v]$ &=& $v$\\
-        $y[x \leftarrow v]$ &$=$& $y$ si $y\neq x$
+        $x[x\leftarrow v]$  & =   & $v$              \\
+        $y[x \leftarrow v]$ & $=$ & $y$ si $y\neq x$
     \end{tabular}
 \end{definition}
 On fait le choix d'une stratégie d'appel par valeur, i.e. l'argument est complètement évalué avant l'appel. \\
 On a ici comme axiomes : $\overline{c \twoheadrightarrow c}$, $\overline{op \twoheadrightarrow op}$, $\overline{(\texttt{fun } x \rightarrow e) \twoheadrightarrow (\fun{x}{e})}$
-et comme règles d'inférences : 
-\[    
+et comme règles d'inférences :
+\[
     \frac{e_{1} \twoheadrightarrow v_{1} \ \ e_{2} \twoheadrightarrow v_{2}}{(e_{1}, e_{2}) \twoheadrightarrow (v_{1}, v_{2})} \ \ \ \frac{e_{1} \twoheadrightarrow v_{1} \ \ e_{2}[x \leftarrow v_{1}] \twoheadrightarrow v}{let\ x  = e_{1} \texttt{ in } e_{2} \twoheadrightarrow v}
 \]
-et 
+et
 \[
-  \frac{e_{1}\rrarrow(\fun{x}{e})\ \ e_{2} \rrarrow v_{2} \ \ e[x \leftarrow v_{2}] \rrarrow v}{e_{1}\ e_{2} \rrarrow v}
+    \frac{e_{1}\rrarrow(\fun{x}{e})\ \ e_{2} \rrarrow v_{2} \ \ e[x \leftarrow v_{2}] \rrarrow v}{e_{1}\ e_{2} \rrarrow v}
 \]
-On ajoute ensuite des règles pour les primitives, dépendant de la forme de chacune, e.g. : 
+On ajoute ensuite des règles pour les primitives, dépendant de la forme de chacune, e.g. :
 \[
-  \frac{e_{1} \rrarrow + \ \ e_{2} \rrarrow (n_{1}, n_{2})\ \ n = n_{1} + n_{2}}{e_{1}\ e_{2} \rrarrow n}  
+    \frac{e_{1} \rrarrow + \ \ e_{2} \rrarrow (n_{1}, n_{2})\ \ n = n_{1} + n_{2}}{e_{1}\ e_{2} \rrarrow n}
 \]
 
 Partant, on peut montrer qu'un programme s'évalue en une valeur en écrivant l'arbre de dérivation de celui-ci. \\
@@ -212,10 +212,10 @@ On peut établir une propriété d'une relation définie par un ensemble de règ
     Si $e \twoheadrightarrow v$ et $e \twoheadrightarrow v^{'}$, alors $v = v'$.
 \end{proposition}
 \begin{proof}
-    Par induction. 
+    Par induction.
 \end{proof}
 \begin{remark}
-    On a donc définit une fonction plus qu'une relation. 
+    On a donc définit une fonction plus qu'une relation.
 \end{remark}
 
 \subsubsection{Sémantique à Petits Pas}
@@ -223,12 +223,12 @@ La sémantique opérationnelle à petits pas remédie aux problèmes de programm
 On commence par définir une relation $\rightarrow^{\epsilon}$ correspondant à une réduction en tête, au sommet de l'expression, par exemple : $(\texttt{fun } x\rightarrow e)\ v \rightarrow^{\epsilon} e[x \leftarrow v]$
 On se donne également des règles pour les primitives. On réduit en profondeur en introduisant la règle d'inférence : $\frac{e_{1}\rightarrow^{\epsilon} e_{2}}{E(e_{1})\rightarrow E(e_{2})}$ où $E$ est un contexte défini par la grammaire suivante :
 \begin{tabular}{crl}
-    $E$ &$::=$& $\square$\\
-    &|& $E e$\\
-    &|& $v E$\\
-    &|& $\letin{x = E} e$\\
-    &|& $(E, e)$\\
-    &|& $(v, E)$\\
+    $E$ & $::=$ & $\square$         \\
+        & |     & $E e$             \\
+        & |     & $v E$             \\
+        & |     & $\letin{x = E} e$ \\
+        & |     & $(E, e)$          \\
+        & |     & $(v, E)$          \\
 \end{tabular}\\
 Un Contexte est un terme à trou où $\square$ représente le trou. $E(e)$ dénote le contexte $E$ dans lequel $\square$ a été remplacé par $e$. La règle d'inférence permet donc d'évaluer une sous-expression. Tels que définis, les contextes impliquent ici une évaluation en appel par valeur et de gauche à droite. \\
 On note $\rightarrow^{*}$ la cloture réflexive et transitive de $\rightarrow$.
@@ -240,12 +240,12 @@ On note $\rightarrow^{*}$ la cloture réflexive et transitive de $\rightarrow$.
 \begin{theorem}
     Les deux sémantiques opérationnelles sont équivalentes pour les expressions dont l'évaluation termine sur une valeur i.e. :
     \[
-        e \rrarrow v \Leftrightarrow e \rightarrow^{*} v    
-    \]    
+        e \rrarrow v \Leftrightarrow e \rightarrow^{*} v
+    \]
 \end{theorem}
 \begin{proof}
     \begin{lemma}[Passage au contexte des réductions]
-        Supposons $e \rightarrow e'$, alors :        
+        Supposons $e \rightarrow e'$, alors :
         \begin{enumerate}
             \item $e e_{2} \rightarrow e^{'} e_{2}$
             \item $v e \rightarrow v e^{'}$
@@ -253,30 +253,30 @@ On note $\rightarrow^{*}$ la cloture réflexive et transitive de $\rightarrow$.
         \end{enumerate}
     \end{lemma}
     \begin{itemize}
-        \item $(\Rightarrow)$ On procède par induction sur la dérivation. 
+        \item $(\Rightarrow)$ On procède par induction sur la dérivation.
         \item $(\Leftarrow)$ :
-        \begin{lemma}[Evaluation des Valeurs]
-           On a $v \rrarrow v$.
-        \end{lemma}
-        \begin{lemma}
-            Si $e \rightarrow e'$ et $e' \rrarrow v$ alors $e \rrarrow v$.
-        \end{lemma}
-        \begin{proof}
-            On commence par les réductions de tête, puis on procède par induction aux applications de contexte. 
-        \end{proof}
-        On a alors, par récurrence sur le nombre de pas, l'implication souhaitée. 
+              \begin{lemma}[Evaluation des Valeurs]
+                  On a $v \rrarrow v$.
+              \end{lemma}
+              \begin{lemma}
+                  Si $e \rightarrow e'$ et $e' \rrarrow v$ alors $e \rrarrow v$.
+              \end{lemma}
+              \begin{proof}
+                  On commence par les réductions de tête, puis on procède par induction aux applications de contexte.
+              \end{proof}
+              On a alors, par récurrence sur le nombre de pas, l'implication souhaitée.
     \end{itemize}
 \end{proof}
 
 \subsubsection{Langages Impératifs}
-Pour un langage impératif les sémantiques ci-dessus sont insuffisantes. On associe alors typiquement un état $S$ à l'expression évaluée. L'état peut être décomposé en plusieurs éléments pour modéliser par exemple une pile (des variables locales), des tas... 
+Pour un langage impératif les sémantiques ci-dessus sont insuffisantes. On associe alors typiquement un état $S$ à l'expression évaluée. L'état peut être décomposé en plusieurs éléments pour modéliser par exemple une pile (des variables locales), des tas...
 
 \section{Interprète}
-    On peut programmer un interprète en suivant les règles de la sémantique naturelle. On se donne un type pour la syntaxe abstraite des expressions et on définit une fonction correspondant à la relation $\twoheadrightarrow$\\
-    Un interprète renvoie la (ou les) valeur(s) d'une expression, souvent récursivement.\\
-    On peut éviter l'opération de substitution, en interprétant l'expression $e$ à l'aide d'un environnement donnant la valeur courante de chaque variable (un dictionnaire). Ceci pose problème car le résultat de $\texttt{let } x = 1 \texttt{ in fun } y \rightarrow +(x, y)$ est une fonction qui doit \og mémoriser \fg que $x = 1$.\\
-    On utilise alors le module \texttt{Map} pour les environnements (c'est une \textit{fermeture}). On représente alors la valeur d'une fonction avec son environnement. \\
-    Pour un interprète de la sémantique à petits pas, il vaut mieux utiliser un \textit{zipper} que de recalculer le contexte tout le temps. 
+On peut programmer un interprète en suivant les règles de la sémantique naturelle. On se donne un type pour la syntaxe abstraite des expressions et on définit une fonction correspondant à la relation $\twoheadrightarrow$\\
+Un interprète renvoie la (ou les) valeur(s) d'une expression, souvent récursivement.\\
+On peut éviter l'opération de substitution, en interprétant l'expression $e$ à l'aide d'un environnement donnant la valeur courante de chaque variable (un dictionnaire). Ceci pose problème car le résultat de $\texttt{let } x = 1 \texttt{ in fun } y \rightarrow +(x, y)$ est une fonction qui doit \og mémoriser \fg que $x = 1$.\\
+On utilise alors le module \texttt{Map} pour les environnements (c'est une \textit{fermeture}). On représente alors la valeur d'une fonction avec son environnement. \\
+Pour un interprète de la sémantique à petits pas, il vaut mieux utiliser un \textit{zipper} que de recalculer le contexte tout le temps.
 
 \newpage
 \part[Analyse Lexicale]{Cours 3 : 13/10}
@@ -291,40 +291,40 @@ Les conventions diffèrent selon les langages et certains des caractères blancs
 \section{Outils pour l'analyse lexicale}
 On va utiliser des expressions régulières pour décrire les lexèmes et des automates finis pour les reconnaître. On exploite en particulier la capacité à construire un automate partant d'une ou plusieurs expressions régulières.
 
-\subsection[Expressions Régulières et Automates Finis]{Expressions Régulières et Automates Finis\footnote{Voir Cours de LFCC}} 
+\subsection[Expressions Régulières et Automates Finis]{Expressions Régulières et Automates Finis\footnote{Voir Cours de LFCC}}
 %TODO: ajouter un lien vers le cours. Faire un seul poly complet ? 
 
 \subsubsection{Expressions Régulières}
 \begin{definition}[Syntaxe]
     On définit la syntaxe des expressions régulières :
-\begin{center}
-    \begin{tabular}{c@{$\mid$}c}
-        $r = $& $\emptyset$\\
-        &$\epsilon$\\
-        &$a \in \Sigma$\\
-        &$r \cdot r$\\
-        &$r + r$\\
-        &$r\star$\\    
-    \end{tabular}    
-\end{center} 
+    \begin{center}
+        \begin{tabular}{c@{$\mid$}c}
+            $r = $ & $\emptyset$    \\
+                   & $\epsilon$     \\
+                   & $a \in \Sigma$ \\
+                   & $r \cdot r$    \\
+                   & $r + r$        \\
+                   & $r\star$       \\
+        \end{tabular}
+    \end{center}
 \end{definition}
 
 \begin{definition}[Sémantique]
-    On définit alors la sémantique basée sur cette syntaxe par les langages rationnels : 
+    On définit alors la sémantique basée sur cette syntaxe par les langages rationnels :
     \begin{center}
         \begin{tabular}{c@{ = }c}
-            $L(\emptyset)$ &$\emptyset$\\
-            $L(a)$ &$\left\{a\right\}$\\
-            $L(r_{1}r_{2})$ &$L(r_{1}) \cdot L(r_{2})$\\
-            $L(r_{1} + r_{2})$ &$L(r_{1}) \cup L(r_{2})$\\
-            $L(r\star)$ &$\bigcup_{n \in \N} L^{n}(r)$        
+            $L(\emptyset)$     & $\emptyset$                   \\
+            $L(a)$             & $\left\{a\right\}$            \\
+            $L(r_{1}r_{2})$    & $L(r_{1}) \cdot L(r_{2})$     \\
+            $L(r_{1} + r_{2})$ & $L(r_{1}) \cup L(r_{2})$      \\
+            $L(r\star)$        & $\bigcup_{n \in \N} L^{n}(r)$
         \end{tabular}
-    \end{center} 
+    \end{center}
 \end{definition}
 
 Pour les constantes flottantes de CamL on a par exemple, si $d = 0 | 1 | \ldots | 9$ :
 \[
-    d\ d\star(.d\star \mid (\epsilon \mid .d\star)(e \mid E)(\epsilon \mid + \mid -)\ d\ d\star)  
+    d\ d\star(.d\star \mid (\epsilon \mid .d\star)(e \mid E)(\epsilon \mid + \mid -)\ d\ d\star)
 \]
 On peut alors écrire un algorithme pour savoir si une suite de caractère appartient à une regexp.
 \begin{definition}[Dérivée de Brzozowski]
@@ -344,7 +344,7 @@ On peut alors écrire un algorithme pour savoir si une suite de caractère appar
 \end{definition}
 
 \begin{theorem}[De Kleene]
-    Les expressions régulières et les automates finis définissent les mêmes langages. 
+    Les expressions régulières et les automates finis définissent les mêmes langages.
 \end{theorem}
 \begin{proof}
     Voir Cours de LFCC
@@ -355,7 +355,7 @@ On peut alors écrire un algorithme pour savoir si une suite de caractère appar
 \subsubsection{Principe}
 
 Un analyseur lexical est un automate fini pour la réunion de toutes les expressions régulières définissant les lexèmes.
-Le fonctionnement de l'analyseur lexical est différent de la simple reconnaissance d'un mot par un automate car : 
+Le fonctionnement de l'analyseur lexical est différent de la simple reconnaissance d'un mot par un automate car :
 \begin{itemize}
     \item Il faut décomposer un mot (le source) en une suite de mots reconnus
     \item Il peut y avoir des ambiguïtés
@@ -379,46 +379,46 @@ En pratique, on va renvoyer dans l'analyseur lexical une fonction de calcul du p
 
 \subsubsection{Construction}
 \paragraph*{L'automate de Thompson}
-On construit par induction un automate compatible. 
+On construit par induction un automate compatible.
 
 \paragraph*{L'automate de Berry-Sethi}
-On met en correspondance les lettres d'un mot reconnu et celles apparaissant dans la regexp : 
-On distingue les différentes lettres de la regexp puis on construit un automate dont les états sont des ensembles de lettres. 
-Pour construire les transitions de $s_{1}$ à $s_{2}$, on détermine les lettres qui peuvent apparaître après une autre dans un mot reconnu : \texttt{follow}. Pour calculer \texttt{follow}, on a besoin de savoir calculer les premières et dernières lettres d'un mot reconnu (\texttt{first} et \texttt{last}). On a alors besoin d'une dernière notion : \texttt{null}, est-ce que $\epsilon$ appartient au langage reconnu. On obtient : 
+On met en correspondance les lettres d'un mot reconnu et celles apparaissant dans la regexp :
+On distingue les différentes lettres de la regexp puis on construit un automate dont les états sont des ensembles de lettres.
+Pour construire les transitions de $s_{1}$ à $s_{2}$, on détermine les lettres qui peuvent apparaître après une autre dans un mot reconnu : \texttt{follow}. Pour calculer \texttt{follow}, on a besoin de savoir calculer les premières et dernières lettres d'un mot reconnu (\texttt{first} et \texttt{last}). On a alors besoin d'une dernière notion : \texttt{null}, est-ce que $\epsilon$ appartient au langage reconnu. On obtient :
 \begin{center}
     \begin{tabular}{c@{ = }c}
         \toprule
-        $\texttt{null}(\emptyset)$ & \texttt{false}\\
-        $\texttt{null}(\epsilon)$ & \texttt{true}\\
-        $\texttt{null}(a)$ & \texttt{false}\\
-        $\texttt{null}(r_{1}r_{2})$ & $\texttt{null}(r_{1}) \land  \texttt{null}(r_{2})$\\
-        $\texttt{null}(r_{1}\mid r_{2})$ & $\texttt{null}(r_{1}) \lor  \texttt{null}(r_{2})$\\
-        $\texttt{null}(r\star)$ & \texttt{true}\\
+        $\texttt{null}(\emptyset)$             & \texttt{false}                                                                                                        \\
+        $\texttt{null}(\epsilon)$              & \texttt{true}                                                                                                         \\
+        $\texttt{null}(a)$                     & \texttt{false}                                                                                                        \\
+        $\texttt{null}(r_{1}r_{2})$            & $\texttt{null}(r_{1}) \land  \texttt{null}(r_{2})$                                                                    \\
+        $\texttt{null}(r_{1}\mid r_{2})$       & $\texttt{null}(r_{1}) \lor  \texttt{null}(r_{2})$                                                                     \\
+        $\texttt{null}(r\star)$                & \texttt{true}                                                                                                         \\
         \midrule
-        \multicolumn{2}{c}{On en déduit : }\\
+        \multicolumn{2}{c}{On en déduit : }                                                                                                                            \\
         \midrule
-        $\texttt{first}(\emptyset)$ & $\emptyset$\\
-        $\texttt{first}(\epsilon)$ & $\emptyset$\\
-        $\texttt{first}(a)$ & $\left\{a\right\}$\\
-        $\texttt{first}(r_{1}r_{2})$ & $\texttt{first}(r_{1}) \cup \texttt{first}(r_{2})$ \text{ si }$\texttt{null}(r_{1})$\\
-        & $\texttt{first}(r_{1})$ sinon\\
-        $\texttt{first}(r_{1}\mid r_{2})$ & $\texttt{first}(r_{1}) \cup \texttt{first}(r_{2})$\\
-        $\texttt{first}(r\star)$ & $\texttt{first}(r)$\\
+        $\texttt{first}(\emptyset)$            & $\emptyset$                                                                                                           \\
+        $\texttt{first}(\epsilon)$             & $\emptyset$                                                                                                           \\
+        $\texttt{first}(a)$                    & $\left\{a\right\}$                                                                                                    \\
+        $\texttt{first}(r_{1}r_{2})$           & $\texttt{first}(r_{1}) \cup \texttt{first}(r_{2})$ \text{ si }$\texttt{null}(r_{1})$                                  \\
+                                               & $\texttt{first}(r_{1})$ sinon                                                                                         \\
+        $\texttt{first}(r_{1}\mid r_{2})$      & $\texttt{first}(r_{1}) \cup \texttt{first}(r_{2})$                                                                    \\
+        $\texttt{first}(r\star)$               & $\texttt{first}(r)$                                                                                                   \\
         \midrule
-        \multicolumn{2}{c}{On définit \texttt{last} de même}\\
+        \multicolumn{2}{c}{On définit \texttt{last} de même}                                                                                                           \\
         \midrule
-        $\texttt{follow}(c, \emptyset)$ & $\emptyset$\\
-        $\texttt{follow}(c, \epsilon)$ & $\emptyset$\\
-        $\texttt{follow}(c, a)$ & $\emptyset$\\
-        $\texttt{follow}(c, r_{1}r_{2})$ & $\texttt{follow}(c, r_{1}) \cup \texttt{follow}(c, r_{2}) \cup \texttt{first}(r_{2})$ si $c \in \texttt{last}(r_{1})$\\
-        & $\texttt{follow}(c, r_{1}) \cup \texttt{follow}(c, r_{2})$ sinon\\
-        $\texttt{follow}(c, r_{1} \mid r_{2})$ & $\texttt{follow}(c, r_{1}) \cup \texttt{follow}(c, r_{2})$\\
-        $\texttt{follow}(c, r\star)$ & $\texttt{follow}(c, r) \cup \texttt{first}(r)$ si $c\in \texttt{last}(r)$\\
-        &$\texttt{follow}(c, r)$ sinon\\
+        $\texttt{follow}(c, \emptyset)$        & $\emptyset$                                                                                                           \\
+        $\texttt{follow}(c, \epsilon)$         & $\emptyset$                                                                                                           \\
+        $\texttt{follow}(c, a)$                & $\emptyset$                                                                                                           \\
+        $\texttt{follow}(c, r_{1}r_{2})$       & $\texttt{follow}(c, r_{1}) \cup \texttt{follow}(c, r_{2}) \cup \texttt{first}(r_{2})$ si $c \in \texttt{last}(r_{1})$ \\
+                                               & $\texttt{follow}(c, r_{1}) \cup \texttt{follow}(c, r_{2})$ sinon                                                      \\
+        $\texttt{follow}(c, r_{1} \mid r_{2})$ & $\texttt{follow}(c, r_{1}) \cup \texttt{follow}(c, r_{2})$                                                            \\
+        $\texttt{follow}(c, r\star)$           & $\texttt{follow}(c, r) \cup \texttt{first}(r)$ si $c\in \texttt{last}(r)$                                             \\
+                                               & $\texttt{follow}(c, r)$ sinon                                                                                         \\
         \bottomrule
     \end{tabular}
 \end{center}
-On construit alors l'automate reconnaissant $r$ en ajoutant $\#$ à la fin de $r$ : 
+On construit alors l'automate reconnaissant $r$ en ajoutant $\#$ à la fin de $r$ :
 \begin{enumerate}
     \item L'état initial est l'ensemble $\texttt{first}(r\#)$.
     \item Tant qu'il existe un état $s$ dont on doit calculer les transitions, pour chaque $c$ de l'alphabet, on pose $s^{'}$ l'état $\bigcup_{c_{i} \in s} \texttt{follow}(c_{i}, r\#)$
@@ -427,31 +427,31 @@ On construit alors l'automate reconnaissant $r$ en ajoutant $\#$ à la fin de $r
 
 \section{L'outil \texttt{ocamllex}}
 \subsection{Analyseur Lexical en \texttt{ocamllex}}
-Un fichier \texttt{ocamllex} porte le suffixe \texttt{.mll} et a la forme suivante : 
+Un fichier \texttt{ocamllex} porte le suffixe \texttt{.mll} et a la forme suivante :
 \begin{itemize}
     \item Code OCamL arbitraire
-    \item $\texttt{rule } f_{1} = \texttt{parse} \mid \texttt{regexp1 } \{\texttt{action 1}\}$ 
+    \item $\texttt{rule } f_{1} = \texttt{parse} \mid \texttt{regexp1 } \{\texttt{action 1}\}$
     \item \dots
     \item Code OcamL arbitraire
 \end{itemize}
 A la compilation par \texttt{ocamllex file.mll}, on construit un fichier OCamL contenant des fonctions de types $\texttt{Lexing.lexbuf} \rightarrow \texttt{type}$ où le type de sortie dépend de l'action dans la fonction. \\
 
-Les regexp en \texttt{ocamllex} s'écrivent sous la forme : 
+Les regexp en \texttt{ocamllex} s'écrivent sous la forme :
 \begin{center}
     \begin{tabular}{>{\texttt{}}ll}
         \toprule
-        \_  & n'importe quel caractère\\
-        'a' & le caractère \texttt{'a'}\\
-        "foobar" & la chaîne \texttt{"foobar"} (en particulier $\epsilon = ""$)\\
-        \text{[}caractères\text{]} & ensemble de caractères\\
-        \text{[}\^{}caractères\text{]} & complémentaire d'un ensemble de caractères\\
-        $r_{1} \mid r_{2}$ & alternative \\
-        $r_{1}r_{2}$ & concaténation \\
-        $r *$ & étoile\\
-        $r + $ & une ou plusieurs occurences de $r$, i.e. $r r\star$\\
-        $r?$ & au plus une occurence de $r$\\
-        eof & fin du fichier\\
-        \bottomrule         
+        \_                             & n'importe quel caractère                                     \\
+        'a'                            & le caractère \texttt{'a'}                                    \\
+        "foobar"                       & la chaîne \texttt{"foobar"} (en particulier $\epsilon = ""$) \\
+        \text{[}caractères\text{]}     & ensemble de caractères                                       \\
+        \text{[}\^{}caractères\text{]} & complémentaire d'un ensemble de caractères                   \\
+        $r_{1} \mid r_{2}$             & alternative                                                  \\
+        $r_{1}r_{2}$                   & concaténation                                                \\
+        $r *$                          & étoile                                                       \\
+        $r + $                         & une ou plusieurs occurences de $r$, i.e. $r r\star$          \\
+        $r?$                           & au plus une occurence de $r$                                 \\
+        eof                            & fin du fichier                                               \\
+        \bottomrule
     \end{tabular}
 \end{center}
 Pour remplacer la reconnaissance du lexème le plus long par celui le plus court, remplacer \texttt{parse} par \texttt{shortest}.\\
@@ -459,7 +459,7 @@ A longueur égale, c'est la règle qui apparaît en premier qui l'emporte. \\
 On peut nommer la chaîne reconnue, ou des sous-chaînes reconnues par des sous-experssions régulières, à l'aide de la construction \texttt{as}.\\
 On peut dans une action, rappeler récursivement l'analyseur lexical ou l'un des autres analyseurs simultanément définis. Le tampon d'analyse lexical doit être passé en argument, il est contenu dans une variable appelée \texttt{lexbuf}. Ceci est utile pour séparer les blancs, ou reconnaître les commentaires, même imbriqués. \\
 
-Par défaut \texttt{ocamllex} contruit l'automate dans une table interprétée à l'exécution, mais l'option \texttt{-ml} construit du code CamL pur. 
+Par défaut \texttt{ocamllex} contruit l'automate dans une table interprétée à l'exécution, mais l'option \texttt{-ml} construit du code CamL pur.
 
 \subsection{Efficacité}
 Pour des raisons de stockage, et même en utilisant une table, l'automate peut prendre beaucoup de place. Il est donc préférable d'utiliser une seule expression régulière pour les identificateurs et les mots-clefs, puis de les séparer ensuite grâce à une table des mots-clefs.\\
@@ -477,7 +477,7 @@ On peut utiliser $\texttt{ocamllex}$ pour :
 \part[Analyse Syntaxique]{Cours 4 : 20/10}\label{part:AnalyseSyntaxique}
 \localtableofcontents
 \section{Analyse Syntaxique}
-L'objectif de l'analyse syntaxique est, à partir d'une suite de lexèmes, de construire la syntaxe abstraite, qu'on représente sous forme d'arbre. En particulier, l'analyse syntaxique doit détecter les erreurs de syntaxe et les localiser précisément, les identifier (parenthèse non fermée, etc...) voire reprendre l'analyse pour découvrir de nouvelles erreurs. On va utiliser : une grammaire non contextuelle pour décrire la syntaxe et un automate à pile pour la reconnaître. 
+L'objectif de l'analyse syntaxique est, à partir d'une suite de lexèmes, de construire la syntaxe abstraite, qu'on représente sous forme d'arbre. En particulier, l'analyse syntaxique doit détecter les erreurs de syntaxe et les localiser précisément, les identifier (parenthèse non fermée, etc...) voire reprendre l'analyse pour découvrir de nouvelles erreurs. On va utiliser : une grammaire non contextuelle pour décrire la syntaxe et un automate à pile pour la reconnaître.
 
 \section{Grammaires}
 \begin{definition}
@@ -489,30 +489,30 @@ L'objectif de l'analyse syntaxique est, à partir d'une suite de lexèmes, de co
         \item $R \subseteq N \times (N \cup T)^{*}$ est un ensemble fini de règles de production.
     \end{itemize}
 \end{definition}
-On note les règles de dérivation sous la forme : 
+On note les règles de dérivation sous la forme :
 \begin{equation*}
     \begin{aligned}
-        &E &\rightarrow &E + E\\
-        & &\mid &E*E\\
-        & &\mid &(E)\\
-        & &\mid &\texttt{int}
+         & E & \rightarrow & E + E        \\
+         &   & \mid        & E*E          \\
+         &   & \mid        & (E)          \\
+         &   & \mid        & \texttt{int}
     \end{aligned}
 \end{equation*}
 
 \begin{definition}
     Un mot $u \in (N\cup T)^{*}$ se dérive en un mot $v \in (N \cup T)^{*}$ et on note $u \rightarrow v$ s'il existe une décomposition $u = u_{1}Xu_{2}$ avec $X \in N$, $X \rightarrow \beta \in R$ et $v = u_{1}\beta u_{2}$. On appelle dérivation gauche le cas où $u_{1}$ ne contient pas de mots terminaux.
-    On appelle langage défini par $G$ l'ensemble des mots de $T^{*}$ dérivés de l'axiome. 
+    On appelle langage défini par $G$ l'ensemble des mots de $T^{*}$ dérivés de l'axiome.
 \end{definition}
 
 \begin{definition}
-    Un arbre de dériviation est un arbre dont les noeuds sont étiquetés par des symboles de la grammaire, de la manière suivante : 
+    Un arbre de dériviation est un arbre dont les noeuds sont étiquetés par des symboles de la grammaire, de la manière suivante :
     \begin{itemize}
         \item La racine est l'axiome
-        \item Tout noeud interne $X$ non terminal dont les fils sont étiquetés par $\beta \in (N\cup T)^{*}$ avec $X \rightarrow \beta$ une règle de la dérivation. 
+        \item Tout noeud interne $X$ non terminal dont les fils sont étiquetés par $\beta \in (N\cup T)^{*}$ avec $X \rightarrow \beta$ une règle de la dérivation.
     \end{itemize}
 \end{definition}
 
-Pour un arbre de dérivation dont les feuilles forment le mot $w$ dans l'arbre infixe, on a $S \rightarrow^{\star} w$. Inversement, si $S \rightarrow^{\star} w$, on a un arbre de dérivation dont les feuilles dans l'arbre infixe forment $w$. 
+Pour un arbre de dérivation dont les feuilles forment le mot $w$ dans l'arbre infixe, on a $S \rightarrow^{\star} w$. Inversement, si $S \rightarrow^{\star} w$, on a un arbre de dérivation dont les feuilles dans l'arbre infixe forment $w$.
 
 \begin{definition}
     Une grammaire est ambigüe si au moins un mot admet au moins deux arbres de dérivation. Déterminer si une grammaire est ambigüe ou non n'est pas décidable.
@@ -525,53 +525,53 @@ On va utiliser des critères décidables suffisants pour garantir qu'une grammai
 On va ici lire l'entrée de gauche à droite (pas toujours le cas, cf. \texttt{CYK}) puis reconnaître des membres droits de productions pour construire l'arbre de dérvation de bas en haut : bottom-up parsing.
 
 \subsection{Fonctionnement}
-On va manipuler une pile qui est un mot de $(N \cup T)^{*}$. 
-A chaque instant, on a deux actions possibles : 
+On va manipuler une pile qui est un mot de $(N \cup T)^{*}$.
+A chaque instant, on a deux actions possibles :
 \begin{itemize}
     \item Une opération de lecture (\textit{shift}) : on lit un terminal de l'entrée et on l'empile.
     \item Une opération de réduction (\textit{reduce}) : on reconnaît en sommet de pile le membre droit $\beta$ d'une production $X \rightarrow \beta$ et on remplace $\beta$ par X en sommet de pile.
 \end{itemize}
 Comment prendre la décision lecture / réduction ? On se sert d'un automate fini et on examine les $k$ premiers lexèmes de l'entrée, c'est l'analyse \texttt{LR(k)}, pour \og Left to right scanning, Righmost derivation\fg. En pratique, $k = 1$.
 \subsection{Analyse LR}
-La pile est de la forme $s_{0}x_{1}s_{1}x_{2}\ldots x_{n}s_{n}$ où $s_{i}$ est un état de l'automate et $x_{i} \in T \cup N$ comme dans un automate. 
-Soit $a$ le premier lexème de l'entrée. Une table indexée par $s_{n}$ et $a$ nous indique l'action à effectuer : 
+La pile est de la forme $s_{0}x_{1}s_{1}x_{2}\ldots x_{n}s_{n}$ où $s_{i}$ est un état de l'automate et $x_{i} \in T \cup N$ comme dans un automate.
+Soit $a$ le premier lexème de l'entrée. Une table indexée par $s_{n}$ et $a$ nous indique l'action à effectuer :
 \begin{itemize}
     \item Si c'est un succès ou un échec, on s'arrête.
     \item Si c'est une lecture, on empile $a$ et l'état $s$ résultat de la transition $s_{n} \rightarrow^{a} s$ dans l'automate.
-    \item Si c'est une réduction $X \rightarrow \alpha$, avec $\alpha$ de longueur $p$, on doit trouver $\alpha$ en sommet de pile : 
-    \[
-        s_{0}x_{1}\ldots x_{n-p}s_{n-p}\mid \alpha_{1}s_{n-p+1}\ldots \alpha_{p}s_{n}
-    \]
-    On dépile alors $\alpha$ et on empile $X s$ où $s_{n-p} \rightarrow^{X} s$ dans l'automate, i.e. $s_{0}x_{1}\ldots x_{n-p}s_{n-p}Xs$
+    \item Si c'est une réduction $X \rightarrow \alpha$, avec $\alpha$ de longueur $p$, on doit trouver $\alpha$ en sommet de pile :
+          \[
+              s_{0}x_{1}\ldots x_{n-p}s_{n-p}\mid \alpha_{1}s_{n-p+1}\ldots \alpha_{p}s_{n}
+          \]
+          On dépile alors $\alpha$ et on empile $X s$ où $s_{n-p} \rightarrow^{X} s$ dans l'automate, i.e. $s_{0}x_{1}\ldots x_{n-p}s_{n-p}Xs$
 \end{itemize}
 
-En pratique on ne travaille pas avec l'automate mais avec deux tables : 
+En pratique on ne travaille pas avec l'automate mais avec deux tables :
 \begin{itemize}
-    \item Une table d'actions ayant pour lignes les états et pour colonnes les terminaux. La case \texttt{action(s, a)} indique : 
-    \begin{itemize}
-        \item $\texttt{shift s'}$ pour une lecture et un nouvel état $s^{'}$
-        \item $\texttt{reduce X} \rightarrow \alpha$ pour une réduction
-        \item un succès
-        \item un échec
-    \end{itemize}
-    Une table de déplacements ayant pour lignes les états et pour colonnes les non terminaux. La case $\texttt{goto(s, X)}$ indique l'état résultat d'une réduction de $X$.
+    \item Une table d'actions ayant pour lignes les états et pour colonnes les terminaux. La case \texttt{action(s, a)} indique :
+          \begin{itemize}
+              \item $\texttt{shift s'}$ pour une lecture et un nouvel état $s^{'}$
+              \item $\texttt{reduce X} \rightarrow \alpha$ pour une réduction
+              \item un succès
+              \item un échec
+          \end{itemize}
+          Une table de déplacements ayant pour lignes les états et pour colonnes les non terminaux. La case $\texttt{goto(s, X)}$ indique l'état résultat d'une réduction de $X$.
 \end{itemize}
 On ajoute aussi un lexème spécial \# qui désigne la fin de l'entrée. On peut le voir comme l'ajout d'un nouveau non terminal $S$ qui devient l'axiome et d'une règle $S \rightarrow E \#$.
 Pour créer ces tables, on utilise la famille de \texttt{yacc} (\textit{Yet Another Compiler Compiler})
 
 \section{L'outil Menhir}
 Menhir transforme une grammaire en un analyseur OCamL de type $LR(1)$. Chaque production de la grammaire est accompagnée d'une action sémantique, i.e. du code OCamL construisant une valeur sémantique (typiquement un arbre de syntaxe abstraite). Menhir s'utilise conjointement avec un analyseur lexical (typiquement \textrm{ocamllex}).\\
-Un fichier Menhir a le suffixe \texttt{.mly} et a la forme suivante : 
+Un fichier Menhir a le suffixe \texttt{.mly} et a la forme suivante :
 \begin{itemize}
     \item \%{\texttt{code OCamL arbitraire} \%}
     \item \texttt{déclaration des lexèmes}
     \item \%\%
     \item \texttt{non-terminal-1 : }
-    | \texttt{production} \{ \texttt{action} \}
-    | \texttt{production} \{ \texttt{action} \}
-    ;
+          | \texttt{production} \{ \texttt{action} \}
+          | \texttt{production} \{ \texttt{action} \}
+          ;
     \item non-terminal-2:
-    | \texttt{production} \{ \texttt{action} \}
+          | \texttt{production} \{ \texttt{action} \}
     \item \%\%
     \item \texttt{code OCamL arbitraire}
 \end{itemize}
@@ -588,21 +588,21 @@ Pour que les phases suivantes de l'analyse (typiquement le typage) puissent loca
     Soit $\alpha \in (T \cup N)^{*}$. $\textsc{First}(\alpha)$ est l'ensemble de tous les premiers terminaux des mots dérivés de $\alpha$, i.e. $\left\{a \in T \mid\ \exists \ w, \ \alpha \rightarrow^{\star} aw\right\}$
 \end{definition}
 \begin{definition}[\textsc{Follow}]
-    Soit $X \in N$. $\textsc{Follow}(X)$ est l'ensemble des terminaux qui peuvent apparaître après $X$ dans une dérivation, i.e. 
+    Soit $X \in N$. $\textsc{Follow}(X)$ est l'ensemble des terminaux qui peuvent apparaître après $X$ dans une dérivation, i.e.
     $\left\{a \in T \mid\ \exists \ u,\ w \ S \rightarrow^{\star} uXaw \right\}$.
 \end{definition}
 
 \begin{theorem}[Tarski]
-    Soit $A$ un ensemble fini muni d'une relation d'ordre $\leq$ et d'un plus petit élément $\epsilon$. Toute fonction $f : A \rightarrow A$ croissante admet un plus petit point fixe. 
+    Soit $A$ un ensemble fini muni d'une relation d'ordre $\leq$ et d'un plus petit élément $\epsilon$. Toute fonction $f : A \rightarrow A$ croissante admet un plus petit point fixe.
 \end{theorem}
 \begin{proof}
-    Comme $\epsilon$ est le plus petit élément, $\epsilon \leq f(\epsilon)$. Par croissance, $f^{k}(\epsilon) \leq f^{k+1}(\epsilon)$ pour tout $k$. Mais $A$ étant fini, il existe un plus petit $k_{0}$ tel que $f^{k_{0}}(\epsilon) = f^{k_{0} + 1}(\epsilon)$. En le notant $a_{0}$, on a bien un point fixe de $f$. Si $b$ est un autre point fixe, par croissance, puisque $\epsilon \leq b$, on a bien le résultat. 
+    Comme $\epsilon$ est le plus petit élément, $\epsilon \leq f(\epsilon)$. Par croissance, $f^{k}(\epsilon) \leq f^{k+1}(\epsilon)$ pour tout $k$. Mais $A$ étant fini, il existe un plus petit $k_{0}$ tel que $f^{k_{0}}(\epsilon) = f^{k_{0} + 1}(\epsilon)$. En le notant $a_{0}$, on a bien un point fixe de $f$. Si $b$ est un autre point fixe, par croissance, puisque $\epsilon \leq b$, on a bien le résultat.
 \end{proof}
 
-\subsubsection{Principe du calcul de $\textsc{Null}(X)$} 
+\subsubsection{Principe du calcul de $\textsc{Null}(X)$}
 \begin{proposition}
     Pour calculer $\textsc{Null}(\alpha)$, il suffit de déterminer $\textsc{Null}(X)$ pour $X\in N$.
-    On a $\textsc{Null}(X)$ ssi : 
+    On a $\textsc{Null}(X)$ ssi :
     \begin{itemize}
         \item Il existe une production $X \rightarrow \epsilon$
         \item Il existe une production $X \rightarrow Y_{1}\ldots Y_{m}$ où $\textsc{Null}(Y_{i})$ pour tout $i$.
@@ -618,23 +618,23 @@ Pour que les phases suivantes de l'analyse (typiquement le typage) puissent loca
 Ici, on a $A = \left\{0, 1\right\}^{n}$. On munit $\{0, 1\}$ de l'ordre $0 \leq 1$ et $A$ de l'ordre point à point. On a $\epsilon = (0, \ldots, 0)$. La fonction calculant $\textsc{Null}(X)$ à partir des $\textsc{Null}(X_{i})$ est croissante, et le théorème de Tarski s'applique. On construit donc un point fixe à partir de $\epsilon$.
 
 \subsubsection{Principe du calcul de $\textsc{First}(X)$}
-De même que pour \textsc{Null} : Les équations définissant $\textsc{First}$ sont mutuellement récursives : 
+De même que pour \textsc{Null} : Les équations définissant $\textsc{First}$ sont mutuellement récursives :
 \[
-    \textsc{First}(X) = \bigcup_{X \rightarrow \beta} \textsc{First}(\beta)    
+    \textsc{First}(X) = \bigcup_{X \rightarrow \beta} \textsc{First}(\beta)
 \]
-et :  
+et :
 \begin{equation*}
     \begin{aligned}
-        \textsc{First}(\epsilon) &= \emptyset&\\
-        \textsc{First}(a\beta) &= \left\{a\right\}&\\
-        \textsc{First}(X\beta) &= \textsc{First}(X) \text{ si } \lnot\textsc{Null}(X)&\\
-        \textsc{First}(X\beta) &= \textsc{First}(X) \cup \textsc{First}(\beta) \text{ si } \textsc{Null}(X)&
+        \textsc{First}(\epsilon) & = \emptyset                                                                 & \\
+        \textsc{First}(a\beta)   & = \left\{a\right\}                                                          & \\
+        \textsc{First}(X\beta)   & = \textsc{First}(X) \text{ si } \lnot\textsc{Null}(X)                       & \\
+        \textsc{First}(X\beta)   & = \textsc{First}(X) \cup \textsc{First}(\beta) \text{ si } \textsc{Null}(X) &
     \end{aligned}
 \end{equation*}
 On applique alors le calcul de point fixe sur $A = \mathcal{P}(T)^{n}$ muni de $\subseteq$ point à point avec $\epsilon = (\emptyset, \ldots, \emptyset)$
 
 \subsubsection{Principe du calcul de $\textsc{Follow}(X)$}
-Les équations sont : 
+Les équations sont :
 \[
     \textsc{Follow}(X) = \left(\bigcup_{Y \rightarrow \alpha X\beta} \textsc{First}(\beta)\right) \cup \left(\bigcup_{Y\rightarrow \alpha X \beta, \textsc{Null}(\beta)} \textsc{Follow}(Y)\right)
 \]
@@ -645,14 +645,14 @@ On procède par calcul de point fixe sur le même domaine que pour \textsc{First
 Fixons pour l'instant $k = 0$. On commence par contruire un automate asynchrone :
 \begin{itemize}
     \item Les états sont des items de la forme $\left[X \rightarrow \alpha \cdot \beta\right]$ où $X\rightarrow \alpha\beta$ est une production de la grammaire. L'intuition est : \og je cherche à reconnaître $X$, j'ai déjà lu $\alpha$ et je dois encore lire $\beta$ \fg.
-    \item Les transitions sont étiquetées par $T \cup N$ et sont les suivantes : 
-    \begin{equation*}
-        \begin{aligned}
-            \left[Y \rightarrow \alpha \cdot a\beta \right] &\rightarrow^{a} \left[Y \rightarrow \alpha a \cdot \beta\right]&\\
-            \left[Y \rightarrow \alpha \cdot X\beta \right] &\rightarrow^{X} \left[Y \rightarrow \alpha X \cdot \beta\right]&\\
-            \left[Y \rightarrow \alpha \cdot X\beta \right] &\rightarrow^{\epsilon} \left[X \rightarrow \cdot \gamma\right] \text{ pour toute production } X \rightarrow \gamma&\\
-        \end{aligned}
-    \end{equation*}
+    \item Les transitions sont étiquetées par $T \cup N$ et sont les suivantes :
+          \begin{equation*}
+              \begin{aligned}
+                  \left[Y \rightarrow \alpha \cdot a\beta \right] & \rightarrow^{a} \left[Y \rightarrow \alpha a \cdot \beta\right]                                                    & \\
+                  \left[Y \rightarrow \alpha \cdot X\beta \right] & \rightarrow^{X} \left[Y \rightarrow \alpha X \cdot \beta\right]                                                    & \\
+                  \left[Y \rightarrow \alpha \cdot X\beta \right] & \rightarrow^{\epsilon} \left[X \rightarrow \cdot \gamma\right] \text{ pour toute production } X \rightarrow \gamma & \\
+              \end{aligned}
+          \end{equation*}
 \end{itemize}
 
 On déterminise ensuite l'automate en regroupant les états reliés par des $\epsilon$-transitions. Les états de l'automate déterministe sont donc des ensembles d'items.\\
@@ -672,17 +672,17 @@ La table $LR(0)$ peut contenir deux sortes de conflits : lecture/réduction et r
 \begin{definition}
     Une grammaire est dite $LR(0)$ so la table ainsi construite ne contient pas de conflit.
 \end{definition}
-La construction $LR(0)$ engendre très facilement des conflits. On va chercher à limiter les réductions : 
+La construction $LR(0)$ engendre très facilement des conflits. On va chercher à limiter les réductions :
 on pose $\texttt{action}(s, a) = \texttt{reduce} X \beta$ si et seulement si $\left[X \rightarrow \beta\cdot\right] \in s$ et $a \in \textsc{Follow}(X)$. On obtient la classe de grammaire $S(imple)LR(1)$.
 
 \subsubsection{$LR(1)$}
 Cette classe étant restrictive, on introduit une classe de grammaires encore plus large : $LR(1)$, au prix de tables encore plus grandes. Dans l'analyse $LR(1)$, les items ont la forme : $\left[X \rightarrow \alpha \cdot \beta, a\right]$
-Les transitions de l'automate $LR(1)$ non déterministe sont : 
+Les transitions de l'automate $LR(1)$ non déterministe sont :
 \begin{equation*}
     \begin{aligned}
-        \left[Y \rightarrow \alpha \cdot a\beta, b\right] &\rightarrow^{a} \left[Y \rightarrow \alpha a \cdot \beta, b\right]&\\\left[Y \rightarrow \alpha \cdot a\beta, b\right] &\rightarrow^{a} \left[Y \rightarrow \alpha a \cdot \beta, b\right]&\\
-        \left[Y \rightarrow \alpha \cdot X\beta, b\right] &\rightarrow^{X} \left[Y \rightarrow \alpha X \cdot \beta, b\right]&\\
-        \left[Y \rightarrow \alpha \cdot X\beta, b\right] &\rightarrow^{\epsilon} \left[X \rightarrow \cdot\gamma, c\right] \text{ pour tout } c \in \textsc{First}(\beta b)&
+        \left[Y \rightarrow \alpha \cdot a\beta, b\right] & \rightarrow^{a} \left[Y \rightarrow \alpha a \cdot \beta, b\right]                                                & \\\left[Y \rightarrow \alpha \cdot a\beta, b\right] &\rightarrow^{a} \left[Y \rightarrow \alpha a \cdot \beta, b\right]&\\
+        \left[Y \rightarrow \alpha \cdot X\beta, b\right] & \rightarrow^{X} \left[Y \rightarrow \alpha X \cdot \beta, b\right]                                                & \\
+        \left[Y \rightarrow \alpha \cdot X\beta, b\right] & \rightarrow^{\epsilon} \left[X \rightarrow \cdot\gamma, c\right] \text{ pour tout } c \in \textsc{First}(\beta b) &
     \end{aligned}
 \end{equation*}
 
@@ -695,7 +695,7 @@ Pour des questions de puissances de calcul, on introduit la classe $LALR(1)$, lo
 \localtableofcontents
 \section{Localisations}
 L'outil \texttt{ocamllex} maintient, dans la structure de type \texttt{Lexing.lexbuf}, la position courante dans le texte source qui est analysé. On peut alors obtenir la localisation de la dernère chaîne reconnue par \texttt{ocamllex}. On peut utiliser ces informations pour localiser les erreurs de syntaxe, mais aussi de potentielles erreurs lexicales comme une chaîne ou un commentaire non fermé.\\
-L'outil \texttt{Menhir}\footnote{L'outil \texttt{Cairn} permet de visualiser l'analyse de \texttt{Menhir}.} récupère ces informations et les fournit dans deux valeurs \texttt{\$startpos} et \texttt{\$endpos}, qui, dans une action sémantique, correspondent au début et à la fin du texte reconnu par la règle de grammaire. On peut alors stocker cette information dans l'arbre de syntaxe abstraite. 
+L'outil \texttt{Menhir}\footnote{L'outil \texttt{Cairn} permet de visualiser l'analyse de \texttt{Menhir}.} récupère ces informations et les fournit dans deux valeurs \texttt{\$startpos} et \texttt{\$endpos}, qui, dans une action sémantique, correspondent au début et à la fin du texte reconnu par la règle de grammaire. On peut alors stocker cette information dans l'arbre de syntaxe abstraite.
 
 \section{Analyse Syntaxique Elementaire}
 On va ici construire un analyseur syntaxique pour des expressions arithmétiques incluant :
@@ -715,7 +715,7 @@ type token =
     | RIGHTPAR
     | EOF
 \end{minted}
-et on veut obtenir un arbre de syntaxe abstraite : 
+et on veut obtenir un arbre de syntaxe abstraite :
 \begin{minted}{ocaml}
 type expr = 
     | Const of int
@@ -729,7 +729,7 @@ On écrit un parser dans le fichier Menhir, puis, juste en dessous dans le fichi
     Conseil : Commencer par écrire un pretty-printer, ici, en OcamL avec la bibliothèque \texttt{Format} :
 \end{remark}
 
-    \begin{minted}{ocaml}
+\begin{minted}{ocaml}
         open Format
         let rec print_expr fmt = function
           | Add (e1, e2) -> fprintf fmt "%a +@ %a" print_expr e1 print_expr e2
@@ -743,7 +743,7 @@ On écrit un parser dans le fichier Menhir, puis, juste en dessous dans le fichi
     \end{minted}
 
 
-L'analyseur syntaxique suit la même structure que la fonction d'affichage\footnote{Le code n'est pas complet, cf \href{https://www.lri.fr/~filliatr/ens/compil/}{page du cours}}. C'est ça, le bon conseil de Gilles Kahn : 
+L'analyseur syntaxique suit la même structure que la fonction d'affichage\footnote{Le code n'est pas complet, cf \href{https://www.lri.fr/~filliatr/ens/compil/}{page du cours}}. C'est ça, le bon conseil de Gilles Kahn :
 \begin{center}
     \begin{minted}{ocaml}
         let rec parse_expr () =
@@ -763,13 +763,13 @@ L'analyseur syntaxique suit la même structure que la fonction d'affichage\footn
 \end{center}
 \begin{remark}
     On pourrait inclure l'analyse lexicale dans un tel code, avec d'autres fonctions récursives pour lire les constantes entières, ignorer les blancs, etc\dots\\
-    Pour des opérateurs associatifs à gauche, le code sera légèrement différent mais le principe reste le même. 
+    Pour des opérateurs associatifs à gauche, le code sera légèrement différent mais le principe reste le même.
 \end{remark}
 
 \section{Analyse Descendante}
 \subsection{Fonctionnement}
 On va procéder par expansions successives du non-terminal le plus à gauche (dérivation gauche) en partant de $S$ et en utilisant une table qui indique pour un non-terminal $X$ à expanser et les $k$ premiers caractères de l'entrée, l'expansion $X\rightarrow\beta$ à effectuer. Dans la suite, on va prendre $k = 1$, et on va noter $T(X, c)$ cette table. En pratique, on suppose qu'un symbole terminal \# dénote la fin de l'entrée, et la table indique donc également l'expansion de $X$ lorsqu'on atteint la fin de l'entrée.\\
-On utilise une pile qui est un mot de $\left(N \cup T\right)^{\star}$. Initialement, la pile est réduite au symbole de départ. A chaque instant, on va ensuite examiner le sommet de la pile et le premier caractère $c$ de l'entrée: 
+On utilise une pile qui est un mot de $\left(N \cup T\right)^{\star}$. Initialement, la pile est réduite au symbole de départ. A chaque instant, on va ensuite examiner le sommet de la pile et le premier caractère $c$ de l'entrée:
 \begin{itemize}
     \item Si la pile est vide, on s'arrête; il y a succès ssi $c$ est \#.
     \item Si le sommet de la pile est un terminal $a$, alors $a$ doit être égal à $c$, on dépile alors $a$ et on consomme $c$; sinon on échoue.
@@ -777,12 +777,12 @@ On utilise une pile qui est un mot de $\left(N \cup T\right)^{\star}$. Initialem
 \end{itemize}
 
 \subsection{Programmation}
-Un analyseur descendant se programme en introduisant une fonction pour chaque non terminal de la grammaire. Chaque fonction examine l'entrée, et selon le cas, la consomme ou appelle récursivement les fonctions correspondant à d'autres non terminaux, selon la table d'expansion. 
+Un analyseur descendant se programme en introduisant une fonction pour chaque non terminal de la grammaire. Chaque fonction examine l'entrée, et selon le cas, la consomme ou appelle récursivement les fonctions correspondant à d'autres non terminaux, selon la table d'expansion.
 \begin{remark}
     \begin{itemize}
         \item La table d'expansion n'est alors pas explicite : elle est dans le code de chaque fonction.
         \item La pile n'est pas explicite, elle est réalisée par la pile d'appels.
-        \item En pratique il faut construire l'arbre de syntaxe abstraite. 
+        \item En pratique il faut construire l'arbre de syntaxe abstraite.
     \end{itemize}
 \end{remark}
 
@@ -792,23 +792,23 @@ Pour décider si on réalise l'expansion $X\rightarrow\beta$ lorsque le premier 
     \item On pose $T(X, a) = \beta$ pour tout $a \in \texttt{first}(\beta)$
     \item Si $\texttt{null}(\beta)$, on pose aussi $T(X, a) = \beta$ pour tout $a\in \texttt{follow}(X)$.
 \end{itemize}
-Il peut y avoir plusieurs éléments dans une même case : 
+Il peut y avoir plusieurs éléments dans une même case :
 \begin{definition}
-    Une grammaire est dite $LL(1)$ si, dans la table précédente, il y a au plus une production dans chaque case. 
+    Une grammaire est dite $LL(1)$ si, dans la table précédente, il y a au plus une production dans chaque case.
 \end{definition}
 Une grammaire récursive gauche, i.e. contenant des productions de la forme : $X\rightarrow X\alpha | \beta$, ne sera jamais $LL(1)$. En effet, les \texttt{first} seront les mêmes pour ces deux productions. En particulier, la grammaire :
 \begin{tabular}{c@{$\rightarrow$}c}
-    $E$ & $E + T$\\
-    & $T$\\
-    $T$ & $T * F$\\
-    & $F$\\
-    $F$ & $( E )$\\
-    & $\texttt{int}$\\
+    $E$ & $E + T$        \\
+        & $T$            \\
+    $T$ & $T * F$        \\
+        & $F$            \\
+    $F$ & $( E )$        \\
+        & $\texttt{int}$ \\
 \end{tabular}
 n'est pas $LL(1)$. Plus généralement, si une grammaire contient $X \rightarrow a\alpha + a\beta$. Il faut alors factoriser (à gauche) les productions qui commencent par le même terminal.
 
 \section{Indentation comme Syntaxe}
-Dans certains langages, l'indentation (blancs de début de ligne/alignement vertical) est utilisée pour définir la syntaxe. L'analyseur lexical introduit des lexèmes \texttt{NEWLINE} (fin de ligne), \texttt{INDENT} (quand l'indentation augmente) et \texttt{DEDENT} (quand elle diminue). Il suffit alors de les utiliser dans la grammaire du langage. 
+Dans certains langages, l'indentation (blancs de début de ligne/alignement vertical) est utilisée pour définir la syntaxe. L'analyseur lexical introduit des lexèmes \texttt{NEWLINE} (fin de ligne), \texttt{INDENT} (quand l'indentation augmente) et \texttt{DEDENT} (quand elle diminue). Il suffit alors de les utiliser dans la grammaire du langage.
 
 \newpage
 \part[Typage]{Cours 6 : 10/11}
@@ -816,7 +816,7 @@ Dans certains langages, l'indentation (blancs de début de ligne/alignement vert
 \section{Typage}
 Que faire lorsqu'on ajoute deux éléments de deux types différents ? Par exemple "5" et 37.
 Si on additionne deux expressions arbitraires, $e1 + e2$, comment déterminer si cela est légal, et que doit on faire le cas échéant ? La réponse est le typage, une analyse qui associe un type à chaque valeur/expression dans le but de rejeter les programmes incohérents.
-Certains langages sont typés dynamiquement, les types sont associés aux valeurs et utilisés pendant l'exécution, et d'autres sont typés statiquement, les types sont associés aux expressions et utilisés pendant la compilation du programme. 
+Certains langages sont typés dynamiquement, les types sont associés aux valeurs et utilisés pendant l'exécution, et d'autres sont typés statiquement, les types sont associés aux expressions et utilisés pendant la compilation du programme.
 
 \begin{quotation}
     Well typed programs cannot go wrong - Milner
@@ -830,7 +830,7 @@ Le typage doit  :
     \item pas rejeter trop de programmes non-absurdes, i.e. le système de types doit être expressifs.
 \end{itemize}
 
-On peut par exemple : 
+On peut par exemple :
 \begin{itemize}
     \item Annoter toutes les sous-expressions par un type
     \item Annoter seulement les déclarations de variables
@@ -848,17 +848,17 @@ Un algorithme de typage doit avoir les propriétés de :
 
 \section{Typage Monomorphe}
 \subsection{Définitions}
-On se donne des types simples, dont la syntaxe abstraite est : 
+On se donne des types simples, dont la syntaxe abstraite est :
 \begin{tabular}{c@{$\mid$}c}
-    $\tau$ & $\texttt{int} \mid \texttt{bool} \mid \ldots$\\
-    & $\tau \rightarrow \tau$\\
-    &$\tau \times \tau$    
+    $\tau$ & $\texttt{int} \mid \texttt{bool} \mid \ldots$ \\
+           & $\tau \rightarrow \tau$                       \\
+           & $\tau \times \tau$
 \end{tabular}
 
 Le jugement de typage se note : $\Gamma \vdash e :\tau$ et se lit : \textsl{dans l'environnement $\Gamma$, l'expression $e$ a le type $\tau$}.
-On posssède alors des règles d'inférences : 
+On posssède alors des règles d'inférences :
 \begin{center}
-    $\frac{}{\Gamma \vdash x : \Gamma(x)}$ 
+    $\frac{}{\Gamma \vdash x : \Gamma(x)}$
     $\frac{}{\Gamma \vdash n : \texttt{int}}$
     $\frac{}{\Gamma \vdash + : \texttt{int} \times \texttt{int} \rightarrow \texttt{int}}$
 \end{center}
@@ -878,13 +878,13 @@ On peut montrer $\emptyset \vdash \fun{x}{x} : \tint \rightarrow \tint$ mais aus
 Ainsi, le terme $\letin{f}{\fun{x}{x}} (f\ 1, f\ \texttt{true})$ n'est pas typable car il n'y a pas de type $\tau$ tel que : $f : \tau \rightarrow \tau \vdash (f\ 1, f\ \texttt{true}) : \tau_{1} \times \tau_{2}$.
 En particulier, on ne peut pas donner un type satisfaisant à une primitive, mais on peut donner une règle de typage pour l'application de celle-ci :
 \[
-    \frac{\Gamma \vdash e : \tau_{1} \times \tau_{2}}{\Gamma \vdash fst e : \tau_{1}}    
+    \frac{\Gamma \vdash e : \tau_{1} \times \tau_{2}}{\Gamma \vdash fst e : \tau_{1}}
 \]
 ou
 \[
     \frac{\Gamma \vdash e: \tau \rightarrow \tau}{\Gamma \vdash \texttt{opfix} e : \tau}
 \]
-Si on souhaite se limiter à des fonctions, on peut modifier ainsi : 
+Si on souhaite se limiter à des fonctions, on peut modifier ainsi :
 \[
     \frac{\Gamma \vdash e : \left(\tau_{1} \rightarrow \tau_{2}\right) \rightarrow \left(\tau_{1} \rightarrow \tau_{2}\right)}{\Gamma \vdash \texttt{opfix } e : \tau_{1} \rightarrow \tau_{2}}
 \]
@@ -938,8 +938,8 @@ Les seules vérifications se trouvent dans la partie sur l'application de foncti
 On ne renvoie pas un \texttt{failwith "erreur de typage"}, mais on indique l'origine du problème avec précision et on conserve les types pour les phases ultérieures du compilateur :
 
 \begin{itemize}
-    \item D'une part, on ajoute aux noeuds des arbres en entrée du typage une localisation dans le fichier source : 
-\begin{minted}{ocaml}
+    \item D'une part, on ajoute aux noeuds des arbres en entrée du typage une localisation dans le fichier source :
+          \begin{minted}{ocaml}
 type expression = {
     desc : desc;
     loc : loc;
@@ -956,8 +956,8 @@ and desc =
 
 exception Error of loc * string
 \end{minted}
-On peut la lever en modifiant le rendu en sortie : 
-\begin{minted}{ocaml}
+          On peut la lever en modifiant le rendu en sortie :
+          \begin{minted}{ocaml}
 let rec type_expr env e = match e.desc with
     | ...
     | App (e1, e2) -> begin match type_expr env e1 with
@@ -976,8 +976,8 @@ with Error (loc, msg) ->
     exit 1
 \end{minted}
 
-\item D'autre part, on décore les arbres en sortie du typage avec des types :
-\begin{minted}{ocaml}
+    \item D'autre part, on décore les arbres en sortie du typage avec des types :
+          \begin{minted}{ocaml}
 type texpression = {
     tdesc: tdesc;
     typ : typ;
@@ -991,10 +991,10 @@ and tdesc =
     | Tpair of texpression * texpression
     | Tlet of string * texpression * texpression
 \end{minted}
-C'est un \emph{autre} type d'expressions.
+          C'est un \emph{autre} type d'expressions.
 
-La fonction de typage reconstruit des arbres, cette fois typés : 
-\begin{minted}{ocaml}
+          La fonction de typage reconstruit des arbres, cette fois typés :
+          \begin{minted}{ocaml}
 let rec type_expr env e =
     let d, ty = compute_type env e in
     { tdesc = d; typ = ty }
@@ -1014,15 +1014,15 @@ and compute_type env e = match e.desc with
 
 \subsection{Sûreté du typage}
 \begin{lemma}[Progression]
-    Si $\emptyset \vdash e : \tau$ alors soit $e$ est une valeur, soit il existe $e^{'}$ tel que $e \rightarrow e^{'}$.    
+    Si $\emptyset \vdash e : \tau$ alors soit $e$ est une valeur, soit il existe $e^{'}$ tel que $e \rightarrow e^{'}$.
 \end{lemma}
 \begin{proof}
     On procède par récurrence sur la dérivation $\emptyset \vdash e : \tau$.\\
-    Supposons par exemple $e = e_{1} \ e_{2}$ : 
+    Supposons par exemple $e = e_{1} \ e_{2}$ :
     \[
         \frac{\emptyset \vdash e_{1} : \tau^{'} \rightarrow \tau \ \emptyset \vdash e_{2} : \tau^{'}}{\emptyset \vdash e_{1} \ e_{2} : \tau}
     \]
-    On applique l'HR à $e_{1}$ : 
+    On applique l'HR à $e_{1}$ :
     \begin{itemize}
         \item Si $e_{1} \rightarrow e_{1}^{'}$ alors $e_{1} \ e_{2} \rightarrow e_{1}^{'} e_{2}$. %TODO : ref lemme de passage au contexte
         \item Si $e_{1}$
@@ -1050,13 +1050,13 @@ and compute_type env e = match e.desc with
     Preuve par récurrence sur la hauteur de la dérivation $\Gamma + x : \tau^{'} \vdash e : \tau$ :
     \begin{itemize}
         \item Cas d'une variable $e = y$
-        \begin{itemize}
-            \item Si $x = y$ alors $e\left[x \leftarrow e^{'}\right] = e^{'}$ et $\tau = \tau^{'}$
-            \item Sinon, $e\left[x \leftarrow e^{'}\right] = e$ et $\tau = \Gamma(y)$
-        \end{itemize}
+              \begin{itemize}
+                  \item Si $x = y$ alors $e\left[x \leftarrow e^{'}\right] = e^{'}$ et $\tau = \tau^{'}$
+                  \item Sinon, $e\left[x \leftarrow e^{'}\right] = e$ et $\tau = \Gamma(y)$
+              \end{itemize}
         \item Cas d'une abstraction $e = \fun{y}{e_{1}}$.\\
-        On peut supposer, par $\alpha$-conversion $y \neq x, y \notin dom\left(\Gamma\right)$ et $y$ non libre dans $e^{'}$. On a : $\Gamma + x : \tau^{'} + y : \tau_{2} \vdash e_{1} : \tau_{1}$ et donc $\Gamma + y : \tau_{2} + x : \tau^{'} \vdash e_{1} : \tau_{1}$ par permutation. D'autre part, $\Gamma \vdash e^{'} : \tau^{'}$ et donc par affaiblissement $\Gamma + y : \tau_{2} \vdash e^{'} : \tau^{'}$.\\
-        Par HR on a donc : $\Gamma + y : \tau_{2} \vdash e_{1}\left[x \leftarrow e^{'}\right] : \tau_{1}$ et donc :$\Gamma \vdash \left(\fun{y}{e_{1}}\right)\left[x \leftarrow e^{'}\right] : \tau_{2} \rightarrow \tau_{1}$ i.e. $\Gamma \vdash e\left[x \leftarrow e^{'}\right] : \tau$
+              On peut supposer, par $\alpha$-conversion $y \neq x, y \notin dom\left(\Gamma\right)$ et $y$ non libre dans $e^{'}$. On a : $\Gamma + x : \tau^{'} + y : \tau_{2} \vdash e_{1} : \tau_{1}$ et donc $\Gamma + y : \tau_{2} + x : \tau^{'} \vdash e_{1} : \tau_{1}$ par permutation. D'autre part, $\Gamma \vdash e^{'} : \tau^{'}$ et donc par affaiblissement $\Gamma + y : \tau_{2} \vdash e^{'} : \tau^{'}$.\\
+              Par HR on a donc : $\Gamma + y : \tau_{2} \vdash e_{1}\left[x \leftarrow e^{'}\right] : \tau_{1}$ et donc :$\Gamma \vdash \left(\fun{y}{e_{1}}\right)\left[x \leftarrow e^{'}\right] : \tau_{2} \rightarrow \tau_{1}$ i.e. $\Gamma \vdash e\left[x \leftarrow e^{'}\right] : \tau$
     \end{itemize}
 \end{proof}
 
@@ -1069,7 +1069,7 @@ and compute_type env e = match e.desc with
 
 \begin{theorem}
     Si $\emptyset \vdash e : \tau$, alors la réduction de $e$ est infinie ou se termine sur une valeur.\\
-    De manière équivalente : si $\emptyset \vdash e : \tau$ et $e \xrightarrow{\star} e^{'}$ et $e^{'}$ irréductible, $e^{'}$ est une valeur. 
+    De manière équivalente : si $\emptyset \vdash e : \tau$ et $e \xrightarrow{\star} e^{'}$ et $e^{'}$ irréductible, $e^{'}$ est une valeur.
 \end{theorem}
 
 \begin{remark}
@@ -1084,45 +1084,45 @@ Il est toutefois contraignant de donner un type unique à $\fun{x}{x}$ dans $\le
 
 \section{Polymorphisme Paramétrique}
 \subsection{Système F}
-On étend l'algèbre des types : 
+On étend l'algèbre des types :
 \begin{tabular}{c@{$\mid$}c}
-    $\tau$ & $\texttt{int} \mid \texttt{bool} \mid \ldots$\\
-    & $\tau \rightarrow \tau$\\
-    &$\tau \times \tau$ \\
-    & $\alpha$ : variable de type\\
-    & $\forall\alpha.\tau$ : type polymorphe
+    $\tau$ & $\texttt{int} \mid \texttt{bool} \mid \ldots$ \\
+           & $\tau \rightarrow \tau$                       \\
+           & $\tau \times \tau$                            \\
+           & $\alpha$ : variable de type                   \\
+           & $\forall\alpha.\tau$ : type polymorphe
 \end{tabular}
 
 \begin{definition}
-    On note $\mathcal{L}(\tau)$ l'ensemble des variables de types libres dans $\tau$, défini par : 
+    On note $\mathcal{L}(\tau)$ l'ensemble des variables de types libres dans $\tau$, défini par :
     \[
         \begin{aligned}
-            \mL(\tint) &= \emptyset\\
-            \mL(\alpha) &= \left\{\alpha\right\}\\
-            \mL(\tau_{1} \rightarrow \tau_{2}) &= \mL(\tau_{1}) \cup \mL(\tau_{2})\\
-            \mL(\tau_{1} \times \tau_{2}) &= \mL(\tau_{1}) \cup \mL(\tau_{2})\\
-            \mL(\forall\alpha.\tau) &= \mL(\tau) \setminus \left\{\alpha\right\}
-        \end{aligned}    
+            \mL(\tint)                         & = \emptyset                                 \\
+            \mL(\alpha)                        & = \left\{\alpha\right\}                     \\
+            \mL(\tau_{1} \rightarrow \tau_{2}) & = \mL(\tau_{1}) \cup \mL(\tau_{2})          \\
+            \mL(\tau_{1} \times \tau_{2})      & = \mL(\tau_{1}) \cup \mL(\tau_{2})          \\
+            \mL(\forall\alpha.\tau)            & = \mL(\tau) \setminus \left\{\alpha\right\}
+        \end{aligned}
     \]
     Pour un environnement $\Gamma$ on définit aussi $\mL(\Gamma) = \bigcup_{x \in dom(\Gamma)} \mL(\Gamma(x))$
 \end{definition}
 
 \begin{definition}
-    On note $\tau\left[\alpha \leftarrow \tau^{'}\right]$ la substitution de $\alpha$ par $\tau^{'}$ dans $\tau$, définie par : 
+    On note $\tau\left[\alpha \leftarrow \tau^{'}\right]$ la substitution de $\alpha$ par $\tau^{'}$ dans $\tau$, définie par :
     \[
         \begin{aligned}
-            \tint\left[\alpha \leftarrow \tau^{'}\right] &= \tint\\
-            \alpha\left[\alpha \leftarrow \tau^{'}\right] &= \tau^{'}\\
-            \beta\left[\alpha \leftarrow \tau^{'}\right] &= \beta \text{ si } \beta \neq \alpha\\
-            \left(\tau_{1} \rightarrow \tau_{2}\right)\left[\alpha \leftarrow \tau^{'}\right] &= \tau_{1}\left[\alpha \leftarrow \tau^{'}\right] \rightarrow \tau_{2}\left[\alpha \leftarrow \tau^{'}\right]\\
-            \tint\left[\alpha \leftarrow \tau^{'}\right] &= \tint\\
-            \tint\left[\alpha \leftarrow \tau^{'}\right] &= \tint\\
-            \tint\left[\alpha \leftarrow \tau^{'}\right] &= \tint\\
-        \end{aligned}    
+            \tint\left[\alpha \leftarrow \tau^{'}\right]                                      & = \tint                                                                                                       \\
+            \alpha\left[\alpha \leftarrow \tau^{'}\right]                                     & = \tau^{'}                                                                                                    \\
+            \beta\left[\alpha \leftarrow \tau^{'}\right]                                      & = \beta \text{ si } \beta \neq \alpha                                                                         \\
+            \left(\tau_{1} \rightarrow \tau_{2}\right)\left[\alpha \leftarrow \tau^{'}\right] & = \tau_{1}\left[\alpha \leftarrow \tau^{'}\right] \rightarrow \tau_{2}\left[\alpha \leftarrow \tau^{'}\right] \\
+            \tint\left[\alpha \leftarrow \tau^{'}\right]                                      & = \tint                                                                                                       \\
+            \tint\left[\alpha \leftarrow \tau^{'}\right]                                      & = \tint                                                                                                       \\
+            \tint\left[\alpha \leftarrow \tau^{'}\right]                                      & = \tint                                                                                                       \\
+        \end{aligned}
     \]
 \end{definition}
 
-Les règles sont les mêmes qu'auparavant, plus : 
+Les règles sont les mêmes qu'auparavant, plus :
 \begin{center}
     $\frac{\Gamma \vdash e : \tau \ \ \ \alpha \not \mL(\Gamma)}{\Gamma \vdash e : \forall\alpha.\tau}$ et
     $\frac{\Gamma \vdash e : \forall\alpha.\tau}{\Gamma e : \tau\left[\alpha \leftarrow \tau^{'}\right]}$
@@ -1137,19 +1137,19 @@ Pour des termes sans annotations les deux problèmes d'inférence et de vérific
 \subsection{Système de Hindley-Milner}
 On limite la quantification $\forall$ en tête des types (quantification prénexe.)
 \begin{tabular}{c@{$\mid$}c}
-    $\tau$ & $\texttt{int} \mid \texttt{bool} \mid \ldots$\\
-    & $\tau \rightarrow \tau$\\
-    &$\tau \times \tau$ \\
-    & $\alpha$ : variable de type\\
-    &\\
-    $\sigma$ & $\tau$ : schéma\\
-    & $\forall\alpha.\sigma$
+    $\tau$   & $\texttt{int} \mid \texttt{bool} \mid \ldots$ \\
+             & $\tau \rightarrow \tau$                       \\
+             & $\tau \times \tau$                            \\
+             & $\alpha$ : variable de type                   \\
+             &                                               \\
+    $\sigma$ & $\tau$ : schéma                               \\
+             & $\forall\alpha.\sigma$
 \end{tabular}
 L'environnement $\Gamma$ associe un schéma de type à chaque identificateur et la relation de typage a maintenant la forme $\Gamma \vdash e : \sigma$.
 
-On modifie toutes les règles : 
+On modifie toutes les règles :
 \begin{center}
-    $\frac{}{\Gamma \vdash x : \Gamma(x)}$ 
+    $\frac{}{\Gamma \vdash x : \Gamma(x)}$
     $\frac{}{\Gamma \vdash n : \texttt{int}}$
     $\frac{}{\Gamma \vdash + : \texttt{int} \times \texttt{int} \rightarrow \texttt{int}}$
 \end{center}
@@ -1162,17 +1162,17 @@ On modifie toutes les règles :
     $\frac{\Gamma \vdash e_{1} : \sigma_{1} \ \Gamma + x : \sigma_{1} \vdash e_{2} : \sigma_{2}}{\Gamma \vdash \letin{x = e_{1}} e_{2} : \sigma_{2}}$
 \end{center}
 \begin{center}
-    $\frac{\Gamma \vdash e : \sigma \ \ \ \alpha \notin \mL(\Gamma)}{\Gamma \vdash e : \forall\alpha.\sigma}$ 
+    $\frac{\Gamma \vdash e : \sigma \ \ \ \alpha \notin \mL(\Gamma)}{\Gamma \vdash e : \forall\alpha.\sigma}$
     $\frac{\Gamma \vdash e : \forall\alpha.\sigma}{\Gamma e : \sigma\left[\alpha \leftarrow \tau^{'}\right]}$
 \end{center}
 
-On note que seule la construction $\texttt{let}$ permet d'introduire un type polymorphe dans l'environnement. 
+On note que seule la construction $\texttt{let}$ permet d'introduire un type polymorphe dans l'environnement.
 
 Pour programmer une vérification ou une inférence de type, on procède récursivement sur la structure du programme, ce qui semble devoir se faire en temps exponentiel.
-Nous allons alors modifier la présentation du système de Hindley-Milner pour qu'il soit dirigé par la syntaxe (synta-directed), i.e., pour toute expression, au plus une règle s'applique. Les règles ont la même puissance d'expression : tout terme clos est typable dans un système si et seulement si il est typable dans l'autre : 
+Nous allons alors modifier la présentation du système de Hindley-Milner pour qu'il soit dirigé par la syntaxe (synta-directed), i.e., pour toute expression, au plus une règle s'applique. Les règles ont la même puissance d'expression : tout terme clos est typable dans un système si et seulement si il est typable dans l'autre :
 
 \begin{center}
-    $\frac{\tau \leq \Gamma(x)}{\Gamma \vdash x : \tau}$ 
+    $\frac{\tau \leq \Gamma(x)}{\Gamma \vdash x : \tau}$
     $\frac{}{\Gamma \vdash n : \texttt{int}}$
     $\frac{\tau \leq \texttt{type}(op)}{\Gamma \vdash op : \tau}$
 \end{center}
@@ -1185,29 +1185,29 @@ Nous allons alors modifier la présentation du système de Hindley-Milner pour q
     $\frac{\Gamma \vdash e_{1} : \tau{1} \ \Gamma + x : \texttt{Gen}(\tau_{1},  \Gamma) \vdash e_{2} : \tau{2}}{\Gamma \vdash \letin{x = e_{1}} e_{2} : \tau{2}}$
 \end{center}
 
-Deux opérations apparaissent : 
+Deux opérations apparaissent :
 \begin{itemize}
-    \item L'instanciation : $\tau \leq \sigma$ se lit $\tau$ est une instance de $\sigma$ et est définie par : 
-    \[
-        \tau \leq \forall\alpha_{1}\ldots\alpha_{n}.\tau^{'} \Leftrightarrow \exists\tau_{1}\ldots\exists\tau_{n}.\tau = \tau^{'}\left[\alpha_{1}\leftarrow\tau_{1}, \ldots, \alpha_{n} \leftarrow \tau_{n}\right]
-    \]
-    \item La généralisation : 
-    \[
-        \texttt{Gen}(\tau_{1}, \Gamma) = \forall\alpha_{1}\ldots\forall\alpha_{n}.\tau_{1} \text{ où } \left\{\alpha_{1}, \ldots, \alpha_{n}\right\} = \mL(\tau_{1}) \setminus \mL(\Gamma)
-    \]
+    \item L'instanciation : $\tau \leq \sigma$ se lit $\tau$ est une instance de $\sigma$ et est définie par :
+          \[
+              \tau \leq \forall\alpha_{1}\ldots\alpha_{n}.\tau^{'} \Leftrightarrow \exists\tau_{1}\ldots\exists\tau_{n}.\tau = \tau^{'}\left[\alpha_{1}\leftarrow\tau_{1}, \ldots, \alpha_{n} \leftarrow \tau_{n}\right]
+          \]
+    \item La généralisation :
+          \[
+              \texttt{Gen}(\tau_{1}, \Gamma) = \forall\alpha_{1}\ldots\forall\alpha_{n}.\tau_{1} \text{ où } \left\{\alpha_{1}, \ldots, \alpha_{n}\right\} = \mL(\tau_{1}) \setminus \mL(\Gamma)
+          \]
 \end{itemize}
 
 Pour inférer le type d'une expression il reste des problèmes : quel type donner dans la définition d'une fonction, quelle instance de $\Gamma(x)$ choisir ? Il existe une solution, l'algorithme W.
 \subsection{Algorithme W}
-On utilise de nouvelles variables de types pour représenter les types inconnus, et on détermine la valeur de ces variables plus tard par unification entre types au moment du typage de l'application. 
+On utilise de nouvelles variables de types pour représenter les types inconnus, et on détermine la valeur de ces variables plus tard par unification entre types au moment du typage de l'application.
 \begin{definition}
-    Si $\tau_{1}, \tau_{2}$ sont des types contenant des variables de types $\alpha_{i}$. On appelle unification une instanciation $f$ des variables $\alpha_{i}$ telle que $f(\tau_{1}) = f(\tau_{2})$. 
+    Si $\tau_{1}, \tau_{2}$ sont des types contenant des variables de types $\alpha_{i}$. On appelle unification une instanciation $f$ des variables $\alpha_{i}$ telle que $f(\tau_{1}) = f(\tau_{2})$.
 \end{definition}
 
 \begin{definition}
     $\texttt{unifier}(\tau_{1}, \tau_{2})$ détermine s'il existe une instance des variables de types de $\tau_{1}$ et $\tau_{2}$ telle que $\tau_{1} = \tau_{2}$. :
     \begin{itemize}
-        \item $\texttt{unifier}(\tau, \tau) = \top$ 
+        \item $\texttt{unifier}(\tau, \tau) = \top$
         \item $\texttt{unifier}(\tau_{1} \rightarrow \tau_{1}^{'}, \tau_{2} \rightarrow \tau_{2}^{'}) = \texttt{unifier}(\tau_{1}, \tau_{2}); \texttt{unifier}(\tau_{1}^{'}, \tau_{2}^{'})$
         \item $\texttt{unifier}$
         \item $\texttt{unifier}(\alpha, \tau) = \text{ si } \alpha \notin \mL(\tau), \text{ remplacer } \alpha \text{ par } \tau \text{ partout, sinon échec}$
@@ -1240,31 +1240,31 @@ On définit une fonction $W$ qui prend en arguments un environnement $\Gamma$ et
 \end{theorem}
 
 \subsection{Unification Algorithmique}
-Il existe plusieurs manières de réaliser l'unification : 
+Il existe plusieurs manières de réaliser l'unification :
 \begin{itemize}
-    \item En manipulant explicitement une substitution : 
-    \begin{minted}{ocaml}
+    \item En manipulant explicitement une substitution :
+          \begin{minted}{ocaml}
         type tvar = int
         type subst = typ TVmap.t
     \end{minted}
-    \item En utilisant des variables de types destructives : 
-    \begin{minted}{ocaml}
+    \item En utilisant des variables de types destructives :
+          \begin{minted}{ocaml}
         type tvar = { id: int; mutable def: typ option; }
     \end{minted}
 \end{itemize}
 
-Il existe également plusieurs façons de coder l'algorithme $W$ : 
+Il existe également plusieurs façons de coder l'algorithme $W$ :
 \begin{itemize}
     \item Avec des schémas explicites et en calculant $\texttt{Gen}(\tau, \Gamma)$.
     \item Avec des niveaux.
 \end{itemize}
 
 \section{Extensions}
-Ajouter de la récursion, ou des types construits (n-uplets, listes, types sommes et produits) se fait sans trop de difficulter, avec par exemple : 
+Ajouter de la récursion, ou des types construits (n-uplets, listes, types sommes et produits) se fait sans trop de difficulter, avec par exemple :
 \[
     \frac{\Gamma + f : \tau \rightarrow \tau_{1} + x ; \tau \vdash e_{1} : \tau_{1} \ \ \Gamma + f : \texttt{Gen}(\tau \rightarrow \tau_{1}, \Gamma) \vdash e_{2} : \tau_{2}}{\Gamma \vdash \letin{\texttt{rec } f x = e_{1}} e_{2} : \tau_{2}}
 \]
-et 
+et
 \[
     \frac{\Gamma \vdash e_{1} : \tau \texttt{list} \ \Gamma \vdash e_{2} : \tau_{1} \ \Gamma + x : \tau + y : \tau \texttt{ list } \vdash e_{3} : \tau_{1}}{\Gamma \vdash \texttt{ match } e_{1} \texttt{ with } \left[\right] \rightarrow e_{2} \mid ::(x, y) \rightarrow e_{3} : \tau_{1}}
 \]
@@ -1291,24 +1291,24 @@ Toutefois, dans ce cas là, après une première unification, on fixe le type. L
 
 \begin{definition}
     La stratégie d'évaluation d'un langage spécifie l'ordre dans lequel les calculs sont effectués. On peut la définir à l'aide d'une sémantique formelle (cf cours 2). Le compilateur se doit de respecter la stratégie d'évaluation. \\
-    On distingue : 
+    On distingue :
     \begin{itemize}
         \item L'évaluation stricte : les opérandes/paramètres effectifs sont évalués avant l'opération/l'appel, par exemple en C, C++, Python, Java, OCamL
-        \item L'évaluation paresseuse : les opérandes/paramètres effectifs ne sont que si nécessaire, par exemple en Haskell, Clojure ou pour les connectives logiques. 
+        \item L'évaluation paresseuse : les opérandes/paramètres effectifs ne sont que si nécessaire, par exemple en Haskell, Clojure ou pour les connectives logiques.
     \end{itemize}
 \end{definition}
 
 \begin{itemize}
-    \item Un langage impératif adopte systématiquement une évaluation stricte, pour garantir une séquentialité des effets de bord qui coïncide avec le texte source. On fait souvent exception des connectives logiques. La non-terminaison est également un effet. 
+    \item Un langage impératif adopte systématiquement une évaluation stricte, pour garantir une séquentialité des effets de bord qui coïncide avec le texte source. On fait souvent exception des connectives logiques. La non-terminaison est également un effet.
     \item Un langage purement applicatif, c'est-à-dire sans effets de bord, peut en revanche adopter la stratégie d'évaluation de son choix, car une expression aura toujours la même valeur. On parle de transparence référentielle.
 \end{itemize}
 
 
 \subsection{Passage des Paramètres}
-La sémantique précise également le mode de passage des paramètres lors d'un appel. On distingue : 
+La sémantique précise également le mode de passage des paramètres lors d'un appel. On distingue :
 \begin{itemize}
     \item L'appel par valeur : de nouvelles variables représentant les paramètres formels reçoivent les valeurs des paramètres effectifs.
-    \begin{minted}{ocaml}
+          \begin{minted}{ocaml}
         let f(x) =
             x := x + 1
         
@@ -1319,7 +1319,7 @@ La sémantique précise également le mode de passage des paramètres lors d'un 
     \end{minted}
 
     \item L'appel par référence : les paramètres formels désignent les mêmes valeurs gauches que les paramètres effectifs
-    \begin{minted}{ocaml}
+          \begin{minted}{ocaml}
         let f(x) =
             x := x + 1
         
@@ -1329,7 +1329,7 @@ La sémantique précise également le mode de passage des paramètres lors d'un 
             print(v) (*affiche 42*)
     \end{minted}
     \item L'appel par nom : les paramètres effectifs sont substitués aux paramètres formels, et donc évalués seulement si nécessaire
-    \begin{minted}{ocaml}
+          \begin{minted}{ocaml}
         let f(x, y, z) =
             x*x + y*y
         
@@ -1349,14 +1349,14 @@ On peut le considérer inversement comme un assembleur de haut niveau.
 
 Le langage C est muni d'une stratégie d'évaluation stricte avec appel par valeur. L'ordre d'évaluation n'est pas spécifié.
 
-On trouve en C :  
+On trouve en C :
 \begin{itemize}
     \item Des types de base tels que \texttt{char, int, bool, float}...
     \item Un type $\tau*$ des pointeurs vers des valeurs de type $\tau$. Si $p$ est un pointeur de type $\tau*$, alors $*p$ désigne la valeur pointée par $p$, de type $\tau$. Si $e$ est une valeur gauche de type $\tau$, alors $\&e$ est un pointeur sur l'emplacement mémoire correspondant de type $\tau*$.
     \item Des enregistrements appelés structures.
 \end{itemize}
 
-En C une valeur gauche est de la forme : 
+En C une valeur gauche est de la forme :
 \begin{itemize}
     \item \texttt{x}, une variable
     \item \texttt{*e}, le déréférencement d'un pointeur
@@ -1381,7 +1381,7 @@ Les structures sont également copiées lors des affectations de structures, i.e
     }
 \end{minted}
 
-On peut simuler un pasage par référence en passant un pointeur explicite : 
+On peut simuler un pasage par référence en passant un pointeur explicite :
 
 \begin{minted}{c}
     void incr(int *x) {
@@ -1411,7 +1411,7 @@ Pour éviter le coût des copies, on passe des pointeurs sur les structures le p
     }
 \end{minted}
 
-La manipulation explicite de pointeurs peut être dangereuse : 
+La manipulation explicite de pointeurs peut être dangereuse :
 \begin{minted}{c}
 int* p() {
     int x;
@@ -1423,8 +1423,8 @@ int* p() {
 Cette fonction renvoie un pointeur qui correspond à un emplacement sur la pile qui vient justement de disparaître (à savoir le tableau d'activation de p), et qui sera très probablement réutilisé rapidement par un autre tableau d'activation.
 On parle de référence fantôme (dangling reference).
 
-On peut déclarer un tableau ainsi : \texttt{int t[10];}. La notation \texttt{t[i]} n'est que du sucre syntaxique pour \texttt{*(t+i)} où \texttt{t} désigne un pointeur sur le début d'une zone contenant 10 entiers et \texttt{+} désigne une opération d'arithmétique de pointeur. Le premier élément du tableau est donc \texttt{t[0]} i.e. \texttt{*t}. Quand on passe un tableau en paramètre, on ne fait que passer le pointeur. On ne peut pas affecter des tableaux, seulement des pointeurs : 
-On ne peut pas écrire : 
+On peut déclarer un tableau ainsi : \texttt{int t[10];}. La notation \texttt{t[i]} n'est que du sucre syntaxique pour \texttt{*(t+i)} où \texttt{t} désigne un pointeur sur le début d'une zone contenant 10 entiers et \texttt{+} désigne une opération d'arithmétique de pointeur. Le premier élément du tableau est donc \texttt{t[0]} i.e. \texttt{*t}. Quand on passe un tableau en paramètre, on ne fait que passer le pointeur. On ne peut pas affecter des tableaux, seulement des pointeurs :
+On ne peut pas écrire :
 \begin{minted}{c}
 void p() {
     int t[3];
@@ -1439,7 +1439,7 @@ Mais on peut écrire :
         t = u;
     }
 \end{minted}
-car c'est exactement pareil que : 
+car c'est exactement pareil que :
 \begin{minted}{c}
     void q(int *t, int *t) {
         t = u;
@@ -1460,7 +1460,7 @@ int main() {
     // v vaut maintenant 42
 }
 \end{minted}
-En particulier, c'est le compilateur qui a pris l'adresse de \texttt{v} au moment de l'appel, et qui a déréférencé l'adresse \texttt{x} dans la fonction \texttt{f}. On peut aussi passer une structure par référence : 
+En particulier, c'est le compilateur qui a pris l'adresse de \texttt{v} au moment de l'appel, et qui a déréférencé l'adresse \texttt{x} dans la fonction \texttt{f}. On peut aussi passer une structure par référence :
 \begin{minted}{cpp}
     struct S { int a; int b; };
     void f(struct S &x) {
@@ -1488,7 +1488,7 @@ OCamL est muni d'une stratégie d'évaluation stricte, avec appel par valeur. L'
 
 Une valeur est soit d'un type primitif (booléen, caractère, entier machine, \dots), soit un pointeur vers un bloc mémoire (tableau, enregistrement, constructeur non constant, \dots) alloué sur le tas en général. Les valeurs gauches sont les éléments de tableaux et les champs mutables d'enregistrements. \\
 
-Une référence est un enregistrement : 
+Une référence est un enregistrement :
 \begin{minted}{ocaml}
     type 'a ref = { mutable contents: 'a }
     let (!) r = r.contents
@@ -1497,7 +1497,7 @@ Une référence est un enregistrement :
 
 Une référence est allouée sur le tas. C'est toujours un passage par valeur, d'une valeur qui est un pointeur implicite vers une valeur mutable. Un tableau est également alloué sur le tas.
 
-On peut simuler l'appel par nom en OCamL, en remplaçant les arguments par des fonctions : 
+On peut simuler l'appel par nom en OCamL, en remplaçant les arguments par des fonctions :
 \begin{minted}{ocaml}
     let f x y =
         if x = 0 then 42 else y + y
@@ -1510,22 +1510,22 @@ On peut simuler l'appel par nom en OCamL, en remplaçant les arguments par des f
 
 Plus subtilement, on peut aussi simuler l'appel par nécessité :
 \begin{itemize}
-    \item On commence par introduire un type pour représenter les calculs paresseux : 
-    \begin{minted}{ocaml}
+    \item On commence par introduire un type pour représenter les calculs paresseux :
+          \begin{minted}{ocaml}
         type 'a value = Value of 'a
             | Frozen of (unit -> 'a)
         type 'a by_need = 'a value ref
     \end{minted}
-    \item et une fonction qui évalue un tel calcul si ce n'est pas déjà fait : 
-    \begin{minted}{ocaml}
+    \item et une fonction qui évalue un tel calcul si ce n'est pas déjà fait :
+          \begin{minted}{ocaml}
         let force l = match !l with
             | Value v -> v
             | Frozen f -> let v = f () in l := Value v; v
     \end{minted}
-    C'est de la mémoïsation. 
+          C'est de la mémoïsation.
 \end{itemize}
 \begin{remark}
-    La construction \texttt{lazy} d'OCamL fait quelque chose de semblable. 
+    La construction \texttt{lazy} d'OCamL fait quelque chose de semblable.
 \end{remark}
 
 \subsubsection{Le langage Java}
@@ -1541,7 +1541,7 @@ int main() {
     // v vaut toujours 41
 }
 \end{minted}
-Un objet est alloué sur le tas : 
+Un objet est alloué sur le tas :
 \begin{minted}{java}
     class C { int f; }
         void incr(C x) {
@@ -1554,10 +1554,10 @@ Un objet est alloué sur le tas :
         // r.f vaut maintenant 42
     }
 \end{minted}
-C'est toujours un passage par valeur, d'une valeur qui est un pointeur implicite vers un objet. 
+C'est toujours un passage par valeur, d'une valeur qui est un pointeur implicite vers un objet.
 
 \subsubsection{Le Langage Python}
-Python est muni d'une stratégie d'évaluation stricte, avec appel par valeur. L'ordre d'évaluation est spécifié gauche-droite (mais droite-gauche pour une affectation). Une valeur est un pointeur vers un objet alloué sur le tas. Un entier est un objet immuable : 
+Python est muni d'une stratégie d'évaluation stricte, avec appel par valeur. L'ordre d'évaluation est spécifié gauche-droite (mais droite-gauche pour une affectation). Une valeur est un pointeur vers un objet alloué sur le tas. Un entier est un objet immuable :
 \begin{minted}{python}
     def f(x) :
         x += 1
@@ -1565,7 +1565,7 @@ Python est muni d'une stratégie d'évaluation stricte, avec appel par valeur. L
     f(v)
     print(v)
 \end{minted}
-Un tableau est un objet mutable : 
+Un tableau est un objet mutable :
 \begin{minted}{python}
     def incr(x):
         x[1] += 1 
@@ -1585,44 +1585,44 @@ Considérons la compilation d'un micro fragment de C++ avec :
     \item du passage par valeur et par référence
 \end{itemize}
 
-On considère le fragment suivant : 
+On considère le fragment suivant :
 \[
     \begin{aligned}
-        E \rightarrow & n &\\
-        \mid & x &\\
-        \mid & E + E \mid E - E\\
-        \mid & E * E \mid E/E\\
-        \mid & - E
-    \end{aligned}    
+        E \rightarrow & n                & \\
+        \mid          & x                & \\
+        \mid          & E + E \mid E - E   \\
+        \mid          & E * E \mid E/E     \\
+        \mid          & - E
+    \end{aligned}
     \begin{aligned}
-        C \rightarrow & E == E \mid E!= E \\
-        \mid & E<E \mid E<= E \mid E > E \mid E >= E\\
-        \mid C && C\\
-        \mid C || C \\
+        C \rightarrow & E == E \mid E!= E                         \\
+        \mid          & E<E \mid E<= E \mid E > E \mid E >= E     \\
+        \mid C        &                                       & C \\
+        \mid C || C                                               \\
         \mid !C
     \end{aligned}
 \]
 \[
     \begin{aligned}
-        S \rightarrow & x = E;\\
-        \mid & \texttt{if } (\ C\ )\ S\\
-        \mid & \texttt{if } (\ C\ )\ S \texttt{ else } S\\
-        \mid & \texttt{while } (\ C\ )\ S\\
-        \mid & f(E, \ldots, E);\\
-        \mid & \texttt{printf}(\texttt{"\%d /n"}, E);\\
-        \mid & \texttt{int } x, \ldots, x;\\
-        \mid & B
-    \end{aligned}    
+        S \rightarrow & x = E;                                    \\
+        \mid          & \texttt{if } (\ C\ )\ S                   \\
+        \mid          & \texttt{if } (\ C\ )\ S \texttt{ else } S \\
+        \mid          & \texttt{while } (\ C\ )\ S                \\
+        \mid          & f(E, \ldots, E);                          \\
+        \mid          & \texttt{printf}(\texttt{"\%d /n"}, E);    \\
+        \mid          & \texttt{int } x, \ldots, x;               \\
+        \mid          & B
+    \end{aligned}
     \begin{aligned}
-        B \rightarrow & \left\{\ S \ldots\ S\ \right\}\\
-        & \\
-        F \rightarrow &\texttt{void } f(X, \ldots, X) \ B\\
-        & \\
-        X \rightarrow& \texttt{int} x\\
-        \mid & \texttt{int } \texttt{\&}x\\
-        & \\
-        P \rightarrow &F \ldots F\\
-        &\texttt{int main() } B
+        B \rightarrow & \left\{\ S \ldots\ S\ \right\}     \\
+                      &                                    \\
+        F \rightarrow & \texttt{void } f(X, \ldots, X) \ B \\
+                      &                                    \\
+        X \rightarrow & \texttt{int} x                     \\
+        \mid          & \texttt{int } \texttt{\&}x         \\
+                      &                                    \\
+        P \rightarrow & F \ldots F                         \\
+                      & \texttt{int main() } B
     \end{aligned}
 \]
 
@@ -1656,7 +1656,7 @@ Par exemple, le programme suivant est correct et compile :
     Par ailleurs, un train peut en cacher un autre.
 \end{definition}
 
-Par exemple le programme suivant compile : 
+Par exemple le programme suivant compile :
 \begin{minted}{cpp}
     void f(int n) {
         printf("%d\n", n); // affiche 34
@@ -1675,11 +1675,11 @@ Par exemple le programme suivant compile :
         f(34);
     }
 \end{minted}
-Ici, la portée ne dépend que du texte source, on parle de portée lexicale. On peut la réaliser avant ou pendant le typage. La syntaxe abstraite conserve une trace de cette analyse, en identifiant chaque variable de façon unique. 
+Ici, la portée ne dépend que du texte source, on parle de portée lexicale. On peut la réaliser avant ou pendant le typage. La syntaxe abstraite conserve une trace de cette analyse, en identifiant chaque variable de façon unique.
 \begin{center}
     \begin{tabular}{p{.4\linewidth}p{.4\linewidth}}
-        Avant & Après\\
-        Arbres de syntaxe abstraite issus de l'analyse syntaxique & Arbres de syntaxe abstraite après le typage\\
+        Avant                                                         & Après                                                                                   \\
+        Arbres de syntaxe abstraite issus de l'analyse syntaxique     & Arbres de syntaxe abstraite après le typage                                             \\
         \begin{minted}{ocaml}
             type pint_expr =
                 | PEconst of int
@@ -1690,7 +1690,7 @@ Ici, la portée ne dépend que du texte source, on parle de portée lexicale. On
                 | PSblock of pstmt list
                 | ...
         \end{minted}
-        & 
+                                                                      &
         \begin{minted}{ocaml}
             type int_expr =
             | Econst of int
@@ -1714,7 +1714,7 @@ Il faut choisir un emplacement mémoire pour chaque variable et être capable de
 Pour les paramètres, ce sont +16, +24, etc... Pour les variables, ce sont -8, -16, etc, avec souvent plusieurs solutions possibles.
 
 \subsection{Passage Par Valeu}
-On utilise la bibliothèque \texttt{X86\_64} pour produire du code assembleur. On concatène les morceaux d'assembleur avec une opération \texttt{++}. On suit un schéma de compilation simpliste, utilisant la pile pour stocker les résultats intermédiaires : A l'issue de l'exécution d'une fonction de compilation d'une expression arithmétique, la valeur de l'expression se trouve dans le registre \texttt{\%rdi} : 
+On utilise la bibliothèque \texttt{X86\_64} pour produire du code assembleur. On concatène les morceaux d'assembleur avec une opération \texttt{++}. On suit un schéma de compilation simpliste, utilisant la pile pour stocker les résultats intermédiaires : A l'issue de l'exécution d'une fonction de compilation d'une expression arithmétique, la valeur de l'expression se trouve dans le registre \texttt{\%rdi} :
 \begin{minted}{ocaml}
     let rec int_expr = function
         (*on commence par les constantes*)
@@ -1731,7 +1731,7 @@ On utilise la bibliothèque \texttt{X86\_64} pour produire du code assembleur. O
             ...
 \end{minted}
 
-Pour une variable, on utilise l'adressage indirect, car la position par rapport à \texttt{\%rbp} est une constante connue : 
+Pour une variable, on utilise l'adressage indirect, car la position par rapport à \texttt{\%rbp} est une constante connue :
 \begin{minted}{ocaml}
     | Evar { offset = ofs } ->
         movq (ind ~ofs rbp) (reg rdi)
@@ -1748,7 +1748,7 @@ De même, les expressions booléennes sont compilées d'une manière très analo
     | ...
 \end{minted}
 
-Les instructions sont compilées avec une fonction : 
+Les instructions sont compilées avec une fonction :
 \begin{minted}{ocaml}
     let rec stmt = function 
         | Sprintf e -> 
@@ -1760,7 +1760,7 @@ Les instructions sont compilées avec une fonction :
         | Sblock sl ->
             List.fold_left (fun code s -> code ++ stmt s) nop sl
 \end{minted}
-avec : 
+avec :
 \begin{minted}{nasm}
     print int: # (en pratique, il faut aussi aligner la pile)
         movq %rdi, %rsi
@@ -1773,7 +1773,7 @@ avec :
         .string "%d\n"
 \end{minted}
 
-Pour appeler une fonction $f$ il faut : 
+Pour appeler une fonction $f$ il faut :
 \begin{enumerate}
     \item Empiler les arguments
     \item Appeler le code situé à l'étiquette $f$
@@ -1797,7 +1797,7 @@ Reste l'affectation \texttt{x = e} : le membre de gauche est ici réduit à une 
 
 
 \subsection{Passage par Référence}
-Pour l'instant on a passé les paramètres par valeur, i.e. le paramètre formel est une nouvelle variable qui prend comme valeur initiale celle du paramètre effectif. En C++, le qualificatif \texttt{\&} permet de spécifier un passage par référence. Dans ce cas, le paramètre formel désigne la même variable que le paramètre effectif, qui doit donc être une valeur gauche. 
+Pour l'instant on a passé les paramètres par valeur, i.e. le paramètre formel est une nouvelle variable qui prend comme valeur initiale celle du paramètre effectif. En C++, le qualificatif \texttt{\&} permet de spécifier un passage par référence. Dans ce cas, le paramètre formel désigne la même variable que le paramètre effectif, qui doit donc être une valeur gauche.
 Pour prendre en compte le passage par référence, on étend encore le type \texttt{ident} pour indiquer s'il s'agit d'une variable passée par référence. Dans un appel tel que $f(e)$, le paramètre effectif $e$ n'est plus typé ni compilé de la même manière selon qu'il s'agit d'un paramètre passé par valeur ou par référence. Lorsque le paramètre est passé par référence le typage va donc :
 \begin{enumerate}
     \item Vérifier qu'il s'agit bien d'une valeur gauche (une variable ici)
@@ -1805,7 +1805,7 @@ Pour prendre en compte le passage par référence, on étend encore le type \tex
 \end{enumerate}
 
 Une façon de procéder consiste à ajouter une construction de calcul de valeur gauche dans la syntaxe des expressions, et à remplacer le cas échéant, le paramètre effectif \texttt{e} par \texttt{Eaddr e}.
-On modifie alors : 
+On modifie alors :
 \begin{minted}{ocaml}
     type int_expr =
         ...
@@ -1818,7 +1818,7 @@ On modifie alors :
     
 \end{minted}
 
-Il faut modifier aussi le calcul des valeurs droites et de l'affectation, mais pas celui de l'appel grâce à la nouvelle construction : 
+Il faut modifier aussi le calcul des valeurs droites et de l'affectation, mais pas celui de l'appel grâce à la nouvelle construction :
 \begin{minted}{ocaml}
     | Evar { offset = ofs; by_reference = br } ->
         movq (ind ~ofs rbp) (reg rdi) ++
@@ -1833,7 +1833,7 @@ Il faut modifier aussi le calcul des valeurs droites et de l'affectation, mais p
         movq (reg rdi) (ind rsi)
 \end{minted}
 
-Il reste à compiler les déclarations des fonctions : 
+Il reste à compiler les déclarations des fonctions :
 \begin{minted}{ocaml}
     type function_decl =
     { fname : string;
@@ -1846,7 +1846,7 @@ Il reste à compiler les déclarations des fonctions :
         ++ stmt f.body ++
 \end{minted}
 
-On obtient alors pour la fonction \texttt{swap} par exemple : 
+On obtient alors pour la fonction \texttt{swap} par exemple :
 \begin{minted}{cpp}
     void swap(int &x, int &y) {
         int tmp;
@@ -1878,51 +1878,51 @@ swap:   pushq %rbp
 
 \section{Correction de la Compilation}
 \subsection{Définition de la Correction}
-Le compilateur doit respecter la sémantique du langage : 
-Si le langage source est muni d'une sémantique $\rightarrow_{s}$ et le langage machine $\rightarrow_{m}$ et si $e$ est compilée en $C(e)$ on doit avoir un diagramme commutatif : 
+Le compilateur doit respecter la sémantique du langage :
+Si le langage source est muni d'une sémantique $\rightarrow_{s}$ et le langage machine $\rightarrow_{m}$ et si $e$ est compilée en $C(e)$ on doit avoir un diagramme commutatif :
 \begin{tabular}{ccc}
-    $e$ &$\xrightarrow{\star}_{s}$ & $v$\\
-    $\downarrow$ & & $\approx$\\
-    $C(e)$ & $\xrightarrow{\star}_{m}$ & $v^{'}$\\
+    $e$          & $\xrightarrow{\star}_{s}$ & $v$       \\
+    $\downarrow$ &                           & $\approx$ \\
+    $C(e)$       & $\xrightarrow{\star}_{m}$ & $v^{'}$   \\
 \end{tabular}
 où $v \approx v^{'}$ exprime que les valeurs coïncident.
 
 \subsection{Une Preuve de Correction}
-On montre ici la correction de la compilation sur les expressions arithmétiques sans variable : 
+On montre ici la correction de la compilation sur les expressions arithmétiques sans variable :
 $e \rightarrow n \mid e + e$
 
-On se donne une sémantique à réductions pour le langage source : 
+On se donne une sémantique à réductions pour le langage source :
 \[
     \begin{aligned}
-        v \rightarrow& n\\
-        E \rightarrow& \Box \mid E + e \mid v + E\\
-    \end{aligned}    
+        v \rightarrow & n                          \\
+        E \rightarrow & \Box \mid E + e \mid v + E \\
+    \end{aligned}
 \]
 et $n_{1} + n_{2} \xrightarrow{\epsilon} n$ avec $n = n_{1} +n_{2}$.
 
-On se donne aussi une sémantique à réductions pour le langage cible. Un état est la donnée de valeurs pour les registres $R$ et d'un état de la mémoire $M$ : 
+On se donne aussi une sémantique à réductions pour le langage cible. Un état est la donnée de valeurs pour les registres $R$ et d'un état de la mémoire $M$ :
 \[
     \begin{aligned}
-        R =& \{\texttt{\%rdi}\mapsto n; \texttt{\%rsi} \mapsto n; \texttt{\%rsp} \mapsto n\} \\
-        M =& \N \rightarrow \Z
-    \end{aligned}    
+        R = & \{\texttt{\%rdi}\mapsto n; \texttt{\%rsi} \mapsto n; \texttt{\%rsp} \mapsto n\} \\
+        M = & \N \rightarrow \Z
+    \end{aligned}
 \]
-La sémantique d'une instruction $m$ se définit par une réduciton : 
+La sémantique d'une instruction $m$ se définit par une réduciton :
 \[
     R, M, m \xrightarrow{m} R^{'}, M^{'}
 \]
 La réduction se définit aisément.
 
 On souhaite montrer que si $e\xrightarrow{\star} n$ et si $R, M, \texttt{code}(e) \xrightarrow{m}^{\star} R^{'}, M^{'}$ alors $R^{'}(\texttt{\%rdi}) = n$, où \texttt{code} désigne la fonction de compilation. On procède alors par induction structurelle sur $e$.
-On établit alors un résultat plus fort : 
+On établit alors un résultat plus fort :
 \begin{proposition}
-    Si $e\xrightarrow{\star} n$ et $R, M, \texttt{code}(e)\xrightarrow{m}^{\star} R^{'}, M^{'}$ alors : 
+    Si $e\xrightarrow{\star} n$ et $R, M, \texttt{code}(e)\xrightarrow{m}^{\star} R^{'}, M^{'}$ alors :
     \[
         \begin{cases}
-            R^{'}(\texttt{\%rdi}) =& n\\
-            R^{'}(\texttt{\%rsp}) =& R(\texttt{\%rsp})\\
+            R^{'}(\texttt{\%rdi}) = & n                 \\
+            R^{'}(\texttt{\%rsp}) = & R(\texttt{\%rsp}) \\
             \forall a \geq R(\texttt{\%rsp}),\ M^{'}(a) = M(a)
-        \end{cases}    
+        \end{cases}
     \]
 \end{proposition}
 
@@ -1932,32 +1932,32 @@ Une telle preuve put être effectuée sur un vrai compilateur : CompCert, un com
 
 \part[Compilation des Langages Fonctionnels]{Cours 24/11}
 \section{Fonctions comme Valeurs de Première Classe}
-On va étudier un fragment d'OcamL : 
+On va étudier un fragment d'OcamL :
 \[
     \begin{aligned}
-        e =& c \\
-        \mid & x \\
-        \mid & \texttt{fun } x \rightarrow e \\
-        \mid & e e \\
-        \mid & \texttt{let [rec] } x = e \\
-        \mid & \texttt{if } e \texttt{ then } e \texttt{ else } e\\
-        & \\
-        d =& \texttt{let [rec] } x = e \\
-        & \\
-        p =& d \ \ldots \ d
-    \end{aligned}    
+        e =  & c                                                  \\
+        \mid & x                                                  \\
+        \mid & \texttt{fun } x \rightarrow e                      \\
+        \mid & e e                                                \\
+        \mid & \texttt{let [rec] } x = e                          \\
+        \mid & \texttt{if } e \texttt{ then } e \texttt{ else } e \\
+             &                                                    \\
+        d =  & \texttt{let [rec] } x = e                          \\
+             &                                                    \\
+        p =  & d \ \ldots \ d
+    \end{aligned}
 \]
 \begin{remark}
     Les fonctions peuvent ici être imbriquées. La compilation des fonctions imbriquées exploite le fait que toute variable qui est référencée est contenue dans un tableau d'activation quelque part sur la pile. Le compilateur chaîne les tableaux d'activation, de façon à toujours pouvoir retrouver celui qui nous intéresse.\\
 \end{remark}
 
 \subsection{Fonctions en Paramètres}
-OCamL permet de recevoir des fonctions en argument ainsi que d'en renvoyer. La solution consiste à utiliser une fermeture. 
+OCamL permet de recevoir des fonctions en argument ainsi que d'en renvoyer. La solution consiste à utiliser une fermeture.
 \begin{definition}
     Une fermeture est une structure de données allouée sur le tas contenant un pointeur vers le code de la fonction à appeler et les valeurs des variables susceptibles d'être utilisées par ce code, ensemble appelés l'environnement.
 \end{definition}
 
-On considère l'exemple suivant de fermeture : 
+On considère l'exemple suivant de fermeture :
 \begin{minted}{ocaml}
     let rec pow i x =
         if i = 0 then 1. else x *. pow (i-1) x
@@ -1969,14 +1969,14 @@ On considère l'exemple suivant de fermeture :
             if x >= 1. then 0. else f x +. sum (x +. eps) in
         sum 0. *. eps
 \end{minted}
-On peut faire apparaître la construction \texttt{fun} explicitement : 
+On peut faire apparaître la construction \texttt{fun} explicitement :
 \begin{minted}{ocaml}
     let rec pow =
         fun i ->
             fun x -> if i = 0 then 1. else x *. pow (i-1) x
 \end{minted}
 
-Dans la première fermeture \texttt{fun i ->}, l'environnement est $\{\texttt{pow}\}$. Dans la seconde c'est $\{\texttt{i, pow}\}$. De même : 
+Dans la première fermeture \texttt{fun i ->}, l'environnement est $\{\texttt{pow}\}$. Dans la seconde c'est $\{\texttt{i, pow}\}$. De même :
 \begin{minted}{ocaml}
     let integrate_xn = fun n ->
         let f = pow n in
@@ -1988,16 +1988,16 @@ Dans la première fermeture \texttt{fun i ->}, l'environnement est $\{\texttt{po
 Pour \texttt{fun n ->} la fermeture est $\{\texttt{pow}\}$ et pour \texttt{fun x ->} c'est $\{\texttt{eps, f, sum}\}$.
 
 
-La fermeture peut être représentée comme un unique bloc sur le tas dont le premier champ contient l'adresse du code, et les champs suivants contiennent les valeurs des variables libres et uniquement celle-là. 
+La fermeture peut être représentée comme un unique bloc sur le tas dont le premier champ contient l'adresse du code, et les champs suivants contiennent les valeurs des variables libres et uniquement celle-là.
 
 \subsection{Compilation}
-Une façon relativement simple de compiler les fermetures consiste à procéder en deux temps: 
+Une façon relativement simple de compiler les fermetures consiste à procéder en deux temps:
 \begin{enumerate}
     \item On recherche dans le code toutes les constructions \texttt{fun x -> e} et on les remplace par une construction explicite de fermeture \texttt{clos f } $[y_{1}, \ldots, y_{n}]$ où les $y_{i}$ sont des variables libres de \texttt{fun x -> e} et \texttt{f} le nom donné à une déclaration globale de fonction de la forme \texttt{let fun f} $[y_{1}, \ldots, y_{n}]\ x = e^{'}$ où $e^{'}$ est obtenu à partir de $e$ en supprimant récursivement les constructions \texttt{fun}.
-    \item On compile le code obtenu qui ne contient plus que des déclarations de fonction de la forme \texttt{let fun}. 
+    \item On compile le code obtenu qui ne contient plus que des déclarations de fonction de la forme \texttt{let fun}.
 \end{enumerate}
 
-Sur notre exemple : 
+Sur notre exemple :
 \begin{minted}{ocaml}
     letfun fun2 [i,pow] x =
         if i = 0 then 1. else x *. pow (i-1) x
@@ -2036,8 +2036,8 @@ Toutefois, on a énormément agrandi notre grammaire : \\
 
 
         type prog = decl list
-    \end{minted} 
-    & 
+    \end{minted}
+          &
     \begin{minted}{ocaml}
         type var =
             | Vglobal of string
@@ -2059,11 +2059,11 @@ Toutefois, on a énormément agrandi notre grammaire : \\
 \end{tabular}
 
 En particulier, un identificateur peut représenter soit une variable globale, soit une variable locale, soit une variable contenue dans une fermeture, soit l'unique argument d'une fonction.\\
-On a alors le schéma de compilation suivant : 
+On a alors le schéma de compilation suivant :
 \begin{enumerate}
     \item Chaque fonction a un unique argument, passé dans \texttt{\%rdi}
     \item On passe la fermeture dans \texttt{\%rsi}
-    \item Le tableau d'activation étant donc composé de l'adresse de retour, du \texttt{\%rbp} sauvegardé, et d'emplacements pour des variables locales. Il est intégralement construir par l'appelé. 
+    \item Le tableau d'activation étant donc composé de l'adresse de retour, du \texttt{\%rbp} sauvegardé, et d'emplacements pour des variables locales. Il est intégralement construir par l'appelé.
 \end{enumerate}
 
 Pour compiler la construction $\texttt{Eclos}(f, [y_{1}, \ldots, y_{n}])$ :
@@ -2071,7 +2071,7 @@ Pour compiler la construction $\texttt{Eclos}(f, [y_{1}, \ldots, y_{n}])$ :
     \item On alloue un bloc de taille $n + 1$ sur le tas.
     \item On stocke l'adresse de $f$ dans le champ $0$.
     \item On stocke les valeurs des bariables dans les champs $1$ à $n$.
-    \item On renvoie le pointeur sur le bloc. 
+    \item On renvoie le pointeur sur le bloc.
 \end{enumerate}
 
 Pour compiler un appel de fonction $\texttt{Eapp}(e_{1}, e_{2})$ :
@@ -2081,15 +2081,15 @@ Pour compiler un appel de fonction $\texttt{Eapp}(e_{1}, e_{2})$ :
     \item On appelle la fonction dont l'adresse est contenue dans le premier champ de la fermeture avec \texttt{call *(\%rsi)}.
 \end{enumerate}
 
-Pour compiler un accès à une variable : 
+Pour compiler un accès à une variable :
 \begin{itemize}
     \item Si c'est une variable globale, elle se trouve à l'adresse donnée par l'étiquette.
     \item Si c'est une variable locale, elle se trouve à l'adresse donnée par lui même.
     \item Si c'est une variable dans la fermeture, la valeur se trouve à l'adresse donnée par lui même.
-    \item Si c'est un argument, la valeur se trouve dans \texttt{\%rdi}. 
+    \item Si c'est un argument, la valeur se trouve dans \texttt{\%rdi}.
 \end{itemize}
 
-Pour compiler la déclaration, comme pour une déclaration usuelle : 
+Pour compiler la déclaration, comme pour une déclaration usuelle :
 \begin{enumerate}
     \item On sauvegarde et positionne \texttt{\%rbp}
     \item On alloue le tableau d'activation
@@ -2111,8 +2111,8 @@ Du point de vue de la compilation, on peut détruire le tableau d'activation de 
 Le programme obtenu est alors plus efficace, en particulier car on accède moins à la mémoire. Une autre conséquence étant que l'espace de pile utilisé devient constant. En particulier, on évite ainsi tout débordement de pile qui serait dû à un trop grand nombre d'appels imbriqués.
 
 \subsection{Codé Main}
-Quand le compilateur n'optimise pas les appels terminaux, on peut toujours le faire soi même dans le code. Toutefois, il n'est pas toujours facile de remplacer les appels par des appels terminaux. 
-Par exemple la fonction suivante fait déborder la pile pour de trop grands arbres : 
+Quand le compilateur n'optimise pas les appels terminaux, on peut toujours le faire soi même dans le code. Toutefois, il n'est pas toujours facile de remplacer les appels par des appels terminaux.
+Par exemple la fonction suivante fait déborder la pile pour de trop grands arbres :
 \begin{minted}{ocaml}
     type 'a tree = Empty | Node of 'a tree * 'a * 'a tree
 
@@ -2121,7 +2121,7 @@ Par exemple la fonction suivante fait déborder la pile pour de trop grands arbr
         | Node (l, _, r) -> 1 + max (height l) (height r)
 \end{minted}
 
-Au lieu de calculer la hauteur $h$ de l'arbre, on calcule $k(h)$ pour une fonction $k$ quelconque, appelée continuation. On appelle ça la programmation par continuations. On déduit le programme voulu par la continuation identité : 
+Au lieu de calculer la hauteur $h$ de l'arbre, on calcule $k(h)$ pour une fonction $k$ quelconque, appelée continuation. On appelle ça la programmation par continuations. On déduit le programme voulu par la continuation identité :
 
 \begin{minted}{ocaml}
     let rec height t k = match t with 
@@ -2131,12 +2131,12 @@ Au lieu de calculer la hauteur $h$ de l'arbre, on calcule $k(h)$ pour une foncti
             height r (fun hr ->
             k (1 + max hl hr)))
 \end{minted}
-Tous les appels à \texttt{height} et \texttt{k} sont terminaux. Le calcul se fait donc en espace de pile constant. 
+Tous les appels à \texttt{height} et \texttt{k} sont terminaux. Le calcul se fait donc en espace de pile constant.
 
 \subsection{Explication}
 On a remplacé l'espace sur la pile par de l'espace sur le tas, qui est occupé par des fermetures. Il y a bien sûr d'autres solutions, mais la méthode à base de CPS est mécanique.
 
-Dans le cas où le langage optimise l'appel terminal mais n'a pas de fonctions anonymes (e.g. C), on construit des fermetures soi-même, à la main : 
+Dans le cas où le langage optimise l'appel terminal mais n'a pas de fonctions anonymes (e.g. C), on construit des fermetures soi-même, à la main :
 \begin{minted}{c}
     enum kind { Kid, Kleft, Kright };
     struct Kont {
@@ -2151,11 +2151,11 @@ Cela s'appelle la défonctionnalisation.
 
 \section{Filtrage}
 \subsection{Définition}
-Dans les langages fonctionnels, on trouve une construction appelée filtrage, utilisée dans les définitions de fonctions, les conditionnelles généralisées et les gestionnaires d'exceptions. L'objectif du compilateur est de transformer ces constructions de haut niveau en des séquences de tests élémentaires. On considère dans la suite la construction 
+Dans les langages fonctionnels, on trouve une construction appelée filtrage, utilisée dans les définitions de fonctions, les conditionnelles généralisées et les gestionnaires d'exceptions. L'objectif du compilateur est de transformer ces constructions de haut niveau en des séquences de tests élémentaires. On considère dans la suite la construction
 \[
     \texttt{match } x \texttt{ with } p_{1} \rightarrow e_{1} \mid \ldots \mid p_{n} \rightarrow e_{n}
 \]
-Un motif est défini par $p = x \mid C(p, \ldots, p)$. où $C$ est un constructeur qui peut être : 
+Un motif est défini par $p = x \mid C(p, \ldots, p)$. où $C$ est un constructeur qui peut être :
 \begin{itemize}
     \item Une constante telle que \texttt{false, true, 0, 1, "hello"}, etc\dots
     \item Un constructeur constant de type somme, tel que \texttt{[]}
@@ -2164,10 +2164,10 @@ Un motif est défini par $p = x \mid C(p, \ldots, p)$. où $C$ est un constructe
 \end{itemize}
 
 \begin{definition}[motif linéaire]
-    On dit qu'un motif est linéaire si toute variable apparaît au plus une fois dans $p$. 
+    On dit qu'un motif est linéaire si toute variable apparaît au plus une fois dans $p$.
 \end{definition}
 
-Dans ce qui suit, on ne considère que des motifs linéaires. 
+Dans ce qui suit, on ne considère que des motifs linéaires.
 \begin{definition}
     Les valeurs sont ici $v = C(v, \ldots, v)$ où $C$ est le même que dans la définition des motifs.
 \end{definition}
@@ -2182,7 +2182,7 @@ Il est clair que toute valeur filtre $p = x$
 \begin{proof}
     \begin{itemize}
         \item Soit $v$ qui filtre $p$. On a $v = \sigma(p)$ pour un certain $\sigma$ soit $v = C(\sigma(p_{1}),\ldots, \sigma(p_{n}))$ et on pose donc $v_{i} = \sigma(p_{i})$.
-        \item Réciproquement, si $v_{i}$ filtre $p_{i}$ pour tout $i$ alors il existe des $\sigma_{i}$ telles que $v_{i} = \sigma_{i}(p_{i})$. Comme $p$ est linéaire, les domaines des $\sigma_{i}$ sont deux à deux disjoints et on a donc $\sigma_{i}(p_{j}) = p_{j}$ si $i \neq j$. En prenant $\sigma = \sigma_{1} \circ \ldots \circ \sigma_{n}$, on a bien le résultat. 
+        \item Réciproquement, si $v_{i}$ filtre $p_{i}$ pour tout $i$ alors il existe des $\sigma_{i}$ telles que $v_{i} = \sigma_{i}(p_{i})$. Comme $p$ est linéaire, les domaines des $\sigma_{i}$ sont deux à deux disjoints et on a donc $\sigma_{i}(p_{j}) = p_{j}$ si $i \neq j$. En prenant $\sigma = \sigma_{1} \circ \ldots \circ \sigma_{n}$, on a bien le résultat.
     \end{itemize}
 \end{proof}
 \begin{definition}
@@ -2197,83 +2197,83 @@ On cosidère un premier algorithme de compilation du filtrage. On suppose dispos
 \end{itemize}
 Autrement dit, si $e = C(v_{1}, \ldots, v_{n})$ alors \texttt{constr}$(e) = C$ et $\texttt{\#}_{i}(e) = v_{i}$
 
-On commence par la compilation d'une ligne de filtrage : 
+On commence par la compilation d'une ligne de filtrage :
 \[
     code(\texttt{match } e \texttt{ with } p \rightarrow action) = F(p, e, action)
 \]
-où la fonction de compilation $F$ est définie ainsi : 
+où la fonction de compilation $F$ est définie ainsi :
 \begin{itemize}
     \item $F(x, e, action) = \letin{x = e}{action}$
     \item $F(C, e, action) = \texttt{if constr}(e) = C \texttt{ then } action \texttt{ else } error$
     \item $F(C(p), e, action) = \texttt{if constr}(e) = C \texttt{ then } F(p, \texttt{\#}_{1}(e), action) \texttt{ else } error$
     \item $F(C(p_{1}, \ldots, p_{n}), e, action) = \texttt{if constr}(e) = C \texttt{ then } F(p_{1}, \texttt{\#}_{1}(e), F(p_{2}, \texttt{\#}_{2}(e), \ldots F(p_{n}, \texttt{\#}_{n}(e), action)) \ldots) \texttt{ else } error$
-\end{itemize} 
+\end{itemize}
 
 \begin{proposition}
     Cette compilation est correcte
 \end{proposition}
 \begin{proof}
-    On montre simplement par récurrence sur $p$ que si $e\xrightarrow{\star} v$ alors $F(p, e, action) \xrightarrow{\star} \sigma(action)$ s'il existe $\sigma$ telle que $v = \sigma(p)$ et $F(p, e, action) \xrightarrow{\star} error$ sinon. 
+    On montre simplement par récurrence sur $p$ que si $e\xrightarrow{\star} v$ alors $F(p, e, action) \xrightarrow{\star} \sigma(action)$ s'il existe $\sigma$ telle que $v = \sigma(p)$ et $F(p, e, action) \xrightarrow{\star} error$ sinon.
 \end{proof}
 
 Pour filtrer plusieurs lignes, on remplace $error$ par le passage à la ligne. Toutefois, cet algorithme est peu efficace car on effectue plusieurs fois les mêmes tests, et on effectue des tests redondants\footnote{NDS : comme le fenouil}.
 
 \subsection{Un Algorithme plus Efficace}
-On proopose un algorithme qui considère le problème du filtrage des $n$ lignes dans sa globalité. On représente le problème sous forme d'une matrice : 
+On proopose un algorithme qui considère le problème du filtrage des $n$ lignes dans sa globalité. On représente le problème sous forme d'une matrice :
 \[
     \abs{\begin{array}{cccccc}
-        e_{1} & e_{2} & \cdots & e_{m} & &\\
-        p_{1, 1} & p_{1, 2} & \cdots & p_{1, m} & \rightarrow & action_{1}\\
-        \vdots & \vdots & \ddots & \vdots & \vdots & \vdots\\
-        p_{n, 1} & p_{n, 2} & \cdots & p_{n, m} & \rightarrow & action_{n}\\
-    \end{array}}
+            e_{1}    & e_{2}    & \cdots & e_{m}    &             &            \\
+            p_{1, 1} & p_{1, 2} & \cdots & p_{1, m} & \rightarrow & action_{1} \\
+            \vdots   & \vdots   & \ddots & \vdots   & \vdots      & \vdots     \\
+            p_{n, 1} & p_{n, 2} & \cdots & p_{n, m} & \rightarrow & action_{n} \\
+        \end{array}}
 \]
-L'algorithme $F$ procède récursivement sur la matrice : 
+L'algorithme $F$ procède récursivement sur la matrice :
 Pour $n = 0$ on renvoie $error$ et pour $m = 0$ on renvoie $action_{1}$.
-Si toute la colonne de gauche se compose de variables : 
+Si toute la colonne de gauche se compose de variables :
 \[
     M = \abs{\begin{array}{cccccc}
-        e_{1} & e_{2} & \cdots & e_{m} & &\\
-        x_{1, 1} & p_{1, 2} & \cdots & p_{1, m} & \rightarrow & action_{1}\\
-        \vdots & \vdots & \ddots & \vdots & \vdots & \vdots\\
-        x_{n, 1} & p_{n, 2} & \cdots & p_{n, m} & \rightarrow & action_{n}\\
-    \end{array}}   
+            e_{1}    & e_{2}    & \cdots & e_{m}    &             &            \\
+            x_{1, 1} & p_{1, 2} & \cdots & p_{1, m} & \rightarrow & action_{1} \\
+            \vdots   & \vdots   & \ddots & \vdots   & \vdots      & \vdots     \\
+            x_{n, 1} & p_{n, 2} & \cdots & p_{n, m} & \rightarrow & action_{n} \\
+        \end{array}}
 \]
-On élimine cette colonne en introduisant des \texttt{let} : 
+On élimine cette colonne en introduisant des \texttt{let} :
 \[
     F(M) = F \abs{\begin{array}{ccccc}
-        e_{2} & \cdots & e_{m} & &\\
-        p_{1, 2} & \cdots & p_{1, m} & \rightarrow & \letin{x_{1,1} = e_{1}}{action_{1}}\\
-        \vdots & \ddots & \vdots & \vdots & \vdots\\
-        p_{n, 2} & \cdots & p_{n, m} & \rightarrow & \letin{x_{n,1} = e_{1}}{action_{n}}\\
-    \end{array}} 
+            e_{2}    & \cdots & e_{m}    &             &                                     \\
+            p_{1, 2} & \cdots & p_{1, m} & \rightarrow & \letin{x_{1,1} = e_{1}}{action_{1}} \\
+            \vdots   & \ddots & \vdots   & \vdots      & \vdots                              \\
+            p_{n, 2} & \cdots & p_{n, m} & \rightarrow & \letin{x_{n,1} = e_{1}}{action_{n}} \\
+        \end{array}}
 \]
 Sinon, c'est que la colonnne de gauche contient au moins un motif construit. Pour chaque constructeur dans cette colonne, on construit la sous-matrice correspondant au filtrage d'une valeur pour ce constructeur : si
 \[
     M = \abs{\begin{array}{cccccc}
-        e_{1} & e_{2} & \cdots & e_{m} & &\\
-        C(q) & p_{1, 2} & \cdots & p_{1, m} & \rightarrow & action_{1}\\
-        D & p_{2, 2} & \cdots & p_{2, m} & \rightarrow & action_{2}\\
-        x & p_{3, 2} & \cdots & p_{3, m} & \rightarrow & action_{3}\\
-        E(r, s) & p_{4, 2} & \cdots & p_{4, m} & \rightarrow & action_{4}\\
-        y & p_{5, 2} & \cdots & p_{5, m} & \rightarrow & action_{5}\\
-        C(t)& p_{6, 2} & \cdots & p_{6, m} & \rightarrow & action_{6}\\
-        E(u, v) & p_{7, 2} & \cdots & p_{7, m} & \rightarrow & action_{7}\\
-    \end{array}}   
+            e_{1}   & e_{2}    & \cdots & e_{m}    &             &            \\
+            C(q)    & p_{1, 2} & \cdots & p_{1, m} & \rightarrow & action_{1} \\
+            D       & p_{2, 2} & \cdots & p_{2, m} & \rightarrow & action_{2} \\
+            x       & p_{3, 2} & \cdots & p_{3, m} & \rightarrow & action_{3} \\
+            E(r, s) & p_{4, 2} & \cdots & p_{4, m} & \rightarrow & action_{4} \\
+            y       & p_{5, 2} & \cdots & p_{5, m} & \rightarrow & action_{5} \\
+            C(t)    & p_{6, 2} & \cdots & p_{6, m} & \rightarrow & action_{6} \\
+            E(u, v) & p_{7, 2} & \cdots & p_{7, m} & \rightarrow & action_{7} \\
+        \end{array}}
 \]
-on pose pour le constructeur $C$ : 
+on pose pour le constructeur $C$ :
 \[
     M_{C} = \abs{\begin{array}{cccccc}
-        \texttt{\#}_{1}(e_{1}) & e_{2} & \cdots & e_{m} & &\\
-        q & p_{1, 2} & \cdots & p_{1, m} & \rightarrow & action_{1}\\
-        - & p_{2, 2} & \cdots & p_{2, m} & \rightarrow & \letin{x = e_{1}{action_{2}}\\
-        - & p_{3, 2} & \cdots & p_{3, m} & \rightarrow & \letin{y = e_{1}}{action_{3}}\\
-        t& p_{6, 2} & \cdots & p_{6, m} & \rightarrow & action_{6}\\
-    \end{array}}} 
+            \texttt{\#}_{1}(e_{1}) & e_{2}    & \cdots & e_{m}    &             &                               \\
+            q                      & p_{1, 2} & \cdots & p_{1, m} & \rightarrow & action_{1}                    \\
+            -                      & p_{2, 2} & \cdots & p_{2, m} & \rightarrow & \letin{x = e_{1}{action_{2}}  \\
+            -                      & p_{3, 2} & \cdots & p_{3, m} & \rightarrow & \letin{y = e_{1}}{action_{3}} \\
+            t                      & p_{6, 2} & \cdots & p_{6, m} & \rightarrow & action_{6}                    \\
+        \end{array}}}
 \]
-On fait de même pour $D$ et $E$ ainsi que pour les variables. 
+On fait de même pour $D$ et $E$ ainsi que pour les variables.
 
-On pose alors : 
+On pose alors :
 \[
     \begin{split}
         F(M) = &\texttt{ case } multlineconstr(e_{1}) \texttt{ in }\\
@@ -2281,7 +2281,7 @@ On pose alors :
         &D \Rightarrow F(M_{D})\\
         &E \Rightarrow F(M_{E})\\
         &\texttt{otherwise } \Rightarrow F(M_{R})
-    \end{split}    
+    \end{split}
 \]
 
 \begin{proposition}
@@ -2291,16 +2291,16 @@ On pose alors :
     La grandeur $\sum_{i, j} taille(p_{i, j})$ diminue strictement à chaque appel.
 \end{proof}
 
-Le type de l'expression $e_{1}$ permet d'optimiser la construction dans de nombreux cas : 
+Le type de l'expression $e_{1}$ permet d'optimiser la construction dans de nombreux cas :
 \begin{itemize}
     \item Pas de test si un seul constructeur
-    \item Pas de cas \texttt{otherwise} si on peut restreindre à des constructeurs. 
+    \item Pas de cas \texttt{otherwise} si on peut restreindre à des constructeurs.
     \item Un simple \texttt{if then else} s'il n'y a que deux constructeurs
     \item Une table de saut lorsqu'il y a un nombre fini de constructeurs.
-    \item Un arbre binaire ou une table de hachage lorsqu'il y a une infinité de constructeurs. 
+    \item Un arbre binaire ou une table de hachage lorsqu'il y a une infinité de constructeurs.
 \end{itemize}
 
-On peut par ailleur détecter les cas redondants lorsqu'une action n'apparaît pas dans le code produit, et détecter les filtrages non exhaustifs lorsque $error$ apparaît dans le code produit. 
+On peut par ailleur détecter les cas redondants lorsqu'une action n'apparaît pas dans le code produit, et détecter les filtrages non exhaustifs lorsque $error$ apparaît dans le code produit.
 
 \part[Compilateur Optimisant]{Cours 08/12}
 \section{Phases du Compilateur}
@@ -2313,17 +2313,17 @@ On décompose la production de code en plusieurs phases :
     \item Code Linéarisé (assembleur)
 \end{enumerate}
 
-Le point de départ est l'arbre de syntaxe abstraite issu du typage. Cet architecture de compilateur est valable pour tous les grands paradigmes de programmation. On va l'illustrer sur un fragment du langage C. 
+Le point de départ est l'arbre de syntaxe abstraite issu du typage. Cet architecture de compilateur est valable pour tous les grands paradigmes de programmation. On va l'illustrer sur un fragment du langage C.
 
-On se donne un langage mini-C avec : 
+On se donne un langage mini-C avec :
 \begin{itemize}
     \item Des entiers
     \item Des structures allouées sur le tas avec \texttt{malloc} (uniquement des pointeurs sur ces structures et pas d'arithmétique de pointeurs)
     \item Des fonctions
-    \item Une primitive pour afficher un entier. 
+    \item Une primitive pour afficher un entier.
 \end{itemize}
 
-On suppose l'analyse sémantique effectuée et le résultat : 
+On suppose l'analyse sémantique effectuée et le résultat :
 \begin{minted}{ocaml}
     type file = { gvars: decl_var list; funs: decl_fun list; }
     and decl_var = typ * ident
@@ -2355,21 +2355,21 @@ On suppose l'analyse sémantique effectuée et le résultat :
 \end{minted}
 
 \section{Phase 1 : Sélection d'Instructions}
-Son objectif est de : 
+Son objectif est de :
 \begin{enumerate}
     \item Remplacer les opérations arithmétiques du C par celles de \texttt{x86-64}
     \item Remplacer les accès aux champs de structures par des opérations \texttt{mov}
 \end{enumerate}
 \subsection{Opérations Arithmétiques}
-On pourrait traduire naïvement chaque opération arithmétique de C par l'instruction correspondante de \texttt{x86-64}. Cependant, ce langage fournit des instructions permettant une plus grande efficacité, notamment : 
+On pourrait traduire naïvement chaque opération arithmétique de C par l'instruction correspondante de \texttt{x86-64}. Cependant, ce langage fournit des instructions permettant une plus grande efficacité, notamment :
 \begin{itemize}
     \item L'addition d'un registre et d'une constante
-    \item Le décalage des bits vers la gauche ou la droit, correspondant à une multiplication ou à une division par une puissance de deux. 
-    \item La comparaison d'un registre avec une constante. 
+    \item Le décalage des bits vers la gauche ou la droit, correspondant à une multiplication ou à une division par une puissance de deux.
+    \item La comparaison d'un registre avec une constante.
 \end{itemize}
 
-D'autre part, il est souhaitable d'évaluer autant d'expressions que possible pendant la compilation. 
-On se donne de nouveaux arbres pour le résultat de la sélection d'instructions. L'objectif étant de traduire les précédents arbres. Les opérations sont maintenant celles de \texttt{x86-64} : 
+D'autre part, il est souhaitable d'évaluer autant d'expressions que possible pendant la compilation.
+On se donne de nouveaux arbres pour le résultat de la sélection d'instructions. L'objectif étant de traduire les précédents arbres. Les opérations sont maintenant celles de \texttt{x86-64} :
 \begin{minted}{ocaml}
     type munop = Maddi of int32 | Msetei of int32 | ...
 type mbinop = Mmov | Madd | Msub ... | Msete | Msetne ...
@@ -2381,7 +2381,7 @@ type expr =
 | ...
 \end{minted}
 
-Pour réaliser l'évaluation partielle on va utiliser des \textit{smart constructors}. On introduit une fonction \texttt{mk\_add} qui effectue d'éventuelles simplifications et se comporte comme le constructeur sinon : 
+Pour réaliser l'évaluation partielle on va utiliser des \textit{smart constructors}. On introduit une fonction \texttt{mk\_add} qui effectue d'éventuelles simplifications et se comporte comme le constructeur sinon :
 \begin{minted}{ocaml}
     let rec mk_add e1 e2 = match e1, e2 with
     | Econst n1, Econst n2 ->
@@ -2397,12 +2397,12 @@ Pour réaliser l'évaluation partielle on va utiliser des \textit{smart construc
         Embinop (Madd, e1, e2)
 \end{minted}
 
-Deux aspects sont essentiels concernant ces simplifications : 
+Deux aspects sont essentiels concernant ces simplifications :
 \begin{itemize}
     \item La sémantique des programmes doit être préservée.
     \item La fonction de simplification doit terminer.
 \end{itemize}
-La traduction se fait alors mot à mot, et c'est un morphisme pour les autres constructions : 
+La traduction se fait alors mot à mot, et c'est un morphisme pour les autres constructions :
 \begin{minted}{ocaml}
     let rec expr e = match e.Ttree.expr_node with
     | Ttree.Ebinop (Badd, e1, e2) ->
@@ -2417,7 +2417,7 @@ La traduction se fait alors mot à mot, et c'est un morphisme pour les autres co
 \end{minted}
 \subsection{Accès à la Mémoire}
 Une adresse mémoire est donnée par une expression et un décalage.\\
-Ici, on transforme en accès à la mémoire les accès aux champs de structures. On adopte un schéma simple où chaque champ occupe exactement un mot. Pour le reste, rien à signaler, on en profite simplement pour oublier les types et regrouper les variables locales dans la fonction qui les a introduit : 
+Ici, on transforme en accès à la mémoire les accès aux champs de structures. On adopte un schéma simple où chaque champ occupe exactement un mot. Pour le reste, rien à signaler, on en profite simplement pour oublier les types et regrouper les variables locales dans la fonction qui les a introduit :
 \begin{minted}{ocaml}
     type expr =
         | ...
@@ -2444,13 +2444,13 @@ Ici, on transforme en accès à la mémoire les accès aux champs de structures.
 \end{minted}
 
 \section{RTL : Register Transfer Language}
-Ici, l'objectif est de : 
+Ici, l'objectif est de :
 \begin{itemize}
-    \item Détruire la structure arborescente des expressions et des instructions au profit d'un graphe de flot de contrôle, qui facilitera la suite. On supprime en particulier la distinction entre expressions et instructions. 
-    \item Introduire des pseudo-registres pour représenter les calculs intermédiaires. Ces pseudo-registres sont en nombre illimité et deviendront des registres ou des emplacements de pile. 
+    \item Détruire la structure arborescente des expressions et des instructions au profit d'un graphe de flot de contrôle, qui facilitera la suite. On supprime en particulier la distinction entre expressions et instructions.
+    \item Introduire des pseudo-registres pour représenter les calculs intermédiaires. Ces pseudo-registres sont en nombre illimité et deviendront des registres ou des emplacements de pile.
 \end{itemize}
 \subsection{Représentation}
-On se donne un module pour les pseudo-registres et un module pour des étiquettes représentant les sommes du graphe de flot de contrôle : 
+On se donne un module pour les pseudo-registres et un module pour des étiquettes représentant les sommes du graphe de flot de contrôle :
 \begin{minted}{ocaml}
     type t
     val fresh: unit -> t
@@ -2461,18 +2461,18 @@ On se donne un module pour les pseudo-registres et un module pour des étiquette
     type graph = instr Label.map
 
 \end{minted}
-Inversement, chaque instruction RTL indique quelle est l'étiquette suivante : \texttt{Econstr (n, r, l)} signifie : charger $n$ dans le pseudo-registre $n$ et transférer les contrôle à l'étiquette $l$. Enfin, les opérations arithmétiques manipulent maintenant des pseudo-registres. Pour construire le graphe de flot on le stocke dans une référence et on se donne une fonction d'ajout d'instruction. 
+Inversement, chaque instruction RTL indique quelle est l'étiquette suivante : \texttt{Econstr (n, r, l)} signifie : charger $n$ dans le pseudo-registre $n$ et transférer les contrôle à l'étiquette $l$. Enfin, les opérations arithmétiques manipulent maintenant des pseudo-registres. Pour construire le graphe de flot on le stocke dans une référence et on se donne une fonction d'ajout d'instruction.
 
 \subsection{Traduction des Expressions}
-On traduit les expressions grâce à une fonction qui prend en arguments : 
+On traduit les expressions grâce à une fonction qui prend en arguments :
 \begin{itemize}
     \item Le registre de destination de la valeur de l'expression
     \item L'expression à traduire
     \item L'étiquette de sortie
 \end{itemize}
-et revoie l'étiquette d'entrée du calcul. 
+et revoie l'étiquette d'entrée du calcul.
 
-La traduction est relativement aisée, quitte à introduire des pseudo-registres : 
+La traduction est relativement aisée, quitte à introduire des pseudo-registres :
 \begin{minted}{ocaml}
     let rec expr destr e destl = match e with
         | Istree.Econst n ->
@@ -2485,14 +2485,14 @@ La traduction est relativement aisée, quitte à introduire des pseudo-registres
 \end{minted}
 
 \begin{itemize}
-    \item Pour les variables locales, on se donne une table indiquant quel pseudo-registre est associé à chaque variable : 
-    \begin{minted}{ocaml}
+    \item Pour les variables locales, on se donne une table indiquant quel pseudo-registre est associé à chaque variable :
+          \begin{minted}{ocaml}
         | Istree.Eaccess_local x ->
 let rx = Hashtbl.find locals x in
 generate (Embinop (Mmov, rx, destr, destl))
     \end{minted}
-    \item Pour traduire les opérateurs \texttt{\&\&} et \texttt{||} et les instructions \texttt{if, while} il nous faut des instructions RTL de branchement : 
-    \begin{minted}{ocaml}
+    \item Pour traduire les opérateurs \texttt{\&\&} et \texttt{||} et les instructions \texttt{if, while} il nous faut des instructions RTL de branchement :
+          \begin{minted}{ocaml}
         type instr =
 ...
 | Emubranch of mubranch * register * label * label
@@ -2503,8 +2503,8 @@ generate (Embinop (Mmov, rx, destr, destl))
 type mubranch = Mjz | Mjnz | Mjlei of int32 | ...
 type mbbranch = Mjl | Mjle | ...
     \end{minted}
-    On traduit alors les conditions ainsi : 
-    \begin{minted}{ocaml}
+          On traduit alors les conditions ainsi :
+          \begin{minted}{ocaml}
         let rec condition e truel falsel = match e with
 | Istree.Eand (e1, e2) ->
 condition e1 (condition e2 truel falsel) falsel
@@ -2521,9 +2521,9 @@ let tmp = Register.fresh () in
 expr tmp e (generate (
 Emubranch (Mjz, tmp, falsel, truel)))
     \end{minted}
-    On pourrait traiter plus de cas particuliers.
-    \item Pour traduire \texttt{return}, on se donne un pseudo-registre pour recevoir le résultat de la fonction et une étiquette \texttt{exitl} correspondant à la sortie de la fonction. Sinon, on se donne une étiquette correspondant à la suite du calcul. 
-    \begin{minted}{ocaml}
+          On pourrait traiter plus de cas particuliers.
+    \item Pour traduire \texttt{return}, on se donne un pseudo-registre pour recevoir le résultat de la fonction et une étiquette \texttt{exitl} correspondant à la sortie de la fonction. Sinon, on se donne une étiquette correspondant à la suite du calcul.
+          \begin{minted}{ocaml}
         let rec stmt retr s exitl destl = match s with
             | Istree.Sskip ->
                 destl
@@ -2534,16 +2534,16 @@ Emubranch (Mjz, tmp, falsel, truel)))
                     (stmt retr s1 exitl destl)
                     (stmt retr s2 exitl destl)
     \end{minted}
-    \item Pour une boucle \texttt{while}, on crée une boucle dans le graphe. Ceci peut se faire directement : 
-    \begin{minted}{ocaml}
+    \item Pour une boucle \texttt{while}, on crée une boucle dans le graphe. Ceci peut se faire directement :
+          \begin{minted}{ocaml}
         | Istree.Swhile (e, s) ->
 let l = Label.fresh () in
 let entry = condition e (stmt retr s exitl l) destl in
 graph := Label.M.add l (Egoto entry) !graph;
 entry
     \end{minted}
-    ou en l'écrivant comme un opérateur de point fixe : 
-    \begin{minted}{ocaml}
+          ou en l'écrivant comme un opérateur de point fixe :
+          \begin{minted}{ocaml}
         let loop f =
 let l = Label.fresh () in
 let entry = f l in
@@ -2553,17 +2553,17 @@ entry
 | Istree.Swhile (e, s) ->
 loop (fun l -> condition e (stmt retr s exitl l) destl)
     \end{minted}
-    \item Les paramètres d'une fonction et son résultat sont désormais maintenus dans des pseudo-registres. La traduction d'une fonction se compose de 4 étapes : 
-    \begin{enumerate}
-        \item On alloue des pseudo-registres frais pour ses arguments, son résultat et ses variables locales.
-        \item On part d'un graphe vide
-        \item On crée une étiquette fraîche pour la sortie de la fonction.
-        \item On traduit le corps de la fonction dans RTL et le résultat est l'étiquette d'\emph{entrée} de la fonction
-    \end{enumerate}
+    \item Les paramètres d'une fonction et son résultat sont désormais maintenus dans des pseudo-registres. La traduction d'une fonction se compose de 4 étapes :
+          \begin{enumerate}
+              \item On alloue des pseudo-registres frais pour ses arguments, son résultat et ses variables locales.
+              \item On part d'un graphe vide
+              \item On crée une étiquette fraîche pour la sortie de la fonction.
+              \item On traduit le corps de la fonction dans RTL et le résultat est l'étiquette d'\emph{entrée} de la fonction
+          \end{enumerate}
 \end{itemize}
 
 \section{ERTL : Explicit Register Transfer Language}
-On cherche à expliciter les conventions d'appel, ici : 
+On cherche à expliciter les conventions d'appel, ici :
 \begin{itemize}
     \item Les six premiers arguments sont passés dans \texttt{\%rdi, \%rsi, \%rdx, \%rcx, \%r8, \%r9} et les suivants sur la pile.
     \item Le résultat est renvoyé dans \texttt{\%rax}.
@@ -2573,11 +2573,11 @@ On cherche à expliciter les conventions d'appel, ici :
 \end{itemize}
 
 \subsection{Formalisation}
-On suppose que le module \texttt{Register} décrit aussi les registres physiques. Dans ERTL, il ne reste plus dans les opérations d'appel de fonction que le nom de la fonction à appeler, car de nouvelles instructions vont être insérées pour charger les arguments dans des registres et sur la pile, et pour récupérer le résultat dans \texttt{\%rax}. On conserve tout de même le nombre de paramètres passés dans des registres. Les autres instructions sont inchangées, mais on ajoute des instructions : 
+On suppose que le module \texttt{Register} décrit aussi les registres physiques. Dans ERTL, il ne reste plus dans les opérations d'appel de fonction que le nom de la fonction à appeler, car de nouvelles instructions vont être insérées pour charger les arguments dans des registres et sur la pile, et pour récupérer le résultat dans \texttt{\%rax}. On conserve tout de même le nombre de paramètres passés dans des registres. Les autres instructions sont inchangées, mais on ajoute des instructions :
 \begin{itemize}
     \item Pour allouer et désallouer le tableau d'activation
     \item Pour lire/écrire sur la pile
-    \item Pour rendre le retour explicite. 
+    \item Pour rendre le retour explicite.
 \end{itemize}
 \begin{minted}{ocaml}
     type t
@@ -2601,26 +2601,26 @@ On suppose que le module \texttt{Register} décrit aussi les registres physiques
 On ne change pas la structure du graphe de flot de contrôle. On se contente d'insérer de nouvelles instructions :
 \begin{itemize}
     \item Au début de chaque fonction, pour :
-    \begin{enumerate}
-        \item Allouer le tableau d'activation
-        \item Sauvegarder les registres \textit{callee-saved}
-        \item Copier les arguments dans les pseudo-registres correspondants
-    \end{enumerate}
-    \item A la fin de chaque fonction, pour : 
-    \begin{enumerate}
-        \item Copier le pseudo-registre contenant le résultat dans \texttt{\%rax}
-        \item Restaurer les registres \textit{callee-saved}
-        \item Désallouer le tableau d'activation
-    \end{enumerate}
-    \item A chaque appel, pour 
-    \begin{enumerate}
-        \item Copier les pseudo-registres contenant les arguments dans les registres d'entrée/sur la pile
-        \item Copier le registre de résultat dans le pseudo-registre contenant le résultat après l'appel. 
-    \end{enumerate}
+          \begin{enumerate}
+              \item Allouer le tableau d'activation
+              \item Sauvegarder les registres \textit{callee-saved}
+              \item Copier les arguments dans les pseudo-registres correspondants
+          \end{enumerate}
+    \item A la fin de chaque fonction, pour :
+          \begin{enumerate}
+              \item Copier le pseudo-registre contenant le résultat dans \texttt{\%rax}
+              \item Restaurer les registres \textit{callee-saved}
+              \item Désallouer le tableau d'activation
+          \end{enumerate}
+    \item A chaque appel, pour
+          \begin{enumerate}
+              \item Copier les pseudo-registres contenant les arguments dans les registres d'entrée/sur la pile
+              \item Copier le registre de résultat dans le pseudo-registre contenant le résultat après l'appel.
+          \end{enumerate}
 \end{itemize}
 
 \subsection{Traduction}
-Pour traduire les instructions de RTL vers ERTL, il y a peu de changement, si ce n'est concernant la division, les appels, les malloc et les printf : 
+Pour traduire les instructions de RTL vers ERTL, il y a peu de changement, si ce n'est concernant la division, les appels, les malloc et les printf :
 \begin{minted}{ocaml}
     | Rtltree.Emalloc (r, n, l) ->
         Econst (n, Register.rdi, generate (
@@ -2635,7 +2635,7 @@ Pour traduire les instructions de RTL vers ERTL, il y a peu de changement, si ce
         Embinop (Mmov, Register.rax, r2, l)))))
 \end{minted}
 
-Pour ce qui est de l'appel, on commence par associer les premiers paramètres aux registres physiques correspondants : 
+Pour ce qui est de l'appel, on commence par associer les premiers paramètres aux registres physiques correspondants :
 \begin{minted}{ocaml}
     let assoc_formals formals =
         let rec assoc = function
@@ -2661,7 +2661,7 @@ Pour ce qui est de l'appel, on commence par associer les premiers paramètres au
         let l = List.fold_right (fun (t, r) l -> move t r l) frl l in
         Egoto l
 \end{minted}
-Il reste à traduire chaque fonction. On associe un pseudo-registre à chaque registre physique qui doit être sauvegardé : 
+Il reste à traduire chaque fonction. On associe un pseudo-registre à chaque registre physique qui doit être sauvegardé :
 \begin{minted}{ocaml}
     let deffun f =
         graph := ...on traduit chaque instruction...
@@ -2674,7 +2674,7 @@ Il reste à traduire chaque fonction. On associe un pseudo-registre à chaque re
         ...
         fun_body = !graph; }
 \end{minted}
-Ensuite, on ajoute les instructions à l'entrée et à la sortie de la fonction : 
+Ensuite, on ajoute les instructions à l'entrée et à la sortie de la fonction :
 \begin{minted}{ocaml}
     let fun_entry savers formals entry =
         let frl, fsl = assoc_formals formals in
@@ -2694,10 +2694,10 @@ Ensuite, on ajoute les instructions à l'entrée et à la sortie de la fonction 
 \end{minted}
 
 \subsection{Imperfection}
-En appliquant les étapes ci-dessus, on est encore loin d'obtenir un bon code \texttt{x86-64}. En effet : 
+En appliquant les étapes ci-dessus, on est encore loin d'obtenir un bon code \texttt{x86-64}. En effet :
 \begin{itemize}
-    \item L'allocation de registres tâchera d'associer des registres physiques aux pseudo-registres de manière à limiter l'usage de la pile mais aussi de supprimer certaines instructions. 
-    \item Le code n'est pas encore organisé linéairement. 
+    \item L'allocation de registres tâchera d'associer des registres physiques aux pseudo-registres de manière à limiter l'usage de la pile mais aussi de supprimer certaines instructions.
+    \item Le code n'est pas encore organisé linéairement.
 \end{itemize}
 Dans le cadre des fonctions récursives, c'est aussi à cette étape qu'il faut réaliser l'optimisation des appels terminaux. En effet, les instructions à produire ne sont pas les mêmes et ce changement aura une influence dans la phase suivante d'allocation de registres. Il y a une difficulté cependant, si la fonction appelée par un appel terminal n'a pas le même nombre d'arguments passés sur la pile ou de variables locales, car le tableau d'activation doit être modifié. On peut alors :
 \begin{itemize}
@@ -2706,22 +2706,22 @@ Dans le cadre des fonctions récursives, c'est aussi à cette étape qu'il faut 
 \end{itemize}
 
 \section{LTL : Location Transfer Language}
-L'objectif est ici de faire disparaître les pseudo-registres au profit de registres physiques et d'emplacements de pile. 
+L'objectif est ici de faire disparaître les pseudo-registres au profit de registres physiques et d'emplacements de pile.
 \subsection{Allocation de Registres}
-On décompose l'allocation de registres en plusieurs étapes : 
+On décompose l'allocation de registres en plusieurs étapes :
 \begin{enumerate}
-    \item Analyse de durée de vie : on détermine à quels moments précis la valeur d'un pseudo-registre est nécessaire pour la suite du calcul. 
+    \item Analyse de durée de vie : on détermine à quels moments précis la valeur d'un pseudo-registre est nécessaire pour la suite du calcul.
     \item Construction d'un graphe d'interférence : on crée un graphe indiquant quels sont les pseudo-registres qui ne peuvent pas être réalisés par le même emplacement
     \item Allocation de registres par coloration de graphe : on affecte des registres physiques et d'emplacements de pile aux pseudo-registres
 \end{enumerate}
 
-Dans la suite, on appelle \textit{variable} un pseudo-registre ou un registre physique : 
+Dans la suite, on appelle \textit{variable} un pseudo-registre ou un registre physique :
 \begin{definition}
-    En un point de programme, une variable est dite vivante si la valeur qu'elle contient peut être utilisée dans la suite de l'exécution. 
+    En un point de programme, une variable est dite vivante si la valeur qu'elle contient peut être utilisée dans la suite de l'exécution.
 \end{definition}
 La propriété \textit{est utilisée} n'étant pas décidable, on se contente de l'approximation \textit{peut être utilisée}.\\
 
-On attache les variables vivantes aux arêtes du graphe de flot de contrôle. La notion de variable vivante se déduit de : 
+On attache les variables vivantes aux arêtes du graphe de flot de contrôle. La notion de variable vivante se déduit de :
 \begin{definition}
     Pour une instruction $I$ du graphe de flot de contrôle, on note :
     \begin{itemize}
@@ -2730,7 +2730,7 @@ On attache les variables vivantes aux arêtes du graphe de flot de contrôle. La
     \end{itemize}
 \end{definition}
 
-Pour calculer les variables vivantes, il est commode de les associer non pas aux arêtes mais plutôt aux noeuds du graphe de flot de contrôle, c'est à dire aux instructions. On distingue alors : 
+Pour calculer les variables vivantes, il est commode de les associer non pas aux arêtes mais plutôt aux noeuds du graphe de flot de contrôle, c'est à dire aux instructions. On distingue alors :
 \begin{definition}
     Pour une instruction $I$ du graphe de flot de contrôle, on note :
     \begin{itemize}
@@ -2739,14 +2739,14 @@ Pour calculer les variables vivantes, il est commode de les associer non pas aux
     \end{itemize}
 \end{definition}
 
-On obtient : 
+On obtient :
 \[
     \begin{cases}
-        in(I) = & use(I) \cup \left(out(I)\setminus def(I)\right) \\
+        in(I) =  & use(I) \cup \left(out(I)\setminus def(I)\right) \\
         out(I) = & \bigcup_{s \in succ(I)} in(s)
     \end{cases}
 \]
-On applique alors le théorème de Tarski pour trouver un plus petit point fixe. En supposant un graphe de flot de contrôle à $N$ sommets et $N$ variables, un calcul brutal a une complexité $\O(N^{4})$ dans le pire des cas. On peut améliorer l'efficacité du calcul de plusieurs façons : 
+On applique alors le théorème de Tarski pour trouver un plus petit point fixe. En supposant un graphe de flot de contrôle à $N$ sommets et $N$ variables, un calcul brutal a une complexité $\O(N^{4})$ dans le pire des cas. On peut améliorer l'efficacité du calcul de plusieurs façons :
 \begin{itemize}
     \item En calculant dans l'ordre inverse du graphe, et en calculant $out$ avant $in$.
     \item En fusionnant les sommets qui n'ont qu'un prédécesseur et qu'un successeur avec ces derniers.
@@ -2754,7 +2754,7 @@ On applique alors le théorème de Tarski pour trouver un plus petit point fixe.
 \end{itemize}
 
 \subsection{Algorithme de Kildall}
-Si $in(I)$ change, il n'est nécessaire de refaire le calcul que pour les prédécesseurs de $I$.  D'où l'algorithme suivant : 
+Si $in(I)$ change, il n'est nécessaire de refaire le calcul que pour les prédécesseurs de $I$.  D'où l'algorithme suivant :
 \begin{verbatim}
     soit WS un ensemble contenant tous les sommets
     tant que WS n'est pas vide
@@ -2768,6 +2768,272 @@ Si $in(I)$ change, il n'est nécessaire de refaire le calcul que pour les préd�
 
 Le calcul des ensemble $def$ et $use$ est immédiat pour la plupart des instructions. Toutefois, pour les appels, il est un peu plus subtil : on exprime que les $\min(6, n)$ premiers registres de la liste des paramètres vont être utilisés et que tous les registres \textit{caller-saved} peuvent être écrasés. Enfin, pour \texttt{return}, \texttt{\%rax} et les registres \textit{callee-saved} vont être utilisés.
 
+\part[Compilateur Optimisant II]{Cours : 22/12}
+\section{Location Transfer Language}
+On a déjà fait l'analyse de durée de vie.
+\subsection{Construction du Graphe d'Interférence}
+\begin{definition}
+    On dit que deux variables $v_{1}$ et $v_{2}$ intergèrent si elles ne peuvent pas être réalisées par le même emplacement.
+\end{definition}
 
+Soit une instruction qui définit une variable $v$ : tout autre variable $w$ vivante à la sortie de cette instruction peut interférer avec $v$. Cependant dans le cas particulier d'une instruction : \texttt{mov} $w$ $v$, on ne souhaite pas déclarer que $v$ et $w$ interfèrent, car il peut être précisément intéressant de réaliser $v$ et $w$ par le même emplacement et d'éliminer ainsi une ou plusieurs instructions.
+\begin{definition}
+    Le graphe d'interférence d'une fonction est un graphe non orienté dont les sommets sont les variables et les sont de deux types : préférence ou interférence. \\
+    Pour chaque instruction qui définit une variable $v$ et dont les variables vivantes en sortie, autres que $v$, sont $w_{1}, \ldopts, w_{n}$, on procède ainsi :
+    \begin{itemize}
+        \item Si l'instruction n'est pas un \texttt{mov}, on ajoute les $n$ arêtes d'interférence.
+        \item Sinon, on met une préférence sur $w$ et des interférences sur les autres.
+    \end{itemize}
+    Si on a à la fois une arête de préférence et une d'interférence, on ne conserve que l'interférence.
+\end{definition}
+
+On représente ce graphe ainsi :
+\begin{minted}{ocaml}
+    type arcs = { prefs: Register.set; intfs: Register.set }
+    type graph = arcs Register.map
+\end{minted}
+
+On peut alors voir le problème de l'allocation de registres comme un problème de coloriage de graphe :
+\begin{itemize}
+    \item Les couleurs sont les registres physiques
+    \item Deux sommets liés par une arête d'interférence ne peuvent recevoir la même couleur.
+    \item Deux sommets liés par une arête de préférence doivent, autant que possible, recevoir la même couleur.
+\end{itemize}
+Les registres physiques doivent être déjà coloriés.
+
+Si un sommet ne peut être colorié, il correspondra à un emplacement de pile. On vide en mémoire le pseudo-registre.\\
+On va colorier le graphe avec des heuristiques pour éviter l'explosion de la complexité. L'Algorithme de George et Appel est une solution.\\
+Soit $K$ le nombre de couleurs. Si un sommet a un degré $< K$, on peut le retirer du graphe, colorier le reste, et on pourra ensuite lui donner une couleur. Cette étape est appelée simplification. Retirer un sommet diminue le degré d'autres sommets et peut donc produire de nouveaux candidats à la simplification. \\
+Lorsqu'il ne reste que des sommets de degré $\geq K$, on en choisit un comme candidat au vidage. On le retire du graphe, on le met sur la pile et le processus de simplification peut reprendre. On choisit un sommet peu utilisé à fort degré. \\
+Lorsque le graphe est vide, on commence le processus de coloration, appelé sélection : On dépile les sommets un à un et :
+\begin{itemize}
+    \item S'il s'agit d'un sommet de faible degré, on lui trouve une couleur
+    \item Sinon : Soit il peut être tout de même colorié car ses voisins utilisent moins de $K$ couleurs; Soit il ne peut pas être colorié et doit être vidé en mémoire.
+\end{itemize}
+Enfin, on cherche à utiliser les arêtes de préférence. On utilise pour cela une technique dite de coalescence qui consiste à fusionner des sommets du graphe :
+\begin{definition}
+    Un sommet pseudo-registre $v_{2}$ peut être fusionné avec un sommet $v_{1}$ si tout voisin de $v_{1}$ qui est un registre physique ou de degré $\geq K$ est aussi voisin de $v_{2}$.\\
+    De même, un sommet registre physique $v_{2}$ peut être fusionné avec un sommet $v_{1}$ si tout voisin de $v_{1}$ qui est un pseudo-registre ou de degré $\geq K$ est aussi voisin de $v_{2}$.
+\end{definition}
+L'algorithme en lui même est alors le suivant :
+\begin{minted}{ocaml}
+    let rec simplify g =
+        if il existe un sommet v sans arête de préférence de degré minimal et < K
+            then select g v
+        else coalesce g
+    and coalesce g =
+        if il existe une arête de préférence v1-v2 satisfaisant le critère de George
+            then
+            g <- fusionner g v1 v2
+            c <- simplify g
+            c[v1] <- c[v2]
+            renvoyer c
+        else
+            freeze g
+    and freeze g =
+        if il existe un sommet v de degré minimal < K
+            then
+            g <- oublier les arêtes de préférence de v
+            simplify g
+        else
+            spill g
+    and spill g =
+        if g est vide
+            then
+            renvoyer le coloriage vide
+        else
+            choisir un sommet v de coût minimal
+            select g v
+    and select g v =
+        c <- simplify (g privé de v)
+        if il existe une couleur r possible pour v
+            then
+            c[v] <- r
+        else
+            c[v] <- spill
+            renvoyer c
+\end{minted}
+On peut choisir comme fonction de coût :
+\[
+    coût(v) = \frac{\text{nombre d'utilisations de } v}{d(v)}
+\]
+Les pseudo-registres vidés en mémoire sont associés à des emplacements sur la pile, dans la zone basse du tableau d'activation, en dessous des paramètres. Plusieurs pseudo-registres peuvent occuper le même emplacement de pile s'ils n'interfèrent pas. On peut à nouveau minimiser le nombre d'emplacements de pile par coloriage de graphes, cette fois avec une infinité de couleurs possibles, avec l'algorithme suivant :
+\begin{itemize}
+    \item On fusionne toutes les arêtes de préférence (coalescence).
+    \item On applique ensuite l'algorithme de simplification en choisissant à chaque fois le sommet de degré le plus faible.
+\end{itemize}
+
+Toutefois, il peut se trouver qu'il reste des instructions de la forme \texttt{move v v}. On les élimine pendant la traduction vers {\bf LTL}.\\
+\subsection{Traduction ERTL vers LTL}
+Les instructions LTL sont les mêmes que dans ERTL si ce n'est que les registres sont tous des registres physiques ou des emplacements de pile : 
+\begin{minted}{ocaml}
+    type instr =
+        | Eaccess_global of ident * register * label
+        | Eload of register * int * register * label
+        | ...
+        | Econst of int32 * color * label
+        | Emunop of munop * color * label
+        | Embinop of mbinop * color * color * label
+        | ...
+\end{minted}
+On traduit chaque instruction ERTL à l'aide d'une fonction qui prend en argument le coloriage du graphe d'une part, et la structure du tableau d'activation d'autre part.
+Une variable $r$ peut être un registre physique, un pseudo registre réalisé par un registre physique, un pseudo-registre réalisé par un emplacement de pile. Dans tous les cas : 
+\begin{minted}{ocaml}
+    let instr colors frame = function
+        | Ertltree.Econst (n, r, l) ->
+            let c =
+                try Register.M.find r colors with Not_found -> r in
+            Econst (n, c, l)
+\end{minted}
+Dans d'autre cas, c'est plus compliqué car toutes les opérandes ne sont pas autorisées. C'est le cas de l'accès à une variable globale par exemple. En effet, on ne peut pas \texttt{mov} depuis la pile.\\
+On utilise alors un registre intermédiaire. On adopte ici une solution simple : deux registres particuliers seront utilisés comme registres temporaires pour ces transferts avec la mémoire, et ne seront pas utilisés par ailleurs\\
+En pratique, on n'a pas nécessairement le loisir de gâcher ainsi deux registres ; on doit alors modifier le graphe d'interférence et relancer une allocation de registres pour déterminer un registre libre pour le transfert. Heureusement, en pratique, cela converge en $2$ ou $3$ étapes. 
+
+Pour écrire dans la variable $r$, on se donne une fonction \texttt{write}, qui prend également en arguments le coloriage et l'étiquette où il faut aller après l'écriture : 
+\begin{minted}{ocaml}
+    let write colors r l = match lookup colors r with
+        | Reg hr ->
+            hr, l
+        | Spilled n ->
+            tmp1, generate (Embinop (Mmov, Reg tmp1, Spilled n, l))
+\end{minted}
+
+On peut maintenant traduire facilement de ERTL vers LTL : 
+\begin{minted}
+    let read1 colors r f = match lookup colors r with
+        | Reg hr -> f hr
+        | Spilled n -> Embinop (Mmov, Spilled n, Reg tmp1,
+            generate (f tmp1))
+    let instr colors frame = function
+        | Ertltree.Eaccess_global (x, r, l) ->
+            let hwr, l = write colors r l in
+            Eaccess_global (x, hwr, l)
+        | ...
+        | Ertltree.Eassign_global (r, x, l) ->
+            read1 colors r (fun hwr -> Eassign_global (hwr, x, l))
+        | Ertltree.Estore (r1, r2, n, l) ->
+            read2 colors r1 r2 (fun hw1 hw2 ->
+            Estore (hw1, hw2, n, l))
+        | Ertltree.Embinop (op, r1, r2, l) ->
+            begin match op, lookup colors r1, lookup colors r2 with
+            | Mmov, o1, o2 when o1 = o2 ->
+                Egoto l
+            | _, (Spilled _ as o1), (Spilled _ as o2)
+            | Mmul, o1, (Spilled _ as o2) ->
+                read1 colors r2 (fun hw2 ->
+                Embinop (op, o1, Reg hw2, generate (
+                Embinop (Mmov, Reg hw2, o2, l))))
+            | _, o1, o2 ->
+                Embinop (op, o1, o2, l)
+            end
+        | Ertltree.Eget_param (n, r, l) ->
+            let hwr, l = write colors r l in
+            Embinop (Mmov, Spilled n, Reg hwr, l)
+        | Ertltree.Ealloc_frame l ->
+            Epush (Reg rbp, generate (
+            Embinop (Mmov, Reg rsp, Reg rbp, generate (
+            Emunop (Maddi (- frame.f_locals), Reg rsp, l)))))
+        | Ertltree.Edelete_frame l ->
+            Embinop (Mmov, Reg rbp, Reg rsp, generate (
+            Epop (rbp, l)))
+
+(*Il ne reste plus qu'à assembler les morceaux : *)
+let deffun debug f =
+    let ln = Liveness.analyze f.fun_body in
+    let ig = Interference.make ln in
+    let c, nlocals = Coloring.find ig in
+    let n_stack_params =
+        max 0 (f.fun_formals - List.length Register.parameters) in
+    let frame = { f_params = word_size * (1 + n_stack_params);
+                f_locals = word_size * nlocals } in
+    graph := Label.M.empty;
+    Label.M.iter
+        (fun l i ->
+            let i = instr c frame i in graph := Label.M.add l i !graph)
+        f.fun_body;
+    { fun_name = f.fun_name;
+        fun_entry = f.fun_entry;
+        fun_body = !graph; }
+\end{minted}
+
+\section{Linéarisation}
+Il reste une dernière étape : le code est toujours sous la forme d'un graphe de flot de contrôle et l'objectif est de produire du code assembleur linéaire. Plus précisément, les instructions de LTL contiennent une étiquette en cas de test positif et une autre étiquette en cas de test négatif alors que les instructions de branchement de l'assembleur contiennent une unique étiquette pour le cas positif et poursuivent l'exécution sur l'instruction suivante en cas de test négatif.
+
+La linéarisation consiste à parcourir le graphe de flot de contrôle et à produire le code \texttt{x86-64} tout en notant dans une table les étiqurttes déjà visitées. Lors d'un branchement, on s'efforce autant que possible de produire le code assembleur naturel si la partie du code correspondant à un test négatif n'a pas encore été visitée. Dans le pire des cas, on utilise un branchement inconditionnel. \\
+On utilise deux tables : une pour les étiquettes déjà visitées, et une pour celles qui devront rester dans le code assembleur. La linéarisation est effectuée par deux fonctions mutuellement récursives : \texttt{lin} qui produit le code à partir d'une étiquette donnée s'il n'a pas déjà été produit et une instruction de saut sinon et \texttt{instr} qui produit le code à partir d'une étiquette et de l'instruction correspondante sans condition :
+\begin{minted}{ocaml}
+    let rec lin g l =
+        if not (Hashtbl.mem visited l) then begin
+            Hashtbl.add visited l ();
+            instr g l (Label.M.find l g)
+        end else begin
+            need_label l;
+            emit (Label.fresh ()) (jmp l)
+        end
+
+    and instr g l = function
+        | Econst (n, r, l1) ->
+            emit l (movq (imm32 n) (operand r)); lin g l1
+        | Eaccess_global (x, r, l1) ->
+            emit l (movq (lab x) (register r)); lin g l1
+        | Emubranch (br, r, lt, lf) when not (Hashtbl.mem visited lf) ->
+            need_label lt;
+            emit l (ubranch br r lt);
+            lin g lf;
+            lin g lt
+        | Emubranch (br, r, lt, lf)
+            when not (Hashtbl.mem visited lt) ->
+            instr g l (Emubranch ((fun x -> match x with |Mjz -> Mjnz | Mjnz -> Mjz) br, r, lf, lt))
+        | Emubranch (br, r, lt, lf) ->
+            need_label lt; need_label lf;
+            emit l (ubranch br r lt);
+            emit l (jmp lf)
+        | Egoto l1 ->
+            if Hashtbl.mem visited l1 then begin
+                need_label l1;
+                emit l (jmp l1)
+            end else begin
+                emit l nop; (* sera en fait éliminé *)
+                lin g l1
+            end
+\end{minted}
+
+Dans le cas d'un branchement, on considère d'abord le cas favorable où le code d'un test négatif n'a pas encore été produit, sinon, il est possible que le code correspondant à un test positif n'ait pas été produit et on peut alors inverser la condition de branchement. Enfin, dans le cas où le code des deux branches est produit, on n'a pas d'autre choix que de produire un branchement inconditionnel. \\
+On rassemble ensuite tout dans un unique programme : 
+\begin{minted}{ocaml}
+    let f = open_in file in
+    let buf = Lexing.from_channel f in
+    let p = Parser.file Lexer.token buf in
+    close_in f;
+    let p = Typing.program p in
+    let p = Is.program p in
+    let p = Rtl.program p in
+    let p = Ertl.program p in
+    let p = Ltl.program p in
+    let code = Lin.program p in
+    let c = open_out (Filename.chop_suffix file ".c" ^ ".s") in
+    let fmt = formatter_of_out_channel c in
+    X86_64.print_program fmt code;
+    close_out c
+\end{minted}
+
+\section{Résultats}
+Notre compilateur est de l'ordre de \texttt{gcc -01}, et contient $1991$ lignes. \\
+L'architecture présentée est celle de CompCert où les optimisations sont réalisées au niveau RTL. \texttt{gcc} intercale un langage SSA et les optimisations sont réalisées au niveau SSA et au niveau RTL. 
+\subsection{LLVM}
+Il s'agit d'une infrastructure pour aider à la construction de compilateurs optimisants. LLVM propose un langage intermédiaire, IR, et des outils d'optimisation et de compilation de ce langage. Le langage IR ressemble beaucoup à notre langage RTL, il contient : 
+\begin{itemize}
+    \item Des pseudo-registres
+    \item Un graphe de flot de contrôle
+    \item Des appels encore haut niveau
+\end{itemize}
+Mais il y a aussi des différences notables : c'est un langage typé et le code est en forme SSA : chaque variable n'est affectée qu'une fois. Le code d'origine étant susceptible d'affecter plusieurs fois une même variable. On recourt alors à un opérateur appelé $\phi$ pour réconcilier plusieurs branches du flot de contrôle.\\
+L'intérêt de la forme SSA est que l'on peut maintenant attacher une propriété à chaque variable et l'exploiter ensuite partout où cette variable est utilisée. \\
+
+On peut tirer parti de LLVM pour : 
+\begin{itemize}
+    \item Ecrire un nouveau compilateur pour un langage $S$ en se contenant d'écrire la partie avant et la traduction vers IR
+    \item Concevoir et réaliser de nouvelles optimisations sur le langage IR. 
+\end{itemize}
 
 \end{document}

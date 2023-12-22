@@ -4,10 +4,34 @@
 \author{Matthieu Boyer}
 \date{\today}
 
+\markright{Matthieu Boyer}
+\pagestyle{myheadings}
+
 \usetikzlibrary{automata, arrows, calc, matrix, positioning}
 \definecolor{vulm}{HTML}{7d1dd3}
 \definecolor{yulm}{HTML}{ffe500}
 \usepackage{caption}
+
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems}
+\NewTcbTheorem[auto counter, number within=section]{définition}{Définition}%
+ {colback=yulm!10, colframe=vulm!45!black, fonttitle=\bfseries}{def}
+
+\NewTcbTheorem[use counter from=définition]{théorème}{Théorème}%
+ {colback=yulm!10!white, colframe=vulm!65!black, fonttitle=\bfseries}{thm}
+
+\NewTcbTheorem[use counter from=définition]{propositionfr}{Proposition}%
+ {colback=yulm!10!white, colframe=vulm!25!black, fonttitle=\bfseries}{propo}
+
+\NewTcbTheorem[use counter from=définition]{corollaire}{Corollaire}%
+ {colback=yulm!10, colframe=vulm!35!black, fonttitle=\bfseries}{cor}
+
+\NewTcbTheorem[use counter from=définition]{lemme}{Lemme}%
+ {colback=yulm!10, colframe=vulm!15!black, fonttitle=\bfseries}{lemme}
+
+\NewTcbTheorem[use counter from=définition]{remarque}{Remarque}%
+ {colback=yulm!10, colframe=vulm!65!black, fonttitle=\bfseries}{rem}
+
 
 \begin{document}
 \begin{abstract}
@@ -31,19 +55,17 @@ On s'intéresse donc ici à des manières de décrire les jeux par les automates
 \section{Jeux et Automates}
 \subsection{Première définition de Jeu}
 On introduit d'abord une première définition de jeu suivant \cite{game-rep-automata}:
-\begin{definition}
+\begin{définition}{Première définition de Jeu}{}
     Un jeu est un triplet $\left(P, A_{i}, \succeq_{i}\right)$ où $P$ est un ensemble de joueurs, $A_{i}$ est un ensemble d'actions pour le joueur $i \in P$ et $\succeq_{i}$ est une relation de préférence pour le joueur $i$.
-\end{definition}
+\end{définition}
 
-Pour le \textsc{Dilemme du Prisonnier}, on a par exemple : $P = \left\{1, 2\right\}$, $\forall i, A_{i} = \left\{A, N\right\}$ et $\succeq_{i}$ peut se décrire sur l'arbre de jeu suivant de manière numérique :
+Pour le \textsc{Dilemme du Prisonnier}, on a par exemple : $P = \left\{1, 2\right\}$, $\forall i, A_{i} = \left\{A, N\right\}$ et $\succeq_{i}$ peut se lire sur l'arbre de jeu \ref{fig:gametree:full_info_pridi} de manière numérique.
 \begin{figure}
     \centering
-    \caption{Représentation Extensive du Jeu du \textsc{Dilemme du Prisonnier} à information totale.}
-    \label{fig:gametree:full_info_pridi}
     \begin{tikzpicture}[level distance=2cm,
             level 1/.style={sibling distance=5cm},
             level 2/.style={sibling distance=2.5cm}]
-        \tikzstyle{every node}=[circle,draw = vulm!50, fill = yulm!30, text = vulm]
+        \tikzstyle{every node}=[circle,draw = vulm, fill = yulm!50, text = vulm]
         \node {1}
         child[vulm] {node {2}
                 child[vulm] {node[double] {$(3, 3)$} edge from parent[->] node[left, draw = none, fill = none] {$A$}}
@@ -56,6 +78,8 @@ Pour le \textsc{Dilemme du Prisonnier}, on a par exemple : $P = \left\{1, 2\righ
                 edge from parent[->] node[right, draw = none, fill = none ] {$N$}
             };
     \end{tikzpicture}
+    \caption{Représentation Extensive du Jeu du \textsc{Dilemme du Prisonnier} à information totale.}
+    \label{fig:gametree:full_info_pridi}
 \end{figure}
 
 Ici, chaque noeud interne de l'arbre correspond à un joueur, chaque arête à un coup qu'il peut jouer, c'est-à-dire dans notre cas, choisir d'avouer ($A$) son crime, ou bien de le nier ($N$) et les feuilles de l'arbre représentent les résultats, cf. Table \ref{table:full_info_pridi}.\\
@@ -65,62 +89,61 @@ Ici, chaque noeud interne de l'arbre correspond à un joueur, chaque arête à u
     \begin{tikzpicture}[element/.style={minimum width=1.75cm,minimum height=0.85cm}]
         \matrix (m) [matrix of nodes,nodes={element},column sep=-\pgflinewidth, row sep=-\pgflinewidth, text = vulm]{
         & Aveu & Négation \\
-        Aveu & |[draw, fill = yulm!10]|$(3, 3)$ & |[draw, fill = yulm!10]|$(5, 1)$ \\
-        Négation & |[draw, fill = yulm!10]|$(1, 5)$ & |[draw, fill = yulm!10]|$(0, 0)$ \\    };
+        Aveu & |[draw, fill = yulm!50]|$(3, 3)$ & |[draw, fill = yulm!50]|$(5, 1)$ \\
+        Négation & |[draw, fill = yulm!50]|$(1, 5)$ & |[draw, fill = yulm!50]|$(0, 0)$ \\    };
 
         \node[above=0.25cm, text = vulm] at ($(m-1-2)!0.5!(m-1-3)$){\textbf{Prisonnier 1}};
         \node[rotate=90, text = vulm] at ($(m-2-1)!0.5!(m-3-1)+(-1.25,0)$){\textbf{Prisonnier 2}};
     \end{tikzpicture}
     \label{table:full_info_pridi}
 \end{table}
-\begin{definition}
+\begin{définition}{Description Extensive}{}
     On appelle la description d'un jeu à information totale sous forme d'arbre (cf. figure \ref{fig:gametree:full_info_pridi} ) précédente la description extensive de ce jeu.
-\end{definition}
+\end{définition}
 
 Toutefois, d'autre descriptions peuvent être préférables, notamment lorsque l'un des joueurs n'a pas d'information sur les coups des autres joueurs, comme c'est le cas dans certaines variantes du \textsc{Dilemme du Prisonnier}. En effet, on considérait ici que le prisonnier numéro\footnote{NDA : \textit{I am not a number ! I am a free man !}} $2$ est informé du choix du prisonnier numéro $1$, ce qui n'est pas un très bon choix de la part des geôliers.
-\begin{definition}
+\begin{définition}{Information d'un Jeu}{}
     On parle de jeu à information imparfaite (par opposition aux jeux à information totale), lorsque le joueur actuel n'a pas d'informations sur les coups des joueurs précédents. On représente ceci en rajoutant sur l'arbre de jeu l'information possédée par un joueur lors de son coup en entourant l'ensemble des positions possibles.
-\end{definition}
+\end{définition}
 
 Dans le cas du \textsc{Dilemme du Prisonnier}, on modifie l'arbre \ref{fig:gametree:full_info_pridi} comme suit :
 \begin{figure}
     \centering
-    \caption{Représentation Extensive du Jeu du \textsc{Dilemme du Prisonnier} à information imparfaite.}
-    \label{fig:gametree:impinfopridi}
     \begin{tikzpicture}[level distance=2cm,
             level 1/.style={sibling distance=5cm},
             level 2/.style={sibling distance=2.5cm}]
-        \tikzstyle{every node}=[circle,draw = vulm!50, fill = yulm!20]
+        \tikzstyle{every node}=[circle,draw = vulm, fill = yulm!50]
         \node(0) {1}
         child[vulm] {node {2}
                 child[vulm] {node[double] {$(3, 3)$} edge from parent[->] node[left, draw = none, fill = none] {$A$}}
                 child[vulm] {node[double] {$(1, 5)$} edge from parent[->] node[right, draw = none, fill = none] {$N$}}
-                edge from parent[->] node[left, draw = none] {$A$}
+                edge from parent[->] node[left, draw = none, fill = none] {$A$}
             }
         child[vulm] {node {2}
                 child[vulm] {node[double] {$(5, 1)$} edge from parent[->] node[left, draw = none, fill = none] {$A$}}
                 child[vulm] {node[double] {$(0, 0)$} edge from parent[->] node[right, draw = none, fill = none] {$N$}}
-                edge from parent[->] node[right, draw = none] {$N$}
+                edge from parent[->] node[right, draw = none, fill = none] {$N$}
             };
         \draw[dashed,rounded corners=7, double, yulm, thick = 2pt]($(0-1)+(-.5,.5)$)rectangle($(0-2)+(.5,-.5)$);
         \tikzstyle{every node} = []
         \node at ($(0-1) + (-1,.)$)[label ={[align = center, vulm]left : Information de $1$\\ lors de son coup}]{};
         \draw[->, double, distance = 5pt, vulm]($(0-1) + (-1.1,.)$)--($(0-1)+(-.6,.)$);
     \end{tikzpicture}
-    
+    \caption{Représentation Extensive du Jeu du \textsc{Dilemme du Prisonnier} à information imparfaite.}
+    \label{fig:gametree:impinfopridi}
 \end{figure}
-\begin{definition}
+\begin{définition}{Partie sur un Jeu}{}
     Une partie sur un jeu est une suite d'états de ce jeu, ou, de manière équivalente, une suite de coups $s_{0}s_{1}\ldots s_{k}$ tels que :
     \begin{itemize}
         \item $\forall i, s_{2i} \in A_{0}$ et $s_{2i + 1} \in A_{1}$.
         \item $\not{\exists} s_{k + 1} \in A_{i}$ où $i = 1$ si $k \equiv 0 \mod 2$ et $i = 0$ sinon.
     \end{itemize}
-\end{definition}
+\end{définition}
 
 \subsection{Les Automates vus comme des Jeux}
-\begin{definition}
+\begin{définition}{Jeu d'un Automate}{}
     Si $A = \left(Q, \Sigma, \delta, q_{0}, F\right)$ est un automate, on se donne $G_{A}$ un jeu sous représentation extensive à deux joueurs \textsc{Tatiana} et \textsc{Pierre}. Dans ce jeu, \textsc{Tatiana} joue des états de $Q$ et \textsc{Pierre} joue des lettres de $\Sigma$.
-\end{definition}
+\end{définition}
 On joue comme suit :
 \begin{itemize}
     \item \textsc{Tatiana} joue $q_{0}$ l'état initial.
@@ -128,9 +151,9 @@ On joue comme suit :
     \item La partie se termine lorsque \textsc{Tatiana} joue un état de $F$ et que \textsc{Pierre} n'a plus de coup valable.
 \end{itemize}
 
-\begin{definition}
+\begin{définition}{Règles du Jeu}{}
     Les règles du jeu pour chaque joueur sont les suivantes : si \textsc{Tatiana} joue $q \in \Sigma$ alors \textsc{Pierre} doit jouer $s$ tel que $\delta(q, s) \neq \emptyset$ sinon il perd.
-\end{definition}
+\end{définition}
 
 On peut par ailleurs faire un lien entre le caractère déterministe de l'automate et l'information donnée au joueur \textsc{Pierre}, ce qui correspond intuitivement au fait qu'on puisse aller d'un état à plusieurs.
 \begin{itemize}
@@ -141,22 +164,20 @@ Dans la suite, on se place d'abord dans le cas déterministe.\\
 Pour l'automate de la figure \ref{fig:dfa1}, 
 \begin{figure}
     \centering
-    \caption{Un Automate Déterministe}
-    \label{fig:dfa1}
     \begin{tikzpicture}[shorten >=1pt,node distance=1cm,>={stealth}, initial text = ,
-        every state/.style={draw=vulm!50,very thick,fill=yulm!20, text = vulm}, accepting/.style={accepting by arrow, double}]
+        every state/.style={draw=vulm,very thick,fill=yulm!50, text = vulm}, accepting/.style={accepting by arrow, double}]
         \node[state, initial] (q_0) {$q_{0}$};
         \node[state] (q_1) [right=of q_0] {$q_{1}$};
         \node[state, accepting] (q_2) [right = of q_1] {$q_{2}$};
         \path[->, vulm] (q_0) edge node [above] {a} (q_1)
         (q_1) edge node [above] {b} (q_2);
     \end{tikzpicture}
+    \caption{Un Automate Déterministe}
+    \label{fig:dfa1}
 \end{figure}
 on obtient la représentation extensive de la figure \ref{fig:gametree:dfa1}, en utilisant $\lambda$ comme symbole pour signifier que \textsc{Pierre} n'a plus de lettres jouables :
 \begin{figure}
     \centering
-    \caption{Représentation Extensive du Jeu associé à l'automate de la figure \ref{fig:dfa1}}
-    \label{fig:gametree:dfa1}
     \begin{tikzpicture}[level distance=2.5cm,
             level 1/.style={sibling distance=3cm},
             level 2/.style={sibling distance=3cm},
@@ -165,24 +186,24 @@ on obtient la représentation extensive de la figure \ref{fig:gametree:dfa1}, en
             level 5/.style={sibling distance=4cm},
             level 6/.style={sibling distance=1.3cm}]
         \tikzstyle{every node}=[draw = none, fill = none]
-        \node[circle, draw = vulm!50, fill=yulm!20, text = vulm] {\textsc{Tatiana}}
-        child[vulm] {node[circle, draw = vulm!50, fill=yulm!20] {\textsc{Pierre}}
-        child[vulm] {node[circle, draw = vulm!50, fill=yulm!20] {\textsc{Tatiana}}
+        \node[circle, draw = vulm, fill=yulm!50, text = vulm] {\textsc{Tatiana}}
+        child[vulm] {node[circle, draw = vulm, fill=yulm!50] {\textsc{Pierre}}
+        child[vulm] {node[circle, draw = vulm, fill=yulm!50] {\textsc{Tatiana}}
         child[vulm] {node {} edge from parent[->] node[above left] {$q_{0}$}}
-        child[vulm] {node[circle, draw = vulm!50, fill=yulm!20] {\textsc{Pierre}}
+        child[vulm] {node[circle, draw = vulm, fill=yulm!50] {\textsc{Pierre}}
         child[vulm] {node {} edge from parent[->] node[above left] {$a$}}
-        child[vulm] {node[circle, draw = vulm!50, fill=yulm!20] {\textsc{Tatiana}}
-        child[vulm] {node[circle, draw = vulm!50, fill=yulm!20] {\textsc{Pierre}}
+        child[vulm] {node[circle, draw = vulm, fill=yulm!50] {\textsc{Tatiana}}
+        child[vulm] {node[circle, draw = vulm, fill=yulm!50] {\textsc{Pierre}}
         child[vulm] {node {} edge from parent[->]node[above left]{$a$}}
         child[vulm] {node {} edge from parent[->]node[right]{$\lambda$}}
         child[vulm] {node {} edge from parent[->]node[above right]{$b$}}
         edge from parent[->] node[above left] {$q_{0}$}}
-        child[vulm] {node[circle, draw = vulm!50, fill=yulm!20] {\textsc{Pierre}}
+        child[vulm] {node[circle, draw = vulm, fill=yulm!50] {\textsc{Pierre}}
         child[vulm] {node {} edge from parent[->]node[above left]{$a$}}
         child[vulm] {node {} edge from parent[->]node[right]{$\lambda$}}
         child[vulm] {node {} edge from parent[->]node[above right]{$b$}}
         edge from parent[->] node[left] {$q_{1}$}}
-        child[vulm] {node[circle, draw = vulm!50, fill=yulm!20] {\textsc{Pierre}}
+        child[vulm] {node[circle, draw = vulm, fill=yulm!50] {\textsc{Pierre}}
         child[vulm] {node {} edge from parent[->]node[above left]{$a$}}
         child[vulm] {node {} edge from parent[->]node[right]{$\lambda$}}
         child[vulm] {node {} edge from parent[->]node[above right]{$b$}}
@@ -198,48 +219,47 @@ on obtient la représentation extensive de la figure \ref{fig:gametree:dfa1}, en
         child[vulm] {node {} edge from parent [->] node[left] {$q_{1}$}}
         child[vulm] {node {} edge from parent [->] node[above right] {$q_{2}$}};
     \end{tikzpicture}
-    
+    \caption{Représentation Extensive du Jeu à Information Parfaite de l'automate figure \ref{fig:dfa1}}
+    \label{fig:gametree:dfa1}
 \end{figure}
 
 \subsection{Langage et Stratégies Gagnantes}
 On se place ici dans le cas déterministe :\\
 On définit formellement la notion de stratégie d'un joueur sur un tel jeu. La stratégie d'un joueur assigne une action choisie par le joueur pour chaque historique des coups dans lequel c'est à son tour de jouer. L'historique d'un joueur est l'ensemble des actions qu'il peut choisir de faire durant la partie. Pour \textsc{Tatiana}, c'est l'ensemble des combinaisons d'états qu'il peut utiliser pour affronter \textsc{Pierre} et pour \textsc{Pierre}, c'est n'importe quel mot $w \in \Sigma^{\star}$ :
-\begin{definition}
+\begin{définition}{Stratégie}{}
     Une stratégie pour \textsc{Pierre} définie par $w \in \Sigma^{\star}$ est telle que \textsc{Pierre} joue les lettres de $w$ indépendamment de ce que \textsc{Tatiana} joue.
-\end{definition}
+\end{définition}
 On a besoin de se restreindre à des mots de longueur finie $n$ pour les stratégies pour pouvoir vérifier l'équivalence entre l'acception par $A$ et le fait d'être une stratégie gagnante.
-\begin{definition}
+\begin{définition}{Stratégie Gagnante}{}
     Une stratégie gagnante pour \textsc{Pierre} est une stratégie $w$ de longueur $n$ où \textsc{Tatiana} n'a pas de coup valide (i.e. la partie est arrivée à son terme) et où son dernier coup est un état final de $A$.
     On définit alors : $S\left(G_{A}\right)^{n}$ l'ensemble des parties gagnantes pour \textsc{Pierre} sur $G_{A}$ où \textsc{Pierre} joue selon un mot de longueur $n$, et $L(A)^{n}$ l'ensemble des mots de longueur $n$ reconnus par $A$.
-\end{definition}
+\end{définition}
 
 Ainsi, on doit montrer qu'étant donnée une stratégie gagnante $s \in S\left(G_{A}\right)^{n}$, il existe un mot $w$ de longueur $n$ accepté par $A$.
 On a alors :
-\begin{theorem}
+\begin{théorème}{Reconnaissance des Stratégies}{}
     $S(G_{A})^{n} = L(A)^{n}$
-\end{theorem}
+\end{théorème}
 \begin{proof}
     En effet, il est clair qu'on peut trouver une équivalence entre le calcul d'un mot $w$ sur $A$ et le déroulement d'une partie où \textsc{Pierre} joue selon $w$. Ceci se lit sur l'arbre de jeu.
 \end{proof}
 
 \subsection{Non-Déterminisme}
-On considère désormais le cas des automates finis non-déterministes. S'ils n'apportent pas d'expressivité, ils permettent tout de même un point de vue intéressant.
-\begin{definition}
+On considère désormais le cas des automates finis non-déterministes (NFA). S'ils n'apportent pas d'expressivité, ils permettent tout de même un point de vue intéressant.
+\begin{définition}{Jeu d'un NFA}{}
     Etant donné un automate non-déterministe $A$, on définit :
     \begin{itemize}
         \item $P$ un ensemble de deux joueurs où \textsc{Tatiana} joue des états et \textsc{Pierre} des lettres.
         \item Un ensemble $I$ d'ensembles d'informations $B$, où on définit $\delta\left(q, s\right) = B$ lorsqu'il y a du non-déterminisme dans la transition.
         \item Des relations de préférence $\succeq_{i}$ entre deux transitions $\delta_{1}, \delta_{2}$ où $\delta_{1} \succeq \delta_{2}$ si et seulement si $d\left(\delta_{1}\right) \leq d(\delta_{2})$ où $d(\tau)$ renvoie la distance dans l'automate vu comme un graphe orienté entre l'état de fin de $\tau$ et son état de début.
     \end{itemize}
-\end{definition}
+\end{définition}
 
 Pour l'automate de la figure \ref{fig:nfa1}
 \begin{figure}
     \centering
-    \caption{Un Automate Non-Déterministe}
-    \label{fig:nfa1}
     \begin{tikzpicture}[shorten >=1pt,node distance=1cm,>={stealth}, initial text = ,
-        every state/.style={draw=vulm!50,very thick,fill=yulm!20, text = vulm}, accepting/.style={accepting by arrow, double}]
+        every state/.style={draw=vulm,very thick,fill=yulm!50, text = vulm}, accepting/.style={accepting by arrow, double}]
         \node[state, initial] (q_0) {$q_{0}$};
         \node[state] (q_1) [below=of q_0] {$q_{1}$};
         \node[state, accepting] (q_2) [right=of q_1] {$q_{2}$};
@@ -248,13 +268,12 @@ Pour l'automate de la figure \ref{fig:nfa1}
         (q_1) edge node [above] {b} (q_2)
         (q_1) edge node [above right] {b} (q_3);
     \end{tikzpicture}
-    
+    \caption{Un Automate Non-Déterministe}
+    \label{fig:nfa1}
 \end{figure}
 on obtient l'arbre de la figure \ref{fig:gametree:nfa1}.
 \begin{figure}
     \centering
-    \caption{Représentation Extensive du Jeu à Information Imparfaite de l'automate de la figure \ref{fig:nfa1}}
-    \label{fig:gametree:nfa1}
     \begin{tikzpicture}[level distance=2.5cm,
             level 1/.style={sibling distance=3cm},
             level 2/.style={sibling distance=3cm},
@@ -264,21 +283,21 @@ on obtient l'arbre de la figure \ref{fig:gametree:nfa1}.
             level 6/.style={sibling distance=1.2cm}
         ]
         \tikzstyle{every node}=[draw = none, fill = none]
-        \node[circle, draw = vulm!50, fill=yulm!20, text = vulm] (0) {\textsc{Tatiana}}
-            child[vulm] {node[circle, draw = vulm!50, fill=yulm!20] {\textsc{Pierre}}
-                child[vulm] {node[circle, draw = vulm!50, fill=yulm!20] {\textsc{Tatiana}}
+        \node[circle, draw = vulm, fill=yulm!50, text = vulm] (0) {\textsc{Tatiana}}
+            child[vulm] {node[circle, draw = vulm, fill=yulm!50] {\textsc{Pierre}}
+                child[vulm] {node[circle, draw = vulm, fill=yulm!50] {\textsc{Tatiana}}
                     child[vulm] {node {} edge from parent[->] node[above left] {$q_{0}$}}
-                    child[vulm] {node[circle, draw = vulm!50, fill=yulm!20] {\textsc{Pierre}}
+                    child[vulm] {node[circle, draw = vulm, fill=yulm!50] {\textsc{Pierre}}
                         child[vulm] {node {} edge from parent[->] node[above left] {$a$}}
-                        child[vulm] {node[circle, draw = vulm!50, fill=yulm!20] {\textsc{Tatiana}}
+                        child[vulm] {node[circle, draw = vulm, fill=yulm!50] {\textsc{Tatiana}}
                             child[vulm] {node {} edge from parent[->] node[above left] {$q_{0}$}}
                             child[vulm] {node {} edge from parent[->] node[above left] {$q_{1}$}}
-                            child[vulm] {node[circle, draw = vulm!50, fill=yulm!20](l) {\textsc{Pierre}}
+                            child[vulm] {node[circle, draw = vulm, fill=yulm!50](l) {\textsc{Pierre}}
                                 child[vulm] {node {} edge from parent[->]node[above left]{$a$}}
                                 child[vulm] {node {ok} edge from parent[->]node[right]{$\lambda$}}
                                 child[vulm] {node {} edge from parent[->]node[above right]{$b$}}
                                 edge from parent[->] node[above right] {$q_{2}$}}
-                            child[vulm] {node[circle, draw = vulm!50, fill=yulm!20](r) {\textsc{Pierre}}
+                            child[vulm] {node[circle, draw = vulm, fill=yulm!50](r) {\textsc{Pierre}}
                                 child[vulm] {node {} edge from parent[->]node[above left]{$a$}}
                                 child[vulm] {node {ok} edge from parent[->]node[right]{$\lambda$}}
                                 child[vulm] {node {} edge from parent[->]node[above right]{$b$}}
@@ -297,44 +316,45 @@ on obtient l'arbre de la figure \ref{fig:gametree:nfa1}.
             child[vulm] {node {} edge from parent [->] node[above right] {$q_{2}$}}
             child[vulm] {node {} edge from parent [->] node[above right] {$q_{3}$}};
         
-        \draw[dashed, rounded corners=7, thick = 2pt, double, draw = yulm]($(l)+(-.6,.6)$)rectangle($(r)+(.6,-.6)$);
-        \node at ($(r) + (1,.)$)[label ={[align = center, vulm]right : Information de \textsc{Pierre}\\ lors de son coup}]{};
-        \draw[->, double, distance = 5pt, vulm]($(r) + (1.1,.)$)--($(r)+(.65,.)$);
+        \draw[dashed, rounded corners=7, thick = 2pt, double, draw = yulm]($(l)+(-1,1)$)rectangle($(r)+(1,-1)$);
+        \node at ($(r) + (2,.)$)[label ={[align = center, vulm]right : Information de \textsc{Pierre}\\ lors de son coup}]{};
+        \draw[->, double, distance = 5pt, vulm]($(r) + (2.,.)$)--($(r)+(1.1,.)$);
     \end{tikzpicture}
-    
+    \caption{Représentation Extensive du Jeu à Information Imparfaite de l'Automate figure \ref{fig:nfa1}}
+    \label{fig:gametree:nfa1}
 \end{figure}
 On vérifie bien sur la figure \ref{fig:gametree:nfa1} qu'il n'y a pas besoin d'indiquer les ensembles d'informations sur les autres étapes du jeu.\\
 On remarque par ailleurs, qu'en reprenant les définitions précédentes, on obtient bien le même théorème d'équivalence entre les stratégies gagnantes et les mots acceptés. Ceci se comprend quitte à déterminiser l'automate. On obtient donc en particulier le théorème suivant : 
-\begin{theorem}
+\begin{théorème}{Information et Reconnaissance}{}
     Tout jeu à information imparfaite est équivalent, au sens de la reconnaissance des langages, à un jeu à information totale. 
-\end{theorem}
+\end{théorème}
 
 \newpage
 \section{Jeux et Grammaires}
 On s'intéresse désormais à une nouvelle définition de jeu, les jeux hors-contexte, qu'on va écrire avec des automates à pile (et donc des grammaires), et on verra ensuite une application à deux jeux de cartes particuliers : le \textsc{Uno} et le \textsc{Texas Hold'Em Poker}. 
 \subsection{Jeux Hors-Contexte}
-\begin{definition}
+\begin{définition}{Jeu Hors-Contexte}{}
     Un Jeu Hors-Contexte est un triplet $G = \scalar{\Sigma, R, T}$ où $\Sigma$ est un alphabet fini, $R \subseteq \Sigma \times \Sigma^{+}$ est un ensemble fini de règles et $T$ est un automate représentant un langage régulier cible.
     \begin{itemize}
         \item Une partie du jeu $G$ est jouée par deux joueurs \textsc{Tatiana} et \textsc{Pierre}. Une partie consiste, à chaque étape, à appliquer une des règles de $R$ à un mot donné sur $\Sigma$. A chaque étape, \textsc{Tatiana} choisit une position dans le mot et \textsc{Pierre} choisit une règle de $R$ associée.
         \item Un état du jeu $C$ est une paire $(w, i)$ où $w$ est un mot et $i \leq \abs{w}$ est la position courante. Un choix de position de la configuration $(a_{1}\ldots a_{n}, i)$ est un entier $j \leq n$, un choix de règle consiste à remplacer $a_{j}$ par un mot $u$ tel qu'on a $a_{j} \rightarrow u$ dans $R$. On appelle configuration résultante la configuration $\left(a_{1}\ldots a_{j-1}ua_{j+1}\ldots a_{n}, j\right)$ obtenue. 
         \item Une partie sur $w$ commence dans la configuration initiale $C_{0} = \left(w, 1\right)$ et s'arrête ou bien lorsque le mot résultat est dans $L(T)$ auquel cas \textsc{Tatiana} gagne ou bien lorsque la position choisie par \textsc{Tatiana} est un terminal auquel cas \textsc{Pierre} gagne.
     \end{itemize} 
-\end{definition}
+\end{définition}
 
 On peut alors de même définir la notion de stratégie gagnante : 
-\begin{definition}
+\begin{définition}{Stratégie Gagnante}{}
     On dit que \textsc{Tatiana} a une stratégie gagnante en $\left(w, i\right)$ lorsque quelque soient les coups de \textsc{Pierre}, une configuration de $L(T)$ est atteinte en un nombre fini de coups. On dit que \textsc{Tatiana} gagne $\left(G, w\right)$ si \textsc{Tatiana} a une stratégie gagnante dans $G$ sur $w$. 
-\end{definition}
+\end{définition}
 
 \subsection{Jeux Hors-Contexte, Machines de Turing et Automates à Pile}
 On commence déjà par démontrer un résultat sur l'expressivité des jeux hors-contexte. 
-\begin{theorem}
+\begin{théorème}{Reconnaissance de la Victoire}{}
     Soit $M$ une machine de Turing bornée en espace par $s(n)$. On peut construire un jeu de sorte que pour tout mot $w = a_{1}\ldots a_{n}$, on ait : 
     \[
         M \text{ accepte } w \Leftrightarrow \textsc{Tatiana} \text{ gagne } (G, \$q_{0}a_{1}\ldots a_{n}\sqcup^{s(n) - n}\#)  
     \]
-\end{theorem}
+\end{théorème}
 \begin{proof}
     On ne donne ici que le squelette de la preuve qui peut être retrouvée dans une forme plus forte dans \cite{cfgames} : 
     \begin{itemize}
@@ -346,17 +366,17 @@ On commence déjà par démontrer un résultat sur l'expressivité des jeux hors
 \end{proof}
 
 On définit maintenant, de la même manière que les machines de Turing alternantes, les systèmes à pile alternants : 
-\begin{definition}
+\begin{définition}{Système à Pile Alternant}{}
     Un système à pile alternant est un quadruplet $\mathcal{P} = \scalar{S = S_{T} \cup S_{P}, \Gamma, \delta, F}$ i.e. un automate à pile sans entrée avec des états existentiels et universels. On note ici les configurations de cet automate entre crochets $\left[q, u\right]$ pour les distinguer des configurations d'un jeu. On dit qu'une configuration est gagnante si \textsc{Tatiana} peut toujours atteindre une configuration finale sur le jeu, quels que soient les choix de \textsc{Pierre}.
-\end{definition}
+\end{définition}
 
 On obtient alors le théorème suivant, qui donne l'équivalence d'expressivité entre les automates à pile (ceux-ci étant équivalents à des automates à pile alternants) et les jeux hors-contexte au sens de la victoire : 
-\begin{theorem}
+\begin{théorème}{Equivalence Hors-Contexte}{}
     \begin{enumerate}
         \item Étant donné un système à pile $\mathcal{P}$, on peut construire un jeu hors-contexte $G = \scalar{\Sigma, R, T}$ où $T$ est déterministe de sorte qu'une configuration $\left[q, a_{1}\ldots a_{n}\right]$ est gagnante dans $\mathcal{P}$ si et seulement si \textsc{Tatiana} gagne $G$ sur $w = q,a_{1}\ldots a_{n}$. 
         \item Étant donné un jeu hors-contexte $G = \scalar{\Sigma, R, T}$ où $T$ est déterministe d'état initial $q_{0}$, on peut construire un système à pile $\mathcal{P}$ tel que \textsc{Tatiana} gagne $G$ sur $w$ si et seulement si $\left[q_{0}, w\$\right]$ est gagnante dans $\mathcal{P}$.
     \end{enumerate}
-\end{theorem}
+\end{théorème}
 \begin{proof}
     \begin{enumerate}
         \item On ne donne qu'un squelette de la (longue) preuve de ce résultat qui peut être retrouvée dans \cite{cfgames}. 
@@ -379,8 +399,8 @@ On obtient alors le théorème suivant, qui donne l'équivalence d'expressivité
 On peut par ailleurs montrer (voir \cite{cfgames}), que toutes ces réductions se font en temps polynomial. 
 
 \subsection{Application aux Jeux de Cartes}
-On va maintenant proposer une application de la définition par des grammaires des jeux à deux jeux de cartes particuliers: le \textsc{Uno}\footnote{Le \textsc{Mao} n'ayant pas un nombre fixe de règles} et le \textsc{Texas Hold'Em Poker}. Suivant \cite{card-game-lang}, commençons par une série de définitions: 
-\begin{definition}
+On va maintenant proposer une application de la définition par des grammaires des jeux à deux jeux de cartes particuliers: le \textsc{Uno}\footnote{Le \textsc{Mao} n'ayant pas un nombre fixe de règles} et le \textsc{Texas Hold'Em Poker}. Suivant \cite{card-game-lang}, commençons par une série de définitions d'un langage de description de jeux de cartes: 
+\begin{définition}{Langage de Description}{}
     \begin{itemize}
         \item On note $P$ l'ensemble des joueurs.
         \item On appelle \emph{emplacement de carte} une position notée $LA$ dans le jeu où un nombre de cartes peut être posé. Le \textsc{Uno} possède les emplacements suivants : 
@@ -400,7 +420,7 @@ On va maintenant proposer une application de la définition par des grammaires d
         Une phase se termine lorsque tous les joueurs ont \texttt{fini} ou sont \texttt{sortis}. Tant qu'il reste des joueurs à la \texttt{suite}, on reboucle sur la liste des joueurs. 
         \item Un jeu s'arrête lorsque toutes les phases ont été jouées ou que tous les joueurs sont \texttt{sortis}.
     \end{itemize}    
-\end{definition}
+\end{définition}
 
 On peut alors plus aisément représenter un jeu de cartes par une grammaire. On va toutefois se donner des règles \textit{conditionnelles} (en réalité des terminaux), qu'il suffirait de dupliquer pour toute paire de cartes/de localisations dans la table \ref{table:code_ant}
 \begin{table}
@@ -483,7 +503,7 @@ On rappelle que tous les joueurs commencent avec 7 cartes et que l'unique emplac
     \item Jouer une carte de la même valeur que la carte en $T0$
     \item Piocher une carte et passer son tour
 \end{itemize}
-Une fois qu'un joueur n'a plus de carte (ce qu'on peut repérer lorsque deux symboles \# sont côte à côte), il gagne la partie. Evidemment, la partie où les joueurs crient \textsc{Uno} et Contre-\textsc{Uno} est hors d'atteinte de notre système. On va ici se limiter à des cartes sans effets, pour simplifier l'écriture, bien qu'il serait possible de les prendre en compte. 
+Une fois qu'un joueur n'a plus de carte (ce qu'on peut repérer lorsque deux symboles \# sont côte à côte), il gagne la partie. Evidemment, la partie où les joueurs crient \textsc{Uno} et Contre-\textsc{Uno} est hors d'atteinte de notre système. On va ici se limiter à des cartes sans effets, pour simplifier l'écriture, bien qu'il serait possible de les prendre en compte. C'est ce qu'on a écrit dans la table \ref{table:grammar_uno}.
 \begin{table}
     \centering
     \caption{Règles de la Grammaire du \textsc{Uno}}
@@ -502,7 +522,7 @@ Une fois qu'un joueur n'a plus de carte (ce qu'on peut repérer lorsque deux sym
 \end{table}
 
 \subsubsection{\textsc{Texas Hold'Em Poker}}
-Dans ce jeu, on va mettre en place $12$ phases du jeu qui vont couvrir les étapes principales du jeu (pré-flop, flop, turn, river et showdown), ainsi que des phases pour gérer les mises.
+Dans ce jeu, on va mettre en place $12$ phases du jeu qui vont couvrir les étapes principales du jeu (pré-flop, flop, turn, river et showdown), ainsi que des phases pour gérer les mises, ce qu'on détaille dans la table \ref{table:grammar_poker}
 \begin{table}
     \centering
     \caption{Règles de la Grammaire du \textsc{Texas Hold'Em Poker}}
@@ -555,7 +575,22 @@ Dans ce jeu, on va mettre en place $12$ phases du jeu qui vont couvrir les étap
     \end{tabular}
 \end{table}
 
-\newpage
+\begin{figure}[h]
+    \centering
+    \begin{center}
+        \vspace{1cm}
+        Pour finir voici une réminiscence de la prévue troisième partie sur le game design et l'utilisations d'automates pour observer le déroulé d'une partie.\\ \cite{game-design-automata} propose une méthode de ce style, tandis que \cite{timed-automatas-games} propose d'utiliser des délais pour décrire, en temps réel, le déroulé d'une partie. 
+    \end{center}
+    \begin{tikzpicture}[shorten >=1pt,node distance=1cm,>={stealth}, initial text = ,
+        every state/.style={draw=vulm,very thick,fill=yulm!50, text = vulm}, accepting/.style={accepting by arrow, double}]
+        \node[state, initial] (q) {J'ai perdu.};
+        \path[->, vulm] (q) edge[loop right] node [right] {Attendre 30mn} (q);
+    \end{tikzpicture}
+    \caption{\textsc{Le Jeu}}
+    \label{fig:dfa:lejeu}
+\end{figure}
+
+
 \begin{thebibliography}{5}
     \bibitem{game-rep-automata} A-Games: using game-like representation for representing finite automatas \textit{Cleyton Slaviero, Edward Hermann Haeusler}
     \bibitem{card-game-lang} A Card Game Description Language \textit{Jose M. Font, Tobias Mahlmann, Daniel Manrique, and Julian Togelius}
@@ -566,19 +601,6 @@ Dans ce jeu, on va mettre en place $12$ phases du jeu qui vont couvrir les étap
     \bibitem{timed-automatas-games} Timed Automata for Video Games and Interaction, \textit{Jaime Arias, Raphael Marczak, Myriam Desainte-Catherine}
 \end{thebibliography}
 
-\begin{figure}
-    \centering
-    \caption{\textsc{Le Jeu}}
-    \label{fig:dfa:lejeu}
-    \begin{center}
-        Pour finir voici une réminiscence de la supposée troisième partie sur le game design et l'utilisations d'automates pour observer le déroulé d'une partie.\\ \cite{game-design-automata} propose une méthode de ce style, tandis que \cite{timed-automatas-games} propose d'utiliser des délais pour décrire, en temps réel, le déroulé d'une partie. 
-    \end{center}
-    \begin{tikzpicture}[shorten >=1pt,node distance=1cm,>={stealth}, initial text = ,
-        every state/.style={draw=vulm!50,very thick,fill=yulm!20, text = vulm}, accepting/.style={accepting by arrow, double}]
-        \node[state, initial] (q) {J'ai perdu.};
-        \path[->, vulm] (q) edge[loop right] node [right] {Attendre 30mn} (q);
-    \end{tikzpicture}
-\end{figure}
 
 \end{document}
 
