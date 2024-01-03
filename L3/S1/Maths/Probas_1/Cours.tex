@@ -1,1074 +1,1230 @@
 \documentclass{cours}
 
 \title{Intégration et Probabiliéts}
+\author{Anne-Laure Dalibard}
+\date{Année 2023-2024}
 
 \begin{document}
+\part{Théorie de la Mesure}
 \section{Espaces Mesurés}
-    \subsection{Ensembles Mesurables}
-    \begin{definition}
-        Une tribu sur un ensemble $E$ est un ensemble $\mathcal{A} \subset \mathcal{P}(E)$ telle que :
-        \begin{itemize}
-            \item $E \in \mathcal{A}$
-            \item $\mathcal{A}^{\complement} = \mathcal{A}$
-            \item Si $(A_{i})_{i \in \N} \in \mathcal{A}$, $\bigcup_{i \in \N} A_{i} \in \mathcal{A}$.
-        \end{itemize}
-        Les éléments de $\mathcal{A}$ sont appelés \emph{parties mesurables}.
-    \end{definition}
+\subsection{Ensembles Mesurables}
+\begin{definition}
+    Une tribu sur un ensemble $E$ est un ensemble $\mathcal{A} \subset \mathcal{P}(E)$ telle que :
+    \begin{itemize}
+        \item $E \in \mathcal{A}$
+        \item $\mathcal{A}^{\complement} = \mathcal{A}$
+        \item Si $(A_{i})_{i \in \N} \in \mathcal{A}$, $\bigcup_{i \in \N} A_{i} \in \mathcal{A}$.
+    \end{itemize}
+    Les éléments de $\mathcal{A}$ sont appelés \emph{parties mesurables}.
+\end{definition}
 
-    \begin{definition}
-        Soit $\mathcal{C} \subset \mathcal{P}(E)$. On appelle \emph{tribu engendrée par $C$} l'ensemble $\sigma(\mathcal{C}) = \bigcap_{\mathcal{A} \text{ tribu}, \mathcal{C} \subset \mathcal{A} } \mathcal{A}$. C'est la plus petite tribu contenant $\mathcal{C}$.
-    \end{definition}
+\begin{definition}
+    Soit $\mathcal{C} \subset \mathcal{P}(E)$. On appelle \emph{tribu engendrée par $C$} l'ensemble $\sigma(\mathcal{C}) = \bigcap_{\mathcal{A} \text{ tribu}, \mathcal{C} \subset \mathcal{A} } \mathcal{A}$. C'est la plus petite tribu contenant $\mathcal{C}$.
+\end{definition}
 
-    \begin{definition}
-        Soit $E$ un espace topologie, $\O$ la classe des ouverts. On appelle \emph{tribu borélienne sur} $E$ la tribu engendrée par $\O$ notée $\mathcal{B}(E)$.
-    \end{definition}
+\begin{definition}
+    Soit $E$ un espace topologie, $\O$ la classe des ouverts. On appelle \emph{tribu borélienne sur} $E$ la tribu engendrée par $\O$ notée $\mathcal{B}(E)$.
+\end{definition}
 
-    \begin{proposition}
-        $\mathcal{B}(\R)$ est engendrée aussi par les intervalles ouverts $\left(\left]a, b\right[\right)_{a, b \in \R}, \left(\left]a, +\infty\right[\right)_{a \in \R}, \left(\left]a, +\infty\right[\right)_{a \in \Q}$.
-    \end{proposition}
+\begin{proposition}
+    $\mathcal{B}(\R)$ est engendrée aussi par les intervalles ouverts $\left(\left]a, b\right[\right)_{a, b \in \R}, \left(\left]a, +\infty\right[\right)_{a \in \R}, \left(\left]a, +\infty\right[\right)_{a \in \Q}$.
+\end{proposition}
 
-    \begin{definition}
-        La \emph{tribu produit} sur $(E_{1}, \mathcal{A}_{1}), (E_{2}, \mathcal{A}_{2})$ est la tribu sur $E_{1} \times E_{2}$ définie $\mathcal{A}_{1} \bigotimes \mathcal{A}_{2} = \sigma\left(\left\{A_{1}\times A_{2} \mid \left(A_{1}, A_{2}\right) \in \A_{1}\times \A_{2}\right\}\right)$
-    \end{definition}
-    \begin{proposition}
-        On a $\mathcal{B}(\R^{2}) = \mathcal{B}(\R) \bigotimes \mathcal{B}{\R}$.
-    \end{proposition}
+\begin{definition}
+    La \emph{tribu produit} sur $(E_{1}, \mathcal{A}_{1}), (E_{2}, \mathcal{A}_{2})$ est la tribu sur $E_{1} \times E_{2}$ définie $\mathcal{A}_{1} \bigotimes \mathcal{A}_{2} = \sigma\left(\left\{A_{1}\times A_{2} \mid \left(A_{1}, A_{2}\right) \in \A_{1}\times \A_{2}\right\}\right)$
+\end{definition}
+\begin{proposition}
+    On a $\mathcal{B}(\R^{2}) = \mathcal{B}(\R) \bigotimes \mathcal{B}{\R}$.
+\end{proposition}
 
-    \subsection{Mesures Positives}
+\subsection{Mesures Positives}
 
-    \begin{definition}
-        Une \emph{mesure positive} sur $\left(E, \A\right)$ est une application $\mu : \A \rightarrow \left[0, +\infty\right]$ qui vérifie : 
-        \begin{itemize}
-            \item $\mu(\emptyset) = 0$.
-            \item Pour toute famille $\left(A_{n}\right)_{n \in \N}$ de parties mesurables disjointes : \[\mu\left(\bigcup_{n \in \N}A_{n}\right) = \sum_{n \in \N} \mu\left(A_{n}\right)\]
-        \end{itemize}
-    \end{definition}
+\begin{definition}
+    Une \emph{mesure positive} sur $\left(E, \A\right)$ est une application $\mu : \A \rightarrow \left[0, +\infty\right]$ qui vérifie :
+    \begin{itemize}
+        \item $\mu(\emptyset) = 0$.
+        \item Pour toute famille $\left(A_{n}\right)_{n \in \N}$ de parties mesurables disjointes : \[\mu\left(\bigcup_{n \in \N}A_{n}\right) = \sum_{n \in \N} \mu\left(A_{n}\right)\]
+    \end{itemize}
+\end{definition}
 
-    \begin{proposition}
-        On a : 
-        \begin{itemize}
-            \item Si $\left(A_{n}\right)_{n\in \N} \in \A^{\N}$ est une suite croissante :
-            \[
-                \mu\left(\bigcup_{n\in \N}A_{n}\right) = \lim_{n\to \infty} \uparrow \mu\left(A_{n}\right)
-            \]
-            \item Si $\left(B_{n}\right)_{n\in \N} \in \A^{\N}$ est une suite décroissante et si $\mu\left(B_{0}\right) < \infty$:
-            \[
-                \mu\left(\bigcap_{n\in \N}B_{n}\right) = \lim_{n\to \infty} \downarrow \mu\left(B_{n}\right)
-            \]
-            \item Si $A_{n} \in \A$ :
-            \[
-                \mu\left(\bigcup_{n \in \N} A_{n}\right) \leq \sum_{n\in\N} \mu\left(A_{n}\right)
-            \]
-        \end{itemize}
-    \end{proposition}
 
-    \begin{definition}
-        Il existe une unique mesure positive sur $\left(\R, \mathcal{B}(\R)\right)$ telle que $\lambda(\left]a, b\right[) = b - a$, pour tous $a, b \in \R$.
-    \end{definition}
 
-    \begin{definition}
-        \begin{itemize}
-            \item $\mu$ est finie si $\mu\left(E\right)<\infty$
-            \item $\mu$ est une mesure de probabilité si $\mu(E) = 1$
-            \item $\mu$ est $\sigma$-finie s'il existe une suite croissante de parties mesurables $E_{n}$ d'union $E$ et de mesure toujours finie.
-            \item $x \in E$ est un atome de $\mu$ si $\mu\left(\left\{x\right\}\right) > 0$
-            \item $\mu$ est dite diffuse si elle n'a pas d'atomes.
-        \end{itemize}
-    \end{definition}
+\begin{proposition}
+    On a :
+    \begin{itemize}
+        \item Si $\left(A_{n}\right)_{n\in \N} \in \A^{\N}$ est une suite croissante :
+              \[
+                  \mu\left(\bigcup_{n\in \N}A_{n}\right) = \lim_{n\to \infty} \uparrow \mu\left(A_{n}\right)
+              \]
+        \item Si $\left(B_{n}\right)_{n\in \N} \in \A^{\N}$ est une suite décroissante et si $\mu\left(B_{0}\right) < \infty$:
+              \[
+                  \mu\left(\bigcap_{n\in \N}B_{n}\right) = \lim_{n\to \infty} \downarrow \mu\left(B_{n}\right)
+              \]
+        \item Si $A_{n} \in \A$ :
+              \[
+                  \mu\left(\bigcup_{n \in \N} A_{n}\right) \leq \sum_{n\in\N} \mu\left(A_{n}\right)
+              \]
+    \end{itemize}
+\end{proposition}
 
-    \subsection{Fonctions Mesurables}
-    \begin{definition}
-        Une application $f : \left(E, \A\right) \rightarrow (F, \mathcal{B})$ est dite mesurable si $\forall B \in \mathcal{B}, f^{-1}(B) \in \A$.
-    \end{definition}
-    \begin{theorem}
-        La composition de deux applications mesurables est mesurable.
-    \end{theorem}
-    \begin{remark}[Composition Mesurable]
-        Il faut bien que les applications $f$ et $g$ partagent un espace, avec la \emph{même} tribu (comme la chanson).
-        On définit fréquemment deux tribus différentes sur $\mathbb{R}^{d}$ : la tribu borélienne et la tribu de Lebesgue, tribu complétée de la tribu borélienne pour la mesure de Lebesgue $\mathcal{M}(\lambda) = \left\{A \subset \mathbb{R}^{d}, \exists B_{1}, B_{2} \in \mathcal{B}(\mathbb{R}^{d}), B_1 \subset A \subset B_2 \text{ et } \lambda(B_2 \setminus B_1) = 0 \right\}$
-        et on a : $B(\mathbb{R}^{d}) \subsetneq \mathcal{M}(\lambda)$. Dans certains livres : $f$ est mesurable si $f : \left(\mathbb{R}, \mathcal{M}(\lambda)\right) \rightarrow \left(\mathbb{R}, \mathcal{B}(\mathbb{R})\right)$ est mesurable.
-    \end{remark}
-    \begin{proposition}
-        Pour que $f$ soit mesurable, il suffit qu'il existe une sous-classe engendrant $\mathcal{B}$ pour laquelle la propriété est vraie.
-    \end{proposition}
-    \begin{corollary}
-        Si $f : \mathbb{R}^{d_1} \rightarrow\mathbb{R}^{d_2}$ est continue, elle est mesurable pour les boréliens.
-    \end{corollary}
-    \begin{corollary}
-        Une application produit est mesurable.
-    \end{corollary}
-    \begin{proof}
-        On a : $A_{1} \bigotimes A_{2} = \sigma\left(A_{1} \times A_{2}\right)$
-    \end{proof}
-    \begin{lemma}
-        Les applications $(+) (\times) (\max) (\min)$ de deux fonctions réelles sont mesurables
-    \end{lemma}
-    \begin{corollary}
-        Les parties positives et négatives d'une fonction sont mesurables
-    \end{corollary}
-    \begin{proposition}
-        Si les $f_n$ sont mesurables de $E$ dans $\overline{\mathbb{R}}$ alors : $\sup_n f_n, \inf_n f_n, \liminf f_n, \limsup f_n$ sont mesurables.
-        En particulier : $\lim_n f_n$ est mesurable si la suite CS.
-    \end{proposition}
-    \begin{proof}
-        \begin{enumerate}
-            \item Si $f(x) = \inf f_{n}(x)$ : $f^{-1}\left[-\infty, a\right[ = \bigcup_{n} \left\{x \mid f_{n}(x) < a\right\}$. De même pour $\sup$. On en déduit immédiatement $\liminf f_n = \sup_{n \geq 0} \inf_{k \geq n} f_{k}$.
-            \item On a : $\left\{x\in E\mid \lim f_{n}(x) \text{ existe}\right\} = \left\{x \in E \mid \liminf f_{n}(x) = \limsup f_{n}(x)\right\} = \mathcal{G}^{-1}(\Delta)$ où $\mathcal{G} = (\liminf f_{n}, \limsup f_{n})$ et $\Delta$ est la diagonale de $\overline{\mathbb{R}}^{2}$.
-        \end{enumerate}
-    \end{proof}
-    \begin{definition}[Mesure-Image]
-        On appelle mesure image de $\mu$ par $f$, notée $f_{\#}\mu$ la mesure $f_{\#}\mu(B) = \mu(f^{-1}(B))$
-    \end{definition}
+\begin{definition}
+    Il existe une unique mesure positive sur $\left(\R, \mathcal{B}(\R)\right)$ telle que $\lambda(\left]a, b\right[) = b - a$, pour tous $a, b \in \R$.
+\end{definition}
 
-    \subsection{Classe Monotone}
-    \begin{definition}[Classe Monotone]
-        $\mathcal{M} \in \mathcal{P}(E)$ est une classe monotone si :
-        \begin{enumerate}
-            \item $E\in \mathcal{M}$
-            \item Si $A, B \in \mathcal{M}$ avec $A\subset B$, $B \setminus A \in \mathcal{M}$
-            \item Si $(A_{n}) \in \mathcal{M}^{\mathbb{N}}$ croissante, $\bigcup\limits_{n\in\mathbb{N}} A_{n} \in \mathcal{M}$
-        \end{enumerate}
-    \end{definition}
+\begin{definition}
+    \begin{itemize}
+        \item $\mu$ est finie si $\mu\left(E\right)<\infty$
+        \item $\mu$ est une mesure de probabilité si $\mu(E) = 1$
+        \item $\mu$ est $\sigma$-finie s'il existe une suite croissante de parties mesurables $E_{n}$ d'union $E$ et de mesure toujours finie.
+        \item $x \in E$ est un atome de $\mu$ si $\mu\left(\left\{x\right\}\right) > 0$
+        \item $\mu$ est dite diffuse si elle n'a pas d'atomes.
+    \end{itemize}
+\end{definition}
 
-    \begin{remark}
-        Toute tribu est une classe monotone
-    \end{remark}
+\subsection{Fonctions Mesurables}
+\begin{definition}
+    Une application $f : \left(E, \A\right) \rightarrow (F, \mathcal{B})$ est dite mesurable si $\forall B \in \mathcal{B}, f^{-1}(B) \in \A$.
+\end{definition}
+\begin{theorem}
+    La composition de deux applications mesurables est mesurable.
+\end{theorem}
+\begin{remark}[Composition Mesurable]
+    Il faut bien que les applications $f$ et $g$ partagent un espace, avec la \emph{même} tribu (comme la chanson).
+    On définit fréquemment deux tribus différentes sur $\mathbb{R}^{d}$ : la tribu borélienne et la tribu de Lebesgue, tribu complétée de la tribu borélienne pour la mesure de Lebesgue $\mathcal{M}(\lambda) = \left\{A \subset \mathbb{R}^{d}, \exists B_{1}, B_{2} \in \mathcal{B}(\mathbb{R}^{d}), B_1 \subset A \subset B_2 \text{ et } \lambda(B_2 \setminus B_1) = 0 \right\}$
+    et on a : $B(\mathbb{R}^{d}) \subsetneq \mathcal{M}(\lambda)$. Dans certains livres : $f$ est mesurable si $f : \left(\mathbb{R}, \mathcal{M}(\lambda)\right) \rightarrow \left(\mathbb{R}, \mathcal{B}(\mathbb{R})\right)$ est mesurable.
+\end{remark}
+\begin{proposition}
+    Pour que $f$ soit mesurable, il suffit qu'il existe une sous-classe engendrant $\mathcal{B}$ pour laquelle la propriété est vraie.
+\end{proposition}
+\begin{corollary}
+    Si $f : \mathbb{R}^{d_1} \rightarrow\mathbb{R}^{d_2}$ est continue, elle est mesurable pour les boréliens.
+\end{corollary}
+\begin{corollary}
+    Une application produit est mesurable.
+\end{corollary}
+\begin{proof}
+    On a : $A_{1} \bigotimes A_{2} = \sigma\left(A_{1} \times A_{2}\right)$
+\end{proof}
+\begin{lemma}
+    Les applications $(+) (\times) (\max) (\min)$ de deux fonctions réelles sont mesurables
+\end{lemma}
+\begin{corollary}
+    Les parties positives et négatives d'une fonction sont mesurables
+\end{corollary}
+\begin{proposition}
+    Si les $f_n$ sont mesurables de $E$ dans $\overline{\mathbb{R}}$ alors : $\sup_n f_n, \inf_n f_n, \liminf f_n, \limsup f_n$ sont mesurables.
+    En particulier : $\lim_n f_n$ est mesurable si la suite CS.
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item Si $f(x) = \inf f_{n}(x)$ : $f^{-1}\left[-\infty, a\right[ = \bigcup_{n} \left\{x \mid f_{n}(x) < a\right\}$. De même pour $\sup$. On en déduit immédiatement $\liminf f_n = \sup_{n \geq 0} \inf_{k \geq n} f_{k}$.
+        \item On a : $\left\{x\in E\mid \lim f_{n}(x) \text{ existe}\right\} = \left\{x \in E \mid \liminf f_{n}(x) = \limsup f_{n}(x)\right\} = \mathcal{G}^{-1}(\Delta)$ où $\mathcal{G} = (\liminf f_{n}, \limsup f_{n})$ et $\Delta$ est la diagonale de $\overline{\mathbb{R}}^{2}$.
+    \end{enumerate}
+\end{proof}
+\begin{definition}[Mesure-Image]
+    On appelle mesure image de $\mu$ par $f$, notée $f_{\#}\mu$ la mesure $f_{\#}\mu(B) = \mu(f^{-1}(B))$
+\end{definition}
 
-    \begin{lemma}
-        Si $\mathcal{M}$ est une classe monotone stable par intersections finies, c'est une tribu.
-    \end{lemma}
-    \begin{definition}
-        Si $\mathcal{C} \subset \mathcal{P}(E)$ : $\mathcal{M}(\mathcal{C}) = \bigcap\limits_{\mathcal{M} \text{classe monotone, } \mathcal{C}\subset\mathcal{M}}$
-    \end{definition}
-    \begin{theorem}[Lemme de Classe Monotone]
-        Si $\mathcal{C} \subset \mathcal{P}(E)$ est stable par intersections finies : $\mathcal{M}(\mathcal{C}) = \sigma{\left(\mathcal{C}\right)}$
-    \end{theorem}
-    \begin{remark}
-        Les classes monotones sont des outils plus maniables que les tribus et se marient mieux avec les propriétés des mesures. Le théorème fait le lien entre tribus et classes monotones, ce qui facilite la vie avec les mesures. 
-    \end{remark}
-    \begin{proof}
-        Point Méthodologique : ne pas essayer d'exprimer des éléments de $\mathcal{C}$. T'façon les preuves constructives, c'est pour les salopes. 
-    \end{proof}
-    \begin{remark}
-        On peut en déduire l'unicité de la mesure de Lebesgue. C'est une conséquence du théorème suivant.
-    \end{remark} 
-    \begin{theorem}
-        Soit $\mathcal{C}$ stable par intersections telle que $\sigma{\mathcal{C}} = \mathcal{A}$.
-        On suppose $\mu_{1}(A) = \mu_{2}(A), \forall A \in \mathcal{C}$
-        Alors : \begin{enumerate}\item $\mu p.p.$, l'application $u \mapsto f(u, x)$ est continue en $u_{0}$
-            \item Si $\mu_{1}(E) = \mu_{2}(E) < +\infty$ alors $\mu_{1} = \mu_{2}$
-            \item S'il existe $(E_n) \in \mathcal{A}^{\mathbb{N}}$ croissante d'union $E$ et de mesures égales et finies par $\mu_{1}$ et $\mu_{2}$ alors $\mu_{1} = \mu_{2}$
-        \end{enumerate}
-    \end{theorem}
-    \begin{proof}
-        \begin{enumerate}
-            \item Cas fini : $\mathcal{M} = \left\{A \in \mathcal{A} \mid \mu_{1}(A) = \mu_{2}(A)\right\}$ est une classe monotone. Donc $\mathcal{M} = \mathcal{A}$ par Lemme de Classe Monotone
-            \item Cas Infini : On applique le cas fini à $E_{n}$ en prenant la restriction. Par continuité croissante, on obtient bien le résultat. 
-        \end{enumerate}
-    \end{proof}
-    
+\subsection{Classe Monotone}
+\begin{definition}[Classe Monotone]
+    $\mathcal{M} \in \mathcal{P}(E)$ est une classe monotone si :
+    \begin{enumerate}
+        \item $E\in \mathcal{M}$
+        \item Si $A, B \in \mathcal{M}$ avec $A\subset B$, $B \setminus A \in \mathcal{M}$
+        \item Si $(A_{n}) \in \mathcal{M}^{\mathbb{N}}$ croissante, $\bigcup\limits_{n\in\mathbb{N}} A_{n} \in \mathcal{M}$
+    \end{enumerate}
+\end{definition}
+
+\begin{remark}
+    Toute tribu est une classe monotone
+\end{remark}
+
+\begin{lemma}
+    Si $\mathcal{M}$ est une classe monotone stable par intersections finies, c'est une tribu.
+\end{lemma}
+\begin{definition}
+    Si $\mathcal{C} \subset \mathcal{P}(E)$ : $\mathcal{M}(\mathcal{C}) = \bigcap\limits_{\mathcal{M} \text{classe monotone, } \mathcal{C}\subset\mathcal{M}}$
+\end{definition}
+\begin{theorem}[Lemme de Classe Monotone]
+    Si $\mathcal{C} \subset \mathcal{P}(E)$ est stable par intersections finies : $\mathcal{M}(\mathcal{C}) = \sigma{\left(\mathcal{C}\right)}$
+\end{theorem}
+\begin{remark}
+    Les classes monotones sont des outils plus maniables que les tribus et se marient mieux avec les propriétés des mesures. Le théorème fait le lien entre tribus et classes monotones, ce qui facilite la vie avec les mesures.
+\end{remark}
+\begin{proof}
+    Point Méthodologique : ne pas essayer d'exprimer des éléments de $\mathcal{C}$. T'façon les preuves constructives, c'est pour les salopes.
+\end{proof}
+\begin{remark}
+    On peut en déduire l'unicité de la mesure de Lebesgue. C'est une conséquence du théorème suivant.
+\end{remark}
+\begin{theorem}
+    Soit $\mathcal{C}$ stable par intersections telle que $\sigma{\mathcal{C}} = \mathcal{A}$.
+    On suppose $\mu_{1}(A) = \mu_{2}(A), \forall A \in \mathcal{C}$
+    Alors : \begin{enumerate}\item $\mu p.p.$, l'application $u \mapsto f(u, x)$ est continue en $u_{0}$
+        \item Si $\mu_{1}(E) = \mu_{2}(E) < +\infty$ alors $\mu_{1} = \mu_{2}$
+        \item S'il existe $(E_n) \in \mathcal{A}^{\mathbb{N}}$ croissante d'union $E$ et de mesures égales et finies par $\mu_{1}$ et $\mu_{2}$ alors $\mu_{1} = \mu_{2}$
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item Cas fini : $\mathcal{M} = \left\{A \in \mathcal{A} \mid \mu_{1}(A) = \mu_{2}(A)\right\}$ est une classe monotone. Donc $\mathcal{M} = \mathcal{A}$ par Lemme de Classe Monotone
+        \item Cas Infini : On applique le cas fini à $E_{n}$ en prenant la restriction. Par continuité croissante, on obtient bien le résultat.
+    \end{enumerate}
+\end{proof}
+
 \section{Intégration par rapport à une mesure}
-    \subsection{Intégration Positive}
-    \begin{definition}
-        $f$ mesurable à valeurs réelles est étagée si elle prend un nombre fini de valeurs. 
-    \end{definition}
-    \begin{remark}
-        \begin{enumerate}
-            \item Les Fonctions en escalier sur un intervalle sont étagées
-            \item L'indicatrice d'un ensemble est étagée, en particulier : $1_{\mathbb{Q}}$ est étagée.
-        \end{enumerate}
-    \end{remark}
-    \begin{definition}
-        Si $f$ est étagée, et prend les valeurs : $\alpha_{1} < \ldots < \alpha_{n}$, l'écriture canonique de $f$ est, avec $A_{i} = f^{-1}(\left\{\alpha_{i}\right\})$ : 
-        $f =  \sum\limits_{i}^{n} \alpha_{i}1_{A_{i}}$\\
-        Pour $f$ mesurable, on pose alors : $\int f \mathrm{d}\mu = \sup\limits_{h \in \mathcal{E}, h \leq f} g \mathrm{d}\mu$
-    \end{definition}
-    \begin{proposition}
-        L'intégrale est une forme linéaire monotone i.e. l'intégrale d'une fonction positive est positive. Ceci s'étend aux fonctions intégrables.
-    \end{proposition}
-    \begin{theorem}[De Convergence Monotone]\label{TCM}
-        Si $f_{n}$ est croissante positive et tend vers $f$ :
-        \[
-            \int f \mathrm{d}\mu = \lim_{n\to \infty} \uparrow \int f_{n} \mathrm{d} \mu
-        \]
-    \end{theorem}
-    \begin{proof}
-        Par croissance : \[ \int f \mathrm{d}\mu \geq \lim_{n \to \infty}\uparrow \int f_{n} \mathrm{d}\mu.\]
-        Il suffit donc d'établir l'autre inégalité : soit $h = \sum \alpha_{i}\mathds{1}_{A_{i}}$ étagée positive inférieure à $f$. Soit $a \in [0, 1[$. On pose: \[E_{n} =\left\{x \in E \mid ah(x) \leq f_{n}(x)\right\}\]
-        Les $E_{n}$ sont mesurables et, puisque $a < 1$ et $f = \lim \uparrow f_{n}$, $E = \bigcup \uparrow E_{n}$.\\
-        Comme $f_{n} \geq a\mathds{1}_{E_{n}}h$, \[\int f_{n} \mathrm{d}\mu \geq \int \mathds{1}_{E_{n}}h = a \sum \alpha_{i}\mu(A_{i}\cap E_{n})\]
-        En passant à la limite croissante, comme $A_{i} \cap E_{n} \uparrow A_{i}$, puis en faisant tendre $a$ vers 1 on trouve le résultat. 
-    \end{proof}
+\subsection{Intégration Positive}
+\begin{definition}
+    $f$ mesurable à valeurs réelles est étagée si elle prend un nombre fini de valeurs.
+\end{definition}
+\begin{remark}
+    \begin{enumerate}
+        \item Les Fonctions en escalier sur un intervalle sont étagées
+        \item L'indicatrice d'un ensemble est étagée, en particulier : $1_{\mathbb{Q}}$ est étagée.
+    \end{enumerate}
+\end{remark}
+\begin{definition}
+    Si $f$ est étagée, et prend les valeurs : $\alpha_{1} < \ldots < \alpha_{n}$, l'écriture canonique de $f$ est, avec $A_{i} = f^{-1}(\left\{\alpha_{i}\right\})$ :
+    $f =  \sum\limits_{i}^{n} \alpha_{i}1_{A_{i}}$\\
+    Pour $f$ mesurable, on pose alors : $\int f \mathrm{d}\mu = \sup\limits_{h \in \mathcal{E}, h \leq f} g \mathrm{d}\mu$
+\end{definition}
+\begin{proposition}
+    L'intégrale est une forme linéaire monotone i.e. l'intégrale d'une fonction positive est positive. Ceci s'étend aux fonctions intégrables.
+\end{proposition}
+\begin{theorem}[De Convergence Monotone]\label{TCM}
+    Si $f_{n}$ est croissante positive et tend vers $f$ :
+    \[
+        \int f \mathrm{d}\mu = \lim_{n\to \infty} \uparrow \int f_{n} \mathrm{d} \mu
+    \]
+\end{theorem}
+\begin{proof}
+    Par croissance : \[ \int f \mathrm{d}\mu \geq \lim_{n \to \infty}\uparrow \int f_{n} \mathrm{d}\mu.\]
+    Il suffit donc d'établir l'autre inégalité : soit $h = \sum \alpha_{i}\mathds{1}_{A_{i}}$ étagée positive inférieure à $f$. Soit $a \in [0, 1[$. On pose: \[E_{n} =\left\{x \in E \mid ah(x) \leq f_{n}(x)\right\}\]
+    Les $E_{n}$ sont mesurables et, puisque $a < 1$ et $f = \lim \uparrow f_{n}$, $E = \bigcup \uparrow E_{n}$.\\
+    Comme $f_{n} \geq a\mathds{1}_{E_{n}}h$, \[\int f_{n} \mathrm{d}\mu \geq \int \mathds{1}_{E_{n}}h = a \sum \alpha_{i}\mu(A_{i}\cap E_{n})\]
+    En passant à la limite croissante, comme $A_{i} \cap E_{n} \uparrow A_{i}$, puis en faisant tendre $a$ vers 1 on trouve le résultat.
+\end{proof}
 
-    \begin{theorem}
-        Soit $f$ mesurable positive. Il existe une suite croissante de fonctions étagées positives de limite $f$.
-    \end{theorem}
-    \begin{corollary}
-        Si les $f_{n}$ sont positives : \[
-          \sum_{n} \int f_{n} \mathrm{d}\mu = \int f_{n} \sum_{n }\mathrm{d}\mu
-        \]
-    \end{corollary}
-    \begin{theorem}[Lemme de Fatou]
-        Si les $f_{n}$ sont mesurables positives: 
-        \[
-            \int \liminf f_{n} \mathrm{d}\mu \leq \liminf \int f_{n} \mathrm{d}\mu
-        \]
-    \end{theorem}
+\begin{theorem}
+    Soit $f$ mesurable positive. Il existe une suite croissante de fonctions étagées positives de limite $f$.
+\end{theorem}
+\begin{corollary}
+    Si les $f_{n}$ sont positives : \[
+        \sum_{n} \int f_{n} \mathrm{d}\mu = \int f_{n} \sum_{n }\mathrm{d}\mu
+    \]
+\end{corollary}
+\begin{theorem}[Lemme de Fatou]
+    Si les $f_{n}$ sont mesurables positives:
+    \[
+        \int \liminf f_{n} \mathrm{d}\mu \leq \liminf \int f_{n} \mathrm{d}\mu
+    \]
+\end{theorem}
 
-    \begin{proof}
-        On a : \[
-            \liminf f_{n} = \lim_{k \to \infty} (\inf_{n \geq k} f_{n})        \]
-        Donc, par théorème de convergence monotone \ref{TCM} : \[
-            \int \liminf f_{n} \mathrm{d}\mu = \lim_{k \to \infty} \int \left(\inf_{n \geq k} f_{n}\right) \mathrm{d}\mu
-        \]
-        Par ailleurs, si $p \geq k$, on a : $\inf\limits_{n \geq k} f_{n} \leq f_{p}$, d'où : \[
-            \int \left(\inf_{n \geq k} f_{n}\right) \mathrm{d}\mu \leq \inf_{p\geq k} \int f_{p} \mathrm{d}\mu
-        \]
-        En passant à la limite croissante quand $k \to \infty$, on a : \[   
-            \lim_{k \to \infty} \int \left(\inf_{n \geq k} f_{n}\right)\mathrm{d}\mu \leq \lim_{k \to \infty} \inf_{p \geq k} \int f_{p} \mathrm{d}\mu = \liminf \int f_{n} \mathrm{d}\mu
-        \]
-        ce qui conclut.
-    \end{proof}
+\begin{proof}
+    On a : \[
+        \liminf f_{n} = \lim_{k \to \infty} (\inf_{n \geq k} f_{n})        \]
+    Donc, par théorème de convergence monotone \ref{TCM} : \[
+        \int \liminf f_{n} \mathrm{d}\mu = \lim_{k \to \infty} \int \left(\inf_{n \geq k} f_{n}\right) \mathrm{d}\mu
+    \]
+    Par ailleurs, si $p \geq k$, on a : $\inf\limits_{n \geq k} f_{n} \leq f_{p}$, d'où : \[
+        \int \left(\inf_{n \geq k} f_{n}\right) \mathrm{d}\mu \leq \inf_{p\geq k} \int f_{p} \mathrm{d}\mu
+    \]
+    En passant à la limite croissante quand $k \to \infty$, on a : \[
+        \lim_{k \to \infty} \int \left(\inf_{n \geq k} f_{n}\right)\mathrm{d}\mu \leq \lim_{k \to \infty} \inf_{p \geq k} \int f_{p} \mathrm{d}\mu = \liminf \int f_{n} \mathrm{d}\mu
+    \]
+    ce qui conclut.
+\end{proof}
 
-    \begin{proposition}
-        Soit $f$ mesurable positive :
-        \begin{itemize}
-            \item $\forall a > 0, \mu \left(\left\{x \in E \mid f(x) \geq a\right\}\right) \leq \frac{1}{a}\int f \mathrm{d} \mu$ [Inégalité de Markov]
-            \item $\int f \mathrm{d}\mu < \infty \Rightarrow f < \infty p.p.$
-            \item $\int f \mathrm{d}\mu \Leftrightarrow f = 0 p.p.$
-            \item $f = g p.p. \Rightarrow \int f \mathrm{d}\mu = \int g \mathrm{d}\mu$
-        \end{itemize}
-        On peut généraliser cette dernière proposition aux fonctions intégrables.
-    \end{proposition}
+\begin{proposition}
+    Soit $f$ mesurable positive :
+    \begin{itemize}
+        \item $\forall a > 0, \mu \left(\left\{x \in E \mid f(x) \geq a\right\}\right) \leq \frac{1}{a}\int f \mathrm{d} \mu$ [Inégalité de Markov]
+        \item $\int f \mathrm{d}\mu < \infty \Rightarrow f < \infty p.p.$
+        \item $\int f \mathrm{d}\mu \Leftrightarrow f = 0 p.p.$
+        \item $f = g p.p. \Rightarrow \int f \mathrm{d}\mu = \int g \mathrm{d}\mu$
+    \end{itemize}
+    On peut généraliser cette dernière proposition aux fonctions intégrables.
+\end{proposition}
 
-    \subsection{Fonctions Intégrables}
-    \begin{definition}
-        On dit qu'une fonction est intégrable si l'intégrale de sa norme est finie. En ce cas, l'intégrale de la fonction est la somme des intégrales de ses fonctions composantes.
-    \end{definition}
-    \begin{theorem}
-        L'intégrale vérifie l'inégalité triangulaire : Soit $f$ intégrable
-        \[
-            \int \abs{f} \mathrm{d}\mu \geq \abs{\int f \mathrm{d}\mu}
-        \]
-    \end{theorem}
-    \begin{proof}
-        Ecrire $\abs{z}^{2} = z\overline{z}$ pour $z$ l'intégrale de $f$. En notant $a$ le conjugué de $z$, on a le résultat.
-    \end{proof}
+\subsection{Fonctions Intégrables}
+\begin{definition}
+    On dit qu'une fonction est intégrable si l'intégrale de sa norme est finie. En ce cas, l'intégrale de la fonction est la somme des intégrales de ses fonctions composantes.
+\end{definition}
+\begin{theorem}
+    L'intégrale vérifie l'inégalité triangulaire : Soit $f$ intégrable
+    \[
+        \int \abs{f} \mathrm{d}\mu \geq \abs{\int f \mathrm{d}\mu}
+    \]
+\end{theorem}
+\begin{proof}
+    Ecrire $\abs{z}^{2} = z\overline{z}$ pour $z$ l'intégrale de $f$. En notant $a$ le conjugué de $z$, on a le résultat.
+\end{proof}
 
-    \begin{theorem}[De Convergence Dominée]\label{TCD}
-        Soit $f_{n}$ une suite de fonctions mesurables à valeurs dans $\R$ ou $\C$. On suppose :
-        \begin{enumerate}
-            \item Il existe $f$ mesurable telle que $f_{n}(x) \to f(x) \mu p.p.$
-            \item Il existe $g$ telle que $\abs{f_{n}(x)} \leq g(x) \mu p.p.$
-        \end{enumerate}
-        Alors : 
-        \[
-            \lim_{n\to \infty} \int \abs{f_{n}(x) - f(x)} \mu(\mathrm{d}x) = 0
-        \]
-        et 
-        \[
-            \lim_{n \to \infty} \int f_{n} \mathrm{d}\mu = \int f \mathrm{d}\mu   
-        \]
-    \end{theorem}
+\begin{theorem}[De Convergence Dominée]\label{TCD}
+    Soit $f_{n}$ une suite de fonctions mesurables à valeurs dans $\R$ ou $\C$. On suppose :
+    \begin{enumerate}
+        \item Il existe $f$ mesurable telle que $f_{n}(x) \to f(x) \mu p.p.$
+        \item Il existe $g$ telle que $\abs{f_{n}(x)} \leq g(x) \mu p.p.$
+    \end{enumerate}
+    Alors :
+    \[
+        \lim_{n\to \infty} \int \abs{f_{n}(x) - f(x)} \mu(\mathrm{d}x) = 0
+    \]
+    et
+    \[
+        \lim_{n \to \infty} \int f_{n} \mathrm{d}\mu = \int f \mathrm{d}\mu
+    \]
+\end{theorem}
 
-    \begin{proof}
-        \begin{enumerate}
-            \item On suppose dans un premier temps que les hypothèses $(1)$ et $(2)$ sont vérifiées sur tout l'ensemble. On remarque $\abs{f} \leq g$ donc $f$ est intégrable. \\
-            Ensuite, puisque par inégalité triangulaire, $\abs{f - f_{n}} \leq 2g$ et $\abs{f - f_{n}} \to 0$, par lemme de Fatou : 
-            \[
-                \liminf \int \left(2g - \abs{f - f_{n}}\right) \mathrm{d}\mu \geq \int \liminf \left(2g - \abs{f - f_{n}}\right) \mathrm{d}\mu = 2 \int g \mathrm{d}\mu.
-            \]
-            Par linéarité, comme $\liminf -u_{n} = -\limsup u_{n}$ : 
-            \[
-                2 \int g \mathrm{d}\mu - \limsup \int \abs{f - f_{n}} \mathrm{d}\mu \geq 2 \int g \mathrm{d}\mu
-            \]
-            D'où, $\int \abs{f - f_{n}} \mathrm{d}\mu \to 0$. Par inégalité triangulaire: 
-            \[
-                \abs{\int f \mathrm{d}\mu - \int f_{n}\mathrm{d}\mu} \leq \int \abs{f - f_{n}} \mathrm{d}\mu
-            \]
-            \item Dans le cas général, on suppose cette fois ci $(1)$ et $(2)$. On pose alors : 
-            \[
-                A = \left\{x \in E \mid f_{n}(x) \to f(x) \text{ et pour tout n } \abs{f_{n}(x)}\leq g(x)\right\}.
-            \]
-            Par hypothèses, $\mu\left(A^{\complement}\right) = 0$ et par la première partie de la preuve appliquée à : 
-            \[
-                \tilde{f}_{n}(x) = \mathds{1}_{A}(x)f_{n}(x),  \tilde{f}(x) = \mathds{1}_{A}(x)f(x)
-            \]
-            Comme $f = \tilde{f} p.p.$ et $f_{n} = \tilde{f}_{n} p.p.$, on a bien le résultat par la première partie de la preuve. 
-        \end{enumerate}
-    \end{proof}
-    
-    \subsection{Intégrales dépendant d'un Paramètre}
-    Principe : Utiliser le TCD pour montrer des propriétés de régularité.
-    \begin{remark}[Exemples d'utilisation]
-        \begin{itemize}
-            \item Pour $f$ intégrable à variables dans $\R^{d}$, on définit la transformée de fourier $\hat{f}$ par : \[   
-                \hat{f}(\xi) = \int_{\R^{d}} \exp{\left(-\xi \cdot x\right)}f(x)\mathrm{d}x\]
-            \item Soit $f$ intégrable à variables dans $\R^{d}$, $g$ continue bornée à variables dans $\R^{d}$. On définit la convolée de $f$ et $g$ par : 
-            \[f \star g : x \mapsto \int_{\R^{d}} f(y)g(x - y)\mathrm{d}y \]
-        \end{itemize}
-    \end{remark}  
+\begin{proof}
+    \begin{enumerate}
+        \item On suppose dans un premier temps que les hypothèses $(1)$ et $(2)$ sont vérifiées sur tout l'ensemble. On remarque $\abs{f} \leq g$ donc $f$ est intégrable. \\
+              Ensuite, puisque par inégalité triangulaire, $\abs{f - f_{n}} \leq 2g$ et $\abs{f - f_{n}} \to 0$, par lemme de Fatou :
+              \[
+                  \liminf \int \left(2g - \abs{f - f_{n}}\right) \mathrm{d}\mu \geq \int \liminf \left(2g - \abs{f - f_{n}}\right) \mathrm{d}\mu = 2 \int g \mathrm{d}\mu.
+              \]
+              Par linéarité, comme $\liminf -u_{n} = -\limsup u_{n}$ :
+              \[
+                  2 \int g \mathrm{d}\mu - \limsup \int \abs{f - f_{n}} \mathrm{d}\mu \geq 2 \int g \mathrm{d}\mu
+              \]
+              D'où, $\int \abs{f - f_{n}} \mathrm{d}\mu \to 0$. Par inégalité triangulaire:
+              \[
+                  \abs{\int f \mathrm{d}\mu - \int f_{n}\mathrm{d}\mu} \leq \int \abs{f - f_{n}} \mathrm{d}\mu
+              \]
+        \item Dans le cas général, on suppose cette fois ci $(1)$ et $(2)$. On pose alors :
+              \[
+                  A = \left\{x \in E \mid f_{n}(x) \to f(x) \text{ et pour tout n } \abs{f_{n}(x)}\leq g(x)\right\}.
+              \]
+              Par hypothèses, $\mu\left(A^{\complement}\right) = 0$ et par la première partie de la preuve appliquée à :
+              \[
+                  \tilde{f}_{n}(x) = \mathds{1}_{A}(x)f_{n}(x),  \tilde{f}(x) = \mathds{1}_{A}(x)f(x)
+              \]
+              Comme $f = \tilde{f} p.p.$ et $f_{n} = \tilde{f}_{n} p.p.$, on a bien le résultat par la première partie de la preuve.
+    \end{enumerate}
+\end{proof}
 
-    \begin{theorem}[De Continuité sous l'intégrale]
-        Soit $U$ un ouvert de $\R^{d}$, $u_0 \in U$. Soit $f : U \times E \to \R$ vérifiant : \begin{enumerate}
-            \item $\forall u \in U$, l'application $x \in E \mapsto f(u, x)$ est mesurable.
-            \item \item $\mu p.p.$, l'application $u \mapsto f(u, x)$ est continue en $u_{0}$
-            \item Il existe une application $g : E \to \left[0, +\infty\right[$, intégrable telle \[\forall u \in U, \mu p.p., \abs{f(u, x)} \leq g(x)\]
-            
-        \end{enumerate}
-        Alors, $F(u) = \int f(u, x) \mu(\mathrm{d}x)$ est bien définie et est continue en $u_{0}$.
-    \end{theorem}
-    \begin{proof}
-        Par l'hypothèse $(iii.)$, $F$ est bien définie.\\
-        Soit $(u_{n})$ une suite de limite $u_{0}$. Par $(ii.)$, $f(u_{n}, x) \to_{n\to \infty} f(u_{0}, x), \mu p.p.$. Par $(iii.)$, on peut appliquer le théorème de convergence dominée \ref{TCD}, ce qui donne le résultat par caractérisation séquentielle de la limite. 
-    \end{proof}
-    \begin{corollary}
-        Les fonctions définies en exemple sont continues.
-    \end{corollary}
+\subsection{Intégrales dépendant d'un Paramètre}
+Principe : Utiliser le TCD pour montrer des propriétés de régularité.
+\begin{remark}[Exemples d'utilisation]
+    \begin{itemize}
+        \item Pour $f$ intégrable à variables dans $\R^{d}$, on définit la transformée de fourier $\hat{f}$ par : \[
+                  \hat{f}(\xi) = \int_{\R^{d}} \exp{\left(-\xi \cdot x\right)}f(x)\mathrm{d}x\]
+        \item Soit $f$ intégrable à variables dans $\R^{d}$, $g$ continue bornée à variables dans $\R^{d}$. On définit la convolée de $f$ et $g$ par :
+              \[f \star g : x \mapsto \int_{\R^{d}} f(y)g(x - y)\mathrm{d}y \]
+    \end{itemize}
+\end{remark}
 
-    \begin{theorem}[De Dérivation sous l'intégrale]
-        Soit $U$ un ouvert de $\R$, $u_0 \in U$. Soit $f : U \times E \to \R$ vérifiant : \begin{enumerate}
-            \item $\forall u \in U$, $x \mapsto f(u, x)$ est mesurable
-            \item $\mu p.p.$, $u \mapsto f(u, x)$ est dérivable en $u_{0}$ 
-            \item il existe $g$ positive intégrable, telle que $\mu p.p.$ : \[\forall u \in U, \abs{f(u, x) - f(u_{0}, x)} \leq g(x)\abs{u - u_{0}}\]
-        \end{enumerate}
-        Alors : \[F(u) = \int f(u, x) \mu(\mathrm{d}x) \text{ est dérivable et } F^{'}(u_{0}) = \int \frac{\partial f}{\partial u}(u_{0}, x)\mu(\mathrm{d}x)\]
-    \end{theorem}
-    \begin{proof}
-        On applique le TCD \ref{TCD} à $\phi_{n}(x) = \frac{f(u_{n}, x) - f(u_{0}, x)}{u_{n} - u_{0}}$ où $u_{n} \to u_{0}$.
-    \end{proof}
-    \begin{corollary}
-        En choisissant pour la transformée de fourier des fonctions dont les premiers moments sont intégrables, on gagne en régularité. En particulier, si une fonction est à support compact, sa transformée de fourier est indéfiniment dérivable. 
-    \end{corollary}
+\begin{theorem}[De Continuité sous l'intégrale]
+    Soit $U$ un ouvert de $\R^{d}$, $u_0 \in U$. Soit $f : U \times E \to \R$ vérifiant : \begin{enumerate}
+        \item $\forall u \in U$, l'application $x \in E \mapsto f(u, x)$ est mesurable.
+        \item \item $\mu p.p.$, l'application $u \mapsto f(u, x)$ est continue en $u_{0}$
+        \item Il existe une application $g : E \to \left[0, +\infty\right[$, intégrable telle \[\forall u \in U, \mu p.p., \abs{f(u, x)} \leq g(x)\]
 
-    \section{Mesures Produits}
-        On se donne $(E_{1}, \mathcal{A}_{1}, \mu_{1})$ et $(E_{2}, \mathcal{A}_{2}, \mu_{2})$, et on veut :
-        \begin{enumerate}
-            \item Définir une mesure produit sur $\left(E_{1} \times E_{2}, \mathcal{A}_{1} \bigotimes \mathcal{A}_{2}\right)$
-            \item Démontrer les théorèmes de Fubini sur la mesure ainsi définie. 
-        \end{enumerate}
-        \subsection{Préliminaires}
-        \begin{definition}
-            Soit $C \in \mathcal{A}_{1} \bigotimes \mathcal{A}_{2}, x_{1} \in E_{1}, x_{2} \in E_{2}$. On note : 
-            \[
-                \begin{aligned}
-                    C_{x_{1}} &= \left\{y \in E_{2}\mid (x_{1}, y) \in C\right\}\\
-                    C_{x_{2}} &= \left\{y \in E_{1}\mid (y, x_{2}) \in C\right\}\\
-                \end{aligned}
-            \]
-            On définit par ailleurs, si $f : \left(E_{1} \times E_{2}, \mathcal{A}_{1} \bigotimes \mathcal{A}_{2}\right) \to \left(\R, \mathcal{B}(\R)\right)$, les applications partielles $f_{x_{1}}$ et $f^{x_{2}}$.
-        \end{definition}
-        \begin{lemma}
-            \begin{itemize}
-                \item $\forall C \in \mathcal{A}_{1} \bigotimes \mathcal{A}_{2}, x_{1} \in E_{1}, x_{2} \in E_{2}$, $C_{x_{1}} \in A_{2}$ et $C^{x_{2}} \in A_{1}$
-                \item $f_{x_{1}}$ et $f^{x_{2}}$ sont mesurables.
-            \end{itemize}
-        \end{lemma}
-        \begin{proof}
-            \begin{itemize}
-                \item On introduit la classe des $C_{x_{1}}$ pour $x_{1} \in E_{1}$. Cette classe contient les pavés et est une tribu, i.e. $\mathcal{C} = \A \bigotimes \mathcal{B}$.
-                \item Pour toute partie mesurable $D$ de $\R$, \[f_{x_{1}}^{-1}\left(D\right) = \left\{x_{2} \in E_{2}\mid \left(x_{1}, x_{2}\right)\in f^{-1}\left(D\right)\right\} = \left(f^{-1}(D)\right)_{x_{1}}\]
-            \end{itemize}
-        \end{proof}
+    \end{enumerate}
+    Alors, $F(u) = \int f(u, x) \mu(\mathrm{d}x)$ est bien définie et est continue en $u_{0}$.
+\end{theorem}
+\begin{proof}
+    Par l'hypothèse $(iii.)$, $F$ est bien définie.\\
+    Soit $(u_{n})$ une suite de limite $u_{0}$. Par $(ii.)$, $f(u_{n}, x) \to_{n\to \infty} f(u_{0}, x), \mu p.p.$. Par $(iii.)$, on peut appliquer le théorème de convergence dominée \ref{TCD}, ce qui donne le résultat par caractérisation séquentielle de la limite.
+\end{proof}
+\begin{corollary}
+    Les fonctions définies en exemple sont continues.
+\end{corollary}
+
+\begin{theorem}[De Dérivation sous l'intégrale]
+    Soit $U$ un ouvert de $\R$, $u_0 \in U$. Soit $f : U \times E \to \R$ vérifiant : \begin{enumerate}
+        \item $\forall u \in U$, $x \mapsto f(u, x)$ est mesurable
+        \item $\mu p.p.$, $u \mapsto f(u, x)$ est dérivable en $u_{0}$
+        \item il existe $g$ positive intégrable, telle que $\mu p.p.$ : \[\forall u \in U, \abs{f(u, x) - f(u_{0}, x)} \leq g(x)\abs{u - u_{0}}\]
+    \end{enumerate}
+    Alors : \[F(u) = \int f(u, x) \mu(\mathrm{d}x) \text{ est dérivable et } F^{'}(u_{0}) = \int \frac{\partial f}{\partial u}(u_{0}, x)\mu(\mathrm{d}x)\]
+\end{theorem}
+\begin{proof}
+    On applique le TCD \ref{TCD} à $\phi_{n}(x) = \frac{f(u_{n}, x) - f(u_{0}, x)}{u_{n} - u_{0}}$ où $u_{n} \to u_{0}$.
+\end{proof}
+\begin{corollary}
+    En choisissant pour la transformée de fourier des fonctions dont les premiers moments sont intégrables, on gagne en régularité. En particulier, si une fonction est à support compact, sa transformée de fourier est indéfiniment dérivable.
+\end{corollary}
+
+\section{Mesures Produits}
+On se donne $(E_{1}, \mathcal{A}_{1}, \mu_{1})$ et $(E_{2}, \mathcal{A}_{2}, \mu_{2})$, et on veut :
+\begin{enumerate}
+    \item Définir une mesure produit sur $\left(E_{1} \times E_{2}, \mathcal{A}_{1} \bigotimes \mathcal{A}_{2}\right)$
+    \item Démontrer les théorèmes de Fubini sur la mesure ainsi définie.
+\end{enumerate}
+\subsection{Préliminaires}
+\begin{definition}
+    Soit $C \in \mathcal{A}_{1} \bigotimes \mathcal{A}_{2}, x_{1} \in E_{1}, x_{2} \in E_{2}$. On note :
+    \[
+        \begin{aligned}
+            C_{x_{1}} & = \left\{y \in E_{2}\mid (x_{1}, y) \in C\right\} \\
+            C_{x_{2}} & = \left\{y \in E_{1}\mid (y, x_{2}) \in C\right\} \\
+        \end{aligned}
+    \]
+    On définit par ailleurs, si $f : \left(E_{1} \times E_{2}, \mathcal{A}_{1} \bigotimes \mathcal{A}_{2}\right) \to \left(\R, \mathcal{B}(\R)\right)$, les applications partielles $f_{x_{1}}$ et $f^{x_{2}}$.
+\end{definition}
+\begin{lemma}
+    \begin{itemize}
+        \item $\forall C \in \mathcal{A}_{1} \bigotimes \mathcal{A}_{2}, x_{1} \in E_{1}, x_{2} \in E_{2}$, $C_{x_{1}} \in A_{2}$ et $C^{x_{2}} \in A_{1}$
+        \item $f_{x_{1}}$ et $f^{x_{2}}$ sont mesurables.
+    \end{itemize}
+\end{lemma}
+\begin{proof}
+    \begin{itemize}
+        \item On introduit la classe des $C_{x_{1}}$ pour $x_{1} \in E_{1}$. Cette classe contient les pavés et est une tribu, i.e. $\mathcal{C} = \A \bigotimes \mathcal{B}$.
+        \item Pour toute partie mesurable $D$ de $\R$, \[f_{x_{1}}^{-1}\left(D\right) = \left\{x_{2} \in E_{2}\mid \left(x_{1}, x_{2}\right)\in f^{-1}\left(D\right)\right\} = \left(f^{-1}(D)\right)_{x_{1}}\]
+    \end{itemize}
+\end{proof}
 
 
-        \subsection{Construction de la mesure-produit.}
-        \begin{theorem}
-            \begin{enumerate}
-                \item Il existe une unique mesure $m$ sur $\left(E_{1} \times E_{2}, \mathcal{A}_{1} \bigotimes \mathcal{A}_{2}\right)$ telle que : 
-                \[
-                    \forall A \in \A_{1}, \ \forall A_{2} \in \A_{2}, \ m\left(A_{1} \times A_{2}\right) = \mu_{1}\left(A_{1}\right)\mu_{2}\left(A_{2}\right)
-                \]
-                Cette mesure est $\sigma$-finie et notée $m = \mu_{1} \otimes \nu$
-                \item Pour tout $C \in \A_{1}\bigotimes\A_{2}$ :
-                \[
-                    \mu_{1} \otimes \mu_{2}\left(C\right) = \int_{E}\mu_{2}\left(C_{x_{1}}\right) \mu_{1}(\mathrm{d}x_{1}) = \int_{F} \mu_{1}\left(C^{x_{2}}\right)\mu_{2}\left(\mathrm{d}x_{2}\right)
-                \]
-            \end{enumerate}
-        \end{theorem}
-        \begin{proof}
-            \begin{itemize}
-                \item Unicité : Lemme de Classe Monotone sur la classe des pavés mesurables.
-                \item Existence : On pose $m\left(C\right)$ comme dans le second point et on vérifie le résultat en supposant d'abord $\mu_{2}$ finie puis $\sigma$-finie.
-            \end{itemize}
-        \end{proof}
+\subsection{Construction de la mesure-produit.}
+\begin{theorem}
+    \begin{enumerate}
+        \item Il existe une unique mesure $m$ sur $\left(E_{1} \times E_{2}, \mathcal{A}_{1} \bigotimes \mathcal{A}_{2}\right)$ telle que :
+              \[
+                  \forall A \in \A_{1}, \ \forall A_{2} \in \A_{2}, \ m\left(A_{1} \times A_{2}\right) = \mu_{1}\left(A_{1}\right)\mu_{2}\left(A_{2}\right)
+              \]
+              Cette mesure est $\sigma$-finie et notée $m = \mu_{1} \otimes \nu$
+        \item Pour tout $C \in \A_{1}\bigotimes\A_{2}$ :
+              \[
+                  \mu_{1} \otimes \mu_{2}\left(C\right) = \int_{E}\mu_{2}\left(C_{x_{1}}\right) \mu_{1}(\mathrm{d}x_{1}) = \int_{F} \mu_{1}\left(C^{x_{2}}\right)\mu_{2}\left(\mathrm{d}x_{2}\right)
+              \]
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \begin{itemize}
+        \item Unicité : Lemme de Classe Monotone sur la classe des pavés mesurables.
+        \item Existence : On pose $m\left(C\right)$ comme dans le second point et on vérifie le résultat en supposant d'abord $\mu_{2}$ finie puis $\sigma$-finie.
+    \end{itemize}
+\end{proof}
 
-        \subsection{Théorème de Fubini}
-        \begin{theorem}[Fubini-Tonelli]
-            On suppose $\mu_{1}, \mu_{2}$ $\sigma$-finies. Soit $f : E_{1} \times E_{2} \rightarrow \left[0, \infty\right]$ une fonction mesurable : 
-            \begin{itemize}
-                \item Les fonctions : 
-                \[
-                    \begin{aligned}
-                        x&\mapsto&\int f(x, y) \mu_{2}(\mathrm{d}y)\\
-                        y&\mapsto&\int f(x, y) \mu_{1}(\mathrm{d}x)
-                    \end{aligned}               
-                \]
-                sont $E_{1}$ et $E_{2}$ mesurables respectivement.
-                \item On a : 
-                \[  
-                    \int_{E_{1} \times E_{2}} f \mathrm{d}(\mu_{1} \otimes \mu_{2}) = \int_{E_{1}}\left(\int_{E_{2}} f(x, y)\mu_{2}\left(\mathrm{d}y\right)\right)\mu_{1}\left(\mathrm{d}x\right) = \int_{E_{2}}\left(\int_{E_{1}} f(x, y)\mu_{1}\left(\mathrm{d}x\right)\right)\mu_{2}\left(\mathrm{d}y\right)
-                \]
-            \end{itemize}
-        \end{theorem}
-        Autrement dit, pour une fonction positive, ça marche.
+\subsection{Théorème de Fubini}
+\begin{theorem}[Fubini-Tonelli]
+    On suppose $\mu_{1}, \mu_{2}$ $\sigma$-finies. Soit $f : E_{1} \times E_{2} \rightarrow \left[0, \infty\right]$ une fonction mesurable :
+    \begin{itemize}
+        \item Les fonctions :
+              \[
+                  \begin{aligned}
+                      x & \mapsto & \int f(x, y) \mu_{2}(\mathrm{d}y) \\
+                      y & \mapsto & \int f(x, y) \mu_{1}(\mathrm{d}x)
+                  \end{aligned}
+              \]
+              sont $E_{1}$ et $E_{2}$ mesurables respectivement.
+        \item On a :
+              \[
+                  \int_{E_{1} \times E_{2}} f \mathrm{d}(\mu_{1} \otimes \mu_{2}) = \int_{E_{1}}\left(\int_{E_{2}} f(x, y)\mu_{2}\left(\mathrm{d}y\right)\right)\mu_{1}\left(\mathrm{d}x\right) = \int_{E_{2}}\left(\int_{E_{1}} f(x, y)\mu_{1}\left(\mathrm{d}x\right)\right)\mu_{2}\left(\mathrm{d}y\right)
+              \]
+    \end{itemize}
+\end{theorem}
+Autrement dit, pour une fonction positive, ça marche.
 
-        \begin{theorem}[Fubini-Lebesgue]
-            Soit $f \in \mathcal{L}^{1}\left(E_{1} \times E_{2}, \A_{1} \bigotimes \A_{2}, \mu_{1}\otimes\mu_{2}\right)$. Alors : 
-            \begin{enumerate}
-                \item $\mu_{1}(\mathrm{d}x_{1})$ p.p., $y \mapsto f(x, y)$ est dans $\mathcal{L}^{1}\left(E_{2}, \A_{2}, \mu_{2}\right)$,\\
-                $\mu_{2}(\mathrm{d}x_{2})$ p.p., $x \mapsto f(x, y)$ est dans $\mathcal{L}^{1}\left(E_{1}, \A_{1}, \mu_{1}\right)$
-                \item Les fonctions $x \mapsto \int f(x, y) \mu_{2}(\mathrm{d}y)$ et $y \mapsto \int f(x, y)\mu_{1}\left(\mathrm{d}x\right)$, bien définies sauf sur un ensemble mesurable de mesure nulle sont respectivement dans $\mathcal{L}^{1}(E_{1}, \A_{1}, \mu_{1})$ et $\mathcal{L}^{1}(E_{2}, \A_{2}, \mu_{2})$.
-                \item On a :
-                \[
-                    \int_{E_{1} \times E_{2}} f \mathrm{d}\left(\mu_{1}\otimes\mu_{2}\right) = \int_{E_{1}}\left(\int_{E_{2}}f(x_{1}, x_{2})\mu_{2}(\mathrm{d}x_{2})\right) \mu_{1}\left(\mathrm{d}x_{1}\right) = \int_{E_{2}}\left(\int_{E_{1}}f(x_{1}, x_{2})\mu_{1}(\mathrm{d}x_{1})\right) \mu_{2}\left(\mathrm{d}x_{2}\right)
-                \]
-            \end{enumerate}
-        \end{theorem}
-        Autrement dit, pour une fonction intégrable (même à valeurs complexes), ça se passe bien.
-        
-        \subsection{Applications}
-        \subsubsection{Intégration par Parties}
-        \begin{definition}
-            Pour $f, g$ deux fonctions mesurables de $\R$ dans $\R$ localement intégrables (i.e. intégrables sur tout compact pour la mesure de Lebesgue), on pose pour $x \in \R$ :
-            \[
-                \begin{aligned}
-                    F(x) & = \int_{0}^{x}f(t)\mathrm{d}t \\
-                    G(x) & = \int_{0}^{x}g(t)\mathrm{d}t \\
-                \end{aligned}
-            \]
-        \end{definition}
-        \begin{theorem}[IPP]
-            Pour tous $a < b$, on a : 
-            \[
-                F(b)G(b) = F(a)G(a) + \int_{a}^{b}f(t)G(t)\mathrm{d}t + \int_{a}^{b}F(t)g(t)\mathrm{d}t
-            \]            
-        \end{theorem}
+\begin{theorem}[Fubini-Lebesgue]
+    Soit $f \in \mathcal{L}^{1}\left(E_{1} \times E_{2}, \A_{1} \bigotimes \A_{2}, \mu_{1}\otimes\mu_{2}\right)$. Alors :
+    \begin{enumerate}
+        \item $\mu_{1}(\mathrm{d}x_{1})$ p.p., $y \mapsto f(x, y)$ est dans $\mathcal{L}^{1}\left(E_{2}, \A_{2}, \mu_{2}\right)$,\\
+              $\mu_{2}(\mathrm{d}x_{2})$ p.p., $x \mapsto f(x, y)$ est dans $\mathcal{L}^{1}\left(E_{1}, \A_{1}, \mu_{1}\right)$
+        \item Les fonctions $x \mapsto \int f(x, y) \mu_{2}(\mathrm{d}y)$ et $y \mapsto \int f(x, y)\mu_{1}\left(\mathrm{d}x\right)$, bien définies sauf sur un ensemble mesurable de mesure nulle sont respectivement dans $\mathcal{L}^{1}(E_{1}, \A_{1}, \mu_{1})$ et $\mathcal{L}^{1}(E_{2}, \A_{2}, \mu_{2})$.
+        \item On a :
+              \[
+                  \int_{E_{1} \times E_{2}} f \mathrm{d}\left(\mu_{1}\otimes\mu_{2}\right) = \int_{E_{1}}\left(\int_{E_{2}}f(x_{1}, x_{2})\mu_{2}(\mathrm{d}x_{2})\right) \mu_{1}\left(\mathrm{d}x_{1}\right) = \int_{E_{2}}\left(\int_{E_{1}}f(x_{1}, x_{2})\mu_{1}(\mathrm{d}x_{1})\right) \mu_{2}\left(\mathrm{d}x_{2}\right)
+              \]
+    \end{enumerate}
+\end{theorem}
+Autrement dit, pour une fonction intégrable (même à valeurs complexes), ça se passe bien.
 
-        \subsubsection{Convolution}
-        \begin{definition}
-            Si $f$ et $g$ sont deux fonctions mesurables sur $\R^{d}$, la convolution : 
-            \[
-                f \star g (x) = \int_{\R^{d}} f(x-y)g(y)\mathrm{d}y
-            \]
-            est bién définie si :
-            \[
-                \int_{\R^{d}}\abs{f(x - y)g(y)} \mathrm{d}y < \infty    
-            \]
-            Alors, on a $g\star f(x)= f\star g(x)$
-        \end{definition}
+\subsection{Applications}
+\subsubsection{Intégration par Parties}
+\begin{definition}
+    Pour $f, g$ deux fonctions mesurables de $\R$ dans $\R$ localement intégrables (i.e. intégrables sur tout compact pour la mesure de Lebesgue), on pose pour $x \in \R$ :
+    \[
+        \begin{aligned}
+            F(x) & = \int_{0}^{x}f(t)\mathrm{d}t \\
+            G(x) & = \int_{0}^{x}g(t)\mathrm{d}t \\
+        \end{aligned}
+    \]
+\end{definition}
+\begin{theorem}[IPP]
+    Pour tous $a < b$, on a :
+    \[
+        F(b)G(b) = F(a)G(a) + \int_{a}^{b}f(t)G(t)\mathrm{d}t + \int_{a}^{b}F(t)g(t)\mathrm{d}t
+    \]
+\end{theorem}
 
-        \begin{proposition}
-            Soient $f, g \in \mathcal{L}^{1}(\R^{d}, \mathcal{B}(\R^{d}), \lambda)$. Alors, pour $\lambda$ presque tout $x \in\R^{d}$, la convolution $f \star g(x)$ est bien définie. De plus $f \star g \in \mathcal{L}^{1}(\lambda)$ et $\norm{f \star g}_{1} \leq \norm{f}_{1}\norm{g}_{1}$.
-        \end{proposition}
-        
-        \paragraph{Approximations de Dirac}
-        \begin{definition}
-            On dit qu'une suite $\phi_{n}\in C_{c}\left(\R^{d}\right)$ est une approximation de $\delta_{0}$ si :
-            \begin{itemize}
-                \item Il existe un compact $K$ tel que $\text{supp}(\phi_{n}) \subset K$ pour tout $n$.
-                \item Pour tout $n$, $\phi_{n} \geq 0$ et \[\int_{\R^{d}} \phi_{n}(x) \mathrm{d}x = 1\]
-                \item Pour tout $\delta > 0$, 
-                \[\lim_{n\to\infty}\int_{\left\{\abs{x} > \delta\right\}} \phi_{n}(x)\mathrm{d}x = 0\]
-            \end{itemize}
-        \end{definition}
-        \begin{proposition}
-            En prenant $\phi : \R^{d} \rightarrow \R_{+}$ est continue à support compact de mesure $1$, avec $\phi_{n}(x) = n^{d}\phi(nx)$, on a construit des approximations de Dirac.\\
-            En prenant par exemple $\phi(x) = c \exp{\left(-\frac{1}{1 - \abs{x}^{2}}\right)}\mathds{1}_{\left\{\abs{x} < 1\right\}}$, et en choisissant $c > 0$ correctement, on a même une approximation $C^{\infty}$.
-        \end{proposition}
+\subsubsection{Convolution}
+\begin{definition}
+    Si $f$ et $g$ sont deux fonctions mesurables sur $\R^{d}$, la convolution :
+    \[
+        f \star g (x) = \int_{\R^{d}} f(x-y)g(y)\mathrm{d}y
+    \]
+    est bién définie si :
+    \[
+        \int_{\R^{d}}\abs{f(x - y)g(y)} \mathrm{d}y < \infty
+    \]
+    Alors, on a $g\star f(x)= f\star g(x)$
+\end{definition}
 
-        \begin{proposition}
-            \begin{enumerate}
-                \item Si $f : \R^{d} \rightarrow \R$ est continue, on a $\phi_{n}\star f \rightarrow f$ quand $n \to \infty$, uniformément sur tout compact.
-                \item Si $f \in \mathcal{L}^{p}\left(\R^{d}, \mathcal{B}\left(\R^{d}\right),\lambda\right)$, avec $p \in \left[1, \infty\right[$, on a $\phi_{n} \star f \to f$ dans $\mathcal{L}^{p}$.
-            \end{enumerate}
-        \end{proposition}
+\begin{proposition}
+    Soient $f, g \in \mathcal{L}^{1}(\R^{d}, \mathcal{B}(\R^{d}), \lambda)$. Alors, pour $\lambda$ presque tout $x \in\R^{d}$, la convolution $f \star g(x)$ est bien définie. De plus $f \star g \in \mathcal{L}^{1}(\lambda)$ et $\norm{f \star g}_{1} \leq \norm{f}_{1}\norm{g}_{1}$.
+\end{proposition}
 
-        \subsubsection{Calcul du Volume de la Boule Unité}
-        On note ici $B_{d}$ la boule unité fermée de $\R^{d}$ et $\lambda_{d}$ la mesure de Lebesgue sur $\R^{d}$. En vue de calculer $\gamma_{d} = \lambda_{d}\left(B_{d}\right)$, on observe que l'image de $\lambda_{d}$ par $x \mapsto ax$ est $a^{-d}\lambda_{d}$ pour tout $a > 0$.
-        Par théorème de Fubini, si $d \geq 2$, on montre que $\gamma_{d} = \gamma_{d-1} I_{d-1}$ en posant pour $n \geq 0$, $I_{n} = \int_{-1}^{1}\left(1 - x^{2}\right)^{n/2}\mathrm{d}x$.
-        Or, par IPP, $I_{n} = \frac{n}{n + 1}I_{n-2}$. D'où $\gamma_{d} = I_{d-1}I_{d-2}\gamma_{d-2} = \frac{2\pi}{d}\gamma_{d-2}$ et donc $\gamma_{2k} = \frac{\pi^{k}}{k!}$ et $\gamma_{2k+1} = \frac{\pi^{k}}{\left(k + \frac{1}{2}\right)\left(k - \frac{1}{2}\right)\cdots \frac{3}{2}\cdot\frac{1}{2}}$.
-        On peut regrouper ces résultats sous : 
-        \[
-            \gamma_{d} = \frac{\pi^{d/2}}{\Gamma\left(\frac{d}{2} + 1\right)}
-        \]
+\paragraph{Approximations de Dirac}
+\begin{definition}
+    On dit qu'une suite $\phi_{n}\in C_{c}\left(\R^{d}\right)$ est une approximation de $\delta_{0}$ si :
+    \begin{itemize}
+        \item Il existe un compact $K$ tel que $\text{supp}(\phi_{n}) \subset K$ pour tout $n$.
+        \item Pour tout $n$, $\phi_{n} \geq 0$ et \[\int_{\R^{d}} \phi_{n}(x) \mathrm{d}x = 1\]
+        \item Pour tout $\delta > 0$,
+              \[\lim_{n\to\infty}\int_{\left\{\abs{x} > \delta\right\}} \phi_{n}(x)\mathrm{d}x = 0\]
+    \end{itemize}
+\end{definition}
+\begin{proposition}
+    En prenant $\phi : \R^{d} \rightarrow \R_{+}$ est continue à support compact de mesure $1$, avec $\phi_{n}(x) = n^{d}\phi(nx)$, on a construit des approximations de Dirac.\\
+    En prenant par exemple $\phi(x) = c \exp{\left(-\frac{1}{1 - \abs{x}^{2}}\right)}\mathds{1}_{\left\{\abs{x} < 1\right\}}$, et en choisissant $c > 0$ correctement, on a même une approximation $C^{\infty}$.
+\end{proposition}
 
-    \section{Espaces $L^{p}$}
-        \subsection{Définition et Inégalités}
-        \begin{definition}
-            Soit $f$ et $g$ des fonctions mesurables à valeurs réelles, on dit que $f \sim g$ si et seulement si $f = g, \ \mu$ p.p. C'est une relation d'équivalence. 
-        \end{definition}
+\begin{proposition}
+    \begin{enumerate}
+        \item Si $f : \R^{d} \rightarrow \R$ est continue, on a $\phi_{n}\star f \rightarrow f$ quand $n \to \infty$, uniformément sur tout compact.
+        \item Si $f \in \mathcal{L}^{p}\left(\R^{d}, \mathcal{B}\left(\R^{d}\right),\lambda\right)$, avec $p \in \left[1, \infty\right[$, on a $\phi_{n} \star f \to f$ dans $\mathcal{L}^{p}$.
+    \end{enumerate}
+\end{proposition}
 
-        \begin{definition}
-            Soit alors : $p \in \left[1, +\infty\right)$. On note : 
-            \[
-                \mL^{p}(E, \A, \mu) = \left\{f : E \rightarrow \R, \text{ mesurable } \mid \int_{E}\abs{f}^{p}\d \mu < \infty \right\}
-            \]
-            On définit alors : $L^{p}(E, \A, \mu) = \mL^{p}(E, \A, \mu)/\sim$.
+\subsubsection{Calcul du Volume de la Boule Unité}
+On note ici $B_{d}$ la boule unité fermée de $\R^{d}$ et $\lambda_{d}$ la mesure de Lebesgue sur $\R^{d}$. En vue de calculer $\gamma_{d} = \lambda_{d}\left(B_{d}\right)$, on observe que l'image de $\lambda_{d}$ par $x \mapsto ax$ est $a^{-d}\lambda_{d}$ pour tout $a > 0$.
+Par théorème de Fubini, si $d \geq 2$, on montre que $\gamma_{d} = \gamma_{d-1} I_{d-1}$ en posant pour $n \geq 0$, $I_{n} = \int_{-1}^{1}\left(1 - x^{2}\right)^{n/2}\mathrm{d}x$.
+Or, par IPP, $I_{n} = \frac{n}{n + 1}I_{n-2}$. D'où $\gamma_{d} = I_{d-1}I_{d-2}\gamma_{d-2} = \frac{2\pi}{d}\gamma_{d-2}$ et donc $\gamma_{2k} = \frac{\pi^{k}}{k!}$ et $\gamma_{2k+1} = \frac{\pi^{k}}{\left(k + \frac{1}{2}\right)\left(k - \frac{1}{2}\right)\cdots \frac{3}{2}\cdot\frac{1}{2}}$.
+On peut regrouper ces résultats sous :
+\[
+    \gamma_{d} = \frac{\pi^{d/2}}{\Gamma\left(\frac{d}{2} + 1\right)}
+\]
 
-            On définit de plus : 
-            \[
-                \mL^{\infty}(E, \A, \mu) = \left\{f : E \rightarrow \R, \text{ mesurable } \mid \exists C > 0,\ \abs{f} \leq C,\ \mu \text{ p.p.}\right\}
-            \]
-            On définit alors : $L^{\infty}(E, \A, \mu) = \mL^{\infty}(E, \A, \mu)/\sim$.
-        \end{definition}
+\section{Espaces $L^{p}$}
+\subsection{Définition et Inégalités}
+\begin{definition}
+    Soit $f$ et $g$ des fonctions mesurables à valeurs réelles, on dit que $f \sim g$ si et seulement si $f = g, \ \mu$ p.p. C'est une relation d'équivalence.
+\end{definition}
 
-        On fera systématiquement l'abus d'utiliser un système de représentants. 
+\begin{definition}
+    Soit alors : $p \in \left[1, +\infty\right)$. On note :
+    \[
+        \mL^{p}(E, \A, \mu) = \left\{f : E \rightarrow \R, \text{ mesurable } \mid \int_{E}\abs{f}^{p}\d \mu < \infty \right\}
+    \]
+    On définit alors : $L^{p}(E, \A, \mu) = \mL^{p}(E, \A, \mu)/\sim$.
 
-        \begin{definition}
-            On note, pour $f : E \rightarrow \R$ mesurable, avec $\infty^{\frac{1}{p}}$, si $p \in \left[1, \infty\right[$ :
-            \[
-                \norm{f}_{p} = \left(\int \abs{f}^{p}\d \mu\right)^{\frac{1}{p}}    
-            \]
-            et :
-            \[
-                \norm{f}_{\infty} = \inf \left\{C \in \left[0, \infty\right] \mid \abs{f} \leq C, \mu \text{ p.p.}\right\}
-            \]
-        \end{definition}
+    On définit de plus :
+    \[
+        \mL^{\infty}(E, \A, \mu) = \left\{f : E \rightarrow \R, \text{ mesurable } \mid \exists C > 0,\ \abs{f} \leq C,\ \mu \text{ p.p.}\right\}
+    \]
+    On définit alors : $L^{\infty}(E, \A, \mu) = \mL^{\infty}(E, \A, \mu)/\sim$.
+\end{definition}
 
-        \begin{proposition}
-            \begin{itemize}
-                \item Si $f \in L^{\infty}$, alors $\abs{f} \leq \norm{f}_{\infty}, \mu$ p.p.
-                \item Si $f \in L^{p}, p \in \left[1, \infty\right]$, $\norm{f}_{p} = 0 \Leftrightarrow f = 0$.
-                \item Les $\norm{\cdot}_{p}$ sont des normes.
-            \end{itemize}
-        \end{proposition}
+On fera systématiquement l'abus d'utiliser un système de représentants.
 
-        \begin{definition}
-            Soient $p, q \in \left[1, \infty\right]^{2}$, on dit que $p$ et $q$ sont conjugués si 
-            \[
-                \frac{1}{p} + \frac{1}{q} = 1    
-            \]
-            En particulier, $p = 1$ et $q = \infty$ tout comme $2$ et $2$ sont conjugués
-        \end{definition}
+\begin{definition}
+    On note, pour $f : E \rightarrow \R$ mesurable, avec $\infty^{\frac{1}{p}}$, si $p \in \left[1, \infty\right[$ :
+    \[
+        \norm{f}_{p} = \left(\int \abs{f}^{p}\d \mu\right)^{\frac{1}{p}}
+    \]
+    et :
+    \[
+        \norm{f}_{\infty} = \inf \left\{C \in \left[0, \infty\right] \mid \abs{f} \leq C, \mu \text{ p.p.}\right\}
+    \]
+\end{definition}
 
-        \begin{lemma}[Inégalité d'Young]
-            Soit $p, q \in \left]1, \infty\right[$ conjugués. Pour tous $a, b \in \R$ : 
-            \[
-                \abs{ab} \leq \frac{1}{p}\abs{a}^{p} + \frac{1}{q}\abs{b}^{q}
-            \]  
-        \end{lemma}
-        \begin{proposition}[Inégalité de Hölder]
-            Soient $p, q$ conjugués. Soit $f \in L^{p}$, $g \in L^{q}$. Alors, $fg$ est intégrable et : 
-            \[  
-                \int \abs{fg} \d \mu \leq \norm{f}_{p}\norm{g}_{q}
-            \]
-        \end{proposition}
-        \begin{remark}
-            Cas d'égalité : 
-            \begin{itemize}
-                \item Si $p = 1, q = \infty$, et que $f = 0$ ou $g = \norm{g}_{\infty}$ presque partout.
-                \item Si $p, q < \infty$ : Il y a égalité si $f$ ou $g$ est nulle. Sinon si et seulement si il y a égalité dans l'inégalité de Young $\mu$ presque partout. 
-            \end{itemize}
-        \end{remark}
-        \begin{remark}
-            Si $g \in L^{q}$ est fixée : L'application 
-            \[
-                f \in L^{p} \mapsto \int_{E}fg \d \mu    
-            \]
-            est une forme linéaire continue. 
-        \end{remark}
-        \begin{remark}
-            Dans le cas $E = \N$, $\A = \mathcal{P}(\N)$, on note $\ml^{p}(\N)$ l'ensemble des suites dont la série des puissances $p$-ième est sommable.
-        \end{remark}
+\begin{proposition}
+    \begin{itemize}
+        \item Si $f \in L^{\infty}$, alors $\abs{f} \leq \norm{f}_{\infty}, \mu$ p.p.
+        \item Si $f \in L^{p}, p \in \left[1, \infty\right]$, $\norm{f}_{p} = 0 \Leftrightarrow f = 0$.
+        \item Les $\norm{\cdot}_{p}$ sont des normes.
+    \end{itemize}
+\end{proposition}
 
-        \begin{remark}
-            Dans le cas où $\mu(E)< \infty$, en prenant $g = 1$ dans l'inégalité de Hölder : 
-            \[
-                \int \abs{f} \d \mu \leq \mu(E)^{1 - \frac{1}{p}} \left(\int \abs{f}^{p} \d\mu\right)^{\frac{1}{p}} < + \infty
-            \]
-        \end{remark}
+\begin{definition}
+    Soient $p, q \in \left[1, \infty\right]^{2}$, on dit que $p$ et $q$ sont conjugués si
+    \[
+        \frac{1}{p} + \frac{1}{q} = 1
+    \]
+    En particulier, $p = 1$ et $q = \infty$ tout comme $2$ et $2$ sont conjugués
+\end{definition}
 
-        \begin{proposition}[Inégalité de Jensen]
-            Soit $\phi : \R \rightarrow \R_{+}$ convexe. Pour $f \in L^{1}$ :
-            \[
-                \int \phi \circ f \d\mu \geq \phi \left(\int f \d\mu\right)    
-            \]
-        \end{proposition}
+\begin{lemma}[Inégalité d'Young]
+    Soit $p, q \in \left]1, \infty\right[$ conjugués. Pour tous $a, b \in \R$ :
+    \[
+        \abs{ab} \leq \frac{1}{p}\abs{a}^{p} + \frac{1}{q}\abs{b}^{q}
+    \]
+\end{lemma}
+\begin{proposition}[Inégalité de Hölder]
+    Soient $p, q$ conjugués. Soit $f \in L^{p}$, $g \in L^{q}$. Alors, $fg$ est intégrable et :
+    \[
+        \int \abs{fg} \d \mu \leq \norm{f}_{p}\norm{g}_{q}
+    \]
+\end{proposition}
+\begin{remark}
+    Cas d'égalité :
+    \begin{itemize}
+        \item Si $p = 1, q = \infty$, et que $f = 0$ ou $g = \norm{g}_{\infty}$ presque partout.
+        \item Si $p, q < \infty$ : Il y a égalité si $f$ ou $g$ est nulle. Sinon si et seulement si il y a égalité dans l'inégalité de Young $\mu$ presque partout.
+    \end{itemize}
+\end{remark}
+\begin{remark}
+    Si $g \in L^{q}$ est fixée : L'application
+    \[
+        f \in L^{p} \mapsto \int_{E}fg \d \mu
+    \]
+    est une forme linéaire continue.
+\end{remark}
+\begin{remark}
+    Dans le cas $E = \N$, $\A = \mathcal{P}(\N)$, on note $\ml^{p}(\N)$ l'ensemble des suites dont la série des puissances $p$-ième est sommable.
+\end{remark}
 
-        \subsection{L'espace de Banach $L^{p}$}
-        \begin{proposition}[Inégalité de Minkowski]
-            Soit $p \in \left[1, \infty\right]$ :
-            \[
-                    \norm{f + g}_{p} \leq \norm{f}_{p} + \norm{g}_{p}
-            \]
-        \end{proposition}
-        \begin{theorem}[Riesz/de Complétude des $L^{p}$]
-            L'espace $L^{p}$ est un Banach.
-        \end{theorem}
+\begin{remark}
+    Dans le cas où $\mu(E)< \infty$, en prenant $g = 1$ dans l'inégalité de Hölder :
+    \[
+        \int \abs{f} \d \mu \leq \mu(E)^{1 - \frac{1}{p}} \left(\int \abs{f}^{p} \d\mu\right)^{\frac{1}{p}} < + \infty
+    \]
+\end{remark}
 
-        \begin{proposition}
-            Soit $p \in \left[1, \infty\right[$ et soit $(f_{n})$ qui converge vers $f$ dans $L^{p}$. Il existe alors une sous-suite $\left(f_{k_{n}}\right)$ qui converge $\mu$ p.p. vers $f$. 
-        \end{proposition}
+\begin{proposition}[Inégalité de Jensen]
+    Soit $\phi : \R \rightarrow \R_{+}$ convexe. Pour $f \in L^{1}$ :
+    \[
+        \int \phi \circ f \d\mu \geq \phi \left(\int f \d\mu\right)
+    \]
+\end{proposition}
 
-        \begin{proposition}
-            L'espace $L^{2}$ muni du produit scalaire :
-            \[
-                \scalar{f, g} = \int fg \d\mu
-            \]
-            est un Hilbert réel.
-        \end{proposition}
+\subsection{L'espace de Banach $L^{p}$}
+\begin{proposition}[Inégalité de Minkowski]
+    Soit $p \in \left[1, \infty\right]$ :
+    \[
+        \norm{f + g}_{p} \leq \norm{f}_{p} + \norm{g}_{p}
+    \]
+\end{proposition}
+\begin{theorem}[Riesz/de Complétude des $L^{p}$]
+    L'espace $L^{p}$ est un Banach.
+\end{theorem}
 
-        \subsection{Théorie de Densité dans les Espaces $L^{p}$}
-        \begin{definition}
-            Si $E$ est un espace métrique, une mesure $\mu$ sur $\left(E, \B(E)\right)$ est dite extérieurement régulière si
-            \[
-                \forall A \in \B(E), \ \mu(A) = \inf \left\{\mu(U) \mid U \text{ ouvert}, A \subseteq U\right\}
-            \]
-        \end{definition}
+\begin{proposition}
+    Soit $p \in \left[1, \infty\right[$ et soit $(f_{n})$ qui converge vers $f$ dans $L^{p}$. Il existe alors une sous-suite $\left(f_{k_{n}}\right)$ qui converge $\mu$ p.p. vers $f$.
+\end{proposition}
 
-        \begin{theorem}
-            L'espace des fonctions étagées appartenant à $L^{p}$ est dense dans $L^{p}$.
-        \end{theorem}
+\begin{proposition}
+    L'espace $L^{2}$ muni du produit scalaire :
+    \[
+        \scalar{f, g} = \int fg \d\mu
+    \]
+    est un Hilbert réel.
+\end{proposition}
 
-        \begin{theorem}
-            Les fonctions $C^{\infty}(\R^{d})$ à support compact sont denses dans $L^{p}(\R^{d}, \B(\R^{d}), \lambda_{d})$.
-        \end{theorem}
+\subsection{Théorie de Densité dans les Espaces $L^{p}$}
+\begin{definition}
+    Si $E$ est un espace métrique, une mesure $\mu$ sur $\left(E, \B(E)\right)$ est dite extérieurement régulière si
+    \[
+        \forall A \in \B(E), \ \mu(A) = \inf \left\{\mu(U) \mid U \text{ ouvert}, A \subseteq U\right\}
+    \]
+\end{definition}
 
-        \begin{lemma}
-            Les fonctions Lipschitziennes qui sont dans $L^{p}$ sont denses dans $L^{p}$.
-        \end{lemma}
+\begin{theorem}
+    L'espace des fonctions étagées appartenant à $L^{p}$ est dense dans $L^{p}$.
+\end{theorem}
 
-        \subsection{Radon-Nikodym}
-        \begin{definition}
-            Soient $\mu$ et $\nu$ deux mesures sur $\left(E, \A\right)$. On dit que :
-            \begin{enumerate}
-                \item $\nu$ est absolument continue par rapport à $\mu$, noté $\nu \ll \mu$ si :
-                \[
-                    \forall A \in \A, \mu(A) = 0 \Rightarrow \nu(A) = 0
-                \] 
-                \item $\nu$ est étrangère à $\mu$, noté $\nu \perp \mu$ s'il existe $N \in \A$ tel que $\mu(N) = 0$ et $\nu(N^{\complement}) = 0$
-            \end{enumerate}
-        \end{definition}
+\begin{theorem}
+    Les fonctions $C^{\infty}(\R^{d})$ à support compact sont denses dans $L^{p}(\R^{d}, \B(\R^{d}), \lambda_{d})$.
+\end{theorem}
 
-        \begin{theorem}[Radon-Nikodym]
-            Soit $\mu, \nu$ deux mesures $\sigma$-finies sur $\left(E, \A\right)$. Il existe alors un unique couple $\left(\nu_{a}, \nu_{s}\right)$ de mesures $\sigma$-finies sur $\left(E, \A\right)$ telle que : 
-            \begin{itemize}
-                \item $\nu = \nu_{a} + \nu_{s}$
-                \item $\nu_{a} \ll \mu$ et $\nu_{s} \perp \nu$.
-            \end{itemize}
-            De plus il existe une fonction mesurable $h : E \rightarrow \R_{\star}^{+}$ telle que : 
-            \[
-                \forall A \in \A, \nu_{a}(A) = \int_{A}f \d\mu
-            \]
-        \end{theorem}
+\begin{lemma}
+    Les fonctions Lipschitziennes qui sont dans $L^{p}$ sont denses dans $L^{p}$.
+\end{lemma}
+
+\subsection{Radon-Nikodym}
+\begin{definition}
+    Soient $\mu$ et $\nu$ deux mesures sur $\left(E, \A\right)$. On dit que :
+    \begin{enumerate}
+        \item $\nu$ est absolument continue par rapport à $\mu$, noté $\nu \ll \mu$ si :
+              \[
+                  \forall A \in \A, \mu(A) = 0 \Rightarrow \nu(A) = 0
+              \]
+        \item $\nu$ est étrangère à $\mu$, noté $\nu \perp \mu$ s'il existe $N \in \A$ tel que $\mu(N) = 0$ et $\nu(N^{\complement}) = 0$
+    \end{enumerate}
+\end{definition}
+
+\begin{theorem}[Radon-Nikodym]
+    Soit $\mu, \nu$ deux mesures $\sigma$-finies sur $\left(E, \A\right)$. Il existe alors un unique couple $\left(\nu_{a}, \nu_{s}\right)$ de mesures $\sigma$-finies sur $\left(E, \A\right)$ telle que :
+    \begin{itemize}
+        \item $\nu = \nu_{a} + \nu_{s}$
+        \item $\nu_{a} \ll \mu$ et $\nu_{s} \perp \nu$.
+    \end{itemize}
+    De plus il existe une fonction mesurable $h : E \rightarrow \R_{\star}^{+}$ telle que :
+    \[
+        \forall A \in \A, \nu_{a}(A) = \int_{A}f \d\mu
+    \]
+\end{theorem}
 
 
 \part{Probabilités}
-    \section{Théorie des Probabilités}
-    \subsection{Loi de Probabilité}
-    \begin{definition}
-        Un espace probabilisé est un espace mesurable $\left(\Omega, \A\right)$ muni d'une mesure $P$ de masse totale $1$. Pour $A\in \A, P(A)$ représente la probabilité d'occurrence de l'évènement $A$. 
-    \end{definition}
+\section{Théorie des Probabilités}
+\subsection{Loi de Probabilité}
+\begin{definition}
+    Un espace probabilisé est un espace mesurable $\left(\Omega, \A\right)$ muni d'une mesure $P$ de masse totale $1$. Pour $A\in \A, P(A)$ représente la probabilité d'occurrence de l'évènement $A$.
+\end{definition}
 
-    \begin{definition}
-        Une application mesurable $X : \Omega \rightarrow E$ est appelée variable aléatoire à valeurs dans $E$. \\
-        La loi de la variable aléatoire $X$ est la mesure image de $P$ par $X$ notée
+\begin{definition}
+    Une application mesurable $X : \Omega \rightarrow E$ est appelée variable aléatoire à valeurs dans $E$. \\
+    La loi de la variable aléatoire $X$ est la mesure image de $P$ par $X$ notée
+    \[
+        P(X\in B) = P_{X}(B)= P\left(X^{-1}(B)\right)
+    \]
+\end{definition}
+
+\begin{definition}
+    \begin{itemize}
+        \item Variables Aléatoires Discrètes : C'est le cas où $E$ est dénombrable et $\mathcal{E} = \mathcal{P}(E)$. La loi de $X$ est alors \[P_{X} = \sum_{x \in E}P(X = x)\delta_{x}\]
+        \item Variables Aléatoires à Densité : Une variable aléatoire $X$ à valeurs dans $\left(\R^{d}, \B(\R^{d})\right)$ est dite à densité si $P_{X}$ est absolument continue par rapport à la mesure de Lebesgue $\lambda$. Il existe alors $p : \R^{d} \rightarrow \R_{+}$ telle que \[P_{X}(B) = \int_{B}p(x)\d x\] La fonction $p$, unique à un ensemble de mesure nulle près, est appelée la densité de $X$.
+    \end{itemize}
+\end{definition}
+
+\begin{definition}
+    Soit $X$ une variable aléatoire réelle. On note \[E[X] = \int_{\Omega}X(\omega)P(\d \omega)\]
+    qui est bien définie si $X \geq 0$ et alors $E[X] \in \left[0, \infty\right]$ ou si $E[\abs{X}] < \infty$. On étend cette définition dans $\R^{d}$ avec $E\left[\left(X_{1}, \ldots, X_{d}\right)\right] = \left(E[X_{1}], \ldots, E[X_{d}]\right)$.
+\end{definition}
+
+\begin{proposition}
+    Si $X = \mathds{1}_{B}, E[X] = P(B)$
+\end{proposition}
+
+\begin{proposition}
+    Soit $X$ v.a. à valeurs dans $E$. Si $f : E \rightarrow \left[0, \infty\right]$ est mesurable :
+    \[
+        E[f(X)] = \int_{E} f(x)P_{X}\left(\d x\right)
+    \]
+\end{proposition}
+\begin{proof}
+    Découle des propositions sur la composition de fonctions mesurables.
+\end{proof}
+
+\begin{proposition}
+    Soit $X = \left(X_{1}, \ldots, X_{d}\right)$ une v.a. à valeurs dans $\R^{d}$. Supposons que la loi de $X$ a densité $p\left(x_{1}, \ldots, x_{d}\right)$. Alors, pour tout $j$, la loi de $X_{j}$ a une densité donnée par
+    \[
+        p_{j}(x) = \int_{\R^{d - 1}} p\left(x_{1}, \ldots, x_{j - 1}, x_{j + 1}, \ldots, x_{d}\right)\d x_{1} \ldots \d x_{j - 1} \d x_{j + 1}\ldots \d x_{d}
+    \]
+    La loi de $X$ détermine entièrement les lois marginales de $X$, mais la réciproque est fausse.
+\end{proposition}
+\begin{proof}
+    Direct.
+\end{proof}
+
+\subsubsection{Lois de Probabilité}
+\begin{definition}
+    \begin{itemize}
+        \item Lois Discrètes :
+              \begin{itemize}
+                  \item Loi Uniforme: Si $E$ est un ensemble fini, $\abs{E} = n$, une v.a. $X$ est de loi uniforme sur $E$, $X \sim \mathcal{U}(E)$, si \[P(X = x) = \frac{1}{n}\]
+                  \item Loi de Bernoulli de paramètre $p \in \left[0, 1\right]$ : $X$ à valeurs dans $\{0, 1\}$ suit une telle loi, $X \sim \B(p)$ si $P(X = 1) = p$, $P(X = 0) = 1- p$.
+                  \item Loi Binômiale $\B(n, p), n\in \N^{*}, p\in\left[0, 1\right]$ : $P(X = k) = C_{n}^{k}\left(1 - p\right)^{n - k}p^{k}$.
+                  \item Loi Géométrique de paramètre $p \in \left]0, 1\right[$ : $X \sim \mathcal{G}(p)$ si $P(X = k) = \left(1 - p\right)p^{k}$
+                  \item Loi de poisson de paramètre $\lambda > 0$ : $X \sim \mathcal{P}(\lambda)$ si $P(X = k) = \frac{\lambda^{k}}{k!}e^{-\lambda}$.
+              \end{itemize}
+        \item Lois Continues/à Densité :
+              \begin{itemize}
+                  \item Loi Uniforme sur $\left[a, b\right]$ : $p(x) = \frac{1}{b - a}\mathds{1}_{\left[a, b\right]}(x)$
+                  \item Loi Exponentielle de paramètre $\lambda > 0$ : $p(x) = \lambda e^{-\lambda x}\mathds{1}_{\R_{+}}(x)$
+                  \item Loi Gaussienne ou Normale $\mathcal{N}(m,\sigma^{2}), m \in \R, \sigma > 0$ : $p(x) = \frac{1}{\sigma\sqrt{2\pi}} \exp\left(- \frac{\left(x - m\right)^{2}}{2 \sigma^{2}}\right)$
+              \end{itemize}
+    \end{itemize}
+\end{definition}
+
+\subsubsection{Des Propriétés}
+\begin{definition}
+    La fonction de répartition d'une variable aléatoire réelle $X$ est la fonction $F_{X} : \R \rightarrow \left[0, 1\right]$ définie par :
+    \[
+        F_{X}(t) = P(X \leq t) = P_{X}\left(\left]- \infty t\right]\right)
+    \]
+    La fonction $F_{X}$ est croissante, continue à droite, et a pour limites $0$ en $-\infty$ et $1$ en $+\infty$.
+\end{definition}
+
+\begin{proposition}
+    La fonction de répartition caractérise la variable aléatoire et les sauts de $F_{X}$ correspondent aux atomes de $P_{X}$. De plus :
+    \[
+        \begin{aligned}
+            P\left(a \leq X \leq b\right) & = F_{X}(b) - F_{X}(a^{-}) \\
+            P\left(a < X < b\right)       & = F_{X}(b^{-}) - F_{X}(a)
+        \end{aligned}
+    \]
+\end{proposition}
+\begin{proof}
+    Découle des résultats d'intégration.
+\end{proof}
+
+\begin{definition}
+    On définit la tribu engendrée par une variable aléatoire dans un espace mesurable comme la plus petite tribu sur $\Omega$ qui rende $X$ mesurable :
+    \[
+        \sigma(X) = \left\{A = X^{-1}(B)\mid B\in \mathcal{E}\right\}
+    \]
+\end{definition}
+
+\begin{proposition}
+    Soit $X$ une variable aléatoire à valeurs dans $E, \mathcal{E}$. Soit $Y$ une v.a. réelle. Il y a équivalence entre :
+    \begin{enumerate}
+        \item $Y$ est $\sigma(X)$-mesurable.
+        \item Il existe une fonction mesurable de $E, \mathcal{E}$ dans $\R, \B(\R)$ telle que $Y = f(X)$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    ii) implique i) est directe. Si $Y$ est $\sigma(X)$-mesurable. On traite le cas où $Y$ est étagée, puis on conclut car $Y$ est limite simple de v.a. $Y_{n}$ étagées et $\sigma(X)$-mesurables.
+\end{proof}
+
+\subsection{Moments de Variables Aléatoires}
+\begin{definition}
+    Le moment d'ordre $p$ de $X$ est $E[X^{p}]$. On appelle moment absolu d'ordre $p$ de $X$ la quantité $E\left[X^{p}\right]$.
+\end{definition}
+
+\begin{proposition}
+    \begin{itemize}
+        \item Par Convergence Monotone : $X_{n} \geq 0, X_{n} \uparrow X \Rightarrow E[X_{n}] \uparrow E[X]$
+        \item Lemme de Fatou : $X_{n} \geq 0 \Rightarrow E[\liminf X_{n}] \leq \liminf E[X_{n}]$
+        \item Convergence Dominée : $\abs{X_{n}} \leq Z, \ E[Z] < \infty, \ X_{n} \rightarrow X$ p.p. $\Rightarrow E[X_{n}] \rightarrow E[X]$.
+    \end{itemize}
+\end{proposition}
+
+\begin{proposition}
+    Inégalité de Cauchy-Schwarz : $E[\abs{XY}] \leq \sqrt{E[X^{2}]E[Y^{2}]}$. Dans le cas où $Y = 1$ on a : $E[\abs{X}]^{2} \leq E[X^{2}]$
+\end{proposition}
+
+Les espaces $\mL^{p}(\Omega, \A, P)$ sont définis pour tout $p \in \left[1, \infty\right]$ par le quotient pour la relation "$P$ presque partout" des fonctions dont le moment d'ordre $p$ est défini.
+
+\begin{definition}
+    Soit $X \in \mL^{2}$, la variance de $X$ est :
+    \[
+        \var(X) = E\left[\left(X - E[X]\right)^{2}\right]
+    \]
+    et l'écart-type de $X$ est :
+    \[
+        \sigma_{X} = \sqrt{\var(X)}
+    \]
+\end{definition}
+
+\begin{proposition}
+    On a : $\var(X) = E[X^{2}] - \left(E[X]\right)^{2}$ et si $a \in \R$ :
+    \[
+        E[\left(X - a\right)^{2}] = \var(X) + \left(E[X] - a\right)^{2}
+    \]
+    Ainsi :
+    \[
+        \var(X) = \inf_{a\in \R} E[\left(X - a\right)^{2}]
+    \]
+\end{proposition}
+\begin{proof}
+    Calculer.
+\end{proof}
+
+
+\begin{proposition}
+    Si $X \in \mL^{2}$ et $a > 0$ :
+    \begin{itemize}
+        \item Inégalité de Markov : $P(X \geq a) \leq \frac{1}{a}E[X]$
+        \item Inégalité de Bienaymé-Tchébychev : $P(\abs{X - E[X]} \geq a) \leq \frac{1}{a^{2}}\var(X)$
+    \end{itemize}
+\end{proposition}
+\begin{proof}
+    Utiliser l'Inégalité de Markov pour $\left(X - E[X]\right)^{2}$.
+\end{proof}
+
+\begin{definition}
+    Si $X, Y \in \mL^{2}$, la covariance de $X$ et $Y$ est :
+    \[
+        \cov(X, Y) = E[\left(X - E[X]\right)\left(Y - E[Y]\right)] = E[XY] - E[X]E[Y]
+    \]
+    On définit pour un vecteur aléatoire à valeurs dans $R^{d}$ :
+    \[
+        K_{X} = \left(\cov(X_{i}, X_{j})\right)_{i, j \in \llbracket 1,d\rrbracket}
+    \]
+    $X, Y \mapsto \cov(X, Y)$ est bilinéaire et $K_{X}$ est symétrique positive.
+\end{definition}
+
+\begin{definition}
+    Si $X$ est une v.a. à valeurs dans $\R^{d}$ la fonction caractéristique de $X$ est $\Phi_{X} : \R^{d} \rightarrow \C$ définie par :
+    \[
+        \Phi_{X}(\xi) = E[\exp\left(i\xi \dot X\right)] = \int e^{i\xi \dot x}P_{X}(\d x)
+    \]
+\end{definition}
+
+\begin{lemma}
+    Soit $X \sim \mathcal{N}(0, \sigma^{2})$ :
+    \[
+        \Phi_{X}(\xi) = \exp\left(-\frac{\sigma^{2}\xi^{2}}{2}\right)
+    \]
+\end{lemma}
+\begin{proof}
+    On calcule, en dérivant sous le signe intégrale.
+\end{proof}
+
+\begin{theorem}
+    La fonction caractéristique caractérise la loi.
+\end{theorem}
+\begin{proof}
+    On traite le cas $d = 1$ puis on applique le théorème de Fubini-Lebesgue.
+\end{proof}
+
+\begin{definition}
+    On définit la fonction génératrice $g_{X}$ d'une variable aléatoire à valeurs dans $\N$ sur l'intervalle $\left[0, 1\right]$ par :
+    \[
+        g_{X}(r) = E[r^{X}] = \sum_{n = 0}^{\infty}P(X = n)r^{n}
+    \]
+\end{definition}
+
+\begin{proposition}
+    \begin{itemize}
+        \item $g_{X}$ est continue sur $\left[0, 1\right]$
+        \item $g_{X}(0) = P(X = 0), g_{X}(1) = 1$.
+        \item La focntion caractéristique caractérise la loi puisque les $P(X = n)$ sont les coefficients (uniques) du développement de Taylor de $g_{X}$ en $0$.
+        \item $\lim_{r \uparrow 1}g_{X}^{(p)}(r) = E\left[X(X - 1)\cdots(X - p + 1)\right]$
+    \end{itemize}
+\end{proposition}
+
+\section{Indépendance}
+\subsection{Définitions}
+\begin{definition}
+    Deux évènements sont indépendants si $P(A\cap B) = P(A)P(B)$. $n$ évènements sont indépendants si pour tout sous-ensemble non vide de $\left\{1, \ldots, n\right\}$ on a :
+    \[
+        P\left(\bigcap_{j \in J \subset \llbracket 1, n\rrbracket} A_{j}\right) = \prod_{j \in J} P(A_{j})
+    \]
+\end{definition}
+
+\begin{proposition}
+    Les $n$ évènements $A_{1}, \ldots, A_{n}$ sont indépendants si et seulement si, quand $B_{i} \in \sigma\left(A_{i}\right) = \left\{\emptyset, A_{i}, A_{i}^{\complement}, \Omega\right\}$ :
+    \[
+        P\left(\bigcap_{j \in \onen{n}} B_{j}\right) = \prod_{j \in \onen{n}} P(B_{j})
+    \]
+\end{proposition}
+
+\begin{definition}
+    \begin{itemize}
+        \item Soient $\B_{1}, \ldots \B_{n}$ $n$ sous-tribus de $\A$. Ces sous-tribus sont indépendantes si et seulement si toute familles d'évènements de ces tribus l'est.
+        \item Soient $X_{1}, \ldots, X_{n}$ $n$ v.a. à valeurs dans $E_{1}, \ldots, E_{n}$. Ces variables sont indépendantes si les tribus qu'elles engendrent le sont, i.e. si
+              \[
+                  \forall F_{1} \in \mathcal{E}_{1}, \ldots, \forall F_{n} \in \mathcal{E}_{n}, \ P\left(\bigcap_{i \in \onen{n}}\left\{X_{i} \in F_{i}\right\}\right) = \prod_{i \in \onen{n}} P\left(X_{i} \in F_{i}\right)
+              \]
+    \end{itemize}
+\end{definition}
+
+\begin{theorem}
+    Les $n$ variables aléatoires sont indépendantes si et seulement si la loi du $n$-uplet $\left(X_{1}, \ldots, X_{n}\right)$ est le produit des lois de ses composantes :
+    \[
+        P_{\left(X_{1}, \ldots, X_{n}\right)} = P_{X_{1}} \bigotimes \cdots \bigotimes P_{X_{n}}
+    \]
+    On a alors, si les $f_{i}$ sont mesurables positives sur $\left(E_{i}, \mathcal{E}_{i}\right)$:
+    \[
+        E\left[\prod_{i = 1}^{n}f_{i}(X_{i})\right] = \prod_{i = 1}^{n} E\left[f_{i}(X_{i})\right]
+    \]
+\end{theorem}
+\begin{corollary}
+    Si $X_{1}, X_{2} \in \mL^{2}$ sont indépendantes : $\cov(X_{1}, X_{2}) = 0$.
+\end{corollary}
+
+\begin{corollary}
+    Soient $X_{1}, X_{n}$ $n$ v.a. réelles.
+    \begin{enumerate}
+        \item Si $P_{X_{i}}$ est de densité $p_{i}$ et que les variables sont indépendantes. Alors :
+              \[p(x_{1}, \ldots, x_{n}) = \prod_{i\in \onen{n}} p_{i}(x_{i})\]
+        \item Inversement, si la loi de $\left(X_{1}, \ldots, X_{n}\right)$ a une densité de la forme \[p(x_{1}, \ldots, x_{n}) = \prod_{i\in \onen{n}} q_{i}(x_{i})\] où les $q_{i}$ sont boréliennes positives sur $\R$. Alors les variables sont indépendantes et leurs densités sont proportionelles à $q_{i}$.
+    \end{enumerate}
+\end{corollary}
+
+\begin{proposition}
+    Soient $\B_{1}, \ldots, \B_{n}$ des sous-tribus de $\A$. Pour tout $i\in \onen{n}$, soit $\cont_{i} \subset \B_{i}$ une classe stable par intersections finies, contentant $\Omega$ et engendrant $\B_{i}$. Si
+    \[
+        \forall C_{1}, \ldots, C_{n} \in \cont_{1} \times \ldots \cont_{n}, P\left(\bigcap_{i \in \onen{n}} C_{i}\right) = \prod_{i \in \onen{n}}P(C_{i})
+    \]
+    alors les tribus $\B_{i}$ sont indépendantes.
+\end{proposition}
+\begin{corollary}
+    On en déduit le lemme de regroupement par paquets. Si on regroupe des tribus en partition, les tribus que chacune des classes engendrent sont indépendantes, et de même pour des variables aléatoires.
+\end{corollary}
+
+
+\subsection{Hahn-Kolmogorov}
+\begin{theorem}[de Hahn-Kolmogorov]
+    Soit $\Omega$ un ensemble, $\A$ une algèbre sur $\Omega$.
+    Soit $m : \A \rightarrow \Omega$ telle que :
+    \begin{itemize}
+        \item $m(\emptyset) = 0$ et $m(\Omega) = 1$
+        \item Si $A_{n}$ est une suite d'éléments disjoints de $\A$ telle que $\cup_{n} A_{n} \in \A$, alors $m\left(\cup_{n} A_{n}\right) = \sum_{n} m(A_{n})$.
+    \end{itemize}
+    Alors, il existe une tribu $\mathcal{T}$ contenant $\mathcal{A}$ et une mesure de probabilité $\mathbb{P}$ telle que restreinte à $\A$ ce soit $m$.
+\end{theorem}
+\begin{remark}
+    On appliquera ce résultat avec $\Omega = \prod E_{n}$, $\A = B_{\infty}$.
+\end{remark}
+
+\begin{lemma}
+    On définit pour $A \in P(\Omega)$, \[m^{\star}(A) = \inf_{A \subset \bigcup_{n} A_{n}} \sum_{n \in \N} m(A_{n})\]
+    Alors $m^{\star}$ est une mesure extérieure :
+    \begin{itemize}
+        \item $m^{\star}(\emptyset) = 0$
+        \item Si $A \subset B$, $m^{\star}(A) \leq m^{\star}(B)$.
+        \item $\forall \ A_{n} \in P(\Omega)^{\N}$ \[
+                  m^{\star}\left(\bigcup_{n} A_{n}\right) \leq \sum_{n \in \N} m^{\star}(A_{n})
+              \]
+    \end{itemize}
+    De plus $m^{\star}$ est égale à $m$ sur $\A$.
+\end{lemma}
+
+\subsection{Convergence de sommes de variables aléatoires indépendantes}
+
+\begin{definition}
+    Soit $\mu$ et $\nu$ deux lois de probabilités sur $\R^{d}$. On note $\mu \star \nu$ la loi de probabilité définie par :
+    \[
+        (\mu \star \nu)(A) = \int_{\R^{d} \times \R^{d}} \mathds{1}_{(x + y) \in A} \mu(\d x) \nu(\d y)
+    \]
+    Autrement dit, pour $f \geq 0$ mesurable :
+    \[
+        \int f \d(\mu \star \nu) = \int_{\R^{d} \times \R^{d}} f(x + y)\mu(\d x) \nu(\d y)
+    \]
+\end{definition}
+
+\begin{proposition}
+    Soient $X$ et $Y$ deux v.a. indépendantes à valeurs dans $\R^{d}$ :
+    \begin{enumerate}
+        \item La loi de $X + Y$ est $P_{X} \star P_{Y}$. En particulier, si $X$ et $Y$ sont à densité : $X + Y$ a pour densité $p_{X} \star p_{Y}$
+        \item La fonction caractéristique de $X + Y$ est : $\Phi_{X + Y}(\xi) = \Phi_{X}(\xi)\Phi_{Y}(\xi)$
+        \item Si $X$ et $Y$ sont de carré intégrable : $K_{X + Y} = K_{X} + K_{Y}$.
+    \end{enumerate}
+\end{proposition}
+
+\begin{definition}
+    Soit $X_n$ une suite de v.a. à valeurs dans $\R^{d}$, $X$ une v.a. à valeurs dans $\R^{d}$. On dit que $X_{n}$ converge en probabilité vers $X$ si :
+    \[
+        \forall \epsilon > 0, \lim_{n \to \infty} \mathbb{P}\left(\abs{X_{n} - X} \geq \epsilon\right) = 0
+    \]
+\end{definition}
+
+\begin{definition}
+    Pour $X, Y$ dans $L_{\R^{d}}^{0}$, on pose : $d(X, Y) = E[Inf(\abs{X - Y}, 1)]$. C'est une distance.
+\end{definition}
+
+\begin{proposition}
+    Si $\left(X_{n}\right)$ est une suite de $L^{0}$, alors $X_{n} \rightarrow X$ si et seulement si $d(X_{n}, X) \xrightarrow[n \to \infty]{} 0$. De plus, $L^{0}$ est complet.
+\end{proposition}
+
+
+\begin{corollary}
+    On a de plus que si $d(X_{n}, X) \rightarrow 0$, il existe une sous-suite qui converge p.s.
+\end{corollary}
+
+\begin{corollary}
+    Soit $X_{n}$ une suite de v.a. qui converge en proba vers $X$. S'il existe $r > 1$ tel que :
+    \[
+        \sup_{n \in \N} E[\abs{X_{n}}^{r}] < \infty \text{ et } E[\abs{X}^{r}] < \infty
+    \]
+    Il y a convergence dans $L^{1}$.
+\end{corollary}
+
+\begin{definition}
+    
+    Une suite $X_{n}$ de variable aléatoires à valeurs dans $\R^{d}$ converge en loi vers une variable aléatoire $X$ à valeures dans $\R^{d}$ si
+    \[
+        P_{X_{n}} \xrightarrow[n \to \infty]{(e)} P_{X}
+    \]
+    Cela équivaut à :
+    \[
+        \forall \phi \in \cont_{b}(\R^{d}, \R), E[\phi(X_{n})] \xrightarrow[n \to \infty]{} E[\phi(X)]
+    \]
+\end{definition}
+
+\begin{proposition}
+    Si la suite $\left(X_{n}\right)$ converge en probabilité vers $X$ alors la suite $X_{n}$ converge en loi vers $X$.
+\end{proposition}
+
+
+\begin{theorem}[Loi Faible des Grands Nombres]
+    Soit $X_{n}$ une suite de variables aléatoires réelles indépendantes et de même loi. Si $E[X_{1}^{2}] < \infty$ :
+    \[
+        \frac{1}{n}\left(X_{1} + \ldots + X_{n}\right) \xrightarrow[n \to \infty]{L^{2}} E[X_{1}]
+    \]
+\end{theorem}
+
+\begin{proposition}
+    Sous les hypothèses du théorème précédent, si $E\left[X_{1}^{4}\right] < \infty$, on a presque sûrement
+    \[
+        \frac{1}{n}\left(X_{1} + \ldots + X_{n}\right) \xrightarrow[n \to \infty]{} E[X_{1}]
+    \]
+\end{proposition}
+
+\begin{corollary}
+    Si $\left(A_{n}\right)_{n \geq 1}$ est une suite d'évènements indépendants de même probabilité, on a :
+    \[
+        \frac{1}{n}\sum_{i = 1}^{n}\mathds{1}_{A_{i}} \xrightarrow[n \to \infty]{p.s.} P(A_{1})
+    \]
+\end{corollary}
+
+\subsection{Semigroupes de Convolution}
+Soit $I \in \left\{\N, \R_{+}\right\}$
+\begin{definition}
+    Soit $(\mu_{t})_{t\in I}$ une famille de mesures de probabilités sur $\R^{d}$. On dit que $\left(\mu_{t}\right)$ est un semigroupe de convolution si $\mu_{0} = \delta_{0}$ et si : 
+    \[
+        \mu_{t} \star \mu_{t'} = \mu_{t + t'}, \forall t, t' \in I
+    \]
+\end{definition}
+\begin{lemma}
+    Pour que $\mu_{t}$ soit un semigroupe de convolution, il suffit qu'il existe $\phi : \R \rightarrow \C$ telle que : 
+    \begin{itemize}
+        \item si $I = \N$, $\hat{\mu}_{t}(\xi) = \phi(\xi)^{t}$, pour tout $t \in \N$
+        \item si $I = \R$, $\hat{\mu}_{t}(\xi) = \exp(-t\phi(\xi))$, pour tout $t$
+    \end{itemize}
+\end{lemma}
+\begin{proposition}
+    Si $X, Y$ sont deux v.a. réelles indépendantes et : 
+    \begin{itemize}
+        \item Si $X \sim \mathcal{P}(\lambda), Y \sim \mathcal{P}(\lambda')$ alors $X + Y \sim \mathcal{P}(\lambda + \lambda')$
+        \item Si $X \sim \mathcal{N}(m, \sigma^2), Y \sim \mathcal{N}(m', \sigma'^{2})$ alors $X + Y \sim \mathcal{N}(m + m', \sigma^{2} + \sigma'^{2})$
+    \end{itemize}
+\end{proposition}
+
+\section{Convergence de Variables Aléatoires}
+\begin{definition}
+    On dit que la suite $(X_{n})$ converge en probabilité vers $X$ noté 
+    \[
+        X_{n} \xrightarrow[n \to \infty]{(P)} \rightarrow X
+    \]
+    si pour tout $\epsilon > 0$ 
+    \[
+        \lim_{n \to \infty} P(\abs{X_{n} - X} > \epsilon) = 0
+    \]
+\end{definition}
+
+\begin{proposition}
+    Soit $L_{\R^{d}}^{0}(\Omega, \A, P)$ le quotient de l'espace de toutes les variables aléatoires par la relation $X = Y$ presque surement. Alors la formule : 
+    \[
+        d(X, Y) = E[\abs{X - Y} \land 1]
+    \]
+    définit une distance compatible avec la convergence en probabilité. 
+\end{proposition}
+
+\begin{proposition}
+    Soit $X_{n}$ une suite convergeant en probabilité vers $X$. Supposons qu'il existe $r \in \left]1, \infty \right[$ tel que la suite $(X_{n})$ soit bornée dans $L^{r}$. Alors, pour $p \in \left[1, r\right[$
+\end{proposition}
+
+\subsection{Loi Forte des Grands Nombres}
+\begin{theorem}[Loi du Tout ou Rien]
+    Soit $X_{n}$ une suite de v.a. indépendantes, à valeurs dans des espaces mesurables quelconques. Pour $n \geq 1$ soit $\mathfrak{B}_{n}$ la tribu $\sigma(X_{k}, k\geq n)$
+    Alors la tribu asymptotique \[\mathfrak{B}_{\infty} = \bigcap_{n = 0}^{\infty} \mathfrak{B}_{n}\] est grossière, au sens où $P(B) \in \{0, 1\}$ pour tout $B \in \mathfrak{B}_{\infty}$
+\end{theorem}
+
+\begin{proposition}
+    Soit $X_{n}$ une suite de variables aléatoires i.i.d de Rademacher. On note $S_{n} = X_{1} + \cdots + X_{n}$. Alors, presque sûrement : 
+    \[  
+        \sup S_{n} = +\infty \text{ et } \inf S_{n} = -\infty
+    \]
+    En particulier, il existe presque sûrement des entiers arbitrairement grands pour lesquels $S_{n} = 0$.
+\end{proposition}
+
+\begin{theorem}[Loi Forte des Grands Nombres]
+    Soit $X_{n}$ une suite de v.a. i.i.d. dans $L^{1}$. Alors, 
+    \[
+        \frac{1}{n}\left(X_{1} + \ldots + X_{n}\right) \xrightarrow[n \to \infty]{p.s.} E[X_{1}]
+    \]
+\end{theorem}
+
+\subsection{Convergence en Loi}
+\begin{definition}
+    Une suite $\mu_{n}$ de mesures de probabilité sur $\R^{d}$ converge étroitement vers une mesure de probabilité $\mu$ sur $\R^{d}$ si
+    \[
+        \forall \phi \in \cont_{b}(\R^{d}, \R), \int \phi \d\mu_{n} \xrightarrow[n \to \infty]{} \int \phi \d\mu
+    \]
+\end{definition}
+
+\begin{proposition}
+    Soient $\mu_{n}, \mu$ des mesures de probabilité sur $\R^{d}$. Les quatre assertions suivantes sont équivalentes :
+    \begin{enumerate}
+        \item $\mu_{n} \xrightarrow{(e)} \mu$
+        \item Pour tout ouvert $G$ de $\R^{d}$
+              \[
+                  \liminf \mu_{n}(G) \geq \mu(G)
+              \]
+        \item Pour tout fermé $F$ de $\R^{d}$
+              \[
+                  \limsup \mu_{n}(F) \leq \mu(F)
+              \]
+        \item Pour tout $B \in \B(\R^{d})$ tel que $\mu\left(\partial B\right) = 0$ :
+              \[
+                  \lim \mu_{n}(B) = \mu(B)
+              \]
+    \end{enumerate}
+\end{proposition}
+
+\begin{proposition}
+    Une suite de v.a. réelles converge en loi vers une v.a. si et seulement si les fonctions de répartitions convergent en tout point de continuité. 
+\end{proposition}
+
+On note $\cont_{c}\left(\R^{d}\right)$ l'espace des fonctions continues à support compact.
+
+\begin{proposition}
+    Soient $\mu_{n}, \mu$ des mesures de probabilité sur $\R^{d}$. Soit $H$ un sous-ensemble de $\cont_{b}(\R^{d})$ dont l'adhérence pour la norme infinie contient $\cont_{c}(\R^{d})$. Alors les propositions suivantes sont équivalentes :
+    \begin{enumerate}
+        \item $\mu_{n}\xrightarrow{(e)} \mu$
+        \item On a : 
         \[
-            P(X\in B) = P_{X}(B)= P\left(X^{-1}(B)\right)
+            \forall \phi \in \cont_{c}(\R^{d}), \int \phi \d\mu_{n} \xrightarrow[n \to \infty]{}\int \phi \d\mu
         \]
-    \end{definition}
-
-    \begin{definition}
-        \begin{itemize}
-            \item Variables Aléatoires Discrètes : C'est le cas où $E$ est dénombrable et $\mathcal{E} = \mathcal{P}(E)$. La loi de $X$ est alors \[P_{X} = \sum_{x \in E}P(X = x)\delta_{x}\]
-            \item Variables Aléatoires à Densité : Une variable aléatoire $X$ à valeurs dans $\left(\R^{d}, \B(\R^{d})\right)$ est dite à densité si $P_{X}$ est absolument continue par rapport à la mesure de Lebesgue $\lambda$. Il existe alors $p : \R^{d} \rightarrow \R_{+}$ telle que \[P_{X}(B) = \int_{B}p(x)\d x\] La fonction $p$, unique à un ensemble de mesure nulle près, est appelée la densité de $X$.
-        \end{itemize}
-    \end{definition}
-
-    \begin{definition}
-        Soit $X$ une variable aléatoire réelle. On note \[E[X] = \int_{\Omega}X(\omega)P(\d \omega)\]
-        qui est bien définie si $X \geq 0$ et alors $E[X] \in \left[0, \infty\right]$ ou si $E[\abs{X}] < \infty$. On étend cette définition dans $\R^{d}$ avec $E\left[\left(X_{1}, \ldots, X_{d}\right)\right] = \left(E[X_{1}], \ldots, E[X_{d}]\right)$.
-    \end{definition}
-
-    \begin{proposition}
-        Si $X = \mathds{1}_{B}, E[X] = P(B)$ 
-    \end{proposition}
-
-    \begin{proposition}
-        Soit $X$ v.a. à valeurs dans $E$. Si $f : E \rightarrow \left[0, \infty\right]$ est mesurable : 
+        \item On a : 
         \[
-            E[f(X)] = \int_{E} f(x)P_{X}\left(\d x\right)
+            \forall \phi \in H, \int \phi \d \mu_{n} \xrightarrow[n\to \infty]{}\int \phi \d \mu
         \]
-    \end{proposition}
-    \begin{proof}
-        Découle des propositions sur la composition de fonctions mesurables.
-    \end{proof}
+    \end{enumerate}
+\end{proposition}
 
-    \begin{proposition}
-        Soit $X = \left(X_{1}, \ldots, X_{d}\right)$ une v.a. à valeurs dans $\R^{d}$. Supposons que la loi de $X$ a densité $p\left(x_{1}, \ldots, x_{d}\right)$. Alors, pour tout $j$, la loi de $X_{j}$ a une densité donnée par 
-        \[
-            p_{j}(x) = \int_{\R^{d - 1}} p\left(x_{1}, \ldots, x_{j - 1}, x_{j + 1}, \ldots, x_{d}\right)\d x_{1} \ldots \d x_{j - 1} \d x_{j + 1}\ldots \d x_{d}
-        \]
-        La loi de $X$ détermine entièrement les lois marginales de $X$, mais la réciproque est fausse. 
-    \end{proposition}
-    \begin{proof}
-        Direct.
-    \end{proof}
+\begin{theorem}[Lévy]
+    Une suite $\mu_{n}$ de mesures de probabilité sur $\R^{d}$ converge étroitement vers une mesure de probabilité $\mu$ sur $\R^{d}$ si et seulement si
+    \[  
+        \forall \xi \in \R^{d}, \hat{\mu}_{n}(\xi) \xrightarrow[n \to \infty]{}\hat{\mu}(\xi)
+    \]
+    De manière équivalente, une suite $X_{n}$ de variables aléatoires à valeurs dans $\R^{d}$ converge en loi vers $X$ si et seulement si 
+    \[
+        \forall \xi \in \R^{d}, \Phi_{X_{n}}(\xi) \xrightarrow[n \to \infty]{} \Phi_{X}(\xi)
+    \]
+\end{theorem}
 
-    \subsubsection{Lois de Probabilité}
-    \begin{definition}
-        \begin{itemize}
-            \item Lois Discrètes : 
-            \begin{itemize}
-                \item Loi Uniforme: Si $E$ est un ensemble fini, $\abs{E} = n$, une v.a. $X$ est de loi uniforme sur $E$, $X \sim \mathcal{U}(E)$, si \[P(X = x) = \frac{1}{n}\]
-                \item Loi de Bernoulli de paramètre $p \in \left[0, 1\right]$ : $X$ à valeurs dans $\{0, 1\}$ suit une telle loi, $X \sim \B(p)$ si $P(X = 1) = p$, $P(X = 0) = 1- p$.
-                \item Loi Binômiale $\B(n, p), n\in \N^{*}, p\in\left[0, 1\right]$ : $P(X = k) = C_{n}^{k}\left(1 - p\right)^{n - k}p^{k}$. 
-                \item Loi Géométrique de paramètre $p \in \left]0, 1\right[$ : $X \sim \mathcal{G}(p)$ si $P(X = k) = \left(1 - p\right)p^{k}$
-                \item Loi de poisson de paramètre $\lambda > 0$ : $X \sim \mathcal{P}(\lambda)$ si $P(X = k) = \frac{\lambda^{k}}{k!}e^{-\lambda}$. 
-            \end{itemize}
-            \item Lois Continues/à Densité : 
-            \begin{itemize}
-                \item Loi Uniforme sur $\left[a, b\right]$ : $p(x) = \frac{1}{b - a}\mathds{1}_{\left[a, b\right]}(x)$
-                \item Loi Exponentielle de paramètre $\lambda > 0$ : $p(x) = \lambda e^{-\lambda x}\mathds{1}_{\R_{+}}(x)$
-                \item Loi Gaussienne ou Normale $\mathcal{N}(m,\sigma^{2}), m \in \R, \sigma > 0$ : $p(x) = \frac{1}{\sigma\sqrt{2\pi}} \exp\left(- \frac{\left(x - m\right)^{2}}{2 \sigma^{2}}\right)$
-            \end{itemize}
-        \end{itemize}
-    \end{definition}
+\subsection{Conséquences}
+\subsubsection{Convergence des Mesures Empiriques}
+\begin{theorem}
+    Soit $X_{n}$ une suite de v.a. i.i.d à valeurs dans $\R^{d}$. Pour tout $\omega \in \Omega$ et tout $n \geq 1$, soit $\mu_{n, \omega}$ définie par : 
+    \[
+        \mu_{n, \omega} = \frac{1}{n}\sum_{i = 1}^{n}\delta_{X_{i}(\omega)}
+    \]
+    Alors presque sûrement : 
+    \[
+        \mu_{n, \omega} \xrightarrow[n \to \infty]{(e)} P_{X_{1}}
+    \]
+\end{theorem}
 
-    \subsubsection{Des Propriétés}
-    \begin{definition}
-        La fonction de répartition d'une variable aléatoire réelle $X$ est la fonction $F_{X} : \R \rightarrow \left[0, 1\right]$ définie par : 
-        \[
-            F_{X}(t) = P(X \leq t) = P_{X}\left(\left]- \infty t\right]\right)
-        \]
-        La fonction $F_{X}$ est croissante, continue à droite, et a pour limites $0$ en $-\infty$ et $1$ en $+\infty$.
-    \end{definition}
+\subsubsection{Théorème Central Limite}
+\begin{theorem}
+    Soit $X_{n}$ une suite de variables aléatoires réelles indépendantes et de même loi dans $L^{2}$. Soit $\sigma^{2} =\var X_{1}$. Alors : 
+    \[
+        \frac{1}{\sqrt{n}}\left(X_{1} + \ldots + X_{n} - n E[X_{1}]\right) \xrightarrow[n \to \infty]{(loi)} \mathcal{N}(0, \sigma^{2})
+    \]
+    De manière équivalente, pour tous $a, b \in \bar{\R}$ :
+    \[
+        \lim_{n \to \infty} P\left(X_{1} + \ldots + X_{n} \in \left[n E[X_{1}] + a\sqrt{n}, \ nE[X_{1}] + b\sqrt{n}\right]\right) = \frac{1}{\sigma\sqrt{2\pi}}\int_{a}^{b}\exp\left(-\frac{x^{2}}{2\sigma^{2}}\right)\d x
+    \] 
+\end{theorem}
 
-    \begin{proposition}
-        La fonction de répartition caractérise la variable aléatoire et les sauts de $F_{X}$ correspondent aux atomes de $P_{X}$. De plus : 
-        \[
-            \begin{aligned}
-                P\left(a \leq X \leq b\right) &= F_{X}(b) - F_{X}(a^{-})\\
-                P\left(a < X < b\right) &= F_{X}(b^{-}) - F_{X}(a)
-            \end{aligned}    
-        \]
-    \end{proposition}
-    \begin{proof}
-        Découle des résultats d'intégration.
-    \end{proof}
+\begin{definition}
+    Soit $C$ une matrice $d \times d$ réelle symétrique positive. Une v.a. $X$ à valeurs dans $\R^{d}$ de carré intégrable, est appelée vecteur gaussien centré de covariance $C$ si : 
+    \[
+        \forall \xi \in \R^{d}, \Phi_{X}(\xi) = E[e^{i\xi\dot X}] = \exp\left(-\frac{1}{2}\transpose{\xi}C\xi\right)
+    \]
+    On dit aussi que $X$ suit la loi $\mathcal{N}(0, C)$.
+\end{definition}
 
-    \begin{definition}
-        On définit la tribu engendrée par une variable aléatoire dans un espace mesurable comme la plus petite tribu sur $\Omega$ qui rende $X$ mesurable : 
-        \[
-            \sigma(X) = \left\{A = X^{-1}(B)\mid B\in \mathcal{E}\right\}    
-        \]
-    \end{definition}
+\begin{proposition}
+    Soit $C$ une matrice symétrique positive. Il existe un vecteur gaussien centré de covariance $C$. 
+\end{proposition}
 
-    \begin{proposition}
-        Soit $X$ une variable aléatoire à valeurs dans $E, \mathcal{E}$. Soit $Y$ une v.a. réelle. Il y a équivalence entre :
-        \begin{enumerate}
-            \item $Y$ est $\sigma(X)$-mesurable. 
-            \item Il existe une fonction mesurable de $E, \mathcal{E}$ dans $\R, \B(\R)$ telle que $Y = f(X)$.
-        \end{enumerate}
-    \end{proposition}
-    \begin{proof}
-        ii) implique i) est directe. Si $Y$ est $\sigma(X)$-mesurable. On traite le cas où $Y$ est étagée, puis on conclut car $Y$ est limite simple de v.a. $Y_{n}$ étagées et $\sigma(X)$-mesurables.
-    \end{proof}
+\begin{theorem}[Théorème Central Limite Vectoriel]
+    Soit $X_{n}$ une suite de v.a. i.i.d. dans $\R^{d}$ de carré intégrable. Alors, 
+    \[
+        \frac{1}{\sqrt{n}}\left(X_{1} + \ldots + X_{n} - nE[X_{1}]\right)\xrightarrow[n \to \infty]{(loi)}\mathcal{N}(0, K_{X_{1}})
+    \]
+\end{theorem}
 
-    \subsection{Moments de Variables Aléatoires}
-    \begin{definition}
-        Le moment d'ordre $p$ de $X$ est $E[X^{p}]$. On appelle moment absolu d'ordre $p$ de $X$ la quantité $E\left[X^{p}\right]$.
-    \end{definition}
-
-    \begin{proposition}
-        \begin{itemize}
-            \item Par Convergence Monotone : $X_{n} \geq 0, X_{n} \uparrow X \Rightarrow E[X_{n}] \uparrow E[X]$
-            \item Lemme de Fatou : $X_{n} \geq 0 \Rightarrow E[\liminf X_{n}] \leq \liminf E[X_{n}]$ 
-            \item Convergence Dominée : $\abs{X_{n}} \leq Z, \ E[Z] < \infty, \ X_{n} \rightarrow X$ p.p. $\Rightarrow E[X_{n}] \rightarrow E[X]$.
-        \end{itemize}
-    \end{proposition}
-
-    \begin{proposition}
-        Inégalité de Cauchy-Schwarz : $E[\abs{XY}] \leq \sqrt{E[X^{2}]E[Y^{2}]}$. Dans le cas où $Y = 1$ on a : $E[\abs{X}]^{2} \leq E[X^{2}]$
-    \end{proposition}
-
-    Les espaces $\mL^{p}(\Omega, \A, P)$ sont définis pour tout $p \in \left[1, \infty\right]$ par le quotient pour la relation "$P$ presque partout" des fonctions dont le moment d'ordre $p$ est défini. 
-
-    \begin{definition}
-        Soit $X \in \mL^{2}$, la variance de $X$ est : 
-        \[
-            \var(X) = E\left[\left(X - E[X]\right)^{2}\right]
-        \]
-        et l'écart-type de $X$ est :
-        \[
-            \sigma_{X} = \sqrt{\var(X)}  
-        \]
-    \end{definition}
-
-    \begin{proposition}
-        On a : $\var(X) = E[X^{2}] - \left(E[X]\right)^{2}$ et si $a \in \R$ : 
-        \[
-            E[\left(X - a\right)^{2}] = \var(X) + \left(E[X] - a\right)^{2}
-        \]
-        Ainsi : 
-        \[
-            \var(X) = \inf_{a\in \R} E[\left(X - a\right)^{2}]
-        \]
-    \end{proposition}
-    \begin{proof}
-        Calculer.
-    \end{proof}
-
-
-    \begin{proposition}
-        Si $X \in \mL^{2}$ et $a > 0$ : 
-        \begin{itemize}
-            \item Inégalité de Markov : $P(X \geq a) \leq \frac{1}{a}E[X]$
-            \item Inégalité de Bienaymé-Tchébychev : $P(\abs{X - E[X]} \geq a) \leq \frac{1}{a^{2}}\var(X)$
-        \end{itemize}
-    \end{proposition}
-    \begin{proof}
-        Utiliser l'Inégalité de Markov pour $\left(X - E[X]\right)^{2}$. 
-    \end{proof}
-
-    \begin{definition}
-        Si $X, Y \in \mL^{2}$, la covariance de $X$ et $Y$ est :
-        \[
-            \cov(X, Y) = E[\left(X - E[X]\right)\left(Y - E[Y]\right)] = E[XY] - E[X]E[Y]
-        \]
-        On définit pour un vecteur aléatoire à valeurs dans $R^{d}$ : 
-        \[
-            K_{X} = \left(\cov(X_{i}, X_{j})\right)_{i, j \in \llbracket 1,d\rrbracket}
-        \]
-        $X, Y \mapsto \cov(X, Y)$ est bilinéaire et $K_{X}$ est symétrique positive. 
-    \end{definition}
-
-    \begin{definition}
-        Si $X$ est une v.a. à valeurs dans $\R^{d}$ la fonction caractéristique de $X$ est $\Phi_{X} : \R^{d} \rightarrow \C$ définie par : 
-        \[
-            \Phi_{X}(\xi) = E[\exp\left(i\xi \dot X\right)] = \int e^{i\xi \dot x}P_{X}(\d x)
-        \]
-    \end{definition}
-
-    \begin{lemma}
-        Soit $X \sim \mathcal{N}(0, \sigma^{2})$ : 
-        \[
-            \Phi_{X}(\xi) = \exp\left(-\frac{\sigma^{2}\xi^{2}}{2}\right)
-        \]
-    \end{lemma}
-    \begin{proof}
-        On calcule, en dérivant sous le signe intégrale. 
-    \end{proof}
-
-    \begin{theorem}
-        La fonction caractéristique caractérise la loi.
-    \end{theorem}
-    \begin{proof}
-        On traite le cas $d = 1$ puis on applique le théorème de Fubini-Lebesgue.
-    \end{proof}
-
-    \begin{definition}
-        On définit la fonction génératrice $g_{X}$ d'une variable aléatoire à valeurs dans $\N$ sur l'intervalle $\left[0, 1\right]$ par : 
-        \[
-            g_{X}(r) = E[r^{X}] = \sum_{n = 0}^{\infty}P(X = n)r^{n}
-        \]
-    \end{definition}
-
-    \begin{proposition}
-        \begin{itemize}
-            \item $g_{X}$ est continue sur $\left[0, 1\right]$
-            \item $g_{X}(0) = P(X = 0), g_{X}(1) = 1$.
-            \item La focntion caractéristique caractérise la loi puisque les $P(X = n)$ sont les coefficients (uniques) du développement de Taylor de $g_{X}$ en $0$.
-            \item $\lim_{r \uparrow 1}g_{X}^{(p)}(r) = E\left[X(X - 1)\cdots(X - p + 1)\right]$
-        \end{itemize}
-    \end{proposition}
-
-    \section{Indépendance}
-        \subsection{Définitions}
-            \begin{definition}
-                Deux évènements sont indépendants si $P(A\cap B) = P(A)P(B)$. $n$ évènements sont indépendants si pour tout sous-ensemble non vide de $\left\{1, \ldots, n\right\}$ on a :
-                \[
-                    P\left(\bigcap_{j \in J \subset \llbracket 1, n\rrbracket} A_{j}\right) = \prod_{j \in J} P(A_{j})
-                \]
-            \end{definition}
-
-            \begin{proposition}
-                Les $n$ évènements $A_{1}, \ldots, A_{n}$ sont indépendants si et seulement si, quand $B_{i} \in \sigma\left(A_{i}\right) = \left\{\emptyset, A_{i}, A_{i}^{\complement}, \Omega\right\}$ : 
-                \[
-                    P\left(\bigcap_{j \in \onen{n}} B_{j}\right) = \prod_{j \in \onen{n}} P(B_{j})      
-                \]
-            \end{proposition}
-            
-            \begin{definition}
-                \begin{itemize}
-                    \item Soient $\B_{1}, \ldots \B_{n}$ $n$ sous-tribus de $\A$. Ces sous-tribus sont indépendantes si et seulement si toute familles d'évènements de ces tribus l'est.
-                    \item Soient $X_{1}, \ldots, X_{n}$ $n$ v.a. à valeurs dans $E_{1}, \ldots, E_{n}$. Ces variables sont indépendantes si les tribus qu'elles engendrent le sont, i.e. si 
-                    \[
-                        \forall F_{1} \in \mathcal{E}_{1}, \ldots, \forall F_{n} \in \mathcal{E}_{n}, \ P\left(\bigcap_{i \in \onen{n}}\left\{X_{i} \in F_{i}\right\}\right) = \prod_{i \in \onen{n}} P\left(X_{i} \in F_{i}\right)
-                    \]
-                \end{itemize}
-            \end{definition}
-
-            \begin{theorem}
-                Les $n$ variables aléatoires sont indépendantes si et seulement si la loi du $n$-uplet $\left(X_{1}, \ldots, X_{n}\right)$ est le produit des lois de ses composantes : 
-                \[
-                    P_{\left(X_{1}, \ldots, X_{n}\right)} = P_{X_{1}} \bigotimes \cdots \bigotimes P_{X_{n}}
-                \]
-                On a alors, si les $f_{i}$ sont mesurables positives sur $\left(E_{i}, \mathcal{E}_{i}\right)$: 
-                \[
-                    E\left[\prod_{i = 1}^{n}f_{i}(X_{i})\right] = \prod_{i = 1}^{n} E\left[f_{i}(X_{i})\right]
-                \]
-            \end{theorem}
-            \begin{corollary}
-                Si $X_{1}, X_{2} \in \mL^{2}$ sont indépendantes : $\cov(X_{1}, X_{2}) = 0$.
-            \end{corollary}
-
-            \begin{corollary}
-                Soient $X_{1}, X_{n}$ $n$ v.a. réelles.
-                \begin{enumerate}
-                    \item Si $P_{X_{i}}$ est de densité $p_{i}$ et que les variables sont indépendantes. Alors : 
-                    \[p(x_{1}, \ldots, x_{n}) = \prod_{i\in \onen{n}} p_{i}(x_{i})\]
-                    \item Inversement, si la loi de $\left(X_{1}, \ldots, X_{n}\right)$ a une densité de la forme \[p(x_{1}, \ldots, x_{n}) = \prod_{i\in \onen{n}} q_{i}(x_{i})\] où les $q_{i}$ sont boréliennes positives sur $\R$. Alors les variables sont indépendantes et leurs densités sont proportionelles à $q_{i}$.
-                \end{enumerate}
-            \end{corollary}
-
-            \begin{proposition}
-                Soient $\B_{1}, \ldots, \B_{n}$ des sous-tribus de $\A$. Pour tout $i\in \onen{n}$, soit $\cont_{i} \subset \B_{i}$ une classe stable par intersections finies, contentant $\Omega$ et engendrant $\B_{i}$. Si 
-                \[
-                    \forall C_{1}, \ldots, C_{n} \in \cont_{1} \times \ldots \cont_{n}, P\left(\bigcap_{i \in \onen{n}} C_{i}\right) = \prod_{i \in \onen{n}}P(C_{i})
-                \]
-                alors les tribus $\B_{i}$ sont indépendantes.
-            \end{proposition}
-            \begin{corollary}
-                On en déduit le lemme de regroupement par paquets. Si on regroupe des tribus en partition, les tribus que chacune des classes engendrent sont indépendantes, et de même pour des variables aléatoires. 
-            \end{corollary}
-            
-
-        \subsection{Hahn-Kolmogorov}
-            \begin{theorem}[de Hahn-Kolmogorov]
-                Soit $\Omega$ un ensemble, $\A$ une algèbre sur $\Omega$.
-                Soit $m : \A \rightarrow \Omega$ telle que : 
-                \begin{itemize}
-                    \item $m(\emptyset) = 0$ et $m(\Omega) = 1$
-                    \item Si $A_{n}$ est une suite d'éléments disjoints de $\A$ telle que $\cup_{n} A_{n} \in \A$, alors $m\left(\cup_{n} A_{n}\right) = \sum_{n} m(A_{n})$.
-                \end{itemize}
-                Alors, il existe une tribu $\mathcal{T}$ contenant $\mathcal{A}$ et une mesure de probabilité $\mathbb{P}$ telle que restreinte à $\A$ ce soit $m$.
-            \end{theorem}
-            \begin{remark}
-                On appliquera ce résultat avec $\Omega = \prod E_{n}$, $\A = B_{\infty}$.
-            \end{remark}
-
-            \begin{lemma}
-                On définit pour $A \in P(\Omega)$, \[m^{\star}(A) = \inf_{A \subset \bigcup_{n} A_{n}} \sum_{n \in \N} m(A_{n})\]
-                Alors $m^{\star}$ est une mesure extérieure :
-                \begin{itemize}
-                    \item $m^{\star}(\emptyset) = 0$
-                    \item Si $A \subset B$, $m^{\star}(A) \leq m^{\star}(B)$.
-                    \item $\forall \ A_{n} \in P(\Omega)^{\N}$ \[
-                        m^{\star}\left(\bigcup_{n} A_{n}\right) \leq \sum_{n \in \N} m^{\star}(A_{n})
-                    \]
-                \end{itemize}
-                De plus $m^{\star}$ est égale à $m$ sur $\A$.
-            \end{lemma}
-        
-        \section{Convergence de sommes de variables aléatoires indépendantes}
-        \subsection{Remarques Préliminaires}
-        \begin{definition}
-            Soit $\mu$ et $\nu$ deux lois de probabilités sur $\R^{d}$. On note $\mu \star \nu$ la loi de probabilité définie par :
-            \[
-                (\mu \star \nu)(A) = \int_{\R^{d} \times \R^{d}} \mathds{1}_{(x + y) \in A} \mu(\d x) \nu(\d y)
-            \]
-            Autrement dit, pour $f \geq 0$ mesurable : 
-            \[
-                \int f \d(\mu \star \nu) = \int_{\R^{d} \times \R^{d}} f(x + y)\mu(\d x) \nu(\d y)
-            \]
-        \end{definition}
-
-        \begin{proposition}
-            Soient $X$ et $Y$ deux v.a. indépendantes à valeurs dans $\R^{d}$ :
-            \begin{enumerate}
-                \item La loi de $X + Y$ est $P_{X} \star P_{Y}$. En particulier, si $X$ et $Y$ sont à densité : $X + Y$ a pour densité $p_{X} \star p_{Y}$
-                \item La fonction caractéristique de $X + Y$ est : $\Phi_{X + Y}(\xi) = \Phi_{X}(\xi)\Phi_{Y}(\xi)$
-                \item Si $X$ et $Y$ sont de carré intégrable : $K_{X + Y} = K_{X} + K_{Y}$.
-            \end{enumerate}
-        \end{proposition}
-
-        \begin{definition}
-            Soit $X_n$ une suite de v.a. à valeurs dans $\R^{d}$, $X$ une v.a. à valeurs dans $\R^{d}$. On dit que $X_{n}$ converge en probabilité vers $X$ si : 
-            \[
-                \forall \epsilon > 0, \lim_{n \to \infty} \mathbb{P}\left(\abs{X_{n} - X} \geq \epsilon\right) = 0
-            \]
-        \end{definition}
-
-        \begin{definition}
-            Pour $X, Y$ dans $L_{\R^{d}}^{0}$, on pose : $d(X, Y) = E[Inf(\abs{X - Y}, 1)]$. C'est une distance.
-        \end{definition}
-
-        \begin{proposition}
-            Si $\left(X_{n}\right)$ est une suite de $L^{0}$, alors $X_{n} \rightarrow X$ si et seulement si $d(X_{n}, X) \xrightarrow[n \to \infty]{} 0$. De plus, $L^{0}$ est complet.             
-        \end{proposition}
-
-        
-        \begin{corollary}
-            On a de plus que si $d(X_{n}, X) \rightarrow 0$, il existe une sous-suite qui converge p.s. 
-        \end{corollary}
-
-        \begin{corollary}
-            Soit $X_{n}$ une suite de v.a. qui converge en proba vers $X$. S'il existe $r > 1$ tel que : 
-            \[
-                \sup_{n \in \N} E[\abs{X_{n}}^{r}] < \infty \text{ et } E[\abs{X}^{r}] < \infty
-            \]
-            Il y a convergence dans $L^{1}$. 
-        \end{corollary}
-
-        \begin{definition}
-            Une suite $\mu_{n}$ de mesures de probabilité sur $\R^{d}$ converge étroitement vers une mesure de probabilité $\mu$ sur $\R^{d}$ si 
-            \[
-                \forall \phi \in \cont_{b}(\R^{d}, \R), \int \phi \d\mu_{n} \xrightarrow[n \to \infty]{} \int \phi \d\mu
-            \]
-            Une suite $X_{n}$ de variable aléatoires à valeurs dans $\R^{d}$ converge en loi vers une variable aléatoire $X$ à valeures dans $\R^{d}$ si 
-            \[
-                P_{X_{n}} \xrightarrow[n \to \infty]{(e)} P_{X}
-            \]
-            Cela équivaut à : 
-            \[
-                \forall \phi \in \cont_{b}(\R^{d}, \R), E[\phi(X_{n})] \xrightarrow[n \to \infty]{} E[\phi(X)]
-            \]
-        \end{definition}
-
-        \begin{proposition}
-            Si la suite $\left(X_{n}\right)$ converge en probabilité vers $X$ alors la suite $X_{n}$ converge en loi vers $X$. 
-        \end{proposition}
-
-        \begin{proposition}
-            Soient $\mu_{n}, \mu$ des mesures de probabilité sur $\R^{d}$. Les quatre assertions suivantes sont équivalentes :
-            \begin{enumerate}
-                \item $\mu_{n} \xrightarrow{(e)} \mu$
-                \item Pour tout ouvert $G$ de $\R^{d}$
-                \[
-                    \liminf \mu_{n}(G) \geq \mu(G)
-                \]
-                \item Pour tout fermé $F$ de $\R^{d}$
-                \[
-                    \limsup \mu_{n}(F) \leq \mu(F)
-                \]
-                \item Pour tout $B \in \B(\R^{d})$ tel que $\mu\left(\partial B\right) = 0$ : 
-                \[
-                    \lim \mu_{n}(B) = \mu(B)
-                \]
-            \end{enumerate} 
-        \end{proposition}
-
-        \begin{theorem}[Loi Faible des Grands Nombres]
-            Soit $X_{n}$ une suite de variables aléatoires réelles indépendantes et de même loi. Si $E[X_{1}^{2}] < \infty$ : 
-            \[
-                \frac{1}{n}\left(X_{1} + \ldots + X_{n}\right) \xrightarrow[n \to \infty]{L^{2}} E[X_{1}]
-            \]
-        \end{theorem}
-        
-        \begin{proposition}
-            Sous les hypothèses du théorème précédent, si $E\left[X_{1}^{4}\right] < \infty$, on a presque sûrement 
-            \[
-                \frac{1}{n}\left(X_{1} + \ldots + X_{n}\right) \xrightarrow[n \to \infty]{} E[X_{1}]
-            \]
-        \end{proposition}
-
-        \begin{corollary}
-            Si $\left(A_{n}\right)_{n \geq 1}$ est une suite d'évènements indépendants de même probabilité, on a : 
-            \[
-                \frac{1}{n}\sum_{i = 1}^{n}\mathds{1}_{A_{i}} \xrightarrow[n \to \infty]{p.s.} P(A_{1})
-            \]
-        \end{corollary}
 
 \end{document}

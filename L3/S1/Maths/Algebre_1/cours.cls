@@ -102,6 +102,8 @@
 \DeclareMathOperator{\rg}{rg}
 \DeclareMathOperator{\ch}{ch}
 \DeclareMathOperator{\sh}{sh}
+\DeclareMathOperator{\Mat}{Mat}
+\DeclareMathOperator{\Vect}{Vect}
 
 \renewcommand{\th}{\mathop{\rm th}}
 \makeatletter

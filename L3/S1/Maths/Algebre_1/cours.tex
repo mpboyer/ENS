@@ -1400,7 +1400,7 @@ Dans la suite, $A$ est un anneau commutatif et $n \geq 1$ un entier.
 \end{theorem}
 
 \begin{theorem}
-    Soient $k$ un courps et $V$ un $k$-ev de dimension finie : 
+    Soient $k$ un corps et $V$ un $k$-ev de dimension finie : 
     \begin{enumerate}
         \item Pour tout endomorphisme $u$ de $V$, il existe un unique entier $s \leq \dim V$ et une unique suite de polynômes $P_{1}, \ldots, P_{s} \in k[X]$ unitaires de degré $\geq 1$ avec $P_{1} \mid \cdots \mid P_{s}$ tels que dans une base $e$ convenable de $V$ on ait : 
         \[
@@ -1414,6 +1414,237 @@ Dans la suite, $A$ est un anneau commutatif et $n \geq 1$ un entier.
         \item Deux endomorphismes sont conjugués si et seulement si ils ont même invariants de similitudes. 
     \end{enumerate}
 \end{theorem}
+
+\section{Représentations Linéaires des Groupes Finis}
+\subsection{Représentations Linéaires}
+\begin{definition}
+    Une représentation $k$-linéaire de $G$ est la donnée d'un $k$-espace vectoriel $V$ et d'un morphisme $\rho : G \rightarrow GL(V)$.\\
+    La dimension ou le degré de $V, \rho$ est la dimension de $V$. Il est équivalent de se donner une représentation de $G$ sur $V$ et une action de $G$ sur $V$ telle que $L_{g}$ est $k$-linéaire. 
+\end{definition}
+
+\begin{definition}
+    Deux représentations $k$-linéaires de $G$ de même dimension sont isomorphes ou équivalentes s'il existe des bases $e_{1}$ et $e_{2}$ de $V_{1}$ et $V_{2}$ telles que $\rho_{1}^{e_{1}} = \rho_{2}^{e_{2}}$ où $\rho^{e}$ est l'application qui à $g \in G$ associe la matrice dans la base $e$ de $\rho(g)$.
+\end{definition}
+
+\begin{definition}
+    Si $G$ agit sur $X$, la représentation ci-dessus de $G$ sur $kX$ est appelée représentation de permutation associée. Dans la base $(e_{x})$ de $kX$, la matrice de chaque $\rho(g)$ a un unique coefficient non nul égal à $1$ sur chaque colonne et sur chaque ligne. 
+\end{definition}
+
+\subsection{Le point de vue $k[G]$-modules}
+\begin{definition}
+    Une $k$-algèbre est un $k$-espace vectoriel muni d'une loi de composition $\mu$ $k$-bilinéaire qui fait de $A, +, \mu$ un anneau. Un morphisme de $k$-algèbres est un morphisme d'anneaux $k$-linéaire. 
+\end{definition}
+
+On construit une $k$-algèbre sur le $k$-ev $kG$ en la munissant de $\mu$ qui dans la base des $e_{g}$ est donnée par $e_{g}e_{h} = e_{gh}$. 
+
+\begin{definition}
+    Soient $k$ un corps et $G$ un groupe. La $k$-algèbre d'espace sous-jacent $kG$ s'appelle l'algèbre du groupe $G$ à coefficients dans $k$ et est notée $k[G]$. Sa dimension comme $k$-ev est $\abs{G}$.
+\end{definition}
+
+\begin{proposition}
+    Il est équivalent de se donner une représentation $k$-linéaire de $G$ et un $k[G]$ module : 
+    \begin{enumerate}
+        \item Si $V$ est un $k[G]$-module, il existe une unique représentation $k$-linéaire de $G$ sur le $k$-ev sous-jacent à $V$ notée $\rho_{V}$ et telle que $\rho_{V}(g)(v) = g.v$. On l'appelle représentation associée à $V$.  
+        \item Si $V, \rho$ est une représentation $k$-linéaire de $G$, il existe une unique structure de $k[G]$-module sur $V$ étendant celle de $k$-espace vectoriel et vérifiant $g.v = \rho(g)(v)$. On l'appelle $k[G]$-module associé à $V, \rho$, et on le note en général simplement $V$. 
+    \end{enumerate}
+\end{proposition}
+
+\begin{definition}
+    Si $V_{1}, V_{2}$ sont des $k[G]$-modules, on note $Hom_{k[G]}(V_{1}, V_{2})$ le $k$-ev des applications $k[G]$-linéaires de $V_{1}$ vers $V_{2}$. 
+\end{definition}
+
+\begin{proposition}
+    Deux $k[G]$ modules $U$ et $V$ de dimension finie sont isomorphes si et seulement si les représentations associées le sont. 
+\end{proposition}
+
+\subsection{Décomposition en Irréductibles}
+\begin{definition}
+    Soit $V$ un $k[G]$-module. Un sous-$k$-ev $W \subseteq V$ est dit $G$-invariant si on a $g.w \in W$ pour tout $w \in W, g \in G$, i.e. si c'est un sous-module de $V$. Soient $e = \left(e_{1}, \ldots, e_{p +q}\right)$ où $e_{1}, \ldots, e_{p}$ est une base de $W$. Alors $W$ est $G$-invariant si et seulement si : 
+    \[
+        \Mat_{e}\rho_{V}(g) = \left[\begin{matrix}
+            \star_{p} & \star\\
+            0 & \star_{q}
+        \end{matrix}\right], \forall g \in G
+    \]
+\end{definition}
+
+\begin{definition}
+    Soit $V$ un $k[G]$-module. On dit que $V$ est irréductible (ou simple) si on a $V \neq 0$ et si les seuls sous-modules de $V$ sont $\left\{0\right\}$ et $V$. 
+\end{definition}
+\begin{proposition}
+    Si $k$ est algébriquement clos, $G$ abéliet et $V$ un $k[G]$-module irréductible de dimension finie. Alors $V$ est de dimension $1$.
+\end{proposition}
+\begin{proposition}
+    Un $k[G]$-module $V$ non nul est irréductinle si et seulement si $k[G]v = V$ pour tout $v \neq 0$ dans $V$. 
+\end{proposition}
+
+\begin{proposition}
+    Tout $k[G]$-module irréductible est de dimension $\leq\abs{G}$.
+\end{proposition}
+
+\begin{proposition}
+    Les seuls sous-modules de la représentation de permutation naturelle de $S_{n}$ sur $k^{n}$ sont $\left\{0\right\}, \Vect(1, 1,\ldots, 1), H = \left\{\sum_{i} x_{i} = 0\right\}, V$. En outre on a : 
+    \[
+        V = H \oplus D \Longleftrightarrow n \in k^{\times}
+    \]
+\end{proposition}
+
+\begin{definition}
+    Un $k[G]$-module $V$ est semi-simple s'il se décompose en somme directe de sous-modules irréductibles. 
+\end{definition}
+
+\begin{proposition}
+    Soit $V$ un $k[G]$-module de dimension finie. Il y a équivalence entre : 
+    \begin{enumerate}
+        \item $V$ est semi-simple
+        \item $V$ est somme de sous-modules irréductibles
+        \item Pour tout sous-module $W$ de $V$, il existe une sous-module $S$ de $V$ vérifiant $V = W \oplus S$. 
+        \item Tout sous-module de $V$ est semi-simple. 
+    \end{enumerate}
+\end{proposition}
+
+\begin{theorem}
+    On suppose $G$ fini et $\abs{G}$ dans $k^{\times}$. Alors tout $k[G]$-module de dimension finie est semi-simple. 
+\end{theorem}
+
+\begin{lemma}
+    Soient $U$ et $V$ deux $k[G]$-modules irréductibles.
+    \begin{enumerate}
+        \item Toute application $k[G]$-linéaire de $U$ dans $V$ est soit nulle soit un isomorphisme. 
+        \item Si de plus $k$ est algébriquement clos, et si $U$ est de dimension finie, les applications $k[G]$-linéaires $U \rightarrow U$ sont les homothéties. 
+    \end{enumerate}
+\end{lemma}
+
+\begin{proposition}
+    Soit $V$ un $k[G]$-module semi-simple de dimension finie. On suppose donnée une décomposition $V = \bigoplus_{i \in I} V_{i}$ et pour tout $i$ un $k[G]$-module irréductible de dimension finie $S_{i}$ tels que : 
+    \begin{enumerate}
+        \item $V_{i} \subseteq V$ est un sous-module isomorphe à $S_{i}^{\oplus n_{i}}$
+        \item $S_{i} \not \simeq S_{i'}$ si $i \neq i'$.
+    \end{enumerate}
+    Alors, pour tout sous-module irréductible $S$ de $V$, il existe un unique $i \in I$ tel que $S \simeq S_{i}$ et on a $S \subseteq V_{i}$.
+\end{proposition}
+
+\subsection{Théorie des Caractères}
+\begin{theorem}
+    Soit $h$ le nombre de classes de conjugaison du groupe fini $G$. 
+    \begin{enumerate}
+        \item A isomorphisme près, il existe $h$ $\C[G]$-modules irréductibles.
+        \item Leurs dimensions $n_{i}$ vérifient : $\sum_{i} n_{i}^{2} = \abs{G}$.
+    \end{enumerate}
+\end{theorem}
+
+\begin{definition}
+    Soient $V$ un $\C[G]-module$ de dimension finie et $\rho : G \rightarrow GL(V)$ le morphisme associé. Le caractère de $V$ est la fonction $G \to \C$, $g \mapsto \Tr(\rho(g))$. On le note $\chi_{V}$. En particulier $\chi_{V}(1) = \dim V$.
+\end{definition}
+
+\begin{definition}
+    Une fonction est dite centrale si elle est constante sur les classes de conjugaison de $G$.
+\end{definition}
+
+\begin{proposition}
+    Pour tout $\C[G]$-module $V$ de dimension finie, $\chi_{V}$ est centrale sur $G$. De plus si $U \simeq V$, on a $\chi_{U} = \chi_{V}$.
+\end{proposition}
+
+\begin{proposition}
+    Soient $U, V$ des $\C[G]$-modules de dimension finie et $W = U \oplus V$. On a $\chi_{W} = \chi_{U} + \chi_{V}$.
+\end{proposition}
+
+\begin{definition}
+    L'espace $Hom_{k}(U, V)$ des applications $k$-linéaires est muni d'une structure naturelle de $k[G]$-module en posant : 
+    \[
+        \left(g.\phi\right)(x) = g.\phi(g^{-1}.x)
+    \]
+    On note Hom$(U, V)$ ce module. Dans le cas $V = k$ on pose aussi $U^{\lor} = Hom(U, k)$ et on parle de représentation duale ou contragrédiente de $U$. 
+\end{definition}
+
+\begin{proposition}
+    Soient $U, V$ des $\C[G]$-modules de dimension finie. 
+    \begin{enumerate}
+        \item Pour $W = Hom(U, V)$ on a $\chi_{W}(g) = \chi_{U}(g^{-1})\chi_{V}(g)$
+        \item En particulier : $\chi_{U^{\lor}}(g) = \chi_{U}^{g^{-1}}$
+    \end{enumerate}
+\end{proposition}
+\begin{proposition}
+    Soit $g \in G$ d'ordre $d$ et $V$ un $\C[G]$ module de dimension $n$. Alors $\rho_{V}(g)$ est diagonalisable et $\chi_{V}(g)$ est somme de $n$ racines $d$-èmes de l'unité. De plus, $\chi_{V^{\lor}} = \overline{\chi_{V}}$.
+\end{proposition}
+
+\begin{corollary}
+    Si $\chi, \chi'$ sont des caractères, il en va de même de $\chi + \chi', \chi\chi', \overline{\chi}$. 
+\end{corollary}
+
+\begin{definition}
+    Si $V$ est un $\C[G]$-module, on pose : 
+    \[
+        V^{G} = \left\{v\in V \mid g.v = v \forall g \in G\right\}
+    \]
+    C'est le plus grand sev de $V$ sur lequel $G$ agit trivialement. 
+\end{definition}
+
+\begin{lemma}
+    Si $V$ est un $\C[G]$-module de dimension finie: 
+    \[
+        \dim V^{G} = \frac{1}{\abs{G}} \sum_{g \in G}\chi_{V}(g)
+    \]
+    De manière équivalente, sur $L^{2}(G)$ muni du produit hermitien : 
+    \[
+        \scalar{f, f'} = \frac{1}{\abs{G}}\sum_{g \in G}f(g)\overline{f'(g)}
+    \]
+    on a : $\dim V^{G} = \scalar{\chi_{V}, 1}$
+\end{lemma}
+
+\begin{theorem}
+    Soient $U, V$ deux $\C[G]$-modules irréductibles. On a :
+    \[
+        \scalar{\chi_{U}, \chi_{V}} \begin{cases}
+            1 & \text{si } U \simeq V\\
+            0 & \text{sinon}
+        \end{cases}
+    \]
+\end{theorem}
+\begin{corollary}
+    Soit $U$ un $\C[G]$-module de dimension finie. On suppose : $U \simeq \bigoplus_{i = 1}^{r} S_{i}^{\oplus n_{i}}$
+    où les $S_{i}$ sont des $\C[G]$-modules irréductibles deux à deux non isomorphes et les $n_{i}$ sont des entiers positifs.
+    Alors on a : $n_{i} = \scalar{\chi_{U}, \chi_{S_{i}}}$ pour tout $i$. 
+\end{corollary}
+\begin{corollary}
+    Si $U$ et $V$ sont des $\C[G]$-modules de dimension finie on a : 
+    \[
+        U \simeq V \Longleftrightarrow \chi_{U} = \chi_{V}
+    \]
+\end{corollary}
+
+\begin{definition}
+    Un caractère de $G$ est une fonction $\chi : G \rightarrow \C$ de la forme $\chi = \chi_V$ pour un certain $V$ $\C[G]$-module de dimension finie. La fonction $\chi$ détermine uniquement $V$ à isomorphisme près. On dit que $\chi$ est irréductible si $V$ l'est. On note $Car G$ l'ensemble des caractères de $G$ et $Irr G \subseteq Car G$ le sous-ensemble des caractères irréductibles. 
+\end{definition}
+
+\begin{corollary}
+    Soit $\chi \in Car G$. On a $\chi \in Irr G \Longleftrightarrow \scalar{\chi, \chi} = 1$.
+\end{corollary}
+
+\begin{corollary}
+    Tout $\C[G]$ module irréductible $S$ apparaît dans la décomposition en irréductibles de la représentation régulière $\C G$ et ce avec une multiplicité $\dim S$. En particulier il n'y a qu'un nombre fini de $\C[G]$-modules irréductibles à isomorphisme près et leurs dimensions $n_{i}$ vérifient $\sum_{i}n_{i}^{2} = \abs{G}$.
+\end{corollary}
+
+\begin{definition}
+    On note $L^{2}(G)_{cent}$ le sev de $L^{2}(G)$ des fonctions centrales. 
+\end{definition}
+
+\begin{lemma}
+    $L^{2}(G)_{cent}$ a pour base les fonctions caractéristiques des classes de conjugaison de $G$. En particulier, $\dim L^{2}(G)_{cent} = h$. 
+\end{lemma}
+
+\begin{theorem}
+    Les caractères irréductibles forment une base orthonormée de $L^{2}(G)_{cent}$.
+\end{theorem}
+
+\begin{lemma}
+    Soient $f : G \rightarrow \C$ et $z \sum_{g \in G}f(g)g \in \C[G]$. Alors $z \in Z(\C[G]) \Longleftrightarrow f centrale$.
+\end{lemma}
+
+\begin{definition}
+    Soit $S$ un $\C[G]$-module et $z \in Z(\C[G])$. L'application $m_{z} : v \in S \mapsto z.v \in S$ est $\C[G]$-linéaire. 
+\end{definition}
+
 
 \end{document}
 

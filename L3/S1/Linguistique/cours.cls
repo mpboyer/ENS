@@ -2,7 +2,7 @@
 \ProvidesClass{cours}
 
 \LoadClassWithOptions{article}
-\RequirePackage[a4paper,margin=3cm]{geometry}
+\RequirePackage[a4paper, margin=3cm]{geometry}
 \RequirePackage{cmap}
 \RequirePackage{lmodern}
 \RequirePackage[utf8]{inputenc}
