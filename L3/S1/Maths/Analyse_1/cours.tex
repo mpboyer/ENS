@@ -1055,5 +1055,58 @@ où $ I\subseteq \R, A \in \cont(I, L(X)), b \in \cont(I, X), t_{0} \in I, x_{0}
     \end{enumerate}
 \end{theorem}
 
+\subsection{Stabilité au sens de Lyapounov des Points Stationnaires}
+Ici, on considère (EDO) en dimension finie $X = \R^{n}$ autonome $x^{'} = f(x)$ avec $f \in \cont^{1}(O\subseteq X, X)$ qui est donc un champ de vecteurs. On peut supposer sans perte généralité que $t_{0} = 0$ concernant le flot. 
+\begin{definition}
+    \begin{itemize}
+        \item Les courbes $(\phi(t,x))_{t \in I_{max}(x)}$ sont les courbes intégrales du champ de vecteur $f$ et le partitionnement de l'espace des phases $O$ en courbes intégrales est le diagramme des phases de l'équation. Si $x_{0} \in O$ et $f(x_{0}) \neq 0$, les courbes intégrales proches de $x_{0}$ ressemblent à des droites qui vont vers $f(x_{0})$
+        \item Si $f(x_{0}) = 0$ alors $\phi_{t_{0}}(t, x_{0}) = x_{0}$ et $x_{0}$ est un point stationnaire du champ de vecteur $f$ : 
+        \begin{itemize}
+            \item instable s'il n'est pas stable
+            \item stable si pour tout $C > 0$, il existe $\epsilon > 0$ tel que pour tout $x \in \overline{B}(x_{0}, \epsilon) \subseteq O$,
+            \[
+                T_{\max }(x) = + \infty \text{ et } \norm{\phi(t, x) - x_{0}} \leq C\ \ \forall \ t > 0
+            \]
+            \item asymptotiquement stable si de plus pour tout $x \in \overline{B}(x_{0}, \epsilon_{0})$ avec $\epsilon_{0} > 0$ assez petit,
+            \[
+                \phi(t, x) \xrightarrow[t \to + \infty]{} x_{0} 
+            \]
+            \item exponentiellement stable si de plus il existe $\alpha, C >0$ telles que pour $x \in \overline{B}(x_{0}, \epsilon_{0})$,
+            \[
+                \norm{\phi(t, x) - x_{0}} \leq C\exp(-\alpha t) \norm{x - x_{0}} \text{ pour tout } t \geq 0
+            \]
+        \end{itemize}
+    \end{itemize}
+\end{definition}
+
+\begin{definition}
+    \begin{enumerate}
+        \item $\Phi : O \to \R, \cont^{2}$ est une fonction de Lyapounov lorsque $\nabla \Phi(x) \cdot g(x) \leq 0$ pour tout $x \in O$
+        \item $H : O \to \R \cont^{2}$ est une intégrale première lorsque $\nabla H(x) \cdot f(x) = 0$ pour tout $x\in O$. 
+    \end{enumerate}
+\end{definition}
+
+\begin{lemma}
+    \begin{enumerate}
+        \item $\Phi$ est une fonction de Lyapounov si et seulement si $\partial_{t} \Phi(\phi(t, x)) \leq 0$ pour toutes les trajectoires. 
+        \item $H$ est une intégrale première si et seulement si $H(\phi(t, x))$ reste constante le long de toutes les trajectoires. 
+    \end{enumerate}
+\end{lemma}
+
+\begin{theorem}
+    \begin{enumerate}
+        \item Si $x_{0}$ est un minimum local strict uniforme d'une fonction de Lyapounov $\Phi$ au sens ou $\nabla^{2}\Phi (x_{0})$ est inversible positive alors $x_{0}$ est stationnaire stable.
+        \item Si $x_{0}$ est stationnaire et si $\max \mathfrak{R} Sp(Df(x_{0})) < 0$ alors $x_{0}$ est exponentiellement stable. 
+    \end{enumerate}
+\end{theorem}
+
+\begin{lemma}
+    Si $u : \left[a, b\right] \to \R$ est continue sur $\left[a, b\right]$ dérivable sur $(a, b)$ et vérifie $u'(t) \leq \alpha(t)u(t)$ pour tout $t\in (a, b)$ avec $\alpha : \left[a, b\right] \to \R$ continue, alors 
+    \[
+        u(t) \leq u(a)\exp\left(\int_{a}^{t}\alpha(s)\d s\right)
+    \]
+    pour tout $t \in \left[a, b\right]$
+\end{lemma}
+
 
 \end{document}
