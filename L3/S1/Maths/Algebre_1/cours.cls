@@ -7,7 +7,7 @@
 \RequirePackage{lmodern}
 \RequirePackage[utf8]{inputenc}
 \RequirePackage[T1]{fontenc}
-\RequirePackage[british]{babel}
+\RequirePackage[french]{babel}
 \RequirePackage{texnames}
 \RequirePackage{array}
 \RequirePackage{tikz}
@@ -18,7 +18,6 @@
 \RequirePackage{ragged2e}
 \RequirePackage{amsmath}
 \RequirePackage{dsfont}
-
 \RequirePackage{amsfonts}
 \RequirePackage{mathrsfs}
 \RequirePackage{amsthm}
@@ -47,7 +46,6 @@
     \begin{center}
         \includegraphics[height=6em]{/home/matthieu/Documents/ETUDES/ENS/ens_psl.pdf}
     \end{center}
-    \newpage
     \tableofcontents}
 
 
@@ -134,3 +132,4 @@
 \newcommand{\vect}[2][]{\text{Vect}_{#2}\left(#1\right)}
 \renewcommand{\H}{\mathbb{H}}
 \newcommand{\transpose}[1]{{^{\mathsf{t}}}#1}
+\newcommand{\onen}[1]{\left\llbracket 1, #1\right\rrbracket}

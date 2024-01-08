@@ -1,8 +1,308 @@
 \documentclass{cours}
+
+\usepackage{miller}
+\usepackage{tikz-3dplot}
+\usetikzlibrary{calc}
+
+
 \title{Sur les Pavages de l'Espace à 3 dimensions}
 \author{Thomas \textsc{Ben Moussa}, Matthieu \textsc{Boyer}, Achille \textsc{De Ridder}}
 \date{31 Mai 1882}
 
 \begin{document}
+\begin{abstract}
+    Dans ce rapport, on étudie les groupes de pavage de l'espace à 3 dimensions à travers le prisme des cristaux.
+\end{abstract}
+
+\section{Introduction à Deux Dimensions}\label{section:2d}
+
+\section{Préliminaires}\label{section:prelim}
+Dans la suite, toutes les sommes écrites sont indexées en la variable indiquée de $1$ à $3$, sauf si les bornes sont précisées.
+\subsection{Groupe des Opérateurs de Symétrie}\label{subsection:sym_op}
+Puisqu'on ne considère ici que des isométries affines du plan, on les représente comme un opérateur sous la forme suivante $\left[\Phi, \tau\right]$ où $\Phi$ est un dyadique (tenseur du second-ordre) représentant la partie rotation et $\tau$ est un vecteur représentant la partie translation. On note alors
+\begin{equation}\label{eq:op_def}
+    \nu' = \Phi \cdot \nu + \tau = \left[\Phi\mid \tau\right] \cdot \nu
+\end{equation}
+
+En particulier, l'opération triviale s'écrit $I = \left[I, \vec{0}\right]$.
+
+Par ailleurs, puisqu'on ne travaille ici qu'avec des isométries, on obtient, pour tous deux vecteurs $u_{1}, u_{2}$ l'équation suivante de conservation de la norme :
+\begin{equation}\label{eq:iso_1}
+    \norm{u_{1} - u_{2}} = \norm{S \cdot \left(u_{1} - u_{2}\right)}
+\end{equation}
+
+En notant dans la suite $\transpose{\Phi}$ le dyadique transposé de $\Phi$, on peut réécrire cette équation de conservation des distances ainsi :
+\begin{equation}\label{eq:iso_2}
+    \scalar{I\cdot \left(u_{1} - u_{2}\right)\mid \left(u_{1} - u_{2}\right)} = \scalar{\Phi \cdot \transpose{\Phi} \cdot \left(u_{1} - u_{2}\right)\mid \left(u_{1} - u_{2}\right)}
+\end{equation}
+Autrement dit, on obtient $\Phi \in O(3)$.
+
+On obtient alors, en prenant $S_{1}, S_{2}$ deux opérateurs, la règle de composition suivante :
+\begin{equation}\label{eq:product}
+    S_{1}\cdot S_{2} = \left[\Phi_{1}\mid \tau_{1}\right]\cdot\left[\Phi_{2}\mid \tau_{2}\right] = \left[\Phi_{1} \cdot \Phi_{2}\mid \Phi_{2}\cdot \tau_{1} + \tau_{2}\right]
+\end{equation}
+En particulier, $S^{0} = I$ et si $j \geq 1$ :
+\begin{equation}\label{eq:power}
+    S^{j} = \left[\Phi^{j}\mid \left(I + \Phi + \Phi^{2} + \cdots + \Phi^{j - 1}\right)\cdot \tau\right] = \left[\Phi^{j} \mid \sum_{k = 0}^{j - 1}S^{k} \cdot \tau\right]
+\end{equation}
+De plus, en notant
+\begin{equation}\label{eq:inverse}
+    S^{-1} = \left[\Phi^{-1}\mid -\Phi^{-1}\cdot \tau\right]
+\end{equation}
+on a :
+\begin{equation}
+    S^{-1} \cdot S = S \cdot S^{-1} = I
+\end{equation}
+On obtient alors bien une structure de groupe sur l'ensemble de ces opérateurs.
+\subsection{Groupe de Bieberbach}
+\begin{definition}
+    On appelle groupe de Bieberbach en $n$ dimensions un groupe discret d'isométries de l'espace à $n$ dimensions à domaine fondamental compact.
+\end{definition}
+Notons que dans notre cas, on travaille avec un groupe de Bieberbach à $3$ dimensions. \\
+Comme nous l'avons fait pour deux dimensions dans \ref{section:2d}, Ludwig Bieberbach \cite{Bib} a démontré le théorème suivant facilitant fortement notre étude :
+\begin{theorem}[de Bieberbach]\label{thm:Bieberbach}
+    Dans un espace à $n$ dimensions, le sous-groupe des translations d'un groupe de Bieberbach est un groupe abélien libre d'indice fini contenant $n$ translations linéairement indépendantes. De plus, il y a un nombre fini de classes d'isomorphismes d'un tel sous-groupe et l'action du groupe sur l'espace euclidien est unique à conjugaison des translations près.
+\end{theorem}
+Ainsi, on peut bien se restreindre à l'études des symétries des cristaux comme conduite dans \cite{Za}.
+
+\subsection{Opérations de Symétrie Possibles}
+Par le théorème de Bieberbach \ref{thm:Bieberbach}, on peut se restreindre à l'étude d'un pavé défini par trois vecteurs $a_{1}, a_{2}, a_{3}$ linéairement indépendants, c.f. figure \ref{fig:cristal_def}. \\
+Dans la suite on s'intéresse aux opérations de symétries d'un cristal, qu'on peut définir comme pour les groupes de pavage. On choisit toutefois surtout de les voir comme des isométries qui envoient les points particuliers de notre cristal sur des points particuliers d'une de ses copies dans le pavage.
+
+\tdplotsetmaincoords{65}{35}% rot x rot z
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}[tdplot_main_coords,scale=1.5,
+            axis/.style={thick, ->, >=stealth'}]
+
+        \def \s {0.3}     % defines shear of z along y (instead of angles), for orthogonal systems: 0
+        \def \su {-0.3}   % defines shear of x along y (instead of angles), for orthogonal systems: 0
+        \def \a {1}       % unit cells along a (only integers!)
+        \def \b {1}       % unit cells along b (only integers!)
+        \def \c {1}       % unit cells along c (only integers!)
+
+        % lattice directions parallel to c
+        \foreach \u in {0,1,...,\a}
+        \foreach \v in {0,1,...,\b}
+        \foreach \w in {0,1,...,\c}
+        \draw[very thin,gray] (\u+\su*\v,\v,0) -- (\u+\su*\v,\v+\s*\w,\w);
+        % lattice directions parallel to b
+        \foreach \u in {0,1,...,\a}
+        \foreach \v in {0,1,...,\b}
+        \foreach \w in {0,1,...,\c}
+        \draw[very thin,gray] (\u,0+\s*\w,\w) -- (\u+\su*\v,\v+\s*\w,\w);
+        % lattice directions parallel to a
+        \foreach \u in {0,1,...,\a}
+        \foreach \v in {0,1,...,\b}
+        \foreach \w in {0,1,...,\c}
+        \draw[very thin, gray] (0+\su*\v,\v+\s*\w,\w) -- (\u+\su*\v,\v+\s*\w,\w);
+
+        % basis vectors
+        \draw[axis, blue] (0,0,0) -- (1,0,0) node[midway, below] {$\bf a_{1}$};
+        \draw[axis, green] (0,0,0) -- (\su,1,0) node[midway, below right] {$\bf a_{2}$};
+        \draw[axis, red] (0,0,0) -- (0,\s,1) node[midway, above left] {$\bf a_{3}$};
+        \foreach \u in {0,1,...,\a}
+        \foreach \v in {0,1,...,\b}
+        \foreach \w in {0,1,...,\c}
+        \draw plot [mark=*, mark size=.5] coordinates{(\u+\su*\v,\v+\s*\w,\w)};
+    \end{tikzpicture}
+    \caption{Représentation de la Structure Cristalline}
+    \label{fig:cristal_def}
+\end{figure}
+
+On considère ici des cristaux infinis (sous-entendu pavant l'espace). Par définition, leurs propriétés physiques sont représentées par des fonctions périodiques $\Omega$ de la position, dont les vecteurs $a_{1}, a_{2}, a_{3}$ sont les plus petites périodes, ce qui nous pousse à introduire les translations de treillis.
+\begin{definition}\label{def:treillis}
+    Si $L = (L_{1}, L_{2}, L_{3}) \in \Z^{3}$ on définit la translation de treillis de vecteur $L$ par :
+    \begin{equation}
+        \Gamma_{L} = \Gamma_{L_{1}, L_{2}, L_{3}} = \left[I \mid L_{1}a_{1} + L_{2}a_{2} + L_{3}a_{3}\right] = \left[I \mid A_{L_1, L_2, L_3}\right] = \left[I \mid A_{L}\right]
+    \end{equation}
+    En particulier, $\Gamma_{0, 0, 0} = \left[I \mid \vec{0}\right] = I$.
+\end{definition}
+Celles-ci forment un groupe $(\Gamma)$, groupe des translations de notre groupe de symétries $G$.\\
+
+De plus, on sait que si $S$ est un opérateur de $G$, les propriétés physiques du cristal doivent être invariantes sous $S$, i.e.
+\begin{equation}
+    \Omega(u) = \Omega(S \cdot u), \forall u
+\end{equation}
+En particulier, il y a invariance de la période sous l'action de $S$. On appellera un tel opérateur préservant les périodes une symétrie possible. Si de plus cela suffit à préserver $\Omega$, c'est réellement une symétrie du cristal.
+
+
+\section{Liste des Symétries des Cristaux}
+\subsection{Notations}
+On a défini les translations de treillis selon leurs coordonnées dans la base de $\R^{3}$ $a_{1}, a_{2}, a_{3}$. Dans la suite, on pose $b_{1}, b_{2}, b_{3}$ la base réciproque de $a_{1}, a_{2}, a_{3}$ et on note :
+\begin{align}
+    \Phi & = \sum_{k}\Phi_{k}a_{k} = \sum_{j}b_{j}\Phi_{j}' = \sum_{j}\sum_{k}\Phi_{j,k}b_{j}a_{k} \\
+    I    & = \sum_{j}b_{j}a_{j}, \hspace{8pt} \Phi_{k} = \sum_{j}\Phi_{j,k}b_{j}                   \\
+    t    & = \sum_{j}t_{j}a_{j}, \hspace{8pt} \Phi_{j}' = \sum_{k}\Phi_{j, k}a_{k}
+\end{align}
+
+La condition décrite \ref{eq:iso_2}, i.e. $\Phi = \transpose{\Phi}^{-1} \in O(3)$ s'écrit alors en terme des coefficients de la matrice de $\Phi$ dans la base des $a_{j}$ ainsi :
+\begin{equation}\label{eq:interlation}
+    a_{j} \cdot a_{k} = \sum_{i}\sum_{m}\Phi_{j,i}\Phi_{k,m}a_{i}\cdot a_{m}
+\end{equation}
+où $\cdot$ désigne le produit scalaire.
+
+\subsection{Angle de Rotation}
+On rappelle par théorème de réduction sur les endomorphismes orthogonaux en dimension $3$ qu'il existe un vecteur unitaire $u$ tel que
+\begin{equation}\label{eq:red_ortho}
+    \Phi = \pm uu \pm (I - uu) \cos \phi \pm I \times u \sin \phi
+\end{equation}
+On prend le signe $+$ lorsque $\Phi$ est une rotation et le signe $-$ quand c'est une réflexion. $\phi$ désigne alors l'angle de rotation et $u$ l'axe de rotation ou la normale au plan de réflexion. \\
+Ceci revient à dire que dans une base orthonormale adaptée, la matrice de $\Phi$ est
+\begin{equation}
+    \begin{pmatrix}
+        \cos \phi & -\sin \phi & 0     \\
+        \sin \phi & \cos \phi  & 0     \\
+        0         & 0          & \pm 1
+    \end{pmatrix}
+\end{equation}
+On vérifie alors donc bien que son déterminant est $\abs{\Phi} = \pm 1$.\\
+On obtient alors
+\begin{equation}\label{eq:pow2}
+    \Phi^{j} = \abs{\Phi}^{j}\left[uu + (I - uu) \cos j\phi + I \times u \sin j\phi\right]
+\end{equation}
+De plus, on sait depuis \ref{subsection:sym_op} que les opérations de symétrie forment un groupe et qu'en particulier, $S^{-1} \cdot \Gamma_{L} \cdot S$ est une opération de symétrie et que
+\begin{equation}
+    S^{-1} \cdot \Gamma_{L} \cdot S = \left[I, \mid \Phi \cdot A_{L}\right]
+\end{equation}
+Donc, en particulier
+\begin{equation}
+    S^{-1} \cdot \left(\Gamma\right) \cdot S = \left(\Gamma\right)
+\end{equation}
+Ainsi, pour tous entiers $L_{1}, L_{2}, L_{3}$ on obtient
+\begin{equation}
+    \sum_{j}\Phi_{j, k}L_{j} = L_{k}'\in \Z
+\end{equation}
+Donc les coefficients de la matrice de $\Phi$ sont entiers dans la base $\left(a_{1}, a_{2}, a_{3}\right)$ et ainsi :
+\begin{equation}
+    \Tr \Phi = \sum_{j} \Phi_{j, j} \in \Z
+\end{equation}
+Mais par ailleurs, par \ref{eq:red_ortho}
+\begin{equation}
+    \Tr \Phi = \pm (1 + 2 \cos \phi)
+\end{equation}
+On obtient donc
+\begin{equation}
+    \phi = \frac{2 \pi j}{n} \text{ où } \begin{cases}
+        n & = 1, 2, 3, 4 \text{ ou } 6 \\
+        j & \in \onen{n}
+    \end{cases}
+\end{equation}
+Puisqu'on a par \ref{eq:pow2} l'identité \[\Phi^{j}(\phi) = \pm \Phi(j\phi)\] on peut se restreindre à $\phi = 2\pi/n$ pour $n = 1, 2, 3, 4 \text{ ou } 6$.
+On obtient la liste suivante des rotations possibles. On notera dans la suite $n$ une rotation de cette liste et $\tilde{n} = - n$ une réflexion.
+\begin{equation}\label{eq:rotations}
+    \boxed{\begin{array}{r@{\ =\ }l}
+            1 & I                                                           \\
+            2 & 2uu - I                                                     \\
+            3 & \frac{3}{2}uu - \frac{1}{2}I + \frac{\sqrt{3}}{2}I \times u \\
+            4 & uu + I \times u                                             \\
+            6 & \frac{1}{2}uu + \frac{1}{2}I + \frac{\sqrt{3}}{2}I\times u
+        \end{array}}
+\end{equation}
+On obtient de même les réflexions en multipliant le tout par $-1$ et toutes les parties dyadiques en mettant ces éléments à une puissance entière quelconque.
+\subsection{Axes de Rotation Possibles}
+Il reste maintenant à imposer des restrictions sur l'orientation des axes de rotation. En effet, il est clair que les restrictions restent les mêmes pour les normales des plan de réflexion. Comme de plus, si $\Phi$ est une rotation non triviale, $\Phi - I$ est de rang $2$ et son plan image est normal à l'axe de rotation $u$. On a :
+\begin{equation}
+    \Phi - I = \sum_{k} \left(\phi_{k} - b_{k}\right)a_{k} = \sum_{j}b_{j}\left(\phi_{j}' - a_{j}\right)
+\end{equation}
+Mais puisque les coefficients de $\Phi$ dans la base $a_{1}, a_{2}, a_{3}$ sont entiers, les $\Phi_{j}' - a_{j}$ forment des vecteurs de treillis et les $\Phi_{k} - b_{j}$ des vecteurs de treillis réciproques. L'axe de rotation $u$ étant normal au plan image de $\Phi - I$, il est par conséquent parallèle à un vecteur de treillis $A_{L}$ et à un vecteur de treillis réciproque $B_{K}$ défini de même qu'en \ref{def:treillis} pour la base réciproque.
+
+\subsection{Translations Possibles}
+Considérons $S = \left[\Phi, \mid \tau\right]$ une opération de symétrie de $S \cdot \left(\Gamma\right)$. En effet, on peut bien choisir un représentant, puisqu'elles sont égales à translation de treillis près. On peut ainsi supposer sans perte de généralité qu'on a :
+\begin{equation}
+    \tau = \sum_{j}t_{j}a_{j} \text{ où } \forall j, 0 \leq t_{j} < 1
+\end{equation}
+Puisque par \ref{eq:rotations} on a toujours $\Phi = n^{j}$ ou $\tilde{n}^{j}$ pour un certain entier $j$. Or, toutes les puissances d'un dyadique $n$ ne sont pas distinctes et donc en particulier, tout dyadique $n$ est d'ordre fini $n$ et $\tilde{n}$ est d'ordre $n$ si $n$ est pair, $2n$ sinon. On obtient alors par \ref{eq:power} :
+\begin{equation}
+    S^{m} = \left[I \mid \{\Phi\}\cdot \tau\right]
+\end{equation}
+où on a posé
+\begin{equation}
+    \{\Phi\} = I + \Phi + \cdot + \Phi^{m - 1} = \sum_{k = 0}^{m - 1}\Phi^{k}
+\end{equation}
+Donc $S^{m}$ est une translation pure et par définition des $a_{i}$, c'est une translation de treillis, i.e.
+\begin{equation}\label{eq:transpotence}
+    S^{m} = \Gamma_{L} \text{ ou } \{\Phi\}\cdot \tau = A_{L}
+\end{equation}
+Cette équation est vérifiée lorsque $\{\Phi\} = 0$ ou sinon $\tau$ ne peut prendre des valeurs arbitraires. En évaluant $\{n\}$ et $\{\tilde{n}\}$ on trouve :
+\begin{equation}
+    \begin{array}{>{\{}r<{\}}@{\ = \ }l}
+        1         & I                                 \\
+        n         & n uu \text{ pour } n = 2, 3, 4, 6 \\
+        \tilde{n} & 0 \text{ pour } n = 1, 3, 4, 6    \\
+        \tilde{2} & 2(I - uu)
+    \end{array}
+\end{equation}
+
+Ainsi, le vecteur de translation $\tau$ d'un opérateur de symétrie peut prendre n'importe quelle valeur quand $\Phi = \tilde{1}, \tilde{3}, \tilde{4}$ ou $\tilde{6}$, il doit être nul pour $\Phi = 1$. Quand $\Phi = n \in \{2, 3, 4, 6\}$, on doit avoir
+\begin{equation}
+    \left(u \cdot \tau \right)u = \frac{1}{n}A_{L} = \frac{j}{n}A_{\tau}
+\end{equation}
+Donc en particulier, $u$ est parallèle à un vecteur de treillis, et la composante de $\tau$ selon l'axe de rotation est une fraction de la période du treillis dans cette direction. Il n'y a toutefois pas de restriction sur la composante de $\tau$ normale à $u$. \\
+Enfin, quand $\Phi = \tilde{2}$, on trouve
+\begin{equation}
+    \tau - \left(u \cdot \tau\right)u = jA_{\tau}/2, \ j \in \{0, 1\}
+\end{equation}
+Ici, la composante de $\tau$ selon $u$ n'est pas restreinte et la composante normale à $u$ est soit nulle soit la moitié d'un vecteur de treillis.
+
+
+\section{Classification des Opérateurs de Symétrie Possible}
+En reprenant les résultats de la section précédente, les opérateurs de symétrie possibles $S = \left[\Phi \mid \tau\right]$ sont solutions de \ref{eq:transpotence} i.e. de $S^{m} = \Gamma_{L}$ où $m \in \{1, 2, 3, 4, 6\}$. En fonction de ceci, la partie dyadique $\Phi$ est restreinte à des puissances de dyadiques $\pm n$ décrits dans \ref{eq:rotations} tandis que le vecteur de translation $\tau$ vérifie $\{\Phi\} \cdot \tau = A_{L}$. Les cooefficients de la matrice de $\Phi$ dans $a_{1}, a_{2}, a_{3}$ sont tous entiers, ce qui amène à \ref{eq:interlation}.
+\subsection{Elements de Symétrie}
+\begin{definition}\label{def:sym_elem}
+    \begin{enumerate}
+        \item Un point $\rho$ est un centre de symétrie de $S$ si $S \cdot \rho = \rho$, i.e.
+              \begin{equation}\label{eq:sym_cen}
+                  (\Phi - I) \cdot \rho + \tau = 0
+              \end{equation}
+        \item Une droite paramétrée par $\rho + ku$ est un axe de symétrie de $S$ si pour tout $k$, il existe $k'$ tel que 
+        \begin{equation}\label{eq:sym_ax}
+            S \cdot (\rho + ku) = \rho + k'u
+        \end{equation}
+        Cette droite est un axe de rotation si $k$ est préservé, un axe de réflexion si $k \mapsto -k$ et un axe de vissée si $k \mapsto k + t$ pour une certaine constante $t$.
+        \item Un plan $P = \rho + s$, où $s\cdot u = 0$ est un plan de symétrie de $S$ si pour tout point du plan : 
+        \begin{equation}\label{eq:sym_plan}
+            S \cdot (\rho + s) = \rho + s' \text{ où } s' \cdot u = 0
+        \end{equation}
+        C'est un plan de réflexion si $s' = s$ pour tout $s$ et un plan de glissement si $s\mapsto s + t$ pour un vecteur constant $t$ normal à $u$. 
+    \end{enumerate}
+\end{definition}
+Par \ref{eq:red_ortho}, on sait que la partie dyadique d'une symétrie possède une droite de symétrie passant par l'origine qui est un axe de rotation ou de réflexion. Toutefois, des combinaisons de telles rotations avec des translations peuvent définir des rotations autour d'axe ne passant pas par l'origine. \\
+On va maintenant séparer les opérateurs de symétries en deux types : ceux qui vérifient 
+\begin{equation}
+    S^{m} = \Gamma_{0, 0, 0}, \text{ i.e. } \{\Phi\} \cdot \tau = 0
+\end{equation}
+qu'on appellera opérateurs fermés. On appellera les autres opérateurs ouverts. On a déjà obtenu une classification des opérateurs fermés : 
+\begin{equation}
+    [n \mid \tau] \text{ où } \begin{cases}
+        \tau = 0 & \text{pour } n = 1\\
+        u\cdot \tau = 0 & \text{pour } n \in \{2, 3, 4, 6\}
+    \end{cases}
+\end{equation}
+
+\begin{equation}
+    [\tilde{n} \mid \tau] \text{ où } \begin{cases}
+        \tau \text{ arbitraire} & \text{pour } n = 1, 3, 4, 6\\
+        \tau\times u = 0 & \text{pour } n = 2
+    \end{cases}
+\end{equation}
+
+Puisqu'on étudie les solutions de l'équation $\Phi^{m} - I = (\Phi - I)\{\Phi\} = 0$, on sait que si l'un des deux termes est inversible, l'autre est nul, et que si l'un est d'image une droite, l'autre est d'image un plan normal à cette droite. \\
+Supposons désormais que $\left[\Phi \mid \tau\right]$ possède un centre de symétrie. Remarquons qu'en considérant le vectorialisé en ce centre de symétrie, le vecteur $\tau$ disparaît. On obtient alors une rotation (propre ou impropre) de centre ce centre de symétrie. On en déduit que toute opération de symétrie fermée se réduit à la forme $n$ ou $\tilde{n}$ avec un bon choix d'origine.\\
+De \ref{eq:sym_cen} on obtient, selon le rang de $\Phi - I$, un centre de symétrie, un plan de réflexion, ou un axe de rotation : 
+\begin{itemize}
+    \item On sait que $\Phi -I$ est inversible quand $\Phi = \tilde{1}, \tilde{3}, \tilde{4}, \tilde{6}$ et donc chacun des opérateurs $\left[\tilde{n} \mid, \tau\right]$ pour $n = 1, 3, 4, 6$ a un centre de symétrie en $-\left(\Phi - I\right)^{-1} \cdot \tau$. 
+    \item $\Phi - I$ a pour image un plan quand $\Phi = 2, 3, 4, 6$ et on a alors un axe de rotation propre pour $\Phi$
+\end{itemize}
+
+
+
+
+\begin{thebibliography}{}
+    \bibitem{Za} Theory of X-Ray Diffraction in crystals, \textit{William H.Zachariasen}, 1945
+    \bibitem{Be} Géométrie I, \textit{Marcel Berger}, 2016
+    \bibitem{Bib} \textit{Bieberbach, L.} Über die Bewegungsgruppen der Euklidischen Räume. Math. Ann. 70, 297-336 (1911). \href{https://doi.org/10.1007/BF01564500}{https://doi.org/10.1007/BF01564500}
+\end{thebibliography}
+
 
 \end{document}

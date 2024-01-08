@@ -38,18 +38,18 @@
 \subsection{Fermés}
 \begin{definition}
     \begin{itemize}
-        \item Un ensemble $A$ est fermé si et seulement si $A^{\complement}$ est ouvert. 
+        \item Un ensemble $A$ est fermé si et seulement si $A^{\complement}$ est ouvert.
         \item L'adhérence d'un ensemble est le plus petit fermé le contenant : \[\overline{A} = \bigcap_{A\subset F, F fermé}F  = \left\{x \in X, \forall O \in \O, x \in O \Rightarrow O \cap A \neq \emptyset\right\}\]
         \item L'intérieur de $A$ est le plus grand ouvert qu'il contient : \[\mathring{A} = \bigcup_{O \subset A, O ouvert} = \left\{x \in X, \exists\ O \in \O, \ x \in O \subset A \right\}\]
         \item La frontière de $A$ est : $\partial A = \overline{A}\setminus\mathring{A}$
         \item $A$ est dense si d'adhérence égale à $X$.
-    \end{itemize}  
+    \end{itemize}
 \end{definition}
 
 \begin{definition}
     \begin{itemize}
-    \item $x$ est intérieur à $A$ si $x \in \mathring{A}$.
-    \item $x$ est adhérent à $A$ lorsque $x \in \overline{A}$. On dit alors que $x$ est isolé lorsqu'il existe $O_{x}$ voisinage ouvert de $x$ d'intersection $x$ avec $A$. Sinon, $x$ esst d'accumulation.
+        \item $x$ est intérieur à $A$ si $x \in \mathring{A}$.
+        \item $x$ est adhérent à $A$ lorsque $x \in \overline{A}$. On dit alors que $x$ est isolé lorsqu'il existe $O_{x}$ voisinage ouvert de $x$ d'intersection $x$ avec $A$. Sinon, $x$ esst d'accumulation.
     \end{itemize}
 \end{definition}
 
@@ -84,7 +84,7 @@
 \end{proposition}
 
 \begin{proposition}
-    Soit $f : X \rightarrow Y$. On a équivalence entre : 
+    Soit $f : X \rightarrow Y$. On a équivalence entre :
     \begin{itemize}
         \item $f$ est continue
         \item Les images réciproques par $f$ des ouverts de $Y$ sont des ouverts de $X$.
@@ -93,8 +93,8 @@
 \end{proposition}
 
 \begin{definition}[Propriété de Fréchet-Urysohn]
-    $X$ vérifie la propriété de Fréchet-Urysohn si : 
-    \[\forall A \subset X,\ x \in \overline{A}, \text{ il existe } x_{n} \in A^{\N},\ x_{n} \to x\]    
+    $X$ vérifie la propriété de Fréchet-Urysohn si :
+    \[\forall A \subset X,\ x \in \overline{A}, \text{ il existe } x_{n} \in A^{\N},\ x_{n} \to x\]
 \end{definition}
 
 \begin{theorem}
@@ -107,11 +107,11 @@
 
 \subsection{Bases de topologie}
 \begin{definition}
-    Soit $\mathcal{B} \subset \O$ une famille d'ouverts. $\mathcal{B}$ est une base de $\O$ quand : $\forall O \in \O, \exists \left(B_{i}\right)_{i}\in \mathcal{B}, O = \cup_{i} B_{i}$ ou de manière équivalente quand $\forall O \in \O, x \in O, \exists B \in \mathcal{B},\ x \in B \subset O$. 
+    Soit $\mathcal{B} \subset \O$ une famille d'ouverts. $\mathcal{B}$ est une base de $\O$ quand : $\forall O \in \O, \exists \left(B_{i}\right)_{i}\in \mathcal{B}, O = \cup_{i} B_{i}$ ou de manière équivalente quand $\forall O \in \O, x \in O, \exists B \in \mathcal{B},\ x \in B \subset O$.
 \end{definition}
 
 \begin{theorem}
-    Soit $\mathcal{B} \subset \O$ une base. On a : 
+    Soit $\mathcal{B} \subset \O$ une base. On a :
     \begin{itemize}
         \item $X = \cup_{B \in \mathcal{B}} B$
         \item $\forall B_{1}, B_{2} \in \mathcal{B},\ x \in B_{1} \cap B_{2},\ \exists B_{3} \in \mathcal{B}, x \in B_{3} \subset B_{1} \cap B_{2}$.
@@ -146,7 +146,7 @@
 \end{definition}
 
 \begin{theorem}
-    Pour tout espace topologique métrisable : 
+    Pour tout espace topologique métrisable :
     \begin{itemize}
         \item Les singletons sont fermés.
         \item Pour tous fermés $F_{0}, F_{1}$, il existe $f$ continue valant $i$ sur $F_{i}$.
@@ -173,7 +173,7 @@
         \item Si $\O$ est à base dénombrable (resp. de voisinages), $\O_{A}$ l'est aussi
         \item Si $\O$ est séparée (axiome T2), $\O_{A}$ aussi.
         \item Si $\O$ est métrisable est séparable, alors $\O_{A}$ est métrisable est séparable.
-    \end{itemize}    
+    \end{itemize}
 \end{proposition}
 
 \subsubsection{Topologie Produit}
@@ -190,10 +190,10 @@
         \item Si $I$ est au plus dénombrable, et tous les $X_{i}$ sont à base dénombrable (de voisinages), $X$ l'est aussi.
         \item Si $I$ est au plus dénombrable ou a le cardinal de $\R$, et si les $X_{i}$ sont tous séparables, $X$ aussi.
         \item Si $I$ est au plus dénombrable, et si les $X_{i}$ sont métrisables par les $d_{i}$, $X$ est métrisable par :
-        \begin{itemize}
-            \item $\max_{i}(d_{i})$ si $I$ est fini
-            \item $\max_{i}\min(d_{i}, 2^{-i})$ si $I$ est infini dénombrable.
-        \end{itemize}
+              \begin{itemize}
+                  \item $\max_{i}(d_{i})$ si $I$ est fini
+                  \item $\max_{i}\min(d_{i}, 2^{-i})$ si $I$ est infini dénombrable.
+              \end{itemize}
     \end{itemize}
 
 \end{proposition}
@@ -202,7 +202,7 @@
 \begin{definition}
     \begin{itemize}
         \item Soient $f_{i} : X \rightarrow X_{i}$. La topologie engendrée sur $X$ par les $f_{i}^{-1}(O_{i})$ où $O_{i}$ est ouvert dans $X_{i}$ est appelée topologie initiale. C'est la moins fine qui rend $f_{i}$ continue pour tout $i$.
-        \item Soient $g_{i} : X_{i} \rightarrow X$. La topologie engendrée par les ensembles $O$ tels que $g_{i}^{-1}(O)$ est ouvert dans $X_{i}$ est appelée topologie finale. C'est la plus fine qui rend $g_{i}$ continue pour tout $i$. 
+        \item Soient $g_{i} : X_{i} \rightarrow X$. La topologie engendrée par les ensembles $O$ tels que $g_{i}^{-1}(O)$ est ouvert dans $X_{i}$ est appelée topologie finale. C'est la plus fine qui rend $g_{i}$ continue pour tout $i$.
     \end{itemize}
 \end{definition}
 
@@ -257,16 +257,16 @@
 \end{definition}
 
 \begin{lemma}
-    Un espace métrique compact possède un $\epsilon$-réseau fini pour tout $\epsilon$.    
+    Un espace métrique compact possède un $\epsilon$-réseau fini pour tout $\epsilon$.
 \end{lemma}
 
 \begin{theorem}
-    Pour un espace métrisable, on a équivalence entre : 
+    Pour un espace métrisable, on a équivalence entre :
     \begin{enumerate}
         \item $X$ est compact
         \item De toute suite de $X$ on peut extraire une sous-suite convergeant dans $X$.
     \end{enumerate}
-    Dans ce cas on a : 
+    Dans ce cas on a :
     \item Lemme de Lebesgue : pour tout recouvrement par des ouverts $O_{i}$, il existe $r > 0$ tel que pour tout $x \in X$, il existe $i_{x}$ tel que $B(x, r) \subset O_{i_{x}}$.
 \end{theorem}
 
@@ -276,7 +276,7 @@
 \end{definition}
 
 \begin{definition}
-    Un espace est dénombrable à l'infini s'il admet un recouvrement dénombrable par des quasi-compacts (qu'on peut supposer croissants sans perte de généralité). 
+    Un espace est dénombrable à l'infini s'il admet un recouvrement dénombrable par des quasi-compacts (qu'on peut supposer croissants sans perte de généralité).
 \end{definition}
 
 \begin{lemma}
@@ -289,7 +289,7 @@
 
 \subsection{Compactification d'Alexandrov}
 \begin{theorem}
-    Soit $X$ un espace topologique et un point à l'infini $\infty \notin X$. Soit $X^{\star} = X\cup \left\{\infty\right\}$, $\O^{\star} \subset \mathcal{P}(X^{\star})$ formé par les ouverts de $X$ et les complémentaires dans $X^{\star}$ des quasi-compacts fermés de $X$. Alors : 
+    Soit $X$ un espace topologique et un point à l'infini $\infty \notin X$. Soit $X^{\star} = X\cup \left\{\infty\right\}$, $\O^{\star} \subset \mathcal{P}(X^{\star})$ formé par les ouverts de $X$ et les complémentaires dans $X^{\star}$ des quasi-compacts fermés de $X$. Alors :
     \begin{enumerate}
         \item $\O^{\star}$ est une topologie sur $X^{\star}$.
         \item $X^{\star}$ est quasi-compact
@@ -305,7 +305,7 @@
 \end{lemma}
 
 \begin{lemma}
-    Si $X$ est quasi-compact éparé alors : 
+    Si $X$ est quasi-compact éparé alors :
     \begin{itemize}
         \item Tout point et tout fermé ne le contenant pas sont séparables par des ouverts.
         \item Pour tout $x \in X$ et tout ouvert $O \owns x$, il existe $O^{'} \owns x$ tel que $\overline{O^{'}} \subset O$.
@@ -313,7 +313,7 @@
 \end{lemma}
 
 \begin{theorem}\label{thm:Bairemétrique}
-    Si $X$ est quasi-compact alors il est de Baire : toute intersection d'une suite d'ouverts denses est dense.    
+    Si $X$ est quasi-compact alors il est de Baire : toute intersection d'une suite d'ouverts denses est dense.
 \end{theorem}
 
 \section{Complétude}
@@ -350,7 +350,7 @@
 
 
 \begin{definition}
-    On définit la distance de Hausdorff entre deux fermés d'un espace métrique de diamètre fini par : 
+    On définit la distance de Hausdorff entre deux fermés d'un espace métrique de diamètre fini par :
     \[d_{H}(F_{1}, F_{2}) < r \Leftrightarrow \text{ pour tout } x \in F_{1, 2},\ \exists y \in  F_{2, 1},\ d(x, y) < r\]
     On note $\mathcal{F}(X)$ l'ensemble des fermés non-vides de $X$, et $\mathcal{K}(X)$ l'ensemble des compacts non-vides.
 \end{definition}
@@ -395,13 +395,13 @@
 \end{lemma}
 
 \begin{theorem}\label{thm:Bairecomplet}
-    Si $X$ est complet, alors il est de Baire.    
+    Si $X$ est complet, alors il est de Baire.
 \end{theorem}
 
 \section{Connexité}
 \subsection{Connexité, connexité par arcs, composantes connexes}
 \begin{definition}
-    Un espace est : 
+    Un espace est :
     \begin{itemize}
         \item connexe lorsqu'il n'est pas partitionnable en deux ouverts non-vides
         \item connexe par arcs lorsque les points sont reliés par des arcs
@@ -420,7 +420,7 @@
 \end{theorem}
 
 \begin{definition}
-    La composante connexe $C_{x}$ de $x \in X$ est la plus grande partie connexe de $X$ contenant $x$. Un espace est totalement discontinu si $C_{x} = \left\{x\right\}$ pour tout $x$. 
+    La composante connexe $C_{x}$ de $x \in X$ est la plus grande partie connexe de $X$ contenant $x$. Un espace est totalement discontinu si $C_{x} = \left\{x\right\}$ pour tout $x$.
 \end{definition}
 
 \subsection{Connexité Métrique}
@@ -445,11 +445,11 @@
 \end{theorem}
 
 \begin{theorem}[De Heine]
-    Toute fonction $f \in \mathcal{C}(K, Y)$ est uniformément continue.    
+    Toute fonction $f \in \mathcal{C}(K, Y)$ est uniformément continue.
 \end{theorem}
 
 \begin{theorem}[de Arzelà-Ascoli]\label{thm:Ascoli}
-    $A \subset \mathcal{C}(K, Y)$ a une adhérence compacte ssi les deux conditions suivantes sont réalisées : 
+    $A \subset \mathcal{C}(K, Y)$ a une adhérence compacte ssi les deux conditions suivantes sont réalisées :
     \begin{itemize}
         \item Compacité Ponctuelle : $\forall x \in K, \left\{f(x)\mid f \in A\right\}$ a une adhérence compacte dans $Y$.
         \item La famille $A$ est uniformément équicontinue : pour tout $\epsilon > 0$, il existe $\eta > 0$ tel que pour tout $f \in A$, et tous $x, y \in K$, si $d_{K}(x, y) < \eta$, alors $d_{Y}(f(x), f(y)) < \epsilon$.
@@ -465,7 +465,7 @@
 \end{corollary}
 
 \begin{corollary}[de Stone-Weierstrass Complexe]
-    Si de plus la famille $\mathcal{A}$ est stable par conjugaison et à valeurs complexes, elle est dense dans $\mathcal{C}(K, \C)$.    
+    Si de plus la famille $\mathcal{A}$ est stable par conjugaison et à valeurs complexes, elle est dense dans $\mathcal{C}(K, \C)$.
 \end{corollary}
 
 \begin{corollary}
@@ -484,7 +484,7 @@
 \end{definition}
 
 \begin{lemma}
-    Pour $u$ linéaire, on a équivalence entre : 
+    Pour $u$ linéaire, on a équivalence entre :
     \begin{enumerate}
         \item $u \in L(X, Y)$
         \item $u$ est Lipschitz
@@ -503,7 +503,7 @@
 \end{definition}
 
 \begin{theorem}
-    Si $p \in \left[1, \infty)\right.$ et $q = \frac{1}{1 - \frac{1}{p}} = \frac{p}{p-1}$ est le conjugué de Hölder de $p$, alors : 
+    Si $p \in \left[1, \infty)\right.$ et $q = \frac{1}{1 - \frac{1}{p}} = \frac{p}{p-1}$ est le conjugué de Hölder de $p$, alors :
     \[
         \Phi : \mathcal{l}^{q} \rightarrow \left(\mathcal{l}^{p}\right)^{'}, y \mapsto \left(x \mapsto \sum_{n} x_{n}y_{n}\right)
     \]
@@ -516,13 +516,13 @@
 
 \subsection{Banach-Steinhaus}
 \begin{theorem}\label{thm:BanachSteinhaus}
-    Si $X$ est un Banach, et $Y$ un evn, alors pour tout $A \subset L(X, Y)$, la bronitude ponctuelle est équivalente à la bornitude uniforme : 
+    Si $X$ est un Banach, et $Y$ un evn, alors pour tout $A \subset L(X, Y)$, la bronitude ponctuelle est équivalente à la bornitude uniforme :
     \[
         \forall x \in X, \sup_{u \in A} \norm{u(x)}_{Y} < \infty \Leftrightarrow \sup_{u\in A}\norm{u}_{L(X, Y)} < \infty
     \]
 \end{theorem}
 \begin{corollary}
-    Soit $u_{n}$ dans $L(X, Y)$, où $X$ est un Banach et $Y$ un evn. La convergence ponctuelle entraîne la continuité de la limite. 
+    Soit $u_{n}$ dans $L(X, Y)$, où $X$ est un Banach et $Y$ un evn. La convergence ponctuelle entraîne la continuité de la limite.
 \end{corollary}
 
 \subsection{Hahn-Banach}
@@ -541,7 +541,7 @@
 
 \subsection{Banach-Schauder}
 \begin{theorem}[de Banach-Schauder ou de l'application ouverte]\label{thm:BanachSchauder}
-    Si $X$ et $Y$ sont des Banach et si $u \in L(X, Y)$ est surjective, alors $u$ est une application ouverte.    
+    Si $X$ et $Y$ sont des Banach et si $u \in L(X, Y)$ est surjective, alors $u$ est une application ouverte.
 \end{theorem}
 
 \begin{corollary}
@@ -561,7 +561,7 @@
     \begin{itemize}
         \item Lemme de Fekete : Si $a_{n}$ est sous-additive, $\lim_{n} \frac{1}{n} a_{n} = \inf_{n} \frac{1}{n} a_{n}$. La formule de $\rho$ fait sens en prenant $a_{n} = \log \normop{u^{n}}$.
         \item Le rayon spectral est inchangé avec une norme équivalente.
-        \item On généralise les algèbres de matrices à la dimension infinie. 
+        \item On généralise les algèbres de matrices à la dimension infinie.
         \item En dimension finie, $L(X)$ est isomorphe à $\mat{n}$ et le rayon spectral est égal au maximum des modules des valeurs propres par décomposition de Jordan.
         \item Lorsque $X$ est de dimension infinie, il n'y a pas vraiment d'analogue à la décomposition de Jordan. L'équation aux valeurs propres n'est pas une bonne manière de définir le spectre des opérateurs et on définit plutôt : \[\text{spec}(u) = \left\{\lambda \in \C \mid u - \lambda\Id \text{ n'est pas inversible à inverse continu} \right\}\] Alors, $\rho(u) = \sup \left\{\abs{\lambda \mid \lambda \in \text{spec}(u)}\right\}$.
     \end{itemize}
@@ -598,7 +598,7 @@
     \]
 \end{theorem}
 \begin{corollary}
-    Si $X$ est un Hilbert et $F$ est un sev de $X$ fermé alors : 
+    Si $X$ est un Hilbert et $F$ est un sev de $X$ fermé alors :
     \begin{enumerate}
         \item $p_{F}$ est linéaire
         \item $p_{F}(x)$ est caractérisé par $x - p_{F}(x) \perp F$
@@ -610,36 +610,36 @@
 
 \subsection{Théorème de Représentation de Riesz}
 \begin{theorem}[de Représentation de Riesz des fomes linéaires continues]
-    Si $X$ est un Hilbert sur $\K \in \left\{\R, \C\right\}$ : 
+    Si $X$ est un Hilbert sur $\K \in \left\{\R, \C\right\}$ :
     \begin{enumerate}
         \item Pour tout $u \in X^{'} = L(X, \K)$, il existe un unique $a\in X$ tel que $u(x) = \scalar{x, a}$.
-        \item L'application $a \in X \mapsto \scalar{\cdot, a} \in X^{'}$ est un isomorphisme anti-linéaire et une isométrie. 
-    \end{enumerate}    
+        \item L'application $a \in X \mapsto \scalar{\cdot, a} \in X^{'}$ est un isomorphisme anti-linéaire et une isométrie.
+    \end{enumerate}
 \end{theorem}
 
 \begin{remark}
     \begin{itemize}
-        \item Les formes linéaires continues sur $X = \ml^{2}(\N, \K)$ sont de la forme : 
-        \[
-            x \in \ml^{2}(\N, \K) \mapsto \sum_{n} x_{n}\overline{y_{n}} \text{ pour un } y \in \ml^{2}(\N, \K)
-        \]
+        \item Les formes linéaires continues sur $X = \ml^{2}(\N, \K)$ sont de la forme :
+              \[
+                  x \in \ml^{2}(\N, \K) \mapsto \sum_{n} x_{n}\overline{y_{n}} \text{ pour un } y \in \ml^{2}(\N, \K)
+              \]
         \item Le dual topologique $X^{'}$ d'un Hilbert est un Hilbert : si $u, v \in X^{'}$ alors $\scalar{u, v}_{X^{'}} = \scalar{a_{v}, a_{u}}$
         \item Théorème de Hahn-Banach sur un Hilbert : Si $F$ est un sev d'un Hilbert $X$ et $u \in L(F, \K)$, alors il existe $u_{X} \in X^{'} = L(X, \K)$ tel que $u_{X \mid_{F}} = u$ et $\norm{u_{X}} = \norm{u}$.
         \item Si $F$ est un sev d'un Hilbert non dense, alors pour tout $x \notin \overline{F}$ il existe $u \in X^{'}$ nulle sur $F$ valant $1$ en $x$.
         \item Un sev $F$ d'un Hilbert est dense si et seulement si $F^{\perp}= \{0\}$.
-        \item Pour toute application linéaire continue $u \in L(X, X)$ sur $X$ un Hilbert, il existe un unique $u^{\star} \in L(X, X)$ appelé adjoint de $u$ tel que, pour tous $x, y$ : 
-        \[
-            \scalar{u(x), y} = \scalar{x, u^{\star}(y)}
-        \]
+        \item Pour toute application linéaire continue $u \in L(X, X)$ sur $X$ un Hilbert, il existe un unique $u^{\star} \in L(X, X)$ appelé adjoint de $u$ tel que, pour tous $x, y$ :
+              \[
+                  \scalar{u(x), y} = \scalar{x, u^{\star}(y)}
+              \]
     \end{itemize}
 \end{remark}
 
 \subsection{Bases Hilbertiennes et Parseval}
 \begin{definition}
-    Une base hilbertienne d'un Hilbert $X$ est une suite $e_{n}$ finie ou pas d'éléments de $X$ vérifiant : 
+    Une base hilbertienne d'un Hilbert $X$ est une suite $e_{n}$ finie ou pas d'éléments de $X$ vérifiant :
     \begin{itemize}
         \item Orthonormalité : pour tous $m, n$, $\scalar{e_{m}, e_{n}} = \mathbf{1}_{n = m}$
-        \item L'espace vectoriel engendré par $(e_{n})$ est dense dans $X$. 
+        \item L'espace vectoriel engendré par $(e_{n})$ est dense dans $X$.
     \end{itemize}
 \end{definition}
 
@@ -647,13 +647,13 @@
     \begin{enumerate}
         \item Un Hilbert $X$ admet une base hilbertienne ssi il est séparable.
         \item Tout $\K$ Hilbert séparable de dimension $\infty$ est isomorphe isométriquement à $\ml^{2}(\N,\K)$
-        \item Si $e_{n}$ est une base hilbertienne de $X$ : 
-        \begin{itemize}
-            \item Pour tout $x \in X$, $x = \sum_{n} \scalar{x, e_{n}} e_{n}$
-            \item Pour tout $x \in X$ : $\norm{x}^{2} = \sum_{n}\abs{\scalar{x, e_{n}}}^{2}$
-            \item $\sum_{n} \lambda_{n}e_{n}$ converge si et seulement si $\sum_{n} \lambda_{n}^{2} < \infty$ 
-        \end{itemize}
-    \end{enumerate}    
+        \item Si $e_{n}$ est une base hilbertienne de $X$ :
+              \begin{itemize}
+                  \item Pour tout $x \in X$, $x = \sum_{n} \scalar{x, e_{n}} e_{n}$
+                  \item Pour tout $x \in X$ : $\norm{x}^{2} = \sum_{n}\abs{\scalar{x, e_{n}}}^{2}$
+                  \item $\sum_{n} \lambda_{n}e_{n}$ converge si et seulement si $\sum_{n} \lambda_{n}^{2} < \infty$
+              \end{itemize}
+    \end{enumerate}
 \end{theorem}
 
 \section{Dérivation dans les Espaces Vectoriels Normés}
@@ -661,7 +661,7 @@ Ici, $X, X_{1}, \ldots, X_{n}, Y, Z$ sont des evn réels.
 
 \subsection{Dérivée, Dérivées Partielles, Gradient}
 \begin{definition}
-    Soit $O \subset X$ un ouvert. Une application $f : O \rightarrow Y$ est dérivable ou différentiable en $a \in O$ lorsqu'il existe $u \in L(X, Y)$ tel que : 
+    Soit $O \subset X$ un ouvert. Une application $f : O \rightarrow Y$ est dérivable ou différentiable en $a \in O$ lorsqu'il existe $u \in L(X, Y)$ tel que :
     \[
         f(x) = f(a) + u(x - a) + o(x - a) \text{ quand } x \rightarrow a
     \]
@@ -669,7 +669,7 @@ Ici, $X, X_{1}, \ldots, X_{n}, Y, Z$ sont des evn réels.
 \end{definition}
 
 \begin{definition}
-    La dérivée directionnelle de $f$ en $a$ par rapport à la direction $h$ est définie lorsqu'il existe $(Df)(a, h) \in Y$ tel que : 
+    La dérivée directionnelle de $f$ en $a$ par rapport à la direction $h$ est définie lorsqu'il existe $(Df)(a, h) \in Y$ tel que :
     \[
         f(a + th) = f(a) + t(Df)(a, h) + o(t) \text{ quand } t\rightarrow 0
     \]
@@ -681,34 +681,34 @@ Ici, $X, X_{1}, \ldots, X_{n}, Y, Z$ sont des evn réels.
         \item Si $\norm{\cdot}$ est hilbertienne, alors : $f(x) = \norm{x}^{2}$ est dérivable partout et $(Df)(a)(h) = \scalar{2a, h}$.
         \item La norme n'est jamais dérivable en $0$.
         \item Si $m \in \N$, $f : x \in L(X, X) \mapsto x^{m}$ est dérivable partout et \[(Df)(a)(h) = \sum_{k = 0}^{m - 1}a^{k}ha^{m - 1 - k}\]
-        \item On sait que sur un Banach $X$, $O = \left\{x \in L(X, X)\mid x^{-1} \text{ existe}\right\}$ est un ouvert et que $f : x \in O \rightarrow x^{-1} \in L(X, X)$ est bien définie. On a alors : 
-        \[
-            (Df)(a)(h) = - a^{-1}ha^{-1}
-        \]
+        \item On sait que sur un Banach $X$, $O = \left\{x \in L(X, X)\mid x^{-1} \text{ existe}\right\}$ est un ouvert et que $f : x \in O \rightarrow x^{-1} \in L(X, X)$ est bien définie. On a alors :
+              \[
+                  (Df)(a)(h) = - a^{-1}ha^{-1}
+              \]
     \end{itemize}
 \end{proposition}
 
 \begin{theorem}
     \begin{itemize}
-        \item Linéarité : Si $f, g$ sont dérivables en $a$ alors pour tout $\lambda \in \R$ : 
-        \[
-            (D(\lambda f + g))(a) = \lambda(Df)(a) + (Dg)(a)
-        \]
-        \item Composition : Si $f : O \subseteq X \rightarrow Y$ et $g : O^{'} \subseteq Y \rightarrow Z$ avec $f$ différentiable en $a$ et $g$ différentiable en $f(a)$, $g \circ f$ est différentiable en $a$ et : 
-        \[
-            (Dg \circ f)(a) = (Dg)(f(a)) \circ Df(a)
-        \]
+        \item Linéarité : Si $f, g$ sont dérivables en $a$ alors pour tout $\lambda \in \R$ :
+              \[
+                  (D(\lambda f + g))(a) = \lambda(Df)(a) + (Dg)(a)
+              \]
+        \item Composition : Si $f : O \subseteq X \rightarrow Y$ et $g : O^{'} \subseteq Y \rightarrow Z$ avec $f$ différentiable en $a$ et $g$ différentiable en $f(a)$, $g \circ f$ est différentiable en $a$ et :
+              \[
+                  (Dg \circ f)(a) = (Dg)(f(a)) \circ Df(a)
+              \]
     \end{itemize}
 \end{theorem}
 
 \begin{proposition}
     \begin{itemize}
-        \item Espace de départ est de dimension $1$ : Comme $L(\R, Y)$ est isomorphe isométriquement à $Y$, $u \in L(\R, Y) \rightarrow u(1) \in Y$, si $f : O\subseteq \R \rightarrow Y$ est dérivable en $a$, alors $Df(a)$ est identifiable à $Df(a)(1) = f^{'}(a)$ et $(Df)(a)(h) = (Df)(1)h$ 
+        \item Espace de départ est de dimension $1$ : Comme $L(\R, Y)$ est isomorphe isométriquement à $Y$, $u \in L(\R, Y) \rightarrow u(1) \in Y$, si $f : O\subseteq \R \rightarrow Y$ est dérivable en $a$, alors $Df(a)$ est identifiable à $Df(a)(1) = f^{'}(a)$ et $(Df)(a)(h) = (Df)(1)h$
         \item Espace de départ Hilbert et espace d'arrivée de dimension $1$. Par théorème de Représentation de Riesz, pour tout $a \in O$, il existe un vecteur de $X$ noté $\nabla f(a)$ appelé gradient de $f$ en $a$ tel que $(Df)(a)(h) = \scalar{\nabla f(a), h}$.
-        \item Si $f : \R \rightarrow X$ et $g : X\rightarrow \R$ avec $X$ un Hilbert, dérivables en $a$ et $f(a)$ respectivement, on a : 
-        \[
-            (g \circ f)^{'}(a) = \scalar{(\nabla g)(f(a)), f^{'}(a)}
-        \]
+        \item Si $f : \R \rightarrow X$ et $g : X\rightarrow \R$ avec $X$ un Hilbert, dérivables en $a$ et $f(a)$ respectivement, on a :
+              \[
+                  (g \circ f)^{'}(a) = \scalar{(\nabla g)(f(a)), f^{'}(a)}
+              \]
     \end{itemize}
 \end{proposition}
 
@@ -717,19 +717,19 @@ Ici, $X, X_{1}, \ldots, X_{n}, Y, Z$ sont des evn réels.
     \[
         O^{\hat{a_{i}}} = \left\{x_{i}\mid x \in O, x_{j} = a_{j}, j \neq i\right\}
     \]
-    et 
+    et
     \[
         f^{\hat{a}_{i}} : x_{i} \mapsto f(a_{1}, \ldots, a_{i - 1}, x_{i}, a_{i + 1}, \ldots, a_{n})
     \]
-    $f$ admet des dérivées partielles en $a$ lorsque ces applications sont dérivables et on note : 
+    $f$ admet des dérivées partielles en $a$ lorsque ces applications sont dérivables et on note :
     \[
-        (D_{x_{i}}f)(a) = (Df^{\hat{a}_{i}})(a_{i}) 
+        (D_{x_{i}}f)(a) = (Df^{\hat{a}_{i}})(a_{i})
     \]
     et parfois : $\frac{\partial}{\partial x_{i}}f$ ou $\partial_{x_{i}}f$ voire $\partial_{i}f$
 \end{definition}
 
 \begin{proposition}
-    Si $f$ est dérivable en $a$, les dérivées partielles existent toutes mais la réciproque et fausse, l'existence de dérivées partielles n'impliquant même pas la continuité. 
+    Si $f$ est dérivable en $a$, les dérivées partielles existent toutes mais la réciproque et fausse, l'existence de dérivées partielles n'impliquant même pas la continuité.
 \end{proposition}
 
 \subsection{Inégalité des Accroissements Finis, Jacobienne}
@@ -748,7 +748,7 @@ Ici, $X, X_{1}, \ldots, X_{n}, Y, Z$ sont des evn réels.
 \end{proposition}
 
 \begin{corollary}
-    Si une fonction $f$ sur $O$ possède des dérivées partielles sur $O$ continues en $a$ alors elle est dérivable en $a$ et : 
+    Si une fonction $f$ sur $O$ possède des dérivées partielles sur $O$ continues en $a$ alors elle est dérivable en $a$ et :
     \[
         (Df)(a)(h) = \sum_{i = 1}^{n}(D_{x_{i}}f)(a)(h_{i})
     \]
@@ -758,21 +758,21 @@ Ici, $X, X_{1}, \ldots, X_{n}, Y, Z$ sont des evn réels.
     Si $f : O \subset \R^{n} \rightarrow \R^{m}$, $(Df)(a)$ est identifiable à une matrice $n \times m$ appelée jacobienne :
     \[
         (\Jac f)(a) = \left(\partial_{x_{i}}f_{j}(a)\right)_{1\leq i \leq n, 1\leq j\leq m} = \left(\nabla f_{1}, \ldots, \nabla f_{m}\right)
-    \] 
+    \]
 \end{definition}
 
 \subsection{Dérivées successives, lemme de Schwarz, formule de Taylor, extrema}
 \begin{definition}
     \begin{itemize}
         \item $u : X_{1} \times \ldots \times X_{m} \rightarrow Y$ est multilinéaire lorsqu'elle est linéaire en chaque $X_{i}$
-        \item On note $L(X_{1}, \ldots, X_{m}; Y)$ l'ensemble des applications multilinéaires continues. 
+        \item On note $L(X_{1}, \ldots, X_{m}; Y)$ l'ensemble des applications multilinéaires continues.
         \item On note $L_{m}(X, Y)$ les applications multilinéaires continues sur $X^{m}$.
     \end{itemize}
 \end{definition}
 
 \begin{remark}
     \begin{itemize}
-        \item $u$ multilinéaire est continue si et seulement si elle est bornée. 
+        \item $u$ multilinéaire est continue si et seulement si elle est bornée.
         \item $L(X_{1}, \ldots, X_{m}; Y)$ est un evn
         \item $L(X, L(X, Y))$ et $L(X, X; Y)$ sont isomorphes.
         \item Un polynôme de degré $n$ : $(h_{1}, \ldots, h_{n}) \in X^{n} \mapsto \sum_{m = 0}^{n} u_{m}(h_{1}, \ldots, h_{m}) \in Y$
@@ -788,19 +788,19 @@ Ici, $X, X_{1}, \ldots, X_{n}, Y, Z$ sont des evn réels.
 
 \begin{proposition}
     \begin{itemize}
-        \item Pour $f(u) = u^{m}$, 
-        \[
-            (D^{2})f(a)(h_{1}, h_{2}) = \sum_{l_{i} \in \left\{a, h_{1}, h_{2}\right\}\\ \abs{i \mid l_{i} = h_{1}} = \abs{i \mid l_{i} = h_{2}} = 1} l_{1}\ldots l_{m}
-        \]
+        \item Pour $f(u) = u^{m}$,
+              \[
+                  (D^{2})f(a)(h_{1}, h_{2}) = \sum_{l_{i} \in \left\{a, h_{1}, h_{2}\right\}\\ \abs{i \mid l_{i} = h_{1}} = \abs{i \mid l_{i} = h_{2}} = 1} l_{1}\ldots l_{m}
+              \]
         \item Pour $f(u) = u^{-1}$ :
-        \[
-            (D^{2}f)(a)(h_{1}, h_{2}) = a^{-1}h_{1}a^{-1}h_{2}a^{-1} + a^{-1}h_{2}a^{-1}h_{1}a^{-1}
-        \]
+              \[
+                  (D^{2}f)(a)(h_{1}, h_{2}) = a^{-1}h_{1}a^{-1}h_{2}a^{-1} + a^{-1}h_{2}a^{-1}h_{1}a^{-1}
+              \]
     \end{itemize}
 \end{proposition}
 
 \begin{lemma}
-    Soit $0, 0 \in O \subseteq X = \R^{2}$ et $f \in \cont^{1}(O, Y)$, en particulier, $\partial_{x_{1}}f $ et $\partial_{x_{2}}$ existent sur $O$. Si $\partial_{x_{1}}f$ admet une dérivée partielle par rapport à $x_{2}$ dans un voisinage de $0, 0$ et de même pour $\partial_{x_{2}}f$ : 
+    Soit $0, 0 \in O \subseteq X = \R^{2}$ et $f \in \cont^{1}(O, Y)$, en particulier, $\partial_{x_{1}}f $ et $\partial_{x_{2}}$ existent sur $O$. Si $\partial_{x_{1}}f$ admet une dérivée partielle par rapport à $x_{2}$ dans un voisinage de $0, 0$ et de même pour $\partial_{x_{2}}f$ :
     \[
         \frac{\partial^{2}f}{\partial_{x_{1}}\partial_{x_{2}}}(0, 0) = \frac{\partial^{2}f}{\partial_{x_{2}}\partial{x_{1}}}(0, 0)
     \]
@@ -829,11 +829,11 @@ Ici, $X, X_{1}, \ldots, X_{n}, Y, Z$ sont des evn réels.
     Si $f$ est $\cont^{2}$ et $a \in O$, dans la base canonique, la forme bilinéaire $(D^{2}f)(a)$ est identifiable à la matrice symétrique $\left(\partial_{x_{i}}\partial_{x_{j}}f(a)\right)_{1 \leq i, j \leq n}$. On note $Hess(f)(a)$ ou $\nabla^{2}f(a)$ cette matrice, qui est égale à $\Jac\nabla f(a)$.
 \end{definition}
 \begin{theorem}[Formule de Taylor]
-    Si $f \in \cont^{m - 1}(O \subseteq X, Y), m\geq 1$, si $a \in O$ et $\left(D^{m}f\right)(a)$ existe alors : 
+    Si $f \in \cont^{m - 1}(O \subseteq X, Y), m\geq 1$, si $a \in O$ et $\left(D^{m}f\right)(a)$ existe alors :
     \[
         f(x) = \sum_{k = 0}^{m}\frac{1}{k!}\left(D^{k}f\right)(a)(x - a, \ldots, x - a) + r_{a}(x) \text{ où } r_{a}(x) = o_{x \rightarrow a}\left(\norm{x - a}^{m}\right)
     \]
-    et si $D^{m}f$ existe sur tout le segment $\left[a, x\right]$ alors : 
+    et si $D^{m}f$ existe sur tout le segment $\left[a, x\right]$ alors :
     \[
         \norm{r_{a}(x)} \leq \frac{\norm{x - a}^{m + 1}}{(m + 1)!}\sup_{y \in \left[a, x\right]}\norm{\left((D^{m + 1}f)(y)\right)}
     \]
@@ -845,18 +845,18 @@ Ici, $X, X_{1}, \ldots, X_{n}, Y, Z$ sont des evn réels.
 \begin{corollary}
     Soit $f \in \cont^{1}(O \subset X, \R)$, $a \in O$ telle que $\left(D^{2}f\right)(a) \in L_{2}^{sym}(X, \R)$ existe.
     \begin{itemize}
-        \item Si $a$ est un extremum local de $f$ alors : $\left(Df\right)(a) = 0$ et : 
-        \begin{itemize}
-            \item Quand $a$ est un minimum : $\forall h \in X, \left(D^{2}f\right)(a)(h,h) \geq 0$
-            \item Quand $a$ est un maximum : $\forall h \in X, \left(D^{2}f\right)(a)(h,h) \leq 0$
-        \end{itemize}
-        \item Si $\left(Df\right)(a) = 0$ et s'il existe $c$ telle que : 
-        \begin{itemize}
-            \item $(D^{2}f)(a)(h, h) \geq c \norm{h}^{2}$ alors $a$ est un minimum local de $f$
-            \item $(D^{2}f)(a)(h, h) \leq -c \norm{h}^{2}$ alors $a$ est un maximum local de $f$.
-        \end{itemize}
+        \item Si $a$ est un extremum local de $f$ alors : $\left(Df\right)(a) = 0$ et :
+              \begin{itemize}
+                  \item Quand $a$ est un minimum : $\forall h \in X, \left(D^{2}f\right)(a)(h,h) \geq 0$
+                  \item Quand $a$ est un maximum : $\forall h \in X, \left(D^{2}f\right)(a)(h,h) \leq 0$
+              \end{itemize}
+        \item Si $\left(Df\right)(a) = 0$ et s'il existe $c$ telle que :
+              \begin{itemize}
+                  \item $(D^{2}f)(a)(h, h) \geq c \norm{h}^{2}$ alors $a$ est un minimum local de $f$
+                  \item $(D^{2}f)(a)(h, h) \leq -c \norm{h}^{2}$ alors $a$ est un maximum local de $f$.
+              \end{itemize}
     \end{itemize}
-    Lorsque $X = \R^{n}$ ces conditions portent sur le gradient et la hessienne. 
+    Lorsque $X = \R^{n}$ ces conditions portent sur le gradient et la hessienne.
 \end{corollary}
 
 \subsection{Théorème d'inversion Locale et Théorème des Fonctions Implicites}
@@ -870,7 +870,7 @@ Ici, $X, X_{1}, \ldots, X_{n}, Y, Z$ sont des evn réels.
 
 \begin{theorem}[Inversion Locale]
     Soient $X$ et $Y$ des Banach, $O \subseteq X$ et $a \in O$. Soit $f \in \cont^{m}(O, Y)$, $m \geq 1$.\\
-    Si $(Df)(a)$ est une bijection à inverse borné $\left[(Df)(a)\right]^{-1} \in L(Y, X)$ alors il existe $O^{'} \subseteq X$ tel que $a \in O^{'} \subseteq O$ et $f : O^{'} \rightarrow f(O^{'})$ est un $\cont^{m}$-difféomorphisme et pour tout $x \in O^{'}$ : 
+    Si $(Df)(a)$ est une bijection à inverse borné $\left[(Df)(a)\right]^{-1} \in L(Y, X)$ alors il existe $O^{'} \subseteq X$ tel que $a \in O^{'} \subseteq O$ et $f : O^{'} \rightarrow f(O^{'})$ est un $\cont^{m}$-difféomorphisme et pour tout $x \in O^{'}$ :
     \[
         \left(Df^{-1}\right)(f(x)) = \left[(Df)(x)\right]^{-1}
     \]
@@ -879,115 +879,181 @@ Ici, $X, X_{1}, \ldots, X_{n}, Y, Z$ sont des evn réels.
 \section{EDO}
 \subsection*{Introduction}
 \begin{definition}
-	On considère $X$ un Banach, $I \subseteq \R$ un intervalle ouvert, $O\subseteq X$ un ouvert, $f : I\times O\rightarrow X$ continue. Pour un certain $(t_{0}, x_{0})$ dans $I \times O$, on considère le problème de Cauchy : 
-	\begin{equation}
-		x^{'}(t) = f(t, x(t)) \text{ et } x(t_{0}) = x_{0}
-	\end{equation}
+    On considère $X$ un Banach, $I \subseteq \R$ un intervalle ouvert, $O\subseteq X$ un ouvert, $f : I\times O\rightarrow X$ continue. Pour un certain $(t_{0}, x_{0})$ dans $I \times O$, on considère le problème de Cauchy :
+    \begin{equation}
+        x^{'}(t) = f(t, x(t)) \text{ et } x(t_{0}) = x_{0}
+    \end{equation}
 \end{definition}
 
 \begin{definition}
-	\begin{itemize}
-		\item Pour tout $t \in I$, $x\in O \mapsto f(t, x) \in X$ est un champ de vecteurs.
-		\item Lorsque $f$ ne dépend pas du temps $t$, on parle d'EDO autonome. On prend alors $I = \R$.
-		\item Il est toujours possible de transformer (EDO) en une EDO autonome en rajoutant le temps à l'espace.
-		\item Toute EDO d'ordre plus élevé $x_{t}^{k} = f(t, x(t), \ldots, x^{\left(k-1\right)}(t))$ peut se réécrire en $X^{'}(t) = F(t, X(t))$ où $X(t) = \left(x(t), \ldots, x^{(k-1)}(t)\right)\in X^{k}$ et $F(t, a_{0}, \ldots, a_{k-1}) = (a_{1}, \ldots, a_{k-1}, f(t, a_{0}, \ldots, a_{k-1}))$.
-	\end{itemize}
+    \begin{itemize}
+        \item Pour tout $t \in I$, $x\in O \mapsto f(t, x) \in X$ est un champ de vecteurs.
+        \item Lorsque $f$ ne dépend pas du temps $t$, on parle d'EDO autonome. On prend alors $I = \R$.
+        \item Il est toujours possible de transformer (EDO) en une EDO autonome en rajoutant le temps à l'espace.
+        \item Toute EDO d'ordre plus élevé $x_{t}^{k} = f(t, x(t), \ldots, x^{\left(k-1\right)}(t))$ peut se réécrire en $X^{'}(t) = F(t, X(t))$ où $X(t) = \left(x(t), \ldots, x^{(k-1)}(t)\right)\in X^{k}$ et $F(t, a_{0}, \ldots, a_{k-1}) = (a_{1}, \ldots, a_{k-1}, f(t, a_{0}, \ldots, a_{k-1}))$.
+    \end{itemize}
 \end{definition}
 
 \begin{definition}
-	Une solution locale de (EDO) est une fonction $x \in \cont^{1}\left(J, X\right)$ où $J$ est un intervalle ouvert tel que : $t_{0}\in J \subseteq I, x(J) \subseteq O$ et (EDO) a lieu pour tout $t \in J$.
+    Une solution locale de (EDO) est une fonction $x \in \cont^{1}\left(J, X\right)$ où $J$ est un intervalle ouvert tel que : $t_{0}\in J \subseteq I, x(J) \subseteq O$ et (EDO) a lieu pour tout $t \in J$.
 \end{definition}
 
 \begin{lemma}
-	Une fonction $x$ est solution locale sur $J$ de (EDO) si et seulement si $x \in \cont^{0}(J, X), x(J) \subseteq O$ et si $t \in J$ : 
-	\begin{equation}
-		x(t) = x_{0} + \int_{t_{0}}^{t} f(s, x(s)) \d s
-	\end{equation}
-	En particulier, cette équation EDOI implique que $x \in \cont^{1}(J, X)$
+    Une fonction $x$ est solution locale sur $J$ de (EDO) si et seulement si $x \in \cont^{0}(J, X), x(J) \subseteq O$ et si $t \in J$ :
+    \begin{equation}
+        x(t) = x_{0} + \int_{t_{0}}^{t} f(s, x(s)) \d s
+    \end{equation}
+    En particulier, cette équation EDOI implique que $x \in \cont^{1}(J, X)$
 \end{lemma}
 
 
 \begin{definition}
-	\begin{itemize}
-		\item Existence Locale : $\exists J \subseteq I$ ouvert, $t_{0} \in J$ et $x$ une solution de EDO. 
-		\item Unicité Locale : Si $J_{1}, x_{1}$ et $J_{2}, x_{2}$ sont deux solutions de EDO, alors $\exists J_{3} \subseteq J_{1} \cap J_{2}$ tel que $t_{0} \in J_{3}$ et sur cet intervalle ouvert : $x_{1}(t) = x_{2}(t)$
-		\item Solution Maximale : Supposons qu'on a existence et unicité locale en tout point. Dans ce cas, si on a deux solutions locales, elles sont égales sur l'intersection de leurs domaines de définition. 
+    \begin{itemize}
+        \item Existence Locale : $\exists J \subseteq I$ ouvert, $t_{0} \in J$ et $x$ une solution de EDO.
+        \item Unicité Locale : Si $J_{1}, x_{1}$ et $J_{2}, x_{2}$ sont deux solutions de EDO, alors $\exists J_{3} \subseteq J_{1} \cap J_{2}$ tel que $t_{0} \in J_{3}$ et sur cet intervalle ouvert : $x_{1}(t) = x_{2}(t)$
+        \item Solution Maximale : Supposons qu'on a existence et unicité locale en tout point. Dans ce cas, si on a deux solutions locales, elles sont égales sur l'intersection de leurs domaines de définition.
     \end{itemize}
 \end{definition}
 
 \begin{remark}
-	On considère l'EDO autonome $x^{'} = \abs{x}^{\alpha}$ sur $X = \R$ avec $\alpha \neq 0$ fixé. 
-	\begin{enumerate}
-		\item Si $\alpha > 0$, $x = 0$ est toujours solution sur tout $\R$. 
-		\item Si $\alpha = 1$ alors la solution est $x(t) = x_{0}e^{\sgn(x_{0})(t - t_{0})}$. 
-		\item Si $\alpha > 1$, la seule solution non identiquement nulle vérifie : 
-			\[
-				x(t) = \abs{(\alpha - 1)(T - t)}^{- 1 / (\alpha - 1)}\sgn{(T-t)}
-			\]
-			Il y a existence et unicité locale en tout point, mais $I_{max} = \left(-\infty, T\right)$ si $x_{0}  > 0$ et $I_{max} = \left(T, +\infty\right)$ sinon. 
+    On considère l'EDO autonome $x^{'} = \abs{x}^{\alpha}$ sur $X = \R$ avec $\alpha \neq 0$ fixé.
+    \begin{enumerate}
+        \item Si $\alpha > 0$, $x = 0$ est toujours solution sur tout $\R$.
+        \item Si $\alpha = 1$ alors la solution est $x(t) = x_{0}e^{\sgn(x_{0})(t - t_{0})}$.
+        \item Si $\alpha > 1$, la seule solution non identiquement nulle vérifie :
+              \[
+                  x(t) = \abs{(\alpha - 1)(T - t)}^{- 1 / (\alpha - 1)}\sgn{(T-t)}
+              \]
+              Il y a existence et unicité locale en tout point, mais $I_{max} = \left(-\infty, T\right)$ si $x_{0}  > 0$ et $I_{max} = \left(T, +\infty\right)$ sinon.
     \end{enumerate}
 \end{remark}
 
-	\subsection{Théorèmes d'Existence}
-	\begin{theorem}[Cauchy-Lipschitz ou Picard-Lindehöf]
-Supposons que $f$ dans (EDO) est localement bornée (automatique si $f$ est continue) et localement Lipschitz en $x$ en $(t_{0}, x_{0})$ : Il existe $\tau, \rho, M, L > 0$ tels que $\overline{B}(t_{0}, \tau) \times \overline{B}(x_{0}, \rho) \subseteq I \times O$ et : 
-		\begin{itemize}
-			\item $\norm{f(t, x)} \leq M$ pour tout $(t, x) \in B$
-			\item $\norm{f(t, x) - f(t, y)} \leq L\norm{x - y}$
-		\end{itemize}
-	Alors, $\forall \epsilon < \min\left(\tau, \frac{\rho}{M}\right)$, en notant $I_{\epsilon} = \left(t_{0} - \epsilon, t_{0} + \epsilon\right)$, on a : 
-		\begin{itemize}
-			\item Existence et Unicité : Il existe une unique solution $x$ sur $I_{\epsilon}$ et il y a unicité locale en $(t_{0}, x_{0})$
-			\item Constructibilité par Itération de Picard : $x^{(0)} = x_{0}$ et $x^{(n+1)} = Ax^{(n)} \xrightarrow[n \to \infty]{} x$ dans $\cont\left(\overline{I}_{\epsilon}, X\right)$ où :
-				\[
-					(Ax)(t) = x_{0} + \int_{t_{0}}^{t} f(s, x(s))\d s
-				\]
-		\end{itemize}
-	\end{theorem}
+\subsection{Théorèmes d'Existence}
+\begin{theorem}[Cauchy-Lipschitz ou Picard-Lindehöf]
+    Supposons que $f$ dans (EDO) est localement bornée (automatique si $f$ est continue) et localement Lipschitz en $x$ en $(t_{0}, x_{0})$ : Il existe $\tau, \rho, M, L > 0$ tels que $\overline{B}(t_{0}, \tau) \times \overline{B}(x_{0}, \rho) \subseteq I \times O$ et :
+    \begin{itemize}
+        \item $\norm{f(t, x)} \leq M$ pour tout $(t, x) \in B$
+        \item $\norm{f(t, x) - f(t, y)} \leq L\norm{x - y}$
+    \end{itemize}
+    Alors, $\forall \epsilon < \min\left(\tau, \frac{\rho}{M}\right)$, en notant $I_{\epsilon} = \left(t_{0} - \epsilon, t_{0} + \epsilon\right)$, on a :
+    \begin{itemize}
+        \item Existence et Unicité : Il existe une unique solution $x$ sur $I_{\epsilon}$ et il y a unicité locale en $(t_{0}, x_{0})$
+        \item Constructibilité par Itération de Picard : $x^{(0)} = x_{0}$ et $x^{(n+1)} = Ax^{(n)} \xrightarrow[n \to \infty]{} x$ dans $\cont\left(\overline{I}_{\epsilon}, X\right)$ où :
+              \[
+                  (Ax)(t) = x_{0} + \int_{t_{0}}^{t} f(s, x(s))\d s
+              \]
+    \end{itemize}
+\end{theorem}
 
-	\begin{remark}
-		L'approximation numérique de la solution de (EDO) peut être menée en discrétisant le temps. Cela revient à se promener par petits sauts dans un champ de vecteurs.
-	\end{remark}
+\begin{remark}
+    L'approximation numérique de la solution de (EDO) peut être menée en discrétisant le temps. Cela revient à se promener par petits sauts dans un champ de vecteurs.
+\end{remark}
 
-	\begin{theorem}[de Peano]
-		Si $X$ est localement compact $(X = \R^{n})$ alors il y a existence locale de solution pour (EDO)
-	\end{theorem}
+\begin{theorem}[de Peano]
+    Si $X$ est localement compact $(X = \R^{n})$ alors il y a existence locale de solution pour (EDO)
+\end{theorem}
 
-	\subsection{Solutions Globales et Lemme de Grönwall}
-	\begin{theorem}
-		Supposons qu'il y a existence et unicité locale pour EDO en tout point. \\
-		Soit $x$ une solution maximale de (EDO) et $I_{\max} \subseteq I$ son intervalle de définition. 
-		\begin{itemize}
-			\item Si $T_{\max} = \sup I_{\max} < \sup I$ alors $x$ explose (sort de tout compact) au bord droit de $I_{\max}$ : Pour tout compact $K \subseteq O$, il existe $T_{K} < T_{\max}$ tel que $x(t) \notin K$ pour $t > T_{K}$.
-			\item De même à gauche en considérent les $\min$ et $\inf$. 
-		\end{itemize}
-	\end{theorem}
+\subsection{Solutions Globales et Lemme de Grönwall}
+\begin{theorem}
+    Supposons qu'il y a existence et unicité locale pour EDO en tout point. \\
+    Soit $x$ une solution maximale de (EDO) et $I_{\max} \subseteq I$ son intervalle de définition.
+    \begin{itemize}
+        \item Si $T_{\max} = \sup I_{\max} < \sup I$ alors $x$ explose (sort de tout compact) au bord droit de $I_{\max}$ : Pour tout compact $K \subseteq O$, il existe $T_{K} < T_{\max}$ tel que $x(t) \notin K$ pour $t > T_{K}$.
+        \item De même à gauche en considérent les $\min$ et $\inf$.
+    \end{itemize}
+\end{theorem}
 
-Les hypothèses de ce théorème sont toujours vérifiées lorsque celles du théorème de Cauchy-Lipschitz le sont. 
+Les hypothèses de ce théorème sont toujours vérifiées lorsque celles du théorème de Cauchy-Lipschitz le sont.
 
 
-	\begin{lemma}[de Grönwall]
-		Si $u \in \cont\left(\left[0, T\right], \R\right)$ et pour $a \geq 0, c \in \R$ et pour tout $t \in \left[0, T\right]$ on a : 
-		\[
-			u(t) \leq c + a \int_{0}^{t} u(s) \d s
-		\]
-		alors $u(t) \leq ce^{at}$ pour tout $t \in \left[0, T\right]$. \\
-		Plus généralement, si $v$ est continue sur $\left[0, T\right]$ et si pour des constantes $a > 0, b, c \in \R$ on a : 
-		\[
-			v(t) \leq c + \int_{0}^{t}\left(av(s) + b\right) \d s \Rightarrow v(t) + \frac{b}{a} \leq \left(c + \frac{b}{a}\right)e^{at} \text{ pour tout } t \in \left[0, T\right]
-		\]
-	\end{lemma}
+\begin{lemma}[de Grönwall]
+    Si $u \in \cont\left(\left[0, T\right], \R\right)$ et pour $a \geq 0, c \in \R$ et pour tout $t \in \left[0, T\right]$ on a :
+    \[
+        u(t) \leq c + a \int_{0}^{t} u(s) \d s
+    \]
+    alors $u(t) \leq ce^{at}$ pour tout $t \in \left[0, T\right]$. \\
+    Plus généralement, si $v$ est continue sur $\left[0, T\right]$ et si pour des constantes $a > 0, b, c \in \R$ on a :
+    \[
+        v(t) \leq c + \int_{0}^{t}\left(av(s) + b\right) \d s \Rightarrow v(t) + \frac{b}{a} \leq \left(c + \frac{b}{a}\right)e^{at} \text{ pour tout } t \in \left[0, T\right]
+    \]
+\end{lemma}
 
-	\begin{theorem}
-		Si $\sup_{t \in J} L_{t} < \infty$ pour tout intervalle borné $J \subseteq I$ où :
-		\[
-			L_{t} = \sup_{x, y \in X} \frac{\norm{f(t, x) - f(t, y)}}{\norm{x - y}}
-		\]
-		alors : 
-		\begin{itemize} 
-			\item Il y a existence et unicité locales pour EDO en tout point
-			\item Toute solution maximale de EDO est globale.
-        \end{itemize}
+\begin{theorem}
+    Si $\sup_{t \in J} L_{t} < \infty$ pour tout intervalle borné $J \subseteq I$ où :
+    \[
+        L_{t} = \sup_{x, y \in X} \frac{\norm{f(t, x) - f(t, y)}}{\norm{x - y}}
+    \]
+    alors :
+    \begin{itemize}
+        \item Il y a existence et unicité locales pour EDO en tout point
+        \item Toute solution maximale de EDO est globale.
+    \end{itemize}
+\end{theorem}
 
-    \end{theorem}
+\begin{theorem}
+    Si $x_{1}, x_{2}$ sont des solutions de (EDO) sur $I_{1}, I_{2}$ avec $x_{1}(t_{0}) = x_{0, 1}$ et $x_{2}(t_{0}) = x_{0, 2}$ et telles que pour une constante $C > 0$ et tout $t \in I_{1} \cap I_{2}$ :
+    \[
+        \norm{f(t, x_{1}(t)) - f(t, x_{2}(t))} \leq C\norm{x_{1}(t) - x_{2}(t)},
+    \]
+    alors, pour tout $t \in I_{1} \cap I_{2}$,
+    \[
+        \norm{x_{1}(t)-x_{2}(t)} \leq e^{C\abs{t - t_{0}}}\norm{x_{0, 1} - x_{0, 2}}
+    \]
+\end{theorem}
+
+\subsection{Equations différentielles linéaires, résolvante, formule de Duhamel}
+On considère ici l'équation différentielle linéaire (EDOL) suivante :
+\begin{equation*}
+    x'(t) = A(t)x(t) + b(t), t \in I, x(t_{0}) = x_{0}
+\end{equation*}
+où $ I\subseteq \R, A \in \cont(I, L(X)), b \in \cont(I, X), t_{0} \in I, x_{0} \in X$. Il s'agit d'un cas particulier de (EDO) avec $O = X$ et $f(t, x) = A(t)x + b(t)$. Lorsque $X = \R^{n}$, on identifie $L(X) = M_{n}(\R)$.
+
+\begin{theorem}
+    \begin{itemize}
+        \item Toute solution Maximale de (EDOL) est globale.
+        \item L'EDO posée dans $L(X)$
+              \[
+                  R_{t_{0}}^{'}(t) = A(t)R_{t_{0}}(t), \ R_{t_{0}}(t_{0}) = \text{id}
+              \]
+              admet une unique solution globale appelée résolvante de (EDOL). On note
+              \[
+                  R(t, t_{0}) = R_{t_{0}}(t)
+              \]
+              Dans le cas où $A$ est constante on a :
+              \[
+                  R(t, t_{0}) = \exp((t- t_{0})A) = \sum_{n= 0}^{\infty} \frac{A^{n}}{n!}(t- t_{0})^{n}
+              \]
+        \item Pour tout $t_{1}, t_{2}, t_{3} \in I$, $R(t_{3}, t_{1}) = R(t_{3}, t_{2})R(t_{2}, t_{1})$. En particulier, pour tout $s, t \in I$ :
+              \[
+                  R(s, t)R(t, s) = \text{ id}
+              \]
+        \item Formule de Duhamel : l'unique solution globale de (EDOL) est donnée par :
+              \[
+                  x(t) = R(t, t_{0})x_{0} + \int_{t_{0}}^{t}R(t, s)b(s)\d s, \ \ t\in I
+              \]
+    \end{itemize}
+\end{theorem}
+
+\begin{theorem}
+    Lorsque $X = \K^{n}$ on a pour tous $t_{0}, t \in I$ \[\det(R(t, t_{0}))\exp \int_{t_{0}}^{t} \Tr(A(s))\d s\]
+\end{theorem}
+
+\subsection{Dépendance à la Condition Initiale, Notion de Flot}
+\begin{definition}
+    Lorsqu'il y a existence et unicité locale pour (EDO):
+    \begin{itemize}
+        \item On note $I_{max}(t_{0}, x_{0})$ l'intervalle d'existence maximal de (EDO)
+        \item On pose $\mathcal{D}_{t_{0}} = \cup_{x \in 0} I_{max}(t_{0}, x) \times \{x\} \subseteq I \times O$
+        \item On définit le flot de (EDO) comme l'application qui a $(t, x) \in \mathcal{D}_{t_{0}}$ associe la valeur en $t$ de la solution partant de $x$ au temps $t_{0}$. Autrement dit, $\phi_{t_{0}} : \mathcal{D}_{t_{0}} \to X$ est définie par $\phi_{t_{0}}(t, x) = x_{t_{0}, x}(t)$ où $x_{t_0, x}$ est la solution de (EDO) avec condition initiale $x$ en $t_{0}$. 
+    \end{itemize}
+\end{definition}
+\begin{theorem}
+    Considérons (EDO) et faisons l'hypothèse que $f : I\times O \subseteq \R \times X \to X$ est continue, bornée et Lipschitz en la variable d'espace, uniformément sur tout fermé borné $F \subseteq I \times O$. Alors : 
+    \begin{enumerate}
+        \item $\mathcal{D}_{t_{0}} \subseteq I \times X$ est ouvert. 
+        \item le flot $\phi_{t_{0}}$ est localement Lipschitz sur $\mathcal{D}_{t_{0}}$
+    \end{enumerate}
+\end{theorem}
+
+
 \end{document}
