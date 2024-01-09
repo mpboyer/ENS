@@ -8,10 +8,10 @@
 \section{Ensembles Quotients}
 \subsection{Partitions et Relations d'Equivalence}
 \begin{definition}
-    Une \emph{partition} d'un ensemble $X$ est un ensemble de parties non vides de $X$ de réunion disjointe $X$. 
+    Une \emph{partition} d'un ensemble $X$ est un ensemble de parties non vides de $X$ de réunion disjointe $X$.
 \end{definition}
 \begin{definition}
-    On appelle \emph{fibre} d'une application $f : X \rightarrow Y$ en $y \in Y$ l'ensemble $f^{-1}(y) = \left\{x \in X \mid f(x) = y\right\}$. Il s'agit d'une partition de $X$ indexée par $Y$. Toute partition de $X$ s'obtient ainsi. 
+    On appelle \emph{fibre} d'une application $f : X \rightarrow Y$ en $y \in Y$ l'ensemble $f^{-1}(y) = \left\{x \in X \mid f(x) = y\right\}$. Il s'agit d'une partition de $X$ indexée par $Y$. Toute partition de $X$ s'obtient ainsi.
 \end{definition}
 
 \begin{definition}
@@ -19,7 +19,7 @@
 \end{definition}
 
 \begin{proposition}\label{partclassdeq}
-    Les classes d'équivalences d'une relation $R$ sur $X$ forment une partition de $X$. 
+    Les classes d'équivalences d'une relation $R$ sur $X$ forment une partition de $X$.
 \end{proposition}
 
 \begin{definition}
@@ -47,11 +47,11 @@
 \end{proposition}
 
 \begin{definition}[Axiome du Choix]\label{AC}
-    Pour tout ensemble $X$ il existe une application $\tau : P(X) \setminus \left\{\emptyset\right\} \rightarrow X$ telle que $\tau(E) \in E$ pour toute partie non vide $E$ de $X$. On appelle $\tau$ fonction de choix sur $X$. 
+    Pour tout ensemble $X$ il existe une application $\tau : P(X) \setminus \left\{\emptyset\right\} \rightarrow X$ telle que $\tau(E) \in E$ pour toute partie non vide $E$ de $X$. On appelle $\tau$ fonction de choix sur $X$.
 \end{definition}
 
 \begin{proposition}
-    Les propositions suivantes sont équivalentes à l'axiome du choix (donc fausses): 
+    Les propositions suivantes sont équivalentes à l'axiome du choix (donc fausses):
     \begin{enumerate}
         \item Toute surjection admet une section.
         \item Pour toute famille d'ensembles non vides $\left\{X_{i}\right\}_{i\in I}$, $\pi_{i\in I}X_{i}$ est non vide.
@@ -69,7 +69,7 @@
 \begin{definition}
     \begin{itemize}
         \item Un \emph{relation d'ordre} sur un ensemble $X$ est une relation binaire $\leq$ réfléxive, transitive et antisymétrique. On dit alors que $X$ est ordonné.
-        \item L'ordre $\leq$ est total quand tous deux éléments de $X$ sont comparables. 
+        \item L'ordre $\leq$ est total quand tous deux éléments de $X$ sont comparables.
         \item On appelle majorant d'une partie $Y$ de $X$, tout élément $x \in X$ tel que $y \leq x$ pour tout $y \in Y$. On parle de plus grand élément dans le cas $Y = X$.
         \item $x \in X$ est un élément maximal si le seul $y \in X$ tel que $y \leq x$ est $x$. Un plus grand élément est nécessairement maximal, et unique s'il existe.
         \item On appelle $X$ inductif si tout sous-ensemble totalement ordonné admet et majorant.
@@ -100,7 +100,7 @@
 \begin{definition}[Groupe]
     Un groupe est un ensemble $G$ muni d'une loi de composition associative, unifère et inversible, i.e.:
     \begin{enumerate}
-        \item $\forall \ (x, y, z) \in G, \ x \star (y \star z) = (x \star y) \star z$ 
+        \item $\forall \ (x, y, z) \in G, \ x \star (y \star z) = (x \star y) \star z$
         \item $\exists \ e \in G,\ \forall x \in G, \ e\star x = x \star e = x$.
         \item $\forall x \in G, \ \exists y \in G, \ x \star y = y \star x = e$
     \end{enumerate}
@@ -123,7 +123,7 @@
 \end{definition}
 
 \begin{example}[Groupes d'ordre n]
-        Pour $n \geq 1$, on note $\mu_{n}$ le sous-groupe de $\C^{\times}$ composé des racines $n$-ièmes de l'unité. C'est un sous-groupe d'ordre $n$. L'application $\Z/n\Z \rightarrow \mu_{n}, \overline{k} \mapsto e^{2ik\pi/n}$ est un isomorphisme de groupe. 
+    Pour $n \geq 1$, on note $\mu_{n}$ le sous-groupe de $\C^{\times}$ composé des racines $n$-ièmes de l'unité. C'est un sous-groupe d'ordre $n$. L'application $\Z/n\Z \rightarrow \mu_{n}, \overline{k} \mapsto e^{2ik\pi/n}$ est un isomorphisme de groupe.
 \end{example}
 
 \begin{definition}
@@ -165,13 +165,13 @@
     \begin{enumerate}
         \item $H \leq G \Rightarrow f(H) \leq G^{'}$
         \item $H \leq G^{'} \Rightarrow f^{-1}(H) \leq G$
-    Avec $\mathcal{A}$ l'ensemble des sous-groupes de $G$ contenant $\ker f$ et $\mathcal{B}$ celui des sous-groupes de $G^{'}$ inclus dans $\textmd{Im} f$, alors :
-        \item $\mathcal{A} \rightarrow\mathcal{B}, H \mapsto f(H)$ est une bijection croissante. 
+              Avec $\mathcal{A}$ l'ensemble des sous-groupes de $G$ contenant $\ker f$ et $\mathcal{B}$ celui des sous-groupes de $G^{'}$ inclus dans $\textmd{Im} f$, alors :
+        \item $\mathcal{A} \rightarrow\mathcal{B}, H \mapsto f(H)$ est une bijection croissante.
     \end{enumerate}
 \end{proposition}
 
 \begin{proposition}
-    Les fibres non vides de $f$ sont en bijection avec $\ker f$. En particulier : 
+    Les fibres non vides de $f$ sont en bijection avec $\ker f$. En particulier :
     \begin{itemize}
         \item $f$ injective $\Leftrightarrow$ $\ker f = \left\{1\right\}$.
         \item Si $G$ est fini, $\abs{G} = \abs{\text{Im } f}\abs{\ker f}$.
@@ -179,11 +179,11 @@
 \end{proposition}
 
 \begin{theorem}[Cayley]
-    Tout groupe d'ordre fini $n$ est isomorphe à un sous-groupe de $S_{n}$. 
+    Tout groupe d'ordre fini $n$ est isomorphe à un sous-groupe de $S_{n}$.
 \end{theorem}
 
 \begin{lemma}
-    Si $\phi : X \rightarrow Y$ est bijective, l'application : $\phi_{X, Y} : S_{X} \rightarrow S_{Y}, \sigma \mapsto \phi \circ \sigma \circ \phi^{-1}$ est un isomorphisme de groupes. 
+    Si $\phi : X \rightarrow Y$ est bijective, l'application : $\phi_{X, Y} : S_{X} \rightarrow S_{Y}, \sigma \mapsto \phi \circ \sigma \circ \phi^{-1}$ est un isomorphisme de groupes.
 \end{lemma}
 
 \begin{definition}
@@ -196,11 +196,11 @@
 \end{proposition}
 
 \begin{proposition}
-    Si $g \in G$ est d'ordre fini $n$, alors $\langle g \rangle$ a exactement $n$ éléments et est isomorphe à $\Z/n\Z$. 
+    Si $g \in G$ est d'ordre fini $n$, alors $\langle g \rangle$ a exactement $n$ éléments et est isomorphe à $\Z/n\Z$.
 \end{proposition}
 
 \begin{definition}
-    Un groupe $G$ est \emph{monogène} s'il est engendré par un seul élément, appelé \emph{générateur}. Il est \emph{cyclique} s'il est fini. 
+    Un groupe $G$ est \emph{monogène} s'il est engendré par un seul élément, appelé \emph{générateur}. Il est \emph{cyclique} s'il est fini.
 \end{definition}
 
 \begin{corollary}
@@ -211,13 +211,13 @@
     \begin{itemize}
         \item Les générateurs de $\Z, +$ sont les $k \in \Z$ tels que $\Z = k\Z$, i.e. $k = \pm 1$.
         \item Pour $k \in \Z$, $G = \scalar{g}$ un groupe cyclique d'ordre $n$, on a équivalence entre :
-        \begin{enumerate}
-            \item $\scalar{g^{k}} = G$
-            \item $g \in \scalar{g^{k}}$
-            \item $\exists k^{'} \in \Z,\ kk^{'} = 1 \text{ mod } n$
-            \item $\overline{k} \in \left(\Z/n\Z\right)^{\times}$
-            \item $k \wedge n = 1$
-        \end{enumerate}
+              \begin{enumerate}
+                  \item $\scalar{g^{k}} = G$
+                  \item $g \in \scalar{g^{k}}$
+                  \item $\exists k^{'} \in \Z,\ kk^{'} = 1 \text{ mod } n$
+                  \item $\overline{k} \in \left(\Z/n\Z\right)^{\times}$
+                  \item $k \wedge n = 1$
+              \end{enumerate}
     \end{itemize}
 \end{proposition}
 \begin{corollary}
@@ -232,7 +232,7 @@
 \end{remark}
 
 \begin{proposition}
-    Si $G$ est cyclique d'ordre $n$, $d \mapsto G_{d} = \left\{g^{d} \mid g \in G\right\}$ est une bijection de l'ensemble des diviseurs de $n$ sur l'ensemble des sous-groupes de $G$. 
+    Si $G$ est cyclique d'ordre $n$, $d \mapsto G_{d} = \left\{g^{d} \mid g \in G\right\}$ est une bijection de l'ensemble des diviseurs de $n$ sur l'ensemble des sous-groupes de $G$.
 \end{proposition}
 
 \begin{theorem}[Chinois]
@@ -271,7 +271,7 @@
     Si $k$ est un corps, tout sous-groupe fini de $k^{\times}$ est cyclique.
 \end{theorem}
 \begin{lemma}[Cauchy]
-    Soit $G$ un groupe, $x, y$ deux éléments qui commutent d'ordres $a$ et $b$ premiers entre eux. Alors, $xy$ est d'ordre $ab$. 
+    Soit $G$ un groupe, $x, y$ deux éléments qui commutent d'ordres $a$ et $b$ premiers entre eux. Alors, $xy$ est d'ordre $ab$.
 \end{lemma}
 \begin{theorem}[Gauss]
     Pour $p$ premier, le groupe $\left(\Z/p\Z\right)^{\times}$ est cyclique.
@@ -296,7 +296,7 @@
 
 \subsection{Groupes Quotients}
 \begin{definition}
-    Un sous-groupe $H$ de $G$ est dit \emph{distingué}, noté $H \lhd G$ si l'une des conditions équivalentes suivantes est vérifiée : 
+    Un sous-groupe $H$ de $G$ est dit \emph{distingué}, noté $H \lhd G$ si l'une des conditions équivalentes suivantes est vérifiée :
     \begin{enumerate}
         \item $gHg^{-1} \subset H,\ \forall g \in G$
         \item $gHg^{-1} = H,\ \forall g \in G$
@@ -312,9 +312,9 @@
 \end{definition}
 
 \begin{theorem}
-    Soit $H$ un sous groupe d'un groupe $G$. 
+    Soit $H$ un sous groupe d'un groupe $G$.
     \begin{enumerate}
-        \item Il existe au plus une loi de groupe sur $G/H$ telle que la projection canonique $G \rightarrow G/H$ soit une loi de groupe. 
+        \item Il existe au plus une loi de groupe sur $G/H$ telle que la projection canonique $G \rightarrow G/H$ soit une loi de groupe.
         \item Une telle loi existe si, et seulement si, on a $H \lhd G$, auquelle cas c'est la loi induite par le produit sur $P(G)$.
     \end{enumerate}
 \end{theorem}
@@ -324,10 +324,10 @@
 \end{definition}
 
 \begin{definition}
-    On pose $\left(\frac{x}{p}\right) = 1$ si $x$ est un carré non nul, $0$ si $x$ est nul et $-1$ sinon. $x \mapsto \left(\frac{x}{p}\right)$ est un morphisme multiplicatif. 
+    On pose $\left(\frac{x}{p}\right) = 1$ si $x$ est un carré non nul, $0$ si $x$ est nul et $-1$ sinon. $x \mapsto \left(\frac{x}{p}\right)$ est un morphisme multiplicatif.
 \end{definition}
 
-On va étudier les groupes en chercher à étudier des groupes plus simples : étant donné un groupe $G$, on cherche $H \subsetneq G$ un groupe distingué non trivial pour étudier $H$ et $G/H$, d'ordres plus petits. 
+On va étudier les groupes en chercher à étudier des groupes plus simples : étant donné un groupe $G$, on cherche $H \subsetneq G$ un groupe distingué non trivial pour étudier $H$ et $G/H$, d'ordres plus petits.
 \begin{definition}
     Un groupe $G$ est dit \emph{simple} si ses seuls groupes distingués sont $\left\{1\right\}$ et $G$.
 \end{definition}
@@ -341,7 +341,7 @@ On va étudier les groupes en chercher à étudier des groupes plus simples : é
 \end{theorem}
 
 \begin{proposition}[Troisième Théorème d'Isomorphisme]
-    Soit $H \lhd G$ : 
+    Soit $H \lhd G$ :
     \begin{enumerate}
         \item $H \mapsto K/H$ induit une bijection croissante entre sous groupes de $G$ contenant $H$ et sous-groupes de $G/H$.
         \item Dans cette bijection, $K/H \lhd G/H \Leftrightarrow K \lhd G$ auquel cas le morphisme naturel $G/H \rightarrow G/K$ induit un isomorphisme $\left(G/H\right)/\left(K/H\right) \rightarrow G/K$.
@@ -356,7 +356,7 @@ On va étudier les groupes en chercher à étudier des groupes plus simples : é
 \end{definition}
 
 \begin{proposition}
-    Soit $G = \scalar{g}$ un groupe cyclique d'ordre $n$. Pour $\zeta \in \mu_{n}$, il existe un unique caractère $\chi_{\zeta}$ de $G$ tel que $\chi_{\zeta}(g) = \zeta$. De plus, $\zeta \mapsto \chi_{\zeta}$ est un isomorphisme de groupes. 
+    Soit $G = \scalar{g}$ un groupe cyclique d'ordre $n$. Pour $\zeta \in \mu_{n}$, il existe un unique caractère $\chi_{\zeta}$ de $G$ tel que $\chi_{\zeta}(g) = \zeta$. De plus, $\zeta \mapsto \chi_{\zeta}$ est un isomorphisme de groupes.
 \end{proposition}
 
 \subsection{Décomposition de Fourier finie}
@@ -365,11 +365,11 @@ On va étudier les groupes en chercher à étudier des groupes plus simples : é
 \end{definition}
 
 \begin{theorem}
-    Soit $G$ un groupe fini. 
+    Soit $G$ un groupe fini.
     \begin{enumerate}
         \item L'ensemble $\hat{G}$ est une famille livre et orthonormée de $L^{2}(G)$ (Orthogonalité des Caractères)
         \item Si $G$ est abélien, $\hat{G}$ est une base de $L^{2}(G)$.
-    \end{enumerate}    
+    \end{enumerate}
 \end{theorem}
 
 \begin{corollary}
@@ -381,7 +381,7 @@ On va étudier les groupes en chercher à étudier des groupes plus simples : é
 \end{corollary}
 
 \begin{proposition}
-    Soit $G$ abélien fini, $H \subset G$ un sous-groupe. Pour tout caractère $\chi$ de $H$, il existe $\tilde{\chi}$ de $G$ tel que $\tilde{\chi_{\mid H}} = \chi$ 
+    Soit $G$ abélien fini, $H \subset G$ un sous-groupe. Pour tout caractère $\chi$ de $H$, il existe $\tilde{\chi}$ de $G$ tel que $\tilde{\chi_{\mid H}} = \chi$
 \end{proposition}
 
 \begin{definition}
@@ -398,19 +398,19 @@ On va étudier les groupes en chercher à étudier des groupes plus simples : é
 \end{theorem}
 
 \begin{definition}
-    L'\emph{exposant} d'un groupe fini $G$ est le plus petit entier $e \geq 1$ vérifiant $g^{e} = 1$ pour tout $g \in G$. C'est le ppcm des ordres des éléments de $G$. 
+    L'\emph{exposant} d'un groupe fini $G$ est le plus petit entier $e \geq 1$ vérifiant $g^{e} = 1$ pour tout $g \in G$. C'est le ppcm des ordres des éléments de $G$.
 \end{definition}
 
 \subsection{Existence}
 \begin{lemma}
-    Si $G$ est abélien fini, il existe un élément d'ordre l'exposant. 
+    Si $G$ est abélien fini, il existe un élément d'ordre l'exposant.
 \end{lemma}
 
 \begin{proposition}
-    Soit $G$ un groupe, $H\leq G, K \leq G$. On suppose $H \cap K = 1, \ G = HK$ et enfin $hk = kh$ pour tout $h \in H,\ k \in K$. L'application produit sur $H \times K$ définit un isomorphisme de groupes. 
+    Soit $G$ un groupe, $H\leq G, K \leq G$. On suppose $H \cap K = 1, \ G = HK$ et enfin $hk = kh$ pour tout $h \in H,\ k \in K$. L'application produit sur $H \times K$ définit un isomorphisme de groupes.
 \end{proposition}
 
-De ces deux propositions, on peut prouver la partie existence du théorème. 
+De ces deux propositions, on peut prouver la partie existence du théorème.
 
 \subsection{Exemple}
 \begin{definition}
@@ -418,7 +418,7 @@ De ces deux propositions, on peut prouver la partie existence du théorème.
 \end{definition}
 
 \begin{definition}
-    On définit $G^{\sharp}$ le $\znz{p}$-espace vectoriel dont $G$ est le groupe additif. 
+    On définit $G^{\sharp}$ le $\znz{p}$-espace vectoriel dont $G$ est le groupe additif.
 \end{definition}
 
 \begin{proposition}
@@ -427,14 +427,14 @@ De ces deux propositions, on peut prouver la partie existence du théorème.
 
 \subsection{Unicité}
 \begin{definition}
-    On note $\min(G)$ le nombre minimal de générateurs de $G$. Il est fini si et seulement si $G$ est de type fini. 
+    On note $\min(G)$ le nombre minimal de générateurs de $G$. Il est fini si et seulement si $G$ est de type fini.
 \end{definition}
 \begin{proposition}
     Supposons qu'on écrit une décomposition de $G$ comme dans le théorème \ref{structuregrpabelfinis}. On a $n = \min{(G)}$
 \end{proposition}
 
 \begin{definition}
-    Soit $G$ abélien. Le sous-ensemble $G\left[n\right] = \left\{g^{n} = 1\right\}$ est un sous groupe de $G$ appelé $n$-torsion de $G$. 
+    Soit $G$ abélien. Le sous-ensemble $G\left[n\right] = \left\{g^{n} = 1\right\}$ est un sous groupe de $G$ appelé $n$-torsion de $G$.
 \end{definition}
 
 \begin{lemma}
@@ -450,7 +450,7 @@ De ces deux propositions, on peut prouver la partie existence du théorème.
 On note ici $G$ un groupe abélien additif
 
 \begin{definition}
-    Soit $\mathcal{F} = \left\{g_{1},\ldots, g_{n}\right\}$ une famille d'éléments de $G$ et 
+    Soit $\mathcal{F} = \left\{g_{1},\ldots, g_{n}\right\}$ une famille d'éléments de $G$ et
     \[
         f : \Z^{n} \rightarrow G, (m_{i}) \mapsto \sum_{i = 1}^{n}m_{i}g_{i}
     \]
@@ -468,7 +468,7 @@ On note ici $G$ un groupe abélien additif
 \begin{definition}
     On appelle \emph{sous-groupe de torsion} de $G$, le sous-groupe de $G$ noté $G_{\text{tor}} =\left\{g \in G \mid \exists n \geq 1, \ ng = 0\right\}$
 \end{definition}
- 
+
 \begin{theorem}[Dirichlet]
     Si $G$ est abélien de type fini, $G_{\text{tor}}$ est fini et il existe un unique $n \in \N$ tel que $G \simeq G_{\text{tor}} \times \Z^{n}$.
 \end{theorem}
@@ -489,8 +489,8 @@ On note ici $G$ un groupe abélien additif
 \section{Groupe Symétrique et Dévissage}
 \subsection{Actions de Groupes}
 \begin{definition}
-    Une action de $G$ sur $X$ est une application : 
-    $\cdot : G \times X \rightarrow X$ vérifiant : 
+    Une action de $G$ sur $X$ est une application :
+    $\cdot : G \times X \rightarrow X$ vérifiant :
     $ 1\cdot x = x$ et $g \cdot \left(h \cdot x\right) = (gh) \cdot x$.
 \end{definition}
 
@@ -508,13 +508,13 @@ On note ici $G$ un groupe abélien additif
 
 \begin{proposition}
     \begin{itemize}
-        \item Les orbites sous $G$ forment une partition de $X$. 
+        \item Les orbites sous $G$ forment une partition de $X$.
         \item Pour tout $x \in X$, on a une bijection $G/G_{x} \xrightarrow{\sim} O_{x}$ envoyant $gG_{x}$ sur $gx$. En particulier, si $G$ est fini, on a $\abs{G} = \abs{G_{x}}\abs{O_{x}}$
     \end{itemize}
 \end{proposition}
 
 \begin{corollary}
-    On note $x_{i}$ des représentants des orbites de $G$ dans $X$. On a : 
+    On note $x_{i}$ des représentants des orbites de $G$ dans $X$. On a :
     \[
         \abs{X} = \sum_{i\in I} \abs{O_{x_{i}}} = \sum_{i\in I} \abs{G}/\abs{G_{x_{i}}}
     \]
@@ -537,7 +537,7 @@ On note ici $G$ un groupe abélien additif
 \end{definition}
 
 \begin{definition}
-    Deux actions d'un même groupe sur deux ensembles $X$ et $Y$ sont \emph{isomorphes} s'il existe une bijection $f$ vérifiant $f(g \cdot x) = g \star f(x)$. 
+    Deux actions d'un même groupe sur deux ensembles $X$ et $Y$ sont \emph{isomorphes} s'il existe une bijection $f$ vérifiant $f(g \cdot x) = g \star f(x)$.
 \end{definition}
 
 
@@ -546,7 +546,7 @@ On note ici $G$ un groupe abélien additif
 \end{proposition}
 
 \begin{proposition}
-    Deux actions transitives sont isomorphes si et seulement si elles ont les mêmes stabilisateurs. 
+    Deux actions transitives sont isomorphes si et seulement si elles ont les mêmes stabilisateurs.
 \end{proposition}
 
 \subsection{Groupes Symétriques et Alternés}
@@ -565,7 +565,7 @@ On note ici $G$ un groupe abélien additif
     \begin{itemize}
         \item Les $(i, i+1)$ engendrent $S_{n}$. Ils sont appelés générateurs de Coxeter.
         \item La transposition $(1, 2)$ et le cycle $(1 2\ldots n)$ engendrent $S_{n}$.
-    \end{itemize} 
+    \end{itemize}
     En particulier, $\min S_{n} = 2$.
 \end{proposition}
 
@@ -573,7 +573,7 @@ On note ici $G$ un groupe abélien additif
     \begin{itemize}
         \item Une partition de l'entier $n$ est une suite décroissante $n_{1} \geq \ldots \geq n_{r}$ d'entiers strictement positifs de somme $n$.
         \item Le type de $\sigma \in S_{n}$ est la partition de l'entier $n$ définie par les cardinaux des orbites de $\sigma$.
-    \end{itemize}    
+    \end{itemize}
 \end{definition}
 
 \begin{proposition}
@@ -585,7 +585,7 @@ On note ici $G$ un groupe abélien additif
 \end{definition}
 
 \begin{definition}
-    La \emph{signature} de $\sigma \in S_{n}$ est : 
+    La \emph{signature} de $\sigma \in S_{n}$ est :
     \[
         \epsilon(\sigma) = \prod_{\left\{i, j\right\}} \frac{\sigma(i) - \sigma(j)}{i - j}
     \]
@@ -607,7 +607,7 @@ On note ici $G$ un groupe abélien additif
 \end{definition}
 
 \begin{proposition}
-    Il est équivalent de se donner : 
+    Il est équivalent de se donner :
     \begin{itemize}
         \item Une suite exacte $1 \rightarrow H \xrightarrow{i} G \xrightarrow{\pi} K \rightarrow 1$
         \item Un sous-groupe distingué $H^{'} \subset G$ et des isomorphismes $i^{'} : H \xrightarrow{\sim} H^{'}$ et $\pi^{'} : G/H^{'} \xrightarrow{\sim} K$.
@@ -625,7 +625,7 @@ On note ici $G$ un groupe abélien additif
 \subsection{Dévissage de $S_{n}$}
 
 \begin{theorem}
-    Les seuls sous-groupes distingués de $S_{n}$ sont $\left\{1\right\}, A_{n}, S_{n}$ et $K_4$ dans le cas $n = 4$. 
+    Les seuls sous-groupes distingués de $S_{n}$ sont $\left\{1\right\}, A_{n}, S_{n}$ et $K_4$ dans le cas $n = 4$.
 \end{theorem}
 
 \begin{theorem}
@@ -685,11 +685,11 @@ On note ici $G$ un groupe abélien additif
 \end{definition}
 
 \begin{remark}
-    Soit $N \lhd G$, et $K$ un complément de $N$ dans $G$. Pour tout $n, n^{'} \in N$, $k, k^{'} \in K$, on a : 
+    Soit $N \lhd G$, et $K$ un complément de $N$ dans $G$. Pour tout $n, n^{'} \in N$, $k, k^{'} \in K$, on a :
     \[
         (nk)(n^{'}k^{'}) = n(kn^{'}k^{-1})kk' \text{ avec } kn^{'}k^{-1} \in N
     \]
-    Autrement dit : 
+    Autrement dit :
     \[
         (nk)(n^{'}k^{'}) = n\text{int}_{k}(n')kk'
     \]
@@ -726,8 +726,8 @@ Ici, $E$ est un espace euclidien de dimension $n \geq 1$
     On définit la \emph{réflexion} par rapport à $H$ un hyperplan de $E$, l'application $s_{H} \in O(E)$ définie par : $s_{H}(h + d) = h - d$ où $h, d \in H \times H^{\perp}$. Pour $v \in E$ non nul, on appelle aussi \emph{réflexion de vecteur } $v$ la réflexion $s_{v} = s_{v^{\perp}}$.
 \end{definition}
 
-\begin{theorem}[Cartan-Dieudonné] 
-    Tout élément de $O(E)$ est produit d'au plus $n$ réflexions. En particulier, tout élément de $SO(E)$ est produit d'au plus $n/2$ produits de deux réflexions.   
+\begin{theorem}[Cartan-Dieudonné]
+    Tout élément de $O(E)$ est produit d'au plus $n$ réflexions. En particulier, tout élément de $SO(E)$ est produit d'au plus $n/2$ produits de deux réflexions.
 \end{theorem}
 \begin{remark}
     $SO(2)$ est isomorphe au groupe $S^{1}$ des rotations du plan. On peut également montrer que $O(2) \simeq SO(2) \rtimes_{\alpha} \znz{2}$ avec $\alpha_{\bar{1}}(g) = g^{-1}$.
@@ -766,7 +766,7 @@ En considérant les groupes d'isométries de figures planes bien choisies, on tr
     $G \leq O(E)$ est dit irréductible, s'il n'existe aucun sous-espace non-dégénéré stable par $G$.
 \end{definition}
 
-On suppose désormais $n = 3$. 
+On suppose désormais $n = 3$.
 
 \begin{remark}
     Un groupe est irréductible s'il stabilise un plan ou, de manière équivalente, une droite. On a donc un morphisme injectif \emph{diagonal} :
@@ -774,7 +774,7 @@ On suppose désormais $n = 3$.
 \end{remark}
 
 \begin{definition}
-    Soit $P \subset E$ un \emph{solide de Platon}\footnote{polyèdre régulier}. On définit ses sommets, ses arêtes et ses faces comme ses parties extrémales de dimension 0, 1 et 2 : 
+    Soit $P \subset E$ un \emph{solide de Platon}\footnote{polyèdre régulier}. On définit ses sommets, ses arêtes et ses faces comme ses parties extrémales de dimension 0, 1 et 2 :
     \[
         \forall x, y \in P, \ \left]x, y \right[\ \cap F \neq \emptyset \Rightarrow \left[x, y\right]\subset F
     \]
@@ -782,28 +782,28 @@ On suppose désormais $n = 3$.
 \end{definition}
 
 \begin{itemize}
-    \item \textsc{Le Tétraèdre Régulier} $T$ : En regardant l'action sur les sommets, on obtient : 
-    \begin{proposition}
-        $\text{Iso}(T) \simeq S_{4}$ et $\text{Iso}^{+}(T) \simeq A_{4}$.
-    \end{proposition} Le déterminant sur $\text{Iso}(T)$ correspond à la signature sur $S_{4}$. En regardant de plus les paires d'arêtes orthogonales, on fournit un morphisme $\text{Iso}(T) \rightarrow S_{3}$.
-    \item \textsc{Le Cube} ou \textsc{Hexaèdre Régulier} $C$ : En regardant l'action sur les paires de sommets, on obtient : 
-    \begin{proposition}
-        $\text{Iso}^{+}(C) \simeq S_{4}$ et $\text{Iso}(C) = \{\pm 1\} \times \text{Iso}^{+}(C)$.
-    \end{proposition}
-    En considérant l'action sur les paires de faces opposées, on retrouverait un morphisme $S_{4} \rightarrow S_{3}$.
-    \item \textsc{L'Octaèdre Régulier} $O$ : En regardant les centres des faces, on trouve un cube $C$ appelé cube dual et dont les centres des faces sont les sommets d'un nouvel octaèdre $O^{'}$. On en déduit que : 
-    \begin{proposition}
-        $\text{Iso}(O) = \text{Iso}(C) = \text{Iso}(O^{'})$
-    \end{proposition}
+    \item \textsc{Le Tétraèdre Régulier} $T$ : En regardant l'action sur les sommets, on obtient :
+          \begin{proposition}
+              $\text{Iso}(T) \simeq S_{4}$ et $\text{Iso}^{+}(T) \simeq A_{4}$.
+          \end{proposition} Le déterminant sur $\text{Iso}(T)$ correspond à la signature sur $S_{4}$. En regardant de plus les paires d'arêtes orthogonales, on fournit un morphisme $\text{Iso}(T) \rightarrow S_{3}$.
+    \item \textsc{Le Cube} ou \textsc{Hexaèdre Régulier} $C$ : En regardant l'action sur les paires de sommets, on obtient :
+          \begin{proposition}
+              $\text{Iso}^{+}(C) \simeq S_{4}$ et $\text{Iso}(C) = \{\pm 1\} \times \text{Iso}^{+}(C)$.
+          \end{proposition}
+          En considérant l'action sur les paires de faces opposées, on retrouverait un morphisme $S_{4} \rightarrow S_{3}$.
+    \item \textsc{L'Octaèdre Régulier} $O$ : En regardant les centres des faces, on trouve un cube $C$ appelé cube dual et dont les centres des faces sont les sommets d'un nouvel octaèdre $O^{'}$. On en déduit que :
+          \begin{proposition}
+              $\text{Iso}(O) = \text{Iso}(C) = \text{Iso}(O^{'})$
+          \end{proposition}
     \item \textsc{Le Dodécaèdre Régulier} $D$ : En regardant l'action sur les sommets, et en regardant les triplets de diarête\footnote{couples d'arêtes parallèles} deux à deux orthogonales, on obtient :
-    \begin{proposition}
-         $\text{Iso}^{+}(D) \simeq A_{5}$ et on conclut car $-1 \in \text{Iso}(P)$.
-    \end{proposition}
+          \begin{proposition}
+              $\text{Iso}^{+}(D) \simeq A_{5}$ et on conclut car $-1 \in \text{Iso}(P)$.
+          \end{proposition}
     \item \textsc{L'Icosaèdre Régulier} $I$ : On vérifie comme pour le cube que le dual de $I$ est un dodécaèdre et que l'on a :
-    \begin{proposition}
-        $\text{Iso}(I) = \text{Iso}(D)$.
-    \end{proposition}
-    En regardant l'action sur les faces opposées, on retrouve l'action sur les pentagones mystiques.
+          \begin{proposition}
+              $\text{Iso}(I) = \text{Iso}(D)$.
+          \end{proposition}
+          En regardant l'action sur les faces opposées, on retrouve l'action sur les pentagones mystiques.
 \end{itemize}
 
 \begin{theorem}[Klein]
@@ -818,18 +818,18 @@ On suppose désormais $n = 3$.
 \end{lemma}
 
 \begin{lemma}
-    Si $G \leq SO(3)$ est fini, soit $X \subset S^{2}$ l'ensemble des pôles\footnote{couples de points fixes} des éléments non triviaux de $G$, soient $x_{1}, \ldots, x_{r}$ des représentants des orbites de $G$ dans $X$ et $n_{i} = \abs{G_{x_{i}}}$ triés dans l'ordre croissant. Alors, on a soit $r = 2$, $\abs{X} = 2$ et $G = G_{x_{1}} = G_{x_{2}}$ soit $r = 3$ et $\abs{G}$ et les $n_{i}$ sont données par : 
+    Si $G \leq SO(3)$ est fini, soit $X \subset S^{2}$ l'ensemble des pôles\footnote{couples de points fixes} des éléments non triviaux de $G$, soient $x_{1}, \ldots, x_{r}$ des représentants des orbites de $G$ dans $X$ et $n_{i} = \abs{G_{x_{i}}}$ triés dans l'ordre croissant. Alors, on a soit $r = 2$, $\abs{X} = 2$ et $G = G_{x_{1}} = G_{x_{2}}$ soit $r = 3$ et $\abs{G}$ et les $n_{i}$ sont données par :
     \begin{center}
         \begin{tabular}{cccccccc}
-            $\abs{G}$ & $n_{1}$ & $n_{2}$ & $n_{3}$ & $\abs{O_{x_{1}}}$ & $\abs{O_{x_{2}}}$ & $\abs{O_{x_{3}}}$ & $\abs{X}$\\
+            $\abs{G}$ & $n_{1}$ & $n_{2}$ & $n_{3}$ & $\abs{O_{x_{1}}}$ & $\abs{O_{x_{2}}}$ & $\abs{O_{x_{3}}}$ & $\abs{X}$ \\
             \midrule
-            $2m$ & $2$ & $2$ & $m$ & $m$ & $m$ & $2$ & $2m+2$\\
+            $2m$      & $2$     & $2$     & $m$     & $m$               & $m$               & $2$               & $2m+2$    \\
             \midrule
-            $12$ & $2$ & $3$ & $3$ & $6$ & $4$ & $4$ & $14$\\
+            $12$      & $2$     & $3$     & $3$     & $6$               & $4$               & $4$               & $14$      \\
             \midrule
-            $24$ & $2$ & $3$ & $4$ & $12$ & $8$ & $6$ & $26$\\
+            $24$      & $2$     & $3$     & $4$     & $12$              & $8$               & $6$               & $26$      \\
             \midrule
-            $60$ & $2$ & $3$ & $5$ & $30$ & $20$ & $12$ & $60$            
+            $60$      & $2$     & $3$     & $5$     & $30$              & $20$              & $12$              & $60$
         \end{tabular}
     \end{center}
 \end{lemma}
@@ -840,18 +840,18 @@ On suppose désormais $n = 3$.
     On se place dans $\mat{2}(\C)$ et considère :
     \[
         I = \begin{matrix}
-            i & 0\\ 0 & -i
+            i & 0 \\ 0 & -i
         \end{matrix},
         J = \begin{matrix}
             0 & -1 \\ 1 & 0
         \end{matrix}
         \text{ et } K = IJ = \begin{matrix}
-            0 & -i\\ -i & 0
+            0 & -i \\ -i & 0
         \end{matrix}
     \]
     On définit alors $\mathbb{H} = \vect[\R]{1, I, J, K} \subset \mat{2}{\C}$\\
 
-    On définit de plus : 
+    On définit de plus :
     \[
         t(q) = \Tr(q), n(q) = \det q \text{ et } q^{\star} = \transpose{\bar{q}} = t(q)1 - q \in \H
     \]
@@ -862,7 +862,7 @@ On suppose désormais $n = 3$.
 \end{proposition}
 
 \begin{proposition}[Cayley - Hamilton]
-    Par théorème de Cayley-Hamilton sur $\mat{2}{\C}$ : $q^{2}t(q)q + n(q)1 = 0$ ce qui ici vaut : 
+    Par théorème de Cayley-Hamilton sur $\mat{2}{\C}$ : $q^{2}t(q)q + n(q)1 = 0$ ce qui ici vaut :
     \[qq^{\star} = q^{\star}q = n(q)1\]
 \end{proposition}
 
@@ -873,7 +873,7 @@ On suppose désormais $n = 3$.
 \end{definition}
 
 \begin{remark}
-    L'application : 
+    L'application :
     \[
         \applic{\R^{4}}{\H}{\left(t, x, y, z\right)}{t + xI + yJ + zK}
     \]
@@ -902,7 +902,7 @@ On suppose désormais $n = 3$.
 \end{definition}
 
 \begin{proposition}
-    L'application $Sp(1) \times Sp(1) \to O(\H)$ qui à $\left(q_{1}, q_{2}\right) \mapsto L_{q_{1}}R_{q_{2}}$ est un morphisme d'image $SO(\H)$ et de noyau $\scalar{(-1, -1)} \simeq \znz{2}$ où $L_{q}$ désigne la translation à gauche par $q$ et $R_{q}$ la translation à droite. 
+    L'application $Sp(1) \times Sp(1) \to O(\H)$ qui à $\left(q_{1}, q_{2}\right) \mapsto L_{q_{1}}R_{q_{2}}$ est un morphisme d'image $SO(\H)$ et de noyau $\scalar{(-1, -1)} \simeq \znz{2}$ où $L_{q}$ désigne la translation à gauche par $q$ et $R_{q}$ la translation à droite.
 \end{proposition}
 
 \begin{proposition}
@@ -919,7 +919,7 @@ On suppose désormais $n = 3$.
 
 \subsubsection{Groupes Linéaires sur les Corps Finis}
 \begin{lemma}
-    Soit $k$ un corps fini de cardinal $q$. Alors, 
+    Soit $k$ un corps fini de cardinal $q$. Alors,
     \[
         \abs{GL_{n}(k)} = \prod_{i = 0}^{n - 1} \left(q^{n} - q^{i}\right) = q^{\frac{n(n-1)}{2}}\prod_{i = 1}^{n}q^{i - 1}
     \]
@@ -940,18 +940,18 @@ On suppose désormais $n = 3$.
     On appelle $\hat{P}(k)$ l'ensemble des droites de $k^{2}$. On définit $\hat{k} = k \sqcup \{\infty\}$. On définit :
     \[
         \beta : \left\{\begin{array}{ccc}
-            \hat{k} &\longrightarrow& \hat{P}(k)\\
-            x \in k &\longmapsto & k\left(\begin{array}{c} x \\ 1               
-            \end{array}\right)\\
-            \infty & \longmapsto &k\left(\begin{array}{c} 1 \\ 0
-            \end{array}\right)
-        \end{array}\right.    
+            \hat{k} & \longrightarrow & \hat{P}(k)                                   \\
+            x \in k & \longmapsto     & k\left(\begin{array}{c} x \\ 1
+                                                   \end{array}\right) \\
+            \infty  & \longmapsto     & k\left(\begin{array}{c} 1 \\ 0
+                                                   \end{array}\right)
+        \end{array}\right.
     \]
 \end{definition}
 
 \begin{proposition}
-    $\beta$ est une bijection. Si on se donne une matrice $g = \left(\begin{array}{cc} a & b \\ c & d     
-    \end{array}\right)$ de $GL_{2}(k)$ envoie le point $x \in \hat{k}$ sur :
+    $\beta$ est une bijection. Si on se donne une matrice $g = \left(\begin{array}{cc} a & b \\ c & d
+            \end{array}\right)$ de $GL_{2}(k)$ envoie le point $x \in \hat{k}$ sur :
     \[
         g.x = \beta^{-1}\left(g\beta(x)\right) = \frac{ax + b}{cx + d} \in \hat{k}
     \]
@@ -967,7 +967,7 @@ On suppose désormais $n = 3$.
     Pour $p$ premier, l'action fidèle de $PGL_{2}(\znz{p})$ induit un morphisme injectif de dans $S_{p + 1}$.
 \end{proposition}
 \begin{corollary}
-    Comme $\left(p + 1\right)! = (p + 1) p (p-1)(p - 2)!$, le morphisme de la proposition ci-dessus induit des isomorphismes $PGL_{2}\left(\znz{2}\right) \simeq S_{3}$ et $PGL_{2}(\znz{3}) \simeq S_{4}$. Les morphismes naturels : 
+    Comme $\left(p + 1\right)! = (p + 1) p (p-1)(p - 2)!$, le morphisme de la proposition ci-dessus induit des isomorphismes $PGL_{2}\left(\znz{2}\right) \simeq S_{3}$ et $PGL_{2}(\znz{3}) \simeq S_{4}$. Les morphismes naturels :
     \[
         PSL_{2}(\znz{2}) \leftarrow SL_{2}(\znz{2}) \rightarrow GL_{2}(\znz{2}) \rightarrow PGL_{2}(\znz{2})
     \]
@@ -983,26 +983,26 @@ On suppose désormais $n = 3$.
 \end{corollary}
 
 \begin{remark}
-    Parmi les groupes simples de la forme $A_{n}$ et $PSL_{n}(\znz{p})$ on a seulement : 
+    Parmi les groupes simples de la forme $A_{n}$ et $PSL_{n}(\znz{p})$ on a seulement :
     \[
         A_{5} \simeq PSL_{2}(\znz{5}), \ PSL_{2}(\znz{7}) \simeq PSL_{3}(\znz{2}) \text{ et } PSL_{4}(\znz{2}) \simeq A_{8}
     \]
-    Pour des corps plus généraux : 
+    Pour des corps plus généraux :
     \[
-        A_{5} \simeq PSL_{2}(\mathbb{F}_{4}), \ A_{6} \simeq PSL_{2}(\mathbb{F}_{9})    
+        A_{5} \simeq PSL_{2}(\mathbb{F}_{4}), \ A_{6} \simeq PSL_{2}(\mathbb{F}_{9})
     \]
 \end{remark}
 
 \begin{theorem}
-    $PSL_{2}(\znz{p})$ agit transitivement sur un ensemble à $p$ éléments si et seulement si $p \leq 11$. 
+    $PSL_{2}(\znz{p})$ agit transitivement sur un ensemble à $p$ éléments si et seulement si $p \leq 11$.
 \end{theorem}
 
 \section{Elements de structures des groupes finis}
 \subsection{$p$-groupes}
-On fixe $p \in \mathcal{P}$ 
+On fixe $p \in \mathcal{P}$
 
 \begin{definition}
-    Un $p$-groupe est un groupe fini d'ordre $p^{n}, n\geq 0$.    
+    Un $p$-groupe est un groupe fini d'ordre $p^{n}, n\geq 0$.
 \end{definition}
 
 
@@ -1027,7 +1027,7 @@ On fixe $p \in \mathcal{P}$
 \end{corollary}
 
 \begin{proposition}
-    Si $P$ est un $p$-groupe non trivial, son centre est non trivial. 
+    Si $P$ est un $p$-groupe non trivial, son centre est non trivial.
 \end{proposition}
 
 \begin{corollary}
@@ -1039,7 +1039,7 @@ On fixe $p \in \mathcal{P}$
 \end{remark}
 
 \begin{corollary}
-    Les $p$-groupes sont résolubles. 
+    Les $p$-groupes sont résolubles.
 \end{corollary}
 
 \subsection{Les Théorèmes de Sylow}
@@ -1055,11 +1055,11 @@ Rappel : Si $\abs{G} = p^{\alpha}m$ avec $p \wedge m = 1$, un $p$-sylow de $G$ e
 \end{theorem}
 
 \begin{lemma}[Alignement des $p$-Sylow]
-    Soient $G$ un groupe fini, $H \leq G$ et $p \mid \abs{H}$ premier. Si $P$ est un $p$-Sylow de $G$, il existe $g \in G$ tel que $gPg^{-1} \cap H$ est un $p$-Sylow de $H$. 
+    Soient $G$ un groupe fini, $H \leq G$ et $p \mid \abs{H}$ premier. Si $P$ est un $p$-Sylow de $G$, il existe $g \in G$ tel que $gPg^{-1} \cap H$ est un $p$-Sylow de $H$.
 \end{lemma}
 
 \begin{definition}
-    On notera $n_{p}(G)$ le nombre de $p$-Sylow de $G$ et $Syl_{p}(G)$ l'ensemble des $p$-Sylow de $G$. 
+    On notera $n_{p}(G)$ le nombre de $p$-Sylow de $G$ et $Syl_{p}(G)$ l'ensemble des $p$-Sylow de $G$.
 \end{definition}
 \begin{corollary}
     On a : $n_{p}(G) = 1 \Leftrightarrow G$ possède un $p$-Sylow distingué.
@@ -1079,7 +1079,7 @@ Rappel : Si $\abs{G} = p^{\alpha}m$ avec $p \wedge m = 1$, un $p$-sylow de $G$ e
 \end{theorem}
 
 \begin{lemma}
-    Le cas particulier où $N$ est abélien du théorème implique le cas général. 
+    Le cas particulier où $N$ est abélien du théorème implique le cas général.
 \end{lemma}
 
 \subsection{Théorèmes de Hall}
@@ -1088,26 +1088,26 @@ Rappel : Si $\abs{G} = p^{\alpha}m$ avec $p \wedge m = 1$, un $p$-sylow de $G$ e
 \end{theorem}
 
 \begin{theorem}[P.Hall]
-    Soit $G$ un groupe fini d'ordre $d$. Si pour toute factorisation $d = mn$ avec $m\land n = 1$, $G$ possède un sous-groupe d'ordre $m$, alors $G$ est résoluble. 
+    Soit $G$ un groupe fini d'ordre $d$. Si pour toute factorisation $d = mn$ avec $m\land n = 1$, $G$ possède un sous-groupe d'ordre $m$, alors $G$ est résoluble.
 \end{theorem}
 
 \subsection{Extensions et Cohomologie}
 Si $A$ et $G$ sont fixés, on veut classifier les suites exactes courtes :
 \begin{equation}\label{Extension}
-    1 \rightarrow A \xrightarrow{i} \tilde{G} \xrightarrow{\pi} G \rightarrow 1   
+    1 \rightarrow A \xrightarrow{i} \tilde{G} \xrightarrow{\pi} G \rightarrow 1
 \end{equation}
 Etant donné une telle sec est-ce que $i(A)$ admet un complément dans $\tilde{G}$?
 
 \begin{lemma}
-    Soit une extension comme ci-dessus. Il y a équivalence entre : 
+    Soit une extension comme ci-dessus. Il y a équivalence entre :
     \begin{enumerate}
         \item $i(A)$ admet un complément dans $\tilde{G}$
-        \item $\pi$ admet une section ensembliste qui est un morphisme de groupes. 
+        \item $\pi$ admet une section ensembliste qui est un morphisme de groupes.
     \end{enumerate}
 \end{lemma}
 
 \begin{definition}
-    On dit que la suite exacte courte est scindée si les conditions équivalentes du lemme précédent sont satisfaites. 
+    On dit que la suite exacte courte est scindée si les conditions équivalentes du lemme précédent sont satisfaites.
 \end{definition}
 
 \begin{theorem}[Schur-Zassenhaus]
@@ -1121,25 +1121,25 @@ Dans la suite, on suppose que $A$ est abélien.
 \end{definition}
 
 \begin{proposition}
-    La donnée de la suite exacte courte \ref{Extension} munit le groupe abélien $A$ d'une structure de $G$-module par : 
+    La donnée de la suite exacte courte \ref{Extension} munit le groupe abélien $A$ d'une structure de $G$-module par :
     \[
-        g.a = i^{-1}\left(\tilde{g}i(a)\tilde{g}^{-1}\right)    
+        g.a = i^{-1}\left(\tilde{g}i(a)\tilde{g}^{-1}\right)
     \]
     où $\tilde{g} \in \tilde{G}$ est un relevé de $g$ par $\pi$.
 \end{proposition}
 
 \begin{example}[Extensions Centrales]
-    Une extension \ref{Extension} de $G$ par $A$ est dite \emph{centrale} si $i(A) \subseteq Z(\tilde{G})$.  
+    Une extension \ref{Extension} de $G$ par $A$ est dite \emph{centrale} si $i(A) \subseteq Z(\tilde{G})$.
 \end{example}
 
-On fixe une extension \ref{Extension} de $G$ par $A$, et on considère une section ensembliste $s : G \rightarrow \tilde{G}$. Il existe un unique élément $c(g, g^{'})$ dans $A$ tel que : 
+On fixe une extension \ref{Extension} de $G$ par $A$, et on considère une section ensembliste $s : G \rightarrow \tilde{G}$. Il existe un unique élément $c(g, g^{'})$ dans $A$ tel que :
 \[
     s(g)s(g^{'}) = i(c(g, g^{'}))s(gg^{'})
 \]
 On remarque qu'alors $s$ est un morphisme si et seulement si $c = Ob(s)$ est nulle.
 
 \begin{lemma}
-    Soient $s$ une section ensembliste de $\pi$ et $c = Ob(s)$. On a : 
+    Soient $s$ une section ensembliste de $\pi$ et $c = Ob(s)$. On a :
     \[
         g.c(g^{'}g^{''}) - c(gg^{'}, g^{''}) + c(g, g^{'}g^{''}) - c(g, g^{'}) = 0, \ \forall g, g^{'}, g^{''} \in G
     \]
@@ -1149,28 +1149,28 @@ On remarque qu'alors $s$ est un morphisme si et seulement si $c = Ob(s)$ est nul
     Si $A$ est un $G$-module, on note $Z^{2}(G, A)$ l'ensemble des fonctions vérifiant l'identité du lemme précédent. Une telle fonction est appelée $2$-cocycle de $G$ à valeurs dans $A$.
 \end{definition}
 
-Une autre section de $\pi$ que $s$ est de la forme $s_{\epsilon} : g \mapsto i(\epsilon(g))s(g)$ où $\epsilon$ est une fonction arbitraire de $G$ dans $A$. Les deux $2$-cocycles $c = Ob(s)$ et $c_{\epsilon} = Ob(s_{\epsilon})$ sont alors liés par : 
+Une autre section de $\pi$ que $s$ est de la forme $s_{\epsilon} : g \mapsto i(\epsilon(g))s(g)$ où $\epsilon$ est une fonction arbitraire de $G$ dans $A$. Les deux $2$-cocycles $c = Ob(s)$ et $c_{\epsilon} = Ob(s_{\epsilon})$ sont alors liés par :
 \[
-    c_{\epsilon}(g, g^{'}) = c(g, g^{'}) + g.\epsilon(g^{'}) - \epsilon(gg^{'}) + \epsilon(g)    
+    c_{\epsilon}(g, g^{'}) = c(g, g^{'}) + g.\epsilon(g^{'}) - \epsilon(gg^{'}) + \epsilon(g)
 \]
 
 \begin{definition}
     Si $A$ est un $G$-module, on note $B^{2}(G, A)$ l'ensemble des fonctions $\partial\epsilon : G \times G \rightarrow A$ de la forme $g, g^{'} \mapsto g.\epsilon(g^{'}) - \epsilon(gg^{'}) + \epsilon(g)$ avec $\epsilon : G\rightarrow A$. Une telle fonction $f$ est appelée $2$-cobord de $G$ à valeurs dans $A$.
-\end{definition} 
+\end{definition}
 
 \begin{definition}
-    Pour tout $G$-module $A$, le groupe $B^{2}(G, A)$ est un sous-groupe de $Z^{2}(G, A)$ et on définit le $2$-ème groupe de cohomologie de $G$ à valeurs dans $A$ comme le groupe abélien quotient : 
+    Pour tout $G$-module $A$, le groupe $B^{2}(G, A)$ est un sous-groupe de $Z^{2}(G, A)$ et on définit le $2$-ème groupe de cohomologie de $G$ à valeurs dans $A$ comme le groupe abélien quotient :
     \[
         H^{2}(G, A) = Z^{2}(G, A)/B^{2}(G, A)
     \]
 \end{definition}
 
 \begin{proposition}
-    Si $s$ est une section de $\pi$, la classe de $Ob(s)$ ne dépend pas du choix de la section $s$. On la note $\left[E\right]$ et on l'appelle classe de cohomologie assoicée à \ref{Extension}. La sec \ref{Extension} est scindée si, et seulement si sa classe $\left[E\right]$ est nulle. 
+    Si $s$ est une section de $\pi$, la classe de $Ob(s)$ ne dépend pas du choix de la section $s$. On la note $\left[E\right]$ et on l'appelle classe de cohomologie assoicée à \ref{Extension}. La sec \ref{Extension} est scindée si, et seulement si sa classe $\left[E\right]$ est nulle.
 \end{proposition}
 
 \begin{theorem}[Schur-Zassenhaus, Cohomologique]
-    Soient $G$ un groupe et $A$ un $G$-module : 
+    Soient $G$ un groupe et $A$ un $G$-module :
     \begin{enumerate}
         \item Si $G$ est fini, alors $\abs{G}x = 0$ pour tout $x \in H^{2}(G, A)$
         \item Si $A$ est fini, alors $\abs{A}x = 0$ pour tout $x \in H^{2}(G, A)$
@@ -1179,7 +1179,7 @@ Une autre section de $\pi$ que $s$ est de la forme $s_{\epsilon} : g \mapsto i(\
 \end{theorem}
 
 \begin{proposition}
-    Pour tout $G$-module $A$ et $x \in H^{2}(G, A)$, il existe une extension de $G$ par $A$ vérifiant $\left[E\right] = x$. 
+    Pour tout $G$-module $A$ et $x \in H^{2}(G, A)$, il existe une extension de $G$ par $A$ vérifiant $\left[E\right] = x$.
 \end{proposition}
 \begin{proposition}
     Soient $A$ un $G$-module et $E_{k} = \left(\tilde{G}_{k}, i_{k}, \pi_{k}\right)$ pour $k = 1, 2$ deux extensions de $G$ par le même $G$-module $A$. On a $\left[E_{1}\right] = \left[E_{2}\right]$ si et seulement si il existe un isomorphisme $\phi : \tilde{G}_{1} \rightarrow \tilde{G}_{2}$ vérifiant $\phi \circ i_{1} = i_{2}$ et $\pi_{2} \circ \phi = \pi_{1}$
@@ -1189,7 +1189,7 @@ Une autre section de $\pi$ que $s$ est de la forme $s_{\epsilon} : g \mapsto i(\
 \end{corollary}
 
 \begin{theorem}[Schur]
-    Considérons $\znz{2}$ comme $A_{n}$-module trivial. On a, pour $n \geq 4$ : 
+    Considérons $\znz{2}$ comme $A_{n}$-module trivial. On a, pour $n \geq 4$ :
     \[
         H^{2}(A_{n, \znz{2}}) \simeq \znz{2}
     \]
@@ -1197,16 +1197,16 @@ Une autre section de $\pi$ que $s$ est de la forme $s_{\epsilon} : g \mapsto i(\
 
 \section{Arithmétique des Anneaux}
 \subsection{Les anneaux $\Z[\sqrt{d}]$}
-On fixe dans la suite un entier $d \in \Z$ non carré\footnote{$z$ négatif convient} dans $\Z$. 
+On fixe dans la suite un entier $d \in \Z$ non carré\footnote{$z$ négatif convient} dans $\Z$.
 
 \begin{definition}
     On définit, pour $z = x + y\sqrt{d}$ :
     \[
         \begin{cases}
-            \bar{z} = x - y\sqrt{d} & \text{ le conjugué de } z\\
-            T(z) = z + \bar{z} = 2x & \text{ la trace de } z\\
+            \bar{z} = x - y\sqrt{d}          & \text{ le conjugué de } z \\
+            T(z) = z + \bar{z} = 2x          & \text{ la trace de } z    \\
             N(z) = z\bar{z} = x^{2} - dy^{2} & \text{ la norme de } z
-        \end{cases}    
+        \end{cases}
     \]
     On a donc : $z^{2} - T(z)z + N(z) = 0$, c'est l'identité de Cayley-Hamilton
 \end{definition}
@@ -1237,11 +1237,11 @@ On fixe dans la suite un entier $d \in \Z$ non carré\footnote{$z$ négatif conv
 
 \subsection{Divisibilité}
 \begin{definition}
-    Pour un anneau $A$ commutatif intègre, si $a, b \in A$, on a $a\mid b$ s'il existe $c\in A$ tel que $b = ac$. Les diviseurs de $1$ sont appelés les unités de $A$. 
+    Pour un anneau $A$ commutatif intègre, si $a, b \in A$, on a $a\mid b$ s'il existe $c\in A$ tel que $b = ac$. Les diviseurs de $1$ sont appelés les unités de $A$.
 \end{definition}
 
 \begin{definition}
-    On dit que $a, b \in A$ sont associés noté $a \sim b$ si $b \mid a$ et $a \mid b$. 
+    On dit que $a, b \in A$ sont associés noté $a \sim b$ si $b \mid a$ et $a \mid b$.
 \end{definition}
 
 \begin{lemma}
@@ -1253,7 +1253,7 @@ On fixe dans la suite un entier $d \in \Z$ non carré\footnote{$z$ négatif conv
 \end{definition}
 
 \begin{definition}
-    Un élément non nul $\pi \in A$ est dit premier si ce n'est pas une unité et s'il satisfait la propriété d'Euclide-Gauss : 
+    Un élément non nul $\pi \in A$ est dit premier si ce n'est pas une unité et s'il satisfait la propriété d'Euclide-Gauss :
     \[
         \forall a,b \in A, \pi \mid ab \Longrightarrow \pi \mid a \text{ ou } \pi \mid b
     \]
@@ -1261,12 +1261,12 @@ On fixe dans la suite un entier $d \in \Z$ non carré\footnote{$z$ négatif conv
 
 \subsection{Anneaux Factoriels}
 \begin{definition}
-    On convient qu'un produit vide dans un anneau vaut $1$ et aussi que l'on a $a^{0} = 1$ pour tout $a \in A$. On choisit un ensemble arbitraire $\mP$ de représentants des éléments irréductibles pour la relation d'association. 
+    On convient qu'un produit vide dans un anneau vaut $1$ et aussi que l'on a $a^{0} = 1$ pour tout $a \in A$. On choisit un ensemble arbitraire $\mP$ de représentants des éléments irréductibles pour la relation d'association.
 \end{definition}
 
 \begin{definition}
     \begin{enumerate}
-        \item On dit que $A$ a la \emph{propriété de factorisation} (\textbf{PF}) si tout élément de $A\setminus \left\{0\right\}$ est un produit fini d'éléments irréductibles et d'une unité. 
+        \item On dit que $A$ a la \emph{propriété de factorisation} (\textbf{PF}) si tout élément de $A\setminus \left\{0\right\}$ est un produit fini d'éléments irréductibles et d'une unité.
         \item On dit que $A$ est \emph{factoriel} si pour tout $a \in A\setminus \left\{0\right\}$, il existe un unique $u \in A^{\times}$ et une unique fonction $\left(\nu_{\pi}(a)\right) \in \N^{\left(\mathcal{P}\right)}$
     \end{enumerate}
 \end{definition}
@@ -1281,7 +1281,7 @@ On fixe dans la suite un entier $d \in \Z$ non carré\footnote{$z$ négatif conv
 
 
 \begin{proposition}
-    Supposons que $A$ satisfait \textbf{(PF)}. Alors, $A$ est factoriel si et seulement si tout irréductible de $A$ est premier. 
+    Supposons que $A$ satisfait \textbf{(PF)}. Alors, $A$ est factoriel si et seulement si tout irréductible de $A$ est premier.
 \end{proposition}
 
 \begin{lemma}
@@ -1292,7 +1292,7 @@ On fixe dans la suite un entier $d \in \Z$ non carré\footnote{$z$ négatif conv
 \section{Modules sur les Anneaux Prcinipaux}
 \subsection{Modules sur un Anneau}
 \begin{definition}
-    Soit $A$ un anneau. Un $A$-module est la donnée d'un groupe abélien $\left(M, +\right)$ et d'une application $A \times M \rightarrow M$ telle que pour tout $a, a^{'} \in A, m, m^{'} \in M$ : 
+    Soit $A$ un anneau. Un $A$-module est la donnée d'un groupe abélien $\left(M, +\right)$ et d'une application $A \times M \rightarrow M$ telle que pour tout $a, a^{'} \in A, m, m^{'} \in M$ :
     \begin{enumerate}
         \item $a.(m+m^{'}) = a.m + a.m^{'}$
         \item $(a+a^{'}).m = a.m + a^{'}.m$
@@ -1306,7 +1306,7 @@ On fixe dans la suite un entier $d \in \Z$ non carré\footnote{$z$ négatif conv
 \end{proposition}
 
 \begin{definition}
-    Soient $A$ un anneau et $M$ un $A$-module. Un sous-module de $M$ est un sous-groupe $N \subseteq M$ tel que $an \in N$ pour tout $a \in A, n \in N$. 
+    Soient $A$ un anneau et $M$ un $A$-module. Un sous-module de $M$ est un sous-groupe $N \subseteq M$ tel que $an \in N$ pour tout $a \in A, n \in N$.
 \end{definition}
 \begin{definition}
     Soient $M$ et $N$ des $A$-modules. Un morphisme de $M$ vers $N$ aussi appelé application $A$-linéaire est une application $f : M \to N$ telle que $f(m + m^{'}) = f(m) + f(m^{'})$ et $f(am) = af(m)$.
@@ -1321,7 +1321,7 @@ On fixe dans la suite un entier $d \in \Z$ non carré\footnote{$z$ négatif conv
 \end{definition}
 
 \begin{theorem}
-    Supposons $A$ commutatif non nul. Les $A$-modules $A^{n}$ et $A^{m}$ sont isomorphes si et seulement si on a $n = m$. En particulier, toutes les bases d'un $A$-module libre de rang fini ont même cardinal. 
+    Supposons $A$ commutatif non nul. Les $A$-modules $A^{n}$ et $A^{m}$ sont isomorphes si et seulement si on a $n = m$. En particulier, toutes les bases d'un $A$-module libre de rang fini ont même cardinal.
 \end{theorem}
 
 
@@ -1329,7 +1329,7 @@ On fixe dans la suite un entier $d \in \Z$ non carré\footnote{$z$ négatif conv
 Dans la suite, $A$ est un anneau commutatif et $n \geq 1$ un entier.
 
 \begin{definition}
-    On définit $GL_{n}(A) = M_{n}(A)^{\times}$ et 
+    On définit $GL_{n}(A) = M_{n}(A)^{\times}$ et
     \[
         \det : \applic{M_{n}(A)}{A}{\left(m_{i,j}\right)}{\sum_{\sigma \in \mathfrak{S}_{n}}\epsilon\left(\sigma\right)\prod_{j = 1}^{n}m_{\sigma(j), j}}
     \]
@@ -1339,27 +1339,27 @@ Dans la suite, $A$ est un anneau commutatif et $n \geq 1$ un entier.
     Pour tout anneau commutatif $A$ et tout $M, N \in M_{n}(A)$ on a :
     \[
         \det MN = \det M \det N \text{ et } M\transpose{Co}(M) = \transpose{Co}(M)M = \det M I_{n}
-    \] 
+    \]
 \end{lemma}
 
 \begin{proposition}
-    Pour tout anneau commutatif $A$ on a : 
+    Pour tout anneau commutatif $A$ on a :
     \[
         GL_{n}(A) = \left\{M \in M_{n}(A) \mid \det M \in A^{\times}\right\}
     \]
 \end{proposition}
 
 \begin{theorem}[Forme Normale de Smith]
-    Soient $A$ un anneau principal, et $M \in M_{p, q}(A)$ avec $p,q \geq 1$ et $r = \min({p, q})$. Il existe $P \in GL_{p}(A), Q \in GL_{q}(A)$ et $a_{1}, \ldots, a_{r} \in A$ avec $a_{1}\mid \cdots \mid a_{r}$ et 
+    Soient $A$ un anneau principal, et $M \in M_{p, q}(A)$ avec $p,q \geq 1$ et $r = \min({p, q})$. Il existe $P \in GL_{p}(A), Q \in GL_{q}(A)$ et $a_{1}, \ldots, a_{r} \in A$ avec $a_{1}\mid \cdots \mid a_{r}$ et
     \[
         PMQ = \begin{matrix}
-            a_{1}& & & &\\
-            & a_{2} & & &\\
-            & & \ddots & &\\
-            & & & a_{r} & 
+            a_{1} &       &        &       & \\
+                  & a_{2} &        &       & \\
+                  &       & \ddots &       & \\
+                  &       &        & a_{r} &
         \end{matrix}
     \]
-    On appelle les éléments $a_{i}$ non nuls, uniques modulo $A^{\times}$, les facteurs invariants de la matrice $M$. 
+    On appelle les éléments $a_{i}$ non nuls, uniques modulo $A^{\times}$, les facteurs invariants de la matrice $M$.
 \end{theorem}
 
 \begin{definition}
@@ -1377,41 +1377,41 @@ Dans la suite, $A$ est un anneau commutatif et $n \geq 1$ un entier.
 \subsection{Modules de type fini sur un anneau principal}
 \begin{theorem}
     Soient $E$ et $F$ des $A$-modules et $u : E \to F$ une application $A$-linéaire. On suppose $A$ principal, $E$ et $F$ libres sur $A$ de rangs respectifs $q$ et $p$. On pose $r = \min p, q$.
-    Alors, il existe une base $e = \left(e_{1},\ldots, e_{q}\right)$ de $E$ et une $f = \left(f_{1}, \ldots, f_{p}\right)$ de $F$ et des éléments $a_{1}, \ldots, a_{r}$ de $A$ avec $a_{1} \mid \ldots \mid a_{r}$ vérifiant : 
+    Alors, il existe une base $e = \left(e_{1},\ldots, e_{q}\right)$ de $E$ et une $f = \left(f_{1}, \ldots, f_{p}\right)$ de $F$ et des éléments $a_{1}, \ldots, a_{r}$ de $A$ avec $a_{1} \mid \ldots \mid a_{r}$ vérifiant :
     \[
         u(f_{i}) = a_{i}e_{i} \text{ pour } i \leq r \text{ et } u(f_{i}) = 0 \text{ pour } i > r
     \]
 \end{theorem}
 
 \begin{theorem}
-    Soient $A$ un anneau principal, $M$ un $A$-module libre de rang fini $m$ et $N$ un sous-module de $M$. Il existe une base $e_{1}, \ldots, e_{m}$ de $M$, un entier $0 \leq p \leq m$ et des élements $a_{1}, \ldots, a_{p} \in A$ non nuls tels que : 
+    Soient $A$ un anneau principal, $M$ un $A$-module libre de rang fini $m$ et $N$ un sous-module de $M$. Il existe une base $e_{1}, \ldots, e_{m}$ de $M$, un entier $0 \leq p \leq m$ et des élements $a_{1}, \ldots, a_{p} \in A$ non nuls tels que :
     \begin{itemize}
         \item $a_{1}e_{1}, \ldots, a_{p}e_{p}$ est une base de $N$.
         \item $a_{1} \mid \ldots \mid a_{p}$
     \end{itemize}
-    En particulier, $N$ est libre sur $A$ de rang $p \leq n$. 
+    En particulier, $N$ est libre sur $A$ de rang $p \leq n$.
 \end{theorem}
 
 \begin{theorem}
-    Soient $A$ un anneau principal et $M$ un $A$-module de type fini. Il existe un unique entier $r \geq 0$ appelé rang de $M$, un unique entier $n \geq 0$ et des éléments non nuls $a_{1}, \ldots, a_{n} \in A$ uniques modulo association avec : 
+    Soient $A$ un anneau principal et $M$ un $A$-module de type fini. Il existe un unique entier $r \geq 0$ appelé rang de $M$, un unique entier $n \geq 0$ et des éléments non nuls $a_{1}, \ldots, a_{n} \in A$ uniques modulo association avec :
     \[
         M \simeq A^{r} \bigoplus A/a_{1}A \bigoplus \cdots \bigoplus A/a_{n}A, a_{1} \mid \cdots \mid a_{n} \text{ et } a_{1} \notin A^{\times}
-    \] 
+    \]
 \end{theorem}
 
 \begin{theorem}
-    Soient $k$ un corps et $V$ un $k$-ev de dimension finie : 
+    Soient $k$ un corps et $V$ un $k$-ev de dimension finie :
     \begin{enumerate}
-        \item Pour tout endomorphisme $u$ de $V$, il existe un unique entier $s \leq \dim V$ et une unique suite de polynômes $P_{1}, \ldots, P_{s} \in k[X]$ unitaires de degré $\geq 1$ avec $P_{1} \mid \cdots \mid P_{s}$ tels que dans une base $e$ convenable de $V$ on ait : 
-        \[
-            Mat_{e}(u) = \begin{matrix}
-                C(P1) & & \\
-                & \ddots & \\
-                & & C(P_{s})
-            \end{matrix}
-        \]
-        On appelle ces polynômes les invariants de similitude de $u$. 
-        \item Deux endomorphismes sont conjugués si et seulement si ils ont même invariants de similitudes. 
+        \item Pour tout endomorphisme $u$ de $V$, il existe un unique entier $s \leq \dim V$ et une unique suite de polynômes $P_{1}, \ldots, P_{s} \in k[X]$ unitaires de degré $\geq 1$ avec $P_{1} \mid \cdots \mid P_{s}$ tels que dans une base $e$ convenable de $V$ on ait :
+              \[
+                  Mat_{e}(u) = \begin{matrix}
+                      C(P1) &        &          \\
+                            & \ddots &          \\
+                            &        & C(P_{s})
+                  \end{matrix}
+              \]
+              On appelle ces polynômes les invariants de similitude de $u$.
+        \item Deux endomorphismes sont conjugués si et seulement si ils ont même invariants de similitudes.
     \end{enumerate}
 \end{theorem}
 
@@ -1419,7 +1419,7 @@ Dans la suite, $A$ est un anneau commutatif et $n \geq 1$ un entier.
 \subsection{Représentations Linéaires}
 \begin{definition}
     Une représentation $k$-linéaire de $G$ est la donnée d'un $k$-espace vectoriel $V$ et d'un morphisme $\rho : G \rightarrow GL(V)$.\\
-    La dimension ou le degré de $V, \rho$ est la dimension de $V$. Il est équivalent de se donner une représentation de $G$ sur $V$ et une action de $G$ sur $V$ telle que $L_{g}$ est $k$-linéaire. 
+    La dimension ou le degré de $V, \rho$ est la dimension de $V$. Il est équivalent de se donner une représentation de $G$ sur $V$ et une action de $G$ sur $V$ telle que $L_{g}$ est $k$-linéaire.
 \end{definition}
 
 \begin{definition}
@@ -1427,55 +1427,55 @@ Dans la suite, $A$ est un anneau commutatif et $n \geq 1$ un entier.
 \end{definition}
 
 \begin{definition}
-    Si $G$ agit sur $X$, la représentation ci-dessus de $G$ sur $kX$ est appelée représentation de permutation associée. Dans la base $(e_{x})$ de $kX$, la matrice de chaque $\rho(g)$ a un unique coefficient non nul égal à $1$ sur chaque colonne et sur chaque ligne. 
+    Si $G$ agit sur $X$, la représentation ci-dessus de $G$ sur $kX$ est appelée représentation de permutation associée. Dans la base $(e_{x})$ de $kX$, la matrice de chaque $\rho(g)$ a un unique coefficient non nul égal à $1$ sur chaque colonne et sur chaque ligne.
 \end{definition}
 
 \subsection{Le point de vue $k[G]$-modules}
 \begin{definition}
-    Une $k$-algèbre est un $k$-espace vectoriel muni d'une loi de composition $\mu$ $k$-bilinéaire qui fait de $A, +, \mu$ un anneau. Un morphisme de $k$-algèbres est un morphisme d'anneaux $k$-linéaire. 
+    Une $k$-algèbre est un $k$-espace vectoriel muni d'une loi de composition $\mu$ $k$-bilinéaire qui fait de $A, +, \mu$ un anneau. Un morphisme de $k$-algèbres est un morphisme d'anneaux $k$-linéaire.
 \end{definition}
 
-On construit une $k$-algèbre sur le $k$-ev $kG$ en la munissant de $\mu$ qui dans la base des $e_{g}$ est donnée par $e_{g}e_{h} = e_{gh}$. 
+On construit une $k$-algèbre sur le $k$-ev $kG$ en la munissant de $\mu$ qui dans la base des $e_{g}$ est donnée par $e_{g}e_{h} = e_{gh}$.
 
 \begin{definition}
     Soient $k$ un corps et $G$ un groupe. La $k$-algèbre d'espace sous-jacent $kG$ s'appelle l'algèbre du groupe $G$ à coefficients dans $k$ et est notée $k[G]$. Sa dimension comme $k$-ev est $\abs{G}$.
 \end{definition}
 
 \begin{proposition}
-    Il est équivalent de se donner une représentation $k$-linéaire de $G$ et un $k[G]$ module : 
+    Il est équivalent de se donner une représentation $k$-linéaire de $G$ et un $k[G]$ module :
     \begin{enumerate}
-        \item Si $V$ est un $k[G]$-module, il existe une unique représentation $k$-linéaire de $G$ sur le $k$-ev sous-jacent à $V$ notée $\rho_{V}$ et telle que $\rho_{V}(g)(v) = g.v$. On l'appelle représentation associée à $V$.  
-        \item Si $V, \rho$ est une représentation $k$-linéaire de $G$, il existe une unique structure de $k[G]$-module sur $V$ étendant celle de $k$-espace vectoriel et vérifiant $g.v = \rho(g)(v)$. On l'appelle $k[G]$-module associé à $V, \rho$, et on le note en général simplement $V$. 
+        \item Si $V$ est un $k[G]$-module, il existe une unique représentation $k$-linéaire de $G$ sur le $k$-ev sous-jacent à $V$ notée $\rho_{V}$ et telle que $\rho_{V}(g)(v) = g.v$. On l'appelle représentation associée à $V$.
+        \item Si $V, \rho$ est une représentation $k$-linéaire de $G$, il existe une unique structure de $k[G]$-module sur $V$ étendant celle de $k$-espace vectoriel et vérifiant $g.v = \rho(g)(v)$. On l'appelle $k[G]$-module associé à $V, \rho$, et on le note en général simplement $V$.
     \end{enumerate}
 \end{proposition}
 
 \begin{definition}
-    Si $V_{1}, V_{2}$ sont des $k[G]$-modules, on note $Hom_{k[G]}(V_{1}, V_{2})$ le $k$-ev des applications $k[G]$-linéaires de $V_{1}$ vers $V_{2}$. 
+    Si $V_{1}, V_{2}$ sont des $k[G]$-modules, on note $Hom_{k[G]}(V_{1}, V_{2})$ le $k$-ev des applications $k[G]$-linéaires de $V_{1}$ vers $V_{2}$.
 \end{definition}
 
 \begin{proposition}
-    Deux $k[G]$ modules $U$ et $V$ de dimension finie sont isomorphes si et seulement si les représentations associées le sont. 
+    Deux $k[G]$ modules $U$ et $V$ de dimension finie sont isomorphes si et seulement si les représentations associées le sont.
 \end{proposition}
 
 \subsection{Décomposition en Irréductibles}
 \begin{definition}
-    Soit $V$ un $k[G]$-module. Un sous-$k$-ev $W \subseteq V$ est dit $G$-invariant si on a $g.w \in W$ pour tout $w \in W, g \in G$, i.e. si c'est un sous-module de $V$. Soient $e = \left(e_{1}, \ldots, e_{p +q}\right)$ où $e_{1}, \ldots, e_{p}$ est une base de $W$. Alors $W$ est $G$-invariant si et seulement si : 
+    Soit $V$ un $k[G]$-module. Un sous-$k$-ev $W \subseteq V$ est dit $G$-invariant si on a $g.w \in W$ pour tout $w \in W, g \in G$, i.e. si c'est un sous-module de $V$. Soient $e = \left(e_{1}, \ldots, e_{p +q}\right)$ où $e_{1}, \ldots, e_{p}$ est une base de $W$. Alors $W$ est $G$-invariant si et seulement si :
     \[
         \Mat_{e}\rho_{V}(g) = \left[\begin{matrix}
-            \star_{p} & \star\\
-            0 & \star_{q}
-        \end{matrix}\right], \forall g \in G
+                \star_{p} & \star     \\
+                0         & \star_{q}
+            \end{matrix}\right], \forall g \in G
     \]
 \end{definition}
 
 \begin{definition}
-    Soit $V$ un $k[G]$-module. On dit que $V$ est irréductible (ou simple) si on a $V \neq 0$ et si les seuls sous-modules de $V$ sont $\left\{0\right\}$ et $V$. 
+    Soit $V$ un $k[G]$-module. On dit que $V$ est irréductible (ou simple) si on a $V \neq 0$ et si les seuls sous-modules de $V$ sont $\left\{0\right\}$ et $V$.
 \end{definition}
 \begin{proposition}
     Si $k$ est algébriquement clos, $G$ abéliet et $V$ un $k[G]$-module irréductible de dimension finie. Alors $V$ est de dimension $1$.
 \end{proposition}
 \begin{proposition}
-    Un $k[G]$-module $V$ non nul est irréductinle si et seulement si $k[G]v = V$ pour tout $v \neq 0$ dans $V$. 
+    Un $k[G]$-module $V$ non nul est irréductinle si et seulement si $k[G]v = V$ pour tout $v \neq 0$ dans $V$.
 \end{proposition}
 
 \begin{proposition}
@@ -1483,40 +1483,40 @@ On construit une $k$-algèbre sur le $k$-ev $kG$ en la munissant de $\mu$ qui da
 \end{proposition}
 
 \begin{proposition}
-    Les seuls sous-modules de la représentation de permutation naturelle de $S_{n}$ sur $k^{n}$ sont $\left\{0\right\}, \Vect(1, 1,\ldots, 1), H = \left\{\sum_{i} x_{i} = 0\right\}, V$. En outre on a : 
+    Les seuls sous-modules de la représentation de permutation naturelle de $S_{n}$ sur $k^{n}$ sont $\left\{0\right\}, \Vect(1, 1,\ldots, 1), H = \left\{\sum_{i} x_{i} = 0\right\}, V$. En outre on a :
     \[
         V = H \oplus D \Longleftrightarrow n \in k^{\times}
     \]
 \end{proposition}
 
 \begin{definition}
-    Un $k[G]$-module $V$ est semi-simple s'il se décompose en somme directe de sous-modules irréductibles. 
+    Un $k[G]$-module $V$ est semi-simple s'il se décompose en somme directe de sous-modules irréductibles.
 \end{definition}
 
 \begin{proposition}
-    Soit $V$ un $k[G]$-module de dimension finie. Il y a équivalence entre : 
+    Soit $V$ un $k[G]$-module de dimension finie. Il y a équivalence entre :
     \begin{enumerate}
         \item $V$ est semi-simple
         \item $V$ est somme de sous-modules irréductibles
-        \item Pour tout sous-module $W$ de $V$, il existe une sous-module $S$ de $V$ vérifiant $V = W \oplus S$. 
-        \item Tout sous-module de $V$ est semi-simple. 
+        \item Pour tout sous-module $W$ de $V$, il existe une sous-module $S$ de $V$ vérifiant $V = W \oplus S$.
+        \item Tout sous-module de $V$ est semi-simple.
     \end{enumerate}
 \end{proposition}
 
 \begin{theorem}
-    On suppose $G$ fini et $\abs{G}$ dans $k^{\times}$. Alors tout $k[G]$-module de dimension finie est semi-simple. 
+    On suppose $G$ fini et $\abs{G}$ dans $k^{\times}$. Alors tout $k[G]$-module de dimension finie est semi-simple.
 \end{theorem}
 
 \begin{lemma}
     Soient $U$ et $V$ deux $k[G]$-modules irréductibles.
     \begin{enumerate}
-        \item Toute application $k[G]$-linéaire de $U$ dans $V$ est soit nulle soit un isomorphisme. 
-        \item Si de plus $k$ est algébriquement clos, et si $U$ est de dimension finie, les applications $k[G]$-linéaires $U \rightarrow U$ sont les homothéties. 
+        \item Toute application $k[G]$-linéaire de $U$ dans $V$ est soit nulle soit un isomorphisme.
+        \item Si de plus $k$ est algébriquement clos, et si $U$ est de dimension finie, les applications $k[G]$-linéaires $U \rightarrow U$ sont les homothéties.
     \end{enumerate}
 \end{lemma}
 
 \begin{proposition}
-    Soit $V$ un $k[G]$-module semi-simple de dimension finie. On suppose donnée une décomposition $V = \bigoplus_{i \in I} V_{i}$ et pour tout $i$ un $k[G]$-module irréductible de dimension finie $S_{i}$ tels que : 
+    Soit $V$ un $k[G]$-module semi-simple de dimension finie. On suppose donnée une décomposition $V = \bigoplus_{i \in I} V_{i}$ et pour tout $i$ un $k[G]$-module irréductible de dimension finie $S_{i}$ tels que :
     \begin{enumerate}
         \item $V_{i} \subseteq V$ est un sous-module isomorphe à $S_{i}^{\oplus n_{i}}$
         \item $S_{i} \not \simeq S_{i'}$ si $i \neq i'$.
@@ -1526,7 +1526,7 @@ On construit une $k$-algèbre sur le $k$-ev $kG$ en la munissant de $\mu$ qui da
 
 \subsection{Théorie des Caractères}
 \begin{theorem}
-    Soit $h$ le nombre de classes de conjugaison du groupe fini $G$. 
+    Soit $h$ le nombre de classes de conjugaison du groupe fini $G$.
     \begin{enumerate}
         \item A isomorphisme près, il existe $h$ $\C[G]$-modules irréductibles.
         \item Leurs dimensions $n_{i}$ vérifient : $\sum_{i} n_{i}^{2} = \abs{G}$.
@@ -1550,15 +1550,15 @@ On construit une $k$-algèbre sur le $k$-ev $kG$ en la munissant de $\mu$ qui da
 \end{proposition}
 
 \begin{definition}
-    L'espace $Hom_{k}(U, V)$ des applications $k$-linéaires est muni d'une structure naturelle de $k[G]$-module en posant : 
+    L'espace $Hom_{k}(U, V)$ des applications $k$-linéaires est muni d'une structure naturelle de $k[G]$-module en posant :
     \[
         \left(g.\phi\right)(x) = g.\phi(g^{-1}.x)
     \]
-    On note Hom$(U, V)$ ce module. Dans le cas $V = k$ on pose aussi $U^{\lor} = Hom(U, k)$ et on parle de représentation duale ou contragrédiente de $U$. 
+    On note Hom$(U, V)$ ce module. Dans le cas $V = k$ on pose aussi $U^{\lor} = Hom(U, k)$ et on parle de représentation duale ou contragrédiente de $U$.
 \end{definition}
 
 \begin{proposition}
-    Soient $U, V$ des $\C[G]$-modules de dimension finie. 
+    Soient $U, V$ des $\C[G]$-modules de dimension finie.
     \begin{enumerate}
         \item Pour $W = Hom(U, V)$ on a $\chi_{W}(g) = \chi_{U}(g^{-1})\chi_{V}(g)$
         \item En particulier : $\chi_{U^{\lor}}(g) = \chi_{U}^{g^{-1}}$
@@ -1569,23 +1569,23 @@ On construit une $k$-algèbre sur le $k$-ev $kG$ en la munissant de $\mu$ qui da
 \end{proposition}
 
 \begin{corollary}
-    Si $\chi, \chi'$ sont des caractères, il en va de même de $\chi + \chi', \chi\chi', \overline{\chi}$. 
+    Si $\chi, \chi'$ sont des caractères, il en va de même de $\chi + \chi', \chi\chi', \overline{\chi}$.
 \end{corollary}
 
 \begin{definition}
-    Si $V$ est un $\C[G]$-module, on pose : 
+    Si $V$ est un $\C[G]$-module, on pose :
     \[
         V^{G} = \left\{v\in V \mid g.v = v \forall g \in G\right\}
     \]
-    C'est le plus grand sev de $V$ sur lequel $G$ agit trivialement. 
+    C'est le plus grand sev de $V$ sur lequel $G$ agit trivialement.
 \end{definition}
 
 \begin{lemma}
-    Si $V$ est un $\C[G]$-module de dimension finie: 
+    Si $V$ est un $\C[G]$-module de dimension finie:
     \[
         \dim V^{G} = \frac{1}{\abs{G}} \sum_{g \in G}\chi_{V}(g)
     \]
-    De manière équivalente, sur $L^{2}(G)$ muni du produit hermitien : 
+    De manière équivalente, sur $L^{2}(G)$ muni du produit hermitien :
     \[
         \scalar{f, f'} = \frac{1}{\abs{G}}\sum_{g \in G}f(g)\overline{f'(g)}
     \]
@@ -1596,7 +1596,7 @@ On construit une $k$-algèbre sur le $k$-ev $kG$ en la munissant de $\mu$ qui da
     Soient $U, V$ deux $\C[G]$-modules irréductibles. On a :
     \[
         \scalar{\chi_{U}, \chi_{V}} \begin{cases}
-            1 & \text{si } U \simeq V\\
+            1 & \text{si } U \simeq V \\
             0 & \text{sinon}
         \end{cases}
     \]
@@ -1604,17 +1604,17 @@ On construit une $k$-algèbre sur le $k$-ev $kG$ en la munissant de $\mu$ qui da
 \begin{corollary}
     Soit $U$ un $\C[G]$-module de dimension finie. On suppose : $U \simeq \bigoplus_{i = 1}^{r} S_{i}^{\oplus n_{i}}$
     où les $S_{i}$ sont des $\C[G]$-modules irréductibles deux à deux non isomorphes et les $n_{i}$ sont des entiers positifs.
-    Alors on a : $n_{i} = \scalar{\chi_{U}, \chi_{S_{i}}}$ pour tout $i$. 
+    Alors on a : $n_{i} = \scalar{\chi_{U}, \chi_{S_{i}}}$ pour tout $i$.
 \end{corollary}
 \begin{corollary}
-    Si $U$ et $V$ sont des $\C[G]$-modules de dimension finie on a : 
+    Si $U$ et $V$ sont des $\C[G]$-modules de dimension finie on a :
     \[
         U \simeq V \Longleftrightarrow \chi_{U} = \chi_{V}
     \]
 \end{corollary}
 
 \begin{definition}
-    Un caractère de $G$ est une fonction $\chi : G \rightarrow \C$ de la forme $\chi = \chi_V$ pour un certain $V$ $\C[G]$-module de dimension finie. La fonction $\chi$ détermine uniquement $V$ à isomorphisme près. On dit que $\chi$ est irréductible si $V$ l'est. On note $Car G$ l'ensemble des caractères de $G$ et $Irr G \subseteq Car G$ le sous-ensemble des caractères irréductibles. 
+    Un caractère de $G$ est une fonction $\chi : G \rightarrow \C$ de la forme $\chi = \chi_V$ pour un certain $V$ $\C[G]$-module de dimension finie. La fonction $\chi$ détermine uniquement $V$ à isomorphisme près. On dit que $\chi$ est irréductible si $V$ l'est. On note $Car G$ l'ensemble des caractères de $G$ et $Irr G \subseteq Car G$ le sous-ensemble des caractères irréductibles.
 \end{definition}
 
 \begin{corollary}
@@ -1626,11 +1626,11 @@ On construit une $k$-algèbre sur le $k$-ev $kG$ en la munissant de $\mu$ qui da
 \end{corollary}
 
 \begin{definition}
-    On note $L^{2}(G)_{cent}$ le sev de $L^{2}(G)$ des fonctions centrales. 
+    On note $L^{2}(G)_{cent}$ le sev de $L^{2}(G)$ des fonctions centrales.
 \end{definition}
 
 \begin{lemma}
-    $L^{2}(G)_{cent}$ a pour base les fonctions caractéristiques des classes de conjugaison de $G$. En particulier, $\dim L^{2}(G)_{cent} = h$. 
+    $L^{2}(G)_{cent}$ a pour base les fonctions caractéristiques des classes de conjugaison de $G$. En particulier, $\dim L^{2}(G)_{cent} = h$.
 \end{lemma}
 
 \begin{theorem}
@@ -1648,6 +1648,166 @@ On construit une $k$-algèbre sur le $k$-ev $kG$ en la munissant de $\mu$ qui da
 \begin{lemma}
     Soient $f : G \rightarrow \C$ et $z \sum_{g \in G}f(g)g \in \C[G]$ et $S$ un $\C[G]$-module simple. On a : $\lambda(z)_{S}(z) = \frac{\abs{G}}{\dim S}\scalar{f, \chi_{S^{\lor}}}$
 \end{lemma}
+
+\subsection{Tables de Caractères}
+\begin{definition}
+    On fixe dans la suite un groupe fini $G$. On note $C_{1}, \ldots, C_{h}$ les classes de conjugaison de $G$. On choisit $g_{j} \in C_{j}$ pour tout $j$. On note $\chi_{1}, \ldots, \chi_{h}$ les caractères irréductibles de $G$. Au dessus de la première ligne on mettra les cardinaux des classes de conjugaison et encore au dessus celle des $\abs{G}/\abs{C_{j}}$ :
+    \begin{center}
+        \begin{tabular}{r|ccccc}
+                           & $\frac{\abs{G}}{\abs{C_{1}}}$ & $\cdots$ & $\frac{\abs{G}}{\abs{C_{j}}}$ & $\cdots$ & $\frac{\abs{G}}{\abs{C_{h}}}$ \\
+                           & $\abs{C_{1}}$                 & $\cdots$ & $\abs{C_{j}}$                 & $\cdots$ & $\abs{C_{h}}$                 \\
+                           & $g_{1}$                       & $\cdots$ & $g_{j}$                       & $\cdots$ & $g_{h}$                       \\
+            \midrule
+            $1 = \chi_{1}$ & $1$                           & $\cdots$ & $1$                           & $\cdots$ & $1$                           \\
+            \vdots         &                               &          & \vdots                        &          &                               \\
+            $\chi_{i}$     &                               &          & $\chi_{i}(g_{j})$             & $\cdots$ & $\chi_{i}(g_{h})$             \\
+            \vdots         &                               &          & \vdots                        &          &                               \\
+            $\chi_{h}$     &                               &          &                               &          &
+        \end{tabular}
+    \end{center}
+    On complète la table avec les relations d'orthogonalité suivantes :
+    \[
+        \sum_{j = 1}^{h}\abs{C_{j}}\chi_{a}(g_{j})\overline{\chi_{b}(g_{j})} = \abs{G}\delta_{a, b} \text{ et } \sum_{i = 1}^{h}\chi_{i}(g_{a})\overline{\chi_{i}(g_{b})} = \frac{\abs{G}}{\abs{C_{a}}}\delta_{a, b}
+    \]
+\end{definition}
+On donne dans la suite quelques exemples :\\
+Etant donné un groupe, on donne sa table des caractères.
+\begin{proposition}
+    Si $G$ est abélien, les caractères irréductibles sont de dimension $1$ et l'ensemble des classes de conjugaison est $G$. On donne ici les tables pour $\znz{2}$ et $\znz{3}$.
+    \begin{table}[ht]
+        \centering
+        \begin{tabular}{c|cc}
+                   & $2$ & $2$    \\
+                   & $1$ & $1$    \\
+                   & $1$ & $\tau$ \\
+            \midrule
+            $1$    & $1$ & $1$    \\
+            $\eta$ & $1$ & $-1$
+        \end{tabular}
+        \hspace{.2\linewidth}
+        \begin{tabular}{c|ccc}
+                       & $1$ & $\tau$  & $\tau^{2}$ \\
+            \midrule
+            $1$        & $1$ & $1$     & $1$        \\
+            $\eta$     & $1$ & $j$     & $j^{2}$    \\
+            $\eta^{2}$ & $1$ & $j^{2}$ & $j$
+        \end{tabular}
+        \caption{Table des caractères de $\znz{2}$ et $\znz{3}$}
+    \end{table}
+\end{proposition}
+
+\begin{proposition}
+    Pour $S_{3}$, il y a $3$ classes de conjugaisons. Il y a donc $3$ caractères irréductibles à trouver :
+    \begin{table}[ht]
+        \centering
+        \begin{tabular}{c|ccc}
+            \#cent     & $6$ & $2$       & $3$            \\
+            \#conj     & $1$ & $3$       & $2$            \\
+                       & $1$ & $(1\, 2)$ & $(1\, 2 \, 3)$ \\
+            \midrule
+            $1$        & $1$ & $1$       & $1$            \\
+            $\epsilon$ & $1$ & $-1$      & $1$            \\
+            $\chi_{3}$ & $2$ & $0$       & $-1$
+        \end{tabular}
+        \caption{Table des caractères de $S_{3}$}
+    \end{table}
+\end{proposition}
+
+\begin{proposition}
+    Pour tout morphisme de groupe $\rho : S_{3} \to GL_{n}(\C)$, il existe un unique décomposition $n = a + b + 2c$ avec $a, b, c \in \N$, telle que, quitte à conjuguer par une matrice $P \in GL_{n}(\C)$, on ait :
+    \[
+        \rho((1\, 2)) = \begin{bmatrix}
+            1_{a} & 0      & 0      & 0     \\
+            0     & -1_{b} & 0      & 0     \\
+            0     & 0      & -1_{c} & 1_{c} \\
+            0     & 0      & 0      & 1_{c} \\
+        \end{bmatrix}
+        \text{ et }
+        \rho ((1 \, 2 \, 3)) = \begin{bmatrix}
+            1_{a} & 0      & 0     & 0      \\
+            0     & -1_{b} & 0     & 0      \\
+            0     & 0      & 0     & -1_{c} \\
+            0     & 0      & 1_{c} & -1_{c} \\
+        \end{bmatrix}
+    \]
+\end{proposition}
+
+\begin{proposition}
+    On considère maintenant $G = S_{4}$. Puisque la droite $D = \Vect (1, \ldots, 1)$ est stable sous l'action de $S_{4}$, on a un caractère irréductible $\chi_{H}  = \chi_{\C^{4}} - 1$ de degré $3$. 
+    \begin{table}[ht]
+        \centering
+        \begin{tabular}{c|ccccc}
+            \# cent & $24$ & $4$ & $8$ & $3$ & $4$\\
+            \# conj & $1$ & $6$ & $3$ & $8$ & $6$\\
+            & $1$ & $(1\, 2)$ & $(1\, 2)(3\, 4)$ & $(1\, 2 \, 3)$ & $(1\, 2\, 3\, 4)$\\
+            \midrule
+            $1$ & $1$ & $1$ & $1$ & $1$ & $1$\\
+            $\epsilon$ & $1$ & $-1$ & $1$ & $1$ & $-1$\\
+            $\chi_{3}$ & $2$ & $0$ & $2$ & $-1$ & $0$\\
+            $\chi_{H}$ & $3$ & $1$ & $-1$ & $0$ & $-1$\\
+            $\epsilon \chi_{H}$ & $3$ & $-1$ & $-1$ & $0$ & $1$
+        \end{tabular}
+        \caption{Table des caractères de $S_{4}$}
+    \end{table}
+    \\Pour $\chi_{3}$, on observe que $\chi_{3}((1\, 2)(3\, 4)) = id$ puisque sa trace est $2$ et est une somme de racines de l'unité. Si on note $\rho : S_{3} \rightarrow GL_{2}(\C)$ et si $u : S_{4} \rightarrow S_3$ est le morphisme surjectif, $\chi_{3} = \rho \circ u$. \\ On en déduit par ailleurs que $\epsilon\chi_{H}$ est la représentation des isométries directes du cube, et $\chi_{H}$ la représentation des isométries du tétraèdre.
+\end{proposition}
+
+\begin{proposition}
+    On considère désormais $G = A_{5}$. On note dans la suite : 
+    \[
+        \phi = \frac{1 +\sqrt{5}}{2} \text{ et } \phi' = \frac{1 - \sqrt{5}}{2}
+    \]
+    \begin{table}[ht]
+        \centering
+        \begin{tabular}{c|ccccc}
+            \# cent & $60$ & $4$ & $3$ & $5$ & $5$\\
+            \# conj & $1$ & $15$ & $20$& $12$ & $12$ \\
+            & $1$ & $(1\, 2)(3\, 4)$ & $(1\, 2\, 3)$ & $(1\, 2\, 3\, 4\, 5)$ & $(1\, 2\, 3\, 5\, 4)$\\
+            \midrule
+            $1$ & $1$ & $1$ & $1$ & $1$ & $1$\\
+            $\chi_{2}$ & $3$ & $-1$ & $0$ & $\phi$ & $\phi'$\\
+            $\chi_{3}$ & $3$ & $-1$ & $0$ & $\phi'$ & $\phi$\\
+            $\chi_{H}$ & $4$ & $0$ & $1$ & $-1$ & $-1$\\
+            $\chi_{H'}$ & $5$ & $1$ & $-1$ & $0$ & $0$
+        \end{tabular}
+        \caption{Table des Caractères de $A_{5}$}
+    \end{table}
+    On retrouve $\chi_{H}$ comme précédemment.\\
+    $\chi_{H'}$ vient de l'action exotique sur les pentagones mystiques, qu'on peut voir comme action sur les parties de $\onen{5}$ à deux éléments. On peut aussi faire comme pour $\chi_{H}$ en prenant l'action exotique vue sur $\C^{6}$\\
+    On trouve les coefficients de $\chi_{2}, \chi_{3}$ par des produits scalaires de colonnes et de lignes. On peut voir ce caractère comme la représentation de $A_{5}$ via une numérotation des $5$ repères d'un dodécaèdre régulier. On compose par une permutation de ses repères, et selon si elle est dans $A_{5}$ ou dans $S_{5}\setminus A_{5}$, on a $\chi_{2}$ ou $\chi_{3}$.
+\end{proposition}
+
+\subsection{Propriété d'intégralité des caractères}
+\begin{definition}
+    Un entier algébrique est un nombre complexe annulé par un polynôme unitaire à coefficients entiers. On note $\overline{\Z} \subset \C$ l'ensemble des entiers algébriques. En particulier, un entier algébroque est un nombre algébrique. 
+\end{definition}
+
+\begin{proposition}
+    Un entier algébrique rationnel est dans $\Z$, i.e. $\overline{\Z} \cap \Q = \Z$
+\end{proposition}
+\begin{proposition}
+    $\overline{\Z}$ est un sous-anneau de $\C$. 
+\end{proposition}
+
+\begin{proposition}
+    Soit $R$ un anneau de groupe additif abélien de type fini sans torsion. Alors, si $x \in R$, il existe $P \in \Z[X]$ unitaire tel que $P(x) = 0$.
+\end{proposition}
+
+\begin{proposition}
+    Pour tout $\chi$ de $G$, et tout $g \in G$, $\chi(g) \in \overline{Z}$.
+\end{proposition}
+
+\begin{proposition}
+    Pour tout $\chi \in Irr(G)$, de dimension $n = \chi(1)$ et tout $g \in G$, on a : 
+    \[
+        \frac{1}{n}\abs{Conj(g)} \chi(g) \in \overline{Z}
+    \]
+\end{proposition}
+
+\begin{theorem}
+    Soit $V$ un $\C[G]$-module irréductible de dimension finie. Alors $\dim V \mid \abs{G}$.
+\end{theorem}
+
 
 \end{document}
 
