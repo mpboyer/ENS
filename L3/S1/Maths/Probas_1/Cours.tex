@@ -670,7 +670,7 @@ On fera systématiquement l'abus d'utiliser un système de représentants.
     Une application mesurable $X : \Omega \rightarrow E$ est appelée variable aléatoire à valeurs dans $E$. \\
     La loi de la variable aléatoire $X$ est la mesure image de $P$ par $X$ notée
     \[
-        P(X\in B) = P_{X}(B)= P\left(X^{-1}(B)\right)
+        \mathbb{P}(X\in B) = \mathbb{P}_{X}(B)= \mathbb{P}\left(X^{-1}(B)\right)
     \]
 \end{definition}
 
@@ -687,13 +687,13 @@ On fera systématiquement l'abus d'utiliser un système de représentants.
 \end{definition}
 
 \begin{proposition}
-    Si $X = \mathds{1}_{B}, E[X] = P(B)$
+    Si $X = \mathds{1}_{B}, E[X] = \mathbb{P}(B)$
 \end{proposition}
 
 \begin{proposition}
     Soit $X$ v.a. à valeurs dans $E$. Si $f : E \rightarrow \left[0, \infty\right]$ est mesurable :
     \[
-        E[f(X)] = \int_{E} f(x)P_{X}\left(\d x\right)
+        E[f(X)] = \int_{E} f(x)\mathbb{P}_{X}\left(\d x\right)
     \]
 \end{proposition}
 \begin{proof}
@@ -716,11 +716,11 @@ On fera systématiquement l'abus d'utiliser un système de représentants.
     \begin{itemize}
         \item Lois Discrètes :
               \begin{itemize}
-                  \item Loi Uniforme: Si $E$ est un ensemble fini, $\abs{E} = n$, une v.a. $X$ est de loi uniforme sur $E$, $X \sim \mathcal{U}(E)$, si \[P(X = x) = \frac{1}{n}\]
-                  \item Loi de Bernoulli de paramètre $p \in \left[0, 1\right]$ : $X$ à valeurs dans $\{0, 1\}$ suit une telle loi, $X \sim \B(p)$ si $P(X = 1) = p$, $P(X = 0) = 1- p$.
-                  \item Loi Binômiale $\B(n, p), n\in \N^{*}, p\in\left[0, 1\right]$ : $P(X = k) = C_{n}^{k}\left(1 - p\right)^{n - k}p^{k}$.
-                  \item Loi Géométrique de paramètre $p \in \left]0, 1\right[$ : $X \sim \mathcal{G}(p)$ si $P(X = k) = \left(1 - p\right)p^{k}$
-                  \item Loi de poisson de paramètre $\lambda > 0$ : $X \sim \mathcal{P}(\lambda)$ si $P(X = k) = \frac{\lambda^{k}}{k!}e^{-\lambda}$.
+                  \item Loi Uniforme: Si $E$ est un ensemble fini, $\abs{E} = n$, une v.a. $X$ est de loi uniforme sur $E$, $X \sim \mathcal{U}(E)$, si \[\mathbb{P}(X = x) = \frac{1}{n}\]
+                  \item Loi de Bernoulli de paramètre $p \in \left[0, 1\right]$ : $X$ à valeurs dans $\{0, 1\}$ suit une telle loi, $X \sim \B(p)$ si $\mathbb{P}X = 1) = p$, $\mathbb{P}(X = 0) = 1- p$.
+                  \item Loi Binômiale $\B(n, p), n\in \N^{*}, p\in\left[0, 1\right]$ : $\mathbb{P}(X = k) = C_{n}^{k}\left(1 - p\right)^{n - k}p^{k}$.
+                  \item Loi Géométrique de paramètre $p \in \left]0, 1\right[$ : $X \sim \mathcal{G}(p)$ si $\mathbb{P}(X = k) = \left(1 - p\right)p^{k}$
+                  \item Loi de poisson de paramètre $\lambda > 0$ : $X \sim \mathcal{P}(\lambda)$ si $\mathbb{P}(X = k) = \frac{\lambda^{k}}{k!}e^{-\lambda}$.
               \end{itemize}
         \item Lois Continues/à Densité :
               \begin{itemize}
@@ -735,17 +735,17 @@ On fera systématiquement l'abus d'utiliser un système de représentants.
 \begin{definition}
     La fonction de répartition d'une variable aléatoire réelle $X$ est la fonction $F_{X} : \R \rightarrow \left[0, 1\right]$ définie par :
     \[
-        F_{X}(t) = P(X \leq t) = P_{X}\left(\left]- \infty t\right]\right)
+        F_{X}(t) = \mathbb{P}(X \leq t) = \mathbb{P}_{X}\left(\left]- \infty t\right]\right)
     \]
     La fonction $F_{X}$ est croissante, continue à droite, et a pour limites $0$ en $-\infty$ et $1$ en $+\infty$.
 \end{definition}
 
 \begin{proposition}
-    La fonction de répartition caractérise la variable aléatoire et les sauts de $F_{X}$ correspondent aux atomes de $P_{X}$. De plus :
+    La fonction de répartition caractérise la variable aléatoire et les sauts de $F_{X}$ correspondent aux atomes de $\mathbb{P}_{X}$. De plus :
     \[
         \begin{aligned}
-            P\left(a \leq X \leq b\right) & = F_{X}(b) - F_{X}(a^{-}) \\
-            P\left(a < X < b\right)       & = F_{X}(b^{-}) - F_{X}(a)
+            \mathbb{P}\left(a \leq X \leq b\right) & = F_{X}(b) - F_{X}(a^{-}) \\
+            \mathbb{P}\left(a < X < b\right)       & = F_{X}(b^{-}) - F_{X}(a)
         \end{aligned}
     \]
 \end{proposition}
@@ -788,7 +788,7 @@ On fera systématiquement l'abus d'utiliser un système de représentants.
     Inégalité de Cauchy-Schwarz : $E[\abs{XY}] \leq \sqrt{E[X^{2}]E[Y^{2}]}$. Dans le cas où $Y = 1$ on a : $E[\abs{X}]^{2} \leq E[X^{2}]$
 \end{proposition}
 
-Les espaces $\mL^{p}(\Omega, \A, P)$ sont définis pour tout $p \in \left[1, \infty\right]$ par le quotient pour la relation "$P$ presque partout" des fonctions dont le moment d'ordre $p$ est défini.
+Les espaces $\mL^{p}(\Omega, \A, \mathbb{P})$ sont définis pour tout $p \in \left[1, \infty\right]$ par le quotient pour la relation "$P$ presque partout" des fonctions dont le moment d'ordre $p$ est défini.
 
 \begin{definition}
     Soit $X \in \mL^{2}$, la variance de $X$ est :
@@ -819,8 +819,8 @@ Les espaces $\mL^{p}(\Omega, \A, P)$ sont définis pour tout $p \in \left[1, \in
 \begin{proposition}
     Si $X \in \mL^{2}$ et $a > 0$ :
     \begin{itemize}
-        \item Inégalité de Markov : $P(X \geq a) \leq \frac{1}{a}E[X]$
-        \item Inégalité de Bienaymé-Tchébychev : $P(\abs{X - E[X]} \geq a) \leq \frac{1}{a^{2}}\var(X)$
+        \item Inégalité de Markov : $\mathbb{P}(X \geq a) \leq \frac{1}{a}E[X]$
+        \item Inégalité de Bienaymé-Tchébychev : $\mathbb{P}(\abs{X - E[X]} \geq a) \leq \frac{1}{a^{2}}\var(X)$
     \end{itemize}
 \end{proposition}
 \begin{proof}
@@ -842,7 +842,7 @@ Les espaces $\mL^{p}(\Omega, \A, P)$ sont définis pour tout $p \in \left[1, \in
 \begin{definition}
     Si $X$ est une v.a. à valeurs dans $\R^{d}$ la fonction caractéristique de $X$ est $\Phi_{X} : \R^{d} \rightarrow \C$ définie par :
     \[
-        \Phi_{X}(\xi) = E[\exp\left(i\xi \dot X\right)] = \int e^{i\xi \dot x}P_{X}(\d x)
+        \Phi_{X}(\xi) = E[\exp\left(i\xi \dot X\right)] = \int e^{i\xi \dot x}\mathbb{P}_{X}(\d x)
     \]
 \end{definition}
 
@@ -866,15 +866,15 @@ Les espaces $\mL^{p}(\Omega, \A, P)$ sont définis pour tout $p \in \left[1, \in
 \begin{definition}
     On définit la fonction génératrice $g_{X}$ d'une variable aléatoire à valeurs dans $\N$ sur l'intervalle $\left[0, 1\right]$ par :
     \[
-        g_{X}(r) = E[r^{X}] = \sum_{n = 0}^{\infty}P(X = n)r^{n}
+        g_{X}(r) = E[r^{X}] = \sum_{n = 0}^{\infty}\mathbb{P}(X = n)r^{n}
     \]
 \end{definition}
 
 \begin{proposition}
     \begin{itemize}
         \item $g_{X}$ est continue sur $\left[0, 1\right]$
-        \item $g_{X}(0) = P(X = 0), g_{X}(1) = 1$.
-        \item La focntion caractéristique caractérise la loi puisque les $P(X = n)$ sont les coefficients (uniques) du développement de Taylor de $g_{X}$ en $0$.
+        \item $g_{X}(0) = \mathbb{P}(X = 0), g_{X}(1) = 1$.
+        \item La focntion caractéristique caractérise la loi puisque les $\mathbb{P}(X = n)$ sont les coefficients (uniques) du développement de Taylor de $g_{X}$ en $0$.
         \item $\lim_{r \uparrow 1}g_{X}^{(p)}(r) = E\left[X(X - 1)\cdots(X - p + 1)\right]$
     \end{itemize}
 \end{proposition}
@@ -882,16 +882,16 @@ Les espaces $\mL^{p}(\Omega, \A, P)$ sont définis pour tout $p \in \left[1, \in
 \section{Indépendance}
 \subsection{Définitions}
 \begin{definition}
-    Deux évènements sont indépendants si $P(A\cap B) = P(A)P(B)$. $n$ évènements sont indépendants si pour tout sous-ensemble non vide de $\left\{1, \ldots, n\right\}$ on a :
+    Deux évènements sont indépendants si $\mathbb{P}(A\cap B) = \mathbb{P}(A)\mathbb{P}(B)$. $n$ évènements sont indépendants si pour tout sous-ensemble non vide de $\left\{1, \ldots, n\right\}$ on a :
     \[
-        P\left(\bigcap_{j \in J \subset \llbracket 1, n\rrbracket} A_{j}\right) = \prod_{j \in J} P(A_{j})
+        \mathbb{P}\left(\bigcap_{j \in J \subset \llbracket 1, n\rrbracket} A_{j}\right) = \prod_{j \in J} \mathbb{P}(A_{j})
     \]
 \end{definition}
 
 \begin{proposition}
     Les $n$ évènements $A_{1}, \ldots, A_{n}$ sont indépendants si et seulement si, quand $B_{i} \in \sigma\left(A_{i}\right) = \left\{\emptyset, A_{i}, A_{i}^{\complement}, \Omega\right\}$ :
     \[
-        P\left(\bigcap_{j \in \onen{n}} B_{j}\right) = \prod_{j \in \onen{n}} P(B_{j})
+        \mathbb{P}\left(\bigcap_{j \in \onen{n}} B_{j}\right) = \prod_{j \in \onen{n}} \mathbb{P}(B_{j})
     \]
 \end{proposition}
 
@@ -900,7 +900,7 @@ Les espaces $\mL^{p}(\Omega, \A, P)$ sont définis pour tout $p \in \left[1, \in
         \item Soient $\B_{1}, \ldots \B_{n}$ $n$ sous-tribus de $\A$. Ces sous-tribus sont indépendantes si et seulement si toute familles d'évènements de ces tribus l'est.
         \item Soient $X_{1}, \ldots, X_{n}$ $n$ v.a. à valeurs dans $E_{1}, \ldots, E_{n}$. Ces variables sont indépendantes si les tribus qu'elles engendrent le sont, i.e. si
               \[
-                  \forall F_{1} \in \mathcal{E}_{1}, \ldots, \forall F_{n} \in \mathcal{E}_{n}, \ P\left(\bigcap_{i \in \onen{n}}\left\{X_{i} \in F_{i}\right\}\right) = \prod_{i \in \onen{n}} P\left(X_{i} \in F_{i}\right)
+                  \forall F_{1} \in \mathcal{E}_{1}, \ldots, \forall F_{n} \in \mathcal{E}_{n}, \ \mathbb{P}\left(\bigcap_{i \in \onen{n}}\left\{X_{i} \in F_{i}\right\}\right) = \prod_{i \in \onen{n}} \mathbb{P}\left(X_{i} \in F_{i}\right)
               \]
     \end{itemize}
 \end{definition}
@@ -908,7 +908,7 @@ Les espaces $\mL^{p}(\Omega, \A, P)$ sont définis pour tout $p \in \left[1, \in
 \begin{theorem}
     Les $n$ variables aléatoires sont indépendantes si et seulement si la loi du $n$-uplet $\left(X_{1}, \ldots, X_{n}\right)$ est le produit des lois de ses composantes :
     \[
-        P_{\left(X_{1}, \ldots, X_{n}\right)} = P_{X_{1}} \bigotimes \cdots \bigotimes P_{X_{n}}
+        \mathbb{P}_{\left(X_{1}, \ldots, X_{n}\right)} = \mathbb{P}_{X_{1}} \bigotimes \cdots \bigotimes \mathbb{P}_{X_{n}}
     \]
     On a alors, si les $f_{i}$ sont mesurables positives sur $\left(E_{i}, \mathcal{E}_{i}\right)$:
     \[
@@ -1018,10 +1018,10 @@ Les espaces $\mL^{p}(\Omega, \A, P)$ sont définis pour tout $p \in \left[1, \in
 \end{corollary}
 
 \begin{definition}
-    
+
     Une suite $X_{n}$ de variable aléatoires à valeurs dans $\R^{d}$ converge en loi vers une variable aléatoire $X$ à valeures dans $\R^{d}$ si
     \[
-        P_{X_{n}} \xrightarrow[n \to \infty]{(e)} P_{X}
+        \mathbb{P}_{X_{n}} \xrightarrow[n \to \infty]{(e)} \mathbb{P}_{X}
     \]
     Cela équivaut à :
     \[
@@ -1051,27 +1051,27 @@ Les espaces $\mL^{p}(\Omega, \A, P)$ sont définis pour tout $p \in \left[1, \in
 \begin{corollary}
     Si $\left(A_{n}\right)_{n \geq 1}$ est une suite d'évènements indépendants de même probabilité, on a :
     \[
-        \frac{1}{n}\sum_{i = 1}^{n}\mathds{1}_{A_{i}} \xrightarrow[n \to \infty]{p.s.} P(A_{1})
+        \frac{1}{n}\sum_{i = 1}^{n}\mathds{1}_{A_{i}} \xrightarrow[n \to \infty]{p.s.} \mathbb{P}(A_{1})
     \]
 \end{corollary}
 
 \subsection{Semigroupes de Convolution}
 Soit $I \in \left\{\N, \R_{+}\right\}$
 \begin{definition}
-    Soit $(\mu_{t})_{t\in I}$ une famille de mesures de probabilités sur $\R^{d}$. On dit que $\left(\mu_{t}\right)$ est un semigroupe de convolution si $\mu_{0} = \delta_{0}$ et si : 
+    Soit $(\mu_{t})_{t\in I}$ une famille de mesures de probabilités sur $\R^{d}$. On dit que $\left(\mu_{t}\right)$ est un semigroupe de convolution si $\mu_{0} = \delta_{0}$ et si :
     \[
         \mu_{t} \star \mu_{t'} = \mu_{t + t'}, \forall t, t' \in I
     \]
 \end{definition}
 \begin{lemma}
-    Pour que $\mu_{t}$ soit un semigroupe de convolution, il suffit qu'il existe $\phi : \R \rightarrow \C$ telle que : 
+    Pour que $\mu_{t}$ soit un semigroupe de convolution, il suffit qu'il existe $\phi : \R \rightarrow \C$ telle que :
     \begin{itemize}
         \item si $I = \N$, $\hat{\mu}_{t}(\xi) = \phi(\xi)^{t}$, pour tout $t \in \N$
         \item si $I = \R$, $\hat{\mu}_{t}(\xi) = \exp(-t\phi(\xi))$, pour tout $t$
     \end{itemize}
 \end{lemma}
 \begin{proposition}
-    Si $X, Y$ sont deux v.a. réelles indépendantes et : 
+    Si $X, Y$ sont deux v.a. réelles indépendantes et :
     \begin{itemize}
         \item Si $X \sim \mathcal{P}(\lambda), Y \sim \mathcal{P}(\lambda')$ alors $X + Y \sim \mathcal{P}(\lambda + \lambda')$
         \item Si $X \sim \mathcal{N}(m, \sigma^2), Y \sim \mathcal{N}(m', \sigma'^{2})$ alors $X + Y \sim \mathcal{N}(m + m', \sigma^{2} + \sigma'^{2})$
@@ -1080,22 +1080,22 @@ Soit $I \in \left\{\N, \R_{+}\right\}$
 
 \section{Convergence de Variables Aléatoires}
 \begin{definition}
-    On dit que la suite $(X_{n})$ converge en probabilité vers $X$ noté 
+    On dit que la suite $(X_{n})$ converge en probabilité vers $X$ noté
     \[
-        X_{n} \xrightarrow[n \to \infty]{(P)} \rightarrow X
+        X_{n} \xrightarrow[n \to \infty]{(\mathbb{P})} \rightarrow X
     \]
-    si pour tout $\epsilon > 0$ 
+    si pour tout $\epsilon > 0$
     \[
-        \lim_{n \to \infty} P(\abs{X_{n} - X} > \epsilon) = 0
+        \lim_{n \to \infty} \mathbb{P}(\abs{X_{n} - X} > \epsilon) = 0
     \]
 \end{definition}
 
 \begin{proposition}
-    Soit $L_{\R^{d}}^{0}(\Omega, \A, P)$ le quotient de l'espace de toutes les variables aléatoires par la relation $X = Y$ presque surement. Alors la formule : 
+    Soit $L_{\R^{d}}^{0}(\Omega, \A, P)$ le quotient de l'espace de toutes les variables aléatoires par la relation $X = Y$ presque surement. Alors la formule :
     \[
         d(X, Y) = E[\abs{X - Y} \land 1]
     \]
-    définit une distance compatible avec la convergence en probabilité. 
+    définit une distance compatible avec la convergence en probabilité.
 \end{proposition}
 
 \begin{proposition}
@@ -1109,15 +1109,15 @@ Soit $I \in \left\{\N, \R_{+}\right\}$
 \end{theorem}
 
 \begin{proposition}
-    Soit $X_{n}$ une suite de variables aléatoires i.i.d de Rademacher. On note $S_{n} = X_{1} + \cdots + X_{n}$. Alors, presque sûrement : 
-    \[  
+    Soit $X_{n}$ une suite de variables aléatoires i.i.d de Rademacher. On note $S_{n} = X_{1} + \cdots + X_{n}$. Alors, presque sûrement :
+    \[
         \sup S_{n} = +\infty \text{ et } \inf S_{n} = -\infty
     \]
     En particulier, il existe presque sûrement des entiers arbitrairement grands pour lesquels $S_{n} = 0$.
 \end{proposition}
 
 \begin{theorem}[Loi Forte des Grands Nombres]
-    Soit $X_{n}$ une suite de v.a. i.i.d. dans $L^{1}$. Alors, 
+    Soit $X_{n}$ une suite de v.a. i.i.d. dans $L^{1}$. Alors,
     \[
         \frac{1}{n}\left(X_{1} + \ldots + X_{n}\right) \xrightarrow[n \to \infty]{p.s.} E[X_{1}]
     \]
@@ -1131,7 +1131,7 @@ Soit $I \in \left\{\N, \R_{+}\right\}$
     \]
 \end{definition}
 
-\begin{proposition}
+\begin{theorem}[du Porte Manteau]
     Soient $\mu_{n}, \mu$ des mesures de probabilité sur $\R^{d}$. Les quatre assertions suivantes sont équivalentes :
     \begin{enumerate}
         \item $\mu_{n} \xrightarrow{(e)} \mu$
@@ -1148,10 +1148,10 @@ Soit $I \in \left\{\N, \R_{+}\right\}$
                   \lim \mu_{n}(B) = \mu(B)
               \]
     \end{enumerate}
-\end{proposition}
+\end{theorem}
 
 \begin{proposition}
-    Une suite de v.a. réelles converge en loi vers une v.a. si et seulement si les fonctions de répartitions convergent en tout point de continuité. 
+    Une suite de v.a. réelles converge en loi vers une v.a. si et seulement si les fonctions de répartitions convergent en tout point de continuité.
 \end{proposition}
 
 On note $\cont_{c}\left(\R^{d}\right)$ l'espace des fonctions continues à support compact.
@@ -1160,23 +1160,23 @@ On note $\cont_{c}\left(\R^{d}\right)$ l'espace des fonctions continues à suppo
     Soient $\mu_{n}, \mu$ des mesures de probabilité sur $\R^{d}$. Soit $H$ un sous-ensemble de $\cont_{b}(\R^{d})$ dont l'adhérence pour la norme infinie contient $\cont_{c}(\R^{d})$. Alors les propositions suivantes sont équivalentes :
     \begin{enumerate}
         \item $\mu_{n}\xrightarrow{(e)} \mu$
-        \item On a : 
-        \[
-            \forall \phi \in \cont_{c}(\R^{d}), \int \phi \d\mu_{n} \xrightarrow[n \to \infty]{}\int \phi \d\mu
-        \]
-        \item On a : 
-        \[
-            \forall \phi \in H, \int \phi \d \mu_{n} \xrightarrow[n\to \infty]{}\int \phi \d \mu
-        \]
+        \item On a :
+              \[
+                  \forall \phi \in \cont_{c}(\R^{d}), \int \phi \d\mu_{n} \xrightarrow[n \to \infty]{}\int \phi \d\mu
+              \]
+        \item On a :
+              \[
+                  \forall \phi \in H, \int \phi \d \mu_{n} \xrightarrow[n\to \infty]{}\int \phi \d \mu
+              \]
     \end{enumerate}
 \end{proposition}
 
 \begin{theorem}[Lévy]
     Une suite $\mu_{n}$ de mesures de probabilité sur $\R^{d}$ converge étroitement vers une mesure de probabilité $\mu$ sur $\R^{d}$ si et seulement si
-    \[  
+    \[
         \forall \xi \in \R^{d}, \hat{\mu}_{n}(\xi) \xrightarrow[n \to \infty]{}\hat{\mu}(\xi)
     \]
-    De manière équivalente, une suite $X_{n}$ de variables aléatoires à valeurs dans $\R^{d}$ converge en loi vers $X$ si et seulement si 
+    De manière équivalente, une suite $X_{n}$ de variables aléatoires à valeurs dans $\R^{d}$ converge en loi vers $X$ si et seulement si
     \[
         \forall \xi \in \R^{d}, \Phi_{X_{n}}(\xi) \xrightarrow[n \to \infty]{} \Phi_{X}(\xi)
     \]
@@ -1185,30 +1185,30 @@ On note $\cont_{c}\left(\R^{d}\right)$ l'espace des fonctions continues à suppo
 \subsection{Conséquences}
 \subsubsection{Convergence des Mesures Empiriques}
 \begin{theorem}
-    Soit $X_{n}$ une suite de v.a. i.i.d à valeurs dans $\R^{d}$. Pour tout $\omega \in \Omega$ et tout $n \geq 1$, soit $\mu_{n, \omega}$ définie par : 
+    Soit $X_{n}$ une suite de v.a. i.i.d à valeurs dans $\R^{d}$. Pour tout $\omega \in \Omega$ et tout $n \geq 1$, soit $\mu_{n, \omega}$ définie par :
     \[
         \mu_{n, \omega} = \frac{1}{n}\sum_{i = 1}^{n}\delta_{X_{i}(\omega)}
     \]
-    Alors presque sûrement : 
+    Alors presque sûrement :
     \[
-        \mu_{n, \omega} \xrightarrow[n \to \infty]{(e)} P_{X_{1}}
+        \mu_{n, \omega} \xrightarrow[n \to \infty]{(e)} \mathbb{P}_{X_{1}}
     \]
 \end{theorem}
 
 \subsubsection{Théorème Central Limite}
 \begin{theorem}
-    Soit $X_{n}$ une suite de variables aléatoires réelles indépendantes et de même loi dans $L^{2}$. Soit $\sigma^{2} =\var X_{1}$. Alors : 
+    Soit $X_{n}$ une suite de variables aléatoires réelles indépendantes et de même loi dans $L^{2}$. Soit $\sigma^{2} =\var X_{1}$. Alors :
     \[
         \frac{1}{\sqrt{n}}\left(X_{1} + \ldots + X_{n} - n E[X_{1}]\right) \xrightarrow[n \to \infty]{(loi)} \mathcal{N}(0, \sigma^{2})
     \]
     De manière équivalente, pour tous $a, b \in \bar{\R}$ :
     \[
-        \lim_{n \to \infty} P\left(X_{1} + \ldots + X_{n} \in \left[n E[X_{1}] + a\sqrt{n}, \ nE[X_{1}] + b\sqrt{n}\right]\right) = \frac{1}{\sigma\sqrt{2\pi}}\int_{a}^{b}\exp\left(-\frac{x^{2}}{2\sigma^{2}}\right)\d x
-    \] 
+        \lim_{n \to \infty} \mathbb{P}\left(X_{1} + \ldots + X_{n} \in \left[n E[X_{1}] + a\sqrt{n}, \ nE[X_{1}] + b\sqrt{n}\right]\right) = \frac{1}{\sigma\sqrt{2\pi}}\int_{a}^{b}\exp\left(-\frac{x^{2}}{2\sigma^{2}}\right)\d x
+    \]
 \end{theorem}
 
 \begin{definition}
-    Soit $C$ une matrice $d \times d$ réelle symétrique positive. Une v.a. $X$ à valeurs dans $\R^{d}$ de carré intégrable, est appelée vecteur gaussien centré de covariance $C$ si : 
+    Soit $C$ une matrice $d \times d$ réelle symétrique positive. Une v.a. $X$ à valeurs dans $\R^{d}$ de carré intégrable, est appelée vecteur gaussien centré de covariance $C$ si :
     \[
         \forall \xi \in \R^{d}, \Phi_{X}(\xi) = E[e^{i\xi\dot X}] = \exp\left(-\frac{1}{2}\transpose{\xi}C\xi\right)
     \]
@@ -1216,15 +1216,180 @@ On note $\cont_{c}\left(\R^{d}\right)$ l'espace des fonctions continues à suppo
 \end{definition}
 
 \begin{proposition}
-    Soit $C$ une matrice symétrique positive. Il existe un vecteur gaussien centré de covariance $C$. 
+    Soit $C$ une matrice symétrique positive. Il existe un vecteur gaussien centré de covariance $C$.
 \end{proposition}
 
 \begin{theorem}[Théorème Central Limite Vectoriel]
-    Soit $X_{n}$ une suite de v.a. i.i.d. dans $\R^{d}$ de carré intégrable. Alors, 
+    Soit $X_{n}$ une suite de v.a. i.i.d. dans $\R^{d}$ de carré intégrable. Alors,
     \[
         \frac{1}{\sqrt{n}}\left(X_{1} + \ldots + X_{n} - nE[X_{1}]\right)\xrightarrow[n \to \infty]{(loi)}\mathcal{N}(0, K_{X_{1}})
     \]
 \end{theorem}
 
+\subsection{Intervalles de Confiance}
+Pour un institut de sondage qui cherche à évaluer les intentions de vote entre deux candidats $A$ et $B$, on peut modéliser chaque intention de vote par une variable de Bernoulli de paramètre $p \in \left]0, 1 \right[$ inconnu. On suppose que les électeurs sont indépendants. \\
+On observe la moyenne empirique
+\[
+    \hat{m}_{n} = \frac{1}{n}\left(X_{1} + \ldots + X_{n}\right)
+\]
+Par la loi forte des grands nombre, $\hat{m}_{n} \xrightarrow[n \to \infty]{p.s.} p$.\\
+On cherche à quantifier
+\[
+    \mathbb{P}(\abs{\hat{m}_{n} - p} \to \epsilon), \text{ pour } \epsilon > 0
+\]
+\begin{itemize}
+    \item Par l'inégalité de Bienaymé-Tchebychev :
+          \[
+              P\mathbb{P}\abs{\hat{m}_{n} - p} > \epsilon) \leq \frac{1}{\epsilon^{2}} \mathbb{E}\left[\abs{\hat{m}_{n} - p}^{2}\right] = \frac{1}{n\epsilon^{2}}\var{X_{1}}\leq \frac{p(1- p)}{n\epsilon^{2}} \leq \frac{1}{4n\epsilon^{2}}
+          \]
+          Ici, par exemple, avec une probabilité de 95\%, on a
+          \[
+              p \in \left[\hat{m}_{n} - \epsilon, \hat{m}_{n} + \epsilon\right] \text{ où } \epsilon = \frac{1}{\sqrt{4n \times 5.10^{-2}}}
+          \]
+          \begin{remark}
+              L'intervalle de confiance est toujours en taille $\frac{1}{\sqrt{n}}$
+          \end{remark}
+          \begin{lemma}
+              Soit $\left(Y_{n}\right)$ une suite de v.a. i.i.d. centrées bornées tel que $\abs{Y_{1}} \leq c$ presque sûrement. Alors,
+              \[
+                  \mathbb{P}\left(\abs{\frac{1}{n} \left(Y_{1} + \ldots + Y_{n}\right)} > \epsilon\right) \leq 2\exp\left(-n\frac{\epsilon^{2}}{2c^{2}}\right)
+              \]
+          \end{lemma}
+          Dans le lemme précédent, on obtient, avec une probabilité de 95\% l'intervalle précédent pour
+          \[
+              \epsilon = \sqrt{\frac{2c\left(\ln(2) - \ln(5.10^-2)\right)}{n}}
+          \]
+
+    \item Intervalles de Confiance Asymptotiques
+          Par le Théorème Central Limite :
+          \[
+              \frac{\sqrt{n}}{\sigma}\left(\hat{m}_{n} - p\right) \xrightarrow[n \to \infty]{(loi)} \mathcal{N}(0, 1) \text{ où } \sigma = p(1-p)
+          \]
+          En particulier, si $a > 0$ :
+          \[
+              \mathbb{P}\left(\abs{\frac{\sqrt{n}}{\sigma}\left(\hat{m}_{n} - p\right)} \geq a\right) \simeq_{n \gg 1} \frac{1}{\sqrt{2\pi}} \int_{\abs{x} \geq a} \exp\left(-\frac{x^{2}}{2}\right) \d x
+          \]
+          L'intervalle de confiance asymptotique à 95\% est donc (les valeurs de $a$ sont tabulées, ici $a = 1,96$) :
+          \[
+              \left[\hat{m}_{n} - \frac{a\sigma}{\sqrt{n}}, \hat{m}_{n} + \frac{a\sigma}{\sqrt{n}}\right]
+          \]
+          On peut ici remplacer la convergence en loi par la convergence en probabilité sur les intervalles par le théorème de Porte-Manteau.\\
+          On aimerait remplacer $\sigma$ par un écart type empirique, par exemple
+          \[
+              \begin{aligned}
+                  \sigma_{n}^{2} & = \frac{1}{n} \sum_{k = 1}^{n} \left(X_{k} - \hat{m}_{n}\right)^{2}          \\
+                                 & = \frac{1}{n}\sum_{k = 1}^{n} X_{k}^{2} - 2\hat{m}_{n}^{2} + \hat{m}_{n}^{2} \\
+                                 & = \frac{1}{n}\sum_{k = 1}^{n} X_{k}^{2} - \hat{m}_{n}^{2}                    \\
+                                 & = \hat{m}_{n} - \hat{m}_{n}^{2}
+              \end{aligned}
+          \]
+          Par la loi forte des grands nombres,
+          \[
+              \sigma_{n}^{2} \xrightarrow[n \to \infty]{(p.s.)} p(1-p)
+          \]
+          Toutefois, $E[\sigma_{n}^{2}] \neq p(1 - p)$.
+          En effet,
+          \[
+              \begin{aligned}
+                  E[\sigma_{n}^{2}] = E[\hat{m}_{n} - \hat{m}_{n}^{2}]            \\
+                   & = p - \frac{1}{n^{2}}\sum_{1 \leq i, j \leq n} E[X_{i}X_{j}] \\
+                   & = p - \frac{1}{n}p - \frac{1}{n^{2}}n(n-1)p^{2}              \\
+                   & = \frac{n - 1}{n}p(1-p)
+              \end{aligned}
+          \]
+          On dit que $\sigma_{n}$ est un estimateur avec biais. On le remplace fréquemment par l'estimateur sans bias
+          \[
+              \tilde{\sigma}_{n}^{2} = \frac{n}{n - 1} \sigma_{n}^{2} = \frac{1}{n - 1} \sum_{k = 1}^{n} \left(X_{k} - \hat{m}_{n}\right)^{2}
+          \]
+
+          \begin{lemma}[Lemme de Slutsky]
+              Soit $Z_{n}, \alpha_{n}$ deux suites de v.a. à valeurs dans $\R^{d}$. On suppose \[Z_{n} \xrightarrow[n \to\infty]{(loi)} Z\] et \[\alpha_{n} \xrightarrow[n \to \infty]{(loi)} \alpha\] avec $\alpha$ une constante i.e. $\alpha_{n} \xrightarrow[n \to \infty]{proba} \alpha$. \\
+              Alors, \[\left(Z_{n}, \alpha_{n}\right) \xrightarrow[n \to \infty]{(loi)}\left(Z, \alpha\right)\]
+          \end{lemma}
+          \begin{proof}
+              On utilise le théorème de Lévy.
+          \end{proof}
+          Ici, $\sigma_{n}^{2}, \tilde{\sigma}_{n}^{2} \xrightarrow[n \to \infty]{(p.s.)} p(1-p)$ donc en probabilité et la limite est constante. \\
+          Donc,
+          \[
+              \left(\sqrt{n}\left(\hat{m}_{n} - p\right), \sigma_{n}\right) \xrightarrow[n \to \infty]{(loi)} \left(Z, \sigma\right) \text{ où } \mathcal{N}(0, 1)
+          \]
+          et par conséquent,
+          \[
+              \mathds{1}_{\tilde{\sigma}_{n} \neq 0} \frac{\sqrt{n}}{\tilde{\sigma}_{n}}\left(\hat{m}_{n} - p\right) \xrightarrow[n \to \infty]{(loi)} \mathcal{N}(0, 1)
+          \]
+\end{itemize}
+
+\section{Espérance Conditionnelle}
+\begin{definition}
+    Soit $\left(\Omega, \A, \mathbb{P}\right)$ un espace de probabilité, $B \in \A$ de probabilité non nulle. On définit
+    \[
+        \P\left(A \mid B\right) = \frac{\mathbb{P}(A \cap B)}{\P(B)}
+    \]
+    De même, pour toute v.a. $X \geq 0$, ou pour $X \in L^{1}(\Omega, \A, \P)$, on définit l'espérance conditionelle de $X$ sachant $B$ comme
+    \[
+        E\left[X \mid B\right] = \frac{E[X\mathds{1}_{B}]}{P(B)}
+    \]
+\end{definition}
+
+\subsection{Variables Aléatoires Intégrables}
+\begin{definition}
+    Soit $\B$ une sous-tribu de $\A$ et $X$ une v.a. intégrable. Alors, il existe une unique v.a. $\tilde{X} \in L^{1}$ telle que
+    \[
+        \forall B \in \B, E[\tilde{X}\mathds{1}_{B}] = E[X\mathds{1}_{B}]
+    \]
+    On appelle $\tilde{X}$ l'espérance de conditionnelle de $X$ sachant $\B$ et on note $\tilde{X} = E[X \mid \B]$.\\
+\end{definition}
+
+\begin{lemma}
+    La définition précédente est équivalente à $\forall Z$ v.a. $\B$-mesurable bornée, $E[XZ] = E[E[X\mid \B]Z]$.
+\end{lemma}
+
+\begin{proposition}
+    L'espérance conditionnelle est
+    \begin{itemize}
+        \item Linéaire : $\forall X, Y \in L^{1}, \lambda \in \R$, $E[X + \lambda Y \mid \B] = E[X \mid \B] + \lambda E[Y \mid \B]$.
+        \item Positive : $X \geq 0 p.s. \Rightarrow E[X \mid \B] \geq 0 p.s.$
+        \item Continue : $E\left[\abs{E[X \mid \B]}\right] \leq E\left[\abs{X}\right]$.
+    \end{itemize}
+\end{proposition}
+
+\begin{remark}
+    $E[X\mid \B]$ est la meilleure approximation de $X$ compte tenu de l'information donnée par la tribu $\B$
+\end{remark}
+
+\subsection{Cas des Variables Positives}
+\begin{theorem}
+    Soit $X$ une v.a. $\A$ mseurable et positive, il existe une unique application (à un ensemble de mesure nulle près) $\B$-mesurable et positive, notée $E[X \mid B]$ telle que
+    \[
+        \forall Z \in L^{0}(\B), Z \geq 0, E[E[X \mid \B]Z] = E[XZ]
+    \]
+    Elle se définit par la formule
+    \[
+        E[X\mid \B] = \lim_{n \to \infty}\uparrow E[X \wedge n \mid \B] p.s
+    \]
+\end{theorem}
+
+\begin{proposition}
+    L'espérance conditionnelle est linéaire (pour des coefficients positifs), monotone, vérifie les théorèmes de convergence.
+\end{proposition}
+\begin{lemma}
+    Soit $\phi$ une fonction convexe positive, $X \in L^{1}$, $\B$ une sous-tribu de $\A$. Alors, presque sûrement, \[\phi(E[X\mid \B]) \leq E[\phi(X) \mid \B]\]
+\end{lemma}
+
+\begin{proposition}
+    \begin{itemize}
+        \item Soit $X$ $\B$-mesurable, intégrable. Alors $E[X \mid \B] = X p.s$
+        \item Si $X$ est indépendante de la tribu $\B$, alors $E[X \mid \B] = E[X]$
+        \item Soit $\B_{1} \subset \B_{2}$ deux sous-tribus de $\A$. Alors,
+              \[
+                  E\left[E\left[X \mid \B_{2}\right] \mid \B_{1}\right] = E\left[X \mid \B_{1}\right]
+              \]
+    \end{itemize}
+\end{proposition}
+
+\begin{theorem}
+    Si $X \in L^{2}$, alors $E[X \mid \B]$ est la projection orthogonale de $X$ sur $L^{2}\left(\Omega, \B, \P\right)$.
+\end{theorem}
 
 \end{document}

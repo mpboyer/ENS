@@ -570,7 +570,7 @@ Un fichier Menhir a le suffixe \texttt{.mly} et a la forme suivante :
           | \texttt{production} \{ \texttt{action} \}
           | \texttt{production} \{ \texttt{action} \}
           ;
-    \item non-terminal-2:
+    \item \texttt{non-terminal-2 : }
           | \texttt{production} \{ \texttt{action} \}
     \item \%\%
     \item \texttt{code OCamL arbitraire}
@@ -2899,7 +2899,7 @@ Pour écrire dans la variable $r$, on se donne une fonction \texttt{write}, qui 
 \end{minted}
 
 On peut maintenant traduire facilement de ERTL vers LTL : 
-\begin{minted}
+\begin{minted}{ocaml}
     let read1 colors r f = match lookup colors r with
         | Reg hr -> f hr
         | Spilled n -> Embinop (Mmov, Spilled n, Reg tmp1,
