@@ -61,11 +61,6 @@ An array is a pre-allocated contiguous memory area of a \emph{fixed} size. It ha
 Linear Search : given an integer $x$ return $1$ if $e_{i} = x$ else 0.
 \begin{algorithm}
     \caption{Linear Search in an Array. \\ Complexity : Time = $\mathcal{O}(n)$ | Space = $\mathcal{O}(n)$}
-    \begin{algorithmic}
-        \Input
-        $x$
-        \EndInput
-    \end{algorithmic}
 \end{algorithm}
 
 \subsection{Doubly Linked List}
@@ -1938,10 +1933,7 @@ Given a positive weight function, we want to find a maximum independent set such
     A matroid is a hereditary set system $E, \mathcal{I}$ such that : if $X, Y \in \mathcal{I}$ and $\abs{X} > \abs{Y}$, there is $x \in X \setminus Y$ such that $Y \cup \{x\} \in \mathcal{I}$
 \end{definition}
 
-\part[Shortest Paths / Graph Coloring]{Lecture 8 : 30/11}
-Vraiment, mais vraiment très très la flemme
-
-\path[Parametrized Complexity]{Lecture 9 : 21/12}
+\part[Parametrized Complexity]{Lecture 9 : 21/12}
 \section{Complexity}
 \subsection{Definitions}
 We usually aim for poly-time algorithm in worst case. Since many problems of interest are $NP$-hard, we want to find better complexity than $\O(c^{n})$ for them, as poly-time in unlikely. \\
@@ -1988,7 +1980,6 @@ This is FPT since looking at the neighbourhoods of each vertex gives us $\O(2^{\
 
 \section{Algorithmic Techniques}
 \subsection{Branching Method}
-
 
 \subsubsection{$k$-\textsc{Vertex Cover}.}
 
@@ -2173,6 +2164,223 @@ FINALLY :
 
 Then, instead of trying $\O(e^{k})$ random colorings, we go through a $k$-perfect family $\mathcal{H}$ of functions $\onen{n} \rightarrow \onen{k}$. Then, $k$-\textsc{Path} can be solved in deterministic time $2^{\O(k)}\cdot n^{\O(1)}$.
 
+
+\part[Approximation Algorithm]{Lecture 10 : 11/01}
+\section{Definitions}
+Suppose we want to solve an optimization problem $\mathcal{P}$. Say that a solution has a certain cost we want to minimize. Denote by $OPT(P)$ the cost of an optimal solution of $\mathcal{P}$. Suppose we have an algorithm that outputs a non-optimal solution of cost $ALG(P)$. $ALG$ has approximation ratio $\rho(n)$ if for any instance $P$ of size $n$ we have : \[ ALG(P) \leq \rho(n)\cdot OPT(P)\] 
+
+\begin{definition}
+    An algorithm has an approximation ratio of $\rho(n)$ if for any input of size $n$ the cost ALG of the solution produced by the algorithm is with a factor of $\rho(n)$ of the cost $OPT$ of an optimal solution : 
+    \[
+        1 \leq \max \left(\frac{OPT}{ALG}, \frac{ALG}{OPT}\right) \leq \rho(n)
+    \]
+\end{definition}
+
+Many NP-Hard problems  have small constant approximation ratio. Others have approximation ratio that grows with $n$. When the best approximation ration grows linearly, there is trouble. 
+
+An approximation scheme is an algorithm scheme is an algorithm that outputs a $(1 + \epsilon)$-approximation where $\epsilon$ is part of the input.
+\begin{definition}
+    An algorithm is a Polynomial Time Approximation Scheme if it satifies
+    \begin{itemize}
+        \item Input : An instance $P$ and $\epsilon > 0$
+        \item Output : A $(1+\epsilon)$-approximation
+        \item Polynomial in $n$ for every fixed $\epsilon$
+    \end{itemize}
+    We say it is a Fully Polynomial Time Approximation Scheme if it is polynomial in $n$ and $1/\epsilon$.
+\end{definition}
+
+\subsection{\textsc{Min Vertex-Cover}}
+\begin{algorithm}
+    \caption{Naïve Algorithm}
+    \begin{algorithmic}
+        \State For each vertex $v$
+        \If {$d(v) \geq 1$}
+            \State Put $v$ in the solution
+            \State Delete $v$
+        \EndIf
+    \end{algorithmic}
+\end{algorithm}
+Yet, for a star graph, the algorithm returns a set of size $n-1$ while there is a solution of size $1$. 
+
+\begin{algorithm}
+    \caption{Greedy Algorithm}
+    \begin{algorithmic}
+        \While {there are edges}
+        \State Choose Vertex with Maximum Degree
+        \State Delete It
+        \EndWhile
+    \end{algorithmic}
+\end{algorithm}
+
+We need to find a lower bound of an optimal solution : \\
+Assume there is a certain quantity $Q$ such that $Q \leq OPT$. If we can prove that $ALG \leq c \times Q$ then $ALG$ is a $c$-approximation. 
+Here, a Vertex Cover is at least as large as a maximal matching. We get : 
+
+\begin{algorithm}
+    \caption{Based on Matching}
+    \begin{algorithmic}
+        \State $M \gets$ Maximal Matching
+        \While {there are edges}
+        \State Add $u$ and $v$ to the solution
+        \State Delete $u$ and $v$
+        \EndWhile
+    \end{algorithmic}
+\end{algorithm}
+
+Here, we have a $2$-approximation algorithm. We need to see if we can improve the approximation ratio. It is tight from looking at $K_{n, n}$. \\
+State of the art, the best approx algorithm known has approximation factor $\left(2 - \Theta\left(\frac{1}{\sqrt{\log n}}\right)\right)$. If Unique Game Conjecture is true, we cannot find better that $2$ for a constant factor. 
+
+\subsection{\textsc{Travelling-Salesman Problem}}
+\begin{definition}
+    TSP asks the question of given a list of cities and distances between each pair of cities, find a hamiltonian cycle (that goes every vertex exactly once) of minimum cost ?
+\end{definition}
+
+We can assume WLOG that the graph is complete. We denote by $c(A)$ the weight of the path $A$. \\
+\begin{theorem}
+    For every constant $\rho \geq 0$, there is no polynomial-time algorithm for TSP with approximation ration $\rho$, unless $P = NP$
+\end{theorem}
+\begin{proof}
+    Suppose there is an algorithm $ALG$ that computes a $\rho$-approximation of TSP in polynomial-time on every input $G$.\\
+    Then, let $G$ be an instance for \textsc{Hamiltonian Path}. We transform $G$ intro an instance for $TSP$ by taking a complete graph on $V(G)$ with cost \[c(uv) = \begin{cases}
+        1 & \text{ if } uv\in E(G)\\
+        \rho\abs{V} &\text{ otherwise}
+    \end{cases}\]
+    Let $OPT$ be the cost of an optimal tour of $G^{'}, c$. Observe that, if $G$ has an hamiltonian cycle, then $OPT = \abs{V(G)}$, else $OPT > \rho \times \abs{V(G)}$.
+\end{proof}
+
+\begin{definition}
+    \textsc{Metric Travelling-Salesman Problem} is \textsc{TSP} where the weight function $c$ of the graph is a metric. 
+\end{definition}
+
+\begin{theorem}
+    \textsc{MTSP} has a $2$-approximation algorithm. 
+\end{theorem}
+\begin{proof}
+    We have $c{TSP} > c{MST}$. Indeed, removing an edge $TSP$ gives a spanning tree.
+    \begin{algorithm}
+        \caption{Metric TSP using MSTs}
+        \begin{algorithmic}
+            \State $M \gets MST$ (using Prim or Kruskal)
+            \State\Return Preorder Walk of $M$
+        \end{algorithmic}
+    \end{algorithm}
+    This is a two approx : If $T$ is a 
+\end{proof}
+
+\subsection{\textsc{Set-Covering}}
+\begin{definition}
+    Given a hypergraph $\left(V, \mathcal{F}, c\right)$ where $V$ is finite a set of elements, $\mathcal{F}$ is a set of subsets of $V$ and $c$ is a cost function, output a cost minimum subset of $\mathcal{F}$ that covers all elements of $V$. 
+\end{definition}
+First, a greedy algorithm. Here, the criteria is basing on the number of uncovered vertices.\\
+\begin{algorithm}
+    \caption{Greedy Algorithm}
+    \begin{algorithmic}
+        \State $U \gets V$
+        \State $\mathcal{C} \gets \emptyset$
+        \While {$U \neq \emptyset$}
+            \State Select $S \in \mathcal{F}$ that maximizes $\abs{S \cap U}$
+            \State $\mathcal{C} \gets \mathcal{C} \cup \{S\}$
+            \State $U \gets U \setminus S$
+        \EndWhile
+    \end{algorithmic}
+\end{algorithm}
+Yet, if there is a set in $\mathcal{F}$ of weight $10^{10}$ that is covered by two sets of weight $1$, the algorithm will choose the first option. So, we modify the greedy criteria to act on the average cost of newly covered vertices : $c(S) /\abs{S \cap U}$
+\begin{algorithm}
+    \caption{\textsc{Greedy Set-Cover}}
+    \begin{algorithmic}
+        \State $U \gets V$
+        \State $\mathcal{C} \gets \emptyset$
+        \While {$U \neq \emptyset$}
+            \State Select $S \in \mathcal{F}$ that minimizes $\frac{c(S)}{\abs{S \cap U}}$
+            \State $\mathcal{C} \gets \mathcal{C} \cup \{S\}$
+            \State $U \gets U \setminus S$
+        \EndWhile
+    \end{algorithmic}
+\end{algorithm}
+\begin{theorem}
+    \textsc{Greedy-Set-Cover} is a $\log(n)$-approximation.
+\end{theorem}
+\begin{proof}
+    Define $price(v) = c(S)/\abs{S \cap U}$ where $S$ is the hyperedge that covers $v$ for the first time. \\
+    The total cost of a solution is $\sum_{v \in V} price(v)$. Number the elements of $V$ by order of choose, with $v_{n}$ being the first chose one. We have : 
+    \begin{lemma}
+        For each $k \in \onen{n}, price(v_{k}) \leq OPT/k$
+    \end{lemma}
+    \begin{proof}
+        Assume the algorithm is going to choose a set $S$ that is going to cover $v_{k}$ for the first time. Let $U$ be the set of uncovered elements at this moment. So $\{v_{k}, \ldots, v_{1}\} = U$.
+        Since an optimal solution covers $U$ with at most $OPT$, there must be a set $S$ with cost-effectiveness at most $OPT/\abs{U}$. Hence, by the greedy price criteria
+        \[
+            price(v_{k}) \leq \frac{OPT}{\abs{U}} \leq \frac{OPT}{k}
+        \]
+    \end{proof}
+    Hence, the total cost is : 
+    \[
+        \sum_{k = 1}^{n}price(v_{k}) \leq OPT \sum_{k = 1}^{n} \frac{1}{k} \leq OPT\cdot (\log n + 1)
+    \]
+
+    
+\end{proof}
+\begin{theorem}
+    \textsc{Greedy-Set-Cover} does not have an approximation ration of $\left(1 - o(1)\right)\ln n$. 
+\end{theorem}
+
+\subsection{Layering and \textsc{Weighted Vertex-Cover}}
+\begin{definition}
+    Given a graph and a weight function, find a minimum weight vertex cover.
+\end{definition}
+
+\begin{definition}
+    A degree weighted function of a graph $G$ is a function $\omega : V \rightarrow \N$ such that 
+    \[
+        \exists c, \forall v, \omega(v) \leq c \cdot \deg v
+    \]
+\end{definition}
+
+\begin{lemma}
+    Let $G$ be a graph with weight function $\omega$. If $\omega$ is a degree weighted function, then $\omega(V) \leq 2\cdot OPT$
+\end{lemma}
+\begin{proof}
+    We have : 
+    \[
+        \omega(V) =  \sum_{v \in V} \omega(v) \leq \sum_{v \in V}c\deg(v) \leq 2c\abs{E}
+    \]
+    If $S^{\star}$ is an optimal solution, 
+    \[
+        OPT = \omega(S^{\star}) = \sum_{v \in S^{\star}} \omega(v) = c \cdot \sum_{v \in S^{\star}} \deg v
+    \]
+    Since $S^{\star}$ covers all edges we have \[\sum_{v \in S^{\star}} \deg v \geq \abs{E}\]
+\end{proof}
+
+\begin{algorithm}
+    \caption{Layering Algorithm$(G, \omega)$}
+    \begin{algorithmic}
+        \While {$G \neq \emptyset$}
+            \State Remove $D = \left\{v \mid \deg v = 0\right\}$
+            \State Compute $c = \min \left\{\omega/\deg(v)\right\}$
+            \State Compute degree-weighted function $t = c \cdot \deg(v)$
+            \State Compute the residual weight function $\omega_{1} = \omega - t = \omega- c \cdot \deg$ 
+            \State Pick the set $W = \left\{v \mid \omega_{1}(v) = 0\right\}$
+            \State $G_{1} = G - \left(D \cup W\right)$
+            \State $G \gets G_{1}, \omega \gets \omega_{1}$.
+        \EndWhile
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{theorem}
+    The layering algorithm is a $2$-approximation
+\end{theorem}
+\begin{proof}
+    It is clearly correct.\\
+    Let $S = W_{0} \cup \ldots \cup W_{k}$ be the solution output by the algorithm. Observe that $\omega_{l}(v) = \omega_{0}(v) - \sum_{i = 0}^{l- 1}t_{i}(v)$. Let $v \in S$. If $v \in W_{l}$, $w_{0}(v) = \sum_{i = 0}^{l - 1}t_{i}(v)$.\\
+    Let $S^{\star}$ be an optimal vertex cover of $G$. For each layer $i$, $S^{\star} \cap V\left(G_{i}\right)$ is a vertex cover of $G_{i}$. Therefore by the degree weighted function Lemma : 
+    \[
+        t_{i}\left(S\cap V(G_{i})\right) \leq 2 t_{i}\left(S^{\star} \cap V(G_{i})\right)
+    \]
+    Hence : 
+    \[
+        \omega(S) = \sum_{i = 0}^{k} t_{i}\left(S \cap V(G_{i})\right) \leq 2 \sum_{i = 0}^{k} t_{i}(S^{\star} \cap V(G_{i})) \leq 2 \omega(S^{\star})
+    \]
+\end{proof}
 
 
 \end{document}

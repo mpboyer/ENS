@@ -46,12 +46,12 @@
 {0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
 
 
-\newtheorem{theorem}{Théorème}[subsection]
-\newtheorem{corollary}{Corollaire}[theorem]
-\newtheorem{lemma}[theorem]{Lemme}
-\newtheorem{remark}{Remarque}[theorem]
+\newtheorem{theorem}{Theorem}[subsection]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{remark}{Remark}[theorem]
 \newtheorem{proposition}{Proposition}[subsection]
-\newtheorem{definition}{Définition}[subsection]
+\newtheorem{definition}{Definition}[subsection]
 \renewcommand\qedsymbol{$\blacksquare$}
 \renewcommand{\phi}{\varphi}
 \renewcommand{\epsilon}{\varepsilon}
@@ -63,8 +63,8 @@
 
 
 \makeatletter
-\renewcommand{\ALG@name}{Algorithme}
-\newcommand{\algorithmautorefname}{Algorithme}
+\renewcommand{\ALG@name}{Algorithm}
+\newcommand{\algorithmautorefname}{Algorithm}
 \makeatother 
 
 \algblock{Input}{EndInput}

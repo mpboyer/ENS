@@ -1305,4 +1305,16 @@ Yet in priming studies, subjects are facing written words, but how much more is 
 There are two main types of parser : top down and bottom up, c.f. Compilation. Honestly I don't want to write down the parsing algorithms he shows.\\
 From the meanings of \textsl{buffalo} (being : a bison, a city, to bully), we can build a sentence with any number of \textsl{buffalo} following each other. Homophony makes stuff tough sometimes, and it might change the way that parsing works. 
 
+\section[Class 12 \!: 11/01]{Machine Learning and Linguistics}
+\subsection{Machine Learning 101}
+The point of Machine Learning is approximating a function. Loss functions are measures of the distance from an approximation $\hat{f}$ to the real function $f$. The idea is to minimize the loss. When doing supervised learning (given a series of points and their images), the method of the least squares is a solution. Yet, for many linguistics tasks, it is tougher. One may use a cloze task where we replace \textit{key} words and have the LLM guess and retribute it with 1 for a correct guess and a 0 in the other case. One can also use ext word prediction. In linguistics model, we prefer to output a probability distribution. To turn NWP into something continuous, we use cross-entropy loss, doing dot product between a vector and the model result. \\
+The goal of machine learning is to find a specific hypothesis $f$ from a set $\mathbb{F}$ of potential hypothesis. $\mathbb{F}$ can be anything computable, for example, it can be the powerset of all valid rules we can format. Yet, we cannot build a loss function on pure CFGs, we need to make CFGs probabilistic to do so. \\
+A classic kind of model was $n$-grams. The idea is to assign probabilities for sequences of $n$ words in a look-up table. $4$-grams seem realistic. Yet, it is possible to find bigrams that could be valid, but are not possible by themselves, $n$-grams are fine, but they couldn't generate properly the language. \\
+Neural Networks are stacked linear regressions. Early Neural Networks were one layer, so they cannot learn XOR. Yet, if you have more than one non-linear layer, you can learn exclusive or. This is because you can rearrange the space in the first layer and transform it into a linear problem for the last layer. In principle, recurrent neural network are Turing-Complete, so they can represent natural language. \\
+To train a neural network on linguistics issues, we use gradient descent. 
+
+\subsection{Machine Learning and Linguistics}
+Many times, LLM have right answers, but their heuristics don't apply to all sentences. Then, while on entailed sentences, the accuracy is great, it is really low (15\%-ish) on non-entailed sentences. Thus, most of the time, LLMs are right for the wrong reasons.
+
+
 \end{document}
