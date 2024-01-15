@@ -1005,7 +1005,6 @@ On fixe $p \in \mathcal{P}$
     Un $p$-groupe est un groupe fini d'ordre $p^{n}, n\geq 0$.
 \end{definition}
 
-
 \begin{proposition}
     Un sous-groupe d'un $p$-groupe est un $p$-groupe. Un produit fini de $p$-groupes est un $p$-groupe. Un $p$-sous-groupe d'un groupe $G$ est un sous-groupe de $G$ qui est un $p$-groupe. Si $G$ est fini quelconque, $p \mid \abs{G}$, les $p$-Sylow de $G$ sont des $p$-sous-groupes.
 \end{proposition}
@@ -1279,7 +1278,6 @@ On fixe dans la suite un entier $d \in \Z$ non carré\footnote{$z$ négatif conv
     \end{enumerate}
 \end{example}
 
-
 \begin{proposition}
     Supposons que $A$ satisfait \textbf{(PF)}. Alors, $A$ est factoriel si et seulement si tout irréductible de $A$ est premier.
 \end{proposition}
@@ -1288,8 +1286,89 @@ On fixe dans la suite un entier $d \in \Z$ non carré\footnote{$z$ négatif conv
     Les pgcd et ppcm existent dans un anneau factoriel.
 \end{lemma}
 
+\subsection{Idéaux}
+\begin{definition}
+    Un idéal de $A$ est un sous-groupe additif stable par produit gauche. 
+\end{definition}
 
-\section{Modules sur les Anneaux Prcinipaux}
+\begin{lemma}
+    Soit $f : A\rightarrow B$ 
+    \begin{enumerate}
+        \item $\ker f$ est un idéal de $A$. 
+        \item Si $I$ est un idéal de $B$ alors $f^{-1}(I)$ est un idéal de $A$. 
+        \item Si $f$ est surjective et si $I$ est un idéal de $A$, alors $f(I)$ est un idéal de $B$. 
+    \end{enumerate}
+\end{lemma}
+
+\begin{definition}
+    Un anneau est dit \emph{noethérien} si ses idéaux sont de type fini, i.e. finiment engendrés.  
+\end{definition}
+
+\begin{proposition}
+    Soit $A$ un anneau commutatif. Il y a équivalence entre : 
+    \begin{enumerate}
+        \item $A$ est noethérien
+        \item toute suite croissante d'idéaux est stationnaire. 
+        \item toute famille non vide d'idéaux de $A$ admet un élément maximal pour l'inclusion. 
+    \end{enumerate}
+\end{proposition}
+
+\begin{proposition}
+    Si $A$ est intègre noethérien alors $A$ vérifie $PF$. 
+\end{proposition}
+
+\subsection{Anneaux euclidiens et principaux}
+\begin{definition}
+    Un anneau commutatif $A$ est di \emph{euclidien} s'il possède une fonction $\phi : A\setminus \{0\} \to \N$ telle que $\forall a, b \in A \setminus \{0\}$, il existe $q$ et $r \in A$ tels que $a = bq + r$ avec : 
+    \begin{enumerate}
+        \item soit $r = 0$
+        \item soit $r \neq 0$ et $phi(r) < \phi(b)$
+    \end{enumerate}
+\end{definition}
+
+\begin{proposition}
+    Pour $d = -2, -1, 2$ l'anneau $\Z\left[\sqrt{d}\right]$ est euclidien pour $\abs{N}$.
+\end{proposition}
+
+\begin{definition}
+    Un anneau principal est un anneau intègre dont tous les idéaux sont principaux. 
+\end{definition}
+
+\begin{proposition}
+    Un anneau intègre euclidien est principal.
+\end{proposition}
+
+\begin{proposition}
+    Soient $A$ un anneau principal et $a, b \in A$. Alors, $a$ et $b$ admettent un pgcd $d$ dans $A$ et il existe $u, v \in A$ tels que $au + bv = d$. 
+\end{proposition}
+
+\begin{theorem}
+    Un anneau principal est un anneau factoriel. 
+\end{theorem}
+
+\begin{corollary}
+    Les anneaux $\Z, \Z[i], \Z[\sqrt{2}], \Z[\sqrt{-2}]$ ainsi que $k[X]$ quand $k$ est un corps sont principaux, et donc, factoriels. 
+\end{corollary}
+
+\subsection{L'anneau $\Z[i]$ et sommes de deux carrés}
+\begin{theorem}
+    Tout irréductible de $\Z[i]$ divise un et un seul nombre premier $p\in \Z$ usuel. De plus, pour un tel $p$, on est dans un et un seul des cas suivants : 
+    \begin{enumerate}
+        \item $p = 2$ et on a $2 = -(i + 1)^{2}$ avec $1 + i$ irréductible, de norme $2$. 
+        \item $p\equiv 3 \mod 4$ et $p$ est irréductible dans $\Z[i]$ de norme $p^{2}$.
+        \item $p \equiv 1 \mod 4$ et on a $p = \pi \bar{pi}$ des irréductibles de $\Z[i]$ non associés. 
+    \end{enumerate}
+\end{theorem}
+
+\begin{lemma}
+    Soient $d \in \Z$ non carré, et $p \in \Z$ premier. Les diviseurs de $p$ dans $\Z[\sqrt{d}]$ qui ne sont ni des unités ni associés à $p$, sont les éléments de $\Z[\sqrt{d}]$ de nomre $\pm p$. Ils sont nécessairement irréductibles. 
+\end{lemma}
+
+\begin{proposition}
+    Tout nombre premier $p \equiv 1 \mod 4$ s'écrit de manière unique sous la forme $p = a^{2} + b^{2}$ avec $a, b \in \N$.
+\end{proposition}
+
+\section{Modules sur les Anneaux Principaux}
 \subsection{Modules sur un Anneau}
 \begin{definition}
     Soit $A$ un anneau. Un $A$-module est la donnée d'un groupe abélien $\left(M, +\right)$ et d'une application $A \times M \rightarrow M$ telle que pour tout $a, a^{'} \in A, m, m^{'} \in M$ :

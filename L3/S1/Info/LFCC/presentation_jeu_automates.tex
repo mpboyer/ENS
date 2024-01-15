@@ -37,10 +37,25 @@
 \section{Introduction}
 \begin{frame}
     \frametitle{Introduction}
-    \only<1>{Un jeu à plusieurs joueurs est, de manière informelle, une abstraction d'un jeu ressemblant par exemple au Tarot : chaque joueur, à son tour, va choisir, parmi un éventail de coups possibles, celui qu'il souhaite effectuer, modifiant alors l'état du jeu.}
-    \only<2>{On limite en quelque sorte les transitions possibles de l'état de jeu selon l'état et selon les règles du jeu. Le manque d'informations d'un joueur sur les mains de ses adversaires limite aussi la description directe du jeu avec du non-déterminisme. \\
-        On s'intéresse donc ici à des manières de décrire les jeux par les automates et les grammaires formelles.}
+    \begin{figure}[h]
+        \centering
+        \begin{tikzpicture}[shorten >=1pt,node distance=1cm,>={stealth}, initial text = ,
+            every state/.style={draw=vulm,very thick,fill=yulm!50, text = vulm}, accepting/.style={accepting by arrow, double}]
+            \node[state, initial] (q) {J'ai perdu.};
+            \path[->, vulm] (q) edge[loop right] node [right] {Attendre 30mn} (q);
+        \end{tikzpicture}
+        \caption{\textsc{Le Jeu}}
+        \label{fig:dfa:lejeu}
+    \end{figure}
+    
+
 \end{frame}
+% \begin{frame}
+%     \frametitle{Introduction}
+%     \only<1>{Un jeu à plusieurs joueurs est, de manière informelle, une abstraction d'un jeu ressemblant par exemple au Tarot : chaque joueur, à son tour, va choisir, parmi un éventail de coups possibles, celui qu'il souhaite effectuer, modifiant alors l'état du jeu.}
+%     \only<2>{On limite en quelque sorte les transitions possibles de l'état de jeu selon l'état et selon les règles du jeu. Le manque d'informations d'un joueur sur les mains de ses adversaires limite aussi la description directe du jeu avec du non-déterminisme. \\
+%         On s'intéresse donc ici à des manières de décrire les jeux par les automates et les grammaires formelles.}
+% \end{frame}
 
 \section{Jeux et Automates}
 \subsection{Premières Définitions}
@@ -444,7 +459,21 @@ Soit $M$ une machine de Turing bornée en espace par $s(n)$. On peut construire 
 \end{frame}
 
 \section*{Conclusion}
+\begin{frame}
+    \frametitle{Conclusion}
+    \begin{figure}[h]
+        \centering
+        \begin{tikzpicture}[shorten >=1pt,node distance=1cm,>={stealth}, initial text = ,
+            every state/.style={draw=vulm,very thick,fill=yulm!50, text = vulm}, accepting/.style={accepting by arrow, double}]
+            \node[state, initial] (q) {J'ai perdu.};
+            \path[->, vulm] (q) edge[loop right] node [right] {Attendre 30mn} (q);
+        \end{tikzpicture}
+        \caption{\textsc{Le Jeu}}
+        \label{fig:dfa:lejeu}
+    \end{figure}
+    
 
+\end{frame}
 \begin{frame}
     \frametitle{Bibliographie}
 
