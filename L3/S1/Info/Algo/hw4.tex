@@ -7,5 +7,149 @@
 \pagestyle{myheadings}
 
 \begin{document}
+\section{Exercise 1 : Matching on Bipartite Graphs}
+\subsection{Question 1}
+Let's first begin by showing $M\Delta E(C)$ is a matching. Suppose there is a vertex $v$ connected to two edges $uv$ and $vw$ in $M\Delta E(C)$.
+\begin{itemize}
+    \item If $uv, vw$ are in $M$ this contradicts the fact $M$ is a matching. 
+    \item If $uv, vw$ are in $E(C) \setminus M$, this contradicts the fact $E(C)$ is $M$ alternating. 
+    \item We suppose without loss of generality that $uv \in M$ and $vw \in E(C)$. Since $C$ is a path, there is $u' \neq u$ such that $u'v \in E(C)$. Since $C$ is $M-alternating$ and $vw \notin M$, we must have $u'v \in M$ which contradicts the fact $M$ is a matching.
+\end{itemize}
+Now, let us show $M\Delta E(C)$ is a perfect matching. Let $v \in V(G)$.
+\begin{itemize}
+    \item If $v \notin V(C)$, since $M$ is perfect, there is an edge $uv \in M$ for a certain vertex $u$. We have $v \notin C$ thus $uv \in M\setminus E(C)$ and $uv \in M\Delta E(C)$. Therefore, $u \in V(M\Delta E(C))$.
+    \item Else, if $v \in V(C)$, we take $u, w$ the neighbours of $v$ in the cycle. We suppose without loss of generality that $uv \in M$ and $vw \notin M$. We have $vw \in M\Delta E(C)$ and thus $v \in V(M \Delta E(C))$.
+\end{itemize}
+Thus, $M\Delta E(C)$ is a perfect matching. 
+
+\subsection{Question 2}
+\begin{itemize}
+    \item Suppose first that $M$ has minimum cost. By contradiction, let $C$ be a $M$-alterning negative cycle. $M \Delta E(C)$ is a perfect matching and 
+    \[
+        c(M\Delta E(C)) = c(M) + c(E(C) \setminus M) - c(M \cap E(C)) < c (M)
+    \]
+    Therefore, $C$ does not exist. 
+    \item Assume now that $G$ has no negative $M$-alterning cycle. Assume by contradiction that $M$ is not of minimum cost. Let $M^{'}$ be a perfect matching of lower cost. $M$ and $M^{'}$ must differ from at least one edge. We can thus suppose there is $uv \in M \setminus M^{'}$ and $vw \in M^{'}\setminus M$ since $M$ and $M^{'}$ both are perfect matchings. There exists $u', w'$ such that $uu' \in M^{'}\setminus M$ and $ww' \in M\setminus M^{'}$ from the matching properties of both $M$ and $M^{'}$.
+    \begin{itemize}
+        \item[-] If $u' = w'$ then $uvww'$ forms a cycle.
+        \item[-] Else, we iterate the process on $u'$ and $w'$. This will end up generating a cycle since $\abs{G} < \infty$. 
+    \end{itemize}
+    We have obtained a $M$-alternating cycle. If it is positive, we start the process again from an edge not in the cycle. If we never found a negative cycle, we would have obtained, by summing the weights $c(M) \leq c(M^{'})$ which contradicts the hypothesis. 
+\end{itemize}
+Thus, $M$ has minimum cost if and only if $G$ has no negative $M$-alternating cycle. 
+
+\subsection{Question 3}
+We will prove that $G$ contains no negative $M$-alternating cycle. Let $C$ be a $M$-alternating cycle. 
+\[  
+    \begin{aligned}
+        \sum_{xy \in M\cap E(C)} c(xy) &= \sum_{xy \in M \cap E(C)} p(x) + p(y)\\
+        & = \sum_{x \in V(G)} p(x)\\
+        & = \sum_{xy \in E(C)\setminus M}
+        & \leq \sum_{xy \in E(C) \setminus M} c(xy)
+    \end{aligned}
+\]
+from the properties of $p$ and since each vertex appears at most once in $V(M\cap E(C)) = V(G) = V(E(C) \setminus M)$.\\
+Thus $C$ is non-negative. 
+
+\subsection{Question 4}
+Let's first begin by showing $M\Delta E(P)$ is a matching. Suppose there is a vertex $v$ connected to two edges $uv$ and $vw$ in $M\Delta E(p)$\footnote{This is the same proof as in 1.}.
+\begin{itemize}
+    \item If $uv, vw$ are in $M$ this contradicts the fact $M$ is a matching. 
+    \item If $uv, vw$ are in $E(P) \setminus M$, this contradicts the fact $E(P)$ is $M$ alternating. 
+    \item We suppose without loss of generality that $uv \in M$ and $vw \in E(P)$. Since $C$ is a path, there is $u' \neq u$ such that $u'v \in E(P)$. Since $P$ is $M-alternating$ and $vw \notin M$, we must have $u'v \in M$ which contradicts the fact $M$ is a matching.
+\end{itemize}
+
+Let us now show that $M^{'}$ is a matching with one more edge than $M$. Since $u \in L$ and $v \in R$ and since $G$ is bipartite we get that $\abs{P}$ is odd. Thus, $P$ contains $\left\lfloor\frac{\abs{P}}{2}\right\rfloor$ or $\left\lfloor\frac{\abs{P}}{2}\right\rfloor + 1$ edges in $M$. Since neither $u$ nor $v$ are covered by $M$, there is exactly $\left\lfloor\frac{\abs{P}}{2}\right\rfloor$ edges in $M \cap P$. Thus, $\abs{E(P) \setminus M} = \left\lfloor\frac{\abs{P}}{2}\right\rfloor + 1$. Finally :
+\[
+    \begin{aligned}
+        \abs{M \Delta E(P)} &= \abs{M} + \abs{E(P) \setminus M} - \abs{E(P) \cap M}\\
+        & = \abs{M} + 1
+    \end{aligned}    
+\]
+
+Finally, let us show that $p$ is a price function with respect to $P$:
+\begin{enumerate}
+    \item Since $p$ is a price function with respect to $M$, $\forall xy \in E(G), c(xy) \geq p(x) + p(y)$
+    \item Since every edge of $P$ is tight and every edge of $M$ is tight, every edge of $M\Delta E(P)$ is tight. 
+\end{enumerate}
+
+\subsection{Question 5}
+Suppose all vertices in $L$ are covered. Since $M$ is a matching it covers $\abs{L}$ vertices in $R$ but since $\abs{L} = \abs{R}$ this makes $M$ a perfect matching, which is absurd. 
+
+\subsection{Question 6}
+\begin{itemize}
+    \item By definition $r \in L$ is uncovered and $w$ is uncovered. For odd $i$, $L_{i} \subseteq R$ and for even $i$, $L_{i} \subseteq L$. Each edge in $L_{i}$ for even $i$ is by definition in $M$. Then, is $w$ exists, it must be in $L_{i}$ for an odd $i$ and thus in $R$. 
+    \item Edges between vertices from $L_{i}$ to $L_{i + 1}$ for odd $i$ are in $M$ and thus edges from $L_{i}$ to $L_{i + 1}$ for even $i$ are not in $M$ since $M$ is a matching. 
+    \item Finally, since we only keep tight edges, the returned path only contains tight edges.
+\end{itemize}
+Thus, line 13 always returns a good path. 
+
+\subsection{Question 7}
+\begin{itemize}
+    \item First, let us show $N_{tight}(S) \subseteq \bigcup_{odd\ i} L_{i}$. Let $x \in N_{tight}(S)$. $x$ is not in an even layer and there is $y$ in an even layer $L_{j}$ such that $xy \in E$ is tight. In particular, if $y \in L_{i}$, by definition, $x \in L_{i-1}$. 
+    \item Let $y \in \bigcup_{odd\ i} L_{i}$. There is $i$ even such that $y \in L_{i + 1}$ hence there is some $x \in L_{i}$ such that $xy \in E$ is tight. Since $y$ is in an odd layer, $y \notin S$ and thus $x \in S$. Finally, $y \in N_{tight}(S)$.
+\end{itemize}
+
+\subsection{Question 8}
+The vertices in even layers are in $L$, thus $S \subseteq L$. $\{r\} = L_{0} \subseteq S$ contains uncovered vertex $r$ and thus $S$ contains an uncovered vertex. \\
+For each vertex $y$ in an odd layer $L_{i + 1}$, there is by definition some $x$ in $L_{i} \subseteq S$ such as $xy \in M$. Therefore each vertex of $N_{tight}(S)$ is matched to a vertex of $S$. 
+
+\subsection{Question 9}
+Let $\phi$ be the function such as $\phi(v)$ is the vertex of $S$ matched to $v \in N_{tight}(S)$. Since $M$ is a matching, we must have that $\phi$ is an injection. Therefore, this shows that $\abs{N_{tight}(S)} \leq \abs{S}$. Moreover, since $S$ contains an unmatched vertex, we have $\abs{N_{tight}(S)} < \abs{S}$.
+
+\subsection{Question 10}
+By definition of $c$, we have $\forall xy \in E, c(xy) - p(x) - p(y) \geq 0$. Thus, we have $\alpha \geq 0$. We need to show that every edge in $E \cap \left(S \times N_{tight}(S)^{\complement}\right)$ is not tight. Let $x \in S, y \in N_{tight}(S)^{\complement}$, such as $xy \in E$. We have $y \notin N_{tight}(S)$ so we either have $y \in S$ or $\lnot(\exists x' \in S, x'y \in E \land x'y$ tight$) \Leftrightarrow \forall x' \in S, x'y \notin E \lor x'y$ is not tight. \\
+Yet, since there is no edge connecting $x \in S \subseteq L$ and $y \in S \subseteq L$. Thus, for $x' = x$, we have that $xy$ is not tight. Hence, $\alpha > 0$. 
+
+\subsection{Question 11}
+First, note that $p' : V \rightarrow \N$. 
+\begin{itemize}
+    \item[$P_{1}$ : ] Let $xy \in E(G)$. We want to show that $c(xy) \geq p'(x) + p'(y)$.
+    \begin{itemize}
+        \item If both $x$ nor $y$ are not in $S \cup N_{tight}(S)$ then using $P_{1}$ on $p$ is enough. 
+        \item If $x \in S$ and $y \in N_{tight}(S)$ then $p'(x) = p(x) + \alpha$ and $p'(y) = p(y) - \alpha$ and thus the result stands.
+        \item If $x \in S$ and $y \notin N_{tight}(S)$ then $p'(y) = p(y)$ and thus by definition of $\alpha$: 
+        \[
+            p'(x) + p'(y) = p(x) + p(y) + \alpha \leq p(x) + p(y) + c(xy) - p(x) - p(y) = c(xy)
+        \]
+        \item If $x \notin S$ and $y \in N_{tight}$ then $x \notin N_{tight}$ and, since $\alpha \geq 0$:
+        \[
+            p'(x) + p'(y) = p(x) + p(y) - \alpha \leq p(x) + p(y) \leq c(xy)
+        \]
+    \end{itemize}
+    Thus, $p'$ follows $P_{1}$
+    \item[$P_{2}$ : ] Let $xy \in M$. We now want to show that $xy$ is tight for $p'$. 
+    \begin{itemize}
+        \item If both $x$ and $y$ are not in $S \cup N_{tight}(S)$ then using $P_{2}$ on $p$ is enough. 
+        \item If $x \in S$ and $y \in N_{tight}(S)$ then: 
+        \[
+            p'(x) + p'(y) = p(x) + p(y) \leq c(xy)
+        \]
+        \item From question 10, $x \in S$ and $y \in N_{tight}(S)$ would cause $xy$ to be not tight. However, $P_{2}$ shows that $xy$ is tight, so this is not possible.
+        \item Moreover, if $x\in S$ and $y \in N_{tight}(S)$, $y \in N_{tight}(S)$ implies there is $y' \in S$ such that $yy' \in E(M)$ then $M$ is not a matching. 
+    \end{itemize}
+    Thus, $p'$ follows $P_{2}$
+\end{itemize}
+
+\subsection{Question 12}
+By construction, each update of the price function tightens one edge. The number of edge is finite thus this means the search part of the algorithm cannot run an undefinite number of times. Thus, it will increase the matching size. Therefore, the algorithm terminates, and the returned matching is optimal. \\
+Since there exists a price function with respect to $M$, by $3$, $M$ is a minimum-cost perfect matching and the algorithm is correct. 
+
+\subsection{Question 13}
+The search for good path algorithm is called in the worst case $\O(\abs{V} + \abs{E})$ times. This happens when the matching is augmented of $1$ each step and the price function tightens only one edge. In the worst case, the complexity of this algorithm is $\O(\abs{V} + \abs{E})$. Then, the complete algorithm runs in quadratic time. 
+\newpage
+\section{Exercise 2}
+\subsection{Question 1}
+The greedy algorithm creates a coloring in which any vertex $\nu_{i}$ with colour $b$ is linked to another vertex $\nu_{j}$ with colour $a < b$ and number $i < j$. \\
+We will show by induction that there is a clique in the graph that contains the $l$ "highest" colours ($k - l + 1, \ldots, k$) for each $1 \leq l \leq k$. We will then get the wanted result for $l = k$.
+\begin{itemize}
+    \item[Initialization:] For $l = 1$, this comes from the fact that $k$ was assigned to a vertex. 
+    \item[Induction:] Suppose we have $l - 1$ vertices $\nu_{1}, \ldots, \nu_{l - 1}$ forming a clique coloured with the $l - 1$ "highest" colours. Let $S_{i}$ denote the set of points adjacent to $\nu_{i}$ coloured by $k - l + 1$. For all $i, j$ we have either $S_{i} \subseteq S_{j}$ or the opposite. Indeed, if not, taking $u \in S_{i} \setminus S_{j}$, $w \in S_{j} \setminus S_{i}$ (in particular, $u$ and $w$ have same colour and thus are not neighbours), $\nu_{i}$ and $\nu_{j}$ the induced subgraph would be $P_{4}$. Then we simply need to prove the smallest of the $S_{i}$ contains at least one vertex to finish the induction step. To do so, we use the property of the greedy colouring : since $k - l + 1$ is lower than the colour of any of the $\nu_{i}$, there is an arc in the graph from $\nu_{i}$ to a vertex coloured with $k - l + 1$. 
+\end{itemize} 
+Finally, for any $1 \leq l \leq k$, there is a clique in the graph coloured with the $l$ "highest" colours. In particular, there is one for $l = k$, i.e. be the least integer such that there is a clique formed by $k - i + 1$ vertices colored with $i, i + 1, \ldots, k$ is $1$. 
+
+\subsection{Question 2}
+In the previous proof, we don't use the ordering of vertices used during the run of the algorithm. We have showed that if $k$ is the value returned by the greedy algorithm on some ordering, there is a clique of size $k$. Thus, we must have $\chi(G) \geq k$. Thus, the greedy algorithm is optimal. 
+
 
 \end{document}
