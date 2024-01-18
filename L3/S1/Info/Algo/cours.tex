@@ -2381,7 +2381,187 @@ Yet, if there is a set in $\mathcal{F}$ of weight $10^{10}$ that is covered by t
         \omega(S) = \sum_{i = 0}^{k} t_{i}\left(S \cap V(G_{i})\right) \leq 2 \sum_{i = 0}^{k} t_{i}(S^{\star} \cap V(G_{i})) \leq 2 \omega(S^{\star})
     \]
 \end{proof}
+\part[Linear Programming]{Lecture 11 : 18/01}
+\section{Definition}
+\subsection{Linear Programming}
+\begin{definition}
+    A system of linear equation is of the form : 
+    \[
+        \begin{aligned}
+            a_{11} x_{1} + \ldots + a_{1n} x_{n} &= b_{1}\\
+            \vdots + \ldots + \vdots &= \vdots \\
+            a_{n1}x_{1} + \ldots + a_{nn}x_{n} &= b_{n}
+        \end{aligned}
+    \]
+    We write it as $Ax = b$ where $A$ is a matrix. 
+\end{definition}
+\begin{definition}
+    A linear program is made of $n$ decision variables $x_{1}, \ldots, x_{n} \in \R$, $m$ linear constraints
+    \[
+        \sum_{j = 1}^{n} a_{ij} \star b_{i}
+    \]
+    where $\star \in \{\leq, \geq, =\}$; and a function we want to maximise. 
+\end{definition}
 
+\begin{proposition}
+    Linear Programming and Linear Algebra work in a similar way : 
+    \begin{center}
+        \begin{tabular}{p{.15\textwidth}p{.25\textwidth}p{.25\textwidth}c}
+            & Basic Problem & Algorithm & Solution Set\\
+            \midrule
+            Linear \newline Algebra & System of \newline Linear Equations & Gaussian Elimination & Affine Subspace\\
+            \midrule
+            Linear \newline Programming & System of \newline Linear inequalities & Simplex Method & Convex Polyhedron
+        \end{tabular}
+    \end{center}
+\end{proposition}
+
+Linear Programming allows to model most of the problems we have seen in this class. Despite this generality, Linear Programs can be solved efficiently, both in theory (weak polynomial time) and in practice.
+\begin{definition}
+    If we allow the variable to be only in $\N$ (instead of $\R$), we call it Integer Linear Programming and it becomes NP-hard.
+\end{definition}
+
+\subsection{First Example}
+Suppose a factory makes tables and chairs. Each table returns a profit of $200\$$ and each chair a profit of $\$100$. Each table takes $1$ unit of metal and $3$ units of wood and each chair takes $2$ units of metal and $1$ unit of wood. The factory has $6k$ units of metal and $9k$ units of wood. We want to maximize profit.\\
+We can model this problem using linear Programming, let $x_{1}$ be the number of tables and $x_{2}$ be the number of chairs 
+\[
+    \begin{aligned}
+        3x_{1} + x_{2} &\leq 9\\
+        x_{1} + 2x_{2} &\leq 6\\
+        \textnormal{Maximize } 2x_{1} + x_{2}
+    \end{aligned}    
+\]
+
+\subsection{Flow}
+\begin{proposition}
+    We are given $G = (V, E, s, t, c)$ with: 
+    \begin{itemize}
+        \item A directed Graph $G = V, E$
+        \item A source vertex $s \in V$
+        \item A tap vertex $t\in V$
+        \item A non-negative integral capacity function $c$. 
+    \end{itemize}
+    Introduce one decision variable for each edge $\{f_{e}\}_{e \in E(G)}$
+    \[
+        \begin{aligned}
+            f_{e} \leq 0
+        \end{aligned}
+    \]
+\end{proposition}
+
+\section{Integer Linear Programming and Relaxation}
+\subsection{Definition}
+\begin{definition}
+    The relaxation of an integer linear program is the problem that arises by removing the integrality constraint of each variable.
+\end{definition}
+
+\subsection{\textsc{Vertex Cover}}
+\begin{proposition}
+    Introduce $x_{v} \in \{0, 1\}$ for each $v \in V(G)$. Setting $x_{v} = 0$ means that $x_{v}$ is not in the solution.\\
+    We want to minimize $\sum_{v \in V}x_{v}$ subject to 
+    \[
+        \begin{aligned}
+            x_{u} + x_{v} &\geq 1 \text{  for all } uv \in E(G)\\
+            x_{v} &\in \{0, 1\}  \text{  for all } v \in V(G)
+        \end{aligned}
+    \]
+    Its relaxation is called Fractional Vertex Cover: 
+    We want to minimize $\sum_{v \in V}x_{v}$ subject to 
+    \[
+        \begin{aligned}
+            x_{u} + x_{v} &\geq 1 \text{  for all } uv \in E(G)\\
+            x_{v} &\in \left[0, 1\right]  \text{  for all } v \in V(G)
+        \end{aligned}
+    \]
+\end{proposition}
+
+\section{Solving LP}
+\subsection{Definition}
+\begin{definition}[Standard form]
+    We want to maximize $\sum_{j = 1}^{n} c_{j}x_{j}$ subject to 
+    \[
+        \begin{aligned}
+            \sum_{j = 1}^{n}a_{ij}x_{j} &\leq b_{i}, \ \forall 1 \leq i \leq m\\
+            x_{j} &\geq 0 \ \forall 1 \leq j \leq m
+        \end{aligned}
+    \]
+    Standard form is to maximize $\transpose{C}x$ subject to $Ax \leq b$ and $x \geq 0$.\\
+\end{definition}
+
+\begin{proposition}
+    A Linear Program can always be set in standard form.
+\end{proposition}
+
+\subsection{Geometric Interpretation}
+The set of points $x \in \R^{n}$ at which a constraint holds with equality is a hyperplane. \\
+Thus, each constraint is satisfied by a closed half-space of $\R^{n}$, and the set of feasible solution is the intersection of $m$ closed half-spaces, that is, a convex polyhedron $P$. \\
+A linear program can have no optimal solution : 
+\begin{itemize}
+    \item if the set of feasible solution is empty
+    \item if for every integer $M$, there exists a feasible point $x$ such that $c \cdot x \geq M$. In this case the set of feasible solution is unbounded. 
+\end{itemize}
+\begin{proposition}
+    Because the objective function is linear, the set $\{x \mid \transpose{C}x = t\}$ is a hyperplan for any $t \in \R$. For each $t$, this is called a level set of the objective function. \\
+    Thus, if the maximum is $z^{\star}$, it is a supporting hyperplane of the $P$. So $\{x \mid \transpose{C}x = z^{\star}\}$ contains an extreme point (or vertex) of $P$. 
+\end{proposition}
+
+\begin{definition}
+    A supporting hyperplane of a convex set $S$ is a hyperplane such that $S \cap H \neq \emptyset$
+\end{definition}
+
+\subsection{Algorithm}
+We compute the coordinates of all the vertices of the polytope : 
+\begin{itemize}
+    \item There are $n$ variables and $m$ constraints. 
+    \item A vertex of $P$ is a solution that satifies at least $n$ inequality constraints with equality.
+\end{itemize}
+\begin{algorithm}
+    \caption{Naive Algorithm for Linear Programs}
+    \begin{algorithmic}
+        \For{each set of $n$ linearly independent constraints}
+            \State Check if the points that satifies all of them is feasible and compute its value
+        \EndFor
+        \State Get the maximum value
+    \end{algorithmic}
+\end{algorithm}
+This is a finite algorithm. 
+\subsection{Simplex Method}
+\begin{algorithm}
+    \caption{Simplex Method}
+    \begin{algorithmic}
+        \State Start at a vertex of feasible polytope
+        \While {There is a vertex of better objective value}
+            \State Choose a pivot
+            \State Go to next vertex
+        \EndWhile
+    \end{algorithmic}
+\end{algorithm}
+
+\subsection{Equational Form}
+\begin{definition}
+    We want to maximize $\sum_{j = 1}^{n} c_{j}x_{j}$ subject to 
+    \[
+        \begin{aligned}
+            \sum_{j = 1}^{n}a_{ij}x_{j} &= b_{i}, \ \forall 1 \leq i \leq m\\
+            x_{j} &\geq 0 \ \forall 1 \leq j \leq m
+        \end{aligned}
+    \]
+\end{definition}
+\begin{proposition}
+    All linear programs can be put in equational form
+\end{proposition}
+\begin{proof}
+    We introduce slack variables that compute the difference between the right side and the left side of the inequalities in standard form
+\end{proof}
+
+\section{Analysis}
+\subsection{Complexity}
+\begin{proposition}
+    The simplex is very fast in practice and routinely solves linear programs. However, it is a bizarre mathematical fact that the worst-case running time of the simplex method is exponential in the input size. \\
+\end{proposition}
+\begin{proof}
+    The number of vertices of an hypercube is exponential in the dimension. A 'squashed' version of the hypercube can be used to force the simplex method to have exponential time by going through all the vertices. 
+\end{proof}
 
 \end{document}
 
