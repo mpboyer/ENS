@@ -9,24 +9,16 @@
 \RequirePackage{texnames}
 \RequirePackage{array}
 \RequirePackage{tikz}
-\RequirePackage{bookmark}
 \RequirePackage{booktabs}
 \RequirePackage{textcomp}
 \tikzset{>=stealth}
 \RequirePackage{ragged2e}
-\RequirePackage{amsmath, amsthm, amssymb, amsfonts}
-\RequirePackage{dsfont}
+\RequirePackage{amsmath, amsthm, amssymb}
 \RequirePackage{multirow}
 \RequirePackage{stmaryrd}
 \RequirePackage{listings}
-\RequirePackage{enumitem}
-\RequirePackage{listings}
-\RequirePackage{stmaryrd}
-\RequirePackage{algorithm}
-\RequirePackage{algpseudocode}
-\RequirePackage{etoc}
-\RequirePackage{wrapfig}
-\RequirePackage{hyperref}
+
+\newenvironment{attention}{\begin{tabular}{m{.1\linewidth}m{.8\linewidth}}\includegraphics[width=\linewidth]{attention}&}{\end{tabular}}
 
 \usefonttheme[onlymath]{serif}
 \RequirePackage{setspace}
@@ -34,22 +26,48 @@
 
 \mode<presentation>
 \usetheme{Dresden}
-%\AtBeginSubsection[]{\begin{frame}\frametitle{Plan}\tableofcontents[subsectionstyle=show/shaded/hide,sectionstyle=show/shaded]\end{frame}}
-%\AtBeginSubsection[]{\begin{frame}\frametitle{Plan}\tableofcontents[currentsection]\end{frame}}
-\setbeamertemplate{navigation symbols}{}
-\setbeamertemplate{sections/subsections in toc}[square]
-\lstset{showstringspaces=false}
-\def\labelitemi{$\bullet$}
+
+
+% \AtBeginSection[]{\begin{frame}{Plan}\tableofcontents[subsectionstyle=show/shaded/hide,sectionstyle=show/shaded]\end{frame}}
+
+\AtBeginSubsection[]{\begin{frame}{Plan}\tableofcontents[subsectionstyle=show/shaded/hide,sectionstyle=show/shaded]\end{frame}}
 
 \author{Matthieu Boyer}
-\institute{\includegraphics[height=3em]{ens_psl}}
+% \institute{\includegraphics[height=3em]{ens_psl}}
+
+\setbeamertemplate{navigation symbols}{}
+
+
+\lstset{showstringspaces=false}
+
+\newcommand{\latex}[1][]{\lstinline[language={[LaTeX]TeX},emph={#1}]}
+\lstnewenvironment{latexblock}[1][]{\lstset{columns=flexible,language=[LaTeX]TeX,emph={#1}}}{}
+\newcommand{\deriv}[2]{\frac{\mathrm{d}}{\mathrm{d}#1}\!\left(#2\right)}
+\newtheorem{definitionfr}{Définition}
+
+
+\ifdefined\beamerboxesrounded
+\definecolor{mygray}{gray}{0.90}
+\definecolor{mygreen}{rgb}{0,0.5,0}
+\definecolor{maroon}{rgb}{0.5,0,0}
+\lstset{emphstyle=\color{alert},basicstyle=\small\ttfamily,stringstyle=\color{mygreen},keywordstyle=\color{structure.fg},commentstyle=\color{maroon}\itshape,backgroundcolor=\color{mygray}}
+\let\oldlatex\latex
+\renewcommand{\latex}[1]{\colorbox{mygray}{\oldlatex{#1}}}
+\fi
+
+\newtheorem{remark}{Remarque}[theorem]
+\newtheorem{proposition}{Proposition}[subsection]
+\renewcommand\qedsymbol{$\blacksquare$}
+\renewcommand{\phi}{\varphi}
+\renewcommand{\epsilon}{\varepsilon}
+\renewcommand{\emptyset}{\varnothing}
+\renewcommand{\d}{{\, \rm d}}
 
 %Symboles
 \newcommand{\Id}{\mathrm{Id}}
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\Z}{\mathbb{Z}}
 \newcommand{\Q}{\mathbb{Q}}
-\newcommand{\B}{\mathcal{B}}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\C}{\mathbb{C}}
 \newcommand{\K}{\mathbb{K}}
@@ -80,17 +98,7 @@
 \DeclareMathOperator{\rg}{rg}
 \DeclareMathOperator{\ch}{ch}
 \DeclareMathOperator{\sh}{sh}
-\DeclareMathOperator{\sgn}{sgn}
-\renewcommand{\d}{{\, \rm d}}
 \renewcommand{\th}{\mathop{\rm th}}
-
-\makeatletter
-\renewcommand{\ALG@name}{Algorithme}
-\newcommand{\algorithmautorefname}{Algorithme}
-\makeatother 
-
-\algblock{Input}{EndInput}
-\algnotext{EndInput}
 
 
 %Macros
@@ -112,19 +120,39 @@
 \newcommand{\vect}[2][]{\text{Vect}_{#2}\left(#1\right)}
 \renewcommand{\H}{\mathbb{H}}
 \newcommand{\transpose}[1]{{^{\mathsf{t}}}#1}
-\newcommand{\deriv}[2]{\frac{\mathrm{d}}{\mathrm{d}#1}\!\left(#2\right)}
+\newcommand{\comp}[1]{\textsc{#1}}
 \newcommand{\onen}[1]{\left\llbracket 1, #1\right\rrbracket}
 
 
+\definecolor{vulm}{HTML}{7d1dd3}
+\definecolor{yulm}{HTML}{ffe500}
+\setbeamercolor{structure}{fg = vulm}
+\setbeamercolor{section in head/foot}{fg = yulm}
+\setbeamercolor{subsection in head/foot}{fg = yulm}
 
-\newcommand{\latex}[1][]{\lstinline[language={[LaTeX]TeX},emph={#1}]}
-\lstnewenvironment{latexblock}[1][]{\lstset{columns=flexible,language=[LaTeX]TeX,emph={#1}}}{}
+\usetikzlibrary{automata, arrows, calc, matrix, positioning}
+\definecolor{vulm}{HTML}{7d1dd3}
+\definecolor{yulm}{HTML}{ffe500}
+\usepackage{caption}
 
-\ifdefined\beamerboxesrounded
-\definecolor{mygray}{gray}{0.90}
-\definecolor{mygreen}{rgb}{0,0.5,0}
-\definecolor{maroon}{rgb}{0.5,0,0}
-\lstset{emphstyle=\color{alert},basicstyle=\small\ttfamily,stringstyle=\color{mygreen},keywordstyle=\color{structure.fg},commentstyle=\color{maroon}\itshape,backgroundcolor=\color{mygray}}
-\let\oldlatex\latex
-\renewcommand{\latex}[1]{\colorbox{mygray}{\oldlatex{#1}}}
-\fi
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems}
+\NewTcbTheorem[auto counter, number within=section]{définition}{Définition}%
+ {colback=yulm!10, colframe=vulm!45!black, fonttitle=\bfseries}{def}
+
+\NewTcbTheorem[use counter from=définition]{théorème}{Théorème}%
+ {colback=yulm!10!white, colframe=vulm!65!black, fonttitle=\bfseries}{thm}
+
+\NewTcbTheorem[use counter from=définition]{propositionfr}{Proposition}%
+ {colback=yulm!10!white, colframe=vulm!25!black, fonttitle=\bfseries}{propo}
+
+\NewTcbTheorem[use counter from=définition]{corollaire}{Corollaire}%
+ {colback=yulm!10, colframe=vulm!35!black, fonttitle=\bfseries}{cor}
+
+\NewTcbTheorem[use counter from=définition]{lemme}{Lemme}%
+ {colback=yulm!10, colframe=vulm!15!black, fonttitle=\bfseries}{lemme}
+
+\NewTcbTheorem[use counter from=définition]{remarque}{Remarque}%
+ {colback=yulm!10, colframe=vulm!65!black, fonttitle=\bfseries}{rem}
+
+

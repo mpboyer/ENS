@@ -1,0 +1,64 @@
+\documentclass{beamercours}
+\title{Cours TalENS 2023-2024}
+\subtitle{Détermination, Crayons, Angles Droits, Glissières}
+\date{27 Janvier 2024}
+
+
+\begin{document}
+\maketitle
+
+\section*{Introduction}
+\begin{frame}
+    \frametitle{Introduction Historique}
+    \only<1>{}
+
+\end{frame}
+
+\section{Formalisme !}
+\subsection*{La Notion d'Equation Polynômiale sur un Corps}
+\begin{frame}
+    \frametitle{Le Corps}
+    \begin{définition}{Corps}{}
+        Un corps est un ensemble muni : 
+        \begin{itemize}
+            \visible<2->{\item D'une addition avec un neutre $0$ notée $+ : (x, y) \mapsto x + y$}
+            \visible<3->{\item D'une multiplication avec un neutre $1$ notée $\times : (x, y) \mapsto xy$ distributive sur l'addition}
+        \end{itemize}
+        \visible<4->{Pour laquelle tout élément (sauf $0$) est inversible pour la multiplication et la loi de produit nul est vérifiée.}
+    \end{définition}
+    \visible<5>{On notera $\K$ un tel ensemble}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Polynômes}
+    \visible<1->{\begin{définition}{Polynôme sur $\K$}{}
+        Un polynôme à coefficients dans $\K$ est une suite finie d'éléments de $\K$.
+    \end{définition}}
+    \visible<2->{On les note sous la forme : 
+    \[
+        \sum_{i = 0}^{d} a_{i}X^{i}
+    \]}
+    \visible<3->{On appelle le symbole $X$ l'indéterminée. Ce n'est pas un nombre. On note $\K[X]$ l'ensemble des polynômes à coefficients dans $\K$. On appelle $d$ le degré de $P$.}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Calcul sur les Polynômes}
+    \only<1-3>{\begin{propositionfr}{Opérations}{}
+        Si $P = \sum_{i = 0}^{d_{1}} a_{i}X^{i}$ et $Q = \sum_{j = 0}^{d_{2}} b_{j}X^{j}$ sont deux polynômes :
+       \begin{itemize}[<+->]
+        \item $P + Q = \sum_{i = 0}^{\max(d_{1}, d_{2})} (a_{i} + b_{i})X^{i}$ est un polynôme.
+        \item $X^{k}P = \sum_{i = 0}^{d}a_{i}X^{i + k}$ est un polynôme. 
+        \item En particulier, $PQ$ est un polynôme et si $k \in \N$, $P^{k}$ est un polynôme.
+       \end{itemize} 
+    \end{propositionfr}}
+    \only<4->{\begin{définition}{Composition}{}
+        Pour $\alpha \in \K$, on note $P(\alpha) \in \K$ le nombre : $\sum_{i = 0}^{d_{1}}a_{i}\alpha^{i}$. On note de plus $P \circ Q$ le polynôme
+        \[
+            P \circ Q = \sum_{i = 0}^{d_{1}d_{2}}
+        \]
+    \end{définition}
+        }
+
+\end{frame}
+
+\end{document}
