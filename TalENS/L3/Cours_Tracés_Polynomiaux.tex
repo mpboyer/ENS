@@ -3,7 +3,6 @@
 \subtitle{Détermination, Crayons, Angles Droits, Glissières}
 \date{27 Janvier 2024}
 
-
 \begin{document}
 \maketitle
 
@@ -15,7 +14,7 @@
 \end{frame}
 
 \section{Formalisme !}
-\subsection*{La Notion d'Equation Polynômiale sur un Corps}
+\subsection{Polynômes sur un Corps}
 \begin{frame}
     \frametitle{Le Corps}
     \begin{définition}{Corps}{}
@@ -26,19 +25,19 @@
         \end{itemize}
         \visible<4->{Pour laquelle tout élément (sauf $0$) est inversible pour la multiplication et la loi de produit nul est vérifiée.}
     \end{définition}
-    \visible<5>{On notera $\K$ un tel ensemble}
+    \visible<5>{On notera $\K$ un tel ensemble. $\R$, $\Q$, $\Z/p\Z = \mathbb{F}_{p}$ sont des corps.}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Polynômes}
+    \frametitle{Polynômes à une Indéterminée}
     \visible<1->{\begin{définition}{Polynôme sur $\K$}{}
         Un polynôme à coefficients dans $\K$ est une suite finie d'éléments de $\K$.
     \end{définition}}
-    \visible<2->{On les note sous la forme : 
+    \only<2>{On les note sous la forme : 
     \[
         \sum_{i = 0}^{d} a_{i}X^{i}
     \]}
-    \visible<3->{On appelle le symbole $X$ l'indéterminée. Ce n'est pas un nombre. On note $\K[X]$ l'ensemble des polynômes à coefficients dans $\K$. On appelle $d$ le degré de $P$.}
+    \only<3>{On appelle le symbole $X$ l'indéterminée. Ce n'est pas un nombre. On note $\K[X]$ l'ensemble des polynômes à coefficients dans $\K$. On appelle $d$ le degré de $P$.}
 \end{frame}
 
 \begin{frame}
@@ -46,19 +45,80 @@
     \only<1-3>{\begin{propositionfr}{Opérations}{}
         Si $P = \sum_{i = 0}^{d_{1}} a_{i}X^{i}$ et $Q = \sum_{j = 0}^{d_{2}} b_{j}X^{j}$ sont deux polynômes :
        \begin{itemize}[<+->]
-        \item $P + Q = \sum_{i = 0}^{\max(d_{1}, d_{2})} (a_{i} + b_{i})X^{i}$ est un polynôme.
+        \item $P + Q = \sum_{i = 0}^{\max(d_{1}, d_{2})} (a_{i} + b_{i})X^{i}$ est un polynôme de degré $\leq \max(\deg P, \deg Q)$.
         \item $X^{k}P = \sum_{i = 0}^{d}a_{i}X^{i + k}$ est un polynôme. 
-        \item En particulier, $PQ$ est un polynôme et si $k \in \N$, $P^{k}$ est un polynôme.
+        \item En particulier, $PQ$ est un polynôme de degré $\deg P + \deg Q$ et si $k \in \N$, $P^{k}$ est un polynôme.
        \end{itemize} 
     \end{propositionfr}}
     \only<4->{\begin{définition}{Composition}{}
         Pour $\alpha \in \K$, on note $P(\alpha) \in \K$ le nombre : $\sum_{i = 0}^{d_{1}}a_{i}\alpha^{i}$. On note de plus $P \circ Q$ le polynôme
         \[
-            P \circ Q = \sum_{i = 0}^{d_{1}d_{2}}
+            P \circ Q = \sum_{i = 0}^{d_{1}} a_{i}Q(X)^{i}
         \]
-    \end{définition}
-        }
+        On a $\deg P\circ Q = \deg P \times \deg Q$
+    \end{définition}}
+\end{frame}
 
+\begin{frame}
+    \frametitle{Polynômes à Plusieurs Indéterminées}
+    \begin{définition}{Polynômes à Plusieurs Indéterminées}{}
+        Un polynôme à $k + 1$ indéterminées est un polynôme à coefficients dans $\K[X_{1}, \ldots, X_{k}]$
+    \end{définition}
+    \visible<2>{\begin{remarque}{Intégrité}{}En réalité, $\K[X]$ n'est pas un corps, mais seulement un anneau intègre.\end{remarque}}
+    \visible<3>{$P$ se met sous la forme 
+    \[
+        P(X) = \sum_{i_{1} = 0}^{d_{1}}\sum_{i_{2}=0}^{d_{2}}\ldots\sum_{i_{k} = 0} \alpha_{i_{1}, \ldots, i_{k}}X_{1}^{i_{1}}X_{2}^{i_{2}}\ldots X_{k}^{i_{k}}
+    \]
+    }
+
+\end{frame}
+
+\subsection{Equations Polynômiales et Applications}
+\begin{frame}
+    \frametitle{Equation Polynômiale}
+    \begin{définition}{Equation Polynômiale}{}
+        Une équation polynômiale est une équation de la forme 
+        \[
+            P(x) = \sum_{i = 0}^{d} a_{i}x^{i} = b
+        \]
+        \only<2-3>{\visible<2-3>{On peut se restreindre au cas $b = 0$ en enlevant $b$ à $P$.\\}
+        \visible<3>{On appelle \emph{racines} de l'équation les éléments de $\left\{\alpha \mid P(\alpha) = b \right\}$. On dit que $d = \deg P$ est le degré de l'équation. }}
+        \only<4->{Pour $k$ indéterminées, on remplace $x$ par un $k$-uplets $x_{1}, \ldots, x_{k}$}
+    \end{définition}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Solutions à une Équation Polynômiale}
+    \begin{propositionfr}{Nombres de Solution}{}
+        Une équation définie par $P$ a au plus $\deg P$ solutions
+    \end{propositionfr}
+    \visible<2->{\begin{théorème}{D'Alembert Gauss}{}
+        Une équation polynômiale définie par $P$ a toujours exactement $\deg P$ solutions sur un corps algébriquement clos. $\C$ est algébriquement clos.
+    \end{théorème}}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Applications I}
+    \begin{définition}{Droite}{}
+        Une droite est un ensemble de la forme $D(a, b) = \{ax + b \mid x \in \R\}$
+    \end{définition}
+
+    \visible<2->{En particulier, si on a deux droites $D(a, b), D(a', b')$, leur intersection est définie par l'ensemble
+    \[
+        \left\{ax + b = a'x + b'\right\} = \left\{(a - a')x + (b - b') = 0\right\}
+    \]}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Applications II}
+    \begin{définition}{Cercle}{}
+        Un cercle est un ensemble de la forme $C((x_{0}, y_{0}), r) = \left\{(x - x_{0})^{2} + (y - y_{0})^{2} = r^{2}\right\}$
+    \end{définition}
+
+    \visible<2->{En particulier, si on a deux cercles $C((x_{1}, y_{1}), r)_{1}, C((x_{2}, y_{2}), r_{2})$, leur intersection est définie par l'ensemble
+    \[
+        \left\{(a - x_{1})^{2} + (b - y_{1})^{2} = r_{1}^{2}\right\}
+    \]}
 \end{frame}
 
 \end{document}

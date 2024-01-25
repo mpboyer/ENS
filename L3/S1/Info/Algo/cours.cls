@@ -37,7 +37,7 @@
 % \institute{\includegraphics[height=6em]{ens_psl}}
 
 
-\AfterBeginDocument{\maketitle\tableofcontents}
+%\AfterBeginDocument{\maketitle\tableofcontents}
 
 
 \titleformat{\paragraph}

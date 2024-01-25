@@ -1,0 +1,182 @@
+\documentclass[10pt]{cours}
+\usepackage{multicol}
+\setlength{\columnsep}{1cm}
+
+\begin{document}
+\title{Short Version of Algorithmics}
+\section{Recursion Complexity}
+\begin{center}
+    \begin{tabular}{ccc}
+        \bf Substitution         & \bf Recursion-Tree                                       \\
+        \midrule
+        Guess Asymptotic         & Delete floors and ceils and suppose $n$ of a good form.  \\
+        Show Answer by Induction & Draw a tree, rooted with added term and recursive calls.
+    \end{tabular}
+\end{center}
+\begin{theorem}[Master Theorem]
+    If we have recurrence equation $T(n) = aT(n/b) + f(n)$ where $a \geq 1, b > 1$ are integers, $f(n)$ is asymptotically positive. Let $r = \log_{b}a$, we have :
+    \begin{enumerate}
+        \item If $f(n) = \O(n^{r-\epsilon})$ for some $\epsilon > 0$, then $T(n) = \Theta(n^r)$
+        \item If $f(n) = \Theta(n^{r})$ then $T(n) = \Theta(n^{r}\log n)$
+        \item If $f(n) = \Omega(n^{r + \epsilon})$ for some $\epsilon > 0$, and $af(n/b) \leq cf(n)$ for some constant $c < 1$ and all sufficiently large $n$ (regularity condition) then $T(n) = \Theta(f(n))$.
+    \end{enumerate}
+\end{theorem}
+
+Applications to FFT : recursively evaluate polynomials on roots of unity.
+
+\section{Hashing}
+\begin{theorem}[Simple Uniform Hashing Assumption]
+    Assuming SUHA : "\textit{$h$ equally distributes the keys into the table slots}", and assuming $h(x)$ can be computed in $\O(1)$, $E\left[T_{search}(n)\right] = \O\left(1 + \frac{n}{m}\right)$, and same for deletion time. \\
+    Formally, SUHA is :
+    \[
+        \begin{aligned}
+            \forall y \in \left[1, \abs{T}\right]                & \mathbb{P}\left(h(x) = y\right) = \frac{1}{\abs{T}}                                \\
+            \forall y_{1}, y_{2} \in \left[1, \abs{T}\right]^{2} & \mathbb{P}\left(h(x_{1}) = y_{1},\ h(x_{2}) = y_{2}\right) = \frac{1}{\abs{t}^{2}}
+        \end{aligned}
+    \]
+\end{theorem}
+
+$H = \left\{h : U \rightarrow \left[0, \abs{T}-1\right]\right\}$ is Universal if :
+\[
+    \forall k_{1} \neq k_{2} \in U, \ \abs{\left\{h \in H \mid h(k_{1}) = h(k_{2})\right\}} \leq \frac{\abs{H}}{m}
+\]
+
+\begin{theorem}
+    If $h$ is a hash function chosen uniformly at random from a universal family of hash functions. Suppose that $h(k)$ can be computed in constant time and there are at most $n$ keys. Then the expected search time is $\O(1 + \frac{n}{\abs{T}})$
+\end{theorem}
+\begin{theorem}
+    Let $p \in \mathcal{P}$ such that $U \subseteq \left[0, p-1\right]$. Then \[H = \left\{h_{a, b}(k) = \left(\left(ak + b\right) \mod p\right) \mod \abs{T} \mid a \in \Z_{p}^{*} b \in \Z_{p} \right\}\] is a universal family.
+\end{theorem}
+
+\begin{theorem}
+    Cuckoo Hashing inserts in constant time, searches in constant time, only for static keys.
+\end{theorem}
+
+\section{Integer Sets}
+\begin{proposition}[RBTrees]
+    Red black tree use $\O(n)$ space, $\O(\log n)$ in time for insertion and deletion in the worst case. % TODO : add deletion.
+\end{proposition}
+\begin{proposition}[Treaps]
+    \begin{itemize}
+        \item Time for a successful search : $\O(\texttt{depth(v)})$ where $\texttt{key}(v) = k$.
+        \item Time for an unsuccessful search : $\O(\max \left(\texttt{depth}(v^{-}), \texttt{depth}(v^{+})\right))$ where $\texttt{key}(v^{-})$ is the predecessor of the searched key.
+        \item Insertion Time : $\O(\max \left(\texttt{depth}(v^{-}), \texttt{depth}(v^{+})\right))$ where $\texttt{key}(v^{-})$ is the predecessor of the searched key.
+        \item Deletion Time : $\O(\text{tree depth})$
+        \item Split/Merge Time : same as insertion / deletion
+    \end{itemize}
+\end{proposition}
+\begin{definition}
+    A decision tree for a sorting algorithm is a binary tree that shows the possible executions of an algorithm on a set.
+\end{definition}
+
+\begin{proposition}[Van Emde Boas Trees]
+    They maintain successor queries in $\O(\log \log u)$, updates in $\O(\log u)$ in $\Theta(u)$ space.
+\end{proposition}
+\begin{proposition}[y-fast trees]
+    Predecessor queries are in $\O(\log \log u)$ time, updates in $\O(\log \log u)$ expected amortised time, since insertion into the x-fast trie happens only once per $\Theta(\log u)$ new elements.
+\end{proposition}
+
+\section{String Algorithms}
+\begin{proposition}[KMP]
+    Suppose that we have computed $B[1], \ldots, B[k - 1]$. We will now compute $B[k]$.\\
+    By property 3, if $P[k] = P[B[k - 1] + 1]$, then $B[k] = B[k - 1] + 1$.\\
+    Else, if $P[k] \neq P[B[k - 1] + 1]$, consider $B^{2}[k - 1] = B[B[k - 1]]$. If $P[k] = P[B^{2}[k - 1] + 1]$, set $B[k] = B^{2}[k - 1] + 1$, else consider $B^{3}[k - 1]$, and so on.\\
+
+    This algorithm is correct and in $\O(m)$.
+\end{proposition}
+
+\begin{proposition}[Aho-Corasick]
+    Aho-Corasick solves multiple pattern matching with space complexity $\O(m)$ and time complexity $\O(m + n)$ if no pattern is a substring of another else in $\O(n + m + \#occ)$.
+\end{proposition}
+\begin{proposition}
+    A suffix tree for a string of length $n$ has $n$ leaves, and at most $2n - 1$ nodes and $2n - 2$ edges. Storing the labels on the edges can take $\Theta\left(\abs{T}^{2}\right)$. To save space we represent each label as two numbers, the left and the right endpoints in $T$.
+\end{proposition}
+
+\begin{theorem}
+    Pattern Matching queries are answered in $\O(m + occ)$ using suffix trees that can be build in linear time.
+\end{theorem}
+
+\section{Disjoint-Set}
+\begin{theorem}
+    Using linked-lists and the weighted-union strategy, doing $m$ \texttt{make\_set}, \texttt{union\_set} and \texttt{find\_set}, $n$ of which are \texttt{union\_set} takes $\O\left(m + n\log n\right)$
+\end{theorem}
+
+\begin{theorem}
+    A sequence of $m$ \texttt{make\_set, union\_set, find\_set}, out of which $n$ are \texttt{make\_set} takes $\O\left(m \alpha(n)\right)$ time. In other words, one operation takes $\O(\alpha(n))$ amortised time.
+\end{theorem}
+
+\section{Graphs}
+\begin{theorem}[White-path Theorem]
+    In a DFS forest of a digraph, a vertex $v$ is a descendant of a vertex $u$ if and only if at time $u.d$, there is a $(u, v)$-path made of undiscovered vertices.
+\end{theorem}
+
+\begin{proposition}
+    $G^{SCC}$ is a DAG and is computed by Kosaraju's two pass algotihm in linear time. 
+\end{proposition}
+
+\begin{proposition}[Cut and Paste Technic]
+    Let $G = (V, E)$ and let $T$ be a spanning tree of $G$. Let $uv \in E(G) - T$ and let $T_{uv}$ be the unique path linking $u$ and $v$ in $T$. Then for every edge $xy$ of $T_{uv}$ $T\setminus \{xy\} \cup \{uv\}$ is a spanning tree of $T$.
+\end{proposition}
+
+\begin{theorem}
+    Kruskal returns the MST in $\O(m\log n)$. Prim returns the $MST$ in $\O(m + n\log n)$ with Fibo Heap and $\O(m\log n)$ with a min-heap. 
+\end{theorem}
+
+\begin{theorem}[Rado-Edmonds]
+    The greedy algorithm for a problem is optimal for any weight function if and only if $(E, \mathcal{I})$ is a matroid. 
+\end{theorem}
+
+\section{Parametrized Complexity}
+\begin{definition}
+    A parametrized algorithmic problem is a problem where a certain parameter k is given in addition to the input. The complexity is studied as a function of n and k.
+\end{definition}
+\begin{definition}
+    \begin{itemize}
+        \item A parametrized problem is Fixed-Parameter Tractable if there is an algorithm deciding $\mathcal{P}$ in time $f(k)n^{c}$ where $f$ is computable and $c$ is constant.
+        \item A parametrize problem $\mathcal{P}$ is $XP$ if there is an algorithm deciding $\mathcal{P}$ in time $n^{f(k)}$ for some computable $f$ and constanc $c$.
+    \end{itemize}
+\end{definition}
+\begin{definition}
+    The main idea of the branching method is to reduce the problem to solving a bounded number of problems with parameter k' < k.
+\end{definition}
+
+\begin{definition}
+        Let $\mathcal{P}$ be a parametrized problem and $f$ a computable function.\\
+        A kernel of size $f(k)$ is an algorithm that, given $(x, k)$, runs in polynomial-time in $\abs{x} + k$ and outputs an instance $x', k'$ such that :
+        \begin{itemize}
+            \item $x, k \in \mathcal{P} \Leftrightarrow x', k' \in \mathcal{P}$
+            \item $\abs{x^{'}} \leq f(k)$ and $k' \leq k$.
+        \end{itemize}
+        We say the kernel is polynomial is $f$ is polynomial.
+\end{definition}
+
+
+\begin{theorem}
+    A parametrized problem is FPT if and only if it is decidable and has a kernel.
+\end{theorem}
+
+\section{Approximation Algorithm}
+\begin{definition}
+    An algorithm has an approximation ratio of $\rho(n)$ if for any input of size $n$ the cost ALG of the solution produced by the algorithm is with a factor of $\rho(n)$ of the cost $OPT$ of an optimal solution : 
+    \[
+        1 \leq \max \left(\frac{OPT}{ALG}, \frac{ALG}{OPT}\right) \leq \rho(n)
+    \]
+\end{definition}
+
+\section{Linear Programming}
+\begin{definition}
+    A linear program is made of $n$ decision variables $x_{1}, \ldots, x_{n} \in \R$, $m$ linear constraints
+    \[
+        \sum_{j = 1}^{n} a_{ij} \star b_{i}
+    \]
+    where $\star \in \{\leq, \geq, =\}$; and a function we want to maximise. 
+\end{definition}
+The set of points $x \in \R^{n}$ at which a constraint holds with equality is a hyperplane. \\
+Thus, each constraint is satisfied by a closed half-space of $\R^{n}$, and the set of feasible solution is the intersection of $m$ closed half-spaces, that is, a convex polyhedron $P$. \\
+A linear program can have no optimal solution : 
+\begin{itemize}
+    \item if the set of feasible solution is empty
+    \item if for every integer $M$, there exists a feasible point $x$ such that $c \cdot x \geq M$. In this case the set of feasible solution is unbounded. 
+\end{itemize}
+
+\end{document}

@@ -1,8 +1,8 @@
-\documentclass{cours}
+\documentclass[12pt]{cours}
 
 \newtheorem{openpb}{Open Problem}
 
-\title{Algorithmique}
+\title{Algorithmics}
 \author{Pierre Aboulker, Paul Jeanmaire, Tatiana Starikovskaya}
 \date{\today}
 
@@ -93,7 +93,7 @@ Stack : Last-In-First-Out data structure, abstract data structure. Access/insert
 Queue : First-In-First-Out abstract data structure. Access to front, back in $\mathcal{O}(1)$, deletion and insertion at front and back in $\mathcal{O}(1)$.
 
 \section{Approaches to algorithm design}
-Solve smalle sub-problems to solve a large one.
+Solve small sub-problems to solve a large one.
 
 \subsection{Dynamic Programming}
 Break the problem into many closely related sub-problems, memorize the result of the sub-problems to avoid repeated computation
@@ -119,7 +119,7 @@ Examples :
     \begin{algorithmic}
         \Input
         $ n$
-        \EndInput
+        \EndInput   
         \State $Tab \gets zeros(n)$ \Comment $zeros(n)$ returns a $n$-array of zeros.
         \State $Tab[0] \gets 0$
         \State $Tab[1] \gets 1$
@@ -416,7 +416,7 @@ $H = \left\{h : U \rightarrow \left[0, \abs{T}-1\right]\right\}$ is Universal if
 \end{proof}
 
 \begin{theorem}
-    Let $p \in \mathcal{P}$ such that $U \subseteq \left[0, p-1\right]$. Then $H = \left\{h_{a, b}(k) = \left(\left(ak + b\right) \mod p\right) \mod \abs{T} \mid a \in \Z_{p}^{*}, \ b \in \Z_{p} \right\}$ is a universal family.
+    Let $p \in \mathcal{P}$ such that $U \subseteq \left[0, p-1\right]$. Then \[H = \left\{h_{a, b}(k) = \left(\left(ak + b\right) \mod p\right) \mod \abs{T} \mid a \in \Z_{p}^{*} b \in \Z_{p} \right\}\] is a universal family.
 \end{theorem}
 \begin{proof}
     Let $k_{1} \neq k_{2} \in U$. Let $l_{i} = (ak_{i} + b) \mod p$. We have $l_{1} \neq l_{2}$ and $ a = ((l_{1} - l_{2})((k_{1}-k_{2})^{-1} \mod p) \mod p) \text{ and } b = (l_{1} - ak_{1}) \mod p$. There is then one-to-one mapping between $(a, b)$ and $(l_{1}, l_{2})$. The number of $h \in H$ such that $h(k_{1}) = h(k_{2})$ is :
@@ -577,69 +577,6 @@ The Karp-Rabin algorithm is as follows :
         \end{aligned}
     \]
 \end{proof}
-
-\section{TD 3 : Hashing - 13/10}
-\subsection{Exercise 1}
-We can expect to have $\frac{n(n-1)}{m} - 1$ collisions, i.e. if we consider the sets of pairs of values with collisions, we can expect its cardinality to be $2\times (\frac{n(n-1)}{m} - 1)$.
-
-\subsection{Exercise 2}
-By definition of $h$, the sets $\left(h^{-1}(i)\right)_{i \in \left[1, m\right]}$ form a partition of $U$. Thus, since $\abs{U} > nm$, there exists $i$ such that $\abs{h^{-1}(i)} > n$, giving us the result.
-
-\subsection{Exercise 3}
-We get, by sum, if $k = k_{n}\ldots k_{0}$, $h(k) = \sum_{i = 0}^{n} k_{i}*(2^{p})^{i} \mod 2^{p}-1 = \left[\sum_{i = 0}^{n} k_{i}\right] \mod 2^{p}-1$. This formula shows the order of the caracters doesn't matter in the value by the hash function.
-
-\subsection{Exercise 4}
-It is sufficient to find the cardinality of the set $\left\{ih_{2}(k) \mid i \in \left[0, m-1\right]\right\}$. This is, by Euler's formula $m$ if and only if $h_{2}(k) \wedge m = 1$
-
-\subsection{Exercise 5}
-
-\subsection{Exercise 6}
-\subsubsection{Question a.}
-We know that the number of probes during insertion is the number of probes seen during search.\\
-An unsuccessful search on $x$ means that every probed slot except the last one is occupied and does not contain $x$, and the last one is empty.
-We define $A_{i}$ the event " The $i$-th probe occurs and is occupied.". By Bayes's Theorem, we must estimate :
-\[
-    \mathbb{P}[\text{\# of probes} \geq i] = \prod_{k = 1}^{i - 1} \mathbb{P}[A_{k} \mid \bigcap\limits_{j = 1}^{k - 1} A_{j}]
-\]
-But we have : $\mathbb{P}[A_{j}\mid A_{1} \cap \ldots \cap A_{j - 1}] = \frac{n - j + 2}{\abs{T} - j + 2}$\\
-So we have : $\mathbb{P}[\text{\# of probes} \geq i] \leq \frac{n}{\abs{T}}^{i - 1} = \alpha^{i - 1}$\\
-Here, $\alpha \leq \frac{1}{2}$ thus we have the result.
-
-Then, we get that the probability of the $i$-th insertion requiring strictly more than $2\log_{2}(n)$ probes is at most $\frac{1}{n^{2}}$
-
-
-\subsubsection{Question b.}
-We have : $\mathbb{P}[X > 2\log_{2}(n)] = \mathbb{P}\left[\bigcup_{i=1}^{n}{X_{i} > 2 \log_{2}(n)}\right] < \sum_{i = 1}^{n}\mathbb{P}\left[X_{i} > 2\log_{2}(n)\right] = \frac{1}{n}$.
-The last inequality is strict as these events are not independent.
-
-\subsubsection{Question c.}
-The expected length of the longest probe sequence is :
-\[
-    \mathbb{E}[X] \leq \mathbb{P}[X \leq 2\log_{2}(n)]\times 2\log_{2}(n) + \mathbb{P}[X > 2\log_{2}(n)]\times n = \O(\log_{2}(n))
-\]
-
-\subsection{Exercise 7}
-\subsubsection{Question a.}
-If $H$ is $2$-independent, then for each pair of distinct keys $x_{1}, x_{2}$ and $y_{1}, y_{2}$ is $\mathbb{P}[h(x_{1}) = y_{1}, h(x_{2}) = y_{2}] = \frac{1}{m^{2}}$.
-If we fix $y_{1} = y_{2}$, we have : $\mathbb{P}[h(x_{1}) =y_{1}= h(x_{2})] = \frac{1}{m^{2}}$. By summing over all values for $y_{1}$ :
-$\mathbb{P}[h(x_{1}) = h(x_{2})] = \frac{1}{m}$.\\
-However, as $H$ is universal if and only if : $\mathbb{P}[h(x_{1} = h(x_{2}))\mid h \gets^{s} H] \leq \frac{1}{m}$, we have the result.
-
-\subsubsection{Question b.}
-By the same argument as in the class, $H$ is universal because we have a one-to-one mapping between $U$ and $H$. Moreover, with $x = (0, \ldots, 0) \mod p$, we get the result.
-
-\subsubsection{Question c.}
-Again this family is universal. We have : $\mathbb{P}[h^{'}_{a, b}(x_{1}) = y_{1} \wedge h^{'}_{a, b}(x_{2}) = y_{2}] = \frac{1}{m^{2}}$ since $a$ and $b$ are uniquely determined by $h^{'}(a, b)$.
-
-\subsubsection{Question d.}
-Given the fact that we $H$ is $2$-independent, we get the result since this comes from : $\mathbb{P}[h(m) = t \wedge h(m_{0}) = t_{0}] = \frac{1}{p}^{2}$. But, knowing the family, since this family is universal, the adversary might have better knowledge of which functions have same image over $m$, he can succeed to fool Bob with probability at most $\frac{1}{p}$.
-
-\subsection{Exercise 8.}
-\subsubsection{Question a.}
-This is Langrange's Theorem.
-
-\subsubsection{Question b.}
-As there is an even number of elements in $\mathbb{F}$, there are as many elements in $\mathbb{F}$ ordered with an even and an odd number. Then, by question 1, since there is a one-to-one mapping between $\mathbb{F}^{4}$ and $G$, there are, for each tuple in $\left\{\pm 1\right\}^{4}$, $2^{4} = m^{4}$ functions that suit. Thus, $H$ is 4-independent.
 
 \part[Integer Sets]{Lecture 4 : 26/10}
 \localtableofcontents
@@ -1135,7 +1072,6 @@ We will first assume that no pattern in $D$ is a substring of another.
     \end{itemize}
 \end{proof}
 
-% TODO : add failure_link function
 \begin{algorithm}
     \caption{Aho-Corasick Algorithm}
     \begin{algorithmic}
@@ -1153,7 +1089,7 @@ We will first assume that no pattern in $D$ is a substring of another.
         \If {$curr \_node = root$}
         \State $i \gets i + 1$
         \Else
-        \State $curr_node = \texttt{failure\_link}(curr\_node)$
+        \State $curr\_node = \texttt{failure\_link}(curr\_node)$
         \EndIf
         \EndIf
         \EndWhile
@@ -1632,9 +1568,6 @@ All along the course :
 \end{definition}
 
 \section{BFS, DFS and Graph Encoding}
-\subsection{The Algorithms}
-Nan mais flemme à un moment.\\
-
 \subsection{Properties}
 \begin{definition}
     We will denote by $v.d$ the time at which a vertex is discovered, and $v.f$ the time at which a vertex is finished, i.e. all of its neighbour are discovered.
@@ -1996,7 +1929,7 @@ Then, for \textsc{Vertex Cover} we branch on vertices of degree at least $3$ :
 
 
 \begin{proposition}
-    The above algorithm gives us a solution to \textsc{Vertex Cover} in $\O*(1.4656^{k})$
+    The above algorithm gives us a solution to \textsc{Vertex Cover} in $\O^{\star}(1.4656^{k})$
 \end{proposition}
 \begin{proof}
     Let $T(k)$ be the number of leaves in the search tree and $T(k) = 0$ if $k \leq 1$. \\
@@ -2004,13 +1937,13 @@ Then, for \textsc{Vertex Cover} we branch on vertices of degree at least $3$ :
     We see that $c$ such that $c^{k} \geq c^{k - 1} + c^{k - 3}$. In particular, $c^{3} - c^{2} - 1 \geq 0$. Then $c = 1.4656$ is valid.
 \end{proof}
 \begin{remark}
-    There exists an algorithm in $\O*(1.2738^{k})$.
+    There exists an algorithm in $\O^{\star}(1.2738^{k})$.
 \end{remark}
 
 \begin{definition}
     We define the branching vector of an algorithm as the vector with the decrease parameters.
 \end{definition}
-Here it was $(1, 3)$. If we find an algorithm that branches for $(2, 5, 6, 6, 7, 7)$, we will get $\O*(1.4483^{k})$
+Here it was $(1, 3)$. If we find an algorithm that branches for $(2, 5, 6, 6, 7, 7)$, we will get $\O^{\star}(1.4483^{k})$
 
 \subsubsection{$k$-\textsc{Feedback Vertex Set}}
 \begin{definition}
@@ -2049,7 +1982,7 @@ Here, at least one vertex of each cycle must be in the solution, but the size of
     So we would have $2kd - 6k < 0$ which is impossible since $d \geq 3$.
 \end{proof}
 
-We then get an algorithm to compute a solution by applying the reduction rules and branching (in polynomial time) on each vertex in $V_{3k}$. Since we branch into $3k$ directions, we get a time complexity in $\O*\left((3k)^{k}\right)$
+We then get an algorithm to compute a solution by applying the reduction rules and branching (in polynomial time) on each vertex in $V_{3k}$. Since we branch into $3k$ directions, we get a time complexity in $\O^{\star}\left((3k)^{k}\right)$
 
 \subsection{Kernelization}
 \subsubsection{Definitions}
@@ -2108,8 +2041,6 @@ We define two reduction rules for $k$-\textsc{Vertex Cover} :
 This is done using Linear Programming. 
 
 \subsection{Color Coding}
-ENVIE DE MOURIR NIQUE L'ALEATOIRE
-
 \subsubsection{$k$-\textsc{Path}}
 \begin{definition}
     Given $G, k$, decide if $G$ contains a path on $k$ vertices. 
@@ -2152,7 +2083,6 @@ Finally we get the following algorithm :
     If no colorful $k$-path was found, return NO. 
 \end{proposition}
 
-FINALLY : 
 \subsubsection{Derandomization}
 \begin{definition}
     A family $\mathcal{H}$ of function $\onen{n} \rightarrow \onen{k}$ is a $k$-perfect family of hash functions if for every $S \subseteq \onen{n}$ with $\abs{S} = k$, there is an $h \in \mathcal{H}$ such that $h(x) \neq h(y)$ for any $x\neq y \in S$.
@@ -2237,7 +2167,7 @@ State of the art, the best approx algorithm known has approximation factor $\lef
 
 We can assume WLOG that the graph is complete. We denote by $c(A)$ the weight of the path $A$. \\
 \begin{theorem}
-    For every constant $\rho \geq 0$, there is no polynomial-time algorithm for TSP with approximation ration $\rho$, unless $P = NP$
+    For every constant $\rho \geq 0$, there is no polynomial-time algorithm for TSP with approximation ratio $\rho$, unless $P = NP$
 \end{theorem}
 \begin{proof}
     Suppose there is an algorithm $ALG$ that computes a $\rho$-approximation of TSP in polynomial-time on every input $G$.\\
