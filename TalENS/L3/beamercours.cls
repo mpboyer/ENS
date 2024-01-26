@@ -17,6 +17,8 @@
 \RequirePackage{multirow}
 \RequirePackage{stmaryrd}
 \RequirePackage{listings}
+\RequirePackage{algorithm}
+\RequirePackage{algpseudocode}
 
 \newenvironment{attention}{\begin{tabular}{m{.1\linewidth}m{.8\linewidth}}\includegraphics[width=\linewidth]{attention}&}{\end{tabular}}
 
@@ -54,6 +56,13 @@
 \let\oldlatex\latex
 \renewcommand{\latex}[1]{\colorbox{mygray}{\oldlatex{#1}}}
 \fi
+
+\renewcommand{\ALG@name}{Algorithme}
+\newcommand{\algorithmautorefname}{Algorithme}
+\makeatother 
+
+\algblock{Input}{EndInput}
+\algnotext{EndInput}
 
 \newtheorem{remark}{Remarque}[theorem]
 \newtheorem{proposition}{Proposition}[subsection]
@@ -160,5 +169,3 @@
 \NewTcbTheorem[auto counter, number within=section]{remarque}{Remarque}%
  {colback=yulm!10, colframe=vulm!65!black, fonttitle=\bfseries}{rem}
  \resetcounteronoverlays{tcb@cnt@remarque}
-
-
