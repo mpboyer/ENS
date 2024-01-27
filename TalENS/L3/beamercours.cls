@@ -138,8 +138,10 @@
 \setbeamercolor{structure}{fg = vulm}
 \setbeamercolor{section in head/foot}{fg = yulm}
 \setbeamercolor{subsection in head/foot}{fg = yulm}
+\setbeamercolor{background canvas}{bg = yulm!10}
 
 \usetikzlibrary{automata, arrows, calc, matrix, positioning}
+\usetikzlibrary{math}
 \definecolor{vulm}{HTML}{7d1dd3}
 \definecolor{yulm}{HTML}{ffe500}
 \usepackage{caption}

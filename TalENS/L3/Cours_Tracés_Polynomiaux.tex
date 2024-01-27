@@ -9,8 +9,23 @@
 \section*{Introduction}
 \begin{frame}
     \frametitle{Introduction Historique}
-    \only<1>{}
+    \only<1>{\begin{figure}
+        \centering
+        \resizebox{8cm}{!}{\includegraphics{Fichiers/babylonian-quadratic.png}}
+        \caption{Source : \href{https://bigthink.com/hard-science/quadratic-formula-history/}{https://bigthink.com/hard-science/quadratic-formula-history/}}
+    \end{figure}}
 
+    \only<2>{\begin{figure}
+        \centering
+        \resizebox{8cm}{5cm}{\includegraphics{Fichiers/cubic-equations-table-ms-3048_f.png}}
+        \caption{Source : \href{https://www.schoyencollection.com/mathematics-collection/9-3-algebra/cubic-equations-table-ms-3048}{https://www.schoyencollection.com/mathematics-collection/9-3-algebra/cubic-equations-table-ms-3048}}
+    \end{figure}}
+
+    \only<3>{\begin{figure}
+        \centering
+        \resizebox{8cm}{!}{\includegraphics{Fichiers/parthenon-golden-ratio.png}}
+        \caption{Source : \href{https://qph.cf2.quoracdn.net/main-qimg-a210b13c4f479bb2d8a5e4d0f1757688-lq}{https://qph.cf2.quoracdn.net/main-qimg-a210b13c4f479bb2d8a5e4d0f1757688-lq}}
+    \end{figure}}
 \end{frame}
 
 \section{Formalisme !}
@@ -219,45 +234,110 @@ De la même manière que pour les droites, on peut vérifier que les points à l
 \end{frame}
 
 \section{Résolution des Equations}
-\subsection{Algébriquement}*
+\subsection{Formellement}
 \begin{frame}
-    \frametitle{Degrés $1$ et $2$}
-    \vspace{-5pt}
-    \begin{théorème}{Solution des Equations Affines}{}
-        L'unique solution de $ax + b = c$ avec $a \neq 0$ est $x = \frac{c - b}{a}$
-    \end{théorème}
-    \vspace{-8pt}
-    \visible<2->{\begin{théorème}{Solution des Equations Quadratiques}{}
-        Les deux solutions de $ax^{2} + bx + c = d$ avec $a \neq 0$ sont :
-        \vspace{-6pt}
-        \[
-            x_{+} = \frac{- b + \sqrt{b^{2} - 4a(c - d)}}{2a} \text{ et } x_{-} = \frac{- b - \sqrt{b^{2} - 4a(c - d)}}{2a}
-        \]
-        Celles-ci ne sont réelles que si $\sqrt{b^{2} - 4a(c - d)} \geq 0$ et sont égales s'il y a égalité. Sinon, elles sont complexes conjuguées.
+\frametitle{Degrés $1$ et $2$}
+\vspace{-5pt}
+\begin{théorème}{Solution des Equations Affines}{}
+L'unique solution de $ax + b = c$ avec $a \neq 0$ est $x = \frac{c - b}{a}$
+\end{théorème}
+\vspace{-8pt}
+\visible<2->{\begin{théorème}{Solution des Equations Quadratiques}{}
+    Les deux solutions de $ax^{2} + bx + c = d$ avec $a \neq 0$ sont :
+    \vspace{-6pt}
+    \[
+        x_{+} = \frac{- b + \sqrt{b^{2} - 4a(c - d)}}{2a} \text{ et } x_{-} = \frac{- b - \sqrt{b^{2} - 4a(c - d)}}{2a}
+    \]
+    Celles-ci ne sont réelles que si $\sqrt{b^{2} - 4a(c - d)} \geq 0$ et sont égales s'il y a égalité. Sinon, elles sont complexes conjuguées.
     \end{théorème}}
 \end{frame}
 \begin{frame}
-    \frametitle{Degrés $3$, $4$ et plus}
-    \begin{théorème}{Solutions des Cubiques et Quartiques}{}
-        Il existe des formules pour les solutions des équations de la forme $ax^{3} + bx^{2} + cx + d = e$ et $ax^{4} + bx^{3} + cx^{2} + dx + e = f$ où $a \neq 0$. Ces racines ne sont pas toujours réelles, mais une équation de degré trois a toujours une racine réelle.         
-    \end{théorème}
-    \visible<2->{\begin{théorème}{Klein Vierergruppe}{}
-        Il ne peut pas exister de formule pour les solutions des équations polynômiales de degré $\geq 5$.
+\frametitle{Degrés $3$, $4$ et plus}
+\begin{théorème}{Solutions des Cubiques et Quartiques}{}
+Il existe des formules pour les solutions des équations de la forme $ax^{3} + bx^{2} + cx + d = e$ et $ax^{4} + bx^{3} + cx^{2} + dx + e = f$ où $a \neq 0$. Ces racines ne sont pas toujours réelles, mais une équation de degré trois a toujours une racine réelle.
+\end{théorème}
+\visible<2->{\begin{théorème}{Klein Vierergruppe}{}
+    Il ne peut pas exister de formule pour les solutions des équations polynômiales de degré $\geq 5$.
     \end{théorème}}
 \end{frame}
 
 \subsection{Méthodes de Résolution Graphique}
 \begin{frame}
-    \frametitle{Théorème des Valeurs Intermédiaires}
-    \begin{théorème}{des Valeurs Intermédiaires}{}
-        \begin{itemize}[<+->]
-            \item Formulation Réelle : Si $f$ est continue sur un intervalle, son image est un intervalle.
-            \item Formulation Générale : Si $f$ est continue sur le connexe par arcs $X$, son image est connexe par arcs.
-        \end{itemize}
-    \end{théorème}
-    \visible<3->{En pratique cela signifie que si:
+\frametitle{Théorème des Valeurs Intermédiaires}
+\begin{théorème}{des Valeurs Intermédiaires}{}
+\begin{itemize}[<+->]
+    \item Formulation Réelle : Si $f$ est continue sur un intervalle, son image est un intervalle.
+    \item Formulation Générale : Si $f$ est continue sur le connexe par arcs $X$, son image est connexe par arcs.
+\end{itemize}
+\end{théorème}
+\visible<3->{En pratique cela signifie que si:
     \[
         f(a) = c, f(b) = d \text{ alors } \forall y \in \left[c, d\right], \exists x, f(x) = y
     \]}
 \end{frame}
+
+\begin{frame}
+\frametitle{Méthode de Newton-Raphson}
+\begin{théorème}{Caractérisation de Carathéodory}{}
+Une fonction est dérivable en $x_{0}$ si et seulement si il existe un nombre noté $f'(x_{0})$ tel que, au voisinage de $x_{0}$ :
+\[
+    f(x) = f(x_{0}) + f'(x)(x- x_{0})
+\]
+\end{théorème}
+\visible<2->{En particulier, les polynômes sont dérivables, donc si on cherche une racine $x_{0}$, on peut, en suivant la pente, trouver une racine.\\}
+\visible<3->{Si $f(x) > 0$ et on va selon $x$ croissant si $f(x) < 0$ sinon $x$ décroissant et à l'inverse sinon.}
+\end{frame}
+% TODO : faire un dessin
+\begin{frame}
+    \frametitle{Méthode de Newton-Raphson Graphique}
+    \begin{tabular}{m{.55\linewidth}m{.4\linewidth}}
+
+        \begin{tikzpicture}
+            \draw[very thin, color = vulm] (-1.1, -1.1) grid (2.9, 2.9);
+            \draw[->, vulm] (-1.2,0) -- (3.2,0) node[right] {$x$};
+            \draw[->, vulm] (0,-1.2) -- (0,3.2) node[above] {$f(x)$};
+            \draw[color = vulm, domain = -1:2.5] plot (\x, {\x^2 -\x - 1}) node[above] {$f(x) = x^{2} - x - 1$};
+            \draw[color = black] (2.2, 1.64) node {\bf x};
+            \draw[->, color = black] (2.4, 2.32) -- node[right] {$f'(x) = +3.4$} (1.8,.28) ;
+        \end{tikzpicture} &
+        \visible<2->{On vérifie bien qu'on va trouver une racine en \[\phi = \frac{1 + \sqrt{5}}{2}\]}
+        \visible<3->{Il y en a une autre en \[ \overline{\phi} = \frac{1 - \sqrt{5}}{2} \]}
+    \end{tabular}
+    \visible<3->{Toutefois, cette méthode graphique nécessite de savoir tracer une fonction polynômiale.}
+\end{frame}
+
+% \tikzmath{\a = 2; \b = 4; \c = 3; \d = 3; \x = 1;}
+% \tikzset{
+%     dot/.style = {circle, fill = vulm, minimum size=#1,
+%             inner sep=0pt, outer sep=0pt},
+%     dot/.default = 2pt % size of the circle diameter 
+% }
+
+\begin{frame}
+    \frametitle{Orthogone de Lill}
+    % \begin{tikzpicture}
+    %     \coordinate (O) at (0, 0);
+    %     \coordinate (P) at (\a, 0);
+    %     \coordinate (Q) at (\a, \b);
+    %     \coordinate (R) at (\a - \c, \b);
+    %     \coordinate (S) at (\a - \c, \b - \d);
+    %     \draw (O) node[dot] {};
+    %     \draw (O) node[below] {O};
+    %     \draw[color = vulm] (O) -- (P) node[dot]{};
+    %     \draw (P) node[below right] {P};
+    %     \draw[color = vulm] (P) -- (Q) node[dot]{};
+    %     \draw (Q) node[above right] {Q};
+    %     \draw[color = vulm] (Q) -- (R) node[dot]{};
+    %     \draw (R) node[above] {R};
+    %     \draw[color = vulm] (R) -- (S) node[dot]{};
+    %     \draw (S) node[left] {S};
+    %     \coordinate (P1) at (\a, \a * \x);
+    %     \coordinate (Q1) at (\a -{\a*\x*\x} - {\b *\x}, \b);
+    %     \coordinate (R1) at (\a - \c, \b - \d - {\a* \x * \x *\x} - {\b * \x * \x} - {\c * \x});
+    %     % \draw[color = black] (O) -- (P') node[dot, fill = black]{};
+    %     % \draw (P') node[right]{P'};
+    % \end{tikzpicture}
+\end{frame}
+
+
 \end{document}
