@@ -597,12 +597,33 @@ Il s'agit de la seule manière possible de nier un prédicat verbal: c'est léqu
 \textsl{-(y)\sce m\sce} a pour antonyme le suffixe de possibilité \textsl{-(y)\sce bil} qui peut lui-même se cumuler aux suffixes de négation et d'impossibilité: \textsl{gelmeyebiliyorum} = il se pourrait que je ne vienne pas; \textsl{gelemeyebiliyorum} = il se pourrait que je ne puisse pas venir.
 
 \subsection{Exemples:}
-\begin{NiceTabular}{>{\sl}lp{.12\linewidth}p{.12\linewidth}p{.12\linewidth}p{.12\linewidth}p{.12\linewidth}p{.12\linewidth}}
-    & Réfléchi & Contributif & Factitif & [c + f] & Passif & Négatif\\
-    al & al\i n : s'offenser, se scandaliser de & al\i \ch: s'habituer à, se familiariser avec & ald\i r& faire prendre, faire acheter; se soucier de, donner de l'importance à & al\i \ch t\i r: habituer, accoutumer, rôder, exercer& al\i n: être pris, reçu, acheté & alma\\
-
-
-\end{NiceTabular}
+\begin{center}
+    \begin{NiceTabular}{>{\sl}lp{.12\linewidth}p{.13\linewidth}p{.12\linewidth}p{.12\linewidth}p{.12\linewidth}p{.10\linewidth}}
+        \CodeBefore
+        \begin{tikzpicture}
+            \draw[rectangle, draw = gray, fill = gray!30] (1-|2) -- (1-|8) -- (2-|8) -- (2-|2);
+        \end{tikzpicture}
+        \Body
+        \RowStyle{\bf\vspace{.1pt}}
+        & Réfléchi & Contributif & Factitif & [c + f] & Passif & Négatif\\
+    	al & al\i n : s'offenser, se scandaliser de & al\i \ch: s'habituer à, se familiariser avec & ald\i r: faire prendre, faire acheter; se soucier de, donner de l'importance à & al\i \ch t\i r: habituer, accoutumer, rôder, exercer& al\i n: être pris, reçu, acheté & alma\\
+    	anla & - & anla\ch: s'accorder, s'entendre, se concerter & anlat: raconter; expliquer & anla\ch t\i r & anla\ch \i l & anlama \\
+    	çek & çekin: se gêner, se garder de & çeki\ch: se disputer, se chamailler & çektir: faire tirer; faire souffrir, faire endurer & çeki\ch tir: tirailler; dénigrer, médire & çekim & çekme\\
+    	ç\i k & - &ç\i k\i\ch: invectiver, vitupérer; suffire à qqch (se dit d'une somme d'argent) & ç\i kar & ç\i k\i \ch t\i r: réunir (une somme d'argent) &ç\i k\i l: sortir, émerger; obtenir un diplôme de & ç\i kma\\
+    	gel & gelin: parvenir & geli\ch: se développer, grandir, prospérer & getir& geli\ch tir& gelin: en arriver à & gelme\\
+    	git & - & gidi\ch: démander, chatouiller& gider & gidi\ch tir & gidil & gitme\\
+    	gül & - & gülü\ch: rire les uns avec les autres, les uns des autres; se distraire, folâtrer& güldür: faire rire,distraire, amuser & gülü\ch tür& gülün: se moquer de & gülme\\
+    	ol & - &olu\ch: prendre forme, être constitué de & oldur: faire advenir, mûrir& olu\ch tur: former, constituer; engendrer & olun: devenir& olma\\
+    	öl & - & - & öldür: assassiner, tuer& - & - &ölme\\
+    	sev & sevin: se réjouir de& sevi\ch: s'aimer, se faire l'amour& sevdir: faire aimer, attirer les faveurs; laisser caresser & sevi\ch tir & sevil: être aimé, caressé & sevme
+    	\CodeAfter
+    	\begin{tikzpicture}
+    		\foreach \i in {2,..., 11}
+    		{\draw (\i-|1) -- (\i-|8);}
+    		\foreach \i in {2,...,7}{\draw[dotted,thin] (1-|\i) -- (12-|\i);}
+    	\end{tikzpicture}
+    \end{NiceTabular}
+\end{center}
 
 \section{\textsl{Dokuzuncu Ders}}
 \subsection{Orhan Gencebay | \textsl{Hatas\i z kul olmaz}}
