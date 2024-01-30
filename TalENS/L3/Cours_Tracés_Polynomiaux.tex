@@ -287,7 +287,6 @@ Une fonction est dérivable en $x_{0}$ si et seulement si il existe un nombre no
 \visible<2->{En particulier, les polynômes sont dérivables, donc si on cherche une racine $x_{0}$, on peut, en suivant la pente, trouver une racine.\\}
 \visible<3->{Si $f(x) > 0$ et on va selon $x$ croissant si $f(x) < 0$ sinon $x$ décroissant et à l'inverse sinon.}
 \end{frame}
-% TODO : faire un dessin
 \begin{frame}
     \frametitle{Méthode de Newton-Raphson Graphique}
     \begin{tabular}{m{.55\linewidth}m{.4\linewidth}}
@@ -305,39 +304,5 @@ Une fonction est dérivable en $x_{0}$ si et seulement si il existe un nombre no
     \end{tabular}
     \visible<3->{Toutefois, cette méthode graphique nécessite de savoir tracer une fonction polynômiale.}
 \end{frame}
-
-% \tikzmath{\a = 2; \b = 4; \c = 3; \d = 3; \x = 1;}
-% \tikzset{
-%     dot/.style = {circle, fill = vulm, minimum size=#1,
-%             inner sep=0pt, outer sep=0pt},
-%     dot/.default = 2pt % size of the circle diameter 
-% }
-
-\begin{frame}
-    \frametitle{Orthogone de Lill}
-    % \begin{tikzpicture}
-    %     \coordinate (O) at (0, 0);
-    %     \coordinate (P) at (\a, 0);
-    %     \coordinate (Q) at (\a, \b);
-    %     \coordinate (R) at (\a - \c, \b);
-    %     \coordinate (S) at (\a - \c, \b - \d);
-    %     \draw (O) node[dot] {};
-    %     \draw (O) node[below] {O};
-    %     \draw[color = vulm] (O) -- (P) node[dot]{};
-    %     \draw (P) node[below right] {P};
-    %     \draw[color = vulm] (P) -- (Q) node[dot]{};
-    %     \draw (Q) node[above right] {Q};
-    %     \draw[color = vulm] (Q) -- (R) node[dot]{};
-    %     \draw (R) node[above] {R};
-    %     \draw[color = vulm] (R) -- (S) node[dot]{};
-    %     \draw (S) node[left] {S};
-    %     \coordinate (P1) at (\a, \a * \x);
-    %     \coordinate (Q1) at (\a -{\a*\x*\x} - {\b *\x}, \b);
-    %     \coordinate (R1) at (\a - \c, \b - \d - {\a* \x * \x *\x} - {\b * \x * \x} - {\c * \x});
-    %     % \draw[color = black] (O) -- (P') node[dot, fill = black]{};
-    %     % \draw (P') node[right]{P'};
-    % \end{tikzpicture}
-\end{frame}
-
 
 \end{document}

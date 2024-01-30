@@ -34,10 +34,10 @@
 
 \author{Null}
 \title{None}
-% \institute{\includegraphics[height=6em]{ens_psl}}
+%\institute{\includegraphics[height=6em]{ens_psl}}
 
 
-%\AfterBeginDocument{\maketitle\tableofcontents}
+\AfterBeginDocument{\maketitle\tableofcontents}
 
 
 \titleformat{\paragraph}

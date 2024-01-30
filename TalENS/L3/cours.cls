@@ -133,3 +133,29 @@
 \renewcommand{\H}{\mathbb{H}}
 \newcommand{\transpose}[1]{{^{\mathsf{t}}}#1}
 \newcommand{\onen}[1]{\left\llbracket 1, #1\right\rrbracket}
+
+\usetikzlibrary{automata, arrows, calc, matrix, positioning}
+\usetikzlibrary{math}
+\definecolor{vulm}{HTML}{7d1dd3}
+\definecolor{yulm}{HTML}{ffe500}
+\usepackage{caption}
+
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems}
+\NewTcbTheorem[auto counter, number within=section]{définition}{Définition}%
+ {colback=yulm!10, colframe=vulm!45!black, fonttitle=\bfseries}{def}
+
+\NewTcbTheorem[auto counter, number within=section]{théorème}{Théorème}%
+ {colback=yulm!10!white, colframe=vulm!65!black, fonttitle=\bfseries}{thm}
+
+\NewTcbTheorem[auto counter, number within=section]{propositionfr}{Proposition}%
+ {colback=yulm!10!white, colframe=vulm!25!black, fonttitle=\bfseries}{propo}
+
+\NewTcbTheorem[auto counter, number within=section]{corollaire}{Corollaire}%
+ {colback=yulm!10, colframe=vulm!35!black, fonttitle=\bfseries}{cor}
+
+\NewTcbTheorem[auto counter, number within=section]{lemme}{Lemme}%
+ {colback=yulm!10, colframe=vulm!15!black, fonttitle=\bfseries}{lemme}
+
+\NewTcbTheorem[auto counter, number within=section]{remarque}{Remarque}%
+ {colback=yulm!10, colframe=vulm!65!black, fonttitle=\bfseries}{rem}
