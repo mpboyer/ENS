@@ -1,0 +1,293 @@
+\documentclass{cours}
+\title{Géométrie Différentielle\\ \small Géométrie Locale des Applications Différentiables}
+\author{Emmanuel Giroux}
+
+\begin{document}
+\section{Applications Différentiables, Propriétés et Exemples}
+\subsection{Relations avec les Polynômes}
+\begin{définition}{Applications Différentiables, Lisses}{}
+    Soit $U$ un ouvert de $\R^{n}$. Une fonction $\phi : U \to \R$ est $\cont^{r}$, $r \geq 1$ si toutes ses dérivées partielles d'ordre $s$, $1 \leq s \leq r$, existent et sont continues. Une fonction $\cont^{r}$ est donc $\cont^{s}$ pour $s \leq r$. \\
+    On dit que $\phi$ est $\cont^{\infty}$ ou lisse si elle est $\cont^{r}$ pour tout $r \geq 1$. 
+\end{définition}
+
+\begin{théorème}{Schwarz}{}
+    Soit $U$ un ouvert de $\R^{n}$ et $\phi : U \to \R$ une fonction $\cont^{1}$. Si les dérivées partielles $\partial_{x_{j}}\partial_{x_{i}}\phi$ et $\partial_{x_{i}}\partial_{x_{j}}\phi$ existent et sont continues sur $U$, elles sont égales. 
+\end{théorème}
+
+\begin{propositionfr}{Intégration d'une Différentielle sur une Courbe}{}
+    Soit $C = \gamma([a, b]) \subseteq \R^{n}$ une courbe paramétrée par une application $\cont^{1}$ par morceaux $\gamma$. On définit 
+    \[
+        \begin{aligned}
+            \int_{C} \d \phi =& \int_{a}^{b}d_{\gamma(t)}\phi\left(\gamma'(t)\right) \d t\\
+            =& \int_{a}^{b}\left(\phi \circ \gamma\right)'(t)\d t = \phi(\gamma(b)) - \phi(\gamma(a))
+        \end{aligned}
+    \]
+\end{propositionfr}
+
+\begin{remarque}{Reformulation du Théorème de Taylor}{}
+    Sur l'ensemble des fonctions réelles définies au voisinage de $0$ dans $\R^{n}$ on met la relation d'équivalence : 
+    \[
+        \phi_{1} \sim_{r} \phi_{2} \text{ si } \phi_{1} - \phi_{2} =_{x \to 0} o\left(\abs{x}^{r}\right)
+    \]
+    Le théorème de Taylor dit que, si on restreint cette relation à l'ensemble des fonctions $\cont^{r}$, chaque classe d'équivalence contient un et un seul polynôme de degré $\leq r$. Le quotient est ainsi un sev de dimension finie. 
+\end{remarque}
+
+\begin{théorème}{Weierstraß}{}
+    Soit $K$ un compact de $\R^{n}$. Toute fonctions continue de $K$ dans $\R$ est limite uniforme de polynômes $\R^{n} \to \R$ restreints à $K$. 
+\end{théorème}
+
+\subsection{Construction par Convolution}
+\begin{propositionfr}{Fonctions Cloches}{}
+    Soit $B(a, \delta) \subset \R^{n}$ la boule ouverte de rayon $\delta$ centrée en $a$. Il existe une fonction lisse $\chi : \R^{n} \to [0, 1]$ positive sur la boule et nulle en dehors.
+\end{propositionfr}
+\begin{proof}
+    Typiquement, on trouve
+    \[
+        \chi(x) = \exp\left(\frac{1}{\abs{x - a}^{2} - \delta^{2}}\right)
+    \]
+\end{proof}
+
+\begin{définition}{Support}{}
+    Soit $\phi : X \to \R$. Son support est le fermé : 
+    \[
+        Supp (\phi) : \overline{\left\{x \in U \mid \phi(x) \neq 0\right\}}
+    \]
+\end{définition}
+
+\begin{définition}{Produit de Convolution}{}
+    Le produit de convolution de deux fonctions intégrables $\phi, \chi$ est la fonction intégrable : 
+    \[
+        \left(\phi \star \chi\right)(x) = \int_{\R^{n}}\phi(x - y)\chi(y) \d y
+    \]
+    Lorsque $\chi$ est une fonction positive ou nulle d'intégrale $1$, c'est à dire une densité de probabilité, la valeur de $\phi \star \chi$ en un point $x$ doit être vue comme la moyenne des valeurs de $\phi$ pour cette mesure de probabilité recentrée sur $x$. 
+\end{définition}
+
+\begin{propositionfr}{Indicatrice Normalisée}{}
+    Pour $\delta > 0$ on considère $\chi_{\delta} = \frac{1}{2\delta}\mathds{1}_{[-\delta, \delta]}$. On a, si $\phi$ est intégrable : 
+    \begin{itemize}
+        \item $\int_{\R}\left(\phi \star \chi_{\delta}\right)(y)\d y = \int_{\R}\phi(y)\d y$ car $\int_{\R}\chi_{\delta} = 1$
+        \item Supp$(\phi \star \chi_{\delta}) \subseteq$ Supp$(\phi) + [-\delta, \delta]$
+        \item Si $\phi = c$ est constante sur $[a, b]$ de diamètre strictement plus grand que $2\delta$, alors $\phi \star \chi_{\delta} = c$ sur $[a + \delta, b - \delta]$.
+    \end{itemize}
+\end{propositionfr}
+
+\begin{lemme}{Régularité de la Convolée}{}
+    Soit $\phi : \R \to \R$ intégrable.
+    \begin{enumerate}
+        \item Si $\abs{\phi}$ est bornée par une constante $\mu$, alors $\phi \star \chi_{\delta}$ est $\mu/\delta$-lipschitzienne et donc continue.
+        \item Si $\phi$ est continue, alors $\phi \star \chi_{\delta}$ est $\cont^{1}$ et sa dérivée est donnée par 
+        \[
+            \left(\phi \star \chi_{\delta}\right)'(x) = \frac{\phi(x + \delta) - \phi(x - \delta)}{2 \delta}
+        \]
+        Par suite, si $\phi$ est $\cont^{r}$, $\phi \star \chi_{\delta}$ est $\cont^{r + 1}$.
+    \end{enumerate}
+\end{lemme}
+
+\begin{propositionfr}{Convolution D'indicatrices}{}
+    Soit $\delta_{k}$ une suite de nombres positifs dont la série converge. La suite $\rho_{k}$ définie par :
+    \[
+        \begin{cases}
+            \rho_{0} & = \chi_{\delta_{0}}\\
+            \rho_{k} & = \rho_{k - 1} \star \chi_{\delta_{k}}
+        \end{cases}
+    \]
+    converge vers une fonction lisse $\rho$ qui vérie $\rho(x) = 0$ si et seulement si $\abs{x} \geq \sum_{k \geq 0}\delta_{k}$.\\
+    De plus, $\rho(x) = 1$ si $\abs{x} \leq \delta_{0} - \sum_{k \geq 1}\delta_{k}$.
+\end{propositionfr}
+
+\begin{corollaire}{Fonctions Cloches Revisitées}{}
+    Soit $B(a, \delta) \subseteq \R^{n}$ la boule ouverte de rayon $\delta$ centrée en $a$. Il existe une fonction lisse $\chi: \R^{n} \to [0, 1]$ qui est positive sur $B(a ,\delta)$ et nulle en dehors.
+\end{corollaire}
+\begin{proof}
+    On pose $\chi(x) = \rho(\abs{x - a} / \delta)$ où $\rho$ est une fonction lisse positive sur $\left[-1, 1\right]$, nulle en dehors et constante près de $0$. Une telle fonction existe par la proposition précédente. 
+\end{proof}
+
+\begin{définition}{Noyau Régularisant}{}
+    On appelle noyau régularisant une fonction lisse, positive sur $B(0, 1)$ nulle en dehors et d'intégrale $1$. 
+\end{définition}
+
+\begin{définition}{Construction de Noyaux}{}
+    Soit $\rho$ un noyau régularisant. Pour tout $\delta > 0$ la fonction $\rho_{\delta}$ définie par 
+    \[
+        \rho_{\delta}(x) = \delta^{-n}\rho(x/\delta)
+    \]
+    est toujours d'intégrale $1$ et de support $\overline{B(0, \delta)}$.\\
+    Si $\phi : U \to \R$ est $\cont^{r}$ sur $U$, la formule $\phi \star \rho_{\delta}$ définit une fonction sur l'ouvert
+    \[
+        U_{\delta} = \left\{x \in U \mid \overline{B(x, \delta)} \subset U\right\}
+    \]
+    qu'on peut écrire
+    \[
+        \phi \star \rho_{\delta}(x) = \int_{\R^{n}}\phi(y)\rho_{\delta}(x - y)\d y
+    \]
+\end{définition}
+
+\begin{propositionfr}{Convolution avec un Noyau Régularisant}{}
+    Les fonctions $\phi \star \rho_{\delta}$ sont lisses et si $x \in U_{\delta}$ :
+    \[
+        \begin{aligned}
+            \partial^{i}(\phi \star \rho_{\delta})(x) =& \int_{\R^{n}}\phi(y)\delta^{i}\rho_{\delta}(x - y)\d y\\
+            = & \int_{\R^{n}}\delta^{i}\phi(y)\rho_{\delta}(x - y)\d y = \delta^{i}\phi \star \rho_{\delta}
+        \end{aligned}
+    \]
+    De plus, pour tout compact $K \subseteq U$, et tout $\epsilon > 0$, il existe $\delta > 0$ tel que $K \subset U_{\delta}$ et
+    \[
+        \norm{\left(\phi \star \rho_{\delta}\right) - \phi}_{r, K} < \epsilon
+    \]
+    où $\norm{\psi}_{r, K} = \sup\left\{\abs{\partial^{i}\psi(x)}\mid x \in K, i \leq r\right\}$
+\end{propositionfr}
+
+\section{Structure Locale des Applications Différentiables}
+\subsection{Inversion Locale}
+\begin{définition}{Difféomorphisme}{}
+    Une application $f : U \to V$ entre des ouverts $U$ et $V$ de $\R^{n}$ est un difféormorphisme $\cont^{r}$ si c'est une application $\cont^{r}$ bijective dont l'inverse est $\cont^{r}$?    
+\end{définition}
+\begin{théorème}{Inversion Locale}{}
+    La différentielle d'un difféormorphisme est une application linéaire inversible. \\
+    Réciproquement, si $f$ est $\cont^{r}$ sur un ouvert dont la différentielle est inversible en tout point $a$, il existe un voisinage ouvert $U_{a}$ de $a$ dans $U$ tel que l'application $f_{\mid_{U_{a}}}$ soit un $\cont^{r}$-difféormorphisme. En particulier, $f$ est une application ouverte. 
+\end{théorème}
+
+\subsection{Applications de rang Constant}
+\begin{définition}{Applications Equivalentes}{}
+    Soit $f : U \to \R^{m}, f' : U'\to \R^{m}$ des applications $\cont^{r}$ sur des ouverts $U, U' \subseteq \R^{n}$. On dit que $f$ et $f'$ sont équivalentes s'il existe : 
+    \begin{itemize}
+        \item des voisinages ouverts $V$ de $f(U)$ et $V'$ de $f'(U')$ dans $\R^{m}$ 
+        \item des $\cont^{r}$-difféormorphismes $u : U \to U'$ et $v : V \to V'$
+    \end{itemize}
+    de sorte que $f' = v\circ f \circ u^{-1}$.
+\end{définition}
+
+\begin{définition}{Rang}{}
+    Le rang d'une application différentiable en $a$ est le rang de sa différentielle en $a$. 
+\end{définition}
+\begin{propositionfr}{Propriétés}{}
+    \begin{itemize}
+        \item L'application qui à $a \in U$ associe le rang de $f$ en $a$ est semi-continue inférieurement
+        \item Si $f$ et $f' = v \circ f \circ u^{-1}$ sont équivalentes, leurs rangs sont égaux en $a$ et en $u(a)$.
+        \item Si $\bar{f}$ est affine, son rang est constant
+    \end{itemize}
+    Ainsi, si $f$ est équivalente à son application tangente en un point, elle est de rang constant.
+\end{propositionfr}
+
+\begin{théorème}{du Rang Constant}{}
+    Soit $f : U \to \R^{m}$ une application $\cont^{r}$ de rang constant $k$ sur un ouvert $U$ de $\R^{n}$. Il existe alors, si $a \in U$ : 
+    \begin{itemize}
+        \item des voisinages ouverts $U_a$ de $a$ dans $U$ et $V_a$ de $f(a)$ dans $\R^{m}$
+        \item des $\cont^{r}$-difféormorphismes $u$ et $v$
+    \end{itemize}
+    tels que 
+    \[
+        v \circ f \circ u^{-1}(x_{1}, \ldots, x_{n}) = \left(x_{1}, \ldots, x_{k}, 0 \ldots, 0\right) \in \R^{m} = \R^{k} \times \R^{m - k}
+    \]
+\end{théorème}
+
+\begin{remarque}{}{}
+    \begin{enumerate}
+        \item Le théorème du rang constant est une version non linéaire du théorème du rang, équivalence en algèbre linéaire d'une matrice à sa réduite de Jordan.
+        \item L'énoncé du théorème du rang constant qu'on a donné est celui qui servira en pratique. Il n'affirme pas directement que, pour $a \in U$ quelconque, $f$ est localement équivalenete à $\bar{f}_{a}$ mais dit que $f$ est localement équivalente à une application linéaire de son rang. Pour en tirer la réponse à la question posée, il suffit d'observer que deux applications affines/linéaires $\R^{n} \to \R^{m}$ qui ont le même rang sont affinement/linéairement équivalentes (justement par le théorème du rang)
+    \end{enumerate}
+\end{remarque}
+
+\subsection{Applications de Rang Maximal}
+\begin{définition}{Immersions et Submersions}{}
+    Soit $f$ une application $\cont^{r}$ sur un ouvert $U$ de $\R^{n}$.
+    \begin{enumerate}
+        \item On dit que $f$ est une immersion si son rang en tout point de $U$ vaut $n$, ce qui signifie que la différentielle est injective et que $n \leq m$.
+        \item On dit que $f$ est une submersion si son rang en tout point de $U$ vaut $m$, ce qui signifie que la différentielle est surjective et suppose $n \geq m$.
+    \end{enumerate}
+    On parle de même d'immersion et de submersion en $a$ selon les propriétés de $d_{a}f$.
+\end{définition}
+
+\begin{propositionfr}{Exemples}{}
+    \begin{itemize}
+        \item Une application linéaire/affine est une submersion (resp. immersion) si et seulement si elle est surjective (resp. injective)
+        \item Une application sur un ouvert de $\R$ est une immersion si et seulement si sa dérivée de s'annule pas.
+        \item Une fonction à valeurs dans $\R$ est une submersion si et seulement si sa dérivée ne s'annule pas. 
+        \item Soit $f$ une application $\cont^{r}$ sur un ouvert $U$ de $\R^{n}$. Alors l'application graphe est une immersion injective et la projection est une submersion surjective. Par suite, $f$ est la composée d'une immersion et d'une submersion.
+    \end{itemize}
+\end{propositionfr}
+
+\begin{théorème}{Forme Normale des Immersions et Submersions}{}
+    Soit $f : U \to \R^{m}$ une application $\cont^{r}$ sur un ouvert $U$ de $\R^{n}$.
+    \begin{enumerate}
+        \item Si $f$ est une immersion en $a$, il existe des voisinages ouverts $U_{a}$ et $V_{a}$ de $a$ et de $f(a)$ ainsi qu'un $\cont^{r}$-difféomorphisme $v$ tel que
+        \[
+            v \circ f(x_{1}, \ldots, x_{n}) = (x_{1}, \ldots, x_{n}, 0, \ldots, 0) \in \R^{m} = \R^{n} \times \R^{m - n}
+        \]
+        \item Si $f$ est une submersion en $a$, il existe de même $U_{a}, V_{a}$ et un $\cont^{r}$-difféormorphisme $u$ tel que 
+        \[
+            f \circ u^{-1}(x_{1}, \ldots, x_{n}) = \left(x_{1}, \ldots, x_{m}\right) \in \R^{m}
+        \]
+    \end{enumerate}
+\end{théorème}
+
+\begin{corollaire}{}{}
+    Soit $f$ une application $\cont^{r}$.
+    \begin{itemize}
+        \item Si $f$ est une immersion, $f$ est localement injective
+        \item Si $f$ est une submersion, $f$ est une application ouverte (qu'on peut voir comme une surjectivité locale).
+    \end{itemize}
+\end{corollaire}
+
+\begin{définition}{Transversalité}{}
+    Deux sev $E_{1}, E_{2}$ d'un ev $E$ sont dits transversaux si $E_{1} + E_{2} = E$.
+\end{définition}
+
+\begin{théorème}{Fonctions Implicites}{}
+    Soit $f : U \to \R^{m}$ une submersion $\cont^{r}$ sur un ouvert $U \subseteq \R^{n}$ et soit $a \in U$. On suppose le noyau de $\d_{a}f$ transversal au sous-espace $\{0\} \times \R^{m} \subseteq \R^{n - m} \times\R^{m} = \R^{n}$. Il existe alors un voisinage ouvert $U_{a}$ de $a$ du type : 
+    \[
+        U_{a} = U' \times U'' \subseteq \R^{n - m} \times \R^{m} = \R^{n}
+    \]
+    et une application $s : U' \to U''$ de classe $\cont^{r}$ tels que 
+    \[
+        f^{-1}(f(a)) \cap U_{a} = \left\{x = (x', x'') \in U'\times U'' = U_{a} \mid x'' = s(x')\right\}
+    \]
+\end{théorème}
+
+\section{Applications Différentiables et Mesure}
+\subsection{Petit Théorème de Sard}
+\begin{lemme}{Critère de Fubini}{}
+    Soit $N \subseteq \R^{m}$ un ensemble Lebesgue-Mesurable dont toutes les tranches sont des parties négligeables dans $\R^{m - 1}$. Alors $N$ est négligeable dans $\R^{m}$.
+\end{lemme}
+
+\begin{lemme}{Constante de Lipschitz Locale}{}
+    Soit $f : U \to \R^{m}$ une application $\cont^{1}$ sur un ouvert $U$ de $\R^{n}$ et soit $K \subset U$ un compact convexe. L'application $f_{\mid_{K}} : V \to \R^{m}$ est alors lipschitzienne de constante au plus $\sup \{\abs{\d_{a}f}, a \in K\}$.
+\end{lemme}
+
+\begin{propositionfr}{Petit Théorème de Sard}{}
+    Soit $f : U \to \R^{m}$ une application $\cont^{1}$ sur un ouvert $U$ de $\R^{n}$.
+    \begin{itemize}
+        \item Si $m > n$, alors $f(U)$ est négligeable dans $\R^{m}$.
+        \item Si $m = n$ et si $n \subseteq U$ est négligeable dans $\R^{n}$, alors $f(N)$ est négligeable dans $\R^{n}$.
+    \end{itemize}
+\end{propositionfr}
+
+\begin{lemme}{Réduction Locale}{}
+    Pour montrer que l'image $f(P)$ d'une partie $P \subseteq U$ par une application $f : U \to \R^{m}$ est négligeable dans $\R^{m}$, il suffit de montrer que chaque point $a \in U$ possède un voisinage $U_{a} \subseteq U$ tel que $f(P\cap V_{a})$ soit négligeable dans $\R^{m}$.
+\end{lemme}
+\begin{proof}
+    En effet, bien que la famille $\{V_{a}\}$ ne soit pas dénombrable, on peut choisir tous les $V_{a}$ dans un ensemble dénombrable, par exemple une base dénombrable d'ouverts de $\R^{n}$. Ainsi, $P = \bigcup P\cap V_{a}$ et $f(P)$ est négligeable comme union dénombrable de parties négligeables dans $\R^{m}$.
+\end{proof}
+
+\begin{corollaire}{Invariance des Ensembles Négligeables}{}
+    Soit $f : U \to V$ un difféormorphisme entre deux ouverts de $\R^{n}$. Une partie $N \subseteq U$ est négligeable si et seulement si son image $f(N) \subseteq V$ l'est.
+\end{corollaire}
+
+\subsection{Théorème de Sard}
+\begin{définition}{Critique}{}
+    Soit $f : U \to \R^{m}$ une application $\cont^{1}$ sur un ouvert $U$ de $\R^{n}$. On appelle
+    \begin{itemize}
+        \item Point Critique de $f$ tout point $a \in U$ où $d_{a} f : R^{n} + \R^{m}$ n'est pas surjective.
+        \item Valeur Critique de $f$ tout point $y \in \R^{m}$ qui est l'image d'un point critique.
+        \item Point Régulier (resp. valeur) de $f$ tout point (resp. valeur) non critique.
+    \end{itemize}
+\end{définition}
+
+\begin{théorème}{de Sard}{}
+    Soit $f : U \to \R^{n}$ une application $\cont^{r}$ sur un ouvert $U$ de $\R^{n}$. Si $r \geq 1 + \max(n - m, 0)$ alors l'ensemble des valeurs régulières de $f$ est de mesure pleine et est en particulier dense dans $\R^{m}$.\\
+    Autrement dit, l'ensemble $f(C_{f})$ des valeurs critiques est négligeable. 
+\end{théorème}
+
+
+
+\end{document}

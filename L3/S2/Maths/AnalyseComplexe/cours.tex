@@ -1,0 +1,361 @@
+\documentclass{cours}
+
+\title{Analyse Complexe}
+\author{Ariane Mézard}
+
+\begin{document}
+\part{Fonctions Holomorphes}
+\section{Fonctions Analytiques}
+\subsection{Séries Entières}
+\begin{définition}{Série Entière}{}
+    Une série entière est une série de la forme $\sum_{n \in \N}a_{n}z^{n}$ où $z \in \C$ et $a_{n} \in \C$.\\
+    Le domaine de convergence de la série entière est l'ensemble $\Delta$ des nombres complexes $z \in \C$ pour lesquels la série converge.  
+\end{définition}
+\begin{propositionfr}{Critère de Cauchy}{}
+    Soient $a_{n}$ une suite complexe et $0 < r < r_{0}$. S'il existe $M > 0$ tel que 
+    \[
+        \abs{a_{n}}r_{0}^{n} \leq M, n \geq 0
+    \]
+    alors $a_{n}z^{n}$ converge normalement sur $\overline{D}(0, r)$.
+\end{propositionfr}
+% \begin{proof}
+%     Pour tout $n \in \N$ et $z \in \overline{D}(0, r)$ on a : 
+%     \[
+%         \abs{a_{n}z^{n}} \leq \abs{a_{n}}r^{n} \leq M\left(\frac{r}{r_{0}}\right)^{n}
+%     \]
+%     Comme $0 < r < r_{0}$, $M \left(\frac{r}{r_{0}}\right)^{n}$ est le terme d'une série géométrique convergente.
+% \end{proof}
+
+\begin{corollaire}{Rayon de Convergence}{}
+    Soit $\sum_{n \in \N} a_{n}z^{n}$ une série entière et $R \in \R_{+} \cup \{+ \infty\}$ défini par 
+    \[
+        R = \sup \left\{r \geq 0 \text{ tel que la suite } \left(\abs{a_{n}}r^{n}\right)_{n \in \N} \text{ soit bornée}\right\}
+    \]
+    Alors le domaine de convergence $\Delta$ de la série vérifie : 
+    \[
+        D(0, R) \subseteq \Delta \subseteq \overline{D}(0, R)
+    \]
+\end{corollaire}
+
+\begin{définition}{Rayon de Convergence}{}
+    On appelle le nombre $R$ défini ci-dessus rayon de convergence.
+\end{définition}
+
+\begin{propositionfr}{Rayon d'Hadamard}{}
+    Le rayon de convergence est donné par 
+    \[
+        R = \liminf_{n \to \infty}\frac{1}{\abs{a_{n}}^{1/n}}
+    \]
+    Avec la convention $1/0 = \infty$
+\end{propositionfr}
+
+\begin{lemme}{Lemme d'Abel}{}
+    Soit $u_{n}$ une suite réelle décroissante vers $0$ et $v_{n}$ une suite complexe telle que les sommes partielles $s_{n} = \sum_{k = 0}^{n} v_{k}$ soient bornées. Alors la série $\sum u_{n}v_{n}$ converge.
+\end{lemme}
+
+\begin{propositionfr}{Principe des Zéros Isolés}{}
+    Soit $f(z) = \sum a_{n}z^{n}$ la somme d'une série entière de rayon de convergence $R > 0$. Si au moins un des coefficients $a_{n}$ n'est pas nul, il existe $r \in \left] 0, +\infty\right[$ tel que $f$ ne s'annule pas pour $\abs{z} \in \left]0, r\right[$.
+\end{propositionfr}
+% \begin{proof}
+%     Soit $l = \min \{n \in \N, a_{n} \neq 0\}$, on a : 
+%     \[
+%         f(z) = \sum_{n \geq l} a_{n}z^{n} = z^{l}g(z)
+%     \]
+%     avec $g(z) = a_{l} + a_{l + 1}z + \ldots$ et $g(0) \neq 0$. 
+% \end{proof}
+
+\begin{définition}{Dérivée Complexe}{}
+    Une fonction $f : U \to \C$ admet une dérivée par rapport à la variable complexe au point $z_{0}$ si
+    \[
+        \lim_{z \to u} \frac{f(z_{0} + u)- f(z_{0})}{u}
+    \]
+    existe. Cette limite est alors appelée dérivée de $f$ en $z_{0}$.
+\end{définition}
+
+\begin{propositionfr}{Dérivée d'une Série Entière}{}
+    Soit $f(z) = \sum a_{n}z^{n}$ une série entière de rayon de convergence $R > 0$. Alors, pour tout $l \in \N^{\star}$, les dérivées $l$-ièmes de $f$ ont pour rayon de convergence $R$ et pour expression : 
+    \[
+        f^{(l)}(z) = \sum_{n \in \N}\frac{(n + l)!}{n!}a_{n + l}z^{n}  
+    \]
+\end{propositionfr}
+
+\begin{corollaire}{Primitive}{}
+    Une série entière $f(z) = \sum a_{n}z^{n}$ de rayon de convergence $R > 0$ admet sur $D(0, R)$ une primitive complexe
+    \[
+        F(z) = \sum \frac{a_{n}}{n + 1}z^{n + 1}
+    \]
+\end{corollaire}
+
+\begin{propositionfr}
+    Soit $f(z) = \sum a_{n}z^{n}$ une série entière de rayon de convergence $R > 0$. Soit $z_{0} \in D(0, R)$. La série entière 
+    \[
+        \sum_{n \in \N}\frac{1}{n!}f^{(n)}(z_{0})\omega^{n}
+    \]
+    a un rayon de convergence supérieur à $R - \abs{z_{0}}$ et pour tout $z \in D(z_{0}, R - \abs{z_{0}})$,
+    \[
+        f(z) = \sum_{n \geq 0} \frac{1}{n !}f^{(n)}(z_{0})(z - z_{0})^{n}
+    \]
+\end{propositionfr}
+
+\subsection{Fonctions Analytiques}
+\begin{définition}{Fonction Analytique}{}
+    Une fonction $f : U \to \C$ est dite analytique si elle est DSE au voisinage de chaque point de $U$. 
+\end{définition}
+
+\begin{propositionfr}{Dérivabilité}{}
+    Une fonction analytique sur un ouvert $U$ de $\C$ admet des dérivées de tous ordres qui sont des fonctions analytiques sur $U$. De plus, pour tout $z_{0} \in U$, $f$ est somme de sa série de Taylor en $z_{0}$ sur un voisinage de $z_{0}$.
+\end{propositionfr}
+
+\begin{corollaire}{Unicité du DSE}{}
+    Une fonction analytique sur $U$ admet un unique développement en série entière au voisinage de chaque point de $U$.
+\end{corollaire}
+
+\begin{lemme}{Nullité}{}
+    Si $U$ est connexe et $f$ est analytique sur $U$, nulle sur un ouvert non-vide de $U$, alors $f$ est identiquement nulle sur $U$. 
+\end{lemme}
+
+\begin{propositionfr}{Zéros Isolés}
+    Soit $f$ une fonction analytique sur un ouvert connexe $U$. Si $f$ n'est pas identiquement nulle, ses zéros sont isolés, i.e. si $z_{0} \in U$ avec $f(z_{0}) = 0$, alors il existe $r > 0$ tel que $z_{0}$ soit le seul $z_{0}$ de $f$ sur $D(z_{0}, r)$
+\end{propositionfr}
+
+\begin{théorème}{Prolongement Analytique}{}
+    Soit $U$ un ouvert connexe de $\C$, $f, g$ des fonctions analytiques sur $U$. Si $f, g$ coincident sur une partie $\Sigma$ de $U$ qui a un point d'accumulation dans $U$, alors elles coincident sur $U$. 
+\end{théorème}
+
+\begin{définition}{Primitive}{}
+    Etant donnée une fonction analytique $f$ sur $U$, une fonction analytique $F$ de $U$ dans $\C$ est dite primitive de $f$ si $F'(z) = f(z)$ sur $U$. 
+\end{définition}
+
+\subsection{Détermination du Logarithme}
+\begin{définition}{Détermination de l'Argument}{}
+    Soit $U \subseteq \C^{\star}$ ouvert. Une fonction continue $\arg : U \to \R$ est dite détermination continue de l'argument sur $U$ si pour tout $z \in U$, $\exp(i\arg(z))=\frac{z}{\abs{z}}$
+\end{définition}
+\begin{définition}{Détermination Principale}{}
+    La détermination continue de l'argument 
+    \[
+        \begin{array}{rl}
+            \C - \R_{-} \longrightarrow & \left] - \pi, \pi \right[\\
+            z \mapsto & 2\arctan\left(\frac{y}{x + \sqrt{x^{2} + y^{2}}}\right)
+        \end{array}
+    \]
+    en prenant la racine carrée de $z$ appartenant au demi-plan $\Re z > 0$ est appelée détermination principale de l'argument.
+\end{définition}
+\begin{définition}{Logarithme}{}
+    Soit $U \subseteq \C^{\star}$ ouvert. Une fonction continue $f : U \to \C$ est dite détermination du logarithme sur $U$ si 
+    \[
+        \forall z \in U, \exp(f(w)) = w
+    \]
+\end{définition}
+
+\begin{définition}{Détermination Principale du Log}{}
+    On définit pour $\theta \in \R$ la fonction
+    \[
+        \log_{\theta} : \C \to \R_{-}e^{i\theta}, \log_{\theta}(w)=\log \abs{w} + i\arg_{\theta}(w)
+    \]
+    La fonction $\log_{0}$ est appelée détermination principale du logarithme et notée $\log$. 
+\end{définition}
+
+\begin{propositionfr}{DSE du Logarithme}{}
+    $\log$ est DSE sur $D(1, 1)$ et sur $D(0, 1)$ on a
+    \[
+        \log(1 + z) = \sum \frac{(-1)^{n + 1}}{n}z^{n}
+    \]
+    Par conséquent, sur $D(z_{0}, \abs{z_{0}})$, 
+    \[
+        g(z) = \log z_{0} + i\theta_{0} + \sum_{n \geq 1}\frac{(-1)^{n - 1}}{n}\left(\frac{z - z_{0}}{z_{0}}\right)^{n}
+    \]
+    est une détermination analytique du logarithme. 
+\end{propositionfr}
+\begin{propositionfr}{Analycité des Déterminations}{}
+    Il y a équivalence sur un ouvert connexe $U$ de $\C^{\star}$ pour une application continue $l$ entre : 
+    \begin{itemize}
+        \item $l$ est une détermination du logarithme à l'addition d'une constante près
+        \item $l$ est une primitive analytique de $1\over z$ sur $U$. 
+    \end{itemize}
+\end{propositionfr}
+
+\begin{définition}{Détermination}{}
+    Soit $U \subseteq \C^{\star}$ et $\alpha \in \C$. Une détermination continue de $z^{\alpha}$ est une application continue $g$ de $U$ dans $\C$ telle qu'il existe une détermination du logarithme $l(z)$ de $z$ telle que $g(z) = \exp^{\alpha l(z)}$.
+\end{définition}
+
+\section{Théorie de Cauchy}
+\subsection{Homotopie et Simple Connexité}
+\begin{définition}{Chemin}{}
+    Soit $\left[a, b\right]$ un intervalle de $\R$. Un chemin $\gamma: \left[a, b\right] \to \C$ est une application continue. Le point $\gamma(a)$ est appelé origine et le point $\gamma(b)$ est dit extrémité. On orientera par défaut un chemin dans le sens des paramètres croissants. Si $\gamma(a) = \gamma(b)$, le chemin est dit lacet d'origine $\gamma(a)$.
+\end{définition}
+
+\begin{définition}{Opérations}{}
+    \begin{enumerate}
+        \item Si $\gamma$ est constant, son image est réduite à un point. Il est alors appelé chemin (ou lacet) constant.
+        \item Soit $\alpha \in \R^{\star}$, $\gamma : t \in [0, 1] \mapsto e^{2i\pi \alpha t}$ est un chemin dont l'image est une partie du cercle unité $\partial D(0, 1)$. Si $\alpha = n \in \Z^{\star}$, $\gamma\left([0, 1]\right)$ est le cercle tout entier parcouru $n$ fois. 
+        \item Si $\gamma : [a, b] \to \C$ est un chemin, le chemin opposé 
+        \[
+            \gamma^{0} : t \in [a, b] \mapsto \gamma(a + b - t)
+        \]
+        est $\gamma$ parcouru en sens inverse. 
+        \item La juxtaposition de $\gamma_{1}, \gamma_{2}$ tels que $\gamma_{1}(b) = \gamma_{2}(c)$ est le chemin $\gamma = \gamma_{1} \land \gamma_{2} : \left[a, d + b - c\right] \to \C$
+        \[
+            \gamma(t) = \begin{cases}
+                \gamma_{1}(t) & \text{ pour } a\leq t \leq b\\
+            \gamma_{2}(t - b + c ) & \text{ pour } b \leq t \leq d + b - c
+            \end{cases}
+        \]
+    \end{enumerate}
+\end{définition}
+
+\begin{définition}{Homotopie}{}
+    Soit $U$ un ouvert de $\C$, $\gamma_{i} : I \to U$, $i \in \{1, 2\}$ deux chemins. Une homotopie de $\gamma_{1}$ à $\gamma_{2}$ dans $U$ est une application continue $\phi$ de $I \times J$ dans $U$ où $I = [a, b]$ et $J = [c, d]$ sont deux intervalles de $\R$ telle que : 
+    \[
+        \phi(t, c) = \gamma_{1}(t) \text{ et } \phi(t, d) = \gamma_{2}(t), t\in I
+    \]
+\end{définition}
+
+\begin{définition}{Simple Connexité}{}
+    Un espace topologique $X$ connexe par arcs est dit simplement connexe si tout lacet dans $X$ est homotope à un point dans $X$. 
+\end{définition}
+
+\begin{propositionfr}{}{}
+    \begin{itemize}
+        \item Un espace topologique est simplement connexe si et seulement si tous les chemins de même extrémités sont homotopes.
+        \item Un ouvert étoilé par rapport à un point est simplement connexe. En particulier, dans $\C$, le plan, un demi-plan, un disque ouvert, l'intérieur d'un rectangle ou d'un triangle sont simplement connexes. 
+        \item Le demi-plan ouvert $\Im z > 0$ auquel nous ôtons un nombre fini de demi-droites fermées $z = t +i\beta_{k}$, $t\in \left]-\infty, \alpha_{k}\right]$ est simplement connexe non étoilé. 
+        \item $\C^{\star}$ n'est pas simplement connexe car le cercle unité n'est pas homotope à un chemin constant. 
+    \end{itemize}
+\end{propositionfr}
+
+\subsection{Intégrales sur un Chemin}
+Dorénavant, les chemins sont supposés $\cont^{1}$ par morceaux. 
+
+\begin{définition}{Equivalence de Chemins}{}
+    Deux chemins $\gamma_{i} : I_{i} \to \C$ sont dits équivalents s'il existe une bijection croissante $\phi : I_{2} \to I_{1}$ continue de réciproque continue et $\cont^{1}$ par morceaux telle que : 
+    \[
+        \gamma_{2}(t) = \gamma_{1}(\phi(t)), t\in I_{2}
+    \]
+\end{définition}
+
+\begin{définition}{Intégrale le long d'un Chemin}{}
+    Soit $f : U \to \C$ continue et $\gamma : I = [a, b] \to \C$ un chemin avec $\gamma(I) \subseteq U$. Alors, la fonction $t : f(\gamma(t))\gamma'(t)$ est continue par morceaux dans $[a, b]$. On appelle intégrale de $f$ le long du chemin $\gamma$ : 
+    \[
+        \int_{\gamma}f(z)\d z = \int_{a}^{b}f(\gamma(t))\gamma'(t)\d t
+    \]
+\end{définition}
+
+\begin{définition}{Longueur}{}
+    La longueur d'un chemin est le réel : 
+    \[
+        long(\gamma) = \int_{a}^{b}\abs{\gamma^{'}(t)}\d t
+    \]
+\end{définition}
+
+\begin{propositionfr}{Propriétés}{}
+    \begin{itemize}
+        \item Si $F$ est une primitive de $f$, pour tout chemin $\gamma$ : 
+        \[
+            \int_{\gamma}f(z)\d z = F(\gamma(b)) - F(\gamma(a))
+        \]
+        \item Si $\gamma_{1} \sim \gamma_{2}$ alors 
+        \[
+            \int_{\gamma_{1}} f = \int_{\gamma_{2}} f
+        \]
+        \item Si $[Z_{0}, z_{1}] \subseteq U$, nous notons $\int_{[z_{0}, z_{1}]} f(z)\d z = \int_{\gamma}f(z)\d z$ où $\gamma : t\in [0, 1] \mapsto (1 - t)z_{0} + tz_{1}$.
+        \item Si $\partial D(z_{0}, r) \subseteq U$, soit le lacet $\gamma : \theta \in [0, 2\pi] \mapsto z_{0} + re^{i\theta}$. On a : 
+        \[
+            \int_{\gamma}f(z) \d z = \int_{\partial D(z_{0}, r)}f(z)\d z = \int_{0}^{2\pi}f(z_{0} + re^{i\theta})ire^{i\theta}\d\theta
+        \]
+        \item En séparant parties réelles et imaginaires, $f = P + iQ$ et $\gamma = u + iv$, on a :
+        \[
+            \begin{aligned}
+                \int_{\gamma}f(z) \d z = & \int_{a}^{b}\left(\left(P \circ \gamma\right)u' - \left(Q \circ \gamma\right)v'\right)\d t + i \int_{a}^{b}\left(\left(Q \circ \gamma\right)u' + \left(P \circ \gamma\right)u'\right)\d t\\
+                = &\int_{\gamma}\left(P\d x - Q\d y\right) + i \int_{\gamma}\left(P\d y + Q \d x\right)
+            \end{aligned}
+        \]
+        \item On a :
+        \[
+            \int_{\gamma} f(z) \d z = - \int_{\gamma^{0}}f(z) \d z
+        \]
+        \item On a :
+        \[
+            \abs{\int_{\gamma}f(z)\d z} \leq long(\gamma)\max_{\gamma}\abs{f}
+        \] 
+    \end{itemize}
+\end{propositionfr}
+
+\subsection{Théorème de Cauchy}
+\begin{théorème}{de Cauchy}{}
+    Soit $U \subseteq \C$ un ouvert connexe et $f$ une fonction analytique dans $U$. Si $\gamma_{1}, \gamma_{2}$ sont deux lacets homotopes dans $U$, alors
+    \[
+        \int_{\gamma_{1}}f(z) \d z = \int_{\gamma_{2}}f(z)\d z
+    \]
+    En particulier, si $U$ est simplement connexe, l'intégrale sur un lacet de $f$ est nulle. 
+\end{théorème}
+
+\begin{théorème}{}{}
+    Soit $U \subseteq \C$ un ouvert simplement connexe. 
+    \begin{enumerate}
+        \item Toute fonction analytique dans $U$ admet une primitive.
+        \item Si $f : U \to \C^{\star}$ est analytique, alors il existe $g : U \to \C$ analytique tel que $\exp(g) = f$ sur $U$. 
+    \end{enumerate}
+\end{théorème}
+
+\subsection{Formule de Cauchy}
+\begin{lemme}{Intégrité de l'Indice}{}
+    Soit $\gamma : I = [c, d] \to \C$ un lacet et $a\notin \gamma(I)$. Alors
+    \[
+        j(a, \gamma) = \frac{1}{2i\pi}\int_{\gamma}\frac{\d z}{z - a} \in \Z
+    \]
+\end{lemme}
+\begin{proof}
+    Pour $t \in [c, d]$ on pose 
+    \[
+        h(t) = \int_{c}^{t}\frac{\gamma'(s)\d s}{\gamma(s) - a}
+    \]
+    On a $h'(t) = \frac{\gamma'(t)}{\gamma(t)-a}$, sauf en un nombre fini de points de $I$. \\
+    Remarquons que $g(t) = e^{-h(t)}\left(\gamma(t) - a\right)$ a pour dérivée
+    \[
+        g'(t)= - h'(t)e^{-h(t)}\left(\gamma(t)- a\right) + \gamma'(t)e^{-h(t)} = 0
+    \]
+    sauf en un nombre fini de points de $I$. Comme $g$ est continue, elle est constante et $g(c) = g(d)$. \\
+    Or, $h(c) = 0$ donc $g(c) = \gamma(c) - a = g(d) = e^{-h(d)}(\gamma(d) - a)$. Mais $\gamma$ est un lacet, donc $\gamma(c) = \gamma(d)$. Donc $h(d) = 2in\pi$. Donc $j(a, \gamma) = n \in \Z$. 
+\end{proof}
+\begin{définition}{Indice}{}
+    L'entier $j(a, \gamma)$ est appelé indice de $a$ par rapport au lacet $\gamma$ et s'interprète comme le nombre de fois que le lacet tourne autour de $a$ lorsque $a$ est intérieur au lacet.
+\end{définition}
+
+\begin{propositionfr}{Propriétés}{}
+    \begin{enumerate}
+        \item Soit $\gamma, \gamma_{1}, \gamma_{2}$ des lacets de même origine dont les lacets ne contiennent pas $a$. Alors,
+        \[
+            j(a, \gamma^{0}) = -j(a, \gamma) \text{ et } j(a, \gamma_{1} \land \gamma_{2}) = j(a, \gamma_{1}) + j(a, \gamma_{2})
+        \]
+        \item En appliquant le théorème de Cauchy à la fonction analytique $1/(z - a)$ dans $\C - \{a\}$, nous obtenons $j(a, \gamma_{1}) = j(a, \gamma_{2})$ si $\gamma_{1}, \gamma_{2}$ sont homotopes dans $\C - \{a\}$.
+        \item Soit $U \subset \C$ un ouvert simplement connexe et $\gamma \subset U$. Si $a \notin U$, alors $j(a, \gamma) = 0$.
+        \item Si $\gamma$ set un lacet dans $\C$, pour tout ouvert connexe $U$ de $\C - \gamma(I)$, la fonction $z \mapsto j(z, \gamma)$ est constante dans $U$.
+        \item Soit $\gamma_{n} : t \mapsto e^{int}$, on a : 
+        \[
+            j(z_{0}, \gamma_{n}) = \begin{cases}
+                n & si \abs{z_{0}} < 1\\
+                0 & si \abs{z_{0}} > 1
+            \end{cases}
+        \]
+    \end{enumerate}
+\end{propositionfr}
+\begin{proof}[Démonstration du point iv.]
+    Soit $z \in D(z_{0}, r) \subseteq U$, 
+    \[
+        j(z, \gamma) = \frac{1}{2i\pi}\int_{\gamma}\frac{\d u}{u - z} = \frac{1}{2i\pi}\int_{\gamma_{1}}\frac{\d u}{u - z} = \frac{1}{2i\pi}\int_{\gamma}\frac{\d u}{u - z_{0}} = j(z_{0}, \gamma)
+    \]
+    pour $\gamma_{1} : t \mapsto \gamma(t) + (z - z_{0})$ qui est homotopie à $\gamma$ via 
+    \[
+        \phi(t, s) = \gamma(t) + s(z - z_{0}), 0 \leq s \leq 1
+    \]
+    Donc $j(\cdot, \gamma)$ est localement constante donc constante sur $U$ connexe. 
+\end{proof}
+
+\begin{théorème}{Formule de Cauchy}{}
+    Soit $U \subseteq \C$ un ouvert simplement connexe, $\gamma : I \to U$ un lacet dans $U$. Soit $f$ analytique sur $U$. Pour tout $w \in U \setminus \gamma(I)$
+    \[
+        j(w, \gamma)f(w) = \frac{1}{2i\pi}\int_{\gamma}\frac{f(z)}{z - w}\d z
+    \]
+\end{théorème}
+
+\end{document}
