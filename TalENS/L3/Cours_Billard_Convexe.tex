@@ -1,0 +1,320 @@
+\documentclass{beamercours}
+\title{Cours TalENS 2023-2024}
+\subtitle{Parpaing, Yu-Gi-Oh, Elastique}
+\usepackage[pdftex,outline]{contour}
+\definecolor{v}{HTML}{00ffff}
+\tikzstyle{verre} = [draw = v, fill = v!30]
+\usetikzlibrary{decorations}
+
+\begin{document}
+\maketitle
+
+\section{Billard}
+\subsection{Compact}
+\begin{frame}
+\frametitle{Notion de Billard}
+\begin{définition}{Billard}{}
+Un billard est un compact convexe du plan euclidien $\R^{2}$ dont la frontière est de classe $\cont^{1}$ au moins et dans lequel toute trajectoire est de lumière.
+\end{définition}
+\visible<2->{Suivant les Shadoks, la notion de billard est indépendante de la notion de boule.}
+\end{frame}
+
+\begin{frame}
+\frametitle{Compacité}
+\begin{définition}{Partie Compacte}{}
+Une partie est dite compacte si et seulement si elle est fermée et bornée.
+\end{définition}
+\visible<2->{\begin{définition}{Bornitude}{} Une partie $P$ est bornée si et seulement si \vspace{-15pt}\[\exists M \geq 0, \forall x \in P, \norm{x} \leq P\]
+    \end{définition}}
+\visible<3>{Une partie est bornée si, en la regardant d'assez loin, on la voit en entier.}
+\end{frame}
+
+\begin{frame}
+\frametitle{Fermeture}
+\begin{définition}{Partie Fermée}{}
+Une partie $P$ est dite fermée si et seulement si toute suite convergente à valeurs dans $P$ a sa limite dans $P$
+\end{définition}
+\visible<2->{\begin{propositionfr}{Exemples}{}
+        \begin{itemize}
+            \item $\left[0, 1\right]$ est fermée
+            \item $\left[0, +\infty\right[$ est fermée
+            \item $\Q$ n'est pas fermée car dense dans $\R$
+        \end{itemize}
+    \end{propositionfr}}
+\end{frame}
+
+\begin{frame}
+\frametitle{Frontières}
+\vspace{-5pt}
+\begin{définition}{Frontière}{}
+On appelle frontière d'une partie $K$ les éléments de $\overline{K} \setminus \mathring{K}$. On la note $\delta(K)$
+\end{définition}
+\visible<2>{\vspace{-5pt}\begin{propositionfr}{Paramétrisation}{}
+        On peut paramétrer la frontière d'une partie bornée $\delta(K)$ par une fonction $f : \R \to \R^{2}$ où $Im(f) = \delta(K)$ et $f$ est $L$-périodique.
+    \end{propositionfr}\vspace{-5pt} C'est le bord de la partie considérée. C'est une courbe fermée.}
+\end{frame}
+\begin{frame}
+    \frametitle{Paramétrisation}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{On fonce dans le mur\dots}
+\begin{théorème}{des Bornes Atteintes}{}
+L'image d'un compact par une fonction continue est un compact.
+\end{théorème}
+\visible<2>{En particulier, l'image d'un compact par une fonction continue est une union de segments et de points isolés.}
+\end{frame}
+
+\subsection{Convexe}
+\begin{frame}
+\frametitle{Convexité}
+\begin{définition}{Partie Convexe}{}
+Une partie $P$ de l'espace est convexe si :
+\[
+    \forall x, y \in P, ]x, y[ \subseteq P
+\]
+\end{définition}
+\visible<2->{En particulier, cela signifie, que tout points entre deux points d'un convexe est dans ce convexe.\\}
+\visible<3>{Intuitivement, en deux dimensions, cela correspond aux parties que l'on peut entourer d'un élastique sans trou.}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Exemples}
+    \begin{propositionfr}{Exemples}{}
+        \begin{itemize}[<+->]
+            \item Le disque est convexe. La boule est convexe.
+            \item Le cylindre est convexe, le cube est convexe.
+            \item Le cercle et la sphère ne sont pas convexes.
+        \end{itemize}
+    \end{propositionfr}
+\end{frame}
+
+\begin{frame}
+\frametitle{Fonctions Convexes}
+\begin{définition}{Fonction Convexe}{}
+Une fonction est dite convexe si et seulement si
+\[
+    \forall x, y, \forall t\in \left[0, 1\right] f(tx + (1 - t)y) \leq tf(x) + (1- t)f(y)
+\]
+\end{définition}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Caractérisation}
+    \begin{tabular}{m{.45\linewidth}m{.5\linewidth}}
+        \hspace{-20pt}
+        \vspace{20pt}
+        \begin{tikzpicture}
+            \draw[very thin, color = vulm!40] (-.1, -2.1) grid (3.5, 2.1);
+            \draw[->, vulm] (-.1, 0) -- (3.55,0) node[right] {$x$};
+            \draw[->, vulm] (0,-2.2) -- (0,2.2) node[above] {$f(x)$};
+            \draw[color = black!30!yulm, domain = 0:3.41] plot (\x, {(\x - 2)^2 + (\x - 2) - 1}) node[above right] {};
+
+            \visible<2>{\draw[color = vulm] (1, -1) -- (2.5, -.25);
+                \draw[vulm] (1, -1) node {x};
+                \draw[vulm] (2.5, -.25) node {x};}
+
+            \visible<3->{\draw[color = vulm, ->] (.5, -.5) -- node[yulm, double, below left]{\contour{vulm}{$f'(x) = -1$}} (1.5, -1.5);
+                \draw[color = vulm, ->] (2, -1.25) -- node[yulm, double, below right]{\contour{vulm}{$f'(x) = 1$}} (3, .75);}
+        \end{tikzpicture}
+         & \vspace{-8pt}
+        De manière équivalente, si $f$ est une fonction :
+        \begin{itemize}[<+->]
+            \item $f$ est convexe
+            \item $f$ est sous ses cordes
+            \item $f$ est au dessus de ses tangentes
+            \item Son taux d'accroissement est croissant
+            \item Si $f \in \cont^{1}$, $f'$ croît
+            \item Si $f \in \cont^{2}$, $f'' \geq 0$
+        \end{itemize}
+    \end{tabular}
+\end{frame}
+
+\begin{frame}
+\frametitle{\dots et on rebondit!}
+\begin{théorème}{des Valeurs Intermédiaires}{}
+L'image d'un connexe par arcs par une fonction continue est un connexe par arcs.
+\end{théorème}
+\visible<2->{\begin{propositionfr}{Connexité}{}
+        Les convexes sont connexes par arcs, et même étoilés en tous leurs points.
+    \end{propositionfr}}
+\visible<3>{En particulier, l'image d'un compact convexe par une fonction continue est un segment.}
+\end{frame}
+
+\subsection{Lois de Snell-Descartes}
+\begin{frame}
+\frametitle{AZIZ! LUMIÈRE!}
+\begin{théorème}{Lois de Snell-Descartes}{}
+Un rayon de lumière entrant depuis un milieu $1$ d'indice optique $n_{1}$ dans un milieu $n_{2}$ avec un angle à la normale $i_{1}$ est réfléchi et réfracté selon les lois suivantes:
+\begin{itemize}
+    \item \only<1>{\color{vulm}{Réfraction :}\ \color{black} Son angle $i_{2}$ de sortie dans le milieu $2$ vérifie \[n_{1}\sin{\left(i_{1}\right)} = n_{2}\sin{\left(i_{2}\right)}\]}
+          \only<2>{\color{vulm}{Réflexion :}\ \color{black} Son angle $i_{1}'$ de réflexion dans le milieu $1$ est tel que la normale au milieu au point d'incidence est la bissectrice de l'angle $i_{1} + i_{1}'$. }
+\end{itemize}
+\end{théorème}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Réfraction}
+    \begin{tabular}{m{.35\linewidth}m{.7\linewidth}}
+        Loi de la Réfraction :
+        \[
+            n_{1}\sin{\left(i_{1}\right)} = n_{2}\sin{\left(i_{2}\right)}
+        \]
+         &
+        \vspace{-1cm}
+        \begin{tikzpicture}[scale=1.25,x={(-0.353cm,-0.353cm)}, y={(1cm,0cm)}, z={(0cm,1cm)},>=stealth]
+            \coordinate (O) at (0, 0, 0);
+            \coordinate (A) at (2,2,0);
+            \coordinate (M) at (3,4,0);
+            \coordinate (B) at (2,2,-2);
+            \draw[verre] (O) -- ++(4, 0, 0) ;
+            \draw[verre] (O) -- +(0, 4, 0) ;
+            \draw[verre](O) --++(4,0,0)--++(0,4,0)--++(-4,0,0)--cycle;
+            \draw[verre](0,4,0) --++(0,0,-2)--++(4,0,0)--++(0,0,2)--cycle;
+            \draw[verre](4,0,0) --++(0,0,-2)--++(0,4,0)--++(0,0,2)--cycle;
+            \draw[vulm](4,2,-2)--++(0,0,4)--++(-4,0,0)--++(0,0,-4)--cycle;
+            \draw[vulm] (4,2,-2) node[rotate=45,below right]{\small \hspace{10pt}Plan d'Incidence};
+            \draw[dashed, vulm] (A) ++(2,0,0)--++(-4, 0, 0) ;
+            \draw[->,thick,postaction={decorate},red] (4,2,1.5)--(A)--(0.4,2,-2);
+            \draw[dashed, vulm, ->] (B)--++(0,0,4.5)node[below left, fill = none]{\small Normale};%la normale
+            \draw[vulm] (2,2,0.5) to[bend right, vulm] (2.65,2,0.5);
+            \draw (2.55,2,0.8) node[vulm]{$i_{1}$};
+            \draw[vulm] (2,2,-0.5) to[bend right, vulm] (1.5,2,-0.6);
+            \draw (1.55,2,-0.8) node[vulm]{$i_{2}$};
+            \draw (2,0,1) node[vulm]{Indice $n_{1}$};
+            \draw (2,0,-2) node[vulm]{Indice $n_{2}$};
+        \end{tikzpicture}
+    \end{tabular}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Réflexion}
+    \begin{tabular}{m{.35\linewidth}m{.7\linewidth}}
+        Loi de la Réflexion:
+        \[
+            i_{1} = -i_{1}'
+        \]
+         & \vspace{-.9cm}
+        \begin{tikzpicture}[scale=1.25,x={(-0.353cm,-0.353cm)}, y={(1cm,0cm)}, z={(0cm,1cm)},>=stealth]
+            \coordinate (O) at (0, 0, 0);
+            \coordinate (A) at (2,2,0);
+            \coordinate (M) at (3,4,0);
+            \coordinate (B) at (2,2,-2);
+            \draw[verre] (O) -- ++(4, 0, 0) ;
+            \draw[verre] (O) -- +(0, 4, 0) ;
+            \draw[verre](O) --++(4,0,0)--++(0,4,0)--++(-4,0,0)--cycle;
+            \draw[verre](0,4,0) --++(0,0,-0.5)--++(4,0,0)--++(0,0,0.5)--cycle;
+            \draw[verre](4,0,0) --++(0,0,-0.5)--++(0,4,0)--++(0,0,0.5)--cycle;
+            \draw[vulm](4,2,-2)--++(0,0,4)--++(-4,0,0)--++(0,0,-4)--cycle;
+            \draw[vulm] (4,2,-2) node[rotate=45,below right]{\small Plan d'Incidence};
+            \draw[dashed, vulm] (A) ++(2,0,0)--++(-4, 0, 0) ;
+            \draw[->,thick,postaction={decorate},red] (4,2,1.5)--(A)--(0,2,1.5);
+            \draw[dashed, vulm, ->] (B)--++(0,0,4.5)node[above,fill=none]{\small Normale\hspace{12pt}};%la normale
+            \draw[vulm] (2,2,0.5) to[bend right] (2.65,2,0.5);
+            \draw (2.55,2,0.8) node[vulm]{$i_{1}$};
+            \draw[vulm] (2,2,0.75) to[bend left] (1.25,2,0.6);
+            \draw (1.55,2,0.9) node[vulm]{$i'_{1}$};
+            \draw (2,0,1) node[vulm]{Indice $n_{1}$};
+            \draw (2,0,-1) node[vulm]{Indice $n_{2}$};
+        \end{tikzpicture}
+    \end{tabular}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Trajectoire de Lumière}
+    \begin{propositionfr}{Boule de Billard}{}
+        Une boule de Billard suit une trajectoire de Lumière, i.e. vérifie les lois de Descartes, la réfraction étant ici nulle.
+    \end{propositionfr}
+    On cherche donc à prouver que, sur un compact convexe, pour tout point, il existe une trajectoire de lumière contenant ce point et contenant $n$ réflexions.
+\end{frame}
+
+\section{Le Résultat}
+\subsection{Hypothèse}
+\begin{frame}
+\frametitle{Hypothèse}
+On se donne un billard $K$.\\
+On voudrait montrer le résultat suivant, plus fort que ce qu'on cherche :
+\begin{théorème}{Trajectoires Polygonales}{}
+Un polygone à $n$ côtés inscrits dans $\delta(K)$ de périmètre minimal est une trajectoire de lumière.
+\end{théorème}
+\end{frame}
+
+\subsection{Résultats Intermédiaires}
+\begin{frame}
+\frametitle{Définitions}
+\vspace{-5pt}
+\begin{définition}{Polygone}{}
+Un polygone à $n$ côtés est inscrit dans $\delta(K)$ si ses sommets sont des éléments de $\delta(K)$.\\
+\visible<2->{Formellement, on le décrit par ses $n$ sommets $S_{1}, \ldots, S_{n}$, des points éléments de $\delta(K)$.}
+\end{définition}
+\visible<3->{\vspace{-5pt}Dans la suite on note :
+    \begin{itemize}[<+->]
+        \item $L$ la longueur de $\delta(K)$
+        \item $F$ une paramétrisation de $\delta(K)$ de classe $\cont^{1}$ au moins.
+        \item $\mathfrak{C}= \{\left(t_{1}, \ldots, t_{n}\right), 0 \leq t_{1} \leq \dots \leq t_{n}\leq L\}$.
+    \end{itemize}}
+\end{frame}
+\begin{frame}
+    \frametitle{Rappels sur le Produit Scalaire}
+    \begin{propositionfr}{Norme et Produit Scalaire}{}
+        \begin{itemize}[<+->]
+            \item Deux vecteurs sont orthogonaux si et seulement si $\scalar{u, v} = 0$
+            \item La distance $AB = \norm{A - B}$ est définie par $\sqrt{\scalar{A - B, A - B}}$ 
+            \item On a : $\frac{1}{\lambda} \scalar{x, y} = \scalar{x, {y \over \lambda}}$ et $\scalar{x, y} + \scalar{x, z} = \scalar{x, y + z}$.
+            \item On a : $\norm{x + y} \leq \norm{x} + \norm{y}$
+        \end{itemize}
+    \end{propositionfr}
+\end{frame}
+
+\subsection{La Preuve}
+\begin{frame}
+    \frametitle{Existence d'un Polygone de Périmètre Minimal}
+    \begin{proof}
+        \only<1-3>{\visible<1-3>{L'ensemble $\mathfrak{C}$ est compact : borné car inclus dans $\left[0, L\right]^{n}$ borné, et fermé car les inégalités passent à la limite.\\}
+        \visible<2-3>{On définit
+            \[
+                \Phi : (t_{1}, \ldots, t_{n}) \in \mathfrak{C}\mapsto \sum_{k = 1}^{n} \norm{F(t_{k}) - F(t_{k + 1})}
+            \]}
+        \visible<3>{Cette fonction, continue, atteint un maximum en $u_{1}, \ldots, u_{n}$ sur le compact $\mathfrak{C}$. On note $M_{k} = F(u_{k})$.}}
+        \only<4->{On peut supposer que les $M_{k}$ sont distincts. Sinon, si $t_{k} < t_{k + 1} = t_{k + 2}$, on a :
+            \[
+                \begin{aligned}
+                    \norm{F(t_{k})- F(t)} & + \norm{F(t) - F(t_{k +2})} \geq \norm{F(t_{k}) - F(t_{k + 2})} \\ & = \norm{F(t_{k}) - F(t_{k + 1})} + \norm{F(t_{k + 1}) - F(t_{k + 2})}
+                \end{aligned}
+            \]
+            \visible<5->{On peut alors remplacer $t_{k + 1}$ par $t$.}
+            \visible<6>{On a ainsi démontré qu'il existe bien un polygone à $n$ côtés de périmètre minimal.}}
+    \end{proof}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Trajectoire de Lumière}
+    \begin{proof}
+        \only<1>{On veut maintenant démontrer qu'un tel polygone est une trajectoire de lumière.\\
+            On conserve les notations précédemment introduites.}
+        \only<2-3>{{Par définition, pour tout $k$ : \vspace{-10pt}
+                \[
+                    f_{k} : t\in \left[t_{k}, t_{k + 2}\right] \mapsto \norm{F(t_{k})-F(t)} + \norm{F(t) - F(t_{k + 2})}\vspace{-10pt}
+                \]
+                atteint un maximum en $t_{k + 1}$\\}
+        \visible<3>{De plus, elle est dérivable sur $\left]t_{k}, t_{k + 1}\right[$ $f : t\mapsto \norm{F(t_{0}) - F(t)}$ l'étant en tout point non congru à $t_{0}$ modulo $L$ avec
+        \[
+            f'(t) = \frac{\scalar{-F'(t), F(t_{0} - F(t))}}{\norm{F(t_{0}) - F(t)}}\vspace{-10pt}
+        \]}}
+        \only<4>{On a alors, pour $t \in \left]t_{k}, t_{k + 2} \right[$
+        \[
+            \begin{aligned}
+                f'_{k}(t_{k + 1}) = & \frac{\scalar{-F'(t_{k + 1}), F(t_{k}) - F(t_{k + 1})}}{\norm{F(t_{k}) - F(t_{k + 1})}}                                                             \\ & + \frac{\scalar{-F'(t_{k + 1}), F(t_{k + 2}) - F(t_{k + 1})}}{\norm{F(t_{k + 2}) - F(t_{k + 1})}}\\
+                =                   & \scalar{- F'(t_{k + 1}), \frac{\overrightarrow{M_{k + 1}M_{k}}}{M_{k + 1}M_{k}} + \frac{\overrightarrow{M_{k+1}M_{k + 2}}}{M_{k + 1}M_{k + 2}}} = 0
+            \end{aligned}
+        \]}
+        \only<5-6>{Les vecteurs $u_{k} = \frac{\overrightarrow{M_{k + 1}M_{k}}}{M_{k + 1}M_{k}}$ et $v_{k} = \frac{\overrightarrow{M_{k+1}M_{k + 2}}}{M_{k + 1}M_{k + 2}}$ sont unitaires et colinéaires à $\overrightarrow{M_{k + 1}M_{k}}$ et $\overrightarrow{M_{k + 1}M_{k + 2}}$.\\
+        \visible<6>{$u_{k} + v_{k}$ est un vecteur directeur de la bissectrice de l'angle $\left(\overrightarrow{M_{k + 1}M_{k}}, \overrightarrow{M_{k + 1}M_{k + 2}}\right)$ orthogonal à $F'(t_{k + 1})$, il dirige donc la normale à la courbe en $M_{k + 1}$.}}
+        \only<7->{Ainsi, une trajectoire allant de $M_{k}$ à $M_{k + 1}$ repart après rebond de $M_{k + 1}$ vers $M_{k + 2}$. \\
+            \visible<8>{Finalement, la trajectoire $M_{1}\ldots M_{n}$ le long du polygone est bien une trajectoire de lumière.}}
+    \end{proof}
+\end{frame}
+\end{document}
+
