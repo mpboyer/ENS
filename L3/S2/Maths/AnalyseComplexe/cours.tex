@@ -170,7 +170,7 @@
     Il y a équivalence sur un ouvert connexe $U$ de $\C^{\star}$ pour une application continue $l$ entre : 
     \begin{itemize}
         \item $l$ est une détermination du logarithme à l'addition d'une constante près
-        \item $l$ est une primitive analytique de $1\over z$ sur $U$. 
+        \item $l$ est une primitive analytique de $\frac{1}{z}$ sur $U$. 
     \end{itemize}
 \end{propositionfr}
 
@@ -357,5 +357,164 @@ Dorénavant, les chemins sont supposés $\cont^{1}$ par morceaux.
         j(w, \gamma)f(w) = \frac{1}{2i\pi}\int_{\gamma}\frac{f(z)}{z - w}\d z
     \]
 \end{théorème}
+\begin{proof}
+    La fonction
+    \[
+        g : z \in U \mapsto \begin{cases}
+            \frac{f(z)-f(w)}{z-w} & \text{ si } z \neq w\\
+            f'(w) & \text{ si } z = w
+        \end{cases}
+    \]
+    est analytique sur $U$. En effet pour $r > 0$ assez petit, $f$ admet un développement de Taylor sur $D(w, r) \subseteq U$ et donc pour $z \in D(w, r)$ :
+    \[
+        g(z) = f'(w) + \frac{f''(w)}{2!}(z - w) + \cdot + \frac{f^{(n)}(w)}{n!}\left(z - w\right)^{n - 1} + \cdot
+    \]
+    Comme $U$ est simplement connexe, le théorème de Cauchy donne $\int_{\gamma} g = 0$ et comme $w \notin \gamma(I)$, $\int_{\gamma}\frac{f(z) - f(w)}{z - w}\d z = 0$ c'est à dire : 
+    \[
+        \int_{\gamma}\frac{f(z)\d z}{z - w} = f(w)\int_{\gamma}\frac{\d z}{z - w} = 2i\pi j(w, \gamma)f(w)
+    \]
+\end{proof}
+
+\begin{corollaire}{Valeur en un point}{}
+    On a : 
+    \[
+        f(w) = \frac{1}{2i\pi}\int_{\partial D(z_{0}, r)}\frac{f(z)}{z-w}\d z, w \in D(z_{0}, r)
+    \]
+\end{corollaire}
+
+\begin{propositionfr}{Continuité sur un Lacet}{}\label{prop:cont_lacet}
+    Soit $\gamma : I = [c, d] \to \C$ un lacet et $g : \gamma(I) \to \C$ une fonction définie et continue sur $\gamma(I)$. Alors : 
+    \[
+        f(z) = \int_{\gamma}\frac{g(u)\d u}{u - z}
+    \]
+    est définie et analytique dans $\C \setminus \gamma(I)$.\\
+    Précisément, pour tout $w \in \C \setminus \gamma(I)$ pour tout $n \in \N$ et 
+    \[
+        c_{n} = \int_{\gamma} \frac{g(u)\d u}{(u - w)^{n + 1}}
+    \]
+    nous avons un développement en série entière convergente 
+    \[
+        f(z) = \sum_{n \geq 0}c_{n}\left(z - w\right)^{n}
+    \]
+    dans tout disque ouvert de centre $w$ et de rayon $r = d(w, \gamma(I))$ et 
+    \[
+        f^{(n)}(w) = n!c_{n} = n!\int_{\gamma}\frac{g(u)\d u}{\left(u - w\right)^{n + 1}}
+    \]
+\end{propositionfr}
+\begin{proof}
+    Pour tout $u \in \gamma(I), z \in D(w, qr), q \in [0, 1]$, la série 
+    \[
+        \frac{1}{u - z} = \frac{1}{u - w} \frac{1}{1 - \frac{z-w}{u-w}} = \sum_{n = 0}^{+\infty}\frac{\left(z - w\right)^{n}}{\left(u - w\right)^{n + 1}}
+    \]
+    est convergente. Comme $\left(g \circ \gamma\right)\gamma'$ est continue par morceaux sur $[c, d]$ il existe $M$ tel que 
+    \[
+        \abs{g(\gamma(t))\gamma'(t)} \leq M
+    \]
+    Donc :
+    \[
+        \abs{g\left(\gamma(t)\right)\gamma'(t)\frac{(z - w)^{n}}{\left(\gamma(t) - w\right)^{n + 1}}} \leq M \frac{q^{n}}{r}, t\in [c, d]
+    \]
+    Finalement, la série sous l'intégrale est normalement convergente et : 
+    \[
+        f(z) = \int_{c}^{d}\frac{g(\gamma(t))\gamma'(t)\d t}{\gamma(t) - z} = \int_{c}^{d}g(\gamma(t))\gamma'(t)\left(\sum_{n = 0}^{+\infty}\frac{(z - w)^{n}}{\left(\gamma(t) - w\right)^{n + 1}} \right)\d t
+    \]
+    et donc $f(z) = \sum_{n = 0}^{+ \infty} c_{n}(z - w)^{n}$
+\end{proof}
+
+\begin{propositionfr}{Dérivée $n$-ième}{}
+    Soit $f$ analytique sur $U$ et $\gamma$ le bord de $\overline{D}(w, r) \subseteq U$. D'après la formule de Cauchy : 
+    \[
+        f^{(n)}(w) = \frac{n!}{2\pi r^{n}}\int_{0}^{2\pi}\frac{f(w + re^{it})}{e^{nit}}\d t
+    \]
+\end{propositionfr}
+
+\begin{corollaire}{}{}\label{prop:taylor_ser}
+    \begin{enumerate}
+        \item Soit $f$ analytique sur $U$. Pour tout $a \in U$, la série de Taylor de $f$ au voisinage de $a$ est convergente et a pour somme $f(z)$ dans le plus grand disque ouvert de centre $a$ contenu dans $U$
+        \item Si $f$ est analytique sur $\C$, sa série de Taylor en tout point de $\C$ est convergente sur $\C$. 
+    \end{enumerate}
+\end{corollaire}
+\begin{proof}
+    On applique la formule de Cauchy sur le contour $\gamma$ d'un disque $D(a, r)$ contenu dans $U$. Pour $z \in D(a, r), j(z, \gamma) = 1$ et 
+    \[
+        f(z) = \frac{1}{2i\pi}\int_{\gamma}^{}\frac{f(w)}{w -z}\d z
+    \]
+    La proposition \ref{prop:cont_lacet} donne un développement en série entière de $f$ en $z - a$ convergeant sur $D(a, r)$. Par unicité du développement, il s'agit de la série de Taylor. En faisant tendre $r$ vers $d(a, \C - U)$, nous obtenons le résultat annoncé. 
+\end{proof}
+
+\begin{corollaire}{Constance Locale}{}\label{prop:constance_locale}
+    Supposons $U$ connexe, $a \in U$ et $f : U \to \C$ analytique. Si pour tout $k > 0, f^{(k)}(a) = 0$, alors $f$ est constante sur $U$. 
+\end{corollaire}
+\begin{proof}
+    D'après le corollaire \ref{prop:taylor_ser}, $f$ est localement somme de sa série de Taylor. Donc $f$ est constante sur un ouvert contenant $a$. Soit $\Omega = \{w \in U, \forall k > 0, f^{(k)}(w) = 0\}$. Cet ensemble est ouvert, non vide, et fermé. Par connexité de $U$, $\Omega = U$, $f' = 0$ sur $U$ et $f$ est constante sur $U$.
+\end{proof}
+
+\begin{théorème}{Multiplicité}{}
+    Soit $f : U \to \C$ analytique non constante au voisinage de $a \in U$. Si $f(a) = 0$, il existe un unique entier $m \geq 1$ et $g : V \to \C$ analytique sur un voisinage $V$ de $a$ tels que 
+    \[
+        f(z) = \left(z - a\right)^{m}g(z), g(a) \neq 0, z\in V
+    \]
+    En particulier, le point $a$ possède un voisinage dans lequel il est l'unique zéro de $f$.
+\end{théorème}
+\begin{proof}
+    D'après le corollaire \ref{prop:constance_locale}, si $f$ n'est pas constante dans un voisinage de $a$, il existe $m \geq 1$ tel $f^{(m)}(a) \neq 0$ et $f'(a) = \ldots = f^{(m-1)}(a) = 0$.\\
+    Comme $f(a) = 0$, on peut alors factoriser $(z -a)^{m}$ dans le développement en série de Taylor de $f$ en $a$.
+\end{proof}
+
+\begin{définition}{Ordre}{}
+    L'entier $m$ du théorème précédent est dit ordre de $f$ en $a$, noté $ord(f, a)$.
+\end{définition}
+
+\subsection{Inégalités de Cauchy, Premières Applications}
+\begin{propositionfr}{Inégalités de Cauchy}{}
+    Soit $f : U \to \C$ analytique, $\overline{D}(w, r) \subset U, r > 0$. On a, pour $n \in \N$ : 
+    \[
+        \abs{f^{(n)}(w)}\leq \frac{n!}{r^{n}}\sup_{z \in \partial D(w, r)}\abs{f(z)}
+    \]
+\end{propositionfr}
+\begin{proof}
+    On a :
+    \[
+        f^{(n)}(w) = \frac{n!}{2\pi r^{n}}\int_{0}^{2\pi}\frac{f(w + re^{it})}{e^{nit}} \d t
+    \]
+    On en déduit immédiatement le résultat.
+\end{proof}
+\begin{lemme}{Bornitude et Polynomialité}{}
+    Soit $f$ analytique sur $\C$. Supposons qu'il existe $A, B \geq 0$ tels que 
+    \[
+        \forall z \in \C, \abs{f(z)}\leq A\left(1 + \abs{z}\right)^{B}
+    \] 
+    Alors $f$ est un polynôme de degré $\leq B$. 
+\end{lemme}
+\begin{proof}
+    Soit $n \geq \lfloor B \rfloor + 1 > B$. Par les inégalités de Cauchy, puisque 
+    \[
+        \sup_{\partial D(z, r)} \abs{f(z)} \leq A\left(1 + \abs{z} + r\right)^{B}
+    \]
+    on a : 
+    \[
+        \abs{f^{(n)}(z)} \leq \frac{n!}{r^{n}}A(1 + \abs{z} + r)^{B}
+    \]
+    En faisant tendre $r$ vers $+\infty$, par croissance comparée, $f^{(n)}(w) = 0$ pour $n \geq B$. Localement, $f$ étant somme de sa série de Taylor, c'est localement un polynôme de degré au plus $B$, ce qui est donc le résultat.
+\end{proof}
+
+\begin{théorème}{Liouville}{}
+    Une fonction analytique bornée sur $\C$ est constante.
+\end{théorème}
+
+\begin{théorème}{d'Alembert-Gauss}{}
+    Tout polynôme $P \in \C[z]$ de degré $\geq 1$ admet une racine dans $\C$.
+\end{théorème}
+\begin{proof}
+    Par l'absurde, si $P(z) = \sum_{i = 0}^{d}a_{i}z^{i}$ ne s'annule pas, $f = 1/P$ est analytique sur $\C$ et $\abs{f(z)} \sim \frac{1}{\abs{a_{d}}\abs{z}^{d}}$ tend vers $0$ quand $\abs{z}$ tend vers $+\infty$. En particulier, $f$ est bornée sur $\C$ donc constante d'après le théorème de Liouville. Ainsi, $P = 1/f$ est constant, ce uqui est absurde.
+\end{proof}
+
+\begin{théorème}{Topologie}{}
+    Les ouverts $\C$ et $D(0, 1)$ sont homéomorphes mais pas isomorphes. 
+\end{théorème}
+\begin{proof}
+    Oui.
+\end{proof}
+
 
 \end{document}

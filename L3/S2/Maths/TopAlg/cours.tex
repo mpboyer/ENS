@@ -1,0 +1,337 @@
+\documentclass{cours}
+\title{Topologie Algébrique}
+\author{Muriel Livernet}
+
+\newcommand{\Ens}{\mathcal{E}\mathrm{ns}}
+\newcommand{\Top}{\mathcal{T}\mathrm{op}}
+\newcommand{\Gp}{\mathcal{G}\mathrm{d}}
+\newcommand{\Ab}{\mathcal{A}\mathrm{b}}
+
+
+\begin{document}
+\part{CW-Complexes}
+\section{Définitions}
+\begin{définition}{Catégorie}{}
+    Une catégorie $\cont$ est constituée de trois entités :
+    \begin{itemize}
+        \item Un ensemble $ob(\cont)$ dont les éléments sont des objets
+        \item Un ensemble $hom(\cont)$ de morphismes
+        \item Une opération binaire unitaire associative $\circ$ appelée composition de morphismes telle que $\forall x \in ob(\cont), \exists 1_{x} : x \to x$ tel que pour tout $f: a\to b$, $1_{b} \circ f = f = f \circ 1_{a}$.
+    \end{itemize} 
+\end{définition}
+
+\begin{définition}{Foncteur}{}
+    Un foncteur $F$ est une application préservant la structure entre deux catégories $C$ et $D$:
+    \begin{itemize}
+        \item $\forall x \in ob(C), F(x) \in ob(D)$
+        \item $\forall f : x\to y \in hom(C)$, $F(f) : F(x) \to F(y) \in hom(D)$
+    \end{itemize}
+    et tels que 
+    \begin{itemize}
+        \item $\forall x \in C, F(1_{x}) = 1_{F(x)}$
+        \item $\forall f:x\to y, g : y \to z, F(g \circ f) = F(g) \circ F(f)$
+    \end{itemize}
+\end{définition}
+
+\begin{définition}{Quelques Catégories}{}
+    \begin{itemize}
+        \item[$\Ens$] Les objets sont les ensembles et les morphismes les applications.
+        \item[$\Top$] Les objets sont les espaces topologiques et les morphismes les applications continues.
+        \item[$\Top_{*}$] Les objets sont les espaces topologiques pointés (i.e. avec un point de référence) et applications continues pointées.
+        \item[$\Gp$] Les objets sont les groupes et les morphismes les morphismes de groupes.
+        \item[$\A$b] Les objets sont les groupes abéliens et les morphismes les morphismes de groupes.
+    \end{itemize}
+\end{définition}
+
+
+\section{La Catégorie $\Top$}
+Dans la suite, on notera $\D^{n}$ ou $\mathbb{B}^{n}$ la boule fermée de dimension $n$ dans l'espace euclidien, $\mathbb{S}^{n-1}$ la sphère unité. On rappelle que $\D^{n}$ est homéomorphe au cube $I^{n} = [0, 1]^{n}$.
+
+\subsection{Notions de Colimites dans une Catégorie}
+On se donne $F : I \to \mathcal{C}$ un foncteur où $I$ est une petite catégorie et $F$ s'appelle un diagramme dans $\cont$.\\
+On considèrera principalement les catégories suivantes : 
+\begin{enumerate}
+    \item \label{cat:discrete}La catégorie discrète $\{1\}, \{2\}$ (deux objets, les seuls morphismes sont les identités).
+    \item \label{cat:threes}La catégorie ayant trois objets $\{0\}, \{1\}, \{2\}$ et les seuls morphismes non triviaux sont $0 \to 1$ et $0 \to 2$. Un foncteur de cette catégorie dans $\cont$ consiste en la donnée d'un diagramme dans $\cont$ de type :
+    \begin{center}
+        \begin{tikzcd}
+            A\dar{g}\rar{f} & B\\
+            C &
+        \end{tikzcd}
+    \end{center}
+    \item \label{cat:N}La catégorie $\N$ où les objets sont en bijection avec $\N$ et 
+    \[
+        Hom_{\N}(i, j) = \begin{cases}
+            \{\star\} & \text{ si} i \leq j\\
+            \emptyset & \text{ sinon}
+        \end{cases}
+    \]
+    Un foncteur de cette catégorie dans $\cont$ consiste en la donnée d'une famille d'objets $(X_{n})_{n \in \N}$ et de morphismes $\phi_{n} : X_{n} \to X_{n + 1}, n\geq 0$.
+\end{enumerate}
+
+\begin{définition}{Cocone}{}
+    Un cocone est la donnée d'un object $c \in \cont$ et d'une collection de morphismes $\alpha_{i} : F(i) \to c$ dans $\cont$ pour $i \in I$ vérifiant $\forall f : i \to j \in hom(I)$, $\alpha(j) \circ F(f) = \alpha_{i}$
+\end{définition}
+
+\begin{définition}{Colimite}{}
+    Une colimite de $F$ est un cocone universel par rapport aux cocones, i.e. si $(c, \alpha_{i}), (d, \beta_{i})$ sont deux cocones, alors il existe un unique morphisme : $g : c\to d$ tel que pour tout $i \in I$, $g \circ \alpha_{i} \beta_{i}$. On note alors $c = \colim_{I} F$
+\end{définition}
+\begin{propositionfr}{Unicité de la Colimite}{}
+Si $\colim_{I}F$ existe, elle est unique à isomorphisme près.
+\end{propositionfr}
+
+\begin{définition}{Colimite pour un Diagramme}{}
+    La colimite pour un diagramme de type 1 s'appelle coproduit ou somme, pour un diagramme de type 2 on parle de pushout ou de somme amalgamée. Un diagramme dans $\cont$ de type 
+    \begin{center}
+        \begin{tikzcd}
+            A \rar{f}\dar{g} & B \dar{}\\
+            C \rar{} & D
+        \end{tikzcd}
+    \end{center}
+    où $D$ est la somme amalgamée de $B$ et $C$ au-dessus de $A$ s'appelle un carré cocartésien.
+\end{définition}
+
+\begin{propositionfr}{Colimites dans $\Top$}{}
+    Les colimites ci-dessus existent dans $\Top$ et sont obtenues à l'aide des colimites dans les ensembles munis de la topologie finale. En particulier, le coproduit $X\sqcup Y$ de deux espaces topologiques $X$ et $Y$ est l'ensemble $X \sqcup Y$ muni de la topologie finale par rapport aux inclusions. 
+\end{propositionfr}
+
+\subsection{Cas Particulier : Recollement d'Espaces Topologiques, Adjonctions Cellulaires, Bouquets}
+\begin{définition}{Recollement}{}
+Soient $X, Y$ des espaces topologiques et $A \subseteq Y$ muni de la topologie induite. On considère le diagramme suivant
+\begin{center}
+    \begin{tikzcd}
+        A \dar{\iota}\rar{\phi} & X\\
+        Y
+    \end{tikzcd}
+\end{center}
+On a vu que la colimite dans $\Top$ de ce diagramme existe, elle est notée $X \cup_{f} Y$ et s'appelle pushout ou recollement le long de $\phi$. On a alors le carré cocartésien suivant : 
+\begin{center}
+    \begin{tikzcd}
+        A \dar{\phi}\rar{\iota} & X \dar{i_{X}}\\
+        Y \rar{\Phi} & X\cup_{\phi}Y
+    \end{tikzcd}
+\end{center}
+L'application $\phi$ s'appelle le morphisme caractéristique du recollement. 
+\end{définition}
+
+\begin{propositionfr}{Construction Explicite}{}
+    On a : 
+    \[
+        X \sqcup Y \xrightarrow X \sqcup Y / \sim
+    \]
+    où $\sim$ est engendrée par $a \sim \phi(a)$ pour tout $a \in A$ et $q$ désigne l'application quotient. 
+\end{propositionfr}
+
+\begin{propositionfr}{Ensemblistement}{}
+    En terme d'ensemble, on a une bijection entre $X \cup_{\phi} Y$ et $X \sqcup \left(Y \setminus A\right)$. La projection canonique $q : X \sqcup Y \to X \cup_{f}Y$ vérifie $q(x) = x, \forall x \in X$, $q(a) = \phi(a), \forall a \in A$ et $q(y) = y \forall y \in Y\setminus A$. De plus, si $A$ est fermé dans $Y$ alors ; 
+    \begin{itemize}
+        \item $i_{X}$ réalise un homéomorphisme de $X$ sur son image.
+        \item $\phi$ restreint à $Y \setminus A$ réalise un homéomorphisme sur son image. 
+    \end{itemize}
+\end{propositionfr}
+
+\begin{définition}{Attachement Cellulaire}{}
+    Si $Y = \D^{n}$, $A = \S^{n-1}$ on note le recollement précédent $X \cup_{\phi} e^{n}$ et ce recollement s'appelle attachement cellulaire. $e^{n}$ s'appelle une $n$-cellule. Comme $\S^{n -1} = \partial\D^{n}$ est fermé, la proposition précédente s'applique. 
+\end{définition}
+
+\begin{remarque}{Construction Explicite de l'Attachement}{}
+    $X \cup_{\phi} e^{n} \simeq X \sqcup \D^{n}/\mathcal{R}$ où $\mR$ est la relation d'équivalence engendrée par $a \mR \phi(a)$ sur $\S^{n-1}$. Ainsi, pour $x \in X$, on a $[x] = \{x\}\cup \{\phi^{-1}(x)\}$ et pour $y \in \mathring{\D^{n}}$ on a $[y] = \{y\}$.
+\end{remarque}
+
+\begin{propositionfr}{Topologie produit et Surjection}{}
+    Soit $f : X \to Q$ une application continue surjective, et $Q$ muni de la topologie finale par rapport à $f$. Si $K$ est compact alors la topologie produit sur $Q \times K$ coïncide avec la topologie finale induite par la surjection $f \times Id : X \times K \to Q \times K$. \\
+    Autrement dit, en considérant le quotient par $f$ de $X$ et donc de $X \times K$ par $f \times id$, on écrit ainsi qu'on a un homéomorphisme, pour la topologie quotient : 
+    \[
+        (X \times K)/(f \times id) \xrightarrow{q \times id} X/f \times K
+    \]
+\end{propositionfr}
+
+\begin{lemme}{Projection à côté d'un Compact}{}
+    La projection de $X \times K$ dans $X$ où $K$ est compacte est fermée.
+\end{lemme}
+
+\begin{corollaire}{Isomorphisme de Surjection}{}
+    Soit $\phi : \S^{n-1} \to X$ une application continue. On a : 
+    \[
+        \left(X \cup_{\phi} e^{n}\right) \times I \simeq \left(X \times I\right) \cup_{\phi \times id_{I}} \left(\D^{n} \times I\right)
+    \]
+\end{corollaire}
+
+\begin{définition}{Bouquet}{}
+    Soient $X, x_{0}$ et $Y, y_{0}$ deux espaces topologiques. Le bouquet $X \lor Y$ est l'espace topologique en prenant $A = \{*\}$ et les deux applications $A\to X$ et $A\to Y$ envoyant $*$ sur les points bases. Il est naturellement pointé par $\{x_{0} = y_{0}\}$.
+\end{définition}
+
+\begin{propositionfr}{Bouquet et coproduit}{}
+    Le bouquet de deux espaces correspond à leur coproduit dans la catégorie des espaces topologiques pointés. 
+\end{propositionfr}
+
+\begin{propositionfr}{Bouquet avec la Sphère}{}
+    Si $\phi : \S^{n -1} \to X$ est une application constante alors $X \cup_{\phi} e^{n}$ est homéomorphe à $X \lor \S^{n}$.
+\end{propositionfr}
+
+\begin{propositionfr}{Homéomorphisme de Bouquets}{}
+    $\S^{n}$ est homéomorphe à $\D^{p} \times \S^{q}\cup_{\S^{p - 1} \times \S^{q}}\S^{p - 1} \times \D^{q + 1}$ pour tout $p, q$ de somme $n$. 
+\end{propositionfr}
+
+\section{CW-Complexe}
+\begin{définition}{CW-Complexe}{}
+    Un CW-complexe est un espace topologique $X$ muni d'une suite de sous-espace topologiques croissante $(X_{i})$ telle que :
+    \begin{enumerate}
+        \item $X_{0}$ est un ensemble de points (topologie discrète)
+        \item Pour $n \geq 1$, il existe un ensemble d'indices $I_{n}$ telle que : 
+        \begin{center}
+            \begin{tikzcd}
+                \bigsqcup_{\alpha \in I_{n}}\S^{n - 1}\rar{\sqcup \phi_{\alpha}^{n}}\dar{} & X_{n-1}\dar{}\\
+                \bigsqcup_{\alpha\in I_{n}}\D^{n}\rar{\sqcup \Phi_{\alpha}^{n}} & X_{n} = X_{n - 1}\cup_{\alpha \in I_{n}} e_{\alpha}^{n}
+            \end{tikzcd}
+        \end{center}
+        \item $X = \cup X_{n}$ pour la topologie finale. 
+    \end{enumerate}
+    Terminologie :
+    \begin{itemize}
+        \item $X_{n}$ est le $n$-squelette de $X$. 
+        \item La dimension de $X$ est finie s'il existe $N$ tel que $\forall n \geq N, X_{n} = X_{N} = X$ et alors $\dim X$ est le plus petit des $N$ convenables. 
+        \item On dit que $X$ est fini si $\abs{\cup_{n}I_{n} \cup X_{0}} < \infty$.
+        \item Si $\dim X = 1$, $X$ s'appelle un graphe.
+        \item L'application $\Phi_{\alpha^{n}} : \D^{n} \to X_{n} \to X$ est appelée application caractéristique. Elle envoie homéomorphiquement $\mathring{\D}^{n}$ sur $e_{\alpha}^{n}$
+    \end{itemize}
+\end{définition}
+
+\begin{propositionfr}{Structure Cellulaire sur $\S^{n}$}{}
+    On prend une $0$-cellule $X_{0}$, $X_{1} = X_{0}$ et $X_{2} = \{*\} \cup_{\phi} e^{2}$ : 
+    \begin{center}
+        \begin{tikzcd}
+            \partial\D^{2} = \S^{1} \dar{}\rar{} & * \dar{}\\
+            \D^{2} \rar{}& \D^{2}/\S^{1} \simeq \S^{2}
+        \end{tikzcd}
+    \end{center}
+    Plus généralement, on peut décomposer $\S^{n}$ avec $1$ $k$-cellule pour tout $k \leq n$.\\
+    Autre Décomposition : On prend $2$ $0$-cellule, $2$ $1$-cellules et $2$ $2$-cellules. On peut continuer ainsi : 
+    \begin{center}
+        \begin{tikzcd}
+            \S^{n} \cup \S^{n} \rar{id \cup id} \dar{} & \S^{n}\dar{homeo}\\
+            \D^{n + 1} \cup \D^{n + 1}\rar{} & \S^{n + 1} \simeq \D^{n + 1} \cup_{\partial \D^{n + 1}} \D^{n + 1}
+        \end{tikzcd}
+    \end{center}
+    On a une structure cellulaire de $\S^{n}$ avec deux $k$ cellules pour $k \leq n$. \\
+    On montre ainsi que le $k$-squelette de $\S^{n}$ vérifie $\S^{n}_{k} \simeq S^{k}$.\\
+    On obtient alors une décomposition cellulaire de $\S^{\infty} = \lim_{n \to \infty} \S^{0} \hookrightarrow \ldots \hookrightarrow \S^{n}$ dont le $k$-squelette est $\S^{k}$
+\end{propositionfr}
+
+\begin{propositionfr}{}{}
+    Si $X$ est un CW-Complexe alors $X_{n + 1}/X_{n} \sim \bigvee_{\alpha \in I_{n + 1}}\S^{n + 1}$
+\end{propositionfr}
+\begin{proof}
+    Le diagramme 
+    \begin{center}
+        \begin{tikzcd}
+            \bigsqcup_{\alpha\in I_{n+1}}\S^{n} \dar{} \rar{}& X_{n} \dar{} \rar{}& *\dar{}\\
+            \bigsqcup_{\alpha \in I_{n+1}}\D^{n} \rar{} & X_{n + 1} \rar{} & X_{n + 1}/X_{n}
+        \end{tikzcd}
+    \end{center}
+    implique que 
+    \begin{center}
+        \begin{tikzcd}
+            \bigsqcup \S^{n} \rar{}\dar{} & *\dar{}\\
+            \bigsqcup \D^{n} \rar{} & X_{n + 1}/X_{n}
+        \end{tikzcd}
+    \end{center}
+    et 
+    \[
+        \bigsqcup_{\alpha \in I_{n + 1}} \D^{n + 1} / \bigsqcup_{\alpha \in I_{n + 1}} \S^{n} \simeq \bigvee_{\alpha \in I_{n + 1}} \S^{n + 1}
+    \]
+    en pushout.
+\end{proof}
+
+\begin{propositionfr}{Fermeture du Squelette}{}
+    Soit $X$ un CW-complexe. $X_{n}$ est fermé dans $X_{n+1}$ et dans $X$. 
+\end{propositionfr}
+\begin{proof}
+    On a une bijection $q : X_{n} \sqcup \bigsqcup_{\alpha\in I_{n + 1}}\D_{\alpha}^{n + 1} \xrightarrow{q} X_{n + 1}$. On veut montrer que $X_{n + 1} - X_{n}$ est ouvert. \\
+    Pour $x \in X_{n + 1} \setminus X_{n}$, $\exists \alpha \in I_{n + 1}, x \in q(\mathring{\D}_{\alpha}^{n + 1})$.\\
+    Donc $\exists U = q(V)$ ouvert tel que $x \in U \subseteq X_{n + 1}\setminus X_{n}$
+\end{proof}
+
+\begin{propositionfr}{Décomposition du Tore}{}
+    On a : $\mathbb{T} \simeq \S^{1} \times \S^{1}$. On en trouve ainsi une décomposition avec $1$ $0$-cellule $T_{0}$, $2$ $1$-cellules $T_{1} = \S^{1} \vee \S^{1}$, et $1$ $2$-cellule $T_{2}$.
+\end{propositionfr}
+
+\begin{définition}{Sous CW-Complexe}{}
+    Soit $X$ un CW-Complexe, $A \subset X$ un sous-espace topologique.\\
+    On dit que $A$ est un sous-CW-Complexe si :
+    \begin{itemize}
+        \item $A$ est fermé dans $X$
+        \item $A$ est une union de cellules dans $X$. 
+    \end{itemize}
+\end{définition}
+
+\begin{propositionfr}{Structure Cellulaire Induite}{}
+    Si $A$ est un sous-CW-complexe de $X$, alors $A$ est un CW-complexe
+\end{propositionfr}
+\begin{proof}
+    Soit $e_{\alpha}^{n}$ une cellule de $X$ qui est dans $A$. On a le diagramme suivant : 
+    \begin{center}
+        \begin{tikzcd}
+            \S_{\alpha}^{n - 1} \rar{\phi_{\alpha}^{n}}\dar{}  &X_{n - 1}\dar{}\\
+            \D_{\alpha}^{n} \rar{\Phi_{\alpha}^{n}} & X_{n}
+        \end{tikzcd}
+    \end{center}
+    et on sait que $\Phi_{\alpha}^{n}\left(\mathring{\D}_{\alpha}^{n}\right)\subseteq A$ et $A$ fermé implique $\Phi_{\alpha}^{n}\left(\D_{\alpha}^{n}\right) \subset A$.
+\end{proof}
+
+\begin{propositionfr}{Compact dans un CW-Complexe}{}
+    Soit $X$ un CW-complexe et $K$ un quasi-compact de $X$. Alors $K$ rencontre un nombre fini de cellules. 
+\end{propositionfr}
+
+Outils Techniques que l'on va retenir : 
+\begin{itemize}
+    \item $\D^{n} \simeq \D^{n} \cup_{\S^{n - 1} \times \{0\}} \left(S^{n - 1} \times I\right)$.
+\end{itemize}
+
+\newpage
+\part{Homotopie}
+\section{Homotopie des Applications}
+\begin{définition}{Homotopie d'Applications}{}
+    Soient $f, g : X \to Y$ continues. 
+    \begin{itemize}
+        \item On dit que $f$ est homotopie à $g$ et on note $f \simeq g$ s'il existe une application $H : X \times I \to Y$ telle que $H(x, 0) = f(x), H(x, 1) = g(x)$ pour tout $x$. 
+        \item Si $A \subseteq X$ et $f_{\mid_{A}} = g_{\mid_{A}}$ on dit que $f$ est homotope à $g$ relativement à $A$ s'il existe une application $H$ telle que la propriété ci-dessus est vérifiée et de plus $H(a, t) = f(a) = g(a)$ pour tout $a$. On note alors $f \simeq_{A} g$
+    \end{itemize}
+\end{définition}
+\begin{propositionfr}{Equivalence et Homotopie}{}
+    Les relations $\simeq$ et $\simeq_{A}$ sont des relations d'équivalences. 
+\end{propositionfr}
+
+\begin{propositionfr}{Exemples}{}
+    \begin{itemize}
+        \item $id_{\R^{n}}$ est homotope à $c_{0} : x \mapsto 0$ par $H(x, t) = tx$.
+        \item Toute application continue non surjective est homotope à une application constante.
+    \end{itemize}
+\end{propositionfr}
+
+\begin{définition}{}{}
+    Soit $X, Y$ deux espaces topologiques, $A \subseteq X$, $\psi : A \to Y$. On note\[
+        \cont(X, Y)_{\psi} = \left\{f : X \to Y \mid f_{\mid_{A}} = \psi\right\}
+    \]
+    On a : 
+    \[
+        [X, Y]_{\psi} = \cont(X, Y)_{\psi}/\simeq_{A}
+    \]
+    Si $A = \emptyset$, on le note simplement $[X, Y]$.
+\end{définition}
+
+\begin{propositionfr}{Catégorie Homotopique}{}
+    On définit $\cont$ la catégorie dont les objets sont les espaces topologiques et les morphismes $\cont(X, Y) = [X, Y]$. C'est la catégorie homotopique forte de $\Top$.
+\end{propositionfr}
+\begin{proof}
+    Il faut montrer que si $f\simeq g$, $h : Y \to Z$, $k : U \to X$ alors :     $hf \simeq hg$, $fk \simeq gk$ et $[f] \circ [g] = [f \circ g]$
+\end{proof}
+
+\begin{définition}{}{}
+    On dit que deux espaces $X, Y$ sont homotopiquement équivalents s'il existe $f : X \to Y$, $g : Y \to X$ continues tel que $gf \simeq id_{X}$ et $fg \simeq id_{Y}$.    
+\end{définition}
+
+
+
+
+\end{document}

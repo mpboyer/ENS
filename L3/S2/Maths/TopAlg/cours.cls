@@ -10,7 +10,7 @@
 \RequirePackage[british, french]{babel}
 \RequirePackage{texnames}
 \RequirePackage{array}
-\RequirePackage{tikz}
+\RequirePackage{tikz, tikz-cd}
 \RequirePackage{booktabs}
 \RequirePackage{textcomp}
 \RequirePackage{pdfpages}
@@ -76,19 +76,24 @@
 \newcommand{\C}{\mathbb{C}}
 \newcommand{\K}{\mathbb{K}}
 \newcommand{\U}{\mathbb{U}}
+\newcommand{\D}{\mathbb{D}}
+\renewcommand{\S}{\mathbb{S}}
+\renewcommand{\P}{\mathbb{P}}
+
 \renewcommand{\O}{\mathcal{O}}
 \newcommand{\A}{\mathcal{A}}
 \newcommand{\mL}{\mathcal{L}}
 \newcommand{\B}{\mathcal{B}}
 \newcommand{\ml}{\mathcal{l}}
-
-\renewcommand{\P}{\mathbb{P}}
-\renewcommand{\d}{{\rm \, d}}
-
-\newcommand{\asympt}{\mathop{\sim}}
+\newcommand{\mR}{\mathcal{R}}
 \newcommand{\lin}{\mathcal{L}}
 \newcommand{\M}{\mathcal{M}}
 \newcommand{\cont}{\mathcal{C}}
+
+\renewcommand{\d}{{\rm \, d}}
+
+\newcommand{\asympt}{\mathop{\sim}}
+
 \renewcommand{\phi}{\varphi}
 \renewcommand{\epsilon}{\varepsilon}
 \renewcommand{\emptyset}{\varnothing}
@@ -103,6 +108,7 @@
 \DeclareMathOperator{\ch}{ch}
 \DeclareMathOperator{\sh}{sh}
 \DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\colim}{colim}
 \renewcommand{\th}{\mathop{\rm th}}
 \makeatletter
 \renewcommand{\ALG@name}{Algorithme}
