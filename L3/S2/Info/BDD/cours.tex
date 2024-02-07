@@ -1,0 +1,309 @@
+\documentclass{cours}
+\title{Bases de Données}
+\author{Pierre Senellart}
+
+\begin{document}
+\part{Base de Données}
+\section{Introduction}
+\subsection{Gestion de Données}
+Numerous applications (standalone software, Web sites, etc.) need to manage data:
+\begin{itemize}
+    \item Structure data useful to the application
+    \item Store them in a persistent manner (data retained even when the application is not running)
+    \item Efficiently query information within large data volumes
+    \item Update data without violating some structural constraints
+    \item Enable data access and updates by multiple users, possibly concurrently
+\end{itemize}
+Often, it is desirable to access the same data from several distinct applications, from distinct computers.
+
+A naïve implementation can be proposed with:
+\begin{itemize}
+    \item Definition ad-hoc file formats to store data on disk, with regular sync and failure recovery.
+    \item In-Memory storage of app data with structures and algorithms for efficiently finding information
+    \item Data update functions which preserve functions. 
+    \item Definition of user access and an authentication process
+    \item Definition of a network communication process
+\end{itemize}
+At the foundations on DBMS (Data Base Management Systems) is the Codd Theorem, expressing the equivalence between logical formalisms and algebra.\\
+
+\begin{définition}{SGBD}{}
+    Un Système de Gestion de Bases de Données (SGBD) est un logiciel qui simplifie le design d'applications qui manipule des données, en proposant un accès indépendant de l'application aux fonctionnalités requises pour le data management. 
+\end{définition}
+
+\begin{définition}{Base de Données}{}
+    Une Base de Données (DB) est une collection de données (spécifiques à une application données) gérée par un SGBD.
+\end{définition}
+
+\begin{propositionfr}{Features des SGBD}{}
+    \begin{description}
+        \item[Indépendence Physique] L'utilisateur d'un SGBD n'a pas besoin de savoir comment les données sont stockées. Le stockage peut être modifié sans impacter l'accès.  
+        \item[Indépendance Logique] Il est possible d'accorder à l'utilisateur une vision partielle des données correspondant à ce dont il a besoin et auquel il a accès.
+        \item[Facilité d'Accès] On utilise un langage déclaratif  décrivant les requêtes et modifications sur la data, spécifiant le but d'un utilisateur plutôt que la manière dont c'est implémenté.
+        \item[Optimisation des Requêtes] Les requêtes sont automatiquement optimisées pour être implémentées aussi efficacement que possible sur la DB. 
+        \item[Intégrité Physique] La DB doit rester dans un état cohérent et les données doivent être préservées, même en cas d'échec logiciel ou physique.
+        \item[Intégrité Logique] Le SGBD fixe des contraintes sur la structure et rejette les modifications brisant ces contraintes.
+        \item[Partage de Données] Les données doivent être accessibles par plusieurs utilisateurs en même temps, et ces accès ne doivent pas briser l'intégrité physique ou logique des données.   
+        \item[Standardisation] L'utilisation d'un SGBD est standardisé, de sorte qu'il est possible de changer de SGBD sans trop changer le code de l'application.
+    \end{description}
+\end{propositionfr}
+
+\subsection{Types de SGBD}
+Il existe des dizaines de SGBD qui ne possèdent pas tous toutes ces features. Ils peuvent être différenciés selon 
+\begin{itemize}
+    \item leur modèle de données
+    \item leur équilibre performance-fonctionnalités
+    \item leur facilité d'utilisation 
+    \item leur scalabilité
+    \item leur architecture interne
+\end{itemize}
+
+\begin{propositionfr}{Types de SGBD}{}
+    \begin{description}
+        \item[Relationnel (RDBMS)] Tables, requêtes complexes (SQL), fonctionnalités nombreuses
+        \item[XML] Arbres, requêtes complexes (XQuery), fonctionnalités semblables au RDBMS
+        \item[Graph/Triples] Données sous forme de graph, requêtes complexes exprimant la navigation dans le graphe.
+        \item[Objets] Modèle de donnée complexe, inspiré par OOP
+        \item[Documents] Modèle complexe, organisé en documents, requêtes et fonctionnalités relativement simples
+        \item[Key-Value] Modèle très basique de données, focus sur la performance.
+        \item[Column Stores] Modèle de données entre Key-Value et RDBMS, focus sur l'itérabilité et l'agglomération de colonnes.  
+    \end{description}
+\end{propositionfr}
+
+Les RDBMS classiques sont basés sur le modèle relationnel (la décomposition de données en relations ou tables). Les RDBMS utilisent un langage de requêtes standard : le SQL. Les données sont stockées sur un disque et les relations sont stockées lignes par lignes. Ceci amène à un système centralisé avec des possibilités de distributions limitées.\\
+Ils sont utiles pour :
+\begin{itemize}
+    \item l'indépendance entre le modèle de donnée et les structures de stockages et les requêtes déclaratives et la manière dont celles-ci sont exécutées.
+    \item leurs requêtes complexes
+    \item leur optimisation fine des requêtes, avec des annuaires permettant un accès rapide aux données
+    \item leur technologie éprouvée, stable, efficace avec de nombreuses fonctionnalitées et interfaces
+    \item des contraintes d'intégrité avec des invariants sur les données
+    \item une gestion efficace de volumes très larges de données (jusqu'aux Terabytes)
+    \item des transactions aveec des garanties sur le controle de la concurrence, du failure recovery et l'isolement des utilisateurs
+\end{itemize} 
+
+\begin{propositionfr}{ACID}{}
+    Les transactions (suite d'opérations élémentaires) RDBMS satisfont les propriétés ACID :
+    \begin{description}
+        \item[Atomicité] L'ensemble des opérations d'une transction est soit éxécuté comme un tout soit annulé comme un tout
+        \item[Consistence] Les transactions assurent que les contraintes d'intégrité sont respectées.
+        \item[Isolement] Deux exécutions en parallèle de transactions amènent à un état équivalent à l'exécution en série des transactions
+        \item[Durabilité] Une fois que les transactions sont effectuées, les données correspondantes restent durablement dans la base, même en cas d'échec système  
+    \end{description}
+\end{propositionfr}
+
+Les RDBMS ont tout de même des faiblesses : 
+\begin{itemize}
+    \item Ils sont incapables de gérer des volumes extrêmement larges de données (de l'ordre d'un petabyte)
+    \item Il est impossible de gérer un rythme extrême de taux de requête (au delà de plusieurs milliers par seconde)
+    \item Le modèle relationnel est parfois mal adapté au stockage et au requêtage de certains types de données (données hiérarchiques, sans ou partiellement structurées)
+    \item Les propriétés ACID impliquent des coûts majeurs en latence, en accès au disque et en temps de calcul
+    \item Les performances sont limitées par l'accès au disque
+\end{itemize}
+Tout ce qui n'est pas un RDBMS est un NoSQL ou NotOnlySQL. Ce sont des DBMS avec des organisations différentes des systèmes classiques. Ils forment un écosystème très divers. Ils utilisent un modèle de données différent, ont de meilleurs performances et un meilleur passage à l'échelle, mais, ils ne vérifient pas les propriétés ACID et parfois n'ont pas de requêtes complexes. 
+
+\section{Modèle Relationnel}
+On fixe dans la suite des ensembles dénombrables : 
+\begin{itemize}
+    \item $\mL$ d'étiquettes
+    \item $\mV$ de valeurs
+    \item $\mT$ de types tels que $\forall \tau \in \mT, \tau \subseteq \mV$
+\end{itemize}
+\begin{définition}{Schéma Relationnel}{}
+    Un schéma relationnel (d'arité $n$) est un $n$-uplet $\left(A_{1}, \ldots, A_{n}\right)$ où chaque $A_{i}$ (appelé attribut) est une $L_{i}, \tau_{i}$ où $L_{i} \in \mL$, $\tau_{i}\in \mT$ de sorte que tous les $L_{i}$ sont distincts.
+\end{définition}
+
+\begin{définition}{Schéma de Base de Données}{}
+    Un schéma de DB est défini comme un ensemble fini $L$ d'étiquettes de $\mathcal{L}$ (noms de relations), chaque étiquette de $L$ étant associé à un schéma relationnel. 
+\end{définition}
+
+\begin{définition}{Instance Relationnelle}{}
+    Une instance de schéma relationnel $\left(\left(L_{1}, \tau_{1}\right), \ldots, \left(L_{n}, \tau_{n}\right)\right)$ (aussi appelé une relation sur ce schéma) est un ensemble fini $\left\{t_{1}, \ldots, t_{k}\right\}$ de tuples de la forme $t_{j} = \left(v_{j, 1}, \ldots, v_{j, n}\right)$ où $\forall j, \forall i, v_{j, i} \in \tau_{i}$.
+\end{définition}
+
+\begin{définition}{Instance de DB}{}
+    Une instance de schéma de base de données (ou simplement une base de donnée sur ce schéma) est une fonction qui à chaque nom de relation associe une instance du schéma relationnel correspondant. 
+\end{définition}
+
+Le mot \og Relation \fg est utilisé de manière ambigüe pour parler d'un schéma relationnel ou d'une instance d'un schéma relationnel. 
+
+On peut prendre une DB formée de deux noms de relations \texttt{Guest} et \texttt{Reservation} où :
+\begin{itemize}
+    \item \texttt{Guest: ((id, INTEGER), (name, TEXT), (email, TEXT))}
+    \item \texttt{Reservation: ((id, INTEGER), (guest, INTEGER), (room, INTEGER), (arrival, DATE), (nights, INTEGER))}
+\end{itemize} 
+On peut alors représenter une instance par ses deux tables : 
+\begin{center}
+    {\tt Guest}\\
+    \begin{tabular}{ccc}
+        \toprule
+        id & name & email\\
+        \midrule
+        1 & John Smith & john.smith@gmail.com\\
+        2 & Alice Black & alice@black.name\\
+        3 & John Smith & john.smith@ens.fr\\
+        \bottomrule
+    \end{tabular}\\
+    \vspace{.3cm}
+    {\tt Reservation}\\
+    \begin{tabular}{ccccc}
+        \toprule
+        id & guest & room & arrival & nights\\
+        \midrule 
+        1 & 1 & 504 & 2017-01-01 & 5\\
+        2 & 2 & 107 & 2017-01-10 & 3\\
+        3 & 3 & 302 & 2017-01-15 & 6\\
+        4 & 2 & 504 & 2017-01-15 & 2\\
+        5 & 2 & 107 & 2017-01-30 & 1\\
+        \bottomrule
+    \end{tabular}
+\end{center}
+
+\begin{définition}{Notations}{}
+    \begin{itemize}
+        \item Si $A = \left(L, \tau\right)$ est le $i$-ème attribut d'une relation $R$ et $t$ un $n$-uplet d'une instance de $R$, on note $t[A]$ ou $t[L]$ la valeur de la $i$-ème composante de $t$.
+        \item De même, si $\A$ est un $k$-uplet d'attributs, $t[A]$ est la $k$-uplets concaténé des $t[A]_{A\in \A}$.
+    \end{itemize}
+\end{définition}
+
+On peut de plus définir des contraintes d'intégrités pour définir la notion de validité d'une instance :
+\begin{définition}{Contrainte simples d'intégrité}{}
+    \begin{description}
+        \item[Clef] Un tuple d'attributs $\A$ d'un schéma relationnel $R$ est une clef s'il n'existe pas deux tuples distincts dans une instance de $R$ ayant les même valeurs sur $\A$. 
+        \item[Clef Étrangère] Un $k$-uplet d'attributs $\A$ d'un schéma $R$ est une clef étrangère référencent un $k$-uplet $\B$ d'attributs d'un schéma $S$ si pour toutes instances $I^{R}$ et $I^{S}$ de $R$ et $S$, pour tout tuple $t$ de $I^{R}$, il existe un unique tuple $t'$ de $I^{S}$ avec $t[\A] = t'[\B]$
+        \item[Check] Une condition arbitraire sur les valeurs des attributs d'une relation
+    \end{description}
+\end{définition}
+
+\begin{définition}{Variante : Perspectives Nommée et Non-Nommées}{}
+    \begin{description}
+        \item[Perspective Nommée] On oublie la position de l'attribut et on considère qu'ils sont uniquement identifiés par leurs noms.
+        \item[Perspective Non Nommée] On oublie le nom des attributs et on considère qu'ils sont uniquement identifiés par leur position.  
+    \end{description}
+    La perspective n'a pas d'impact majeur, seulement sur la praticité. On utilise plus généralement et le nom et la position. 
+\end{définition}
+
+\begin{définition}{Variante : Sémantique Multi-Ensemble}{}
+    Une instance relationnelle est défini comme un ensemble (fini) de tuples. On peut aussi considérer une sémantique multi-ensemble du modèle relationnel, où une instance relationnelle est un multi-ensemble de tuples. \\
+    C'est ce qui fonctionne le mieux pour définir comment les RDBMS fonctionnent, mais la plupart de la théorie est établie pour la sémantique à ensembles. 
+\end{définition}
+
+\begin{définition}{Variante : Non-Typée}{}
+    Dans les modèles et les résultats théoriques, on abstractise souvent les types des attributs et on considère que chaque attribut à un type universel $\mV$. 
+\end{définition}
+
+\section{Langages de Requêtes}
+\subsection{Algèbre Relationnel}
+\begin{définition}{Algèbre Relationnel}{}
+    Une expression de l'algèbre relationnel produit une nouvelle relation des relations de la DB à partir d'opérateurs prenant $0, 1$ ou $2$ sous-expressions : 
+    \begin{center}
+        \begin{tabular}{cccc}
+            \toprule
+            Op. & Arité & Description & Condition\\
+            $R$ & $0$ & Nom de Relation & $R\in \mL$\\
+            $\rho_{A \to B}$ & $1$ & Renommage & $A, B \in \mL$\\
+            $\Phi_{A_{1}\ldots A_{n}}$ & $1$ & Projection & $A_{1},\ldots, A_{n} \in \mL$\\
+            $\sigma_{\phi}$ & $1$ & Sélection & $\phi$ formule\\
+            $\times$ & $2$ & Produit & \\
+            $\cup$ & $2$ & Union & \\
+            $\setminus$ & $2$ & Différence & \\
+            $\bowtie_{\phi}$ & $2$ & Jointure & $\phi$ formule
+        \end{tabular}
+    \end{center}
+\end{définition}
+
+\begin{description}
+    \item[Relation] Expression: \texttt{Guest}\\
+    Résultat : \begin{tabular}{ccc}
+        \toprule
+        id & name & email\\
+        \midrule
+        1 & John Smith & john.smith@gmail.com\\
+        2 & Alice Black & alice@black.name\\
+        3 & John Smith & john.smith@ens.fr\\
+        \bottomrule
+    \end{tabular}
+    \item[Renommage] Expression: $\rho_{\ve{id}\to\ve{guest}}(\ve{Guest})$\\
+    Résultat : \begin{tabular}{ccc}
+        \toprule
+        \tt guest & \tt name & \tt email\\
+        \midrule
+        1 & John Smith & john.smith@gmail.com\\
+        2 & Alice Black & alice@black.name\\
+        3 & John Smith & john.smith@ens.fr\\
+        \bottomrule
+    \end{tabular}
+    \item[Projection] Expression : $\Pi_{\ve{email, id}}(\ve{Guest})$\\
+    Résultat : \begin{tabular}{ccc}
+        \toprule
+        \tt email & \tt id\\
+        \midrule
+        john.smith@gmail.com & 1\\
+        alice@black.name & 2\\
+        john.smith@ens.fr & 3\\
+        \bottomrule
+    \end{tabular}
+    \item[Selection] Expression : $\sigma_{\ve{arrival}>\ve{2017-01-12}\land\ve{guest}=2}(\ve{Reservation})$\\
+    Résultat : \\
+    La formule utilisé dans la sélection peut contenir n'importe quelle combinaison avec des opérateurs booléens de comparaisons d'attributs à attributs ou de constantes.
+    \item[Produit] Expression : $\Pi_{\ve{id}}(\ve{Guest}) \times \Pi_{\ve{name}}(\ve{Guest})$\\
+    Résultat : \begin{tabular}{cc}
+        \toprule
+        \tt id & \tt name\\
+        \midrule
+        1 & Alice Black \\
+        2 & Alice Black \\
+        3 & Alice Black \\
+        1 & John Smith \\
+        2 & John Smith\\
+        3 & John Smith\\
+        \bottomrule
+    \end{tabular}
+    \item[Union]  Expression : $\Pi_{\ve{room}}\left(\sigma_{\ve{guest=2}}\left(\ve{Reservation}\right)\right) \cup$\\
+    $\Pi_{\ve{room}}\left(\sigma_{\ve{arrival=2017-01-15}}\left(\ve{Reservation}\right)\right)$\\
+    Résultat : 
+    \begin{tabular}{c}
+        \toprule
+        \tt room \\
+        \midrule 
+        107\\
+        302\\
+        504\\
+        \bottomrule
+    \end{tabular}\\
+    Cet union aurait pû être écrite 
+    \[
+        \Pi_{\ve{room}}\left(\sigma_{\ve{guest=2}\lor\ve{arrival=2017-01-15}}\left(\ve{Reservation}\right)\right)
+    \]
+    \item[Différence] Expression : $\Pi_{\ve{room}}\left(\sigma_{\ve{guest = 2}}\left(\ve{Reservation}\right)\right)\setminus$\\
+    $\Pi_{\ve{room}}\left(\sigma_{\ve{arrival=2017-01-15}}\left(\ve{Reservation}\right)\right)$\\
+    Résultat : \begin{tabular}{c}
+        \toprule
+        \tt room\\
+        \midrule
+        107\\
+        \bottomrule
+    \end{tabular}\\
+    Cette différence simple aurait pû être écrite 
+    \[
+        \Pi_{\ve{room}}\left(\sigma_{\ve{guest=2}\land\ve{arrival}\neq\ve{2017-01-15}}\left(\ve{Reservation}\right)\right)    
+    \]
+
+    \item[Jointure] Expression : $\ve{Reservation} \bowtie_{\ve{guest=id}} \ve{Guest}$
+    Résultat : \\
+    \begin{tabular}{ccccccc}
+        \toprule
+        \tt id & \tt guest & \tt arrival & \tt nights & \tt name & \tt email\\
+        \midrule
+        1 & 1 & 504 & 2017-01-01 & 5 & John Smith & john.smith@gmail.com\\
+        2 & 2 & 107 & 2017-01-10 & 3 & Alice Black & alice@black.name\\
+        3 & 3 & 302 & 2017-01-15 & 6 & John Smith & john.smith@ens.fr\\
+        4 & 2 & 504 & 2017-01-15 & 2 & Alice Black & alice@black.name\\
+        5 & 2 & 107 & 2017-01-30 & 1 & Alice Black & alice@black.name\\
+        \bottomrule
+    \end{tabular}\\
+    La formule utilisée dans la jointure peut être n'importe quelle combinaison booléenne de comparaisons d'attibuts de la table de gauche et de la table de droite. \\
+    La jointure n'est pas une opération élémentaire de l'algèbre relationnelle. Elle peut être vue comme une combinaison de Renommage, de Produit, de sélection et de projection.\\
+    Si $R$ et $S$ ont pour attributs $\A$ et $\B$, on note $R \bowtie S$ la jointure naturelle de $R$ et $S$ où la formule de jointure est $\bigwedge_{A \in \A \cap \B} A = A$.
+\end{description}
+
+\end{document}

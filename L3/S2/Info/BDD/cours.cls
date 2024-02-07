@@ -81,6 +81,8 @@
 \newcommand{\mL}{\mathcal{L}}
 \newcommand{\B}{\mathcal{B}}
 \newcommand{\ml}{\mathcal{l}}
+\newcommand{\mV}{\mathcal{V}}
+\newcommand{\mT}{\mathcal{T}}
 
 \renewcommand{\P}{\mathbb{P}}
 \renewcommand{\d}{{\rm \, d}}
@@ -133,6 +135,8 @@
 \renewcommand{\H}{\mathbb{H}}
 \newcommand{\transpose}[1]{{^{\mathsf{t}}}#1}
 \newcommand{\onen}[1]{\left\llbracket 1, #1\right\rrbracket}
+\newcommand{\ve}[1]{\texttt{#1}}
+
 
 \usetikzlibrary{automata, arrows, calc, matrix, positioning}
 \usetikzlibrary{math}
