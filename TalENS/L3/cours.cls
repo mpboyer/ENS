@@ -48,7 +48,8 @@
         \includegraphics[height=6em]{/home/matthieu/Documents/ETUDES/ENS/ens_psl.pdf}
     \end{center}
     %\newpage
-    \tableofcontents}
+    %\tableofcontents
+    }
 
 
 \titleformat{\paragraph}
@@ -63,6 +64,7 @@
 \newtheorem{proposition}{Proposition}[subsection]
 \newtheorem{definition}{Définition}[subsection]
 \newtheorem{example}{Exemple}[subsection]
+\newtheorem{question}{Question}[section]
 
 
 \renewcommand{\d}{{\, \rm d}}

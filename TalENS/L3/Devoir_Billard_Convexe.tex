@@ -1,0 +1,106 @@
+\documentclass{cours}
+\title{Problèmes sur les Billards Convexes}
+\author{Matthieu Boyer}
+\date{}
+
+\begin{document}
+Ce devoir est constitué de trois petits problèmes indépendants sur les thèmes abordés dans le dernier cours. Il sera à rendre au prochain cours, le $2$ Mars. Vous n'êtes pas obligés de tout faire, mais essayez d'y réfléchir. 
+
+\section{Compacité}
+On rappelle qu'une partie est compacte si et seulement si elle est fermée (toute suite convergente à valeurs dans $X$ à sa limite dans $X$) et bornée (tous les éléments de $X$ sont à une distance inférieure à un certain réel de $0$). Une suite $\left(x_{j} = \left(x_{j, 1}, \ldots, x_{j, n}\right)\right)_{n\in \N}$ de $\R^{n}$ converge si et seulement si toutes ses coordonées convergent. \\
+On rappelle de plus que la norme d'un point $x = (x_{1}, \ldots, x_{n})$, ou sa distance à $0$ est le nombre réel $\norm{x} = \sum_{i = 1}^{n} x_{i}^{2}$\\
+
+\begin{question}
+    Montrer que $\mathbb{B}^{n} = \{(x_{1}, \ldots, x_{n})\in \R^{n} \mid \sum_{i = 1}^{n} x_{i}^{2} \leq 1\}$ est compact.
+\end{question}
+
+\begin{question}
+    Montrer que $\mathbb{S}^{n - 1} = \{(x_{1}, \ldots, x_{n})\in \R^{n} \mid \sum_{i = 1}^{n} x_{i}^{2} = 1\}$ est compact.
+\end{question}
+
+On rappelle que la frontière $\partial X$ d'une partie $X$ est l'ensemble des points de $X$ tel qu'il existe un point $y$ hors de $X$ à distance $\norm{x - y} \leq \epsilon$ pour tout $\epsilon > 0$.
+\begin{question}
+    Montrez que $\partial\mathbb{B}^{n} = \mathbb{S}^{n - 1}$.
+\end{question}
+
+On rappelle que si $\left(u_{n}\right)_{n \in \N}$ est une suite de limite $x$, et si $f$ est continue, alors $\left(f(x_{n})\right)_{n \in \N}$ converge vers $f(x)$.
+
+\begin{question}
+    On se donne un compact $K$ et une fonction continue $f$. Montrez que $f(K)$ est compact.
+\end{question}
+
+On rappelle que si $f: A \to B$, on a $f^{-1}(B) = \left\{x \in A \mid f(x) \in B\right\}$
+
+\begin{question}\footnote{Cette question est plus difficile, vous pouvez quand même faire le 1. sans problème.}
+    Soit $K$ un compact, et $f$ une fonction continue. 
+    \begin{enumerate}
+        \item Est-ce que $f^{-1}(K)$ est compact ?
+        \item Montrez que $f^{-1}(K)$ est fermé.
+        \item Que dire si $f$ est bijective ? Que dire si $f^{-1}$ est continue ? 
+    \end{enumerate}
+\end{question}
+
+\section{Convexité}
+On rappelle qu'une partie $\cont$ est convexe si et seulement si \[\forall x, y \in \cont, \left[x, y\right] = \left\{tx + (1-t)y \mid t \in [0, 1]\right\} \subseteq \cont\] Autrement dit, si les segments entre deux points sont inclus dans la partie considérée.\\
+On rappelle qu'une fonction $f$ est convexe si et seulement si \[\forall x, y, f(tx + (1-t)y) \leq tf(x) + (1-t)f(y)\] Si l'inégalité est inversée, on dit que $f$ est concave.
+
+\begin{question}
+    Soit $f : \R \to \R$. Montrez que $\cont(f) = \left\{\left(x, f(x)\right) \mid x \in \R\right\}$ est convexe si et seulement si $f$ est convexe.
+\end{question}
+
+\begin{question}
+    Soit $f, g$ deux fonctions convexes.
+    \begin{enumerate}
+        \item Est-ce que $\max(f, g)$ est convexe ?
+        \item Est-ce que $\min(f, g)$ est convexe ? 
+    \end{enumerate}
+\end{question}
+
+\begin{question}
+    Soit $f$ bijective strictement croissante convexe. C'est-à-dire que si $x < y$ alors $f(x) < f(y)$. Etudiez la convexité de $f^{-1}$.
+\end{question}
+
+On appelle enveloppe convexe de $F$ l'ensemble $conv(F) = \left\{\sum_{i = 1}^{n} \lambda_{i}x_{i} \mid \sum_{i = 1}^{n}\lambda_{i} = 1, x_{1}, \ldots, x_{n} \in F^{n}\right\}$.
+
+\begin{question}\footnote{Cette question utilise la partie 1 dont on pourra admettre les résultats.}
+    On se donne un compact $K$.
+    \begin{enumerate}
+        \item Montrez que $\mathcal{H} = \left\{\left(\lambda_{1}, \ldots, \lambda_{n} \mid \sum_{i = 1}^{n}\lambda_{i} = 1\right)\right\}$ est compact.
+        \item On admet que le produit $A \times B = \left\{(a, b) \mid a \in A, b \in B\right\}$ de deux compacts est compact. Montrez que $\mathcal{H} \times K^{n}$ est compact.
+        \item Une fonction est polynômiale si elle a la forme d'une somme de produits de nombre. On admet que les applications polynômiales sont continues. Montrez que $conv(K)$ est convexe.
+    \end{enumerate}
+\end{question}
+
+\section{Lois de Snell-Descartes}
+On rappelle les lois de Snell-Descartes:
+    
+        Un rayon de lumière entrant depuis un milieu $1$ d'indice optique $n_{1}$ dans un milieu $n_{2}$ avec un angle à la normale $i_{1}$ est réfléchi et réfracté selon les lois suivantes:
+        \begin{description}
+            \item[Réfraction :] Son angle $i_{2}$ de sortie dans le milieu $2$ vérifie \[n_{1}\sin{\left(i_{1}\right)} = n_{2}\sin{\left(i_{2}\right)}\]
+            \item[Réflexion :]  Son angle $i_{1}'$ de réflexion dans le milieu $1$ est tel que la normale au milieu au point d'incidence est la bissectrice de l'angle $i_{1} + i_{1}'$.
+        \end{description}
+    
+Dans la suite, pour appuyer votre raisonnement, vous devrez faire un petit schéma (ou amender un schéma précédent) représentant la situation abstraite considérée. Vous trouverez les données pour des applications numériques en fin d'énoncé.\\
+
+On plante une épingle dans un bouchon en liège en forme de disque de rayon $a$. On fait flotter le bouchon sur de l'eau, l'épingle vers le bas. L'épingle dépasse du bouchon d'une hauteur $h$.\\
+On observe la situation depuis un point au dessus de l'eau. On rappelle que l'on peut voir un point si un rayon de lumière peut partir de l'oeil jusqu'au point considéré.
+
+\begin{question}
+    Représentez la situation générale. Prenez bien soin de rajouter toutes les variables utiles, indices des milieux et angle compris.
+\end{question}
+
+\begin{question}
+    A quelle condition sur l'angle d'incidence peut-on voir l'aiguille ? 
+\end{question}
+
+\begin{question}
+    A quelle condition sur la hauteur de l'aiguille est-il impossible de la voir ? 
+\end{question}
+
+
+
+
+
+
+\end{document}
+
