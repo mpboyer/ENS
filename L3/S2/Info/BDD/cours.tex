@@ -199,6 +199,7 @@ On peut de plus définir des contraintes d'intégrités pour définir la notion 
         \begin{tabular}{cccc}
             \toprule
             Op. & Arité & Description & Condition\\
+            \midrule
             $R$ & $0$ & Nom de Relation & $R\in \mL$\\
             $\rho_{A \to B}$ & $1$ & Renommage & $A, B \in \mL$\\
             $\Phi_{A_{1}\ldots A_{n}}$ & $1$ & Projection & $A_{1},\ldots, A_{n} \in \mL$\\
@@ -206,7 +207,8 @@ On peut de plus définir des contraintes d'intégrités pour définir la notion 
             $\times$ & $2$ & Produit & \\
             $\cup$ & $2$ & Union & \\
             $\setminus$ & $2$ & Différence & \\
-            $\bowtie_{\phi}$ & $2$ & Jointure & $\phi$ formule
+            $\bowtie_{\phi}$ & $2$ & Jointure & $\phi$ formule\\
+            \bottomrule
         \end{tabular}
     \end{center}
 \end{définition}
@@ -231,7 +233,7 @@ On peut de plus définir des contraintes d'intégrités pour définir la notion 
         2 & Alice Black & alice@black.name\\
         3 & John Smith & john.smith@ens.fr\\
         \bottomrule
-    \end{tabular}
+    \end{tabular}\\
     \item[Projection] Expression : $\Pi_{\ve{email, id}}(\ve{Guest})$\\
     Résultat : \begin{tabular}{ccc}
         \toprule
@@ -241,10 +243,10 @@ On peut de plus définir des contraintes d'intégrités pour définir la notion 
         alice@black.name & 2\\
         john.smith@ens.fr & 3\\
         \bottomrule
-    \end{tabular}
+    \end{tabular}\\
     \item[Selection] Expression : $\sigma_{\ve{arrival}>\ve{2017-01-12}\land\ve{guest}=2}(\ve{Reservation})$\\
     Résultat : \\
-    La formule utilisé dans la sélection peut contenir n'importe quelle combinaison avec des opérateurs booléens de comparaisons d'attributs à attributs ou de constantes.
+    La formule utilisé dans la sélection peut contenir n'importe quelle combinaison avec des opérateurs booléens de comparaisons d'attributs à attributs ou de constantes.\\
     \item[Produit] Expression : $\Pi_{\ve{id}}(\ve{Guest}) \times \Pi_{\ve{name}}(\ve{Guest})$\\
     Résultat : \begin{tabular}{cc}
         \toprule
@@ -257,7 +259,7 @@ On peut de plus définir des contraintes d'intégrités pour définir la notion 
         2 & John Smith\\
         3 & John Smith\\
         \bottomrule
-    \end{tabular}
+    \end{tabular}\\
     \item[Union]  Expression : $\Pi_{\ve{room}}\left(\sigma_{\ve{guest=2}}\left(\ve{Reservation}\right)\right) \cup$\\
     $\Pi_{\ve{room}}\left(\sigma_{\ve{arrival=2017-01-15}}\left(\ve{Reservation}\right)\right)$\\
     Résultat : 
