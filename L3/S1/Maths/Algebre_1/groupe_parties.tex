@@ -1,0 +1,29 @@
+\documentclass{cours}
+
+\title{Sur une Manière de Construire une Loi de Groupes sur les Parties d'un Groupe Fini}
+
+\begin{document}
+\section{Action de $\znz{n}$ sur ses Parties}
+\subsection{Additive}
+Dans cette sous-section on considère l'action de $\znz{n}$ sur l'ensemble $\mP$ de ses parties définie par : 
+\[
+	\forall P \subseteq \znz{n}, \forall k \in \znz{n}, k\oplus P = \left\{k + x \mid x \in P\right\}
+\]
+Cette action est fidèle mais elle n'est pas libre. En considérant $2 \in \znz{4}$ et $P = \{0, 2\}$, on a $2 \oplus P = P$. Pour la même raison, cette action n'est pas transitive.
+
+\subsection{Multiplicative}
+On considère l'action de $\znz{n}$ sur l'ensemble $\mP$ de ses parties définie par : 
+\[
+	\forall P \subseteq \znz{n}, \forall k \in \znz{n}, k\otimes P = \left\{k x \mid x \in P\right\}
+\]
+Cette action est fidèle mais elle n'est pas libre : En considérant $x \in \znz{p}^{*}$ et $P = \znz{p}$, on a $x \otimes P = P$ car $x$ est inversible. 
+
+\section{Groupe des Parties de $\znz{n}$}
+\subsection{Loi de Corps}
+Comme $\abs{\mP\left(\znz{n}\right)} = 2^{n}$, on peut définir par transfert de structure grâce à une bijection ensembliste entre $\mP\left(\znz{n}\right)$ et $\mathbb{F}_{2^{n}} = \mathbb{F}_{2}[X] / P_{2, n}$ où $P_{2, n} \in \mathbb{F}_{2}_{n}[X]$ est irréductible. 
+Cette loi n'est pas très naturelle au sens où elle n'a aucun rapport avec $\znz{n}$ mais avec $\znz{2}^{n}$. 
+
+\subsection{Loi de Groupe}
+
+
+\end{document}

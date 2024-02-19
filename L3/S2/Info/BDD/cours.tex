@@ -308,4 +308,158 @@ On peut de plus définir des contraintes d'intégrités pour définir la notion 
     Si $R$ et $S$ ont pour attributs $\A$ et $\B$, on note $R \bowtie S$ la jointure naturelle de $R$ et $S$ où la formule de jointure est $\bigwedge_{A \in \A \cap \B} A = A$.
 \end{description}
 
+\part{Calcul Relationnel}
+\section{Calcul Relationnel}
+\subsection{Définitions}
+\begin{définition}{Calcul Relationnel}{}
+    Le calcul relationnel est un langage logique pour exprimer les requêtes, construit avec de la FOL, sans symboles de fonctions et avec commes symboles de relation les étiquettes du schéma de base de données.
+\end{définition}
+
+Dans la suite on se fixe : 
+\begin{itemize}
+    \item Un ensemble $\mX$ de variables
+    \item Un ensemble $\mV$ de valeurs
+    \item Un schéma de BDD $\mS$.
+\end{itemize}
+
+\begin{propositionfr}{Syntaxe}{}
+    \begin{itemize}
+        \item Pour toute relation $R \in \mS$ d'arité $n$, pour tout $\left(\alpha_{1}, \ldots, \alpha_{n}\right) \in \left(\mX \cup \mV\right)^{n}$, $R(\alpha_{1}, \ldots, \alpha_{n}) \in FO$.
+        \item $\alpha = \alpha' \in FO$ pour $\left(\alpha, \alpha'\right)\in \left(\mX \cup \mV\right)^{2}$
+        \item On autorise la quantification existentielle et universelle, la négation, la conjonction et la disjonction.
+    \end{itemize}
+    On écrit alors une requête du calcul relationnel sous la forme $Q(x_{1}, \ldots, x_{m}) = \phi$ où $x_{1}, \ldots, x_{m}$ sont des variables libres de $\phi$.
+\end{propositionfr}
+
+\begin{propositionfr}{Sémantique}{}
+    Une requête peut être vue comme une fonction ayant pour input une base de donnée $D$ sur $\mS$ et produisant une relation. On note $\models$ la relation définie par induction ci-dessous : 
+    \begin{itemize}
+        \item $D \models (R(u_{1}, \ldots, u_{m})) \Longleftrightarrow R(u_{1}, \ldots, u_{m}) \in D$
+        \item $D \models \phi_{1} \land \phi_{2} \Longleftrightarrow \left(D \models \phi_{1}\right) \land \left(D\models \phi_{2}\right)$
+        \item $D \models \phi_{1} \lor \phi_{2} \Longleftrightarrow \left(D \models \phi_{1}\right) \lor \left(D\models \phi_{2}\right)$
+        \item $D \models \lnot\phi_{1} \Longleftrightarrow D \not\models \phi_{1}$
+        \item $D \models \forall x \ \phi_{1} \Longleftrightarrow \forall v \in {\tt adom}(D), D \models \phi_{1}[x \leftarrow v]$
+        \item $D \models \exists x \ \phi_{1} \Longleftrightarrow \exists v \in {\tt adom}(D), D \models \phi_{1}[x \leftarrow v]$
+    \end{itemize}
+    Alors, une requête $Q$ s'écrit : 
+    \[
+        Q(D) \left\{(v_{1}, \ldots, v_{m}) \in {\tt adom}(D)^{n}\mid D \models \phi[x_{1} \leftarrow v_{1}, \ldots, x_{m} \leftarrow v_{m}]\right\}
+    \]
+\end{propositionfr}
+
+\begin{définition}{Sous-Classes de Requêtes}{}
+    \begin{description}
+        \item[Requête Conjonctive] Calcul Relationnel sans $\lor, \lnot, \forall$
+        \item[Requête Positive] Calcul relationnel sans $\lnot, \forall$
+        \item[Requête Union de Conjonctives] Cas de requête positive où les $\lor$ et $\land$ forment une formule sous FNC. 
+        \item[Requête Booléenne] Requête sans variable libre  
+    \end{description}
+\end{définition}
+
+\subsection{Théorème de Codd}
+\begin{théorème}{Codd}{}
+    L'algèbre relationnelle et le calcul relationnel sont équivalents : 
+    \begin{itemize}
+        \item Pour toute requête $q$ de l'algèbre relationnelle sur un schéma $S$ il existe une requête $Q$ du calcul relationnel sur $S$ telle que pour toute base de donnée $D$ sur $S$, $q(D) = Q(D)$
+        \item Pour toute requête $Q$ du calcul relationnel sur un schéma $S$ il existe une requête $q$ de l'algèbre relationnelle sur $S$ telle que pour toute base de donnée $D$ sur $S$, $q(D) = Q(D)$
+    \end{itemize}
+    De plus, la traduction d'un formalisme à l'autre s'effectue en temps polynômial. 
+\end{théorème}
+\begin{proof}
+    \begin{itemize}
+        \item[Algèbre $\to$ Calcul] Montrer que chaque opérateur de l'algèbre peut être réécrit dans le calcul
+        \item[Calcul $\to$ Algèbre] Construire une requête permettant de renvoyer toutes les valeurs du domaine actif puis réécrire par induction toute expression du calcul en une expression algébrique.
+    \end{itemize}
+\end{proof}
+
+Ce théorème nous autorise à utiliser un formalisme déclaratif pour spécifier nos requêtes : la logique, ou le SQL. On peut alors les compiler par la transformation de Codd en un formalisme algébrique. Les requêtes algébriques sont alors optimizées, puis évaluées. 
+
+\section{Complexité de l'évaluation de Requêtes}
+\subsection{Définitions}
+On cherche à évaluer la complexité de l'évaluation de $Q(D)$ où $Q$ est une formule dans un certain langage de requêtage (ici la FOL) et $D$ une base de donnée finie. Pour simplifier l'étude, on va supposer que $Q$ est une requête booléenne.
+\begin{propositionfr}{Complexité}{}
+    On a : 
+    \[
+        \tt AC^{0} \subsetneq PTIME \subseteq NP \subseteq PSPACE
+    \]
+\end{propositionfr}
+\begin{définition}{Complexité Descriptive}{}
+    Un langage de requêtes $\mathcal{Q}$ capture une classe de complexité $\cont$ si : 
+    \begin{itemize}
+        \item Pour tout $Q \in \mathcal{Q}$, l'évaluation de la requête $Q$ est dans $\cont$
+        \item Pour tout problème $P \in \cont$, il existe une requête $Q \in \mathcal{Q}$ dont l'évaluation résout exactement $P$ (sans réduction).
+    \end{itemize}
+    Si $\mathcal{Q}$ capture $\cont$ et si $\cont$ a des problèmes complets pour $\cont$ il existe une requête $\cont$-complète dans $\mathcal{Q}$, mais la réciproque est fausse. 
+\end{définition}
+
+\subsection{Calcul Relationnel}
+\begin{théorème}{Évaluation FOL}{}
+    L'évaluation de la FOL est $\texttt{PTIME}$ en la taille des données.
+\end{théorème}
+\begin{proof}
+    On réécrit en forme normale prénèxe et on évalue naïvement.
+\end{proof}
+\begin{théorème}{Capture de FO}{}
+    On ne peut pas calculer dans $FOL$ qu'une relation contenant un ordre total a un nombre pair d'éléments
+\end{théorème}
+
+\begin{théorème}{Évaluation FOL mais Mieux}{}
+    L'évaluation de la FOL est $\texttt{AC}^{0}$ en la taille de la base de données.
+\end{théorème}
+\begin{proof}
+    On réécrit vers l'algèbre relationnel. 
+\end{proof}
+
+\begin{théorème}{Évaluation FOL Combinée}{}
+    L'évaluation de la FOL est $\texttt{PSPACE}$-complète en la taille de la requête de la base de données
+\end{théorème}
+\begin{proof}
+    Le caractère ${\tt PSPACE}$-difficile découle de l'existence de \texttt{QSAT}.
+\end{proof}
+
+\section{Analyse Statique de Requêtes}
+\subsection{Équivalence et Contenu}
+On cherche à trouver des requêtes équivalentes à d'autres mais plus rapides à évaluer. On ne considère ici que des optimisations globales, c'est à dire considérant une requête en entier.
+\begin{définition}{Équivalence, Minimalité et Contenant}{}
+    On dit que :
+    \begin{itemize}
+        \item Une requête $q$ est contenue dans une requête $q'$, noté $q \sqsubseteq q'$ si pour toute base de données $D$, $q(D) \subseteq q'(D)$.
+        \item Une requête $q$ est équivalente à une requête $q'$, noté $q \equiv q'$ si pour toute base de données $D$, $q(D) = q'(D)$.
+        \item Une requête $q'$ est minimale si $q'$ est la meilleure requête équivalente à $q \in \mathcal{Q}$
+    \end{itemize}
+\end{définition}
+
+\subsection{Calcul Relationnel}
+\begin{définition}{Satisfiabilité}{}
+    Une requête booléenne du calcul relationnel $q$ est satisfiable s'il existe une base de données (finie) $D$ telle que $D \models q$.
+\end{définition}
+
+\begin{théorème}{Trakhtenbrot - Satisfiabilité du Calcul Relationnel}{}
+    La satisfiabilité du calcul relationnel (dans le cas fini) est indécidable et récursivement énumérable.
+\end{théorème}
+\begin{proof}
+    \begin{description}
+        \item[Difficulté] Réduction depuis le problème de correspondance de POST. 
+        \item[R-E] Énumérer les BDD.   
+    \end{description}
+\end{proof}
+
+\begin{théorème}{Satisfiabilité de la FOL}{}
+    La satisfiabilité de la FOL sur des modèles infinis est indécidable et co-récursivement énumérable. 
+\end{théorème}
+\begin{proof}
+    \begin{description}
+        \item[Difficulté] Coder le non-arrêt d'une machine de Turing dans une formule de la FOL
+        \item[Co-R-E] Par théorème de complétude de Gödel, chaque formule valide a une preuve, il suffit de les énumérer.  
+    \end{description}
+\end{proof}
+
+\begin{théorème}{Contenance et Équivalence}{}
+    La contenance et l'équivalence de requête du calcul relationnel sont indécidables et co-récursivement énumérable. 
+\end{théorème}
+\begin{proof}
+    L'indécidabilité est par réduction directe de l'indécidabilité de la satisfiabilité. La co-récursivement énumérabilité est montré directement en énumérant les contre-exemples possibles. 
+\end{proof}
+
+
 \end{document}

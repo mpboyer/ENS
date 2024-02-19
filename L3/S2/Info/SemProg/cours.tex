@@ -1,0 +1,530 @@
+\documentclass{cours}
+
+\title{Sémantique et Applications à la Vérification de Programmes}
+\author{Xavier Rival \& Jérôme Féret}
+
+\begin{document}
+\section{Introduction}
+\subsection{Études de Cas}
+\subsubsection{Ariane 5, Vol 501, 1996}
+À son premier vol, la fusée Ariane 5, remplaçante de la Ariane 4 s'est désintégrée. Au bout de 36.7s elle a changé d'angle d'attaque, et au bout de 39s elle s'est désintégrée.\\
+La fusée contenait des capteurs qui envoyaient leurs résultats à 2 calculateurs (un SRT et un OBC) puis aux moteurs. La fusée contenait des registres de $16, 32$ et $64$ bits. Les opérations sur flottants se faisaient sur $64$ bits et les entiers signés étaient stockés sur $16$ bits. A la copie de donnée, des conversions sont faites avec des arrondis. Quand les valeurs sont trop grandes, on a soit une interruption du processus (code de gestion d'erreurs, ou crash) ou un comportement inattendu. Le SRI tournait en mode interruptif, mais n'avait pas de code de gestion d'erreurs. Ceci a causé à l'explosion : 
+\begin{itemize}
+    \item Conversion d'un flottant 64 bits vers un entier signé 16 bit qui cause un overflow
+    \item Une interruption a lieu
+    \item Le SRI crash par manque de code de gestion d'erreur
+    \item Le crash envoie un code d'erreur qui est envoyé à l'OBC
+    \item L'OBC interprète cette valeur comme des données de vol
+    \item On calcule une trajectoire absurde
+\end{itemize}
+
+Pour éviter ça : 
+\begin{itemize}
+    \item Désactiver les interruptions sur les overflows : En cas de problème de capacité, on produit des valeurs incorrectes qui ne vont pas arrêter le calcul. 
+    \item Fixer le code du SRI de sorte qu'aucun overflow ne va avoir lieu, c'est ce qu'on appelle de la programmation défensive. Cela va être couteux à cause de nombreux tests : 
+    % \begin{minted}{c}
+    %     double x = /* ... */ ;
+    %     short i = /* ... */ ;
+    %     if ( -32768. <= x && x <= 32767. )
+    %         i = ( short ) x ;
+    %     else
+    %         i = /* default value */ ;
+    % \end{minted}
+    \item Gérer les erreurs de conversion de sorte que l'OBC soit au courant de ceci. 
+\end{itemize}
+
+Le crash est aussi dû à des morceaux de code très anciens qui n'ont que peu été modifiés, et les hypothèses faites n'étaient plus vraies...\\
+Le système était red!70!blackondant matériellement, mais pas logiciellement, donc les deux SRI ont plantés. On peut pour éviter cela avoir deux sets indépendants de contrôle qui ont chacun trois unités de calcul.\\
+De nos jours, on peut éviter de tels erreurs par des outils d'analyse statique.
+
+\subsubsection{Lufthansa Vol 2904, Varsovie, 1993}
+A l'atterissage à l'aéroport de varsovie, un airbus A320 de la Lufthansa s'est craché contre une colline à 100km/h. Les conditions météo étaient mauvaises, la piste était mouillée, l'atterrissage a été suivi d'aqua-planing et d'un freinage délayé.
+\begin{itemize}
+    \item A l'origine, les conditions d'atterissage n'ont pas été correctement évaluées par l'équipage, le vent latéral était trop fort. L'équipage n'aurait pas dû essayer d'atterir.
+    \item Mais en plus, le système de freinage a été retardé de 9s.
+\end{itemize}
+Les systèmes de freinage ont une fonctionnalité d'inhibition pour empêcher une activation en vol : les spoilers augmentent la charge aérodynamique et les inverseurs de poussée pourraient détruire l'avion si activé en vol.
+Selon le logiciel, il ne devrait pas s'activer à moins que le levier de poussée soit au minimum et que : ou bien la masse sur chacune des roues est d'au moins $6T$ ou bien les roues sont en train de tourner avec une vitesse d'au moins 130km/h.\\
+
+A cause de l'aqua-planing, les roues n'ont pas tourné et à cause du vent, le train d'atterissage gauche ne portait pas de masse. Même si la commande de poussée était bien au minimum, ça ne suffisait pas.\\
+En changeant la condition : $P_{left} > 6T \land P_{right} > 6T$ pour $P_{left} + P_{right} > 12T$. Cette solution ne peut être comprise qu'avec une connaissance de l'environnement.
+
+\subsubsection{Missile Patriot, Dahran, 1991}
+Le système Patriot était un système de défense anti-missile. IL a été utilisé dans la première guerre du Golfe avec un taux de succès de 50\%. Les échecs sont dûs à un échec au lancement plus qu'à l'échec de la destruction.\\
+Le système doit toucher des cibles se déplaçant très rapidement (1700m/s) sans toucher les cibles alliées et ce avec un coût énorme.
+
+Un système de détection avec des radar est suivi d'une confirmation de trajectoire (vérification en $t + \delta =t + 0,1s$ de la position) et d'une identification de la cible. On calcule alors une trajectoire d'interception et de lancement ultra précise. Le problème a eu lieu à cause de la confirmation de trajectoire.\\
+Ici, un missile a été détecté mais le système a été incapable de confirmer la trajectoire du missile : il y a eu une imprécision dans le calcul de l'horloge, ce qui cause le calcul d'une mauvaise fenêtre de confirmation et l'échec de confirmation de la trajectoire.\\
+L'erreur est liée à des arrondis causés par l'arithmétique à précision fixe et l'impossibilité de représenter exactement $1/10$ dans celle ci. L'horloge matérielle dérive alors de $.34s$ toutes les $100h$ ce qui modifie la position de la fenêtre de confirmation de $580m$.
+
+
+\subsubsection{En Général}
+Les raisons habituelles pour les problèmes logiciels sont les suivantes : 
+\begin{itemize}
+    \item Une spécification ou compréhension de l'environnement inadaptée
+    \item Une implémentation incorrecte de la spécification
+    \item Une compréhension incorrecte du modèle d'exécution
+\end{itemize}
+On doit s'adapter à des architectures logiciel complexes par exemple les logiciels parallélélisés (un processeur multi-thread, plusieurs processeurs). Il est difficile de vérifier l'exécution de ces logiciels.\\
+On doit également vérifier des propriétés complexes. Pour la sécurité par exemple, le système doit résister en présence d'un attaquant, et si des données sensibles sont touchées, ou des données critiques sont corrompues la vérification n'est pas suffisante. Les propriétés de sécurité sont difficiles à exprimer.
+
+On a alors des techniques pour confirmer la sécurité logicielle : 
+\begin{itemize}
+    \item Du côté logiciel :
+    \begin{itemize}
+        \item Porter une attention à la spécification et à la qualité logicielle
+        \item Fixer des règles de programmations
+    \end{itemize}
+    Ceci ne garantit généralement aucune propriété forte, mais aide à la vérification.
+    \item Du côté formel :
+    \begin{itemize}
+        \item Cela nécessite des fondations mathématiques sûres.
+        \item Ceci doit permettre de garantir que des logiciels vérifient des propriétés complexes.
+        \item Il faut pouvoir y faire confiance, comment être sûr que la preuve d'un article est juste ?
+    \end{itemize}
+\end{itemize}
+En résumé : 
+\begin{définition}{Sémantique et Vérification}{}
+    \begin{description}
+        \item[Sémantique] \begin{itemize}
+            \item Permet de décrire précisément le comportement des programmes
+            \item Permet d'exprimer les propriétés à vérifier
+            \item Est utile pour transformer et compiler des programmes
+        \end{itemize} 
+        \item[Vérification] \begin{itemize}
+            \item Cherche à prouver des propriétés sémantiques des programmes
+            \item Est indécidable et donc se résout à faire des compromis variés selon plusieurs approches.
+        \end{itemize}
+    \end{description}
+\end{définition}
+
+\subsection{Approches de la Vérification}
+\subsubsection{Indécidabilité et Limitations Fondamentales}
+\begin{définition}{Arrêt}{}
+    Un programme $P$ termine sur une entrée $X$ si et seulement si toute exécution de $P$ sur l'entrée $X$ atteint un état final.
+\end{définition}
+\begin{théorème}{Indécidabilité}{}
+    Le problème de l'Arrêt est indécidable. De même, l'absence d'erreur à l'exécution est indécidable.
+\end{théorème}
+Plus généralement : 
+\begin{définition}{Spécification Sémantique}{}
+    Une spécification sémantique est un ensemble d'exécutions correctes de programmes.
+\end{définition}
+\begin{théorème}{Rice}{}
+    Étant donné un langage Turing-Complet, toute spécification sémantique non-triviale est indécidable.
+\end{théorème}
+
+\subsubsection{Approches à la Vérification}
+On va souvent calculer les solutions à un problème plus faible que la vérification : 
+\begin{description}
+    \item[Simulation/Tests] On observe un nombre fini d'exécutions finies.
+    \item[Preuves Assistée] On abandonne l'automatisation
+    \item[Vérification de Modèles] On ne considère que des sytèmes finis
+    \item[Recherche de Bug] On recherche des Patterns qui indiquent des erreurs probables.
+    \item[Analyse Statique Abstraite] On cherche quand même à automatiser les preuves de correction en acceptant d'échouer sur des programmes corrects. 
+\end{description}
+
+\begin{définition}{Vérification de la sûreté d'un Problème}{}
+    \begin{description}
+        \item[Sémantique d'un Programme] On définit $\sem{P}$ la sémantique d'un programme $P$ comme l'ensemble des comportements de $P$ (i.e. ses états)
+        \item[Propriété à Vérifier] On définit une propriété à vérifier $\mS$ un ensemble de comportements admissibles (i.e. des états sécures)  
+    \end{description}
+    L'objectif est alors de vérifier si $\sem{P} \subseteq \mS$.
+\end{définition}
+
+\begin{définition}{Propriétés d'un Vérificateur}{}
+    \begin{description}
+        \item[Automatisation] Existence d'un Algorithme 
+        \item[Passage à l'échelle] Capacité à gérer des logiciels lourds
+        \item[Robustesse] Doit identifier tous les programmes défaillants
+        \item[Complétude] Doit accepter tous les programmes corrects
+        \item[Application au Source] Ne requière pas de phase de modélisation    
+    \end{description}
+\end{définition}
+\begin{description}
+    \item[Test Par Simulation] On exécute le programme sur un nombre fini d'entrées finies. Cette méthode est très utilisée, automatisées, complète mais coûteuse et non sûre.
+    \item[Preuve Assistée Par Ordinateur (PAO)] On vérifie par la machine une preuve en partie écrite par l'humain. Cette méthode est souvent appliquée, pas complètement automatisée, sûre et quasi-complète (du moins en pratique)
+    \item[Vérification de Modèles] On ne considère que systèmes finis, en utilisant des algorithmes pour l'exploration exhaustive et des réductions par symétrie. Cette méthode est régulièrement appliquée au hardware et aux drivers, s'applique sur un modèle (ce qui nécessite une phase d'extraction du modèle), ce qui n'est pas toujours automatisable et qui est approché pour les systèmes infinis. C'est toutefois automatisé, sûr et complet par rapport au modèle.
+    \item[Bug Finding] On identifie des problèmes \og probables \fg c'est à dire des patterns connus pour souvent amener à des erreurs. On utilise des exécutions symboliques bornées et on hiérarchise les problèmes avec des heuristiques. Cette méthode est automatisable, incomplète et non sûre.
+    \item[Analyse Statique] On utilise des approximations d'une manière conservatrice : 
+    \begin{itemize}
+        \item Sous-approximation de la propriété : $\mS_{\rm under} \subseteq \mS$
+        \item Sur-approximation de la sémantique : $\sem{P} \subseteq \sem{P}_{\rm upper}$
+        \item On calcule $\sem{P}_{\rm upper}, \mS_{\rm under}$ et on vérifie si $\sem{P}_{\rm upper} \subseteq \mS_{\rm under}$.
+    \end{itemize} 
+    Cette méthode est sûre : l'abstraction attrapera tout programme incorrecte : $\sem{P} \not\subseteq \mS \Longrightarrow \sem{P}_{\rm upper} \not\subseteq \mS_{\rm{under}}$.\\
+    Toutefois, cette méthode est incomplète, on peut avoir $\sem{P}_{\rm upper}$ qui sort de $\mS_{\rm under}$ et même de $\mS$.
+\end{description}
+Finalement : 
+\begin{center}
+    \begin{NiceTabular}{lccccc}
+        & Automatisable & Sûr & Complet & Source Level & Scalable\\
+        Simulation & \color{green!40!black} Oui & \color{red!70!black} Non & \color{green!40!black} Oui & \color{green!40!black} Oui & \color{brown} Parfois\\
+        PAO & \color{red!70!black} Non & \color{green!40!black} Oui & \color{blue!40!black} Presque & \color{orange!70!black} Partiellement & \color{brown} Parfois\\
+        Modèle-Check & \color{green!40!black} Oui & \color{green!40!black} Oui & \color{orange!70!black} Partiellement & \color{red!70!black} Non & \color{brown} Parfois\\
+        Bug-Finding & \color{green!40!black} Oui & \color{red!70!black} Non & \color{red!70!black} Non & \color{green!40!black} Oui & \color{brown} Parfois\\
+        Analyse Statique & \color{green!40!black} Oui & \color{green!40!black} Oui & \color{red!70!black} Non & \color{green!40!black} Oui & \color{brown} Parfois
+
+        \CodeAfter
+        \begin{tikzpicture}
+            \foreach \i in {1,...,7}
+                {\draw (1-|\i) -- (7-|\i);};
+            \foreach \i in {1,...,7}{\draw (\i-|1) -- (\i-|7);};
+        \end{tikzpicture}
+    \end{NiceTabular}
+\end{center}
+
+\subsection{Ordres, Treillis, Points Fixes}
+\subsubsection{Relations d'Ordres}
+\begin{définition}{Poset}{}
+    Une relation d'ordre $\sqsubseteq$ sur un ensemble $\mS$ est une relation binaire $\sqsubseteq \subseteq \mS \times \mS$ sur $\mS$ qui est réfléxive, transitive et antisymétrique. On notera $\sqsubset$ l'ordre strict associé à la relation d'ordre $\sqsubseteq$.
+\end{définition}
+
+\begin{propositionfr}{Sémantique d'un Automate}{}
+    On considère un automate $\A = \left(Q, q_{i}, q_{f}, \rightarrow\right)$ sur l'alphabet $L$. On note $\mL[\A]$ le langage reconnu par l'automate. On peut alors définir des propriétés sémantiques sur le langage : 
+    \begin{description}
+        \item[$\mP_{0}$] Aucun mot reconnu ne contient deux $b$ consécutifs : \[\mL[\A] \subseteq L^{*}\setminus L^{*}bbL^{*}\]
+        \item[$\mP_{1}$] Tous les mots reconnus contiennent au moins un $a$ : \[\mL[\A] \subseteq L^{*}aL^{*}\] 
+        \item[$\mP_{2}$] Les mots reconnus ne contiennent pas de $b$ : \[\mL[\A] \subseteq \left(L \setminus \{b\}\right)^{*}\]
+    \end{description}
+\end{propositionfr}
+
+\begin{définition}{Ordre Total}{}
+    Un ordre est total si tous deux éléments sont comparables.
+\end{définition}
+
+\begin{définition}{Éléments Extrémaux}{}
+    Soit $\mS' \subseteq \left(\mS, \sqsubseteq\right)$. Alors $x$ est : 
+    \begin{itemize}
+        \item Un élément minimal de $\mS'$ si et seulement si $x \in \mS' \land \forall y \in \mS', x \sqsubseteq y$
+        \item Un élément maximal de $\mS'$ si et seulement si $x \in \mS' \land \forall y \in \mS', y \sqsubseteq x$
+    \end{itemize}
+    Si $x \in \mS$, on dit que $x$ est un majorant de $\mS'$ si 
+    \[
+        \forall y \in \mS', y\sqsubseteq x
+    \]
+    et une borne supérieure si de plus : 
+    \[
+        \forall y \in \mS', y \sqsubseteq x \land \forall z \in \mS, \left(\forall y \in \mS', y \sqsubseteq z\right) \Longrightarrow x \sqsubseteq z
+    \]
+    On note alors $x = \sqcup \mS'$. 
+    On a aussi des notions duales de minorant et de borne inférieure.
+\end{définition}
+
+\begin{définition}{Treillis Complet}{}
+    On appelle treillis complet un sextuplet $\left(\mS, \sqsubseteq, \bot, \top,\sqcup, \sqcap\right)$ où : 
+    \begin{itemize}
+        \item $\sqsubseteq$ est un ordre sur $\mS$
+        \item $\bot$ est l'infimum de $\mS$
+        \item $\top$ est le suprémum de $\mS$
+        \item Toute partie $\mS'$ de $\mS$ a une borne supérieure $\sqcup \S'$ et une borne inférieure $\sqcap \mS'$.
+    \end{itemize}
+\end{définition}
+
+\begin{définition}{Treillis}{}
+    On appelle treillis un sextuplet $\left(\mS, \sqsubseteq, \bot, \top,\sqcup, \sqcap\right)$ où : 
+    \begin{itemize}
+        \item $\sqsubseteq$ est un ordre sur $\mS$
+        \item $\bot$ est l'infimum de $\mS$
+        \item $\top$ est le suprémum de $\mS$
+        \item Toute paire $\{x, y\}$ de $\mS$ a une borne supérieure $x \sqcup y$ et une borne inférieure $x \sqcap y$.
+    \end{itemize}
+\end{définition}
+
+Par exemple : $\mathcal{Q} = {q \in \Q \mid 0 \leq q \leq 1}$ est un treillis pour $\leq$ mais n'est pas complet, puisque $\{q \in \mathcal{Q} \mid q \leq \frac{\sqrt{2}}{2}\}$ n'a pas de borne supérieure dans $\mathcal{Q}$.\\
+Un treillis fini est complet.
+\begin{définition}{Chaine Croissante}{}
+    Une partie $\cont$ d'un poset $\mS, \sqsubseteq$ est une chaîne croissante si : 
+    \begin{itemize}
+        \item Elle a un infimum
+        \item Le poset $\cont, \sqsubseteq$ est total.
+    \end{itemize}
+    Le poset $\mS, \sqsubseteq$ vérifie la condition de chaîne croissante si et seulement si toute chaîne croissante est finie. 
+\end{définition}
+
+\begin{définition}{Ordre Partiel Complet}{}
+    Un ordre partiel complet (cpo) est un poset de sorte que toute chaîne croissante a au moins une borne supérieure. Un cpo pointé est un cpo avec un infimum $\bot$.
+\end{définition}
+
+\subsubsection{Opérations sur un Poset et Points-Fixes}
+On se donne un automate $\A$ et une propriété à vérifier $\mS$. On veut prouver $\sem{\A} \subseteq \mS$ par induction, il faudrait donc pouvoir définir de manière constructive les sémantiques. Pour un automate, on observe :
+\begin{description}
+    \item[Observation 1] $\mL[\A] = \sem{A}(q_{f})$ où \[\sem{A}: q \mapsto \left\{w \in L^{*}\mid \text{il existe un calcul sur } w \text{ qui atteint } q\right\}\]
+    \item[Observation 2] $\sem{\A} = \bigcup_{n \in \N} \sem{\A}_{n}$ où \[\sem{\A}_{n} : q \mapsto \{a_{0}\ldots a_{n - 1}\mid \text{il existe un calcul sur } a_{0} \ldots a_{n - 1}\text{ qui atteint } q\}\]
+    \item[Observation 3] $\sem{\A}_{n + 1}$ se calcule récursivement : 
+    \[
+        \sem{\A}_{n + 1}(q) = \bigcup_{q'\in Q} \left\{wa \mid w \in \sem{\A}_{n}(q') \land q'\xrightarrow{a}q\right\}
+    \]
+\end{description}
+On aurait aussi pu calculer $\sem{A}$ en notant $\sem{A}_{n}(q)$ les mots reconnus de longueurs $n$, et en calculant le résultat en prenant l'union. \\
+On va dans la suite étudier une manière de définir les sémantiques par des points fixes.
+
+\begin{définition}{Opérateurs}{}
+    Soit $\phi$ un opérateur sur un poset $\mS$ : 
+    \begin{itemize}
+        \item $\phi$ est croissant si et seulement si $x \sqsubseteq y \Longrightarrow \phi(x) \sqsubseteq \phi(y)$.
+        \item $\phi$ est continu si et seulement si pour toute chaine $\mS' \subseteq \mS$ alors : Si $\sqcup \mS'$ existe, alors $\sqcup \phi(\mS')$ aussi et $\phi(\sqcup \mS') = \sqcup \phi(\mS')$
+        \item $\sqcup$-préservant si et seulement si, pour toute partie $\mS' \subseteq \mS$ alors : Si $\sqcup \mS'$ existe, alors $\sqcup \phi(\mS')$ aussi et $\phi(\sqcup \mS') = \sqcup \phi(\mS')$
+    \end{itemize}
+\end{définition}
+\begin{propositionfr}{Propriétés}{}
+    \begin{itemize}
+        \item Si $\phi$ est continu, il est aussi croissant.
+        \item Si $\phi$ préserve $\sqcup$, il est aussi croissant.
+    \end{itemize}
+\end{propositionfr}
+\begin{proof}
+    On suppose que $\phi$ préserve $\sqcup$, $x, y \in \mS$ tels que $x \sqsubseteq y$. Alors, $\{x, y\}$ est une chaîne de borne supérieure $y$ donc $\phi(x) \sqcup \phi(y)$ existe et est égal à $\phi(y)$. Donc $\phi(x) \sqsubseteq \phi(y)$.
+\end{proof}
+
+\begin{définition}{Points Fixes}{}
+    \begin{itemize}
+        \item Un point fixe de $\phi$ est un élément $x$ tel que $\phi(x) = x$.
+        \item Un pré point fixe de $\phi$ vérifie $x \sqsubseteq \phi(x)$
+        \item Un post-point fixe de $\phi$ vérifie $x \sqsupseteq \phi(x)$
+        \item Le plus petit point fixe $\lfp\phi$ de $\phi$ (s'il existe, est unique) est le plus petit point fixe de $\phi$. De même pour son plus grand point fixe $\gfp\phi$.
+    \end{itemize}
+\end{définition}
+
+\begin{théorème}{Tarski}{}
+    Soit $\mS$ un treillis complet et $\phi$ un opérateur croissant sur $\S$. Alors : 
+    \begin{enumerate}
+        \item $\lfp\phi = \sqcap\left\{x \in \mS \mid \phi(x) \sqsubseteq x\right\}$
+        \item $\gfp\phi = \sqcup\left\{x \in \mS \mid x \sqsubseteq \phi(x)\right\}$
+        \item L'ensemble des points fixes de $\phi$ est un treillis complet.
+    \end{enumerate}
+\end{théorème}
+\begin{proof}
+    \begin{enumerate}
+        \item On pose $X = \{x \in \mS \mid \phi(x) \sqsubseteq x\}$ et $x_{0} = \sqcap X$.\\
+        Pour tout $y \in X$ on a : 
+        \begin{itemize}
+            \item $x_{0} \sqsubseteq y$ par définition de la borne inférieure
+            \item $\phi(x_{0}) \subseteq \phi(y)$ par croissance de $\phi$.
+            \item $\phi(x_{0}) \subseteq y$ par défintion de $X$.
+        \end{itemize}
+        Donc $\phi(x_{0}) \sqsubseteq x_{0} \sqsubseteq \phi(x_{0})$. Donc $x_{0}$ est un point fixe qui est une borne inférieure.
+        \item De même, par dualité.
+        \item Si $X$ est un ensemble de points fixes de $\phi$, on considère $\phi$ sur $\left\{y \in \mS \mid y \sqsubseteq_{\mS} \sqcap X\right\}$ pour établir l'existence d'une borne inférieure de $X$ sur le poset des points fixes. L'existence d'une borne supérieure dans le poset des points fixes en découle par dualité.
+    \end{enumerate}
+\end{proof}
+
+Dans l'exemple des automates : 
+\begin{description}
+    \item[Treillis] On prend $\mS = Q \to \mP\left(L^{*}\right)$ et comme ordre l'extension point à point $\sqsubseteq$ de $\subseteq$.
+    \item[Opérateur] On pose $\phi_{0}: \mS \to \mS$ défini par 
+    \[
+        \phi_{0}(f) = \lambda(q \in Q) \cdot \bigcup_{q' \in Q}\left\{wa \mid w \in f(q') \land q' \xrightarrow{a} q\right\}
+    \] 
+    On définit alors $\phi$ par : 
+    \[
+        \phi(f) = \lambda(q \in Q) \cdot \begin{cases}
+            f(q_{i}) \cup \phi_{0}(f)(q_{i}) \cup \{\epsilon\} & \text{ si } q = q_{i}\\
+            f(q) \cup \phi_{0}(f)(q) & \text{ sinon}
+        \end{cases}
+    \]
+    \item[Reste à Prouver] L'existence de $\lfp\phi$ découle du théorème de Tarski et l'égalité $\lfp \phi = \sem{\A}$ peut être établie par induction et double inclusion, mais on peut faire ça plus simplement.
+\end{description}
+
+\begin{théorème}{Kleene}{}
+    Soit $\mS$ un cpo pointé et $\phi$ un opérateur continu sur $\mS$. Alors $\phi$ a un plus petit point fixe and 
+    \[
+        \lfp \phi = \bigsqcup_{n \in \N} \phi^{n}(\bot)
+    \]
+\end{théorème}
+\begin{proof}
+    Premièrement, on prouve l'existence de la borne supérieure :\\
+    Puisque $\phi$ est continu, il est aussi croissant. On prouve par induction sur $n$ que $\left\{\phi^{n}(\bot) \mid n \in \N\right\}$ est une chaîne : 
+    \begin{itemize}
+        \item $\phi^{0}(\bot) = \bot \sqsubseteq \phi(\bot)$ par définition.
+        \item Si $\phi^{n}(\bot) \sqsubseteq \phi^{n + 1}(\bot)$ alors $\phi^{n + 1}(\bot) = \phi\left(\phi^{n}(\bot)\right)\sqsubseteq\phi\left(\phi^{n + 1}(\bot)\right) = \phi^{n + 2}(\bot)$
+    \end{itemize}
+    Par définition, la borne supérieure existe donc. On la note $x_{0}$.\\
+
+    On doit maintenant prouver que c'est un point fixe de $\phi$.\\
+    Puisque $\phi$ est continu, $\left\{\phi^{n + 1}(\bot) \mid n \in \N\right\}$ a une borne supérieure et : 
+    \[
+        \begin{aligned}
+            \phi(x_{0}) &= \phi\left(\sqcup\left\{\phi^{n}(\bot) \mid n \in \N\right\}\right)& \\
+            &= \sqcup\left\{\phi^{n + 1}(\bot)\mid n\in \N\right\} & \text{ par continuité de } \phi\\
+            &=\bot \sqcup \left(\sqcup\left\{\phi^{n + 1}(\bot)\mid n\in \N\right\}\right) & \text{ par définition de } \bot\\
+            &=x_{0} &\text{ par réécriture}
+        \end{aligned}
+    \]
+    Finalement, on doit montrer que c'est le plus petit point fixe.\\
+    Soit $x_{1}$ un point fixe de $\phi$. On veut montrer par induction sur $n$ que $\phi^{n}(\bot) \sqsubseteq x_{1}$:
+    \begin{itemize}
+        \item $\phi^{0}(\bot) \sqsubseteq x_{1}$ par définition de $\bot$.
+        \item Si $\phi^{n}(\bot) \sqsubseteq x_{1}$, par croissance de $\phi$, $\phi^{n + 1}(\bot) \sqsubseteq \phi(x_{1}) = x_{1}$. 
+    \end{itemize}
+    Par définition de la borne supérieure, $x_{0} \sqsubseteq x_{1}$.
+\end{proof}
+On a maintenant une définition constructive de la sémantique des automates.\\
+On a défini $\phi$ par \[
+    \phi(f) = \lambda(q \in Q) \cdot \begin{cases}
+        f(q_{i}) \cup \phi_{0}(f)(q_{i}) \cup \{\epsilon\} & \text{ si } q = q_{i}\\
+        f(q) \cup \phi_{0}(f)(q) & \text{ sinon}
+    \end{cases}
+\]
+Puisque $\phi$ est continu, le théorème de Kleene s'applique donc $\lfp\phi$ existe et $\lfp\phi = \bigcup_{n \in \N}\phi^{n}(\bot) = \sem{A}$.\\
+
+On peut formaliser les définitions par récurrence de sémantiques : 
+\begin{center}
+    \begin{tabular}{m{.3\linewidth}m{.4\linewidth}}
+        Définition basée sur des \newline règles d'inférence & Même propriété basée \newline sur des points-fixes\\
+        \[
+            \frac{}{x_{0} \in \mathcal{X}} \ \ \frac{x \in \mathcal{X}}{f(x) \in \mathcal{X}}
+        \] 
+        & 
+        \[
+            \lfp\left(Y \mapsto \{x_{0}\} \cup Y \cup \{f(x) \mid x \in Y\}\right)
+        \]
+    \end{tabular}
+\end{center}
+
+Pour prouver l'inclusion d'un point fixe dans un set : 
+\begin{itemize}
+    \item Soit $\phi : \mS \to \mS$ un opérateur continu
+    \item Soit $\mathcal{I} \in \mS$ tel que : 
+    \[
+        \forall x \in \mS, x \sqsubseteq \mathcal{I} \Longrightarrow \phi(x) \sqsubseteq \mathcal{I}
+    \]
+    \item On a $\bot \sqsubseteq \mathcal{I}$
+    \item On peut prouver que $\lfp\phi \sqsubseteq \mathcal{I}$.
+\end{itemize}
+
+\section{Sémantique Opérationnelle}
+\subsection{Systèmes de Transitions et Sémantique à Petit Pas}
+
+\begin{définition}{Système de Transition}{}
+    Un système de transition est un tuple $\left(\S, \rightarrow\right)$ où : 
+    \begin{itemize}
+        \item $\S$ est l'ensemble des états du système. 
+        \item $\rightarrow \subseteq \S \times \S$ est la relation de transition du système. 
+    \end{itemize}
+\end{définition}
+
+Un système est dit déterministe si un état détermine de manière unique le prochain état. Sinon, il est dit non déterministe. La relation $\rightarrow$ définit des étapes atomiques d'exécution : on appelle donc ce paradigme sémantique à petit pas. On ne considère pas de systèmes probabilistes.
+\begin{définition}{États Particuliers}{}
+    On considère souvent : 
+    \begin{itemize}
+        \item Des états initiaux $\S_{\mI} \subseteq \S$ qui dénotent des états de début d'exécution. 
+        \item Des états finaux $\S_{\mF} \subseteq \S$ qui dénotent des états de fin du programme. 
+        \item Des états bloquants qui ne sont l'origine d'aucune transition. On introduit souvent un état d'erreur $\Omega$ pour les configurations bloquantes. 
+    \end{itemize}
+\end{définition}
+
+Par exemple, on rappelle les définitions du $\lambda$-calcul :\\\vspace{5pt}
+\begin{tabular}{p{.5\linewidth}p{.45\linewidth}}
+    \begin{définition}{$\lambda$-termes}{}
+        L'ensemble des $\lambda$-termes est défini par :\vspace{10pt}
+        \begin{tabular}{>{$}c<{$}>{$}c<{$}>{$}c<{$}c}
+            t, u, \dots & ::= & x & variable\vspace{3pt}\\
+            & | & \lambda x\cdot t & abstraction\vspace{3pt}\\
+            & | & t\ u & application\vspace{3pt}
+        \end{tabular}
+    \end{définition}
+    & \begin{définition}{$\beta$-réduction}{}
+        \vspace{-3pt}
+        \begin{itemize}
+            \item $(\lambda x \cdot t) u \xrightarrow[\beta]{} t[x \leftarrow u]$\vspace{-3pt}
+            \item Si $u \xrightarrow[\beta]{} v$ alors $\lambda x \cdot u \xrightarrow[\beta]{} \lambda x \cdot v$\vspace{-3pt}
+            \item Si $u \xrightarrow[\beta]{} v$ alors $u\ t \xrightarrow[\beta]{} v\ t$\vspace{-3pt}
+            \item Si $u \xrightarrow[\beta]{} v$ alors $t\ u \xrightarrow[\beta]{} t\ v$\vspace{-4pt}
+        \end{itemize}
+    \end{définition}
+\end{tabular}
+\vspace{-12pt}
+\subsection{Sémantiques de Traces}
+\begin{définition}{Traces d'Exécution}{}
+    \begin{itemize}
+        \item Une trace finie est une suite finie d'état notée $\scalar{s_{0}, \ldots, s_{n}}$
+        \item Une trace infinie est une suite infinie d'état $\scalar{s_{0},\ldots}$
+        \item On note $\S^{*}$ l'ensemble des traces finies et $\S^{\omega}$ l'ensemble des traces infinies et $\S^{\alpha} = \S^{*} \bigcup \S^{\omega}$ l'ensemble des traces.
+    \end{itemize}
+\end{définition}
+
+\begin{définition}{Notations}{}
+    On notera :
+    \begin{itemize}
+        \item $\epsilon$ la trace fide
+        \item $\abs{\cdot}$ l'opérateur de longueur
+        \item $\cdot$ l'opérateur de concaténation
+        \item $\prec$ la relation de préfixation
+    \end{itemize}
+\end{définition}
+
+\begin{définition}{Sémantique de Traces Finies}{}
+    La sémantique de traces finies $\sem{\mS}^{*}$ est définie par 
+    \[
+        \sem{\mS}^{*} = \left\{\scalar{s_{0}, \ldots, s_{n}} \in \S^{*} \mid \forall i, s_{i} \rightarrow s_{i + 1}\right\}
+    \]
+\end{définition}
+
+\begin{définition}{Parties Intéressantes des Sémantiques}{}
+    \begin{itemize}
+        \item Les traces initiales commençant d'un état initial
+        \item Les traces atteignant un état bloquant
+        \item Les traces atteignant un état final 
+        \item Les traces maximales qui sont à la fois initiales et finales
+    \end{itemize}
+\end{définition}
+
+On peut dériver les traces de longueur $i + 1$ à partir des traces de longueur $i$ : 
+\begin{théorème}{Définition par Points Fixe}
+    On pose $\mI = \{\epsilon\} \cup \left\{\scalar{s} \mid s \in \S\right\}$. On définit $F_{*}$ par : 
+    \[
+        F_{*} : \begin{array}{lcl}
+            \mathcal{P}(\S^{*}) & \longrightarrow & \mathcal{P}(\S^{*})\\
+            X & \longmapsto & \mI \cup \left\{\scalar{s_{0}, \ldots, s_{n}, s_{n + 1}}\mid \scalar{s_{0}, \ldots, s_{n}} \in X \land s_{n} \to s_{n + 1}\right\}
+        \end{array}
+    \]
+    Alors $F_{*}$ est continue sur $\mP(\S^{*})$ et a donc un plus petit point fixe avec
+    \[
+        \lfp F_{*} = \bigcup_{n \in \N} F_{*}^{n}\left(\emptyset\right) = \sem{\S}^{*}
+    \]
+\end{théorème} 
+\begin{proof}
+    On prouve d'abord que $F_{*}$ est continue. On prend $\chi \subseteq \mP(\S^{*})$ telle que $\chi \neq \emptyset$ et $A = \bigcup_{U \in \chi} U$. Alors : 
+    \[\begin{aligned}
+        F_{*}\left(\bigcup_{X \in \chi}X\right)&\\
+        = &\mI \cup \left\{\scalar{s_{0}, \ldots, s_{n}, s_{n + 1}} \mid \left(\scalar{s_{0}, \ldots, s_{n}} \in \bigcup_{U \in \chi} U\right) \land s_{n} \rightarrow s_{n + 1}\right\}\\
+        = &\mI \cup \left\{\scalar{s_{0}, \ldots, s_{n}, s_{n + 1}} \mid \exists U \in \chi \scalar{s_{0}, \ldots, s_{n}} \in U \land s_{n} \rightarrow s_{n + 1}\right\}\\
+        = &\mI \cup \left(\bigcup_{U \in \chi} \left\{\scalar{s_{0}, \ldots, s_{n}, s_{n + 1}}\mid \scalar{s_{0}, \ldots, s_{n}}\in U \land s_{n} \rightarrow s_{n + 1}\right\}\right)\\
+        = &\bigcup_{U \in \chi}\left(\mI \cup \left\{\scalar{s_{0}, \ldots, s_{n}, s_{n + 1}} \mid \scalar{s_{0}, \ldots, s_{n}} \in U \land s_{n} \rightarrow s_{n + 1}\right\}\right)\\
+        = &\bigcup_{U \in \chi} F_{*}(U)
+    \end{aligned}\]
+    En particulier, si $\chi$ est une chaine, on démontre bien l'existence d'un plus petit point fixe par théorème de Kleene. \\
+    Ensuite, il reste à montrer que $\sem{S}^{*} = \lfp F_{*}$. Par induction sur $n$ on a : 
+    \[
+        \forall n \geq 1, \forall k < n, \scalar{s_{0}, \ldots, s_{k}} \in F_{*}^{n}(\emptyset) \Longleftrightarrow \scalar{s_{0}, \ldots, s_{k}} \in \sem{S}^{*}
+    \]
+\end{proof}
+
+\begin{définition}{Sémantique Compositionnelle}{}
+    Une sémantique $\sem{\cdot}$ est dite compositionnelle quand la sémantique d'un programme peut être définie comme fonction de ses parties i.e. quand $\pi$ s'écrit $C\left[\pi_{0}, \ldots, \pi_{k}\right]$ où $\pi_{0}, \ldots, \pi_{k}$ sont ses composantes, il y a une fonction $F_{C}$ telle que $\sem{\pi} = F_{C}\left(\sem{\pi_{0}}, \ldots, \sem{\pi_{k}}\right)$ où $F_{C}$ ne dépend que de la construction syntactique $C$. 
+\end{définition}
+
+\begin{définition}{}{}
+    Les sémantiques de traces infinies $\sem{\mS}^{\omega}$ est définie par 
+    \[
+        \sem{\mS}^{\omega} = \left\{\scalar{s_{0}, \ldots} \in \S^{\omega}\mid \forall i, s_{i} \rightarrow s_{i + 1}\right\}
+    \]
+\end{définition}
+
+On définit une forme via point-fixe des sémantiques à de traces infinies :
+\begin{définition}{}{}
+    On définit $F_{\omega}$ par : 
+    \[
+        F_{\omega} : \begin{array}{lcl}
+            \mP(\S^{\omega}) & \longrightarrow & \mP(\S^{\omega})\\
+            X & \longmapsto & \left\{\scalar{s_{0}, s_{1}, \ldots, s_{n}, \ldots} \mid \scalar{s_{1}, \ldots, s_{n}, \ldots} \in X \land s_{0} \to s_{1}\right\}            
+        \end{array}
+    \]
+    $F_{\omega}$ est continue et a donc un plus grand point fixe : 
+    \[
+        \gfp F_{\omega} = \sem{\mS}^{\omega} = \bigcap_{n \in \N} F_{\omega}^{n}\left(\S^{\omega}\right)
+    \]
+\end{définition}
+
+\end{document}

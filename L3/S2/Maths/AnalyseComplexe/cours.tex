@@ -382,7 +382,7 @@ Dorénavant, les chemins sont supposés $\cont^{1}$ par morceaux.
     \]
 \end{corollaire}
 
-\begin{propositionfr}{Continuité sur un Lacet}{}\label{prop:cont_lacet}
+\begin{propositionfr}{Continuité sur un Lacet}{cont_lacet}
     Soit $\gamma : I = [c, d] \to \C$ un lacet et $g : \gamma(I) \to \C$ une fonction définie et continue sur $\gamma(I)$. Alors : 
     \[
         f(z) = \int_{\gamma}\frac{g(u)\d u}{u - z}
@@ -512,9 +512,409 @@ Dorénavant, les chemins sont supposés $\cont^{1}$ par morceaux.
 \begin{théorème}{Topologie}{}
     Les ouverts $\C$ et $D(0, 1)$ sont homéomorphes mais pas isomorphes. 
 \end{théorème}
+
+
+\section{Fonctions Holomorphes}
+\subsection{Définitions}
+\begin{définition}{Holomorphie}{}
+    Une fonction $f : U \to \C$ est dite holomorphe en $z_{0} \in U$ si la limite \[\lim_{h \in \C \to 0} \frac{f(z_{0} + h) - f(z_{0})}{h}\] existe. On la note $f'(z_{0})$.\\
+    On définit $\O(U)$ l'ensemble des fonctions holomorphes.
+\end{définition}
+
+\begin{propositionfr}{Exemples Holomorphe}{}
+    \begin{itemize}
+        \item Si $f$ est constante, $f$ est holomorphe et $f' = 0$
+        \item Si $f$ est un polynôme, $f$ est holomorphe
+        \item Si $f$ est analytique, $f$ est holomorphe
+        \item $\sin, \cos, \exp, \tan$ sont holomorphes sur $\C$.
+        \item $z \mapsto \bar{z}$ n'est pas holomorphes en aucun point : 
+        \[
+            \frac{f(z + h) - f(z)}{h} = \frac{\bar{h}}{h}
+        \]
+        n'a pas de limite en $0$. 
+        \item $f(z) = \abs{z}^{2}$ n'est holomorphe que pour $z = 0$ : 
+        \[
+            \frac{\left(z + h\right)\left(\bar{z} + \bar{h}\right) - z\bar{z}}{h} = \frac{h\bar{z} + \bar{h}z + h\bar{h}}{h}
+        \]
+        n'a une limite que si $z = 0$. 
+    \end{itemize}
+\end{propositionfr}
+
+\subsection{$\R$-différentiabilité}
+\begin{définition}{Forme Différentielle}{}
+    Une $1$-forme différentielle sur $\Omega$ est une application $\alpha : \Omega \to Hom_{\R}\left(\R^{n}, \C\right)$.\\
+    En particulier, les $\d x_{i} \in Hom_{\R}\left(\R^{n}, \C\right)$ qui à $a \mapsto \d x_{i}(a) = a_{i}$ permettent d'écrire : 
+    \[
+        \alpha(x) = \sum_{i = 1}^{n} \alpha_{i}(x)\d x_{i}
+    \]
+    où $\alpha_{i} : \Omega \to \C$. On a alors : 
+    \[
+        \alpha(x)(a) = \sum_{i = 1}^{n}\alpha_{i}(x)\d x_{i}(a)
+    \]
+    On dit que $\alpha$ est de classe $\cont^{k}$ si et seulement si tous les $\alpha_{i}$ sont de classe $\cont^{k}$.
+\end{définition}
+
+\begin{définition}{$\R$ Différentiabilité}{}
+	Une fonction $f$ d'un ouvert connexe $\Omega$ de $\R^{n}$ est dite $\R$-différentiable sur $ \Omega$ si et seulement si il existe une $1$-forme différentielle $\d f : \Omega \to Hom_{\R}\left(\R^{n}, \C\right)$ telle que 
+	\[
+		f(z + h) = f(z) + \d f(z)(h) + o(h)
+	\]
+	On pose $\d_{x}f = \sum_{i = 1}^{n}\frac{\partial f}{\partial x_{i}}(x)\d x_{i}$.
+\end{définition}
+
+Dans la suite on travaille dans $\C \simeq \R^{2}$ et pour $h \in \C$, on note $h = k + il = (k, l)$ et pour $z \in U = \Omega, z = x+ iy = (x, y)$.
+
+\begin{propositionfr}{Différentielle dans une base}{}
+	Soit $f : U \to \C$ différentiable de différentielle $\d f = \frac{\partial f}{\partial x}\d x + \frac{\partial f}{\partial y} \d y$. On a $\forall z \in U$ : 
+	\[	
+		\d_{z}f = \partialderiv{f}{x}(z)\d x + \partialderiv{f}{y}(z) \d y
+	\]
+	En $h = k + il$ : 
+	\[
+		\d_{z}f(h) = \partialderiv{f}{x}(z)k + \partialderiv{f}{y}(z)l
+	\]
+	On définit 
+	\[
+		\d z = \d x + i\d y \text{ et } \d\bar{z} = \d x - i\d y
+	\]
+	On a alors : 
+	\[	
+		\d f = \frac{1}{2}\left(\partialderiv{f}{x} - i\partialderiv{f}{y}\right)\d z + \frac{1}{2}\left(\partialderiv{f}{x} + i\partialderiv{f}{y}\right)\d\bar{z}
+	\]
+	ce qu'on écrit aussi : 
+	\[	
+		\d f = \partialderiv{f}{z}\d z + \partialderiv{f}{\bar{z}}\d\bar{z}
+	\]
+	On a par ailleurs 
+	\[
+		\overline{\left(\partialderiv{f}{z}\right)} = \partialderiv{\bar{f}}{\bar{z}}
+	\]
+\end{propositionfr}
+
+\begin{propositionfr}{Exemples}{}
+	\begin{enumerate}
+		\item Si $f(z) = z$, $\partialderiv{z}{z} = \partialderiv{f}{z} = 1$ et $\partialderiv{z}{\bar{z}} = 0$. A l'inverse, $\partialderiv{\bar{z}}{z} = 0$.
+		\item Pour $P(x, y) = \sum_{0 \leq \alpha, \beta\leq d}c_{\alpha, \beta}x^{\alpha}y^{\beta}$. En notant $x = \frac{z + \bar{z}}{2}$ et $y = \frac{z - \bar{z}}{2i}$, on a : 
+			\[
+				P(z) = \sum_{\alpha, \beta}a_{\alpha, \beta}z^{\alpha}\bar{z}^{\beta}
+			\]
+			où on a 
+			\[	
+				a_{\alpha, \beta} = \frac{1}{\alpha!\beta!}\frac{\partial^{\alpha + \beta}}{\partial z^{\alpha}\partial z^{\beta}}P(0)
+			\]
+			On retrouve que $P$ est holomorphe si on a $a_{\alpha, \beta} = 0$ pour $\beta \geq 1$. 
+	\end{enumerate}
+\end{propositionfr}
+
+\begin{théorème}{Lien $\C$-dérivabilité et $\R$-différentiabilité}{}
+	Soit $f : U \to \C$. On a équivalence entre : 
+	\begin{enumerate}
+		\item $f \in \O(U)$
+		\item $f$ est $\R$-différentiable sur $U$ et $\d_{z} f$ est $\C$-linéaire pour tout $z \in U$
+		\item $f$ est $\R$-différentiable sur $U$ et $\partialderiv{f}{\bar{z}} = 0$ pour tout $z \in U$
+	\end{enumerate}
+\end{théorème}
+
 \begin{proof}
-    Oui.
+	\begin{description}
+		\item[$i \Rightarrow ii$] $f(z + h) = f(z) + hf'(z) + o(h) \Longrightarrow f$ est $\R$-différentiable en $z$ et $\d_{z}f : \R^{2}\to \C$ qui à $h \mapsto hf'(z)$ est $\C$-linéaire.
+		\item[$ii \Rightarrow iii$] On a : 
+			\[
+				\begin{aligned}
+					\d_{z}f(h) = & \partialderiv{f}{z}(z)\d z(h) + \partialderiv{f}{\bar{z}}(z)\d \bar{z}(h)\\
+					= & \partialderiv{f}{z}(z)h + \partialderiv{f}{\bar{z}}(z)\bar{h}\\
+					\d_{z}f(h) =& \partialderiv{f}{z}h + \partialderiv{f}{\bar{z}}\bar{h}
+				\end{aligned}
+			\]
+			On a alors : $\d_{z}f(ih) = \partialderiv{f}{z}ih -i\partialderiv{f}{\bar{z}}\bar{h}$. Mais $\d_{z}f$ est $\C$-linéaire par hypothèse. Donc : 
+			\[
+				\d_{z}f(ih) = i\d_{z}f(h) = i\partialderiv{f}{z}h + i\partialderiv{f}{\bar{z}}\bar{h}
+			\]
+			Ainsi : $\partialderiv{f}{\bar{z}} = - \partialderiv{f}{\bar{z}} = 0$.
+		\item[$iii \Rightarrow i$] On a : 
+			\[
+				\d_{z}f(h) = \partialderiv{f}{z}h
+			\]
+			D'où 
+			\[
+				f(z + h) = f(z) + \partialderiv{f}{z}h + o(h)
+			\]
+			Ainsi : 
+			\[	
+				\lim_{h \to 0}\frac{f(z + h) - f(z)}{h} = \partialderiv{f}{z}
+			\]
+			et $f$ est holomorphe en $z$. 
+	\end{description}
 \end{proof}
 
+\begin{propositionfr}{Équations de Cauchy-Riemann}{}
+	On note $f(x +iy) = P(x, y) + iQ(x, y)$ où $P, Q : \R^{2} \to \R$. Si $f$ est holomorphe, on a :  
+	\[	
+		\partialderiv{f}{x} + i\partialderiv{f}{y} = 0
+	\]
+	i.e. 
+	\[
+		\begin{cases}
+			\partialderiv{P}{x} - \partialderiv{Q}{y} =& 0\\
+			\partialderiv{Q}{x} + \partialderiv{P}{y} =& 0
+		\end{cases}
+	\]
+	Ce sont les équations de Cauchy-Riemann.
+\end{propositionfr}
+\begin{proof}
+	On a : 
+	\[
+		\d_{z}f(h) = \partialderiv{f}{x}(z)\d x(h) + \partialderiv{f}{y}(z)\d y(h) = f'(z)h = f'(z)(k + il)
+	\]
+	On obtient 
+	\[	
+		f'(z)(k + il) = \partialderiv{f}{x}(z)k + \partialderiv{f}{y}(z)l
+	\]
+	et donc : 
+	\[
+		\begin{cases}
+			f'(z) = \partialderiv{f}{x}(z)&\\
+			if'(z) = \partialderiv{f}{y}(z)
+		\end{cases}
+	\]
+	On obtient ainsi la première égalité en identifiant.\\
+	On réécrit ceci avec $\partialderiv{f}{\bar{z}} = 0$ : 
+	\[
+		\begin{cases}
+			\partialderiv{P}{x} - \partialderiv{Q}{y} =& 0\\
+			\partialderiv{Q}{x} + \partialderiv{P}{y} =& 0
+		\end{cases}
+	\]
+\end{proof}
+
+\begin{propositionfr}{Constance sur un Connexe}{}
+	Si $f$ est holomorphe sur $U$ connexe on a équivalence entre : 
+	\begin{itemize}
+		\item $f$ est constante sur $U$
+		\item $\Re f$ l'est
+		\item $\Im f$ l'est
+		\item $\abs{f}$ l'est
+		\item $\bar{f}$ est holomorphe
+	\end{itemize}
+\end{propositionfr}
+
+\subsection{Intégrale sur le bord d'un Compact}
+\begin{définition}{Classe du Bord d'un Compact}{}
+	Soit $K$ un compact de $\R^{2}$. $K$ est dit à bord compact de classe $\cont^{1}$ par morceaux si pour tout élément $z_{0} \in \partial K$, il existe des coordonnées $(u, v)$ associées à un repère affine de $\R^{2}$ d'origine $z_{0}$ orienté positivement par rapport à l'orientation canonique de $\R^{2}$ et un rectangle ouvert $R = \left\{ -\delta < u < \delta\right\} \times \left\{-\eta < v < \eta\right\}$ tel que : 
+	\[	
+		K \cap R = \left\{(u, v) \in R, v \geq h(u)\right\}
+		\]
+	où $h$ est une fonction réelle $\cont^{1}$ par morceaux sur $\left[-\delta, \delta \right]$ avec $h(0) = 0$ et $\sup \abs{h} < \eta$.
+\end{définition}
+
+\begin{définition}{Orientation du Bord}{}
+	Soit $K$ un compact à bord de classe $\cont^{1}$ par morceaux. On appelle orientation canonique du bord l'orientation donnée par les arcs $u \mapsto (u, h(u))$ avec $u$ croissant.
+\end{définition}
+
+\begin{lemme}{Existence de l'Orientation}{lemme:exist-orient}
+	La définition a du sens.
+\end{lemme}
+\begin{lemme}{Recoupement de Rectangles}{}
+	Soit $R, R'$ des rectangles ouverts tels que $\partial K \cap R \cap R' \neq \emptyset$.\\
+	On définit 
+	\[
+		K \cap R = \left\{(u, v) \in R, v\geq h(u)\right\}
+	\]
+	et 
+	\[
+		K \cap R' ) \left\{(u', v')\in R', v' \geq l(u')\right\}
+	\]
+	Alors, les orientations sur $\partial K \cap R \cap R'$ coïncident.
+\end{lemme}
+\begin{proof}
+	Soit $z_{0}  \in \partial K \cap R \cap R'$. $h$ et $l$ sont $\cont^{1}$ par morceaux. 
+	En évitant un nombre fini de points de $\partial K \cap R\cap R'$ on peut supposer $h$ et $l$ $\cont^{1}$ en $z_{0}$. 
+	Autrement dit, le bord admet une tangente en $z_{0}$. On a deux repères affines orientés $(z_{0}, e_{1}, e_{2})$ et $(z_{0}, e_{1}', e_{2}')$ qui génèrent des coordonnées $(u, v)$ et $(u', v')$.
+	Quitte à remplacer $h$ par $h(u) - h'(0)u$ on peut supposer que $h'(0) = l'(0) = 0$. \\
+	Ainsi, $e_{1}$ et $e_{1}'$ sont colinéaires. Puisqu'on a supposé que $(e_{1}, e_{2})$ et $(e_{1}', e_{2}')$ sont orientés positivement par rapport à l'orientation canonique de $\R^{2}$ et puisque $e_{2}$ et $e_{2}'$ doivent être dans le même sens (i.e. à l'intérieur du compact), on a bien le fait que $e_{1}$ et $e_{1}'$ sont dans le même sens.\\
+	Finalement, les orientations sur $\partial K \cap R \cap R'$ coïncident. 
+\end{proof}
+
+\subsection{Formule de Green-Riemann}
+Soit $p, n \in \N^{*}$. On note $\Lambda_{\R}^{p}\left(\R^{n}\right)$ le $\R$-ev des formes $p$-linéaires alternées sur $\R^{n}$. Toute forme $S \in \Lambda_{\R}^{p}(\R^{n})$ s'écrit de manière unique 
+\[
+    S = \sum_{1 \leq i_{1} < \cdots <i_{p} \leq n}c_{i_{1},\ldots, i_{p}}\d x_{i_{1}} \land \cdots \land \d x_{i_{p}}
+\]
+\begin{définition}{Produit Extérieur}{}
+    Pour $S \in \Lambda_{\R}^{p}(\R^{n}), T\in \Lambda_{\R}^{q}\left(\R^{n}\right)$ on définit le produit extérieur de $S$ et $T$ noté $S \land T \in \Lambda_{\R}^{p + q}\left(\R^{n}\right)$ comme : 
+    \[
+        S\land T\left(v_{1}, \ldots, v_{p + q}\right) = \frac{1}{p!q!}\sum_{\sigma}\sgn(\sigma)S(v_{\sigma(1)},\ldots, v_{\sigma(p)})T(v_{\sigma(p + 1)}, \ldots, v_{\sigma(p + q)})
+    \]
+\end{définition}
+
+\begin{propositionfr}{Exemples}{}
+   La paire $(\d x, \d y)$ forme une base de $\Lambda_{\R}^{1}(\C)$. Les seuls produits extérieurs à considérer sont : 
+        \[
+            \d x \land \d x = \d y \land \d y = 0, \ \ \d x \land \d y = -\d y \land \d x
+        \]
+    De plus, $\d x \land \d y$ est la forme bilinéaire alternée déterminant dans la base canonique. 
+\end{propositionfr}
+
+\begin{définition}{$2$-forme différentielle}{}
+    Une $2$-forme différentielle $\beta$ sur un ouvert $U$ de $\C$ est une application continue de $U$ dans $\Lambda_{\R}^{2}(\C)$ : $\beta = w(x, y)\d x \land \d y$ pour $w$ continue. 
+\end{définition}
+
+\begin{définition}{Intégrale d'une $2$-forme}{}
+    Soit $\beta = w(x, y)\d x \land \d y$ une $2$-forme différentielle sur $U$. On définit : 
+    \[
+        \int_{U}\beta = \int_{U}w(x, y)\d x\d y
+    \]
+\end{définition}
+\begin{définition}{Différentielle d'une Différentielle}{}
+    Soit $\alpha = u(x, y)\d x + v(x, y)\d y$ une $1$-forme différentielle $\cont^{1}$ sur $U$. La différentielle $\d \alpha$ de $\alpha$ est la $2$-forme différentielle 
+    \[
+        \d \alpha = \d u\land \d x + \d v \land \d y = \left(\partialderiv{v}{x} - \partialderiv{u}{y}\right)\d x \land \d y 
+    \]
+\end{définition}
+
+\begin{propositionfr}{Exemples}{}
+    \begin{enumerate}
+        \item Soit $\alpha$ une $1$-forme différentielle sur $U$ et $f : U\to \C$ de classe $\cont^{1}$. Alors 
+        \[
+            \d(f\alpha) = \d f \land \alpha + f\d \alpha
+        \]
+        \item Si on écrit la $1$-forme différentielle $\cont^{1}$ $\alpha = f\d z + g\d \bar{z}$ on a : 
+        \[
+            \d(f\d z + g \d\bar{z}) = \left(\partial_{z}g - \partial_{\bar{z}}f\right) \d z \land \d\bar{z} = -2i\left(\partial_{z}-\partial_{\bar{z}}f\right)\d x \land \d y
+        \]
+        En particulier, si $\alpha = f\d z$ avec $f$ holomorphe, alors $\partial_{\bar{z}}f = 0$ et $\d \alpha = 0$. 
+    \end{enumerate}
+\end{propositionfr}
+
+\begin{lemme}{Formule de Green-Riemann sur un rectangle}{Green-Riemann}
+    Soit $K$ un compact de $\C$ à bord de classe $\cont^{1}$ par morceaux orienté canoniquement. Soit $\alpha = u(x, y)\d x + v(x, y)\d y$ une forme $1$-différentielle de classe $\cont^{1}$ sur un ouvert de $K$ à support dans un rectangle $R = [- \delta, \delta] \times [-\eta, \eta] \subseteq K$. Alors 
+    \[
+        \int_{\partial K} \alpha = \int_{K}\d \alpha \text{ i.e. } \int_{\partial K}u(x, y)\d x + v(x, y) \d y = \int_{K}\left(\partialderiv{v}{x} - \partialderiv{u}{y}\right)\d x\d y
+    \]
+\end{lemme}
+\begin{proof}
+    Comme $K$ est compact, $R\subseteq \mathring{K}$ ou bien $\partial{K \cap R}$ est le graphe d'une fonction $h$ et $K \cap R$ est la partie située à l'intérieur du graphe.\\
+    Supposons $R \subseteq \mathring{K}$, alors $u = v = 0$ sur $\partial R$ et 
+    \[
+        \int_{-\delta}^{\delta}\partialderiv{v}{x}(x, y)\d x = v(\delta, y) - v(-\delta, y) = 0
+    \]
+    \[
+        \int_{-\eta}^{\eta}\partialderiv{u}{y}(x, y)\d y = u(x, \eta) - u(x, -\eta) = 0  
+    \]
+    et 
+    \[
+        \int_{K}\d \alpha = \int_{R}\d \alpha = \int_{-\delta \leq x \leq \delta, -\eta \leq y \leq \eta} \left(\partialderiv{v}{x} - \partialderiv{u}{y}\right)\d x\d y = 0
+    \]
+    Puisque le support de $\alpha$ ne rencontre pas $\partial K$ on a $\int_{\partial K} \alpha = 0 = \int_{K}\d \alpha$. \\
+    Si $K \cap R = \{(x, y) \in R \mid y \leq h(x)\}$, alors 
+    \begin{gather*}
+        \int_{K}\d \alpha = \int_{K \cap R}\d \alpha = \int_{- \delta}^{\delta}\d x \int_{h(x)}^{\eta}\left(\partialderiv{v}{x} - \partialderiv{u}{y}\right)\d y\\
+        = \int_{- \delta}^{\delta}\left(\frac{\partial}{\partial x}\left(\int_{h(x)}^{\eta}v(x, y)\d x\right)+ v(x, h(x))h'(x) - \left(u(x, \eta) - u(x, h(x))\right)\right) \d x\\
+        = \int_{h(\delta), \eta}v(\delta, y)\d y - \int_{h(-\delta)}^{\eta} v(-\delta, y)\d y + \int_{-\delta}^{\delta} \left(v(x, h(x))h'(x) + u(x, h(x))\right)\d x\\
+        = \int_{-\delta}^{\delta} \left(v(x, h(x))h'(x) + u(x, h(x))\right)\d x
+    \end{gather*}
+    car $u(x, \eta) = v(\delta, y) = v(-\delta, y) = 0$. Par ailleurs, comme $\partial K \cap R$ est paramétré par $y = h(x)$,
+    \[
+        \int_{\partial{K}\cap R}\alpha = \int_{\partial K \cap R} u(x, y)\d x + v(x, y)\d y = \int_{- \delta}^{\delta} \left(v(x, h(x))h'(x) + u(x, h(x))\right)\d x
+    \]
+    Le support de $\alpha$ est inclus dans $R$. Nous concluons donc :
+    \[
+        \int_{K}\d \alpha = \int_{\partial K} \alpha 
+    \]
+\end{proof}
+
+\begin{définition}{Partition de l'unité}{}
+    Soit $K$ un compact de $\C$ recouvert par un nombre fini d'ouverts $U_{i}$. Une partition de l'unité de classe $\cont^{1}$ subordonnée au recouvrement $U_{i}$ est une famille $\phi_{i}$ de fonctions de $K$ dans $[0, 1]$ de classe $\cont^{1}$ à support dans $U_{i}$ telles que $\sum \phi_{i}(x) = 1$ pour tout $x \in K$. 
+\end{définition}
+
+\begin{lemme}{Unité sur un Voisinage}{unit_voisin}
+    Soit $z \in U$. Il existe $V$ un voisinage de $z$ avec $\overline{V}\subseteq U$ et une fonction $\cont^{1}$ $\phi_{U}$ à support dans $U$ valant $1$ sur $V$. 
+\end{lemme}
+\begin{proof}
+    Soit $r > r'>0$ tel que $D(z, r') \subset D(z, r) \subset U$. On définit les fonctions $\cont^{\infty}$ 
+    \[
+        f_{r} : \R \to \R, f_{r}(t) = \begin{cases}
+            e^{\frac{1}{t^{2}-r^{2}}} & \text{ si } \abs{t} < r\\
+            0 & \text{sinon}
+        \end{cases}
+    \]
+    et 
+    \[
+        g_{r} : \R \to \R, g_{r}(s) = \frac{\int_{-\infty}^{s}f_{r}(t)\d t}{\int_{- \infty}^{\infty}f_{r}(t)\d t}
+    \]
+    En particulier : 
+    \[
+        g_{r}(s) = \begin{cases}
+            0 & \text{si } s \leq -r\\
+            1 & \text{si } s \geq r
+        \end{cases}
+    \]
+    Alors, $V = D(z, r')$ et $\phi_{U}(w) = f_{r}\left(r + \frac{2r}{r-r'}\left(r'-\abs{w - z}\right)\right)$ conviennent. 
+\end{proof}
+
+\begin{lemme}{Existence d'une Partition}{}
+    Soit $K \subseteq \C$ un compact et $\left(U_{i}\right)$ un recouvrement fini par des ouverts de $K$. Il existe une partition de l'unité $\cont^{1}$ subordonnée au recouvrement $U_{i}$
+\end{lemme}
+\begin{proof}
+    Pour tout $z \in K \setminus U_{j}$ il existe $i$ tel que $z \in U_{i}$. Par le lemme \ref{lemme:unit_voisin} on constuit $\psi_{z}^{j}$ de classe $\cont^{1}$ qui vaut $1$ sur un voisinage ouvert $W_{z}^{j}$ de $z$ et dont le support est dans l'ouvert $U_{i} \cap \left(K \setminus U_{j}\right)$. Le support de $\psi_{z}^{j}$ est un fermé de $K$ donc est compact. \\
+    On obtient donc un recouvrement ouvert $W_{z}^{j}$ du compact $K \setminus U_{j}$ donc on extrait un sous-recouvrement fini $\left\{W_{z_{1}}^{j}, \ldots, W_{z_{j_{l}}}^{j}\right\}$. \\
+    On procède de même pour tout $j \leq n$. En réindexant on obtient une famille finie $\left(\psi_{l}\right)_{1 \leq l \leq N}$ de fonctions dont l'union des supports recouvre $K$, i.e. pour tout $z \in K$, il existe $l$ tel que $\psi_{l}(z) > 0$. On pose alors 
+    \[
+        \psi = \sum \psi_{l} \text{ et pour } l\leq N, \rho_{l} = \frac{\psi_{l}}{\psi}
+    \]
+    Ainsi, $\rho_{l}$ est une partition de l'unité de classe $\cont^{1}$ de $K$ telle que pour tout $l$ il existe $1 \leq i \leq n$ tel que le support de $\rho_{l}$ soit inclus dans $U_{i}$.
+\end{proof}
+
+\begin{théorème}{Formule de Green-Riemann}{Green-Riemann}
+    Soit $K$ un compact de $\C$ à bord de classe $\cont^{1}$ par morceaux orienté canoniquement. Soit $\alpha$ une $1$-forme différentielle de classe $\cont^{1}$ sur un ouvert de $K$. On a alors 
+    \[
+        \int_{\partial K}\alpha = \int_{K}\d \alpha
+    \]
+\end{théorème}
+\begin{proof}
+    Comme $K$ est compact, il est recouvert par un nombre fini de rectangles ouverts $R_{j}$ qui vérifient $R_{j} \subseteq \mathring{K}$ ou $\partial\left(K \cap R_{j}\right)$ est le graphe d'une fonction $h_{j}$ et $K\cap R_{j}$ est la partie située à l'intérieur du graphe. Soit $\left(\chi_{j}\right)$ une partition de l'unité subordonnée au recouvrement $R_{j}$. Écrivons $\alpha = \sum \alpha_{j}$ où les $1$-formes différentielles $\alpha_{j} = \chi_{j}\alpha$ sont de classes $\cont^{1}$ à support dans $R_{j}$. On se ramène alors au cas du lemme \ref{lemme:Green-Riemann}
+\end{proof}
+
+\begin{théorème}{Cauchy}{}
+    Soit $U$ un ouvert de $\C$, $K$ un compact à bord de classe $\cont^{1}$ par morceaux inclus dans $U$, avec l'orientation canonique du bord. Alors pour toute fonction holomorphe de classe $\cont^{1}$ sur $K$ nous avons 
+    \[
+        \int_{\partial K}f(z)\d z = 0
+    \]
+\end{théorème}
+\begin{proof}
+    On applique la formule de Green-Riemann \ref{thm:Green-Riemann} à $\alpha = f(z)\d z$, $1$-forme différentielle de classe $\cont^{1}$. On a $\d \alpha = -\partial_{\bar{z}}f\d z \land \d \bar{z} = 0$.
+\end{proof}
+\begin{corollaire}{Analycité Holomorphe $\cont^{1}$}{}
+    Soit $f$ holomorphe de classe $\cont^{1}$ sur un ouvert $U$. Alors $f$ est analytique sur $U$. 
+\end{corollaire}
+\begin{proof}
+    Soit $\overline{D}(w, r) \subseteq U$ et $\gamma$ le lacet $t \mapsto w + re^{it}$. Pour $\lambda \leq 1$, on pose
+    \[
+        g(\lambda) = \frac{1}{2i\pi}\int_{\gamma}\frac{f(z + \lambda(u - z))}{u - z} \d u = \frac{r}{2\pi}\int_{0}^{2\pi}\frac{f\left(z +\lambda\left(w + re^{it} - z\right)\right)}{w + re^{it} - z}e^{it}\d t
+    \]
+    Ainsi, $g$ est continue sur $[0, 1]$, dérivable sur $]0, 1[$ de dérivée 
+    \[
+        g'(\lambda) = \frac{r}{2\pi}\int_{0}^{2\pi}f'\left(z + \lambda\left(w + re^{it} - z\right)\right)e^{it}\d t = \left[\frac{1}{2i\pi\lambda}f\left(z + \lambda\left(w + re^{it} - z\right)\right)\right]_{t = 0}^{2\pi} = 0
+    \]
+    Donc $g$ est constante avec 
+    \[
+        g(1) = \frac{1}{2i\pi}\int_{\gamma}^{}\frac{f(u)\d u}{u - z} \text{ et } g(0) = \frac{1}{2i\pi}\int_{\gamma}\frac{f(z)\d u}{u - z} = f(z)
+    \]
+    D'où, par la proposition \ref{propo:cont_lacet}, $f$ est analytique 
+\end{proof}
+\subsection{Analycité des Fonctions Holomorphes}
+\begin{lemme}{Goursat}{Goursat}
+    Soient $U \subseteq \C$ un ouvert et $T$ un triangle inclus dans $U$. Pour tout fonction holomorphe sur $U$
+    \[
+        \int_{\partial T}f(z)\d z = 0
+    \]
+\end{lemme}
+\begin{proof}
+    Nous décopons $T$ en quatre triangles $T_{i}$ dont les sommets sont ceux de $T$ et les milieux des côtés de $T$. Nous orientons les arêtes opposées des triangles $T_{k}$ de telle façon que 
+    \[
+        I = \int_{\partial T}f(z)\d z = \sum_{k = 1}^{4}\int_{\partial T_{k}}f(z)\d z
+    \]
+    Il existe donc un indice $k$ avec $\abs{\int_{\partial T_{k}}f(z)\d z} \geq \abs{I}/4$. De cette façon, nous construisons une suite de triangles emboîtés $T_{0}' = T, T_{1}' = T_{k}$ avec $diam T_{n}' = diam T/2^{n}$ et $\abs{\int_{\partial T_{n}'} f(z)\d z} \geq \abs{I}/4^{n}$
+\end{proof}
 
 \end{document}

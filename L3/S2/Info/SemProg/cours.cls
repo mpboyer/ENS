@@ -18,7 +18,7 @@
 \RequirePackage{ragged2e}
 \RequirePackage{amsmath}
 \RequirePackage{dsfont}
-
+% \RequirePackage{minted}
 \RequirePackage{amsfonts}
 \RequirePackage{mathrsfs}
 \RequirePackage{amsthm}
@@ -32,6 +32,7 @@
 \RequirePackage{etoc}
 \RequirePackage{stmaryrd}
 \setcounter{secnumdepth}{4}
+\RequirePackage{nicematrix}
 \RequirePackage{wrapfig}
 \RequirePackage{graphicx}
 \RequirePackage{hyperref}
@@ -44,12 +45,11 @@
 \AtBeginDocument{\def\labelitemi{$\bullet$}}
 \AfterBeginDocument{
     \maketitle
-    % \begin{center}
-    %     \includegraphics[height=6em]{/home/matthieu/Documents/ETUDES/ENS/ens_psl.pdf}
-    % \end{center}
-    % %\newpage
-    % \tableofcontents
-    }
+    \begin{center}
+        \includegraphics[height=6em]{/home/matthieu/Documents/ETUDES/ENS/ens_psl.pdf}
+    \end{center}
+    %\newpage
+    \tableofcontents}
 
 
 \titleformat{\paragraph}
@@ -70,6 +70,8 @@
 
 %Symboles
 \newcommand{\Id}{\mathrm{Id}}
+\renewcommand{\d}{{\rm \, d}}
+
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\Z}{\mathbb{Z}}
 \newcommand{\Q}{\mathbb{Q}}
@@ -77,6 +79,10 @@
 \newcommand{\C}{\mathbb{C}}
 \newcommand{\K}{\mathbb{K}}
 \newcommand{\U}{\mathbb{U}}
+\newcommand{\D}{\mathbb{D}}
+\renewcommand{\S}{\mathbb{S}}
+\renewcommand{\P}{\mathbb{P}}
+
 \renewcommand{\O}{\mathcal{O}}
 \newcommand{\A}{\mathcal{A}}
 \newcommand{\mL}{\mathcal{L}}
@@ -84,10 +90,11 @@
 \newcommand{\ml}{\mathcal{l}}
 \newcommand{\mV}{\mathcal{V}}
 \newcommand{\mT}{\mathcal{T}}
-\newcommand{\mX}{\mathcal{X}}
 \newcommand{\mS}{\mathcal{S}}
-\renewcommand{\P}{\mathbb{P}}
-\renewcommand{\d}{{\rm \, d}}
+\newcommand{\mP}{\mathcal{P}}
+\newcommand{\mF}{\mathcal{F}}
+\newcommand{\mI}{\mathcal{I}}
+
 
 \newcommand{\asympt}{\mathop{\sim}}
 \newcommand{\lin}{\mathcal{L}}
@@ -106,6 +113,8 @@
 \DeclareMathOperator{\rg}{rg}
 \DeclareMathOperator{\ch}{ch}
 \DeclareMathOperator{\sh}{sh}
+\DeclareMathOperator{\lfp}{lfp}
+\DeclareMathOperator{\gfp}{gfp}
 \DeclareMathOperator{\sgn}{sgn}
 \renewcommand{\th}{\mathop{\rm th}}
 \makeatletter
@@ -137,6 +146,7 @@
 \renewcommand{\H}{\mathbb{H}}
 \newcommand{\transpose}[1]{{^{\mathsf{t}}}#1}
 \newcommand{\onen}[1]{\left\llbracket 1, #1\right\rrbracket}
+\newcommand{\sem}[1]{\left\llbracket #1 \right\rrbracket}
 \newcommand{\ve}[1]{\texttt{#1}}
 
 

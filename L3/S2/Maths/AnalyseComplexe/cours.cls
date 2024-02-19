@@ -133,6 +133,8 @@
 \renewcommand{\H}{\mathbb{H}}
 \newcommand{\transpose}[1]{{^{\mathsf{t}}}#1}
 \newcommand{\onen}[1]{\left\llbracket 1, #1\right\rrbracket}
+\newcommand{\partialderiv}[2]{\frac{\partial #1}{\partial #2}}
+
 
 \usetikzlibrary{automata, arrows, calc, matrix, positioning}
 \usetikzlibrary{math}
