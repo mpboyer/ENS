@@ -1,0 +1,74 @@
+\documentclass{cours}
+\title{Systèmes d'Exploitation}
+\author{Timothy Bourke}
+
+\begin{document}
+\part{Mémoire Virtuelle}
+Un OS est constitué d'un Noyau, de Bibliothèques et d'Applications pour partager la mémoire, le temps de calcul et les périphériques/composants, pour abstraire une base pour construire de plus gros systèmes avec des services communs, de la concurrence, de la communication et une indépendance matérielle des applications. 
+Le noyau contient de nombreuses structures de données et des fonctions de pagination, des modules abstraits pour les services, et du contrôle matériel bas-niveau (drivers) pour la gestion de la concurrence et des évènements. 
+
+\section{Espaces d'Adresses et Traduction d'Adresses}
+\subsection{Espaces d'Adresses}
+Un OS doit partager des ressources finies entre plusieurs utilisateurs/applications et proposer des abstractions pour la construction d'applications. 
+La mémoire physique doit être partagée, mais que faire si l'on en n'a pas assez ? Si un processus tent de lire ou d'écrire sur la mémoire d'un autre ? 
+Les abstractions sont utiles pour les OS et les développeurs d'applications : on fait tourner chaque processus dans un espace d'adresses virtuel, on utilise de la mémoire physique (plus rapide) comme cache pour des fichiers sur disque (plus lent) et on peut communiquer entre les processus en sélectionnant de la mémoire à partager. 
+
+La mémoire virtuelle est une abstraction proposée par un mix sophistiqué et élégant de matériel et de logiciel : 
+\begin{description}
+    \item[Matériel] Le matériel permet un système d'exceptions (interuptions synchronisées), de traduction d'adresses, d'avoir du cache et une mémoire principale ainsi que des fichiers sur disque. 
+    Il est nécessaire pour intervenir au plus bas niveau - chaque instruction {\tt mov} - et pour la vitesse d'exécution.
+    \item[Logiciel] Dans le logiciel, le noyau va contenir un système de mémoire.  
+    Il est nécessaire pour implémenter des algorithmes flexibles et sophistiqués et pour une intégration dense dans un noyau. 
+\end{description}
+La mémoire virtuelle est présente à tous les niveaux d'un système d'ordinateur, comprendre son fonctionnement revient à comprendre comment le système fonctionne. Elle offre des capacités puissantes qu'on peut exploiter dans des applications. Les développeurs d'OS ne peuvent pas éviter de connaître la mémoire virtuelle. 
+
+Les systèmes qui n'utilisent pas d'adressage virtuel sont utilisé dans des systèmes embarqués, tandis que l'adressage virtuel est utilisé partout ailleurs et utilise une unité de gestion de mémoire (MMU) entre le CPU et la mémoire physique. 
+
+\subsection{Traduction d'Adresses}
+\begin{définition}{Espaces d'Adresses}{}
+    \begin{itemize}
+        \item L'Espace d'Adresses Virtuel $V$ est un ensemble de $N = 2^{n}$ adresses virtuelles utilisées dans les programmes
+        \item L'Espace d'Adresses Physique $P$ est un ensemble de $M = 2^{m}$ adresses physiques de la RAM.
+    \end{itemize}
+\end{définition}
+\begin{définition}{Traduction d'Adresses}{}
+    Une fonction de traduction d'adresses est une fonction $VMAP : V \to P\ {\tt option}$ qui a une adresse virtuelle $a$ va associer : 
+    \begin{itemize}
+        \item $VMAP(a) = {\tt Some }\ a'$ si la donnée à l'adresse virtuelle $a$ dans $V$ est à l'adresse physique $a'$ dans $P$.
+        \item $VMAP(a) = {\tt None}$ si la donnée à l'adresse virtuelle $a$ dans $V$ n'est pas dans la mémoire physique. 
+    \end{itemize}
+\end{définition}
+
+On divise les espaces d'adresses en pages numérotées (blocs de taille spécifique) et on s'aligne toujours sur la taille d'une page, en empêchant les dépassements.
+On représente cette fonction de traduction par une table de pages. On approxime ensuite la correspondance par une liste d'entrées, une par page virtuelle. On spécifie alors $\tt None$ ou $\tt Some$ numéro de page physique. 
+L'idée est alors que chaque processus va avoir son espace virtuel d'adressage pour lequel la mémoire est une simple array d'octets. Il faut alors bien choisir la fonction de traduction pour simplfier l'allocation mémoire. 
+Chaque page virtuelle peut être map à n'importe quelle page physique et une page virtuelle peut être stockée dans différentes pages physiques à la fois.
+On a alors le processus suivant : 
+\begin{enumerate}
+    \item Le CPU envoie une adresse virtuelle à la MMU. (VA)
+    \item La MMU demande une table de pagination de la mémoire. (PTEA)
+    \item La Mémoire envoie une table de pagination à la MMU. (PTE)
+    \item La MMU envoie l'adresse physique au cache/à la mémoire. (PA)
+    \item Le cache/la mémoire envoie le mot de données au processeur. (DATA)
+\end{enumerate}
+
+On peut accélérer la traduction avec un Buffer Lookaside de Traduction (TLB) : Un cache matériel dans la MMU qui contient une correspondance entre numéros virtuels et physiques de pages et qui contient même les entrées complètes de la table de pagination pour un petit nombre de pages. 
+Ceci permet d'éliminer un accès mémoire en cas de hit, mais coûte un accès mémoire supplémentaire sinon. Les miss sont rares grâce à la localité des programmes.
+
+\subsection{Protection}
+Chaque processus (utilisateur) a son espace virtuel défini par une table de pagination distincte, qu'il ne devrait pas être autorisé à modifier directement. 
+Un processeur a donc au moins 2 modes d'exécution : Mode Noyau/Superviseur et mode Utilisateur. Des instructions spéciales ou des évènements permettent de changer d'un mode d'exécution à l'autre. 
+On étend alors les PTEs avec des bits de permissions (Sup, Read, Write). Les permissions de page sont vérifiées à chaque instruction de déplacement vers ou depuis la mémoire et en cas de problème, l'OS envoie le processus SIGSEGV - SEGFAULTTTTTTTTTTTTTT.
+
+\subsection{Pagination Multi-Niveaux}
+Si on se donne un espace d'adresses virtuel de 48 bits, une taille de page de 4kB ($2^{12}$) et des PTE de 8 octets, on aurait besoin d'une table de pagination de $512 GB$. 
+On utilise alors des tables de pagination multi-niveaux : chaque PTE pointe vers une table de pagination du niveau suivant, ce qui permet de réduire l'usage de mémoire. On peut créer les tables de pagination de niveau supérieur à la volée, la plupart de l'espace étant généralement non-alloué. 
+Grâce à des TLB à chaque niveau ou presque, on peut faire de sorte que la recherche d'une donnée soit presque aussi rapide qu'avec un seul niveau de pagination. 
+
+\section{L'Architecture \tt x86}
+\subsection{Adressage par Décalage et Mode Réel}
+Le premier processeur Intel 16-bit utilisait des mots de 16 bits, des adresses de 20 bits, de la segmentation mémoire et de l'adressage physique. 
+Pour accéder à un espace d'adresses physique sur 20 bits avec des registres 16 bits, on utilise un registre spécial de segments pour gagner les 4 bits manquants : L'adresse physique est l'adresse relativement à l'adresse de segments : on shift left de $4$ bits. 
+On doit alors wrap en arrivant en fin de mémoire, à cause de l'ambiguïté du système, $0020:0010$ et $0000:0210$ correspondent. 
+
+\end{document}

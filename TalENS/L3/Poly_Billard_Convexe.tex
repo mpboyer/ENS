@@ -40,11 +40,11 @@ Une partie $P$ est dite fermée si et seulement si toute suite convergente à va
 \end{proof}
 
 \begin{définition}{Frontière}{}
-On appelle frontière d'une partie $K$ les éléments de $\overline{K} \setminus \mathring{K}$. On la note $\delta(K)$
+On appelle frontière d'une partie $K$ les éléments de $\overline{K} \setminus \mathring{K}$. On la note $\partial(K)$
 \end{définition}
 
 \begin{propositionfr}{Paramétrisation}{}
-    On peut paramétrer la frontière d'une partie bornée $\delta(K)$ par une fonction $f : \R \to \R^{2}$ où $Im(f) = \delta(K)$ et $f$ est $L$-périodique.
+    On peut paramétrer la frontière d'une partie bornée $\partial(K)$ par une fonction $f : \R \to \R^{2}$ où $Im(f) = \partial(K)$ et $f$ est $L$-périodique.
 \end{propositionfr}
 C'est le bord de la partie considérée. C'est une courbe fermée.
 
@@ -193,12 +193,12 @@ On cherche donc à prouver que, sur un compact convexe, pour tout point, il exis
 On se donne un billard $K$.\\
 On voudrait montrer le résultat suivant, plus fort que ce qu'on cherche :
 \begin{théorème}{Trajectoires Polygonales}{}\label{thm:leresultat}
-Un polygone à $n$ côtés inscrits dans $\delta(K)$ de périmètre minimal est une trajectoire de lumière.
+Un polygone à $n$ côtés inscrits dans $\partial(K)$ de périmètre minimal est une trajectoire de lumière.
 \end{théorème}
 À priori, on ne sait pas si celui-ci est vrai, mais on se doute bien qu'il a des chances de l'être.
 \begin{définition}{Polygone}{}
-Un polygone à $n$ côtés est inscrit dans $\delta(K)$ si ses sommets sont des éléments de $\delta(K)$.\\
-Formellement, on le décrit par ses $n$ sommets $S_{1}, \ldots, S_{n}$, des points éléments de $\delta(K)$.
+Un polygone à $n$ côtés est inscrit dans $\partial(K)$ si ses sommets sont des éléments de $\partial(K)$.\\
+Formellement, on le décrit par ses $n$ sommets $S_{1}, \ldots, S_{n}$, des points éléments de $\partial(K)$.
 \end{définition}
 
 \begin{propositionfr}{Norme et Produit Scalaire}{}
@@ -214,13 +214,13 @@ Formellement, on le décrit par ses $n$ sommets $S_{1}, \ldots, S_{n}$, des poin
 
 Dans la suite on note :
 \begin{itemize}
-    \item $L$ la longueur de $\delta(K)$
-    \item $F$ une paramétrisation de $\delta(K)$ de classe $\cont^{1}$ au moins.
+    \item $L$ la longueur de $\partial(K)$
+    \item $F$ une paramétrisation de $\partial(K)$ de classe $\cont^{1}$ au moins.
     \item $\mathfrak{C}= \{\left(t_{1}, \ldots, t_{n}\right), 0 \leq t_{1} \leq \dots \leq t_{n}\leq L\}$.
 \end{itemize}
 
 \begin{propositionfr}{Existence d'un Polygone de Périmètre Maximal}{}
-    Pour tout $n \geq 2$, il existe un polygone inscrit dans $\delta(K)$ de périmètre minimal.
+    Pour tout $n \geq 2$, il existe un polygone inscrit dans $\partial(K)$ de périmètre minimal.
 \end{propositionfr}
 \begin{proof}
     L'ensemble $\mathfrak{C}$ est compact : borné car inclus dans $\left[0, L\right]^{n}$ borné, et fermé car les inégalités passent à la limite.\\
