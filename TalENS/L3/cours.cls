@@ -12,6 +12,7 @@
 \RequirePackage{array}
 \RequirePackage{tikz}
 \RequirePackage{booktabs}
+\RequirePackage{nicematrix}
 \RequirePackage{textcomp}
 \RequirePackage{pdfpages}
 \tikzset{>=stealth}
@@ -83,6 +84,7 @@
 \newcommand{\mL}{\mathcal{L}}
 \newcommand{\B}{\mathcal{B}}
 \newcommand{\ml}{\mathcal{l}}
+\newcommand{\mP}{\mathcal{P}}
 
 \renewcommand{\P}{\mathbb{P}}
 \renewcommand{\d}{{\rm \, d}}
@@ -105,6 +107,7 @@
 \DeclareMathOperator{\ch}{ch}
 \DeclareMathOperator{\sh}{sh}
 \DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\Vect}{Vect}
 \renewcommand{\th}{\mathop{\rm th}}
 \makeatletter
 \renewcommand{\ALG@name}{Algorithme}
@@ -136,6 +139,7 @@
 \newcommand{\transpose}[1]{{^{\mathsf{t}}}#1}
 \newcommand{\onen}[1]{\left\llbracket 1, #1\right\rrbracket}
 
+\usetikzlibrary{decorations.pathreplacing,calligraphy}
 \usetikzlibrary{automata, arrows, calc, matrix, positioning}
 \usetikzlibrary{math}
 \definecolor{vulm}{HTML}{7d1dd3}

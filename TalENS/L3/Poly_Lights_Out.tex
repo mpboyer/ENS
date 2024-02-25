@@ -1,31 +1,13 @@
-\documentclass{beamercours}
-\title{Cours TalENS 2023-2024}
-\subtitle{RRrrr, Shadoks, Craies}
+\documentclass{cours}
+\title{Cours TalENS 2023-2024\\ \small Rrrr, Shadoks et Craies}
 \author{Matthieu Boyer}
 \definecolor{mint}{HTML}{9ffeb0}
 
 \begin{document}
-\maketitle
-\begin{frame}{Plan}\tableofcontents[sectionstyle=show]
-\end{frame}
-\section*{Introduction}
-\begin{frame}
-    \frametitle{\tt Lights Out !}
-    \begin{figure}
-        \includegraphics[scale = .5]{Fichiers/lights-out.png}
-        \caption{Déroulé d'une partie de \texttt{Lights Out}}
-    \end{figure}
-    Source : \href{https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/LightsOutIllustration.svg/400px-LightsOutIllustration.svg.png}{Wikipédia}\\
-    \visible<2>{Il existe aussi des variantes du jeu où les lumières peuvent avoir plus que deux couleurs possibles}
-
-\end{frame}
 
 \section{Modélisation}
-\begin{frame}
-    \frametitle{État du Jeu}
     On part par exemple d'une situation semblable à celle-ci dessous :
     \begin{center}
-        \vspace{-17pt}
         \begin{tikzpicture}
             \foreach \i in {0,...,2}{
                     \foreach \j in {0, ..., 2}{
@@ -50,14 +32,11 @@
             \draw[black, ->] (8.55, 1.5) -- (9.45, 1.5);
         \end{tikzpicture}
     \end{center}
-    \only<2>{On choisit de modéliser chaque couleur par un nombre différent : Violet = 0, Jaune = 1 et Menthe = 2}
-    \only<3>{On décrit alors la situation par la couleur de chaque lumière sous forme d'un vecteur : \vspace{-12pt}
-        \[\mP = \left(0, 2, 0, 2, 0, 0, 2, 1, 0\right)\vspace{-12pt}\]
-        La lumière de la case $i, j$ est représenté par la $i * m + j$-ème valeur.}
-\end{frame}
+    On choisit de modéliser chaque couleur par un nombre différent : Violet = 0, Jaune = 1 et Menthe = 2
+    On décrit alors la situation par la couleur de chaque lumière sous forme d'un vecteur : 
+        \[\mP = \left(0, 2, 0, 2, 0, 0, 2, 1, 0\right)\]
+        La lumière de la case $i, j$ est représenté par la $i * m + j$-ème valeur.
 
-\begin{frame}
-    \frametitle{Transitions de l'État du Jeu - 1}
     Si on appuie sur la lumière en haut au milieu :
     \begin{center}
         \begin{tikzpicture}
@@ -95,11 +74,8 @@
     \[
         L_{0, 1}\left(0, 2, 0, 2, 0, 0, 2, 1, 0\right)  = \left(1, 0, 1, 0, 1, 1, 2, 1, 0\right)
     \]
-\end{frame}
 
 
-\begin{frame}
-    \frametitle{Transitions de l'État de Jeu - 2}
     On a plus généralement :
     \begin{center}
         \begin{tikzpicture}
@@ -114,7 +90,7 @@
     \end{center}
     C'est à dire que si on agit sur une case $i, j$:
     $L_{x, y}\left(u_{0}, \ldots, u_{nm - 1}\right) = \left(u_{0}', \ldots, u_{nm  - 1}'\right)$
-    où : \vspace{-5pt}
+    où :
     \[
         \forall k, u_{k}' = \begin{cases}
             u_{k} & \text{si } im + j \text{ et } k \text{ ne sont pas adjacentes} \\
@@ -123,11 +99,8 @@
             0     & \text{si } u_{k} = 2
         \end{cases}
     \]
-\end{frame}
 
-\begin{frame}
-    \frametitle{Transitions de l'État de Jeu - 3}
-    \begin{tabular}{m{5cm}m{.47\linewidth}}\vspace{-10pt}
+    \begin{tabular}{m{5cm}m{.47\linewidth}}
         \resizebox{5cm}{!}{\begin{tikzpicture}
                                    \foreach \i in {0,...,2}{
                                            \foreach \j in {4, ..., 6}{
@@ -195,44 +168,34 @@
 
                                    \draw[->, black] (3.05, 3.95) -- node[rotate = -45,below]{$L_{0, 1} \circ L_{2, 1}$} node[above, rotate = -45] {$L_{2, 1} \circ L_{0, 1}$} (3.95, 3.05);
                                \end{tikzpicture}}
-         & \visible<2->{\vspace{5pt}Le diagramme commutatif ci-contre est valable pour toutes paires $(i, j)$ et $(k, l)$. C'est à dire que\vspace{-10pt}
-            \[\forall (i, j), (k, l),  L_{i, j} \circ L_{k, l} = L_{k, l} \circ L_{i, j}\vspace{-10pt}\]
-        }
-        \visible<3->{Par ailleurs, si on prend $u = (u_{0}, \ldots, u_{mn-1})$ et $v = (v_{0},\ldots, v_{mn-1})$ deux états de jeu, on a :\vspace{-10pt}
+         &Le diagramme commutatif ci-contre est valable pour toutes paires $(i, j)$ et $(k, l)$. C'est à dire que
+            \[\forall (i, j), (k, l),  L_{i, j} \circ L_{k, l} = L_{k, l} \circ L_{i, j}\]
+        
+        Par ailleurs, si on prend $u = (u_{0}, \ldots, u_{mn-1})$ et $v = (v_{0},\ldots, v_{mn-1})$ deux états de jeu, on a :
             \[
                 L_{i, j}(u + v) = L_{i, j}(u) + L_{i, j}(v)
-            \]}
+            \]
     \end{tabular}
-\end{frame}
 
 \section{Arithmétique Modulaire}
-\begin{frame}
-\frametitle{Division Euclidienne}
 \begin{théorème}{Division Euclidienne}{}
-Soit $n, q \in \Z$. Il existe un unique couple $(p, q)$ vérifiant : \vspace{-10pt}
+Soit $n, q \in \Z$. Il existe un unique couple $(p, q)$ vérifiant : 
 \[
     n = pq + r \text{ et } 0 \leq r < q
 \]
 \end{théorème}
 
-\visible<2>{\begin{proof}
+\begin{proof}
         \begin{description}
             \item[Existence] On soustrait $q$ à $n$ jusqu'à tomber sur $r < q$.
             \item[Unicité] Si $(p, r), (p', r')$ conviennent, on a $(p - p')q = r - r'$. Mais $\abs{r - r'} \leq q$ donc $p - p' = 0$ et par suite $r = r'$.
         \end{description}
-    \end{proof}}
-\end{frame}
+    \end{proof}
 
-\begin{frame}
-\frametitle{Divisibilité}
 \begin{définition}{Modulo et Divisibilité}{}
 On note $a\mid b$ lorsque $r = 0$ dans la division euclidienne de $a$ par $b$, i.e. $a = p\times b$. \\
 On note $a \equiv b [n]$ lorsque $a$ et $b$ ont même reste dans la division euclidienne par $n$. On dit qu'ils sont congrus modulo $n$. On note $a\!\mod n$ ou $a [n]$ la valeur de ce reste commun.
 \end{définition}
-\end{frame}
-
-\begin{frame}
-    \frametitle{Équivalence}
     \begin{propositionfr}{Sur la Relation Modulo $n$}{}
         Soit $a, b, n \in \Z$.
         \begin{itemize}
@@ -245,21 +208,14 @@ On note $a \equiv b [n]$ lorsque $a$ et $b$ ont même reste dans la division euc
         On calcule simplement les résultats à l'aide d'un tableau de congruence.
     \end{proof}
 
-\end{frame}
-
-\begin{frame}
-\frametitle{Anneaux}
 \begin{définition}{Anneau $\znz{n}$}{}
 On définit sur l'ensemble $\left\{0, \ldots, n - 1\right\}$ l'addition et le produit par le passage au modulo. \\
 Formellement, il s'agit du passage au quotient de $\Z$ par son idéal $n\Z$.
 \end{définition}
-\visible<2>{\begin{propositionfr}{Corps Primaux}{}
+\begin{propositionfr}{Corps Primaux}{}
         L'anneau $\znz{p}$ est un corps (i.e. il y a des inverses multiplicatifs) si et seulement si il est intègre si et seulement si $p \in \mP$.
-    \end{propositionfr}}
-\end{frame}
+    \end{propositionfr}
 
-\begin{frame}
-    \frametitle{Modélisation}
     Si nos lampes peuvent avoir $p$ couleurs différentes, on va donc modéliser l'état de chacune de nos lampes comme un nombre sur $\znz{p}$. On a alors bien :
     \[
         \begin{aligned}
@@ -271,25 +227,17 @@ Formellement, il s'agit du passage au quotient de $\Z$ par son idéal $n\Z$.
     \]
     et on modélise correctement le cycle des couleurs.
 
-
-\end{frame}
-
 \section{Algèbre Linéaire}
-\begin{frame}
-\frametitle{Espace Vectoriel sur un Corps}
 \begin{définition}{Espace Vectoriel}{}
 Étant donné un corps $\K$, on appelle espace vectoriel sur $\K$ ou $\K$-espace vectoriel un ensemble $E$ muni d'une addition commutative $+$ et d'un produit externe $\times$ distributif sur l'addition.
 \end{définition}
-\visible<2>{\begin{propositionfr}{Quelques Exemples}{}
+\begin{propositionfr}{Quelques Exemples}{}
         \begin{itemize}
             \item $\R$, $\R^{\R}$, $\R^{\N}$ ou $\R[X]$ sont des $\R$-ev.
             \item $\znz{p}$ est un $\znz{p}$-espace vectoriel.
         \end{itemize}
-    \end{propositionfr}}
-\end{frame}
+    \end{propositionfr}
 
-\begin{frame}
-\frametitle{Applications Linéaires}
 \begin{définition}{Application Linéaire}{}
 Soient $E, F$ deux $\K$-espaces vectoriels. Une application $f : E \to F$ est dite linéaire si :
 \begin{itemize}
@@ -297,66 +245,52 @@ Soient $E, F$ deux $\K$-espaces vectoriels. Une application $f : E \to F$ est di
     \item $\forall x \in E, \lambda \in \K, f(\lambda x) = \lambda f(x)$
 \end{itemize}
 \end{définition}
-\end{frame}
 
 
-\begin{frame}
-    \frametitle{Applications Linéaires}
     \begin{propositionfr}{Exemples}{}
-        \begin{itemize}[<+->]
+        \begin{itemize}
             \item $ev_{x} : P \in \R[X] \mapsto P(x) \in \R$ est linéaire.
             \item $\Delta : P \in \R[X] \mapsto P' \in \R[X]$ est linéaire.
             \item $L_{a} : x \in \znz{p} \mapsto a \times x \in \znz{p}$ est linéaire.
         \end{itemize}
     \end{propositionfr}
-\end{frame}
 
-\begin{frame}
-\frametitle{Espace Engendré}
 \begin{définition}{Espace Engendré}{}
 Soit $e = e_{1}, \ldots, e_{n} \in E$. On appelle Espace Vectoriel Engendré par $e_{1},\ldots, e_{n}$ le plus petit sous-espace vectoriel de $E$ comprenant chacun des $e_{i}$ i.e.
 \[
     \Vect(e) = \Vect(e_{1}, \ldots, e_{n}) = \left\{\sum_{i = 1}^{n} \lambda_{i}e_{i} \mid \left(\lambda_{1}, \ldots, \lambda_{n}\right) \in \K^{n}\right\}
 \]
 \end{définition}
-Par exemple : \vspace{-10pt}
+Par exemple : 
 \[
     \Vect(1, X, \ldots, X^{n}, \ldots) = \R[X]
 \]
-\end{frame}
 
-\begin{frame}
-\frametitle{Bases}
 \begin{définition}{Famille Génératrice, Libre, Base}{}
 On dit que :
-\begin{itemize}[<+->]
+\begin{itemize}
     \item $e$ est une base si $\Vect\left(e \setminus \{e_{i}\}\right) \subsetneq \Vect(e)$ pour tout $i$
     \item $e$ est génératrice si $\Vect(e) = E$
     \item $e$ est une base si $e$ est génératrice et libre
 \end{itemize}
-\visible<4->{$E$ est de dimension finie s'il existe une famille génératrice finie. \\}
-\visible<5>{En dimension finie ($\K^{n}, \K_{n}[X], L(\K, \K)$), ces trois propositions sont équivalentes.}
+$E$ est de dimension finie s'il existe une famille génératrice finie. \\
+En dimension finie ($\K^{n}, \K_{n}[X], L(\K, \K)$), ces trois propositions sont équivalentes.
 \end{définition}
-\end{frame}
 
-\begin{frame}
-    \frametitle{Applications Linéaires et Base}
+
     \begin{propositionfr}{Image d'une Base}{}
         L'image par une application linéaire est une famille génératrice de l'image de l'application linéaire.
     \end{propositionfr}
-    \visible<2->{\begin{proof}
+    \begin{proof}
             Si $x = \sum_{i} \lambda_{i}e_{i}$, $f(x) = \sum_{i}\lambda_{i}f(e_{i})$.
-        \end{proof}}
-    \visible<3>{On n'a donc besoin que de l'image d'une base pour caractériser une application linéaire. On n'a par ailleurs besoin que d'une base pour caractériser un espace.}
-\end{frame}
-\begin{frame}
-\frametitle{Matrices}\vspace{-10pt}
+        \end{proof}
+    On n'a donc besoin que de l'image d'une base pour caractériser une application linéaire. On n'a par ailleurs besoin que d'une base pour caractériser un espace.
 \begin{définition}{Matrice d'une Application Linéaire}{}
 Soit $e = e_{1}, \ldots, e_{n}$ une base d'un $\K$-espace $E$, $f = f_{1}, \ldots, f_{m}$ une base d'un $\K$-espace $F$. Soit $u : E \to F$ linéaire. Si on a, pour tout $i \in \onen{m}$ :
 $
     u(e_{i}) = \sum_{j = 1}^{n} a_{i, j}f_{j}
 $
-la matrice de $u$ relativement à $e$ et $f$ est : \vspace{-5pt}
+la matrice de $u$ relativement à $e$ et $f$ est : 
 \[
     \mathop{Mat}\nolimits_{e, f}(u) = \begin{pNiceMatrix}
         a_{1, 1} & \cdots & a_{1, n} \\
@@ -366,39 +300,30 @@ la matrice de $u$ relativement à $e$ et $f$ est : \vspace{-5pt}
 \]
 Elle est de taille $m, n$. On note $\mathcal{M}_{m, n}(\K)$ l'ensemble des telles matrices.
 \end{définition}
-\end{frame}
 
-\begin{frame}
-\frametitle{Anneau Matriciel}
 \begin{définition}{Anneau Matriciel}{}
 \begin{itemize}
     \item Si $P, Q \in \M_{p, q}(\K)$ sont les matrices de $u$ et $v$ dans certaines bases, $P + Q$ est la matrice de $u + v$ dans ces bases.
     \item Si $P \in \M_{p, q}(\K)$ est la matrice de $u : F \to G$ et si $Q \in \M_{q, r}(\K)$ est la matrice de $v : E \to F$ alors $PQ  \in \M_{p, r}(\K)$ est la matrice de $u \circ v : E \to G$.
 \end{itemize}
 \end{définition}
-\end{frame}
 
-\begin{frame}
-    \frametitle{Espaces de Matrices}
     \begin{propositionfr}{Propriétés des Matrices}{}
-        \begin{itemize}[<+->]
+        \begin{itemize}
             \item La matrice d'une application la caractérise entièrement.
-            \item $P + Q$ est la matrice somme des coefficients : \vspace{-10pt}
+            \item $P + Q$ est la matrice somme des coefficients : 
                   \[
-                      \boxed{\left(P + Q\right)_{i, j} = P_{i, j} + Q_{i, j}}\vspace{-10pt}
+                      \boxed{\left(P + Q\right)_{i, j} = P_{i, j} + Q_{i, j}}
                   \]
-            \item $P\times Q$ se calcule comme suit : \vspace{-10pt}
+            \item $P\times Q$ se calcule comme suit : 
                   \[
-                      \boxed{\left(P\times Q\right)_{i, j} = \sum_{k = 1}^{q} p_{i, k}q_{k, j}}\vspace{-10pt}
+                      \boxed{\left(P\times Q\right)_{i, j} = \sum_{k = 1}^{q} p_{i, k}q_{k, j}}
                   \]
         \end{itemize}
     \end{propositionfr}
-\end{frame}
 
-\begin{frame}
-    \frametitle{Modélisation}
     On peut voir une transition de jeu comme une application linéaire de $\znz{p}^{mn}$ vers $\znz{p}^{mn}$.
-    \visible<2>{En $3\times3$: \vspace{-8pt}
+    En $3\times3$: 
         \[
             \mathcal{L}(3, 3) = \begin{pNiceMatrix}
                 1 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\
@@ -412,13 +337,10 @@ Elle est de taille $m, n$. On note $\mathcal{M}_{m, n}(\K)$ l'ensemble des telle
                 0 & 0 & 0 & 0 & 0 & 1 & 0 & 1 & 1
             \end{pNiceMatrix}
         \]
-    }
-\end{frame}
+    
 
 \section{Résolution du Jeu}
-\begin{frame}
-    \frametitle{Système Linéaire}
-    On peut finalement voir {\tt Lights Out} comme un système linéaire :\vspace{-10pt}
+    On peut finalement voir {\tt Lights Out} comme un système linéaire :
     \[
         \mL(3, 3)\times a = \begin{pNiceMatrix}
             1 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\
@@ -430,45 +352,41 @@ Elle est de taille $m, n$. On note $\mathcal{M}_{m, n}(\K)$ l'ensemble des telle
             0 & 0 & 0 & 1 & 0 & 1 & 1 & 1 & 0 \\
             0 & 0 & 0 & 0 & 1 & 0 & 1 & 1 & 1 \\
             0 & 0 & 0 & 0 & 0 & 1 & 0 & 1 & 1
-        \end{pNiceMatrix} \times a =  b \vspace{-10pt}
+        \end{pNiceMatrix} \times a =  b
     \]
     où $b$ est la situation initiale et où on cherche $a$
-\end{frame}
 
-\begin{frame}
-    \frametitle{Exemple de Résolution}
     Dans notre cas :
-    \begin{NiceTabular}{m{.4\linewidth}m{.25\linewidth}m{.3\linewidth}}
-        \vspace{-20pt}
-        \begin{tikzpicture}
-            \foreach \i in {0,...,2}{
-                    \foreach \j in {0, ..., 2}{
-                            \draw[black, double, fill = mint] (\i - 2, \j) rectangle +(1, 1);
-                        }
-                }
-            \draw[decorate, decoration = {calligraphic brace}] (-1.9, 3.1) -- node[above] {$m$} (.9, 3.1) ;
-            \draw[decorate, decoration = {calligraphic brace}] (-2.1, 0.1) -- node[left] {$n$} (-2.1, 2.9) ;
-            \draw[fill = vulm] (0.01, .01) rectangle +(.98, .98);
-            \draw[fill = vulm] (-2.01, 2.01) rectangle +(.98, .98);
-            \draw[fill = vulm] (0.01, 2.01) rectangle +(.98, .98);
-            \draw[fill = vulm] (-1.01, 1.01) rectangle +(0.98, 0.98);
-            \draw[fill = vulm] (0.01, 1.01) rectangle +(0.98, 0.98);
-            \draw[fill = yulm] (-1.01, .01) rectangle +(0.98, 0.98);
-        \end{tikzpicture}
-         & \vspace{-20pt}\[b = \begin{pmatrix}
-                                       0 \\ 2\\ 0\\ 2\\ 0\\ 0\\ 2\\ 1\\ 0
-                                   \end{pmatrix}\]
-         & \vspace{-16pt}\[a = \begin{pmatrix}
-                                       2 \\ 0\\ 2\\ 1\\ 1\\ 1\\ 1\\ 0\\ 2
-                                   \end{pmatrix}\]
-    \end{NiceTabular}
+    \begin{center}
+        \begin{NiceTabular}{m{.2\linewidth}m{.15\linewidth}m{.2\linewidth}}
+       
+            \begin{tikzpicture}
+                \foreach \i in {0,...,2}{
+                        \foreach \j in {0, ..., 2}{
+                                \draw[black, double, fill = mint] (\i - 2, \j) rectangle +(1, 1);
+                            }
+                    }
+                \draw[decorate, decoration = {calligraphic brace}] (-1.9, 3.1) -- node[above] {$m$} (.9, 3.1) ;
+                \draw[decorate, decoration = {calligraphic brace}] (-2.1, 0.1) -- node[left] {$n$} (-2.1, 2.9) ;
+                \draw[fill = vulm] (0.01, .01) rectangle +(.98, .98);
+                \draw[fill = vulm] (-2.01, 2.01) rectangle +(.98, .98);
+                \draw[fill = vulm] (0.01, 2.01) rectangle +(.98, .98);
+                \draw[fill = vulm] (-1.01, 1.01) rectangle +(0.98, 0.98);
+                \draw[fill = vulm] (0.01, 1.01) rectangle +(0.98, 0.98);
+                \draw[fill = yulm] (-1.01, .01) rectangle +(0.98, 0.98);
+            \end{tikzpicture}
+             & \[b = \begin{pmatrix}
+                                           0 \\ 2\\ 0\\ 2\\ 0\\ 0\\ 2\\ 1\\ 0
+                                       \end{pmatrix}\]
+             & \[a = \begin{pmatrix}
+                                           2 \\ 0\\ 2\\ 1\\ 1\\ 1\\ 1\\ 0\\ 2
+                                       \end{pmatrix}\]
+        \end{NiceTabular}
+    \end{center}
     Pour résoudre le problème, on a calculé la matrice inverse de $\mL(3, 3)$ notée $\mL(3, 3)^{-1}$.
-\end{frame}
 
-\begin{frame}
-\frametitle{Déterminant}
 \begin{définition}{Déterminant d'une Matrice}{}
-Si $A = (a_{i, j}) \in M_{n, n}(\K)$, on appelle déterminant de $A$ le nombre : \vspace{-10pt}
+Si $A = (a_{i, j}) \in M_{n, n}(\K)$, on appelle déterminant de $A$ le nombre : 
 \[
     \det A = \begin{vmatrix}
         a_{1, 1} & \cdots & a_{1, n} \\
@@ -477,22 +395,16 @@ Si $A = (a_{i, j}) \in M_{n, n}(\K)$, on appelle déterminant de $A$ le nombre :
     \end{vmatrix} = \sum_{\sigma \in \mathfrak{S}_{n}}\epsilon(\sigma)\prod_{i = 1}^{n}a_{i, \sigma(i)}
 \]
 \end{définition}
-\visible<2>{
     \begin{propositionfr}{Inversibilité et Déterminant}{}
         $A$ est inversible, i.e. $A^{-1}$ existe si et seulement si $\det A \neq 0$.
     \end{propositionfr}
-}
-\end{frame}
 
-\begin{frame}
-    \frametitle{Déterminant - 2}
     \begin{propositionfr}{Déterminant Sur $\znz{p}$}{}
         On a, si $A \in \M_{n}(\znz{p})$ :
         \[
             \det\limits_{\znz{p}} A = \det_{\R} A\ {\rm mod }\ p
         \]
     \end{propositionfr}
-    \visible<2>{
         \begin{center}
             \begin{NiceTabular}{>{$}c<{$}>{$}c<{$}>{$}c<{$}>{$}c<{$}>{$}c<{$}>{$}c<{$}>{$}c<{$}>{$}c<{$}>{$}c<{$}}
                 \diagbox{$p$}{$n$} & 2    & 3    & 4    & 5    & 6    & 7    & 8    & 9    \\
@@ -502,21 +414,15 @@ Si $A = (a_{i, j}) \in M_{n, n}(\K)$, on appelle déterminant de $A$ le nombre :
                 5 & \top & \top & \bot & \bot & \top & \top & \top & \bot \\
                 \CodeAfter
                 \begin{tikzpicture}
-                    \foreach \i in {2,...,5}{\draw (1|- \i) rectangle[fill = yulm!10] (2|- \i+1);}
                     \foreach \i in {2, ..., 6}{\draw (1|- \i) -- (10|-\i);}
                     \draw (2|-1) -- (2|-6);
                 \end{tikzpicture}
             \end{NiceTabular}
         \end{center}
-    }
-\end{frame}
 
-\begin{frame}
-    \frametitle{Pivot de Gauss}
-    \vspace{-5pt}
-    Pour calculer $A^{-1}$ on dispose de l'algorithme de Gauss-Jordan :\vspace{-5pt}
-    \begin{center}
-        \scriptsize
+    Pour calculer $A^{-1}$ on dispose de l'algorithme de Gauss-Jordan :
+    \begin{algorithm}
+        \caption{Algorithme de Gauss-Jordan}
         \begin{algorithmic}
             \State $r \gets 0$
             \For {$j = 1$ à $m$}
@@ -535,6 +441,6 @@ Si $A = (a_{i, j}) \in M_{n, n}(\K)$, on appelle déterminant de $A$ le nombre :
             \EndIf
             \EndFor
         \end{algorithmic}
-    \end{center}
-\end{frame}
+    \end{algorithm}\\
+    Celui-ci n'est pas très efficace et, en pratique, on pourrait juste calculer directement $a$ par la méthode employée ici pour avoir un résultat plus précis plus rapidement. 
 \end{document}
