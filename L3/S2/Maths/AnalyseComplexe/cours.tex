@@ -18,13 +18,13 @@
     \]
     alors $a_{n}z^{n}$ converge normalement sur $\overline{D}(0, r)$.
 \end{propositionfr}
-% \begin{proof}
-%     Pour tout $n \in \N$ et $z \in \overline{D}(0, r)$ on a : 
-%     \[
-%         \abs{a_{n}z^{n}} \leq \abs{a_{n}}r^{n} \leq M\left(\frac{r}{r_{0}}\right)^{n}
-%     \]
-%     Comme $0 < r < r_{0}$, $M \left(\frac{r}{r_{0}}\right)^{n}$ est le terme d'une série géométrique convergente.
-% \end{proof}
+\begin{proof}
+    Pour tout $n \in \N$ et $z \in \overline{D}(0, r)$ on a : 
+    \[
+        \abs{a_{n}z^{n}} \leq \abs{a_{n}}r^{n} \leq M\left(\frac{r}{r_{0}}\right)^{n}
+    \]
+    Comme $0 < r < r_{0}$, $M \left(\frac{r}{r_{0}}\right)^{n}$ est le terme d'une série géométrique convergente.
+\end{proof}
 
 \begin{corollaire}{Rayon de Convergence}{}
     Soit $\sum_{n \in \N} a_{n}z^{n}$ une série entière et $R \in \R_{+} \cup \{+ \infty\}$ défini par 
@@ -56,13 +56,13 @@
 \begin{propositionfr}{Principe des Zéros Isolés}{}
     Soit $f(z) = \sum a_{n}z^{n}$ la somme d'une série entière de rayon de convergence $R > 0$. Si au moins un des coefficients $a_{n}$ n'est pas nul, il existe $r \in \left] 0, +\infty\right[$ tel que $f$ ne s'annule pas pour $\abs{z} \in \left]0, r\right[$.
 \end{propositionfr}
-% \begin{proof}
-%     Soit $l = \min \{n \in \N, a_{n} \neq 0\}$, on a : 
-%     \[
-%         f(z) = \sum_{n \geq l} a_{n}z^{n} = z^{l}g(z)
-%     \]
-%     avec $g(z) = a_{l} + a_{l + 1}z + \ldots$ et $g(0) \neq 0$. 
-% \end{proof}
+\begin{proof}
+    Soit $l = \min \{n \in \N, a_{n} \neq 0\}$, on a : 
+    \[
+        f(z) = \sum_{n \geq l} a_{n}z^{n} = z^{l}g(z)
+    \]
+    avec $g(z) = a_{l} + a_{l + 1}z + \ldots$ et $g(0) \neq 0$. 
+\end{proof}
 
 \begin{définition}{Dérivée Complexe}{}
     Une fonction $f : U \to \C$ admet une dérivée par rapport à la variable complexe au point $z_{0}$ si
@@ -166,6 +166,7 @@
     \]
     est une détermination analytique du logarithme. 
 \end{propositionfr}
+
 \begin{propositionfr}{Analycité des Déterminations}{}
     Il y a équivalence sur un ouvert connexe $U$ de $\C^{\star}$ pour une application continue $l$ entre : 
     \begin{itemize}
@@ -428,7 +429,7 @@ Dorénavant, les chemins sont supposés $\cont^{1}$ par morceaux.
     \]
 \end{propositionfr}
 
-\begin{corollaire}{}{}\label{prop:taylor_ser}
+\begin{corollaire}{}{}\label{taylor_ser}
     \begin{enumerate}
         \item Soit $f$ analytique sur $U$. Pour tout $a \in U$, la série de Taylor de $f$ au voisinage de $a$ est convergente et a pour somme $f(z)$ dans le plus grand disque ouvert de centre $a$ contenu dans $U$
         \item Si $f$ est analytique sur $\C$, sa série de Taylor en tout point de $\C$ est convergente sur $\C$. 
@@ -439,7 +440,7 @@ Dorénavant, les chemins sont supposés $\cont^{1}$ par morceaux.
     \[
         f(z) = \frac{1}{2i\pi}\int_{\gamma}^{}\frac{f(w)}{w -z}\d z
     \]
-    La proposition \ref{prop:cont_lacet} donne un développement en série entière de $f$ en $z - a$ convergeant sur $D(a, r)$. Par unicité du développement, il s'agit de la série de Taylor. En faisant tendre $r$ vers $d(a, \C - U)$, nous obtenons le résultat annoncé. 
+    La proposition \ref{propo:cont_lacet} donne un développement en série entière de $f$ en $z - a$ convergeant sur $D(a, r)$. Par unicité du développement, il s'agit de la série de Taylor. En faisant tendre $r$ vers $d(a, \C - U)$, nous obtenons le résultat annoncé. 
 \end{proof}
 
 \begin{corollaire}{Constance Locale}{}\label{prop:constance_locale}
@@ -449,7 +450,7 @@ Dorénavant, les chemins sont supposés $\cont^{1}$ par morceaux.
     D'après le corollaire \ref{prop:taylor_ser}, $f$ est localement somme de sa série de Taylor. Donc $f$ est constante sur un ouvert contenant $a$. Soit $\Omega = \{w \in U, \forall k > 0, f^{(k)}(w) = 0\}$. Cet ensemble est ouvert, non vide, et fermé. Par connexité de $U$, $\Omega = U$, $f' = 0$ sur $U$ et $f$ est constante sur $U$.
 \end{proof}
 
-\begin{théorème}{Multiplicité}{}
+\begin{théorème}{Multiplicité}{multiplicité}
     Soit $f : U \to \C$ analytique non constante au voisinage de $a \in U$. Si $f(a) = 0$, il existe un unique entier $m \geq 1$ et $g : V \to \C$ analytique sur un voisinage $V$ de $a$ tels que 
     \[
         f(z) = \left(z - a\right)^{m}g(z), g(a) \neq 0, z\in V
@@ -914,7 +915,248 @@ Soit $p, n \in \N^{*}$. On note $\Lambda_{\R}^{p}\left(\R^{n}\right)$ le $\R$-ev
     \[
         I = \int_{\partial T}f(z)\d z = \sum_{k = 1}^{4}\int_{\partial T_{k}}f(z)\d z
     \]
-    Il existe donc un indice $k$ avec $\abs{\int_{\partial T_{k}}f(z)\d z} \geq \abs{I}/4$. De cette façon, nous construisons une suite de triangles emboîtés $T_{0}' = T, T_{1}' = T_{k}$ avec $diam T_{n}' = diam T/2^{n}$ et $\abs{\int_{\partial T_{n}'} f(z)\d z} \geq \abs{I}/4^{n}$
+    Il existe donc un indice $k$ avec $\abs{\int_{\partial T_{k}}f(z)\d z} \geq \abs{I}/4$. De cette façon, nous construisons une suite de triangles emboîtés $T_{0}' = T, T_{1}' = T_{k}$ avec $diam T_{n}' = diam T/2^{n}$ et $\abs{\int_{\partial T_{n}'} f(z)\d z} \geq \abs{I}/4^{n}$.
+	L'intersection des triangles emboîtés $T_{n}'$ est réduite à un point $z_{0}$. Comme $f$ est holomorphe en $z_{0}$ : 
+	\[
+		f(z) = f(z_{0}) + (z - z_{0})f'(z_{0}) + (z - z_{0})\epsilon(z)
+	\]
+	avec $\epsilon(z)$ qui tend vers $0$ quand $z$ tend vers $z_{0}$.  
+	On a ainsi :
+	\[
+		\abs{\int_{\partial T_{n}'} f(z)\d z} = \abs{\int_{\partial T_{n}'} (z - z_{0}) \epsilon(z) \d z} \leq {\rm long}(\partial T_{n}') \sup_{\partial T_{n}'} \abs{z - z_{0}}\abs{\epsilon(z)}
+	\]
+	et donc 
+	\[
+		\abs{\int_{\partial T_{n}'} f(z)\d z}\leq 3 \left({\rm diam}T_{n}'\right)^{2}\sup_{\partial T_{n}'}\abs{\epsilon(z)}
+	\]
+	Donc $\abs{I} \leq 4^{n}\abs{\int_{\partial T_{n}'} f(z) \d z} \leq 3 \left({\rm diam}T_{n}\right)^{2}\sup_{\partial T_{n}'}\abs{\epsilon(z)}$ et donc $I = 0$.
+\end{proof}
+
+\begin{théorème}{Goursat}{Goursat}
+	Soit $U \subseteq \C$ ouvert et $K$ un compact à bord de classe $\cont^{1}$ avec l'orientation canonique du bord. Pour toute fonction holomorphe sur $U$ on a : 
+	\[
+		\int_{\partial K}f(z)\d z = 0
+	\]
+\end{théorème}
+\begin{proof}
+    On approche $K$ par des compacts à bords polygonaux. Notons $\delta = d(K, \C\setminus U) > 0$. 
+    Paramétrons $\delta K$ par un nombre fini d'arcs $\cont^{1}$ par morceaux. Pour chaque tel arc $\gamma : [a, b] \to U$, soit une subdivision $a = \tau_{0} < \tau_{1} < \ldots < \tau_{n} = b$ telle que $\abs{\gamma(\tau_{j + 1}) - \gamma(\tau_{j})} \leq \epsilon \leq \delta/2$. 
+    Chaque segment $[\gamma(\tau_{j + 1}), \gamma(\tau_{j})] \subset U$. 
+    Pour $\epsilon$ assez petit, la réunion de ces segments constitue le bord d'un compact $K_{\epsilon}$ à bord polygonal. 
+    $K_{\epsilon} = \cup_{i} T_{i}$ est réunion de triangles adjacents et le lemme de Goursat \ref{lemme:Goursat} implique 
+    \[
+        \int_{\partial K_{\epsilon}}f(z)\d(z) = \sum_{i}\int_{\partial T_{i}} f(z) \d z = 0
+    \]
+    D'après la proposition , on a bien : 
+    \[
+        \lim_{\epsilon \to 0}\int_{\partial K_{\epsilon}} = \int_{\partial K}f(z)\d z
+    \]
+    D'où le résultat. 
+\end{proof}
+
+\begin{théorème}{Formule de Cauchy}{formule_cauchy}
+    Soit $f$ holomorphe sur un ouvert $U \subseteq \C$ et $K$ un compact à bord orienté $\cont^{1}$ par morceaux inclus dans $U$. Alors, pour tout $z \in K$ 
+    \[
+        f(z) = \frac{1}{2i\pi}\int_{\partial K}\frac{f(\omega)}{\omega -  z}\d \omega
+    \]
+\end{théorème}
+\begin{proof}
+    Soit $r > 0$ tel que $\overline{D(z, r)} \subset \mathring{K}$. On note $K_{r} = K \setminus D(z, r)$. $K_{r}$ est un compact à bord orienté $\cont^{1}$ par morceaux dont le bord est $\partial K_{r} = \partial K \cup \partial D^{-}(z, r)$ où $\partial D^{-}$ signifie que ce cercle a l'orientation opposée à celle obtenue comme bord de $\overline{D(z,r)}$. La fonction $g(\omega) = f(\omega)/\left(\omega - z\right)$ et holomorphe sur $U \setminus \{z\}$. Le théorème de Goursat \ref{thm:Goursat} appliqué à $g$ sur le compact $K_{r} \subseteq U \setminus \{z\}$ donne 
+    \[
+        \int_{\partial K}\frac{f(\omega)}{\omega - z}\d \omega - \int_{\partial D(z, r)} \frac{f(\omega)}{\omega - z}\d \omega = 0
+    \]
+    En posant $\omega = z + re^{it}$ on a : 
+    \[
+        \int_{\partial D(z, r)}\frac{f(\omega)}{\omega - z}\d \omega = \int_{0}^{2\pi}\frac{f(z + re^{it})}{re^{it}}ire^{it}\d t = i \int_{0}^{2\pi}f(z + re^{it}) \d t
+    \]
+    et cette dernière intégrale tend vers $2i\pi f(z)$ lorsque $r$ tend vers $0$ par continuité de $f$ au point $z$. 
+\end{proof}
+\begin{théorème}{Équivalence Holomorphie-Analycité}{equiv_holo_analy}
+    Soit $f : U \to \C$. $f$ est holomorphe sur $U$ si et seulement si elle est analytique.
+\end{théorème}
+\begin{proof}
+    On a déjà l'implication analycité holomorphie. Supposons $f$ holomorphe sur $U$ et $\overline{D}(z_{0}, r) \subset U$. Pour $z \in D(z_{0}, r)$, la formule de Cauchy \ref{thm:formule_cauchy} donne 
+    \[
+        f(z) ) \frac{1}{2i\pi}\int_{\partial D(z_{0}, r)}\frac{f(\omega)}{\omega - z}\d \omega
+    \]
+    Or 
+    \[
+        \frac{1}{\omega - z} = \sum_{n = 0}^{+ \infty}\frac{\left(z - z_{0}\right)^{n}}{\left(\omega - z_{0}\right)^{n + 1}}
+    \]
+    De plus, pour $\omega = z_{0} + re^{it}$,
+    \[
+        \abs{\frac{\left(z - z_{0}\right)^{n}}{\left(\omega - z_{0}\right)^{n + 1}}} = \frac{1}{r}\left(\frac{\abs{z - z_{0}}}{r}\right)^{n}, \text{ avec } \abs{z - z_{0}}/r < 1
+    \]
+    Par convergence normale pour $t \in [0, 2\pi]$, on obtient :
+    \[
+        f(z) = \frac{1}{2i\pi}\int_{\partial D(z_{0},r )}f(\omega)\sum_{n = 0}^{+ \infty}\frac{\left(z - z_{0}\right)^{n}}{\left(\omega - z_{0}\right)^{n + 1}}\d \omega = \sum_{n = 0}^{+ \infty}\int_{\partial D(z_{0}, r)}\frac{f(\omega)}{2i\pi\left(\omega - z_{0}\right)^{n + 1}}\d \omega\left(z - z_{0}\right)^{n} = \sum a_{n}(z - z_{0})^{n}
+    \]
+    et la série entière ci-dessus converge normalement sur les compacts de $D(z_{0}, r)$.
+\end{proof}
+\begin{corollaire}{Classe des Dérivées}{}
+    Soit $U$ un ouvert de $\C$. Toute fonction holomorphe sur $U$ est de classe $\cont^{\infty}$ sur $U$.\\
+    Précisément, pour tout $K \subset U$ compact à bord de classe $\cont^{1}$ par morceaux et pour tout $z \in \mathring{K}$ nous avons : 
+    \begin{enumerate}
+        \item $\forall n \geq 0, \frac{\partial^{n}f}{\partial z^{n}}(z) = f^{(n)}(z) = \frac{n!}{2i\pi}\int_{\partial K}\frac{f(\omega)}{\left(\omega - z\right)^{n + 1}}\d \omega$
+        \item $\forall n \geq 0, \forall m \geq 0, \frac{\partial^{n + m}f}{\partial z^{n}\partial \bar{z}^{m}}(z) = 0$.
+    \end{enumerate}
+    En particulier, une fonction holomorphe $f$ admet des dérivées complexes $f^{(n)}$ d'ordre $n$ arbitraire et les dérivées $f^{(n)}$ sont holomorphes.
+\end{corollaire}
+
+\begin{théorème}{Morera}{morera}
+    Soit $f$ une fonction continue sur un ouvert $U$ de $\C$. Nous supposons que $\int_{\partial T}f(z) \d z = 0$ pour tout triangle $T$ inclus dans $U$. Alors $f$ est holomorphe sur $U$.
+\end{théorème}
+\begin{proof}
+    Soit $z_{0} \in U$ et $r > 0$ tel que $\overline{D}(z_{0}, r) \subset U$. Pour $z \in D(z_{0}, r)$, on pose 
+    \[
+        F(z) = \int_{[z_{0}, z]} f(\omega) \d \omega
+    \]
+    Soit $z \in D(z_{0}, r)$ et $h \neq 0$ tel que $z + h \in D(z_{0}, r)$. Comme le triangle de sommets $z_{0}, z, z + h$ est inclus dans $D(z_{0}, r)$, nous avons 
+    \[
+        \frac{F(z + h)-F(z)}{h} = \frac{1}{h}\int_{[z, z + h]}f(\omega)\d \omega = \int_{0}^{1} f(z + th)\d t
+    \]
+    Comme $f$ est continue au point $z$, 
+    \[
+        \lim_{h \in \C^{*}, h \to 0} \frac{F(z + h) - F(z)}{h} = f(z)
+    \]
+    Ainsi $F$ est holomorphe sur $D(z_{0}, r)$ donc analytique d'après le théorème \ref{thm:equiv_holo_analy} et sa dérivée $f = F'$ l'est donc aussi.
+\end{proof}
+\begin{corollaire}{$\Gamma$}{gamma}
+    La fonction $\Gamma$
+    \[
+        \Gamma(s) = \int_{0}^{+\infty}e^{-t}t^{s - 1}\d t
+    \]
+    est holomorphe pour $\Re s > 0$.
+\end{corollaire}
+\begin{proof}
+    L'intégrale converge en $t = 0$ car $\abs{t^{s - 1}e^{-t}} \leq t^{\Re s  - 1}$. À $s$ fixé pour $t \in \R_{+}$ grand, 
+    \[
+        \abs{t^{s - 1}e^{-t}} = t^{\Re s - 1}e^{-t}\leq e^{t/2}e^{-t} = e^{-t/2}
+    \]
+    Donc $\Gamma(s)$ est bien définie pour $\Re s > 0$. Soit $\gamma : [0, 1] \to \left\{s, \Re s > 0\right\}$ la courbe décrivant un triangle. Alors, d'après le théorème de Fubini 
+    \[
+        \int_{\gamma}\Gamma(s) \d s = \int_{\gamma}\int_{0}^{+\infty}t^{s - 1}e^{-t}\d t\d s = \int_{0}^{+ \infty}\left(\int_{\gamma}t^{s-1}\d s\right)e^{-t}\d t = 0
+    \]
+    Ainsi, en appliquant le théorème de Morera \ref{thm:morera}, la fonction $\Gamma$ est holomorphe sur le demi-plan $\Re s > 0$.
+\end{proof}
+
+
+\section{Propriétés Éléméntaires des Fonctions Holomorphes}
+\subsection{Théorème d'inversion locale}
+\begin{théorème}{Inversion Locale}{inv_loc}
+    Si $f\in \O(U)$, $a \in U, f'(a) \neq 0$, alors, $\exists V$ voisinage ouvert de $a$ inclus dans $U$ sur lequel $f$ est biholomorphe sur $f(V)$ ouvert. 
+\end{théorème}
+\begin{proof}
+    Comme $f\in \O(U)$, $f$ est $\R$-différentiable. Donc il existe un voisinage $V$ ouvert de $U$ contenant $a$ sur lequel $f_{\mid V} : V \to f(V)$ est un difféomorphisme. Alors, $\d_{f(z)}(f^{-1}) = \left(d_{z} f\right)^{-1}$ et donc $f^{-1} \in \O(U)$.
+\end{proof}
+\begin{proof}[Idée des Séries Majorantes]
+    \begin{itemize}
+        \item On suppose d'abord $a = 0, f(a) = 0, f'(a) = 1$. On a 
+        \[
+            f(z) = z - \sum_{n \geq 2}a_{n}z^{n}, z\in D(0, r)
+        \]
+        On veut résoudre $f(z) = \omega = z - \sum_{n \geq 2} a_{n}z^{n}$ i.e. $z = \omega + \sum_{n \geq 2}a_{n}z^{n}$. Mais, $\sum_{n \geq 2}a_{n}z^{n} = \O(w^{2})$ : 
+        \[
+            z = \omega + \sum_{n \geq 2}a_{n}\left(\omega + \O(\omega^{2})\right)^{n} = \omega + a_{2}\omega^{2} + \O(\omega^{3})
+        \]
+        On peut alors réinjecter : 
+        \[
+            z = \omega + a_{2}\omega^{2} + \left(2a_{2}^{2} + a_{3}\right)\omega^{3} + \O(\omega^{4})
+        \]
+        et ainsi de suite : 
+        \[
+            z = \omega + \sum_{n = 2}^{N}P_{n}(a_{2}, \ldots, a_{n})\omega^{n} + \O(\omega^{N+1})
+        \]
+        où les $P_{n} \in \N[X_{2}, \ldots, X_{n}]$.
+        \item Montrons maintenant que cette série converge lorsque $N \to \infty$. On sait que la série $\sum a_{n}z^{n}$ converge sur $D(0, r)$. Pour $r' < r$, $\abs{a_{n}r'^{n}} \to 0$. Donc il existe $M > 0$ tel que $\abs{a_{n}}\leq M^{n}$. Or, \[z = \omega + \sum_{n = 2}^{+ \infty}P_{n}\left(M^{2}, \ldots, M^{n}\right)\omega^{n}\] est solution de :
+        \[
+            \begin{aligned}
+                \omega =& z - \sum_{n \geq 2}M^{n}z^{n}\\
+                =& z - \left(\frac{1}{1 - Mz} - 1 - Mz\right)
+            \end{aligned}
+        \]
+        Donc 
+        \[
+            \begin{aligned}
+                \left(1 - Mz\right)\omega =& z(1 - Mz) - 1 + 1 - Mz + Mz(1 - Mz)
+            \end{aligned}
+        \]
+        C'est à dire : 
+        \[
+            z^{2}\left(M + M^{2}\right) + z\left(-M\omega - 1\right) + \omega = 0
+        \]
+        ou 
+        \[
+            z = \frac{\left(M\omega + 1\right) - \sqrt{\left(1 + M\omega\right)^{2} - 4\omega\left(M + M^{2}\right)}}{2(M + M^{2})}
+        \]
+        On prend ici pour $\sqrt{\cdot}$ la détermination holomorphe de $\left(\right)^{1/2}$ qui existe sur $D(1, 1)$ et pour laquelle $\sqrt{1} = 1$ de sorte que pour $\omega = 0$, $z = 0$.\\
+        La série définissant $\sqrt{\cdot}$ converge alors sur $D(0, R)$ où $R = \frac{1}{\left(1 + \sqrt{2}\right)M + 4M^{2}}$. En effet, alors, on a 
+        \[
+            \abs{M^{2}\omega^{2}} \leq M^{2}\abs{\omega}R \leq \frac{M^{2}\abs{\omega}}{\left(1 + \sqrt{2}\right)M} = \left(\sqrt{2}- 1\right)M\abs{\omega}
+        \]
+        et donc 
+        \[
+            \abs{\left(2M + 4M^{2}\right)\omega - M^{2}\omega^{2}} \leq \left(2M + 4M^{2}\right)\abs{\omega} + \abs{M^{2}\omega^{2}}\leq \left(\left(1 + \sqrt{2}\right)M + 4M^{2}\right)\abs{w} < 1
+        \]
+        D'où la convergence de $g(\omega) = \omega + \sum_{n \geq 2} P_{n}\left(a_{2}, \ldots, a_{n}\right)\omega^{n}$ sur $D(0, R)$. et $g(D(0, R)) \subset D(0, 1/M)$.
+        \item Par identification de la série entière en zéro et principe du prolongement analytique, nous avons $f \circ g(\omega) = \omega$ pour $\omega \in D(0, R)$. De plus, par construction, $g$ est injective sur $W = D(0, R)$ et l'image $\omega = f(z)$ atteint surjectivement $W$ sur $g(W) \subseteq D(0, 1/M) \cap f^{-1}(W)$. Prenons $V$ la composante connexe de $0$ dans $D(0, 1/M) \cap f^{-1}(W)$. Alors $f(V) \subset W$ et $g(W) \subset V$. $V, W$ sont ouverts et $f_{\mid V} \circ g_{\mid W} = id_{W}$. Par connexité de $V$ et prolongement analytique, $g_{\mid W} \circ f_{\mid V} = id_{V}$.
+    \end{itemize}
+\end{proof}
+
+\begin{théorème}{Pré-Application Ouverte}{pre_open_app}
+    Soit $f \in \O(U)$ non constante au voisinage de $a \in U$, $f(a) = 0$ et \[m = \min\{k \in \N^{*}\mid f^{(k)}(a) \neq 0\}\]
+    Il existe alors un voisinage ouvert $V$ de $a$, un voisinage ouvert $W$ de $0$ et un biholomorphisme $\phi : V\to W$ tel que $\phi$ envoie $a$ sur $0$ et $f(z) = f(a) + \phi(z)^{m}$.
+\end{théorème}
+\begin{proof}
+    D'après le théorème \ref{thm:multiplicité} il existe $U'\subseteq U$ un voisinage de $a$ et $g\in \O(U')$ tels que pour tout $z \in U'$
+    \[
+        f(z) - f(a) = \alpha(z - a)^{m}g(z)
+    \]
+    avec $\alpha \in \C^{*}$ et $g(a) = 1$.\\
+    Soit $ V = \left\{z \in U'\mid \abs{g(z) - 1} < 1\right\}$. C'est un voisinage de $a$ sur lequel $\exp \frac{1}{m}\log(g(z))$ existe.\\
+    On a alors
+    \[
+        \forall z \in V', f(z) = f(a) + \left(\phi(z)\right)^{m}
+    \]
+    où 
+    \[
+        \phi(z) = \alpha_{m}(z - a)\exp\left(\frac{1}{m}\log(g(z))\right)
+    \]
+    où $\alpha_{m}^{m} = \alpha$. Alors, $\phi \in \O(V')$ avec $\phi(a) = 0$ et $\phi'(a) = 1$. Par théorème d'inversion locale \ref{thm:inv_loc}, on a un voisinage $V \subset V'$ de $a$ sur lequel $\phi$ est un biholomorphisme.
+\end{proof}
+
+\begin{corollaire}{Solutions d'une Équation}{nb_sol_eq}
+    Soit $f\in \O(U)$ non constante au voisinage de $a \in U$ et \[m = \min\{k \in \N^{*}\mid f^{(k)}(a) \neq 0\}\]. Alors, $\exists r,\rho \in \R_{+}^{*}$ tels que $\forall \omega \in D(f(a), \rho) \setminus \{f(a)\}$ l'équation $f(z) = \omega$ a exactement $m$ solutions dans $D(a, r)$.
+\end{corollaire}
+\begin{proof}
+    On écrit par le théorème \ref{thm:pre_open_app} précédent $f(z) = \omega = f(a) + \phi(z)^{m}$ où $\phi : V \to W$ est tel que $\phi(a) = 0$. On suppose $\phi(z) = \left(\omega - f(a)\right)^{1/m}$ pour une certaine détermination de l'exponentielle. 
+    On prend $r$ tel que $D(a, r) \subset V$. $\phi(D(a, r))$ est un ouvert de $W$ voisinage de $0$. Il existe un $\rho'$ tel que $D(0, \rho')$ est inclus dans $\phi(D(a, r))$. 
+    Alors, pour tout $\omega \in D(f(a), \rho'^{m})$, $\left(\omega - f(a)\right)^{1/m} \in D(0, \rho')$. Mézalor, $e^{2ik\pi/m}\left(w -f(a)\right)^{1/m}$ sont dans $D(0, \rho')$.
+    On obtient alors \[z_{k} = \phi^{-1}\left(e^{2ik\pi/m}\left(\omega - f(a)\right)^{1/m}\right) \in D(a, r)\].\\
+    Les $z_{k}$ sont solutions de $f(z) = \omega$ et donc il y en a bien exactement $m$. \\
+    De même, l'équation $f(z) = f(a)$ n'a qu'une solution $z = a$ dans $D(a, r)$ de multiplicité $m$.
+\end{proof}
+
+\begin{théorème}{Application Ouverte}{open_app}
+    Une fonction holomorphe non constante sur un ouvert $U$ connexe est une application ouverte.
+\end{théorème}
+\begin{proof}
+    Par le corollaire \ref{cor:nb_sol_eq}, tout point $z_{0} \in U$ admet un voisinage $V_{z_{0}} \subset U$ tel que $f(V_{z_{0}}) = D(f(z_{0}), \rho(z_{0}))$. Ainsi, $f(U) = \cup D(f(z_{0}), \rho(z_{0}))$ est ouvert. 
+\end{proof}
+\begin{théorème}{Théorème d'Inversion Gloable}{global_inv}
+    Soit $U$ un ouvert connexe et $f \in \O(U)$ injective. Alors : 
+    \begin{enumerate}
+        \item $f(U)$ est un ouvert de $\C$
+        \item $f'$ ne s'annule pas sur $U$
+        \item $f : U \to f(U)$ est un biholomorphisme
+    \end{enumerate}
+\end{théorème}
+\begin{proof}
+    \begin{enumerate}
+        \item D'après le théorème de l'application ouverte \ref{thm:open_app}, $f$, injective donc non constante, est ouverte donc $f(U)$ est ouverte et $f$ est une bijection continue ouverte de $U$ dans $f(U)$, i.e., un homéomorphisme. 
+        \item Supposons qu'il existe $z_{0}$ pour lequel $f'(z_{0}) = 0$. Dans le théorème \ref{cor:nb_sol_eq}, on a un entier $m \geq 2$ et donc $f$ n'est pas injective au voisinage de $z_{0}$ ce qui est absurde. Donc $f'$ ne s'annule pas sur $U$. 
+        \item D'après les deux premiers points et le théorème \ref{thm:inv_loc} d'inversion locale, $f^{-1}$ est holomorphe sur $f(U)$ et $f: U \to f(U)$ est un biholomorphisme.
+    \end{enumerate}
 \end{proof}
 
 \end{document}
