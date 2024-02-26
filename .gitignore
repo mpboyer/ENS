@@ -300,18 +300,13 @@ TSWLatexianTemp*
 #*Notes.bib
 L3/Bourse/
 L3/Docs/
-L3/S1/Info/SysNum/sysnum-2023/_build
-L3/S1/Info/SysNum/sysnum-2023/carotte.py
-L3/S1/Info/SysNum/sysnum-2023/doc
-L3/S1/Info/SysNum/sysnum-2023/minijazz
-L3/S1/Info/SysNum/sysnum-2023/tp1/*.mll
-L3/S1/Info/SysNum/sysnum-2023/tp1/*.byte
-L3/S1/Info/SysNum/sysnum-2023/tp1/_build
+L3/S1/Info/Compil/compilateur-petit-purescript
 L3/S1/Info/Compil/TD*
+L3/S1/Info/SysNum/microprocessor
 *_build
 Associatif/COF
 Associatif/BOcal/**/*.jpg
 Associatif/BOcal/**/*.png
 Associatif/BOcal/**/*.jpeg
+Associatif/BOcal/**/*.pdf
 Associatif/BOcal/Bonjour
-Cours Particuliers/*
