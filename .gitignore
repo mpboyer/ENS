@@ -309,5 +309,9 @@ L3/S1/Info/SysNum/sysnum-2023/tp1/*.byte
 L3/S1/Info/SysNum/sysnum-2023/tp1/_build
 L3/S1/Info/Compil/TD*
 *_build
-Associatif
+Associatif/COF
+Associatif/BOcal/**/*.jpg
+Associatif/BOcal/**/*.png
+Associatif/BOcal/**/*.jpeg
+Associatif/BOcal/Bonjour
 Cours Particuliers/*
