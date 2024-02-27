@@ -1,6 +1,6 @@
 \documentclass{cours}
 
-\title{Analyse Complexe}
+\title{Le cours d'Ariane Mézard}
 \author{Ariane Mézard}
 
 \begin{document}
@@ -930,8 +930,6 @@ Soit $p, n \in \N^{*}$. On note $\Lambda_{\R}^{p}\left(\R^{n}\right)$ le $\R$-ev
 		\abs{\int_{\partial T_{n}'} f(z)\d z}\leq 3 \left({\rm diam}T_{n}'\right)^{2}\sup_{\partial T_{n}'}\abs{\epsilon(z)}
 	\]
 	Donc $\abs{I} \leq 4^{n}\abs{\int_{\partial T_{n}'} f(z) \d z} \leq 3 \left({\rm diam}T_{n}\right)^{2}\sup_{\partial T_{n}'}\abs{\epsilon(z)}$ et donc $I = 0$.
-<<<<<<< HEAD
-=======
 \end{proof}
 
 \begin{théorème}{Goursat}{Goursat}
@@ -991,7 +989,9 @@ Soit $p, n \in \N^{*}$. On note $\Lambda_{\R}^{p}\left(\R^{n}\right)$ le $\R$-ev
     \]
     Par convergence normale pour $t \in [0, 2\pi]$, on obtient :
     \[
-        f(z) = \frac{1}{2i\pi}\int_{\partial D(z_{0},r )}f(\omega)\sum_{n = 0}^{+ \infty}\frac{\left(z - z_{0}\right)^{n}}{\left(\omega - z_{0}\right)^{n + 1}}\d \omega = \sum_{n = 0}^{+ \infty}\int_{\partial D(z_{0}, r)}\frac{f(\omega)}{2i\pi\left(\omega - z_{0}\right)^{n + 1}}\d \omega\left(z - z_{0}\right)^{n} = \sum a_{n}(z - z_{0})^{n}
+        \begin{aligned}
+            f(z) &= \frac{1}{2i\pi}\int_{\partial D(z_{0},r )}f(\omega)\sum_{n = 0}^{+ \infty}\frac{\left(z - z_{0}\right)^{n}}{\left(\omega - z_{0}\right)^{n + 1}}\d \omega \\ &= \sum_{n = 0}^{+ \infty}\int_{\partial D(z_{0}, r)}\frac{f(\omega)}{2i\pi\left(\omega - z_{0}\right)^{n + 1}}\d \omega\left(z - z_{0}\right)^{n} \\ &= \sum a_{n}(z - z_{0})^{n}
+        \end{aligned}
     \]
     et la série entière ci-dessus converge normalement sur les compacts de $D(z_{0}, r)$.
 \end{proof}
@@ -1159,7 +1159,6 @@ Soit $p, n \in \N^{*}$. On note $\Lambda_{\R}^{p}\left(\R^{n}\right)$ le $\R$-ev
         \item Supposons qu'il existe $z_{0}$ pour lequel $f'(z_{0}) = 0$. Dans le théorème \ref{cor:nb_sol_eq}, on a un entier $m \geq 2$ et donc $f$ n'est pas injective au voisinage de $z_{0}$ ce qui est absurde. Donc $f'$ ne s'annule pas sur $U$. 
         \item D'après les deux premiers points et le théorème \ref{thm:inv_loc} d'inversion locale, $f^{-1}$ est holomorphe sur $f(U)$ et $f: U \to f(U)$ est un biholomorphisme.
     \end{enumerate}
->>>>>>> d79ea8a851131b64a7f5a1dc0dc3e57d96bbe3e4
 \end{proof}
 
 \begin{théorème}{Goursat}{Goursat}
@@ -1207,7 +1206,7 @@ Soit $p, n \in \N^{*}$. On note $\Lambda_{\R}^{p}\left(\R^{n}\right)$ le $\R$-ev
 \begin{proof}
     On a déjà l'implication analycité holomorphie. Supposons $f$ holomorphe sur $U$ et $\overline{D}(z_{0}, r) \subset U$. Pour $z \in D(z_{0}, r)$, la formule de Cauchy \ref{thm:formule_cauchy} donne 
     \[
-        f(z) ) \frac{1}{2i\pi}\int_{\partial D(z_{0}, r)}\frac{f(\omega)}{\omega - z}\d \omega
+        f(z) = \frac{1}{2i\pi}\int_{\partial D(z_{0}, r)}\frac{f(\omega)}{\omega - z}\d \omega
     \]
     Or 
     \[
@@ -1279,7 +1278,7 @@ Soit $p, n \in \N^{*}$. On note $\Lambda_{\R}^{p}\left(\R^{n}\right)$ le $\R$-ev
 \begin{proof}
     Comme $f\in \O(U)$, $f$ est $\R$-différentiable. Donc il existe un voisinage $V$ ouvert de $U$ contenant $a$ sur lequel $f_{\mid V} : V \to f(V)$ est un difféomorphisme. Alors, $\d_{f(z)}(f^{-1}) = \left(d_{z} f\right)^{-1}$ et donc $f^{-1} \in \O(U)$.
 \end{proof}
-\begin{proof}[Idée des Séries Majorantes]
+\begin{proof}[Idée des Séries Majorantes]\ref{thm:inv_loc_serie_maj}
     \begin{itemize}
         \item On suppose d'abord $a = 0, f(a) = 0, f'(a) = 1$. On a 
         \[
@@ -1443,12 +1442,110 @@ Soit $p, n \in \N^{*}$. On note $\Lambda_{\R}^{p}\left(\R^{n}\right)$ le $\R$-ev
 \begin{proof}
     Supposons que nous ayons $a \neq b \in D(0, 1)$ avec $f(a) = a$ et $f(b) = b$.\\
     Si $a = 0, f(0) = 0, f(b) = b$, le lemme de Schwarz montre que $f = e^{i\theta}z$ et comme $f(b) = b$, $f = \rm Id$.\\
-    On peut donc supposer $a \neq 0$. Posons $\phi_{a}(z) = \frac{z - a}{1 - \bar{a}z}$ et 
+    On peut donc supposer $a \neq 0$. Posons $\phi_{\alpha}(z)\footnote{C'est la fonction du jour !} = \frac{z - a}{1 - \bar{a}z}$ et 
     \[
-        g = \phi_{a} \circ f \circ \phi_{a}^{-1} \text{ et } \lambda = \phi_{a}(b) \neq 0
+        g = \phi_{\alpha} \circ f \circ \phi_{\alpha}^{-1} \text{ et } \lambda = \phi_{\alpha}(b) \neq 0
     \]
     Ainsi, $g : D(0, 1) \to D(0, 1)$ avec deux points fixes $g(0) = 0, g(\lambda) = \lambda$. Donc $g = {\rm Id} = f$. Absurde.
 \end{proof}
+
+\subsection{Disque Unité et Inversion Locale Effective}
+\begin{définition}{Automorphisme}{}
+    Un automorphisme de $U$ est une bijection holomorphe de $U$ dans $U$. On note $\Aut U$ l'ensemble des automorphismes de $U$. 
+\end{définition}
+
+On rappelle que le groupe unitaire de signature $(n, m)$ est le groupe des matrices préservant une forme hermitienne de signature $(n, m)$. Il est isomorphe au groupe $U(n, m)$ préservant la forme hermitienne diagonale de signature $(n, m)$ : 
+\[
+    U(n, m) = \left\{\begin{pmatrix}
+        A & B \\ C & D
+    \end{pmatrix} \in {\rm GL}_{n + m}(\C) \ \middle| \ \begin{aligned}&AA* - BB* = I_{n}\\
+    &DD* - CC* = I_{m}\\ &AC* = BD* \end{aligned} \right\} 
+\]
+
+\begin{théorème}{Automorphisme du Disque Unité}{}
+    \[
+        \Aut D(0, 1) = \left\{\phi_{\alpha} : z \longmapsto e^{i\theta}\frac{z - a}{1 - \bar{a}z}\ \middle|\ \theta \in \R, a \in \C, \abs{a} < 1\right\} = {\rm PSU}(1, 1)
+    \]
+\end{théorème}
+\begin{proof}
+    \begin{itemize}
+        \item Nous vérifions que $\phi_{\alpha} \in \Aut D$. Soit $f \in \Aut D$. On note $a = f(0)$. On a $\phi_{\alpha} \circ f(0) = 0$ et pour tout $z \in D$, $\abs{\phi_{\alpha} \circ f(z)} < 1$. Le lemme de Schwarz \ref{thm:lemme_schwarz} implique alors que $g = \phi_{\alpha} \circ f$ vérifie $\abs{g(z)} \leq \abs{z}$ et de même $\abs{g^{-1}(z)} \leq \abs{z}$ donc $\abs{g(z)} = \abs{z}$ pour $z\in D$. Donc il existe $\theta \in \R$ tel que $g(z) = e^{i\theta}z$.
+        \item L'application : 
+        \[
+            \phi_{\alpha}\longmapsto \frac{1}{1- \abs{a}^{2}}\begin{pmatrix}
+                e^{i\theta/2} & -\alpha e^{i\theta/2} \\
+                -\bar{\alpha}e^{-i\theta/2} & e^{-i\theta/2}
+            \end{pmatrix}
+        \]
+        induit un automorphisme 
+        \[
+            \Aut D \rightarrow {\rm PSU}(1, 1) = \left\{\begin{pmatrix}
+                A & B \\ \overline{A} & \overline{B}
+            \end{pmatrix}\ \middle| \ \abs{A}^{2} - \abs{B}^{2} = 1\right\}/\pm {\rm Id}
+        \]
+    \end{itemize}
+\end{proof}
+\begin{corollaire}{Schwarz-Pick}{schwarz-pick}
+    Soit $f : D(0, 1) \to D(0, 1)$ holomorphe. Pour $z \in D(0, 1)$ on a :
+    \[
+        \frac{\abs{f'(z)}}{1 - \abs{f(z)}^{2}} \leq \frac{1}{1 - \abs{z}^{2}}
+    \]
+    avec égalité si et seulement si $f \in \Aut D(0, 1)$.
+\end{corollaire}
+\begin{proof}
+    La dérivée de $\phi_{\alpha}(z) = \frac{z - \alpha}{1 - \bar{\alpha}z}\in \Aut D$ vérifie : 
+    \[
+        \phi_{\alpha}'(z) = \frac{1 - \abs{\alpha}^2}{\left(1 - \bar{\alpha}z\right)^{2}}, \phi_{\alpha}'(0) = 1 - \abs{\alpha}^{2}, \abs{\phi_{\alpha}'(\alpha)} = \frac{1}{1 - \abs{\alpha}^{2}}
+    \]
+    Soit $z_{0} \in D$ et $g = \phi_{f(z_{0})} \circ f \circ \phi_{-z_{0}}$. On a $g(0) = 0$ et $g : D\to D$. Le lemme de Schwarz \ref{thm:lemme_schwarz} implique que $\abs{g(z)} \leq \abs{z}$ et $\abs{g'(0)} \leq 1$. L'inégalité attendue résulte de 
+    \[
+        g'(0) = \phi_{f(z_{0})}(f(z_{0}))f'(z_{0})\phi_{-z_{0}}'(0) = \frac{1}{1 - \abs{f(z_{0})}^{2}}f'(z_{0})(1 - \abs{z_{0}})^{2}
+    \]
+    Le cas d'égalité correspond à $\abs{g'(0)} = 1$. Alors $g$ et donc $f$ sont des automorphismes de $D$. 
+\end{proof}
+
+\begin{théorème}{Bloch-Landau}{bloch-landau}
+    Soit $f \in \O(D(z_{0}, r))$ telle que $f'(z_{0}) \neq 0$. Alors il existe $U \subset D(z_{0}, r)$ tel que $f_{\mid U}$ est un biholomorphisme de $U$ sur $f(U) = D(\omega_{0}, R)$ disque de rayon $R \geq \frac{r}{12}\abs{f'(z_{0})}$.
+\end{théorème}
+\begin{proof}
+    Quitte à considérer la restriction de $f$ et à remplacer $f$ par $f(z_{0} + rz)$ on peut considérer définie au voisinage du disque fermé $\overline{D}(0, 1)$. On pose
+    \[
+        m = \sup_{z \in \overline{D}(0, 1)}\left(1 - \abs{z}^{2}\right)\abs{f'(z)} \geq \abs{f'(0)}
+    \]
+    La valeur $m$ est atteinte en $\alpha \in D(0, 1)$ et alors $m = \left(1 - \abs{\alpha}^{2}\right)\abs{f'(\alpha)}$. Posons $h = f\circ\phi_{-\alpha}$. On a : 
+    \[
+        h(0) = f(\alpha), h'(0) = f'(\alpha)\phi_{-\alpha}(0) = \left(1 - \abs{\alpha}^{2}\right)f'(\alpha), \abs{h'(0)} = m \geq \abs{f'(0)}
+    \]
+    De plus, pour $\abs{z} < 1$, d'après le corollaire de Schwarz-Pick \ref{cor:schwarz-pick} : 
+    \[
+        \left(1-\abs{z}^{2}\right)\abs{h'(z)} = \frac{\left(1 - \abs{z}^{2}\right)\abs{\phi_{-a}'(z)}}{1 - \abs{\phi_{-\alpha}(z)}^{2}}\left(1 - \abs{\phi_{-\alpha}(z)}^{2}\right)\abs{f'(\phi_{-\alpha}(z))} \leq m
+    \]
+    Quitte à remplacer $h$ par $\frac{1}{h'(0)}(h-h(0))$, on peut supposer $h(0) = 0$ et $m = h'(0) = 1$. Donc : 
+    \[
+        \abs{h'(z)} \leq \frac{1}{1 - \abs{z}^{2}}, z \in D(0, 1)
+    \]
+    Le rayon de convergence du développement en série entière\footnote{DONC DE TAYLOR}
+    \[
+        h(z) = z + \sum_{n = 2}^{+ \infty}a_{n}z^{n}
+    \]
+    est supérieur à $1$ et les inégalités de Cauchy appliquées à $h'$ sur le disque $D(0, \rho)$ donnent 
+    \[
+        h^{(n)}(\omega) = \frac{(n- 1)!}{2\pi\rho^{n-1}}\int_{0}^{2\pi}\frac{h'(\omega + re^{it})}{e^{i(n - 1)t}}\d t \text{ et } n\abs{a_{n}} \leq \frac{1}{(1 - \rho^{2})\rho^{n - 1}}
+    \]
+    Or, $\rho \mapsto (1 - \rho^{2})\rho^{n - 1}$ atteint son maximum en $\rho = \sqrt{\frac{n-1}{n + 1}}$. Pour ce $\rho$, on obtient : 
+    \[
+        \abs{a_{n}} \leq \frac{n + 1}{2n}\left(1 + \frac{2}{n - 1}\right)^{(n-1)/2}
+    \]
+    et pour $M = 3^{3/4}/2$, $\abs{a_{n}} \leq M^{n}$ si $n \geq 2$.\\
+    En reprenant la preuve du théorème d'inversion locale par la méthode des séries majorantes \ref{thm:inv_loc}, on obtient que $h$ est un biholomorphisme d'un ouvert $U$ sur le disque $D(0, R)$ avec : 
+    \[
+      R = \frac{1}{\left(1 + \sqrt{2}\right)M + 4M^{2}}>\frac{1}{12}
+    \]
+\end{proof}
+
+\section{Espaces de Fonctions Holomorphes}
+\subsection{Convergence de Suites de Fonctions Holomorphes}
+
 
 
 \end{document}

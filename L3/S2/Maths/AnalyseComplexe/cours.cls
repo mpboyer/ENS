@@ -99,6 +99,7 @@
 \DeclareMathOperator{\Gl}{Gl}
 \DeclareMathOperator{\pgcd}{pgcd}
 \DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\Aut}{Aut}
 \DeclareMathOperator{\rg}{rg}
 \DeclareMathOperator{\ch}{ch}
 \DeclareMathOperator{\sh}{sh}

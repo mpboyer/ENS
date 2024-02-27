@@ -1,0 +1,93 @@
+\documentclass{cours}
+
+\begin{document}
+\section{Exercice 1}
+Soit $c$ un code PF. Soit $x_1, \ldots, x_{k}, y_{1}, \ldots, y_{l}$ pour lesquels il y a égalité. Alors, soit $i = \min \{i \in \N \mid x_{i} \neq y_{i}\}$. Alors en ne comptant que les $i$ premiers caractères du mot de départ, selon la longueur des codes, ou bien $c(x_{1},\ldots x_{i - 1})$ est un préfixe de $c(y_{1}, \ldots, y_{i - 1})$ ou bien l'inverse.
+
+\section{Exercice 2}
+\subsection{Question 1}
+$c$ est un code PF. 
+
+\subsection{Question 2}
+Pour déchiffrer le code, il suffit de regarder le premier $0$ que l'on trouve. On choisit entre $1, 2$ et $3$ pour le déchiffrer selon la valeur modulo $3$ du nombre de $1$ qui le suivent. 
+
+\section{Exercice 3}
+J'ai une tête de cloche à fromage ouuuuuuuuuuuu ?
+
+\section{Exercice 4}
+\subsection{Question 1}
+On considère $\mathcal{U}_{m} = \left\{u \in \mathcal{U} \mid l(u) \leq m\right\}$. On a alors, puisque $\mU_{m}$ est fini, l'existence de $l_{max, m} = \max \left\{l(u) \mid u \in \mU_{m}\right\} \leq m$. \\
+On considère ensuite $c_{m}$ le code $c$ tronqué à $\mU_{m}$. On a :  
+% \[
+%     \begin{aligned}
+%         \left(\sum_{u \in \mU}D^{-l(u)}\right)^{n} =& \sum_{x_{1}^{n}\in \mU^{n}}D^{-l(x_{1}) - \ldots - l(x_{n})}\\
+%         =& \sum_{k \geq 1} \alpha(k)D^{-k}\
+%         \leq & \sum_{k = 1}^{nl_{max, m}}\alpha(k)D^{-k}\\
+%         = & nl_{max, m}
+%     \end{aligned}
+% \]
+% Ainsi, 
+% \[
+%     \sum_{u \in \mU} D^{-l(u)} \leq (nl_{max, m})^{1/n} \xrightarrow[n\to \infty]{} 1
+% \]
+La suite des $\mU_{m}$ est croissante et on a $\limsup \mU_{m} = \mU$. Donc, par passage à la limite supérieure, on a bien 
+\[
+    \sum_{u \in \mU}D^{-l(u)} \leq 1
+\]
+
+\subsection{Question 2}
+% On note $l_{1} = \abs{c(u_{1})} \leq \ldots \leq l_{n} = \abs{c(u_{n})} \leq \ldots$ les valeurs de $l(u)$. On prend comme $i$-ème mot code les $l_{i}$ premiers chiffres après la virgule dans le développement en base $D$ de $\sum_{j = 1}^{i - 1} D^{-l_{j}}$.\\
+% Puisque cette somme est à termes strictement positifs et toujours inférieure à $1$, on a bien un code $PF$: les $l_{i}$ premiers chiffres de $c(u_{j})$ forment un nombre plus grand que $c(u_{i})$.
+On retire, à partir de la profondeur $l(1)$ une proportion $\alpha_{1}D^{-l(1)}$ des branches. On définit une mesure $\mu$ sur les fils de l'arbre comme la proportion des feuilles de l'arbre qu'ils recouvrent. \\
+On note $A_{i}$ l'union des fils enracinés à profondeur $l(i)$ qu'on a utilisés pour du codage de longueur $l(i)$. On a $\mu(A_{i}) = \alpha_{i}D^{-l(i)}$. Notre codage complet est l'union des $A_{i}$. On a alors : 
+\[
+    \mu\left(\bigcup_{i \in \N^{*}} A_{i}\right) = \sum_{i = 1}^{n} \mu(A_{i}) = \sum_{i = 1}^{n}\alpha(i)D^{-l(i)} = \sum_{u \in \mU} D^{-l(u)} \leq 1
+\]
+Donc on n'a pas de recouvrement des arbres. 
+
+
+\section{Exercice 5}
+\subsection{Question 1}
+On code chaque nombre en base $2$ sur $k$ bits. On demande pour chaque bit si le nombre a la même valeur. Bah on a trouvé.
+
+\subsection{Question 2}
+On utilise le code $c_{2}(k)$ sur les $K$ objets. 
+Puisque le code est PF, on peut juste regarder pour tout $i$ le $i$-ème symbole, et en fonction de ce qu'on a lu sur les $i-1$ premiers, lorsqu'on arrive à la fin du code, on a trouvé le résultat. 
+On a $E[l(c_{2}(U))]$ questions en moyenne et donc on a bien : 
+\[
+    H_{2}(U) \leq E[l(c_{2})(U)] \leq H_{2}(U) + 1
+\]
+Pour tout $u \in \{1, \ldots, K\}$, on utilise $\lceil\log_{2}(p_{u})\rceil$ questions.
+
+\subsection{Question 3}
+Le nombre moyen de questions d'un questionnaire est équivalent à la longueur moyenne du codage UD qu'il représente. Par inégalité de Kraft et inégalité de Gibbs, on a : 
+\[
+    \begin{aligned}
+        E[l(c)(k)] =& \sum_{k = 1}^{K}p_{k}l(c(k))\\
+        =& -\sum_{k = 1}^{K}p_{k}\log_{2}(2^{-l(c(k))})\\
+        \geq & -\sum p_{k}\log_{2}q_{k}\\
+        \geq & -\sum p_{k}\log_{2}p_{k} \\
+        = & H_{2}(U)
+    \end{aligned}
+\]
+Donc le questionnaire a en moyenne au moins $H_{2}(U)$ questions. 
+
+\subsection{Question 4}
+On considère $U_{1},\ldots, U_{m}$ des réalisations i.i.d. de $U$. 
+\begin{enumerate}
+\item Avec $c_{2}$, en moyenne, on va utiliser : 
+\[
+    H_{2}(U) \leq \frac{1}{m}E[l(c_{2}(U_{1})) + \ldots + l(c_{2}(U_{m}))] \leq \frac{H_{2}(U) + 1}{m}
+\]
+\item Avec un code arbitraire, on va utiliser : 
+\[
+    H_{2}(U) \leq \frac{1}{m}E[l(c(U_{1})) + \ldots l(c(U_{m}))]
+\]
+\end{enumerate}
+
+
+\subsection{Question 5}
+On passe à la limite dans la question précédente. 
+
+
+\end{document}
