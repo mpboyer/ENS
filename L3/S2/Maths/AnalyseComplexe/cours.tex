@@ -1545,7 +1545,45 @@ On rappelle que le groupe unitaire de signature $(n, m)$ est le groupe des matri
 
 \section{Espaces de Fonctions Holomorphes}
 \subsection{Convergence de Suites de Fonctions Holomorphes}
+On dit qu'une suite converge localement de manière uniforme lorsque 
+\[
+    \forall x \in U, \exists r_{x} > 0, f_{n} \xrightarrow[D(x, r_{x})]{\rm CU} f
+\]
+La convergence uniforme localement est équivalente à la convergence uniforme sur tout compact.
+\begin{proof}
+    \begin{description}
+        \item[$\Leftarrow$] $K$ étant compact, on le recouvre par un nombre fini de disques. 
+        \item[$\Rightarrow$] En considérant un disque fermé inclus dans l'ouvert, on a convergence sur ce disque.   
+    \end{description}
+\end{proof}
+On rappelle que si $\sum f_{n}$ converge uniformément sur un compact et que les $f_{n}$ sont holomorphes, $\sum f_{n} \in \O(K)$.
 
+\begin{théorème}{Weierstrass}{}
+    Soit $f_{n} \in \O(U)$, $f_{n} \xrightarrow[\forall K \subset U]{\rm CU} f$. Alors, $f \in \O(U)$ et $\forall l \in \N, f_{n}^{(l)} \xrightarrow[\forall K \subset U]{\rm CU} f^{(l)}$.
+\end{théorème}
+\begin{proof}
+    On considère $\overline{D(a, r)}\subset U$. On a : 
+    \[
+        f_{n}(z) = \frac{1}{2i\pi}\int_{\partial D(a, r)}\frac{f_{n}(\omega)}{\omega - z}\d \omega
+    \]
+    On échange limite et intégrale par convergence uniforme et on obtient les formules de Cauchy pour $f$. 
+\end{proof}
+
+\subsection{Théorèmes de Runge}
+On cherche une suite de polynôme convergeant vers une fonction holomorphe.
+\begin{théorème}{Runge - 1}{}
+    Soit $f \in \O(D(z_{0}, R))$, $K \subseteq D(z_{0}, R)$. Alors, si $\epsilon > 0$, il existe $P_{\epsilon} \in \C[z]$ tel que 
+    \[
+       \max_{K}\abs{f - P_{\epsilon}} < \epsilon
+    \] 
+\end{théorème}
+\begin{proof}
+    On suppose d'abord $z_{0} = 0$. On pose $f(z) = \sum a_{n}z^{n}$ sur $D(0, R)$, on note $R'$ son rayon de convergence. Par la formule d'Hadamard : 
+    \[
+        \frac{1}{R^{'}} = \limsup \abs{a_{n}}^{1/n}
+    \]
+    Pour $\delta > 0$, il existe $N(\delta)$ tel que $\abs{a_{n}}^{1/n} \leq 1/R' + \delta$. On choisit $r$ assez petit pour que $0 < R - r < d(K, \C \setminus D(0, R))$.
+\end{proof}
 
 
 \end{document}
