@@ -77,9 +77,12 @@
 \newcommand{\Q}{\mathbb{Q}}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\C}{\mathbb{C}}
+\renewcommand{\L}{\mathbb{L}}
 \newcommand{\K}{\mathbb{K}}
 \newcommand{\U}{\mathbb{U}}
+\newcommand{\M}{\mathbb{M}}
 \newcommand{\D}{\mathbb{D}}
+\newcommand{\I}{\mathbb{I}}
 \renewcommand{\S}{\mathbb{S}}
 \renewcommand{\P}{\mathbb{P}}
 
@@ -98,7 +101,7 @@
 
 \newcommand{\asympt}{\mathop{\sim}}
 \newcommand{\lin}{\mathcal{L}}
-\newcommand{\M}{\mathcal{M}}
+\newcommand{\mM}{\mathcal{M}}
 \newcommand{\cont}{\mathcal{C}}
 \renewcommand{\phi}{\varphi}
 \renewcommand{\epsilon}{\varepsilon}

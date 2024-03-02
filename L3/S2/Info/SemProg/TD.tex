@@ -1,0 +1,25 @@
+\documentclass{cours}
+
+\begin{document}
+\section{TD3}
+\subsection{Exercice 1}
+\begin{enumerate}
+    \item Si on a $\rm Safe(\mT)= \mT$, alors $\mT = \left\{\sigma_{\lceil i} \mid \sigma\in \mT\right\} \cup \left\{\sigma \in \S^{\alpha} \mid \forall i \in \N, \sigma_{\lceil i} \in \mT\right\}$. En particulier, $\forall i, \sigma_{\lceil i} \in \mT \Rightarrow \sigma \in \mT$. Par contraposée, $\sigma \notin \mT \Longrightarrow \exists i, \sigma_{\lceil i} \notin \mT$.\\
+    Réciproquement, si $\sigma \notin \mT \Rightarrow \exists i, \sigma_{\lceil i} \notin \mT$. Par extensivité, $\mT \subseteq \rm Safe(\mT)$. \\
+    De plus, si $\sigma \in \rm Safe(\mT)$. 
+    Supposons d'abord $\sigma$ fini. Alors il existe $\pi$ tel que $\sigma \cdot \pi \in \mT$. Soit $i$, on pose $\pi_{i} = \sigma_{i\rceil} \cdot \pi$.On a $\sigma_{\lceil i}\cdot \pi_{i} = \sigma \cdot \pi \in \mT$. Donc par $1$, $\sigma \in \mT$.
+    \item \begin{description}
+        \item[Intersection] Oui, puique $\sigma \notin p_{k} \Rightarrow \exists i, \sigma_{\lceil i} \notin p_{k}$ pour $k \in 0, 1$. En particulier, $\sigma \notin p_{0} \cap p_{1} \Rightarrow \exists i, \sigma_{\lceil i} \notin p_{0} \cap p_{1}$. Ceci reste vrai pour une intersection dénombrable.
+        \item[Union] On a $\mathrm{PCl}(X \cup Y) = {\rm PCl}(X) \cup {\rm PCl}(Y)$. Par ailleurs, ${\rm Lim}(X \cup Y) = X \cup Y \cup \left\{\alpha \in \S^{\alpha} \mid \forall i \in \N, \sigma_{\lceil i} \in X \cup Y\right\}$. Dans le cas où $X = PCl(A)$ et $Y = PCl(B)$, on peut séparer cette union. \\
+        Ça ne marche pas pour une union dénombrable : on prend $p_{j}$ la propriété "on s'arrête en $j$ étapes", et $\cup p_{j}$ est la propriété "Le programme termine", qui n'est pas une propriété de sûreté. 
+    \end{description}
+    \item De gauche à dretoi c'est bon. Si $\mS \cap \S^{*} \subseteq \mT \cap \S^{*}$, alors
+    \item On a $\rm PCl(\mT) = \S^{*}$ si et seulement si $\forall \sigma \in \S^{*}, \exists \sigma', \sigma \cdot \sigma' \in \mT$.   
+    \item On prend $\S^{*}$ et $\S^{\omega}$. Et bah l'union ni l'intersection ça marche. 
+\end{enumerate}
+\subsection{Exercice 2}
+\begin{enumerate}
+    \item $S^{*} \cap \left(\text{No runtime errors } \cap \text{ la valeur de retour est un indice pour lequel il y a un zéro}\right)$
+\end{enumerate}
+
+\end{document}

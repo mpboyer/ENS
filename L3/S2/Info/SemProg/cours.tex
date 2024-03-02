@@ -527,4 +527,343 @@ On définit une forme via point-fixe des sémantiques à de traces infinies :
     \]
 \end{définition}
 
+\section{Propriétés de Traces}
+
+\begin{définition}{Propriétés comme Ensembles d'États}{}
+    Une propriété $\mP$ est un ensemble d'états $\mP \subseteq \S$. $\mP$ est satisfaite si et seulement si tous les états atteignables sont dans $\mP$. 
+\end{définition}
+
+\begin{définition}{Propriétés comme Traces}{}
+    Une propriété $\mT$ est un ensemble de traces $\mT \subseteq \S^{\alpha}$. $\mT$ est satisfaite si et seulement si toutes les traces sont dans $\mT$, i.e., $\left[\mS\right]^{\alpha} \subseteq \mT$.
+\end{définition}
+Exemples : 
+\begin{itemize}
+    \item Les propriétés d'états
+    \item Les propriétés fonctionnelles
+    \item La Terminaison
+\end{itemize}
+
+\begin{propositionfr}{Terminaison}{}
+    \begin{enumerate}
+        \item Soit $\mP_{0}, \mP_{1} \subseteq \S$ deux propriétés d'états telle que $\mP_{0} \subseteq \mP_{1}$. Alors $\mP_{0}$ est plus forte que $\mP_{1}$, c'est à dire que si $\mS$ satisfait $\mP_{0}$, $\mS$ satisfait $\mP_{1}$.
+        \item Soit $\mT_{0}, \mT_{1} \subseteq \S$ deux propriétés d'états telle que $\mT_{0} \subseteq \mT_{1}$. Alors $\mT_{0}$ est plus forte que $\mT_{1}$, c'est à dire que si $\mS$ satisfait $\mT_{0}$, $\mS$ satisfait $\mT_{1}$.
+        \item Soient $\mS_{0}$ et $\mS_{1}$ deux systèmes de transitions. 
+    \end{enumerate}
+\end{propositionfr}
+
+\subsection{Propriétés de Sûreté}
+\subsubsection{Définitions}
+Intuitivement, une propriété de sûreté précise qu'un certain (mauvais) comportement défini par une observation finie, irrécupérable ne se produira jamais. Par exemple, sont des propriétés de sûreté :
+\begin{itemize}
+    \item L'absence d'erreurs à l'exécution
+    \item Les propriétés d'état
+    \item La non-terminaison
+    \item Ne pas atteindre un état $b$ après avoir visité l'état $a$ (ce n'est pas une propriété de sûreté)
+    \item La terminaison n'est pas une propriété de sûreté
+\end{itemize}
+Comment réfuter une propriété de sûreté ? 
+\begin{itemize}
+    \item On suppose que $\mS$ ne satisfait pas $\mP$
+    \item Il existe une trace  (finie ou non) contre-exemple $\sigma = \scalar{s_{0}, \ldots, s_{n}, \ldots} \in \sem{S}\setminus \mP$
+    \item L'observation se faisant en temps fini, il existe un préfixe $\scalar{s_{0}, \ldots, s_{i}}$
+\end{itemize}
+On définit $\sigma_{\lceil i}$ (resp. $\sigma_{i \rceil}$) le préfixe (resp. suffixe) de longueur $i$ de la trace $\sigma$. Les suffixes ne sont pas définies pour des traces infinies.
+
+\begin{définition}{Opérateur de Clôture Supérieure}{}
+    Étant donné un poset $\mS, \sqsubseteq$, un opérateur $\phi : \mS \to \mS$ est un opérateur de clôture supérieur s'il est 
+    \begin{itemize}
+        \item monotone
+        \item extensif $\forall x, x \sqsubseteq \phi(x)$
+        \item idempotent
+    \end{itemize}
+\end{définition}
+\begin{définition}{Clôture Préfixe}{}
+    L'opérateur de clôture préfixe est défini par : 
+    \[
+        {\rm PCl :} \begin{array}{rcl}
+            \mP(\S^{\alpha}) & \longrightarrow & \mP\left(\S^{*}\right)\\
+            X & \longmapsto & \left\{\sigma_{\lceil i}\ \middle|\ \sigma \in X, i\in \N\right\}
+        \end{array}
+    \]
+\end{définition}
+Cet opérateur est : 
+\begin{itemize}
+    \item Monotone
+    \item Idempotent
+    \item Pas extensif sur les traces infinies
+\end{itemize}
+
+\begin{définition}{Limite}{}
+    L'opérateur de limite est défini par : 
+    \[ {\rm Lim} : 
+        \begin{array}{rcl}
+            \mP\left(\S^{\alpha}\right) & \longrightarrow & \mP(\S^{\alpha})\\
+            X & \longmapsto & X \cup \left\{\sigma \in \S^{\alpha}\middle| \forall i \in \N, \sigma_{\lceil i} \in X\right\}
+        \end{array}
+    \]
+    C'est un opérateur de clôture supérieure.
+\end{définition}
+
+\begin{définition}{Safe}{}
+    L'opérateur $\rm Safe$ est défini par $\rm Safe = Lim \circ PCl$
+\end{définition}
+L'opérateur $\rm Safe$ sature un ensemble d'exécution (traces) $\mS$ avec des préfixes et des traces infinies donc tous les préfixes peuvent être observés dans $\mS$. \\
+Ainsi, si ${\rm Safe}(\mS) = \mS$ et $\sigma$ est une trace, il suffit de découvrir un préfixe fini de $\sigma$ qui n'est pas dans $\mS$ pour prouver $\sigma \notin \mS$. 
+
+\begin{propositionfr}{Sûreté de {\rm Safe}}{}
+    L'opérateur $\rm Safe$ est un opérateur de clôture supérieur.
+\end{propositionfr}
+\begin{proof}
+    \begin{itemize}
+        \item ${\rm Safe}$ est monotone par composition
+        \item $\rm Safe$ est extensif : 
+        \begin{itemize}
+            \item .
+        \end{itemize}
+        \item $\rm Safe$ est idempotent : 
+        \begin{itemize}
+            \item Comme $\rm Safe$ est extensif et monotone, $\rm Safe \subseteq Safe \circ Safe$.
+            \item On écrit.
+        \end{itemize}
+    \end{itemize}
+\end{proof}
+\begin{définition}{Sûreté}{}
+    Une propriété de trace $\mT$ est une propriété de sûreté si et seulement si ${\rm Safe}(\mT) = \mT$. 
+\end{définition}
+\begin{théorème}{Idempotence}{}
+    Si $\mT$ est une propriété de trace, alors $\mathrm{Safe}(\mT)$ est une propriété de sûreté.
+\end{théorème}
+\begin{proof}
+    Par idempotence de $\rm Safe$.
+\end{proof}
+On observe par ailleurs que si $\mT$ est une propriété de trace, $\mathrm{Safe}(\mT)$ est la plus forte propriété de sûreté qui est plus faible que $\mT$, par extensivité de $\rm Safe$.
+
+\begin{théorème}{Sûreté des États}{}
+    Toute propriété d'états est une propriété de sûreté.
+\end{théorème}
+\begin{proof}
+    On considère une propriété d'état $\mP$. Elle est équivalente à une propriété $\mT = \mP^{\alpha}$ de trace. On a : 
+    \[
+        \begin{aligned}
+            \rm Safe(\mT) =&\rm Lim(PCl(\mP^{\alpha}))\\
+            =& \rm Lim (\mP^{*})\\
+            =& \mP^{*} \cup \mP^{\omega}\\
+            =& \mP^{\alpha}\\
+            =& \mT
+        \end{aligned}
+    \]
+\end{proof}
+\subsubsection{Méthodes de Preuves}
+\begin{définition}{Preuve par Invariance}{}
+    Soit $\mathbb{I}$ un ensemble de traces finies. Il est dit invariant si et seulement si :
+    \begin{itemize}
+        \item $\forall s \in \S_{\mI}, \scalar{s} \in \I$
+        \item $F_{*}(\I) \subseteq \I$
+    \end{itemize}
+\end{définition}
+\begin{théorème}{Correction (Soundness)}{}
+    La preuve par invariance est correcte: si on peut trouver un invariant pour $\mS$ plus fort que la propriété de sûreté alors $\mS$ vérifie $\mT$. 
+\end{théorème}
+\begin{proof}
+    Soit $\I$ un invariant de $\mS$ plus fort que $\mT$ : 
+        Par induction sur $n$, on montre que $F_{*}^{n} \left(\left\{\scalar{s} \middle| s\in \S_{\mI}\right\}\right)\subseteq F_{*}^{n}(\I) \subseteq \I$.
+        Donc $\sem{\mS}^{*} \subseteq \I$.
+        Ainsi, $\mathrm{Safe}\left(\sem{\mS}^{*}\right) \subseteq \rm Safe(\I) \subseteq Safe(\mT)$ par monotonie.
+        Or, $\sem{\mS}^{\alpha} = {\rm Safe}\left(\sem{\mS}^{*}\right)$ et ${\rm Safe}(\mT) = \mT$ et donc $\sem{\mS}^{\alpha}\subseteq \mT$.
+\end{proof}
+
+\begin{théorème}{Complétude}{}
+    La preuve par invariance est complète: si $\mS$ satisfait $\mT$, on peut trouver un invariant $\I$ pour $\mS$ qui est plus fort que $\mT$.
+\end{théorème}
+\begin{proof}
+    Si $\sem{\mS}^{*}$ satisfait $\mT$, alors $\I = \sem{\mS}^{*}$ est un invariant de $\mS$ plus fort que $\mT$.
+\end{proof}
+
+Pour une preuve plus compliquée : 
+\begin{itemize}
+    \item À chaque point du programme $\mathfrak{l}$, on a un invariant local $\I_{\mathfrak{l}}$ (qu'on note avec une formule logique plutôt qu'un ensemble d'états)
+    \item On définit l'invariant global $\I$ comme 
+    \[
+        \I = \left\{\scalar{\left(\mathfrak{l}_{0}, m_{0}\right), \ldots, \left(\mathfrak{l}_{n}, m_{n}\right)}\middle| \forall n, m_{n} \in \I_{\mathfrak{l}_{n}}\right\}
+    \]
+\end{itemize}
+
+\subsection{Propriétés de Vivacité}
+Intuitivement, une propriété de vivacité est une propriété qui spécifie qu'un bon comportement va éventuellement arriver et que ce comportent peut encore se produire après toute observation finie. Par exemple : 
+\begin{itemize}
+    \item La terminaison est une propriété de vivacité
+    \item Atteindre l'état $a$ est une propriété de vivacité
+    \item L'absence d'erreurs n'est pas une propriété de vivacité
+\end{itemize}
+Réfuter une propriété de vivacité c'est trouver une trace infinie qui est un contre-exemple.
+\begin{définition}{Propriété de Vivacité}{}
+    L'opérateur $\mathrm{Live}(\mT) = \mT \cup \left(\S^{\alpha} \setminus \mathrm{Safe}(\mT)\right)$. Étant donnée une propriété $\mT$, on a équivalence entre : 
+    \begin{enumerate}
+        \item $\mathrm{Live}(\mT) = \mT$
+        \item $\mathrm{PCl}(\mT) = \S^{*}$
+        \item $\rm Lim \circ PCl(\mT) = \S^{\alpha}$.
+    \end{enumerate}
+\end{définition}
+\begin{proof}
+    \begin{description}
+        \item[$i \Rightarrow ii$] Si $\rm Live(\mT) = \mT$, i.e. $\mT \cup \left(\S^{\alpha} \setminus \rm Safe(\mT)\right) = \mT$. Soit $\sigma \in \S^{*}$. On a $\sigma \in \S^{\alpha}$ et donc : 
+        \begin{itemize}
+            \item Ou bien $\sigma \in \mT$ et donc $\sigma \in \rm PCl(\mT)$
+            \item ou bien $\sigma \in \rm Safe(\mT) = Lim\left(PCl(\mT)\right)$ et tous ses préfixes sont dans $\rm PCl(\mT)$ et donc $\sigma \in \rm PCl(\mT)$. 
+        \end{itemize}
+        \item[$ii \Rightarrow iii$] Si $\rm PCl(\mT) = \S^{*}$, alors $\rm Lim \circ PCl(\mT) = \S^{\alpha}$
+        \item[$iii \Rightarrow i$] Si $\rm Lim \circ PCl(\mT) = \S^{\alpha}$ alors $\rm Live(\mT) = \mT \cup \left(\S^{\alpha} \setminus \left(\rm Lim \circ PCl(\mT)\right)\right) = \mT \cup \left(\S^{\alpha} \setminus \S^{\alpha}\right) = \mT$.
+    \end{description}
+\end{proof}
+
+\begin{propositionfr}{}{}
+    L'opérateur $\rm Live$ est idempotent (i.e. $\rm Live(\mT)$ est une propriété de vivacité) mais n'est pas extensif ni monotone.
+\end{propositionfr}
+
+\subsubsection{Méthode de preuves}
+\begin{définition}{Fonction de Rang}{}
+    Une fonction de rang est une fonction $\phi : \S\to E$ où : 
+    \begin{itemize}
+        \item $E, \sqsubseteq$ est bien fondé
+        \item $\forall s_{0}, s_{1} \in \S, s_{0} \rightarrow s_{1} \Longrightarrow \phi(s_{1}) \sqsubset \phi(s_{0})$.
+    \end{itemize}
+\end{définition}
+
+\begin{théorème}{Terminaison}{}
+    Si $\mS$ a une fonction de rang $\phi$, elle vérifie la terminaison.
+\end{théorème}
+
+\begin{propositionfr}{Preuve par Variance}{}
+    Soient $\left(\I_{n}\right)_{n\in \N}, \I_{\omega} \in \S^{\alpha}$. Ils forment une preuve de variance de $\mT$ si et seulement si : 
+    \begin{itemize}
+        \item $\S^{\omega} \subseteq \I_{0}$
+        \item $\forall k \in \left\{1, 2, \ldots, \omega\right\}, \forall s \in \S, \scalar{s} \in \I_{k}$
+        \item $\forall k \in \left\{1, 2, \ldots, \omega\right\}, \exists l < k, F_{\omega}(\I_{l}) \subseteq \I_{k}$.
+        \item $\I_{\omega} \subseteq \mT$.
+    \end{itemize}
+\end{propositionfr}
+\begin{théorème}{Complétude et Correction}{}
+    La méthode de preuve par variance est complète et correcte.
+\end{théorème}
+
+\subsection{Décomposition de Propriétés de Traces}
+\begin{théorème}{Décomposition de Traces}{}
+    Soit $\mT \subseteq \S^{\alpha}$. Elle peut être décomposée comme conjonction de $\rm Safe(\mT)$ et $\rm Live(\mT)$ : 
+    \[
+        \mT = \rm Safe(\mT) \cap Live(\mT)
+    \]
+\end{théorème}
+\begin{proof}
+    \[
+        \begin{aligned}
+            \rm Safe(\mT) \cap Live(\mT) =& \rm Safe(\mT) \cap \left(\mT \cup \S^{\alpha} \setminus Safe(\mT)\right)\\
+            =& \rm Safe(\mT) \cap \mT \cup Safe(\mT) \cap \left(\S^{\alpha} \setminus Safe(\mT)\right)\\
+            =& \mT \cup \emptyset\\
+            =& \mT
+        \end{aligned}
+    \]
+\end{proof}
+
+On peut ainsi vérifier la correction totale d'un programme (le programme termine, sans crash, et renvoie le résultat souhaité). On peut alors décomposer la propriété trace comme une propriété de sûreté et d'une propriété de vivacité.
+
+\subsection{Un langage de spécification : la logique temporelle}
+\begin{définition}{Langage de Spécification}{}
+    Un langage de spécification est un ensemble $\L$ de termes avec une fonction d'interprétation (ou sémantique) : 
+    \[
+        \sem[\cdot] : \L \to \mP(\S^{\alpha})
+    \]
+\end{définition}
+
+\begin{propositionfr}{Langage de Spécification d'état}{}
+    \begin{description}
+        \item[Syntaxe] On définit les termes de $\L_{\S}$ par : 
+        \[
+            p \in \L_{\S} = \mathfrak{@l} \mid x < x' \mid x < n\mid \lnot p' \mid p' \land p'' \mid \Omega
+        \]
+        \item[Sémantique] $\sem{p}_{s} \subseteq \S_{\Omega}$ est défini par : 
+    \end{description}
+\end{propositionfr}
+
+\begin{définition}{Syntaxe de la Logique Temporelle Propositionnelle}{}
+    Les propriétés sur des traces sont définies comme des termes de la forme : 
+    \begin{tabular}{rcll}
+        $t(\in \L_{\rm PTL})$ & $=$ & $p$ & propriété d'état, i.e. $p \in \L_{\S}$\\
+        & $\mid$ & $t' \lor t''$ & disjonction \\
+        & $\mid$ & $\lnot t'$ & négation\\
+        & $\mid$ & $\bigcirc t'$ & next\\
+        & $\mid$ & $t' \mathfrak{U} t''$ & until
+    \end{tabular}
+\end{définition}
+
+\begin{définition}{Sémantique}{}
+    La sémantique d'une propriété temporelle est un ensemble de trace défini par induction sur la syntaxe : 
+\end{définition}
+
+On peut alors défini des opérateurs de logique temporelle avec du sucre syntaxique : 
+\begin{itemize}
+    \item[Constantes Booléennes] 
+    \[
+        \top = (x < 0) \lor \lnot (x < 0)
+    \] 
+    \[
+        \bot = \lnot \top
+    \]
+    \item[À un moment]
+    \[
+        \diamond t = \top \mathfrak{U} t
+    \]
+    \item[Toujours]
+    \[
+        \square t = \lnot\left(\diamond \left(\lnot t\right)\right)
+    \]
+\end{itemize}
+
+\subsection{Au delà de la sûreté et de la vivacité}
+On définit : 
+\begin{itemize}
+    \item $\mS = \left(\S, \rightarrow, \S_{\mI}\right)$ un système de transition
+    \item Les états sont de la forme $\left(l, m\right) \in \L \times \M$
+    \item Les états de mémoire sont de la forme $\mathbb{X} \rightarrow \mathbb{V}$
+    \item On pose $l, l' \in \L$ et $x, x' \in \mathbb{X}$.
+\end{itemize}
+On s'intéresse à la propriété : 
+\begin{center}
+    Observer la valeur de $x'$ en $l'$ ne doit pas donner d'information sur la valeur de $x$ en $l$.
+\end{center}
+On doit caractériser le flot d'information au niveau de sémantique.
+\begin{définition}{Non-Interférence}{}
+    On considère le transformeur : 
+    \[
+        \Phi : \begin{array}{rcl}
+            \M & \longrightarrow & \mP(\M)\\
+            m & \longmapsto & \left\{m' \in \M \middle| \exists \sigma = \scalar{(l, m), \ldots, (l', m')} \in \sem{\mS}\right\}
+        \end{array}
+    \]
+    Il n'y a pas d'interférence entre $(l, x)$ et $(l', x')$, noté $(l',x') \not\leadsto (l, x)$ si et seulement si on a : 
+    \[
+        \forall m \in \M, \forall v_{0}, v_{1} \in \mathbb{V}, \left\{m'(x')\middle| m' \in \Phi(m[x \gets v_{0}])\right\} = \left\{m'(x')\middle| m'\in \Phi(m[x \gets v_{1}])\right\}
+    \]
+\end{définition}
+\begin{propositionfr}{}{}
+    La non-interférence n'est pas une propriété de trace
+\end{propositionfr}
+\begin{proof}
+    On prend $\mathbb{V} = \left\{0, 1\right\}$ et $\mathbb{X} = \left\{x, x'\right\}$. On prend $\L = \{l, l'\}$ et on considère deux systèmes dont toutes les transitions sont de la forme $(l,m) \to (l', m')$.  Alors $\mS_{1}$ a moins de comportements que $\mS_{0}$ mais $\mS_{0}$ a la propriété de non-interférence mais pas $\mS_{1}$.
+\end{proof}
+
+La notion duale de la non-interférence est l'interférence ou la dépendence : 
+\begin{définition}{Non-Interférence}{}
+    Il y a interférence entre $(l, x)$ et $(l', x')$, noté $(l',x') \not\leadsto (l, x)$ si et seulement si on a : 
+    \[
+        \exists m \in \M, \forall v_{0}, v_{1} \in \mathbb{V}, \left\{m'(x')\middle| m' \in \Phi(m[x \gets v_{0}])\right\} \neq \left\{m'(x')\middle| m'\in \Phi(m[x \gets v_{1}])\right\}
+    \]
+\end{définition}
+De même, ce n'est pas une propriété de trace.
+
+\begin{définition}{Hyperpropriétés de Traces}{}
+    Les hyperpropriétés de trace sont décrites comme des ensembles d'ensembles d'exécutions
+\end{définition}
+
+
+
 \end{document}
