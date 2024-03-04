@@ -1,0 +1,33 @@
+\documentclass[12pt]{article}
+\usepackage{tikz}
+\usepackage{lmodern}
+\usepackage[a4paper]{geometry}
+\pagestyle{empty}
+\usepackage{graphicx}
+\usepackage{nicematrix}
+\usepackage{xcolor}
+\usetikzlibrary{patterns}
+
+
+\begin{document}
+\begin{figure}
+    \centering
+    \Huge \color{red} {\bf \hspace{25pt} Chez NixOS} \includegraphics[height = 22pt]{nixos.png}\vspace{10pt}
+    \renewcommand{\arraystretch}{1.3}
+    \color{black}
+    \begin{NiceTabular}{>{\LARGE\arraybackslash}m{.4\linewidth}>{\Large\arraybackslash}m{.6\textwidth}}
+        {\bf Produit} & {\bf Prix} \\
+        Cookie & Prix libre, 1\,€ minimum \\
+        Crêpe & Prix libre, 1,5\,€ minimum\\
+        Crêpe Banane\newline Nutella & Prix libre, 2\,€ minimum\\
+        Galette Jambon\newline Fromage & Prix libre, 3\,€ minimum \\
+        \CodeAfter
+        \begin{tikzpicture}
+            \foreach \i in {3, ..., 5}{\draw (1|-\i) -- (3|-\i);}
+            \draw[double] (1|-2) -- (3|-2);
+            \draw[dotted] (2|-2)--(2|-6);
+        \end{tikzpicture}
+    \end{NiceTabular}
+\end{figure}
+
+\end{document}
