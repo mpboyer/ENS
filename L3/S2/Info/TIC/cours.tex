@@ -1,6 +1,8 @@
 \documentclass{cours}
+\usepackage{qtree}
 
 \begin{document}
+\part{TD3}
 \section{Exercice 1}
 Soit $c$ un code PF. Soit $x_1, \ldots, x_{k}, y_{1}, \ldots, y_{l}$ pour lesquels il y a égalité. Alors, soit $i = \min \{i \in \N \mid x_{i} \neq y_{i}\}$. Alors en ne comptant que les $i$ premiers caractères du mot de départ, selon la longueur des codes, ou bien $c(x_{1},\ldots x_{i - 1})$ est un préfixe de $c(y_{1}, \ldots, y_{i - 1})$ ou bien l'inverse.
 
@@ -45,7 +47,7 @@ On note $A_{i}$ l'union des fils enracinés à profondeur $l(i)$ qu'on a utilis�
 \]
 Donc on n'a pas de recouvrement des arbres. 
 
-
+za
 \section{Exercice 5}
 \subsection{Question 1}
 On code chaque nombre en base $2$ sur $k$ bits. On demande pour chaque bit si le nombre a la même valeur. Bah on a trouvé.
@@ -58,6 +60,7 @@ On a $E[l(c_{2}(U))]$ questions en moyenne et donc on a bien :
     H_{2}(U) \leq E[l(c_{2})(U)] \leq H_{2}(U) + 1
 \]
 Pour tout $u \in \{1, \ldots, K\}$, on utilise $\lceil\log_{2}(p_{u})\rceil$ questions.
+
 
 \subsection{Question 3}
 Le nombre moyen de questions d'un questionnaire est équivalent à la longueur moyenne du codage UD qu'il représente. Par inégalité de Kraft et inégalité de Gibbs, on a : 
@@ -89,5 +92,51 @@ On considère $U_{1},\ldots, U_{m}$ des réalisations i.i.d. de $U$.
 \subsection{Question 5}
 On passe à la limite dans la question précédente. 
 
+\part{TD4}
+\section{Exercice 1}
+On a : 
+\[
+	\begin{aligned}
+		E[X] =& \int_{0}^{\infty}xf(x)\d x\\
+		=& \int_{0}^{\infty}[xf_{X}(t)]_{0}^{t}\d t\\
+		=& \int_{0}^{\infty}\int_{0}^{t}f_{X}(t)\d x \d t\\
+		=& \int_{0}^{\infty}\int_{x}^{\infty}f_{X}(t)\d t\d x\\
+		=& \int_{0}^{\infty}P(X\geq x)\d x
+	\end{aligned}
+\]
+
+\section{Exercice 2}
+On a : 
+\[
+	\begin{aligned}
+		P(Y = y, Z = z | X = x) =& P(Y = y | Z = z, X = x)\times P(Z = z | X = x)\\
+		=& f(x, y)\times f(z, x)
+	\end{aligned}
+\]
+Donc on a bien l'indépendance. 
+\section{Exercice 3}
+\begin{enumerate}
+	\item On sépare à chaque étape les pièces en 3. Puisqu'une unique pièce est plus lourde, une balance suffit à trouver dans quel groupe la pièce la plus lourde est: Si l'un des ensembles pesés est plus lourd, c'est dans celui là, sinon, s'il y a égalité c'est dans le troisième. 
+	\item Chaque pesée correspond à une manière de séparer les pièces en $3$. En particulier, l'arbre des possibilités correspondant à une stratégie arbitraire va être de hauteur au moins $\log_{3}(n)$. 
+		La hauteur de l'arbre correspondant bien au nombre moyen de pesées\ldots
+	\item On utilise la stratégie de la première question. On n'utilise alors jamais plus de $\lceil\log_{3}(n)\rceil$ pesée. Si $n = 3^{k}$, on revient au premier cas avec $\lfloor \log_{3}(n) \rfloor = k$ pesées.
+	\item Pour $a = n/3$, cela revient à générer le code de Huffmann $3$-aire. Celui-ci minimisant l'entropie. 
+	\item On peut tester en deux pesées lors de la première étape si la pièce différente est plus lourde ou plus légère que les autres. En effet, si on sépare en trois ensembles $A, B, C$. Ou bien : $A < B$ et $B = C$ et la pièce est plus légère et dans $A$, ou bien $A < B$ et $B > C$ et la pièce est plus lourde et dans $B$. À renommage près, on applique la stratégie de 1) et on a le résultat. 
+	L'entropie dit qu'on nécessiterait $k + \log_{3} 2$ pesées en moyenne, ce qui n'est pas entier. On a donc une solution optimale. 
+\end{enumerate}
+
+\section{Exercice 4}
+\begin{enumerate}
+	\item Il n'y a qu'à la première étape où on va regrouper moins de $D$ fils et on va en regrouper $2 + (N - 2)\mod (D-1)$. On doit finalement compléter l'arbre par $B = D - 2 - (N - 2)\mod (D-1)$ feuilles.
+	\item Puisque tous les codes PF sont UD, le code de Huffman $D$-aire convient.
+	\item L'arbre ternaire qu'on obtient est : 
+		\Tree [0 [10 11 12 ] ]\\
+		On a alors $\bar{R_{s}} = 1.75$ et donc un taux de compression de $\frac{7/4}{\log_{3}{4}} = 1.39$		Pour $D = 2$ on a l'arbre \Tree [0 [10 [110 111 ] ] ] ce qui donne $\bar{R_{s}} = 9/4$ et donc un taux de compression de $1.125$.
+	\item Pour la distribution $p = \left(0.3, 0.2, 0.2, 0.15, 0.08, 0.07\right)$, on trouve 
+		\begin{itemize}
+			\item[Binaire] $L_{C} = 2.45$ et donc un taux de compression de $1.225$
+			\item[Ternaire] $L_{C} = 1.65$ et donc un taux de compression de $1.012$ environ
+		\end{itemize}
+\end{enumerate}
 
 \end{document}

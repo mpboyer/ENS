@@ -1,10 +1,9 @@
-\documentclass{cours}
+(easymotion-prefix(easymotion-prefix))\documentclass{cours}
 \title{Cours de Turc Débutant}
 \author{Marc Aymes}
 \date{2123-2124}
 \usepackage{longtable}
 \usepackage{nicematrix}
-
 \newcommand{\ch}{\c{s}}
 \newcommand{\Ch}{\c{S}}
 \newcommand{\I}{\.{I}}
@@ -12,9 +11,9 @@
 \newcommand{\sci}{\textsc{i}}
 \newcommand{\sca}{\textsc{a}}
 \newcommand{\sce}{\textsc{e}}
-\newcommand*{\thead}[1]{\multicolumn{1}{c}{\bfseries #1}}
+\newcomm(easymotion-prefixand*{\thead}[1]{\multicolumn{1}{c}{\bfseries #1}}
 
-\begin{document}
+\begin{document} 
 \section{Birinci Ders}
 \subsection{Quelques Mots}
 \begin{tabular}{>{\sl}p{.5\textwidth}|>{\sl}p{.5\textwidth}}
@@ -707,6 +706,7 @@ Il faut souligner l'irréductibilité du système de conjugaison à la division 
                     \end{enumerate}
           \end{itemize}
 \end{description}
+
 \section{Onuncu Ders}
 \subsection{La Conjugaison: Types de suffixation Personnelle}
 Il est possible d'analyser la déclinaison du verbe comme un système de \og conjugaison personnelle\fg\  (Bazin 1987 : 85 et suiv.) : c'est-à-dire qu'aux suffixes modo-temporels de la \og caractéristique\fg\ verbale (leçon 9) s'ajoutent des suffixes de prédication nominale, ceux-là même qui servent à décliner l'équivalent turc du verbe \og être\fg.\\
@@ -755,8 +755,8 @@ Les caractères verbaux peuvent aussi, sauf exception, faire l'objet d'une combi
 Ces \og verbes-suffixes \fg\ ou \og copular markers\fg\ sont des formes du verbe \og être\fg. Il s'agit donc de suffixes prédicatifs. Cela signifie qu'ils peuvent être appliqués à des phrases nominales aussi bien qu'à des formes verbales.\\
 Ces suffixes prédicatifs doivent être soigneusement distingués des suffixes non prédicatifs de la caractéristique verbale auxquels ils sont apparentés, et dont ils suivent d'ailleurs aussi bien la déclinaison que (le plus souvent) la sémantique.
 \begin{itemize}
-    \item \textsl{-d\sci} est prédicatif dans \textsl{gelirdim} (= {\sl gelir idim}) ou \textsl{oturuyorduk} (= {\sl oturuyor idik}); il est non prédicatif dans \textsl{geldim} ou \textsl{oturduk}.
-    \item \textsl{-m\sci \ch} est prédicatif dans \textsl{gelecekmi\ch iz} (= {\sl gelecek imi\ch iz}) ou \textsl{konu\ch uyormu\ch sunuz} (= {\sl konu\ch uyor imi\ch siniz}); non prédicatif dans \textsl{gelmi\ch iz} ou \textsl{konu\ch mu\ch sunuz}
+\item \textsl{-d\sci} est prédicatif dans \textsl{gelirdim} (= {\sl gelir idim}) ou \textsl{oturuyorduk} (= {\sl oturuyor idik}); il est non prédicatif dans \textsl{geldim} ou \textsl{oturduk}.
+\item \textsl{-m\sci \ch} est prédicatif dans \textsl{gelecekmi\ch iz} (= {\sl gelecek imi\ch iz}) ou \textsl{konu\ch uyormu\ch sunuz} (= {\sl konu\ch uyor imi\ch siniz}); non prédicatif dans \textsl{gelmi\ch iz} ou \textsl{konu\ch mu\ch sunuz}
     \item \textsl{-s\sce} est prédicatif dans \textsl{yap\i yorsan} (= {\sl yap\i yor isen}) ou \textsl{söyleyeceksek} (= {\sl söleyecek isek}); et non prédicatif \textsl{yapsan} ou \textsl{söylesek}.
 \end{itemize}
 En cas d'ajout d'une désinence personnelle, celle-ci est déplacée de la forme verbale vers ce nouveau suffixe. \\
@@ -782,6 +782,38 @@ Cette combinatoire permet de nombreuses modulations de la signification, dont vo
     \item Hypothétique + {\sl -(y)d\sci} = cette combinaison a le même sens que la précédente, et est d'emploi plus fréquent : \textsl{Gelseydi!} = Si seulement il était venu!
 \end{itemize}
 
+\section{Onbirinci Ders}
+\subsection{Noms Verbaux d'Agent et d'Action}
+\begin{center}
+	\renewcommand{\arraystretch}{1.3}
+    \begin{NiceTabular}{>{\it}m{.3\textwidth}m{.3\textwidth}m{.3\textwidth}}
+        & \it Noms verbaux d'agent & \it Noms verbaux d'action\\
+        Réel (présent/passé) & {\bf -(y)\sce n} & {\bf m\sce k}\\
+        & \hspace{20pt}\sl gelen & \hspace{20pt}\sl gelmek istiyor\\
+        & & \hspace{20pt}\sl konu\ch ma\ug \i \ dü\ch ünüyor\\
+        & & \hspace{20pt}\sl çal\i \ch ma\ug a ba\ch lad \i k\\
+        & & \bf -m\sce kl\sci k\\
+        & & \hspace{20pt}\sl gelmekli\ug im laz\i m m\i?\\
+        & & \bf -m\sce \\
+        & & \hspace{20pt}\sl gelmem laz\i m m\i? \\
+        & & -(y)\sci\ch\\
+        Intentif & \bf -(y)\sce c\sce k & \bf -(y)\sce c\sce k\\
+        Geni\ch Zaman & \bf -(\sci)r & \bf -(\sci)rl\sci k\\
+        & & \bf -m\sce zl\sci k\\
+        & & \bf -m\sce m\sce zl\sci k\\
+        & & \hspace{20pt} (le fait de manquer à\dots)\\
+        Médiatif & \bf -m\sci\ch & \bf -m\sci\ch l\sci k\\
+        Constatif & \bf -d\sci k & \bf -d\sci k \\
+        & & \hspace{20pt} (action réelle présente ou passée)\\
+        \CodeAfter
+        \begin{tikzpicture}
+		\foreach \i in {2, 7, 9, 10, 11, 12, 16, 17, 19}{\draw (1|-\i) -- (4|-\i);}
+	    \foreach \i in {2, 3, 4}{\draw (\i|-1) -- (\i|-19);} 
+	    \draw (1|-2)--(1|-19);
+	    \draw (2|-1) -- (4|-1);
+        \end{tikzpicture}
+    \end{NiceTabular}
+\end{center}
 
 \appendix
 \newpage
@@ -795,6 +827,8 @@ Cette combinatoire permet de nombreuses modulations de la signification, dont vo
     Mot en Turc      & Traduction                                           & Mot en Turc     & Traduction                       \\
     \midrule \midrule
     \endhead
+    \midrule\midrule
+    Mot en Turc      & Traduction                                           & Mot en Turc     & Traduction                       \\
     \bottomrule
     \endfoot
 
@@ -1082,7 +1116,12 @@ Cette combinatoire permet de nombreuses modulations de la signification, dont vo
     \midrule
     henüz            & encore, toujours                                     & evet            & oui                              \\
     \midrule
-    kullanmak        & avoir recours, utiliser
+    kullanmak        & avoir recours, utiliser & ç\i kmak & apparaître, partir en vacances, sauter\\
+    \midrule
+    yaln\i z & seulement & ancak & restriction, seulement\\
+    \midrule 
+    müessesse & étymologie (litt. ce qui est posé) & e\ug lenmek & s'amuser, se divertir\\
+
 \end{longtable}
 
 

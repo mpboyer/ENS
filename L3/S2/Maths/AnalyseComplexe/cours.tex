@@ -1571,7 +1571,7 @@ On rappelle que si $\sum f_{n}$ converge uniformément sur un compact et que les
 
 \subsection{Théorèmes de Runge}
 On cherche une suite de polynôme convergeant vers une fonction holomorphe.
-\begin{théorème}{Runge - 1}{}
+\begin{théorème}{Runge - 1}{runge}
     Soit $f \in \O(D(z_{0}, R))$, $K \subseteq D(z_{0}, R)$. Alors, si $\epsilon > 0$, il existe $P_{\epsilon} \in \C[z]$ tel que 
     \[
        \max_{K}\abs{f - P_{\epsilon}} < \epsilon
@@ -1584,6 +1584,102 @@ On cherche une suite de polynôme convergeant vers une fonction holomorphe.
     \]
     Pour $\delta > 0$, il existe $N(\delta)$ tel que $\abs{a_{n}}^{1/n} \leq 1/R' + \delta$. On choisit $r$ assez petit pour que $0 < R - r < d(K, \C \setminus D(0, R))$.
 \end{proof}
+
+\begin{lemme}{Approximation Rationnelle}{approx-rationnelle}
+    Soit $K$ un compact inclus dans $U$ ouvert de $\C$. Pour $\gamma : [0, 1] \to U \setminus K$ un chemin de classe $\cont^{1}$. Nous notons 
+    \[
+        F_{\gamma}(z) = \frac{1}{2i\pi}\int_{\gamma}\frac{f(w)}{w-z}\d w
+    \]
+    Pour tout $\epsilon > 0$, il existe $P, Q \in \C[Z]$ avec $Q$ sans zéro dans $K$ tels que 
+    \[
+        \max_{z \in K} \abs{F_{\gamma}(z) - \frac{P(z)}{Q(z)}} \leq \epsilon
+    \]
+\end{lemme}
+\begin{proof}
+    Idée : La fonction 
+    \[
+        H : \begin{array}{rcl}
+            K \times [0, 1] & \longrightarrow & \C\\
+            (z, t) & \longmapsto & \frac{1}{2i\pi}\frac{f(\gamma(t))}{\gamma(t) - z}\gamma'(t)
+        \end{array}
+    \]
+    est continue sur le compact $K \times [0, 1]$ donc uniformément continue. Par conséquent
+    \[
+        \forall \epsilon > 0, \exists \delta(\epsilon) > 0, \abs{t_{1} - t_{2}} \leq \delta(\epsilon) \Longrightarrow \abs{H(z, t_{1}) - H(z, t_{2})} \leq \epsilon, \forall z \in K
+    \]
+    Ainsi, pour $n$ tel que $1/n \leq \delta(\epsilon)$, 
+    \[
+        \abs{F_{\gamma(z)} - \sum_{k = 0}^{n - 1} H(z, k/n)\frac{1}{n}} \leq \sum_{k = 0}^{n - 1}\int_{k/n}^{(k + 1)/n}\abs{H(z, t) - H(z, k/n)}\d t \leq \epsilon
+    \]
+    En posant 
+    \[
+        \frac{P}{Q} = \sum_{k = 0}^{n - 1}H(z, k/n)\frac{1}{n} = \sum_{k = 0}^{n - 1}\frac{1}{2i\pi}\frac{f(\gamma(k/n))}{\gamma(k/n) - z}\gamma'(k/n)1/n
+    \]
+    on obtient une fraction rationnelle qui approche $F_{\gamma}$ sur $K$ avec $Q(z) = \prod_{k = 0}^{n - 1}\left(\gamma(k/n) - z\right) \in \C[z]$.
+\end{proof}
+
+\begin{théorème}{Runge - 2 - Rationelle Edition}{runge-rationnel}
+    Soit $K \subseteq U$ un compact. Toute fonction $f \in \O(U)$ peut-être approchée uniformément sur $K$ par des fractions rationnelles sans pôle sur $K$ : 
+    \[
+        \forall f \in \O(U), \forall \epsilon > 0, \exists P, Q \in \C[z] \mathrm{ tels que } \max_{z \in K}\abs{f(z) - \frac{P(z)}{Q(z)}} \leq \epsilon
+    \]
+\end{théorème}
+\begin{proof}
+    \begin{itemize}
+        \item Construction d'un contour de $K$. Soit $\alpha \in \left]0, \frac{1}{\sqrt{2}}\right[$ et 
+        \[
+            \delta = \alpha d(K, \C \setminus U) > 0
+        \]
+        Pour $k, l \in \Z$, nous notons le carré plein fermé de côté $\delta$: 
+        \[
+            \overline{\Pi}_{k, l} = \left\{x + iy \in \C \middle| k \delta \leq x \leq (k + 1)\delta, l\delta \leq y \leq (l + 1)\delta\right\}
+        \]
+        et $\Pi_{k, l} = \mathring{\overline{\Pi}}_{k, l}$ le carré plein ouvert. Nous avons le pavage
+        \[
+            \C = \bigcup_{k \in \Z} \bigcup_{l \in \Z} \overline{\Pi}_{k, l}
+        \]
+        Nous notons $\overline{\Pi}_{1}, \ldots, \overline{\Pi}_{J}$ la collection de tous les $\overline{\Pi}_{k, l}$ d'intersection non nulle avec $K$ et $\gamma_{1}, \ldots, \gamma_{H}$ les segments de longueur $\delta$ qui appertiennent au bord d'un unique $\overline{\Pi}_{j}$ sans appartenir à deux bords de deux carrés adjacents. Quitte à translater $K$ et réduire $\delta$, on peut supposer que $K$ contient au moins un point à l'intérieur de chaque carré. \\
+        Pour tout $j$, il existe $z_{j} \in \Pi_{j} \cap K$. On a : 
+        \[
+            \abs{z_{j} - w} \leq \sqrt{2}\delta \Rightarrow w \in \overline{\Pi}_{j}
+        \]
+        Or, $\delta < \alpha d(K, \C \setminus U)$ donc 
+        \[
+            \sqrt{2}\delta < d(K, \C \setminus U)
+        \]
+        Par conséquent, $\overline{\Pi}_{j} \subseteq \overline{D}(z_{j}, \sqrt{2}\delta) \subseteq U$ et 
+        \[
+            \bigcup_{j} \overline{\Pi}_{j} \subseteq U \text{ et } \bigcup_{1 \leq h \leq H} \gamma_{h} \subseteq U
+        \]
+        De plus, pour tout $1 \leq h \leq H$, $\gamma_{h} \cap K = \emptyset$. Sinon, si $z \in \gamma_{h} \cap K$, il existe deux carrés adjacents tel que $\gamma_{h} = \overline{\Pi}_{k(h), l(h)} \cap \overline{\Pi}_{k'(h), l'(h)}$. Comme $z$ appartient à chacun d'eux, les carrés $\overline{\Pi}_{k(h), l(h)}$ et $\overline{\Pi}_{k'(h), l'(h)}$ appartiennent tous deux à la collection des $\overline{\Pi}_{i}$. Donc $\gamma_{h}$ est un bord commun à deux carrés de la collection ce qui est exclu. 
+        \item Pour tout $z \in K \setminus \bigcup\limits_{j = 1}^{J} \delta\Pi_{j}$, il existe un unique $j(z)$ avec $z \in \Pi_{j(z)}$. Pour tout $j' \neq j(z)$, 
+        \[
+            \frac{1}{2i\pi} \int_{\delta\Pi_{j'}}\frac{f(w)}{w-z}\d w = 0
+        \]
+        et 
+        \[
+            f(z) = \sum_{j = 1}^{J}\frac{1}{2i\pi}\int_{\delta\Pi_{j}}\frac{f(w)}{w-z}\d w
+        \]
+        \item Si $z \in K \setminus \bigcup_{j = 1}^{J}\delta \Pi_{j}$, on a, par définitions des $\gamma_{h}$, les contributions des autres bords des $\delta \Pi_{j}$ s'annulant deux à deux : 
+        \[
+            f(z) = \sum_{j = 1}^{J}\frac{1}{2i\pi} \int_{\delta \Pi_{j}}\frac{f(w)}{w - z}\d w = \sum_{h = 1}^{H}\frac{1}{2i\pi}\int_{\gamma_{h}}\frac{f(w)}{w-z} \d w
+        \]
+        Comme $\gamma_{h} \cap K = \emptyset$, les intégrales $\int_{\gamma_{h}}\frac{f(w)}{w-z} \d w$ sont continues par rapport à $z \in K$. L'égalité précédente est donc encore satisfaite pour $z \in K \cap \bigcup_{j = 1}^{J} \delta \Pi_{j}$.\\
+        D'après le lemme précédent \ref{lemme:approx-rationnelle}, pour tout $1 \leq h \leq H$, il existe $P_{h}, Q_{h} \in \C[z]$, $Q_{h}$ sans zéros dans $K$ avec
+        \[
+            \sup_{z \in K}\abs{F_{\gamma_{h}}(z) - \frac{P_{h}(z)}{Q_{h}(z)}} \leq \frac{\epsilon}{H}
+        \]
+        Posons alors $Q = \prod_{h = 1}^{H}Q_{h} \in \C[z]$ et 
+        \[
+            P = Q\prod_{h = 1}^{H}\frac{P_{h}}{Q_{h}} \in C[z]
+        \]
+        On obtient alors : 
+        \[
+            \abs{f(z) - \frac{P(z)}{Q(z)}} \leq \epsilon
+        \]
+    \end{itemize}
+\end{proof}
+
 
 
 \end{document}

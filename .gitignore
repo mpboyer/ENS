@@ -304,6 +304,7 @@ L3/S1/Info/Compil/compilateur-petit-purescript
 L3/S1/Info/Compil/TD*
 L3/S1/Info/SysNum/microprocessor
 L3/S2/Info/OS/weensyos-vmm
+L3/S2/Info/OS/OCommand
 *_build
 Associatif/COF
 Associatif/BOcal/**/*.jpg

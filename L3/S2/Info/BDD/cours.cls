@@ -37,6 +37,8 @@
 \RequirePackage{hyperref}
 \RequirePackage[justification=centering]{caption}
 
+\usetikzlibrary{er, positioning}
+
 \author{Null}
 \title{None}
 
