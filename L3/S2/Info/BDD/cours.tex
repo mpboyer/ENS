@@ -462,4 +462,48 @@ On cherche à trouver des requêtes équivalentes à d'autres mais plus rapides 
 \end{proof}
 
 
+\part{Contraintes et Poursuites}
+\section{Dépendances}
+\subsection{Définitions}
+\begin{définition}{Dépendance Fonctionnelle}{}
+    Une dépendance fonctionnelle $\sigma$ sur une table $R$ est une formule de la forme $A \rightarrow B$ où $A, B \subseteq \mathrm{attr}(R)$.\\
+    $\sigma$ est vérifiée par une instance de $R$ si 
+    \[
+        \forall t, t' \in R, t[A] = t'[A] \Longrightarrow t[B] = t'[B]
+    \]
+\end{définition}
+
+\begin{définition}{Dépendance Multivariée}{MVD}
+    Une dépendace multivariée $\sigma = A \twoheadrightarrow B$ sur $R$ est vérofoée par une instance si :
+    \[
+        \forall t, t' \in R, t[A] = t'[A] \Longrightarrow \left(\exists t'', t''[B] = t[B] \land t''[A] = t[A] \land t''[C] = t[C]\right)
+    \]
+    où $C = R \setminus A \cup B$
+\end{définition}
+
+
+\subsection{Implication}
+\begin{définition}{Implication}{}
+    Si on a un ensemble $\Sigma$ de dépendances sur une table $R$ et une dépendance $\sigma$ sur cette table $\Sigma, \sigma$, on dit que $\Sigma \models \sigma$ si toute instance de $R$ vérifiant $\Sigma$ alors l'instance vérifie $\sigma$. 
+\end{définition}
+
+On vérifie une implication en vérifiant si une table minimale vérifiant les dépendances de $\Sigma$ vérifie $\sigma$. On part de deux tuples et on ajouter des éléments pour vérifier les dépendances de $\Sigma$.
+
+\begin{définition}{Tuple Generated Dependency}{}
+    Une TGD vérifie : 
+    \[
+        \forall \bar{x}, \forall \bar{y},  \left(B(\bar{x}, \bar{y}) \rightarrow \exists \bar{z} H(\bar{y}, \bar{z})\right)
+    \]
+    avec $B$ et $H$ des conjonctions d'atomes.
+\end{définition}
+C'est une généralisation des dépendences multivariées.
+
+\begin{définition}{EGD}{}
+    Un EGD qui vérifie : 
+    \[
+        \forall \bar{x}, y_{1}, y_{2}, B(\bar{x}, y_{1}, y_{2}) \rightarrow y_{1} = y_{2}
+    \]
+    avec $B$ une conjonction d'atomes.
+\end{définition}
+
 \end{document}

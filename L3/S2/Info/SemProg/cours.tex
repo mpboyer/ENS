@@ -864,6 +864,78 @@ De même, ce n'est pas une propriété de trace.
     Les hyperpropriétés de trace sont décrites comme des ensembles d'ensembles d'exécutions
 \end{définition}
 
+\section{Sémantique Dénotationelle}
+Contrairement aux sémantiques opérationelles, on part de fonctions directes de programmes vers des objets mathématiques, définies par induction sur la syntaxe du programme, en ignorant les étapes intermédiaires et les détails d'exécution. 
+
+\subsection{Programmes Impératifs Déterministes}
+On considère un langage impératif simple défini par la grammaire suivante : 
+\begin{center}
+    \begin{tabular}{>{$}c<{$}>{$}c<{$}>{$}c<{$}>{\it}c}
+        expr & = & X & (variable)\\
+        & | & c & (constant)\\
+        & | & \diamond\ expr & (opération unaire)\\
+        & | & expr \diamond expr & (opération binaire)
+    \end{tabular}
+\end{center}
+
+Les variables sont prises dans un ensemble fixé $\mathbb{V}$. On prend des constantes $\mathbb{I} = \mathbb{B} \cup \Z$ où on a des booléens $\mathbb{B}$ et des entiers $\mathbb{Z}$.\\
+\begin{center}
+    \begin{tabular}{>{$}c<{$}>{$}c<{$}c>{\it}c}
+        stat & = & \rm skip & passer\\
+        & | & X $\gets$ expr & assignation\\
+        & | & stat; stat & séquence\\
+        & | & {\bf if} expr {\bf then} stat {\bf else} stat & condition\\
+        & | & {\bf while} expr {\bf do} stat & boucle
+    \end{tabular}
+\end{center}
+
+\begin{définition}{Sémantique d'Expressions}{}
+    On se donne des environnements qui font correspondre des variables à des valeurs. On note ceci $E\sem{expr}$. On notera $\rightharpoonup$ les fonctions partielles. La sémantique d'une expression est définie par induction sur des arbres de syntaxeOn se donne des environnements qui font correspondre des variables à des valeurs. On note ceci $E\sem{expr}$. On notera $\rightharpoonup$ les fonctions partielles. La sémantique d'une expression est définie par induction sur des arbres abstraits de syntaxe abstraits de la grammaire des expressions.
+\end{définition}
+
+\begin{définition}{Sémantique de Déclaration}{}
+    La sémantique d'une déclaration envoie un environnement pré-déclaration sur un environnement post-déclaration. Il s'agit d'une fonction partielle à cause de potentielles erreurs dans les expressions ou de la non-terminaison. Elle est définie par induction : 
+    \begin{description}
+        \item[Skip] $S\sem{skip}\rho = \rho$
+        \item[Assignation] $S\sem{X \gets e}\rho = \rho[X \mapsto v]$ si $E\sem[e]\rho = v$. 
+        \item[Séquence] $S\sem{s_{1}, s_{2}} = S\sem{s_{2}} \circ S\sem{s_{1}}$ 
+        \item[Condition] \[
+            S\sem{{\bf if}\ e\ {\bf then}\ s_{1}\ {\bf else}\ s_{2}}\rho = \begin{cases}
+                S\sem{s_{1}} \rho & \text{si } E\sem{e} \rho = \top\\
+                S\sem{s_{2}} \rho & \text{si } E\sem{e} \rho = \bot\\
+                \text{non défini} & \text{sinon}
+            \end{cases}
+        \] 
+        \item[Boucle] $S\sem{{\bf while}\ e {\bf do}\ s} = \lfp F$ où 
+        \[
+            F(f)(\rho) = \begin{cases}
+                \rho & \text{si } E\sem{e} \rho = \bot\\
+                f(S\sem{s}\rho) & \text{si } E\sem{e}\rho = \top\\
+                \bot & \text{sinon}
+            \end{cases}
+        \]
+    \end{description}
+    Dans notre sémantique $S\sem{stat}\rho = \bot$ peut signifier la non terminaison où l'interruption par une erreur. 
+\end{définition}
+
+\subsection{Non-Déterminisme}
+Pour pouvoir modéliser des environnements partiellement inconnus (input utilisateur), abstraire des parties inconnues ou trop complexes du programme et gérer un ensemble de programmes comme un seul, on considère des prgrammes non déterministes. Pour cela, on considère une opération supplémentaire $[c_{1}, c_{2}]$ qui renvoie aléatoirement une nouvelle valeur entre les bornes. On modifie alors nos sémantiques de sorte qu'elles renvoient des ensembles de valeurs et d'environnements. Les erreurs sont alors représentées par $\emptyset$.\\
+On modifie les sémantiques de sorte que si l'on a des programmes déterministes, elles soient équivalentes aux sémantiques sur le langage déterministe. On n'a aucun moyen d'exprimer la terminaison systématique d'un programme. On appelle ce paradigme \textit{Sémantique Angélique}.
+
+\subsection{Lien entre Sémantiques Opérationelle et Dénotationelle}
+On définit une syntaxe décorée par des étiquettes de contrôle. Les configurations de programme sont des couples étiquette-environnement et on peut alors définir des transitions sur ces configurations par induction sur la syntaxe des déclarations. \\
+Étant donnée une déclaration décorée $^{l_{e}}s^{l_{x}}$ et son système de transition on peut définir une sémantique à petits pas à partir d'états initiaux $\left\{l_{e}, \rho \mid \rho \in \mathcal{E}\right\}$ et des états bloquants $\left\{(l_{x}, \rho) \mid \rho \in \mathcal{E}\right\}$.\\
+On peut alors définir à partir des traces des sémantiques à grand pas de plusieurs matières: une version angélique ou une version naturelle qui admet aussi les comportements non-terminant. La sémantique dénotationelle et la sémantique à grands pas sont isomorphes. 
+\begin{théorème}{Équivalence des Sémantiques}{}
+    Toutes les sémantiques peuvent être comparées pour l'équivalence ou l'abstraction.
+\end{théorème}
+
+\begin{théorème}{Points Fixes}{}
+    Toutes les sémantiques peuvent être exprimées par des points fixes.
+\end{théorème}
+
+\subsection{Programmes d'Ordre Supérieurs}
+On considère un langage monomorphique typé d'ordre supérieur. C'est un $\lambda$-calcul avec un système de type monomorphe, des annotations explicites de type, des constantes et quelqurs fonctions pré-intégrées.\\
 
 
 \end{document}

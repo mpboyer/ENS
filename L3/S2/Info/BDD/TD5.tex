@@ -1,0 +1,109 @@
+\documentclass{cours}
+
+\title{TD5}
+\author{Matthieu {\sc Boyer}, Grégoire \sc Le Corre}
+
+\begin{document}
+\section{Exercise 1}
+Evaluating Datalog is: for each tuple in the database, we check in polynomial time if it verifies each rule in $\Sigma$. The number of rule being finite, datalog-evaluation is in $P$. 
+
+\section{Exercise 2}
+When we use combined complexity, we need to take into account the size of $q$. Thus, Datalog evaluation is \textsc{ExpTime}.\\
+We will reduce from finite Halt problem $P(T, I, N)$ which sees if $T$ accepts $I$ in $N$ steps. We take here $N = 2^{\abs{I}^{k}}$. $\abs{I}$ is the number of database constants.\\
+We represent the step of the computation in binary over $\abs{I}^{k}$ digits.\\
+We define predicates for successorship ($x+1 = y$), equality with $0$ and $2^{i}-1$ for numbers encoded on $i$ bits by induction on $i$ depending on the bit we add in the head of our numbers.\\
+We can thus define an order from the successorship relation on $n^{k}$ bits thus we get a way to make sure the transitions are consistent: from step $i$ we can only get to step $i + 1$.\\
+We can encode our Turing Machine on an input $a_{1}\ldots a_{n}$. We write $B_{i}$ the encoding of $i$ on $k$ digits in base $n$: 
+$\mathrm{state}_{q}(X)$ is the predicate \textit{the machine is in state $q$ after $X$ steps}, $\mathrm{symbol}_{\sigma}(X, Y)$ is the predicate \textit{the tape cell at position $Y$ holds $\sigma$ after $X$ steps}, $\mathrm{head}(X, Y)$ is the predicate \textit{the reading head is at position $Y$ after $X$ steps}
+\[
+	\begin{aligned}
+		\mathrm{state}_{q_{0}}(B_{0})& & \text{ where } q_{0} \text{ is initial}\\
+		\mathrm{head}(B_{0}, B_{0}) & &\\
+		\mathrm{symbol}_{\sigma_{i}}(B_{0}, B_{i}) & & \forall i \in \{1, \ldots, n\}\\
+		\mathrm{symbol}_{\_}(B_{0}, Y) & \gets \leq^{n^{k}}(B_{n + 1}, Y)&
+	\end{aligned}
+\]
+For each transition $\scalar{q, \sigma, q', \sigma', d}$ we add rules of the form : 
+\[
+	\mathrm{symbol}_{\sigma'}(X, Y) \gets \mathrm{succ}^{n^{k}}(X, X') \land \mathrm{head}(X, Y) \land \mathrm{symbol}_{\sigma}(X, Y)\land \mathrm{state}_{q}(X)
+\]
+\[
+	\mathrm{state}_{q'}(X') \gets \mathrm{succ}^{n^{k}}(X, X') \land \mathrm{head}(X, Y) \land \mathrm{symbol}_{\sigma}(X, Y) \land \mathrm{state}_{q}(X)
+\]
+We use similar rules depending on the direction $d$ to set the new position of the head.\\
+We also need to add rules for preservation of unaltered cells: 
+\[
+	\mathrm{symbol}_{\sigma}(X', Y) \gets \mathrm{succ}^{n^{k}}(X, X') \land \mathrm{symbol}_{\sigma}(X, Y) \land \mathrm{head}(X, Z) \land \mathrm{succ}^{n^{k}}(Z, Z') \land \leq^{n^{k}} (Z', Y)
+\]
+\[
+	\mathrm{symbol}_{\sigma}(X', Y) \gets \mathrm{succ}^{n^{k}}(X, X') \land \mathrm{symbol}_{\sigma}(X, Y) \land \mathrm{head}(X, Z) \land \mathrm{succ}^{n^{k}}(Z, Z') \land \leq^{n^{k}} (Y, Z')
+\]
+Finally, the machine accepts iff there is $X \leq 2^{n^{k}}$ such that $\mathrm{state}_{q_{acc}}(X)$.
+
+\section{Exercise 3}
+\begin{itemize}
+	\item We rewrite $\{C\} \to \{B\}$ as an EGD: \[\forall a, a', b, b', c, d_{1}, d_{2}, e, e', f, f', R(a, b, c, d_{1}, e, f) \land R(a', b', c, d_{2}, e', f') \Rightarrow d_{1} = d_{2}\]
+	\item We rewrite $\{D, E\} \to \{F\}$ as an EGD: \[\forall a, a', b, b', c, c',  d, e, f_{1}, f_{2}, R(a, b, c, d, e, f_{1}) \land R(a', b', c', d, e, f_{2}) \to f_{1} = f_{2}\]
+	\item We rewrite $\{A\} \twoheadrightarrow \{C, F\}$ as a TGD: \[\forall a, b, b', c_{1}, c_{2}, d, d', e, e', f_{1}, f_{2}, \left(R(a, b, c_{1}, d, e, f_{1}) \land R(a, b', c_{2}, d', e', f_{2}) \to R(a, b', c_{1}, d', e', f_{1})\right)\]
+
+\end{itemize}
+
+\section{Exercise 4}
+We need to show that $(a, b, c, d, e, f)$ is in the database knowing that $(a, b, c, d', e', f')$ and $(a, b', c', d, e, f)$ are in the database. \\
+We have the table : 
+\begin{center}
+	\begin{tabular}{ccccccc}
+		\bf A & \bf B & \bf C & \bf D & \bf E & \bf F\\
+		\midrule
+		a & b & c & d' & e' & f'\\
+		a & b' & c' & d & e & f
+	\end{tabular}
+\end{center}
+We use the third rule : 
+\begin{center}
+	\begin{tabular}{ccccccc}
+		\bf A & \bf B & \bf C & \bf D & \bf E & \bf F\\
+		\midrule
+		a & b & c & d' & e' & f'\\
+		a & b' & c' & d & e & f\\
+		a & b & c' & d' & e' & f\\
+		a & b' & c & d & e & f'\\
+	\end{tabular}
+\end{center}
+We use the second rule: 
+\begin{center}
+	\begin{tabular}{ccccccc}
+		\bf A & \bf B & \bf C & \bf D & \bf E & \bf F\\
+		\midrule
+		a & b & c & d' & e' & f'\\
+		a & b' & c' & d & e & f\\
+		a & b & c' & d' & e' & f'\\
+		a & b' & c & d & e & f\\
+	\end{tabular}
+\end{center}
+Then, using the first rule: 
+\begin{center}
+	\begin{tabular}{ccccccc}
+		\bf A & \bf B & \bf C & \bf D & \bf E & \bf F\\
+		\midrule
+		a & b & c & d' & e' & f'\\
+		a & b' & c' & d & e & f\\
+		a & b' & c' & d' & e' & f'\\
+		a & b & c & d & e & f\\
+	\end{tabular}
+\end{center}
+Thus, the decomposition is lossless
+
+\section{Exercise 5}
+If $\Sigma$ is datalog, there are no existentially quantified variables. Thus, there are no special edges in the graph. Thus, there is no cycle featuring a special edge in its graph.
+
+\section{Exercise 6}
+Comme on considère un ensemble de TGD (en particulier sans EGD), alors à chaque application l'ensemble des relations ne fait que grandir au sens de l'inclusion, ce qui fait que la même TDG ne pourra pas être appliquée deux fois avec le même homéomorphisme.
+	
+\section{Exercise 7}
+On commence par remarquer qu'il n'y a que des arcs normaux dans la composante fortement connexe car autrement on aurait un cycle comportant un arc spécial, ce qui contredirait l'hypothèse de faiblement acyclique. (Pas fini)
+	
+\section{Exercise 8}
+On commence par décomposer le graphe de l'ensemble des TDG en composantes fortement connexes. On obtient donc une structure de graphe acyclique, dans lequel les nœuds sont des composantes fortement connexes. D'après la question précédente, les nœuds ne possédant pas de prédécesseur on un domaine actif borné. Toujours en appliquant le résultat de la question précédente par récurrence dans l'ordre d'un tri topologique de notre graphe, on montre que l'ensemble des noeuds ont un domaine actif bornée. Comme chaque application d'une TGD augmente strictement la taille de notre base de donnée, on en déduit que la chase termine en un temps fini.
+	
+\end{document}

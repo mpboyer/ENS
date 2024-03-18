@@ -1,12 +1,18 @@
 \documentclass{cours}
+\usepackage{tikzlings}
 
 \title{Le cours d'Ariane Mézard}
 \author{Ariane Mézard}
 
 \begin{document}
+\begin{center}
+    \begin{tikzpicture}
+        \panda\thing[tophat, rotate = -1.3]
+    \end{tikzpicture}
+\end{center}
 \part{Fonctions Holomorphes}
 \section{Fonctions Analytiques}
-\subsection{Séries Entières}
+\subsection{Séries Entières}    
 \begin{définition}{Série Entière}{}
     Une série entière est une série de la forme $\sum_{n \in \N}a_{n}z^{n}$ où $z \in \C$ et $a_{n} \in \C$.\\
     Le domaine de convergence de la série entière est l'ensemble $\Delta$ des nombres complexes $z \in \C$ pour lesquels la série converge.  
@@ -1603,7 +1609,7 @@ On cherche une suite de polynôme convergeant vers une fonction holomorphe.
             (z, t) & \longmapsto & \frac{1}{2i\pi}\frac{f(\gamma(t))}{\gamma(t) - z}\gamma'(t)
         \end{array}
     \]
-    est continue sur le compact $K \times [0, 1]$ donc uniformément continue. Par conséquent
+    est continue sur le compact $K ra\times [0, 1]$ donc uniformément continue. Par conséquent
     \[
         \forall \epsilon > 0, \exists \delta(\epsilon) > 0, \abs{t_{1} - t_{2}} \leq \delta(\epsilon) \Longrightarrow \abs{H(z, t_{1}) - H(z, t_{2})} \leq \epsilon, \forall z \in K
     \]
@@ -1680,6 +1686,176 @@ On cherche une suite de polynôme convergeant vers une fonction holomorphe.
     \end{itemize}
 \end{proof}
 
+\begin{lemme}{Approximation Polynômiale des Fractions Rationnelles}{rationnelle-polynomes}
+	Si $K \subseteq \C$ compact a un complémentaire connexe, alors pour tout $z_{0} \notin K$, la fonction rationnelle $\frac{1}{z - z_{0}}$ peut être approchée uniformément sur $K$ par des polynômes de $\C[z]$. 
+\end{lemme}
+\begin{proof}
+	\begin{itemize}
+		\item Comme $K$ est compact, il est borné donc inclus dans un disque $D(0, R)$. Pour $z_{1} \in \C \setminus D(0, R)$, on a : 
+			\[
+				\frac{1}{z - z_{1}} = - \frac{1}{z_{1}}\frac{1}{1 - \frac{z}{z_{1}}} = \sum_{n = 1}^{+ \infty}-\frac{z^{n}}{z_{1}^{n + 1}}
+			\]
+			série uniformément convergente pour tout $z \in K$. Donc la fraction $\frac{1}{z - z_{1}}$ peut être approximée uniformément par des polynômes sur $K$. De même pour toute puissance. 
+		\item Comme $\C \setminus K$ est connexe de $\C$ donc connexe par arcs, il existe un chemin $\gamma : [0, 1] \to \C \setminus K$ avec $\gamma(0) = z_{0}$ et $\gamma(1) = z_{1}$. L'image $\gamma([0, 1])$ est compacte disjointe de $K$ donc $\rho = \frac{1}{2}d(\gamma([0, 1]), K) > 0$. Choississons une subdivisions de $\gamma([0,1])$ de pas au plus $\rho$. Pour toute paire de points $w, w' \in \gamma([0, 1])$ avec $\abs{w - w'} \leq \rho$, pour $z \in K$, on a : 
+			\[
+				\frac{1}{z-w} = \frac{1}{z - w'}\sum_{n = 0}^{+\infty}\left(\frac{w - w'}{z - w'}\right)^{n}
+			\]
+			et cette comme est uniformément convergente car $\abs{\frac{w - w'}{z - w'}}\leq 1/2$. Ainsion a une approximation de $\frac{1}{z - w}$ par des polynômes en $\frac{1}{z - w'}{z - w}$ par des polynômes en $\frac{1}{z - w'}$.
+	\end{itemize}
+\end{proof}
 
+\begin{théorème}{Runge - 3 - Polynomial Edition}{runge-polynomes}
+	Soit $K \subseteq U$ compact de complémentaire connexe. Alors, les fonctions holomorphes dans $U$ sont uniformément approximables sur $K$ par des polynômes: 
+	\[
+		\forall f \in \O(U), \forall \varepsilon > 0, \exists P_{\varepsilon} \in \C[z] \mathrm{ tel que } \max_{z\in K} \abs{f(z) - P_{\epsilon}(z)}\leq \varepsilon
+	\]
+\end{théorème}
+\begin{proof}
+	Ceci découle du lemme \ref{lemme:rationnelle-polynomes} que l'on combine à la version rationnelle \ref{thm:runge-rationnel} du théorème de Runge
+\end{proof}
+
+\subsection{Théorème de Montel}
+\begin{définition}{Bornitude Uniforme}{born-uni}
+	Une famille $\mathfrak{F} \subseteq \O(U)$ est uniformément bornée sur les compacts de $U$ si pour tout $K \subseteq U$ compact, il existe $M_{K} \geq 0$ telle que 
+	\[
+		\abs{f(z)} \leq M_{K}, z\in K, f \in \mathfrak{F}
+	\]
+\end{définition}
+
+\begin{définition}{Uniforme Équicontinuité}{born-equicont}
+	Une famille $\mathfrak{F}\subseteq \O(U)$ est uniformément équicontinue sur les compacts de $U$ si pour tout $K \subseteq U$ compact, pour tout $\varepsilon > 0$, il existe $\delta = \delta(K, \varepsilon) > 0$ tel que 
+	\[
+		\left(z, w \in K \text{ avec } \abs{z - w} \leq \delta\right) \Longrightarrow \abs{f(z) - f(w)} \leq \varepsilon, f\in \mathfrak{F}
+	\]
+
+	
+\end{définition}
+
+
+\begin{propositionfr}{Exemples}{}
+		\begin{enumerate}
+			\item Sur $\overline{D}(0, 1)$, la famille des $(z^{n})$ est uniformément bornée mais pas uniformément équicontinue. Elle l'est sur $D(0, 1)$.
+			\item Sur $[0, 1[$, la famille $(\sin(2\pi nx))$ est uniformément bornée par $1$ mais n'est uniformément équicontinue sur aucun compact car les dérivées sont non bornées en $n$. 
+	\end{enumerate}
+
+\end{propositionfr}
+
+\begin{définition}{Normalité}{}
+	Une famille $\mathfrak{F} \subseteq \O(U)$ est dite normale si pour toute suite de fonctions $f_{n}$, il existe une suite extraite uniformément convergente sur tout compact de $U$. 
+	
+\end{définition}
+
+\begin{définition}{Exhaustivité}{}
+	Une suite croissante de compacts $(K_{n})$ de $U$ est exhaustive si tout compact de $U$ est contenu dans un $K_{n}$. 
+\end{définition}
+
+\begin{théorème}{Suite Exhaustive}{suite-exhaust}
+	Pour tout ouvert $U$ de $\C$, il existe une suite croissante de compacts exhaustive de réunion $U$. 	
+\end{théorème}
+\begin{proof}
+Considérons la suite $B_{n}$ des disques fermés contenus dans $U$ dont les coordonnées du centre et le rayon sont rationnels. Ils forment un ensemble dénombrable. La suite des $K_{i} = \cup_{n = 1}^{i} B_{n}$ convient
+\end{proof}
+
+\begin{théorème}{Mantel}{mantel}
+	Soit $\mathfrak{F} \subseteq \O(U)$ une famille de fonctions uniformément bornées sur les compacts de $U$. Alors
+	\begin{enumerate}
+		\item $\mathfrak{F}$ est uniformément équicontinue sur les compacts de $U$. 
+		\item $\mathfrak{F}$ est une famille normale. 
+	\end{enumerate}
+\end{théorème}
+\begin{proof}
+	\begin{enumerate}
+		\item Soit $K$ un compact de $U$, $r < \frac{1}{3}d(K, \C - U)$. 
+        Pour $w \in K$, la famille $\mathfrak{F}$ est uniformément bornée sur $L = \left\{u \in U, d(u, K) \leq 2r\right\}$.
+        Pour $z \in D(w, r)$ la formule de Cauchy donne : 
+        \[
+            f(z) - f(w) = \frac{1}{2i\pi}\int_{\partial D(w, 2r)}f(u)\left(\frac{1}{u - z} - \frac{1}{u - w}\right)\d u
+        \]
+        Or, $\abs{u - z} > r$ et 
+        \[
+            \abs{\frac{1}{u - z} - \frac{1}{u - w}} = \frac{\abs{z - w}}{\abs{u - z}2r} \leq \frac{\abs{z - w}}{2r^{2}}
+        \]
+        Ainsi
+        \[
+            \abs{f(z) - f(w)} \leq \frac{1}{2\pi} M_{L}\frac{\abs{z - w}}{2r^{2}}2\pi 2r \propto\abs{z - w}
+        \]
+        Pour tout $\epsilon > 0$, on peut choisir convenablement $\delta < r$ de telle sorte qu'on a bien l'uniforme équicontinuité sur $K$.
+        \item Soit $r < \frac{1}{2}d(K, \C - U)$. On pose
+        \[
+            K_{r} = \left\{z \in \C, d(z, K) \leq r\right\} \subseteq K_{2r} \subseteq U
+        \]
+        Par hypothèses, $M_{0} = \sup_{n \in \N, z \in K_{2r}}\abs{f_{n}(z)} < + \infty$. Par l'inégalité de Cauchy, 
+        \[
+            M_{1} = \sup_{n \in \N, z \in K_{r}} \abs{f_{n}'(z)} \leq \frac{M_{0}}{r} < + \infty
+        \]
+        Soient $z_{1}, z_{2} \in K$. Si $d(z_{1}, z_{2}) \leq r$, alors $\abs{z_{1}, z_{2}} \subseteq K_{r}$ et par théorème des accroissements finis
+        \[
+            \abs{f_{n}(z_{1}) - f_{n}(z_{2})} \leq M_{1} d(z_{1}, z_{2})
+        \]
+        À l'inverse, si $d(z_{1}, z_{2}) \geq r$, on a : 
+        \[
+            \abs{f_{n}(z_{1}) - f_{n}(z_{2})} \leq \frac{2M_{0}}{r}d(z_{1}, z_{2})
+        \]
+        Par théorème d'Ascoli, on peut extraire des $f_{n\mid_{K}}$ une suite uniformément convergente sur $K$. \\
+        Pour $\nu \in \N^{*}$, on considère une suite croissante exhaustive de compacts $(K_{\nu})$. D'après ce qui précède, il existe une partie infinie $S_{1} \subseteq \N$ telle que la suite $(f_{n})_{n \in S_{1}}$ converge uniformément sur $K_{1}$. Par récurrence sur $\nu$, on construit une suite de parties infinies emboîtées $S_{\nu} \subseteq \cdots \subseteq S_{1} \subseteq \N$ telle que la sous-suite $(f_{n})_{n \in S_{\nu}}$ converge uniformément sur $K_{\nu}$. Par extraction diagonale, on construit une sous-suite $\left(f_{n_{i}}\right)_{i \in \N}$ qui converge uniformément sur tous les compacts $K_{\nu}$.
+	\end{enumerate}
+\end{proof}
+
+\subsection[Compacts de O(U)]{Compacts de $\O(U)$}
+On munit $\O(U)$ de la topologie de la convergence uniforme sur tout compact. C'est une topologie invariante par translation dans laquelle les 
+\[
+    V(K, \epsilon) = \left\{f \in \O(U)\middle| \sup\limits_{z \in K}\abs{f(z)} < \epsilon\right\}
+\]
+pour $K$ un compact de $U$ et $\epsilon>0$ constituent un système de voisinage de $0$. L'addition et l'homothétie sont continues pour cette topologie. \\
+On définit de plus :
+\[
+    p_{K_{n}} : \begin{array}{rcl}
+        \O(U) & \longrightarrow & \R^{+}\\
+        f & \longmapsto & \sup_{z \in K_{n}}\abs{f(z)}
+    \end{array}
+\]
+et 
+\[
+    d(f, g) = \sum_{i \geq 1}2^{-i}\min(1, p_{K_{i}}(f - g))
+\]
+où les $K_{i}$ forment une suite croissante exhaustive de compacts de $U$. 
+\begin{lemme}{Métrisabilité}{metris-odeu}
+    La topologie de la convergence sur tout compact est métrisable par la distance $d$ sur $\O(U)$.
+\end{lemme}
+\begin{proof}
+    \begin{itemize}
+        \item Soit $K$ un compact. Soit $i \in \N$ tel que $K \subseteq K_{i}$ Alors, $d(f, 0) < 2^{-i} \epsilon$ implique $p_{K_{i}}(f) < \epsilon$. Donc : $B(0, 2^{-i}\epsilon) \subseteq V(K_{i}, \epsilon) \subseteq V(K, \epsilon)$. Donc $V(K, \epsilon)$ contient une boule centrée en $0$ pour $d$. 
+        \item Soit $B(0, \epsilon)$ une boule pour $d$. Soit $i \in \N$ tel que $2^{-i} < \epsilon \over 2$. Alors, si $f \in V(K_{i}, \epsilon/2)$
+        \[
+            d(f, 0) \leq \sum_{j = 1}^{i}2^{-j}p_{K_{i}}(f) + \sum_{j = i + 1}^{+\infty}2^{-j} < \epsilon/2 + 2^{-i} < \epsilon
+        \]
+        Donc $V(K_{i}, \epsilon/2) \subseteq B(0, \epsilon)$.
+    \end{itemize}
+\end{proof}
+L'espace vectoriel $\O(U)$ localement convexe, métrisable et complet est un espace de Fréchet. 
+
+\begin{théorème}{Compacts de $\O(U)$}{compact-odeu}
+    Les compacts de $\O(U)$ sont les fermés bornés.
+\end{théorème}
+\begin{proof}
+    \begin{itemize}
+        \item Soit $A \subseteq \O(U)$ une partie compacte. 
+        Comme $\O(U)$ est métrisable, il est séparé, et donc $A$ est fermée. 
+        Soit $K \subseteq U$ compact. 
+        L'application $p_{K}$ est continue sur $\O(U)$. Donc comme $A$ est compacte, $p_{K}(A)$ est compacte donc bornée dans $\R$. 
+        Les applications $f\in A$ sont donc uniformément bornées sur $K$. 
+        Pour tout compact $K$ de $U$, il existe donc $\epsilon_{A} > 0$ tel que $A \subseteq V(K, \epsilon_{A})$. 
+        Ainsi pour tout $V(K, \epsilon)$ d'un système fondamental de voisinages de $0$, il existe $\lambda \in \R^{+}$ avec $A \subseteq V(K, \lambda \epsilon)$.
+        Donc $A$ est bornée.
+        \item Soit $A$ une partie fermée bornée de $\O(U)$. 
+        Comme $A$ est bornée, pour tout $K$ compact de $U$, les applications $f \in A$ sont uniformément bornées sur $K$. Soit $(f_{n})$ une suite d'éléments de $A$. 
+        Par théorème de Mantel \ref{thm:mantel}, cette suite est uniformément bornée donc admet une sous-suite convergente uniformément sur tout compact de $U$ de limite $f \in \O(U)$.
+        Comme $A$ est fermée, $f \in A$ donc, $A$ est séquentiellement compact pour une topologie métrisable, donc par théorème de Bolzano-Weierstrass est compact. 
+    \end{itemize}
+\end{proof}
+
+\part{Fonctions Méromorphes}
+\section{Théorème des Résidus}
+\subsection{Développement en Séries de Laurent}
 
 \end{document}
