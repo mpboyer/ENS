@@ -151,6 +151,7 @@
 \newcommand{\onen}[1]{\left\llbracket 1, #1\right\rrbracket}
 \newcommand{\sem}[1]{\left\llbracket #1 \right\rrbracket}
 \newcommand{\ve}[1]{\texttt{#1}}
+\newcommand{\hoare}[3]{\left\{ #1\right\}\ #2 \ \left\{ #3\right\}}
 
 
 \usetikzlibrary{automata, arrows, calc, matrix, positioning}

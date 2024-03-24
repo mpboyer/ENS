@@ -1,0 +1,64 @@
+\documentclass{cours}
+\title{TD 05}
+\author{Matthieu Boyer}
+
+\usepackage{ebproof}
+
+\begin{document}
+\section{Exercice 1}
+\subsection{Question 1}
+\begin{equation*}
+	\begin{prooftree}
+		\hypo{\left(x = n \land y = m\right) \Rightarrow \left(y = m \land x = n\right)}
+		\hypo{\hoare{y = m \land x = n}{z \gets x}{y = m \land z = n}}
+		\infer2[weak]{\hoare{x = n \land y = m}{z \gets x}{y = m \land z = n}}
+		\hypo{\hoare{y = m \land z = n}{x \gets y}{x = m \land z = n}}
+		\hypo{\hoare{x = m \land z = n}{y \gets z}{x = m \land z = n}}
+		\infer3[sqce]{\hoare{x = n \land y = m}{z \gets x; x \gets y; y \gets z}{x = m \land y = n}}
+	\end{prooftree}	
+\end{equation*}
+
+
+\subsection{Question 2}
+\begin{enumerate}
+	\item Ceci est toujours vrai, mais ça n'a aucun sens de considérer un environnement qui vérifie vrai.  
+	\item Ceci n'est vrai que si $\texttt{slp}(A, c) = \top$.
+	\item Ceci est vrai si et seulement si $\texttt{slp}(\top, c) \Rightarrow A$
+	\item Ceci est vrai si et seulement si $A \Rightarrow \texttt{wlp}(c, \bot)$
+\end{enumerate}
+
+
+\section{Exercice 2}
+\subsection{Question 1}
+Pour le sens direct, on a: 
+\begin{equation*}
+	\begin{prooftree}
+		\infer0[Ax]{\hoare{P[e/x]}{x \gets e}{\exists v, e[v/x] = x \land P[e/x][v/x]}}
+		\infer0[$\top$]{P \Longleftarrow \left(\exists v, e[v/x] = x \land P[e/x][v/x] \right) }
+		\infer2[Weak]{\hoare{P[e/x]}{x \gets e}{P}}
+	\end{prooftree}
+\end{equation*}
+En effet:
+\begin{equation*}
+	\begin{aligned}
+		\exists v, P[e/x][v/x] \land e[v/x] = x \Longrightarrow&\\
+		\Longrightarrow& \exists v, P[e[v/x]/x] \land e[v/x] = x\\
+		\Longrightarrow& \exists v, P[x/x]\\
+		\Longrightarrow& P
+	\end{aligned}
+\end{equation*}
+
+Pour le sens indirect, on a: 
+\begin{equation*}
+	\begin{prooftree}
+		\infer0[Ax]{\hoare{\left(\exists v, e[v/x] = x \land Q[v/x]\right)[e/x]}{x \gets e}{\exists v, e[v/x] = x \land Q[v/x]}}
+		\infer0[$\top$]{Q \Longrightarrow \exists v, e[v/x] = x \land Q[v/x]}
+		\infer2[Weak]{\hoare{Q}{x\gets e}{\exists v, e[v/x] = x \land Q[v/x]}}
+	\end{prooftree}
+\end{equation*}
+
+En effet: $Q \Longrightarrow \exists v, e[v/x] = x \land Q[v/x]$ si on prend $v = x$.
+
+\subsection{Question 2}
+
+\end{document}

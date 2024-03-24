@@ -1,4 +1,5 @@
 \documentclass{cours}
+\usepackage{ebproof}
 
 \title{Sémantique et Applications à la Vérification de Programmes}
 \author{Xavier Rival \& Jérôme Féret}
@@ -418,9 +419,9 @@ Par exemple, on rappelle les définitions du $\lambda$-calcul :\\\vspace{5pt}
 \begin{tabular}{p{.5\linewidth}p{.45\linewidth}}
     \begin{définition}{$\lambda$-termes}{}
         L'ensemble des $\lambda$-termes est défini par :\vspace{10pt}
-        \begin{tabular}{>{$}c<{$}>{$}c<{$}>{$}c<{$}c}
+        \begin{tabular}{cccc}
             t, u, \dots & ::= & x & variable\vspace{3pt}\\
-            & | & \lambda x\cdot t & abstraction\vspace{3pt}\\
+            & | & $\lambda x\cdot t$ & abstraction\vspace{3pt}\\
             & | & t\ u & application\vspace{3pt}
         \end{tabular}
     \end{définition}
@@ -870,17 +871,17 @@ Contrairement aux sémantiques opérationelles, on part de fonctions directes de
 \subsection{Programmes Impératifs Déterministes}
 On considère un langage impératif simple défini par la grammaire suivante : 
 \begin{center}
-    \begin{tabular}{>{$}c<{$}>{$}c<{$}>{$}c<{$}>{\it}c}
+    \begin{tabular}{ccc>{\it}c}
         expr & = & X & (variable)\\
         & | & c & (constant)\\
-        & | & \diamond\ expr & (opération unaire)\\
-        & | & expr \diamond expr & (opération binaire)
+        & | & $\diamond\ expr$ & (opération unaire)\\
+        & | & $expr \diamond\ expr$ & (opération binaire)
     \end{tabular}
 \end{center}
 
 Les variables sont prises dans un ensemble fixé $\mathbb{V}$. On prend des constantes $\mathbb{I} = \mathbb{B} \cup \Z$ où on a des booléens $\mathbb{B}$ et des entiers $\mathbb{Z}$.\\
 \begin{center}
-    \begin{tabular}{>{$}c<{$}>{$}c<{$}c>{\it}c}
+    \begin{tabular}{ccc>{\it}c}
         stat & = & \rm skip & passer\\
         & | & X $\gets$ expr & assignation\\
         & | & stat; stat & séquence\\
@@ -937,5 +938,228 @@ On peut alors définir à partir des traces des sémantiques à grand pas de plu
 \subsection{Programmes d'Ordre Supérieurs}
 On considère un langage monomorphique typé d'ordre supérieur. C'est un $\lambda$-calcul avec un système de type monomorphe, des annotations explicites de type, des constantes et quelqurs fonctions pré-intégrées.\\
 
+
+
+\section{Sémantique Axiomatique}
+\subsection{Spécifications}
+\begin{définition}{Spécification}{}
+La spécification exprime le comportement attendu d'une fonction, ajoute des conditions à la fonction pour qu'elle se comporte comme attendu et renforce les conditions pour assurer la terminaison. 
+\end{définition}
+
+Une spécification peut s'écrire sous forme de commentaires, avec certains langages. Il s'agit d'une forme de contrat à remplir. 
+
+\begin{définition}{Variable Fantôme}{}
+	On appelle Variable Fantôme une variable qui facilite le raisonnement sur le programme.
+\end{définition}
+
+\begin{définition}
+	{Invariant de Classe}{}
+	En programmation orientée objet, un invariant de classe est une propriété des champs de la classe vraie en dehors de l'exécution de toutes les méthodes.
+\end{définition}
+
+Les contrats (et invariants de classes) peuvent venir avec le langage (Eiffel) ou être ajoutés comme une library.
+Ils peuvent être vérifiés dynamiquement, statiquement ou inférés statiquement. 
+On va dans la suite étudier des méthodes déductives pour vérifier (prouver) statiquement (à la compilation) de manière partiellement automatique (avec de l'aide de l'utilisateur) que le contrat est rempli.  
+
+\subsection{Logique Floyd-Hoare}
+\begin{définition}
+	{Triplet de Hoare}{}
+	Un triplet de Hoare $\{P\} prog \{Q\}$ est composé :
+	\begin{itemize}
+		\item d'un fragment $prog$ de programme
+		\item de deux conditions logiques $P, Q$ appelées précondition et postcondition
+	\end{itemize}
+	Ils servent de jugement dans un système de preuve. 
+\end{définition}
+On part de plusieurs axiomes : 
+\begin{définition}
+	{Axiomes}{}
+	\begin{itemize}
+		\item Toute propriété vraie avant un $skip$ est vraie après. Toute propriété est vraie après $fail$.
+			\begin{equation*}
+				\begin{prooftree}
+					\infer0{\{P\} \texttt{ skip } \{P\}}
+				\end{prooftree}
+				\quad 	
+				\begin{prooftree}
+					\infer0{\{P\} \texttt{ fail } \{Q\}}
+				\end{prooftree}
+			\end{equation*}
+		\item Pour que $P$ soit vraie pour $X$ après $X \gets e$, $P$ doit être vraie pour $e$ avant l'assignation.
+			\begin{equation*}
+				\begin{prooftree}
+					\infer0{\{P[e/X]\} X \gets e \{P\}}
+				\end{prooftree}
+			\end{equation*}
+		\item On peut affaiblir un triplet de Hoare en : 
+			\begin{itemize}
+				\item Affaiblissant sa condition $Q \Leftarrow Q'$
+				\item Renforçant sa précondition $P \Rightarrow P'$
+			\end{itemize}
+			\begin{equation*}
+				\begin{prooftree}
+					\hypo{P \Rightarrow P'}
+					\hypo{Q \Rightarrow Q'}
+					\hypo{\{P'\} \texttt{ c } \{Q'\}}
+					\infer3{\{P\} \texttt{ c } \{Q\}}
+				\end{prooftree}
+			\end{equation*}
+			On peut supposer que notre système logique est capable de prouver des formules sur les assertions.
+		\item Pour prouver $Q$ après un test, on prouve qu'il est vrai après chaque branche sous la supposition que la branche est exécutée: 
+			\begin{equation*}
+				\begin{prooftree}
+					\hypo{\hoare{P\land e}{s}{Q}}
+					\hypo{\hoare{P\land\lnot e}{t}{Q}}
+					\infer2{\hoare{P}{\texttt{if } e \texttt{ then } s \texttt{ else } t}{Q}}
+				\end{prooftree}
+			\end{equation*}
+		\item Pour prouver une séquence $s; t$ on doit inventer une assertion intermédiaire impliqué par $P$ après $s$ et impliquant $Q$ après $t$
+			\begin{equation*}
+				\frac{\{P\} s \{R\}\ \ \{R\} t \{Q\}}{\{P\} s; t \{Q\}}
+			\end{equation*}
+		\item $P$ est un invariant de boucle quand $P$ est vraie avant chaque itération, même sans avoir testé la condition de boucle $e$
+			\begin{equation*}
+				\frac{\{P \land e\} s \{P\}}{\{P\} \texttt{while } e \texttt{ do } s \{P \land \lnot e\}}	
+			\end{equation*}
+			En pratique, on préfèrerait prouver $\{P\} \texttt{while } e \texttt{ do } s \{Q\}$ pour un certain $Q$. Il suffit alors d'inventer une assertion $I$ telle que 
+			\begin{itemize}
+				\item $P \Rightarrow I$
+				\item $\{I \land e\} s \{I\}$
+				\item $(I \land \lnot e) \Rightarrow Q$
+			\end{itemize}
+
+	\end{itemize}
+\end{définition}
+
+\begin{définition}
+	{Partie Logique}{}
+	La logique de Hoare est paramétrisée par le choix de la théorie logique des assertions.
+\end{définition}
+
+Il faut distinguer une propriété vraie d'un invariant inductif.
+
+\begin{théorème}
+	{Lien avec la Sémantique Dénotationnelle}{}
+	\begin{equation*}
+		\{P\} \texttt{ c } \{Q\} \Leftrightarrow \forall R \subseteq \mathcal{E}: R \vdash P \Longrightarrow S\sem{\texttt{c}} R \vdash Q
+	\end{equation*}
+\end{théorème}
+La logique de Hoare raisonne sur les formules logiques, la sémantique dénotationnelle raisonne sur les ensembles d'états. 
+On peut assimiler les formules assertives et les ensembles d'états. 
+Un $\lfp$ est un post-point fixe, ce qui représente un ensemble d'état stable inductivement, i.e. un invariant inductif. 
+C'est même le meilleur. Tout ensemble contenant $\lfp$ est un invariant, mais pas nécessairement un invariant inductif. 
+
+\subsection{Calcul Prédicatif de Dijkstra}
+Le calcul prédicatif de Dijkstra essaie de calculer des préconditions à partir de postconditions.
+\newcommand{\wlp}{\texttt{wlp}}
+\begin{définition}
+	{Weakest Liberal Precondition}{}
+	$\wlp(c, P)$ est la plus faible précondiction de sorte que $\{\wlp(c, P)\} \texttt{ c } \{P\}$ est un triplet de Hoare. 
+	Formellement: 
+	\begin{equation*}
+		\{P\} \texttt{ c } \{Q\} \Leftrightarrow \left(P \Rightarrow \wlp(c, Q)\right)
+	\end{equation*}
+	\textit{liberal} signifie qu'on ne s'intéresse ni à la terminaison ni aux erreurs. 
+\end{définition}
+
+On définit $\wlp$ par induction sur la syntaxe : 
+\begin{définition}
+	{Calcul de wlp}{}
+	\begin{itemize}
+		\item $\wlp(\texttt{skip}, P) = P$
+		\item $\wlp(\texttt{fail}, P) = \top$
+		\item $\wlp(X \gets e, P) = P[e/X]$
+		\item $\wlp(s;t, P) = \wlp(s, \wlp(t, P))$
+		\item $\wlp(\texttt{if } e \texttt{ then } s \texttt{ else } t, P) = (e \Rightarrow \wlp(s, P)) \land \left(\lnot e \Rightarrow \wlp(s, P)\right)$
+		\item $\wlp(\texttt{while } e \texttt{ do } s, P) = I \land \left(\left(e\land I\right) \rightarrow \wlp(s, I) \right) \land \left(\left(\lnot e \land I\right) \Rightarrow P \right)$
+	\end{itemize}
+\end{définition}
+
+\begin{propositionfr}{Propriétés}{}
+	\begin{itemize}
+		\item $\wlp(c, \bot) = \bot$
+		\item $\wlp(c, P) \land \wlp(d, Q) = \wlp(c, P \land Q)$
+		\item $\wlp(c, P) \lor \wlp(d, Q) = \wlp(c, P \lor Q)$
+		\item Si $P \Rightarrow Q$ alors $\wlp(c, P) \Rightarrow \wlp(c, Q)$
+	\end{itemize}
+	
+\end{propositionfr}
+\newcommand{\slp}{\texttt{slp}}
+\begin{définition}
+	{Strongest Liberal Postcondition}{}
+	On peut calculer la plus forte post condition étant donnée une précondition par induction sur la syntaxe : 
+	\begin{itemize}
+		\item $\slp(P, \texttt{skip}) = P$
+	\end{itemize}
+\end{définition}
+
+\subsection{Vérification des Conditions}
+On va chercher à automatiser la vérification de programmes en utilisant la logique. 
+Pour cela, on annote les boucles avec des invariants candidats, et les programmes avec un contrat. 
+
+\newcommand{\vcg}{\texttt{vcg}}
+On cherche un programme $\vcg_{p}$ qui à un programme envoie un ensemble de propositions. Pour cela, on part des postconditions et on se propage en arrière:
+
+
+
+\subsection{Correction Totale}
+\newcommand{\boar}[3]{\left[#1\right] \ #2 \ \left[#3\right]}
+Pour la terminaison, on modifie les triplets de Hoare : $\boar{P}{prog}{Q}$ en demandant un plus sa terminaison.
+On ne modifie que la règle pour $\texttt{while}$:
+\begin{equation*}
+	\begin{prooftree}
+		\hypo{\forall t \in W: \boar{P \land e \land u = t}{s}{P \land u \succ t}}
+		\infer1{\boar{P}{\texttt{while } e \texttt{ do } s}{P \land \lnot e}}
+	\end{prooftree}
+\end{equation*}
+Pour simplifier, on peut alors décomposer une preuve de correction totale comme une preuve de correction partielle et une preuve de terminaison.
+Pour la terminaison, on modifie la $\wlp$ pour prendre en compte la terminaison. 
+
+\subsection{Non-Déterminisme}
+On modélise le non déterminisme par l'assignation d'une valeur aléatoire $X \gets ?$. 
+On ajoute l'axiome de Hoare suivant: \\
+Si $P$ est vrai après l'assignation de $X$ à l'aléatoire, donc $P$ doit être vraie quelque soit la valeur de $X$ : 
+\begin{equation*}
+	\begin{prooftree}
+		\infer0{\hoare{\forall X:P}{X \gets ?}{P}}
+	\end{prooftree}
+\end{equation*}
+
+On modifie également nos transformateurs de prédicats $\wlp$ et $\slp$. 
+
+\subsection{TABLEAUX}
+On ajoute à notre langage un ensemble $\mathbb{A}$ de variables de tableaux, l'accès à un tableau dans les expressions $A(expr)$ et l'assignation $A(expr) \gets expr$.
+On ne peut pas juste généraliser l'axiome d'assignation, car ce n'est pas sûr pour des questions d'aliasing.\\
+Pour permettre la généralisation, une solution est d'enrichir la logique avec des expressions $A\{e \mapsto f\}$ (le tableau $A$ où l'indice $e$ envoie à $f$. On a alors un nouvel axiome 
+\begin{equation*}
+	\begin{prooftree}
+		\infer0{\hoare{P[A\{e \mapsto f\}/A]}{A(e) \gets f}{P}}
+	\end{prooftree}
+\end{equation*}
+Puis, on définit deux axiomes pour les raisonnements sur les tableaux: 
+\begin{equation*}
+	\begin{prooftree}
+		\infer0{A\{e \mapsto f\}(e) = f}
+	\end{prooftree}
+	\quad 
+	\begin{prooftree}
+		\infer0{(e \neq e') \Rightarrow \left(A\{e \mapsto f\}(e') = A(e')\right)}
+	\end{prooftree}
+\end{equation*}
+
+\subsection{Concurrence}
+Pour les programmes exécutés en concurrence, on ajoute une proposition de concurrence: $stat \mid\mid stat$.
+Niveau sémantique, cela équivaut à exécuter en parallèle $s_{1}$ et $s_{2}$, en permettant des intersections arbitraires des propositions atomiques.\\
+L'axiome que l'on souhaiterait ajouter est le suivant
+\begin{equation*}
+	\begin{prooftree}
+		\hypo{\hoare{P_{1}}{s_1}{Q_1}}
+		\hypo{\hoare{P_2}{s_2}{Q_2}}
+		\infer2{\hoare{P_1\land P_2}{s_{1} \mid \mid s_{2}}{Q_{1}\land Q_{2}}}
+	\end{prooftree}
+\end{equation*}
+Mais celui ci n'est pas sûr : il faut que les preuves de $\hoare{P_{1}}{s_1}{Q_1}$ et de $\hoare{P_2}{s_2}{Q_2}$ n'interfèrent pas.
+Pour toutes preuves $\Delta_{1}$ et $\Delta_{2}$, il faut que :
+Pour toute proposition $\Phi$ apparaissant
 
 \end{document}
