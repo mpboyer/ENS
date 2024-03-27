@@ -1,0 +1,151 @@
+\documentclass{cours}
+\usepackage{qtree}
+
+\begin{document}
+\section{Exercice 1}
+\begin{enumerate}
+    \item Pour une arité de $4$: 
+    \begin{center}
+        \Tree [.{2} ]\\
+        \Tree [.{2, 3} ]\\
+        \Tree [.{2, 3, 5} ]\\
+        \Tree [.{5} [.{2, 3} ] [.{5, 7} ] ]\\
+        \Tree [.{5} [.{2, 3} ] [.{5, 7, 11} ] ]\\
+        \Tree [.{5, 11} [.{2, 3} ] [.{5, 7} ] [.{11, 13} ] ]\\
+        \Tree [.{5, 11} [.{2, 3} ] [.{5, 7} ] [.{11, 13, 17} ] ]\\
+        \Tree [.{5, 11, 17} [.{2, 3} ] [.{5, 7} ] [.{11, 13} ] [.{17, 19} ] ]\\
+        \Tree [.{5, 11, 17} [.{2, 3} ] [.{5, 7} ] [.{11, 13} ] [.{17, 19, 23} ] ]\\
+        \Tree [.{17} [.{5, 11} [.{2, 3} ] [.{5, 7} ] [.{11, 13} ] ] [.{17, 23} [.{17, 19} ] [.{23, 29} ] ] ]\\
+        \Tree [.{17} [.{5, 11} [.{2, 3} ] [.{5, 7} ] [.{11, 13} ] ] [.{17, 23} [.{17, 19} ] [.{23, 29, 31} ] ] ]
+    \end{center}
+    \item Pour une arité de $6$:
+    \begin{center}
+        \Tree [.{2} ]\\
+        \Tree [.{2, 3} ]\\
+        \Tree [.{2, 3, 5, 7} ]\\
+        \Tree [.{2, 3, 5, 7, 11} ]\\
+        \Tree [.{7} [.{2, 3, 5} ] [.{7, 11, 13} ] ]\\
+        \Tree [.{7} [.{2, 3, 5} ] [.{7, 11, 13, 17} ] ]\\
+        \Tree [.{7} [.{2, 3, 5} ] [.{7, 11, 13, 17, 19} ] ]\\
+        \Tree [.{7, 17} [.{2, 3, 5} ] [.{7, 11, 13} ] [.{17, 19, 23} ] ]\\
+        \Tree [.{7, 17} [.{2, 3, 5} ] [.{7, 11, 13} ] [.{17, 19, 23, 29} ] ]\\
+        \Tree [.{7, 17} [.{2, 3, 5} ] [.{7, 11, 13} ] [.{17, 19, 23, 29, 31} ] ]
+    \end{center}
+    \item Pour une arité de $8$:
+    \begin{center}
+        \Tree [.{2} ]\\
+        \Tree [.{2, 3} ]\\
+        \Tree [.{2, 3, 5, 7} ]\\
+        \Tree [.{2, 3, 5, 7, 11} ]\\
+        \Tree [.{2, 3, 5, 7, 11, 13} ]\\
+        \Tree [.{2, 3, 5, 7, 11, 13, 17} ]\\
+        \Tree [.{11} [.{2, 3, 5, 7} ] [.{11, 13, 17, 19} ] ]\\
+        \Tree [.{11} [.{2, 3, 5, 7} ] [.{11, 13, 17, 19, 23} ] ]\\
+        \Tree [.{11} [.{2, 3, 5, 7} ] [.{11, 13, 17, 19, 23, 29} ] ]\\
+        \Tree [.{11} [.{2, 3, 5, 7} ] [.{11, 13, 17, 19, 23, 29, 31} ] ]
+    \end{center}
+\end{enumerate}
+
+\section{Exercice 2}
+\begin{enumerate}
+    \item Pour le premier arbre: 
+    \begin{center}
+        \Tree [.{17} [.{5, 11} [.{2, 3} ] [.{5, 7} ] [.{11, 13} ] ] [.{17, 23} [.{17, 19} ] [.{23, 29, 31} ] ] ]\\
+        \Tree [.{17} [.{5, 11} [.{2, 3} ] [.{5, 7, 9} ] [.{11, 13} ] ] [.{17, 23} [.{17, 19} ] [.{23, 29, 31} ] ] ]\\
+        \Tree [.{17} [.{5, 9, 11} [.{2, 3} ] [.{5, 7} ] [.{9, 10} ] [.{11, 13} ] ] [.{17, 23} [.{17, 19} ] [.{23, 29, 31} ] ] ]\\
+        \Tree [.{17} [.{5, 9, 11} [.{2, 3} ] [.{5, 7, 8} ] [.{9, 10} ] [.{11, 13} ] ] [.{17, 23} [.{17, 19} ] [.{23, 29, 31} ] ] ]\\
+        \Tree [.{17} [.{5, 9, 11} [.{2, 3} ] [.{5, 7, 8} ] [.{9, 10} ] [.{11, 13} ] ] [.{17, 29} [.{17, 19} ] [.{29, 31} ] ] ]\\
+        \Tree [.{5, 9, 11, 17} [.{2, 3} ] [.{5, 7, 8} ] [.{9, 10} ] [.{11, 13} ] [.{17, 29, 31} ] ]
+    \end{center}
+    \item Pour l'arité $6$:
+    \begin{center}
+        \Tree [.{7, 17} [.{2, 3, 5} ] [.{7, 11, 13} ] [.{17, 19, 23, 29, 31} ] ]\\
+        \Tree [.{7, 17} [.{2, 3, 5} ] [.{7, 9, 11, 13} ] [.{17, 19, 23, 29, 31} ] ]\\
+        \Tree [.{7, 17} [.{2, 3, 5} ] [.{7, 9, 10, 11, 13} ] [.{17, 19, 23, 29, 31} ] ]\\
+        \Tree [.{7, 10, 17} [.{2, 3, 5} ] [.{7, 8, 9} ] [.{10, 11, 13} ] [.{17, 19, 23, 29, 31} ] ]\\
+        \Tree [.{7, 10, 17} [.{2, 3, 5} ] [.{7, 8, 9} ] [.{10, 11, 13} ] [.{17, 19, 29, 31} ] ]\\
+        \Tree [.{7, 10, 17} [.{2, 3, 5} ] [.{7, 8, 9} ] [.{10, 11, 13} ] [.{17, 29, 31} ] ]
+    \end{center}
+    \item Pour l'arité $8$:
+    \begin{center}
+        \Tree [.{11} [.{2, 3, 5, 7} ] [.{11, 13, 17, 19, 23, 29, 31} ] ]\\
+        \Tree [.{11} [.{2, 3, 5, 7, 9} ] [.{11, 13, 17, 19, 23, 29, 31} ] ]\\
+        \Tree [.{11} [.{2, 3, 5, 7, 8, 9} ] [.{11, 13, 17, 19, 23, 29, 31} ] ]\\
+        \Tree [.{11} [.{2, 3, 5, 7, 8, 9, 10} ] [.{11, 13, 17, 19, 23, 29, 31} ] ]\\
+        \Tree [.{11} [.{2, 3, 5, 7, 8, 9, 10} ] [.{11, 13, 17, 19, 29, 31} ] ]\\
+        \Tree [.{11} [.{2, 3, 5, 7, 8, 9, 10} ] [.{11, 13, 17, 29, 31} ] ]
+    \end{center}
+\end{enumerate}
+
+
+\section{Exercice 3}
+On a au max à load $\left\lceil 10\frac{k}{7}\right\rceil$.
+
+\section{Exercice 4}
+\begin{center}
+    \Tree [.{1} [.0 [.{2} ] ] ]\\
+    \Tree [.{1} [.0 [.{2, 3} ] ]  ]\\
+    \Tree [.{1} [.0 [.{2, 3} ] ] [.1 [.{5} ] ] ]\\
+    \Tree [.{1} [.0 [.{2, 3} ] ] [.1 [.{5, 7} ] ] ]\\
+    \Tree [.{1} [.0 [.{2, 3, 11} ] ] [.1 [.{5, 7} ] ] ]\\
+    \Tree [.{1} [.0 [.{2, 3, 11} ] ] [.1 [.{5, 7, 13} ] ] ]\\
+    \Tree [.{1} [.0 [.{2, 3, 11} ] ] [.1 [.{5, 7, 13} ] ] ]\\
+    \Tree [.{2} [.{00} [.{17} ] ] [.{01} [.{2, 3, 11} ] ] [.{10, 11 = 1} [.{5, 7, 13} ] ] ]\\
+    \Tree [.{3} [.{001} [.{17} ] ] [.{010} [.{2} ] ] [.{011} [.{3, 11, 19} ] ] [.{101, 111 1} [.{5, 7, 13} ] ] ]\\
+    \Tree [.{3} [.{001} [.{17} ] ] [.{010} [.{2} ] ] [.{011} [.{3, 11, 19} ] ] [.{101} [.{5, 13} ] ] [.{111} [.{7, 23} ] ] ]\\
+    \Tree [.{3} [.{001} [.{17} ] ] [.{010} [.{2} ] ] [.{011} [.{3, 11, 19} ] ] [.{101} [.{5, 13, 29} ] ] [.{111} [.{7, 23, 31} ] ] ]\\
+\end{center}
+
+\section{Exercice 5}
+\begin{center}
+    \Tree [.{3} [.{001} [.{17} ] ] [.{010} [.{2} ] ] [.{011} [.{3, 11, 19} ] ] [.{101} [.{5, 13, 29} ] ] [.{111} [.{7, 23, 31} ] ] ]\\
+    \Tree [.{3} [.{001} [.{17} ] ] [.{010, 011 = 01} [.{2, 3, 19} ] ] [.{101} [.{5, 13, 29} ] ] [.{111} [.{7, 23, 31} ] ] ]\\    
+    \Tree [.{3} [.{001} [.{17} ] ] [.{010, 011 = 01} [.{2, 3, 19} ] ] [.{101} [.{5, 13, 29} ] ] [.{111} [.{7, 23} ] ] ]\\
+    \Tree [.{3} [.{001} [.{1, 17} ] ] [.{010, 011 = 01} [.{2, 3, 19} ] ] [.{101} [.{5, 13, 29} ] ] [.{111} [.{7, 23} ] ] ]\\
+    \Tree [.{3} [.{001} [.{1, 17} ] ] [.{010, 011 = 01} [.{2, 3, 19} ] ] [.{101} [.{5, 13, 29} ] ] [.{111} [.{7, 15, 23} ] ] ]\\    
+\end{center}
+
+\section{Exercice 6}
+C'est $\left\lceil 10\frac{k}{7}\right\rceil$
+
+\section{Exercice 7}
+Non, les tableaux c'est la vie. juste la recherche est en $\log$.
+
+\section{Exercice 8}
+Il fallait faire un tableau depuis le début. 
+
+\section{Exercice 9}
+\tt SELECT * FROM unicode;
+
+\section{Exercice 10}
+\tt SELECT * FROM unicode WHERE charname='r';
+
+\section{Exercice 11}
+\tt SELECT charname FROM unicode WHERE charname='r';
+
+\section{Exercice 12}
+\tt SELECT charname, numeric FROM unicode WHERE numeric='1';
+
+\section{Exercice 13}
+\tt SELECT charname, numeric FROM unicode WHERE numeric='1' OR charname='r';
+
+\section{Exercice 14}
+Marche pô
+
+\section{Exercice 15}
+\tt SELECT digit FROM unicode GROUP BY digit HAVING digit>2;
+
+\section{Exercice 16}
+\tt SELECT * FROM unicode a1 CROSS JOIN unicode a2 WHERE a2.digit > 5;
+
+\section{Exercice 17}
+\tt SELECT charname, digit FROM (SELECT charname, decomposition FROM unicode) as foo JOIN (SELECT digit, numeric FROM unicode) as bar ON foo.charname=bar.numeric;
+
+\section{Exercice 18}
+\tt EXPLAIN SELECT u.charname, u.decomposition FROM unicode as u, unicode as v WHERE v.digit = u.digit;
+
+\section{Exercice 19}
+
+
+
+\end{document}

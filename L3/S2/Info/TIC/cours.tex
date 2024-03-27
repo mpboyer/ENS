@@ -190,4 +190,56 @@ Par définition d'un dictionnaire de Tunstall, un dictionnaire valide avec $M = 
 Ainsi, la somme des probabilités des noeuds est la même pour tous les dictionnaires de Tunstall à $M$ mots. 
 Mais, on sait que la profondeur moyenne des feuilles est égale à la somme des probabilités des noeuds (la probabilité de chaque noeud étant la somme des probabilités dans le sous-arbre).
 
+\section{TD6}
+\subsection{Exercice 1}
+\begin{enumerate}
+	\item Chaque distribution est indexée de manière unique par $n$ compteurs entre $0$ et $m$, donc $\abs{P_{m}} \leq (m + 1)^{n}$.
+	\item En regroupant les indexations qui forment la même distribution, c'est à dire en précisant le dénombrement précédent, on obtient
+		\begin{equation*}
+			\abs{P_{m}} = \binom{m + n - 1}{n - 1}
+		\end{equation*}
+	\item Le nombre de suites de longueur $n$ avec $k_{a}$ fois la lettre $a$ pour chaque $a \in \mathcal{U}$ est donné par le nombre de manière distinctes de permuter un multiensemble à $n$ éléments: 
+		\begin{equation*}
+			\abs{T_{n}(p)} = \binom{n}{k_{a_{1}}\cdots k_{a_{n}}}\frac{n!}{\prod_{a \in \mathcal{U}} k_{a}!}
+		\end{equation*}
+	\item Pour la borne supérieure, on a, en utilisant la co-entropie:
+		\begin{equation*}
+			1 \geq \sum_{u^{m} \in T_{m}(p)} e^{-m H(p_{u^{m}}\mid p} = \abs{T_{m}(p)}e^{-mH(p)}
+		\end{equation*}
+		Pour la borne inférieure, on a 
+		\begin{equation*}
+			\frac{1}{M} \log \abs{T_{m}(p)} = H(q) + o(1)
+		\end{equation*}
+		Donc $T_{m}(p) \geq e^{m(H(q) + o(1))} \geq (m + 1)^{-n}e^{mH(q)}$
+\end{enumerate}
+
+\subsection{Exercice 3}
+\begin{enumerate}
+	\item C'est l'inégalité de Gibbs : 
+		\begin{equation*}
+			D(p, q) =  -\sum p_{i}\log q_{i}  - \left(-\sum p_{i}\log p_{i}\right) = H(q, p) - H(p) \geq 0
+		\end{equation*}
+		Il y a égalité si et seulement si il y a égalité dans Gibbs, i.e. $p = q$ p.s.
+	\item Trivial de par la formule ci dessus.
+	\item Trivial de par la formule ci dessus.
+	\item Trivial par continuité de $H(q, \cdot)$ et de $H$.
+	\item La fonction $p, q \mapsto D(p, q)$ est convexe. Ainsi, s'il y a une borne inf, elle est nécessairement atteinte: Si $p, p'$ vérifie $D(p, q) > \gamma$, on prend  
+	\item On a: 
+		\begin{equation*}
+			\begin{aligned}
+				I(X, Y) =& H(Y) - H(Y \mid X)\\
+				=& -\sum p_{X}(x)H(Y \mid X = x) - \sum p_{Y}(y)\log p_{Y}(y)\\
+				=& \sum p_{X}(x) \left( \sum p_{Y \mid X = x}(y) \log p_{Y \mid X = x}(y) \right) - \sum \left(\sum p_{(X, Y)}(x, y)\right)\log p_{Y}(y)\\
+				=& \sum p_{X}(x)p_{Y\mid X = x}(y) \log p_{Y\mid X = x}(y) - \sum p_{(X, Y)}(x, y) \log p_{Y}(y)\\
+				=& \sum p_{(X, Y)}(x, y)\log \frac{P_{(X, Y)}(x, y)}{p_{X}(x)} - \sum p_{(X, Y)}(x, y)\log p_{Y}(y)\\
+				=& \sum p_{(X, Y)}(x, y)\log \frac{p_{(X, Y)}(x, y)}{p_{X}(x)p_{Y}(y)}\\
+				=& D(P_{X, Y}\mid P_{X}\times P_{Y})
+			\end{aligned}
+		\end{equation*}
+
+
+\end{enumerate}<++>
+
+
 \end{document}
+
