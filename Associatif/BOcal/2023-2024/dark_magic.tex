@@ -1,0 +1,81 @@
+\makeatletter%
+\definecolor{myb}{RGB}{45, 111, 177}
+\newtcbtheorem[no counter]{RCV}{Les Crêpes Véganes}{enhanced,
+	breakable,
+	left=0mm, right=0mm,
+        colback=white,
+	colframe=myb!80!black,
+	attach boxed title to top left={yshift*=-\tcboxedtitleheight},
+	fonttitle=\bfseries,
+	title={#2},
+	boxed title size=title,
+	boxed title style={%
+			sharp corners,
+			rounded corners=northwest,
+			colback=tcbcolframe,
+			boxrule=0pt,
+		},
+	underlay boxed title={%
+			\path[fill=tcbcolframe] (title.south west)--(title.south east)
+			to[out=0, in=180] ([xshift=5mm]title.east)--
+			(title.center-|frame.east)
+			[rounded corners=\kvtcb@arc] |-
+			(frame.north) -| cycle;
+		},
+	#1
+}{def}
+\newtcbtheorem[no counter]{RGS}{Les Galettes au Sarrasin}{enhanced,
+	breakable,
+	left=0mm, right=0mm,
+	colback=white,
+	colframe=myb!80!black,
+	attach boxed title to top left={yshift*=-\tcboxedtitleheight},
+	fonttitle=\bfseries,
+	title={#2},
+	boxed title size=title,
+	boxed title style={%
+			sharp corners,
+			rounded corners=northwest,
+			colback=tcbcolframe,
+			boxrule=0pt,
+		},
+	underlay boxed title={%
+			\path[fill=tcbcolframe] (title.south west)--(title.south east)
+			to[out=0, in=180] ([xshift=5mm]title.east)--
+			(title.center-|frame.east)
+			[rounded corners=\kvtcb@arc] |-
+			(frame.north) -| cycle;
+		},
+        	#1
+}{def}
+\newtcbtheorem[no counter]{RLC}{Les Cookies}{enhanced,
+	breakable,
+	left = 0mm, right = 0mm,
+	colback=white,
+	colframe=myb!80!black,
+	attach boxed title to top left={yshift*=-\tcboxedtitleheight},
+	fonttitle=\bfseries,
+	title={#2},
+	boxed title size=title,
+	boxed title style={%
+			sharp corners,
+			rounded corners=northwest,
+			colback=tcbcolframe,
+			boxrule=0pt,
+		},
+	underlay boxed title={%
+			\path[fill=tcbcolframe] (title.south west)--(title.south east)
+			to[out=0, in=180] ([xshift=5mm]title.east)--
+			(title.center-|frame.east)
+			[rounded corners=\kvtcb@arc] |-
+			(frame.north) -| cycle;
+		},
+	#1
+}{def}
+\makeatother%
+\def\recetteMarge{.3cm}
+\newcommand{\MRCV}[3][]{\vspace{\recetteMarge}\begin{RCV}{#2}{#1}#3\end{RCV}}%
+\newcommand{\MRGS}[3][]{\begin{RGS}{#2}{#1}#3\end{RGS}\vspace{\recetteMarge}}%
+\newcommand{\MRLC}[3][]{\vspace{\recetteMarge}\begin{RLC}{#2}{#1}#3\end{RLC}}%
+\newcommand{\ssoustitre}[1]{\vspace*{3mm}\soustitre{#1}\vspace*{-3mm}}%
+\def\lol#1{\gencadre{0pt}{0pt}{}{}{ \jointif #1 \jointif}}
