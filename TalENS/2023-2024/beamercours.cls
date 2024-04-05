@@ -13,7 +13,7 @@
 \RequirePackage{textcomp}
 \tikzset{>=stealth}
 \RequirePackage{ragged2e}
-\RequirePackage{amsmath, amsthm, amssymb}
+\RequirePackage{amsmath, amsthm, amssymb, amsfonts}
 \RequirePackage{multirow}
 \RequirePackage{stmaryrd}
 \RequirePackage{nicematrix}
@@ -32,7 +32,7 @@
 \usetheme{Dresden}
 
 
-\AtBeginSection[]{\begin{frame}{Plan}\tableofcontents[subsectionstyle=show/shaded/hide,sectionstyle=show/shaded]\end{frame}}
+%\AtBeginSection[]{\begin{frame}{Plan}\tableofcontents[subsectionstyle=show/shaded/hide,sectionstyle=show/shaded]\end{frame}}
 
 \AtBeginSubsection[]{\begin{frame}{Plan}\tableofcontents[subsectionstyle=show/shaded/hide,sectionstyle=show/shaded]\end{frame}}
 

@@ -2231,8 +2231,127 @@ Ici, on identifie $\C$ à $\R^{2}$
 
 \subsection{Grand Théorème de Picard} 
 \begin{lemme}
-	{Domination Holomorphe}{}
-\end{lemme}<++>
+	{Domination Holomorphe}{domi-holo}
+	Soit $z_{0} \in \C$, $R > 0$. Il existe une fonction
+	\begin{equation*}
+		M: \left[1, +\infty\right[ \times \left]0, R\right[ \to \R^{+}
+	\end{equation*}
+	croissante en les variables $A, r$ telle que toute application holomorphe $f: D(z_{0}, R) \to \C\setminus\{0, 1\}$ vérifiant $A^{-1}\leq \abs{f(z_{0})} \leq A$ satisfait
+	\begin{equation*}
+		\abs{f(z)} \leq M(A, r), z \in \overline{D}(z_{0}, r)
+	\end{equation*}
+\end{lemme}
+\begin{proof}
+	Comme $D(z_{0}, R)$ est simplement connexe et $f(D(z_{0}, R)) \subseteq \C^{*}$, il existe une détermination du logarithme $f_{1} = \frac{1}{2i\pi}\log f$ sur $D(z_{0}, R)$ telle que $0 \leq \Re f_{1}(z_{0}) \leq 1$. 
+	Nous avons $\abs{\Im f_{1}(z_{0})} \leq \frac{1}{2\pi}\log A$, donc
+	\begin{equation*}
+		\abs{f_{1}(z_{0}) - j} \leq B = \sqrt{1 + \frac{1}{4\pi^{2}}\left(\log A\right)^{2}}, j = 0, 1
+	\end{equation*}
+	Comme $1 \notin f(D(z_{0}, R))$, $f_{1}(D(z_{0}, R)) \subseteq \C \setminus \Z$. 
+	Il existe donc des fonctions $f_{2}, f_{3}$ holomorphes telles
+	\begin{equation*}
+		f_{2} = \sqrt{f_{1}} + \sqrt{f_{1} - 1}, f_{3} = \sqrt{f_{1}} - \sqrt{f_{1}-1}
+	\end{equation*}
+	Nous avons $f_{2}f_{3} = 1$, $\abs{f_{2}}\leq 2\sqrt{B}$ et $\abs{f_{3}}\leq 2\sqrt{B}$. Donc
+	\begin{equation*}
+		C(A)^{-1} \leq \abs{f_{2}(z_{0})} \leq C(A), C(A) = 2\sqrt{B} = 2\left(1 + \frac{1}{4\pi^{2}}\left(\ln A\right)^{2}\right)^{1/4}
+	\end{equation*}
+	Or $f_{2}$ n'atteint jamais $\sqrt{n} + \sqrt{n - 1}$ ni $\sqrt{n} - \sqrt{n - 1}$, $n \in \N^{*}$. 
+	Comme $f_{2}$ ne s'annule pas et $D(z_{0}, R)$ est simplement connexe, il existe une détermination holomorphe $f_{4} = \log f_{2}$.
+	Alors $f_{4}$ omet toutes les valeurs de l'ensemble 
+	\begin{equation*}
+		S = \left\{\pm \log\left(\sqrt{n} + \sqrt{n - 1}\right) + 2i\pi k\middle| n \in \N^{*}, k \in \Z\right\}
+	\end{equation*}
+	On peut choisir un argument $-\pi < \Im f_{4}(z_{0}) \leq \pi$ de telle sorte que $\abs{f_{4}(z_{0})} \leq\sqrt{\left(\ln C(A)\right)^{2} + \pi^{2}}$.
+	Les nombres $\pm \ln\left(\sqrt{n} + \sqrt{n - 1}\right)$ sont de moins en moins espacés quand $n$ augmente, ce qui entraîne que le plus grand disque contenu dans $\C \setminus S$ a pour rayon
+	\begin{equation*}
+		R_{0} = \sqrt{\frac{1}{4}\left(\ln(\sqrt{2} + 1)\right)^{2} + \pi^{2}}
+	\end{equation*}
+	Pour $z \in D(z_{0}, R)$, le théorème de Bloch-Landau \ref{thm:bloch-landau} applliqué au disque $D(z, \rho)$ avec $\rho = R - \abs{z - z_{0}}$ montre que l'image de $f_{4}$ contient un disque de rayon supérieur à $\frac{1}{12}\rho\abs{f_{4}'(z)}$. 
+	Or, $f_{4}\left(D(z_{0}, R)\right) \subseteq \C \setminus S$. Ainsi
+	\begin{equation*}
+		\abs{f_{4}'(z)}\leq 12\frac{R_{0}}{R - \abs{z - z_{0}}}
+	\end{equation*}
+	Or, $f_{4}(z) = f_{4}(z_{0}) + \int_{z_{0}}^{z}f_{4}'(t)\d t$ donc
+	\begin{equation*}
+		\abs{f_{4}(z)} \leq \sqrt{\left(\ln C(A)\right)^{2} + \pi^{2}} + 12R_{0}\ln\frac{R}{R - r} = T(A, r)
+	\end{equation*}
+	sur le disque $D(z_{0}, r)$.
+	Ceci entraîne l'existence de majorations uniformes explicites pour $f_{2} = \exp f_{4}$ et $f_{2}^{-1} = \exp -f_{4}$, $\sqrt{f_{1}} = \frac{1}{2}\left(f_{2} + f_{2}^{-1}\right)$ et $f = \exp\left(2i\pi f_{1}\right)$:
+	\begin{equation*}
+		\begin{aligned}
+			\abs{f_{2}(z)}^{\pm 1} \leq & \exp\left(T(A, r)\right)\\
+			\abs{f_{1}(z)} \leq & \exp\left(2T(A, r)\right)\\
+			\abs{f(z)} \leq& M(A, r) = \exp\left(2\pi \exp\left(2T(A, r)\right)\right)
+		\end{aligned}
+	\end{equation*}
+\end{proof}
+
+\begin{théorème}
+	{Grand Théorème de Picard}{grand-picard}
+	Soit $f \in \O(D(z_{0}, r_{0})\setminus \{z_{0}\})$ holomorphe avec une singularité essentielle en $z_{0}$. 
+	Pour tout voisinage $V$ de $z_{0}$, $f(z)$ prend sur $V \setminus \{z_{0}\}$ une infinité de fois toutes les valeurs de $\C$ sauf au plus une. 
+\end{théorème}
+\begin{proof}
+	On peut supposer $z_{0} = 0$ par translation. Soit $V \subseteq D(0, r_{0})$ un voisinage de $0$. 
+	Supposons que $f(V \setminus \{0\}) \subseteq \C \setminus \{a, b\}$. 
+	Quitte à remplacer $f$ par $\frac{\left(f(z) - a\right)}{b - a}$, on peut supposer $a = 0, b = 1$. 
+	Pour $r \in ]0, r_{0}[$, posons
+		\begin{equation*}
+			\mu(r) = \inf_{\abs{z} = r}\abs{f(z)}, m(r) = \sup_{\abs{z} = r}\abs{f(z)}
+		\end{equation*}
+	Montrons par l'absurde que $\lim_{r \to 0} m(r) = +\infty$.
+	Sinon, il existe une suite $r_{k} \to 0$ telle que $m(r_{k})$ est bornée. 
+	Le principe du maximum \ref{thm:principe-max} sur les couronnes $\left\{z \middle| r_{k + 1} \leq \abs{z}\leq r_{k}\right\}$ implique que $f$ est bornée au voisinage de $z_{0} = 0$ ce qui est exclu car $f$ admet une singularité essentielle en $0$.
+	Par le même raisonnement appliqué à $1/f$, $\lim_{r \to 0} \mu(r) = 0$.\\
+	Pour $r$ assez petit, $\mu(r) < 2 < m(r)$ et le théorème des valeurs intermédiaires garantit l'existence de $\theta_{r} \in \left[0, 2\pi\right[$ tel que $\abs{f\left(re^{i\theta_{r}}\right)} = 2$.
+	Pour $0 < r < r_{0}e^{-2\pi}$, définissons 
+\begin{equation*}
+	g_{r}: z \longmapsto f\left(re^{i\theta_{r}}e^{2i\pi z}\right)
+\end{equation*}
+	Alors $g_{r}\left(D(0, 1)\right) \subseteq \C\setminus \{0, 1\}$, $\abs{g_{r}(0)} = \abs{f\left(re^{i\theta_{r}}\right)} = 2$. 
+	Le lemme précédent \ref{lemme:domi-holo} garantit l'existence d'une constance $M(2, 1/2)$ telle que les fonctions $g_{r}$ soient uniformément bornées par $M(2, 1/2)$ sur $\overline{D}(0, 1/2)$. 
+	Or $g_{r}\left(\left[-1/2, 1/2\right]\right)$ décrit toutes les valeurs atteintes par $f$ pour $\abs{z} = r$.
+	Donc $m(r) \leq M(2, 1/2)$ pour tout $r < r_{0}e^{-2\pi}$ ce qui est absurde.\\
+	Par conséquent, pour tout voisinage $V \setminus \{0\}$ de $0$, $f(V \setminus \{0\})$ atteint toute valeur de $\C$ sauf au plus une. 
+	En réduisant la taille des voisinages, $f(V \setminus \{0\})$ prend une infinité de fois toutes valeurs de $\C$ sauf au plus une. 
+\end{proof}
+
+\begin{corollaire}
+	{Petit Théorème de Picard}{petit-picard}
+	Soit $f \in \O(\C)$ non constante. Alors $f$ prend toutes les valeurs complexes sauf éventuellement une. 
+\end{corollaire}
+\begin{proof}
+	Les polynômes non constants prennent toutes les valeurs complexes, mais seulement un nombre fini de fois. 
+	Supposons que $f \in \O(\C)$ n'est pas un polynôme et notons $f(z) = \sum a_{n}z^{n}$. 
+	La fonction $g(z) = f(1/z)$ est holomorphe sur $\C^{*}$ avec 
+	\begin{equation*}
+		g(z) = \sum_{n = 0}^{\infty} a_{n}z^{-n}
+	\end{equation*}
+	Comme $f$ n'est pas un polynôme, $g$ admet une singularité essentielle en $0$. 
+	Donc $g$ et $f$ atteignent une infinité de fois toutes les valeurs compelxes sauf éventuellement une. 
+\end{proof}
+
+\begin{corollaire}
+	{Points Fixes}{no-translate-point-fix}
+	Soit $f$ holomorphe qui n'est pas une translation. Alors $f \circ f$ admet un point fixe.
+\end{corollaire}
+\begin{proof}
+	Par l'absurde, si $f \circ f$ n'a pas de point fixe, $f$ n'a pas de point fixe et 
+	\begin{equation*}
+		g(z) = \frac{f(f(z)) - z}{f(z) - z} \in \O(\C)
+	\end{equation*}
+	évite les valeurs $0$ et $1$. 
+	Par le petit théorème de Picard \ref{cor:petit-picard}, $g = c \neq 1$ est constante et 
+	\begin{equation*}
+		f(f(z)) - z = c(f(z) - z), z \in \C
+	\end{equation*}
+	Par conséquence $f'(z)(f'(z)(f(z)) - c) = 1 - c$. 
+	Comme $c \neq 1$, la fonction holomorphe $f'\circ f$ ne prend pas la valeur $c$. S'il existe $z_{0} \in \C$
+	avec $f'\circ f(z_{0} = 0$ alors pour $z = f(z_{0})$, on obtient $c = 1$ ce qui est exclu. 
+		Donc $f' \circ f \in \O(\C)$ évite les valeurs $c$ et $1$ donc est constante par le petit théorème de Picard. 
+	Donc $f'$ est constante et donc $f = az + b$. Comme $f$ n'est pas une translation, $a \neq 1$ et donc $f$ a un point fixe. 
+\end{proof}
+
 
 \end{document}
-
