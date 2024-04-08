@@ -351,7 +351,6 @@ Il y en a $5$ et seulement $5$: Le Tétraèdre (pyramide à 4 faces), le cube (h
 
 \begin{frame}
     \frametitle{Interprétation Géométrique - 2}
-    
     \begin{théorème}
         {Famille Homogène}{}
         Dans le cas où $V$ et $A$ sont homogènes de degré $d$ et $d - 1$, i.e. $V(ts) = t^{d}V(s)$ et $A(ts) = t^{d-1}A(s)$, on a $r(s) = \d \frac{V(s)}{A(s)}$.
@@ -359,11 +358,41 @@ Il y en a $5$ et seulement $5$: Le Tétraèdre (pyramide à 4 faces), le cube (h
 
     \begin{théorème}
         {Interprétation Géométrique}{}
-        Si $P$ est un polytope de volume $V$ et d'aire $A$ qu'on dilate d'une distance $r$ centrée en $P$. On a alors \vspace{-5pt}
+        Si $P$ est un polytope de volume $V$ et d'aire $A$ qu'on dilate d'une distance $r$ centrée en $p$. On a alors \vspace{-5pt}
         \begin{equation*}
             \frac{\d V}{\d r} = A \Longleftrightarrow \mathbb{S}(p, r) \subseteq P\vspace{-3pt}
         \end{equation*}
     \end{théorème}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Preuve}
+	\begin{proof}
+		\only<1>{
+		Soit $V$ le volume d'un polytope $P$ dont les faces sont d'aires $A_{i}$. 
+		On considère des cônes du point arbitraire $p$ de $P$ vers les faces de $O$ et on prend $r$ un rayon provisoire à la face la plus proche, d'aire $A_{0}$.\\
+		Il existe des constantes $a_{i}$ et $k_{i}$ telles que $A_{i} = a_{i}A_{0}$ et $h_{i} = k_{i}r$ où $h_{i}$ est la hauteur du $i$-ème cône. 
+		Ces relations subsistent par dilatation et on a toujours $k_{i} \geq 1$.}
+		\only<2>{
+		Notons que $A = \sum_{i} A_{i} = \left(\sum_{i}a_{i}\right)A_{0}$. De plus:\vspace{-6pt} 
+		\begin{equation*}
+			\begin{aligned}
+				\frac{\d V}{\d r} =& \sum \frac{\d V_{i}}{\d r} = \sum \frac{\d V_{i}}{\d h_{i}} = \sum k_{i}A_{i}\\
+				=& \sum k_{i}a_{i} A_{0} = \frac{\sum a_{i}k_{i}}{\sum a_{i}}\left(\sum a_{i}\right)A_{0}\\
+				=& \frac{\sum k_{i}a_{i}}{\sum a_{i}}A\vspace{-10pt}
+			\end{aligned}
+		\end{equation*}
+		On choisit alors un point qui minimise ce facteur en une valeur supérieure ou égale à $1$. Celle-ci vaut $1$ si tous les $k_{i}$ valent $1$, c'est à dire si $P$ circonscrit la sphère de centre $p$ et de rayon $r$. 
+	}
+	\end{proof}
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Bibliographie}
+    \nocite{*}
+    \bibliography{Cours_Dérivée_Aire}
+    \bibliographystyle{alpha}
 \end{frame}
 
 \end{document}

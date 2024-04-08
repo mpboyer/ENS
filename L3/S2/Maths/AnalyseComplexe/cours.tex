@@ -2302,7 +2302,7 @@ Ici, on identifie $\C$ à $\R^{2}$
 		\end{equation*}
 	Montrons par l'absurde que $\lim_{r \to 0} m(r) = +\infty$.
 	Sinon, il existe une suite $r_{k} \to 0$ telle que $m(r_{k})$ est bornée. 
-	Le principe du maximum \ref{thm:principe-max} sur les couronnes $\left\{z \middle| r_{k + 1} \leq \abs{z}\leq r_{k}\right\}$ implique que $f$ est bornée au voisinage de $z_{0} = 0$ ce qui est exclu car $f$ admet une singularité essentielle en $0$.
+	Le principe du maximum \ref{thm:principe_max} sur les couronnes $\left\{z \middle| r_{k + 1} \leq \abs{z}\leq r_{k}\right\}$ implique que $f$ est bornée au voisinage de $z_{0} = 0$ ce qui est exclu car $f$ admet une singularité essentielle en $0$.
 	Par le même raisonnement appliqué à $1/f$, $\lim_{r \to 0} \mu(r) = 0$.\\
 	Pour $r$ assez petit, $\mu(r) < 2 < m(r)$ et le théorème des valeurs intermédiaires garantit l'existence de $\theta_{r} \in \left[0, 2\pi\right[$ tel que $\abs{f\left(re^{i\theta_{r}}\right)} = 2$.
 	Pour $0 < r < r_{0}e^{-2\pi}$, définissons 
@@ -2354,4 +2354,249 @@ Ici, on identifie $\C$ à $\R^{2}$
 \end{proof}
 
 
+\section{Théorème de Rouché}
+\subsection{Fonctions Méromorphes}
+\begin{définition}
+	{Corps des Fractions Méromorphes}{}
+	Soit $U$ connexe. L'anneau $\O(U)$ est intègre. Nous notons $\mathcal{F}(U)$ son corps des fractions. 
+\end{définition}
+
+\begin{définition}
+	{Fonction Méromorphe}{}
+	Une fonction $f: U \to \C\cup\{\infty\}$ est dite méromorphe si $f$ est holomorphe sur un ouvert $U'$ de $U$ avec $U\setminus U'$ discret et si tout point $z_{0}$ de $U$ admet un voisinage ouvert connexe dans $U$ tel que $f_{\mid V_{z_{0}}} \in \mathcal{F}\left(V_{z_{0}}\right)$ 
+\end{définition}
+
+\begin{propositionfr}
+	{Propriétés des fonctions Méromorphes}{}
+	\begin{itemize}
+	\item L'ensemble des fonctions méromorphes sur $U$ est une $\C$-algèbre. Si $U$ est connexe, $\mathcal{M}(U)$ est un corps. 
+	\item Soit $f$ méromorphe au voisinage de $z_{0}$. Alors, il existe une fonction holomorphe $g$ au voisinage de $z_{0}$ telle que $f(z) = (z - z_{0})^{m}g(z)$ avec $g(z_{0}) \neq 0$. Si $m \neq 0$ la fonction $\log f(z)$ n'est pas définie au voisinage de $z_{0}$ mais sa dérivée logarithmique l'est.
+	\item Une fonction $f: U \to \C\cup \{\infty\}$ est méromorphe si et seulement si elle holomorphe en dehors d'une suite de points singuliers localement finie dans $U$ et si tous ces points singuliers sont des pôles. 
+		Les fonctions rationnelles sont méromorphes sur $\C$. La fonction $\left(\sin(1/\pi z)\right)^{-1}$ est méromorphe sur $\C^{*}$ mais pas sur $\C$. 
+	\end{itemize}
+\end{propositionfr}
+
+\subsection{Principe de l'Argument}
+\begin{définition}
+	{Ordre}{}
+	Soit $U$ un ouvert de $\C$, $a\in U$. Soit $f$ méromorphe sur $U$. On définit l'ordre de $f$ en $a$ par
+	\begin{equation*}
+			\mathrm{ord}(f, a) = 
+			\begin{cases}
+		n & \text{si } a \text{ est un zéro d'ordre } n\\
+		-n & \text{si } a \text{ est un pôle d'ordre } n\\
+		0 & \text{sinon}
+	\end{cases}
+	\end{equation*}
+\end{définition}
+
+\begin{théorème}
+	{Principe de l'Argument}{principe-argument}
+	Soit $f$ méromorphe sur $U$ et un $\gamma$ un lacet de $U$ ne contenant ni pôle ni zéro de $f$. 
+	\begin{equation*}
+		\frac{1}{2i\pi} \int_{\gamma}\frac{f'}{f}\d z = \sum_{a}j(a, \gamma)\mathrm{ord}(f, a)
+	\end{equation*}
+	où $a$ parcour l'ensemble des zéros et pôles de $f$ à l'intérieur de $\gamma$. 
+\end{théorème}
+\begin{proof}
+	Si $a \in U$ est un pôle ou un zéro de $f$, alors $a$ est un pôle simple de $\frac{f'}{f}$ avec un résidu égal à $\mathrm{ord}(f, a)$ car
+	\begin{equation*}
+		f(z) = (z - a)^{m}f_{1}(z)
+	\end{equation*}
+	On déduit alors le résultat du théorème des résidus \ref{thm:residus}
+\end{proof}
+
+\begin{propositionfr}
+	{Quelques Corollaires}{}
+	\begin{itemize}
+		\item Si $\gamma$ est une courbe simple fermée : 
+			\begin{equation*}
+				\frac{1}{2i\pi}\int_{\gamma}\frac{f'}{f} \d z = \text{\#zéros}f - \text{\#pôles}f
+			\end{equation*}
+		\item On a: 
+			\begin{equation*}
+				\Re\left(\frac{1}{2i\pi}\frac{f'}{f}\right) = \Re\left(\frac{1}{2i\pi}\frac{\d \log(f)}{\d z}\right) = \Re\left(\frac{1}{2i\pi}\frac{\d}{\d z}\left(\log \abs{f} + i\arg f\right)\right) = \frac{1}{2\pi}\frac{\d}{\d z}\arg f
+			\end{equation*}
+		\item Si $g$ est holomorphe:
+			\begin{equation*}
+				\frac{1}{2i\pi} \int_{\gamma}g\frac{f'}{f}\d z = \sum_{a} g(a)j(a, \gamma)\mathrm{ord}(f, a)
+			\end{equation*}
+	\end{itemize}
+\end{propositionfr}
+
+\begin{propositionfr}
+	{Injectivité sur un Voisinage}{}
+	Soit $f$ holomorphe sur $U$, $\overline{\Delta}\subseteq U$ tel que $f_{\mid \overline{\Delta}}$ est injective et $f\left(\Delta\right)$ est ouvert. Alors $f: \Delta \to V$ est bijective et 
+	\begin{equation*}
+		f^{-1}(q) = \int_{\partial \Delta}z\frac{f'(z)}{f(z) - q}\d z 
+	\end{equation*}
+	En particulier, $f^{-1}$ est holomorphe. 
+\end{propositionfr}
+
+\subsection{Fonctions Elliptiques}
+
+Dans la suite, on pose $\omega_{1}, \omega_{2} \in \C\setminus \{0\}$ avec $\frac{\omega_{1}}{\omega_{2}} \notin \R$et on définit le réseau $\Lambda = \Z\omega_{1} + \Z\omega_{2}$
+
+\begin{définition}
+	{Fonction Elliptique}{}
+	Une fonction $f$ est dite \emph{elliptique} si elle est méromorphe sur $\C$ et si $f$ est $\Lambda$-périodique: 
+	\begin{equation*}
+		f(z) = f(z + \omega_{1}) = f(z + \omega_{2}), \forall z \in \C
+	\end{equation*}
+\end{définition}
+
+\begin{propositionfr}
+	{Propriétés}{}
+	\begin{itemize}
+		\item L'ensemble des fonctions elliptiques est un corps stable par dérivation. 
+		\item Soit $f$ elliptique holomorphe et $P_{A}$ un parallélogram fondamental de $\Lambda$. Comme $f$ est holomorphe sur $\C$, $f_{\mid\overline{P_{A}}}$ est continue. Comme $f$ est périodique, $f$ est bornée donc constante. 
+	\end{itemize}
+\end{propositionfr}
+
+On rappelle qu'un paralléllogramme est de la forme 
+\begin{equation*}
+	P_{a} = \left\{a + t_{1}\omega_{1} + t_{2}\omega_{2}\middle| 0 \leq t_{1} < 1, 0 \leq t_{2} < 1\right\}
+\end{equation*}
+
+\begin{lemme}
+	{Sans zéros}{}
+	Soit $f$ elliptique. Il existe $a \in \C$ tel que $\partial P_{a}$ ne contient ni zéro ni pôle de $f$. 
+\end{lemme}
+\begin{proof}
+	L'ensemble des pôles et zéros est discret et $\overline{P_{a}}$ est compact donc il n'en contient qu'un nombre fini. 
+\end{proof}
+
+
+\subsection{Théorème de Rouché}
+\begin{théorème}
+	{Rouché}{rouché}
+	Soit $U$ ouvert, $D(a, r) \subseteq U$, $f, g \in \mathcal{M}(U)$ sans pôle ni zéro sur $\partial D(a, r)$ et telles que $\abs{f - g} < \abs{f}$ au bord. Alors, dans $D(a, r)$: 
+	\begin{equation*}
+		\text{\#zéros} f - \text{\#pôles}f = \text{\#zéros}g - \text{\#pôles}g
+	\end{equation*}
+\end{théorème}
+\begin{proof}
+	On pose $h \frac{g}{f}$ sur $D(a, r)$. Soit $\gamma$ le lacet bord de $D(a,r)$ et $\Gamma = h\circ \gamma$.
+	La fonction $\abs{\frac{f(\gamma(t)) - g(\gamma(t))}{f(\gamma)(t)}}$ est définie et continue dans $I$ donc atteint son maximum $M$ en un point de $I$.
+	Ainsi, $\abs{h(\gamma(t)) - 1} \leq M < 1$ sur $I$. 
+	Le lacet $\Gamma$ est donc inclus dans $D(0, 1)$ simplement connexe et $\Gamma$ ne contient pas $0$. 
+	La fonction $\log h$ est définie sur $\gamma(I)$. Donc: 
+	\begin{equation*}
+		\frac{1}{2i\pi}\int_{\gamma}\frac{h'(z)}{h(z)} = 0
+	\end{equation*}
+	Or, $\frac{h'}{h} = \frac{g'}{g} - \frac{f'}{f}$. Donc on a l'égalité attendu par principe de l'argument \ref{thm:principe-argument}.
+\end{proof}
+
+\begin{propositionfr}
+	{Quelques Applications}{}
+	\begin{itemize}
+		\item Pour déterminer le nombre de racines de $f(z) = z^{6} + 21z^{4} + 2z + 3$ sur $D(0, 1)$, on introduit $g(z) = 21z^{4}$. Le théorème de Rouché nous indique que $f$ admet $4$ zéros (autant que $g$). 
+		\item Plus généralement, pour $f(z) = z^{n} + a_{1}z^{n - 1} + \ldots + a_{n}, g(z) = z^{n}$ et $R$ assez grand, le théorème de Rouché \ref{thm:rouché} montre que $f$ admet $n$ zéros dans $\C$, i.e. que $\C$ est algébriquement clos. 
+		\item Toutes les solutions de $z\sin z = 1$ sont réelles en appliquant le théorème de Rouché à $f(z) = z\sin z$ et $g(z) = z\sin z - 1$ sur le carré $\Delta = \left\{z \middle| \abs{x} + \abs{y}\leq \pi \left(n + \frac{1}{2}\right)\right\}$.
+	\end{itemize}
+\end{propositionfr}
+
+\begin{corollaire}
+	{Point Fixe Méromorphe}{}
+	Soit $f \in \mathcal{M}(U)$ avec $\overline{D(0, 1)} \subseteq U$, $\abs{f(z)} < 1$ pour $z \in \partial D(0, 1)$.
+	Alors $f$ a un unique point fixe dans $D(0, 1)$. 
+\end{corollaire}
+\begin{proof}
+	Posons $h(z) = f(z) - z$, $g(z) = -z$. Alors $\abs{h - g} = \abs{f} < 1 = \abs{g}$ sur $\partial D(0, 1)$. On conclut par théorème de Rouché. 
+\end{proof}
+
+\begin{théorème}
+	{Hurwitz}{hurwitz}
+	Soit $U$ connexe et $f_{n} \in \O(U)$ convergeant uniformément sur tout compact de $U$ vers $f$.\\
+	Si $\overline{D(z_{0}, R)}\subseteq U$ et $f$ ne s'annule pas au bord de ce disque, alors, pour $n$ assez grand $f_{n}$ ne s'annule pas sur $\partial D(z_{0}, R)$ et $f_{n}$ a autant de zéros que $f$ sur ce disque. 
+\end{théorème}
+\begin{proof}
+	On prend $n$ assez grand pour que $\abs{f_{n} - f} < \inf_{\partial K}\abs{f}$ sur $\partial D(z_{0}, R)$. 
+\end{proof}
+
+\begin{corollaire}
+	{}{}
+	Soit $U$ un ouvert connexe, $f_{n} \in \O(U)$ convergeant vers $f$ uniformément sur tout compact avec $f_{n}$ injective. 
+	Alors $f$ est injective ou constante. 
+\end{corollaire}
+\begin{proof}
+	Supposons qu'il existe $z_{1}, z_{2}$ tels que $f(z_{1}) = f(z_{2}) = \omega$ et que $f(z) - \omega$ a ses zéros isolés. 
+	Alors $f(z) - \omega$ ne s'annule pas en dehors de $z_{1}, z_{2}$ sur $\overline{D(z_{1}, r_{1})} \cup \overline{D(z_{2}, r_{2})}$. 
+	Par théorème de Hurwitz, $f_{n} - \omega$ a le même nombre de zéros que $f - \omega$ à partir d'un certain rang sur $D(z_{1}, r_{1})$ et $D(z_{2}, r_{2})$. Donc $f_{n}$ n'est pas injective, contradiction!
+\end{proof}
+
+\subsection{Théorème de l'Application Conforme de Riemann}
+\begin{lemme}
+	{Isomorphisme d'ouverts}{iso-ouvert-dans-compact}
+	Soit $U \subsetneq \C$ simplement connexe, il existe $U'$ inclus dans un compact isomorphe à $U$
+\end{lemme}
+\begin{proof}
+	Soit $a \in \C \setminus U$. 
+	Comme $U$ est simplement connexe il existe une détermination du logarithme $g(z) = \log(z - a)$ sur $U$ qui de plus est injective. 
+	Soit $z_{0} \in U$. Par théorème d'inversion globale \ref{thm:global_inv}, il existe $D(g(z_{0}), r)\subset g(U)$. 
+	Comme $g$ est une détermination du logarithme, le disque $D(g(z_{0}), r) + 2i\pi$ ne contient aucun point de $g(U)$. 
+		Ainsi, pour tout $z \in U$, $\abs{g(z) - g(z_{0}) - 2i\pi} \geq r > 0$. 
+		La fonction 
+		\begin{equation*}
+			h : z \longmapsto \frac{1}{g(z)  - g(z_{0}) - 2i\pi}
+		\end{equation*}
+		est holomorphe, injective et bornée sur $U$.
+		Par théorème d'inversion globale \ref{thm:global_inv}, $h: U \to U'$ est un isomorphisme ou $U' \subseteq \overline{D\left(0, r^{-1}\right)}$
+\end{proof}
+
+\begin{lemme}
+	{Isomorphisme et Image dans le Disque Unité}{iso-disque-unité}
+	Soit $U$ un ouvert simplement connexe de $\C$ contenant $0$. Soit 
+	\begin{equation*}
+		A = \left\{f \in \O\left(U\right)\ \middle| \ f \text{ injective}, f(0) = 0, \forall z \in U \abs{f(z)} < 1\right\}
+	\end{equation*}
+	Alors, pour $f \in A$, les propriétés suivantes sont équivalentes: 
+	\begin{enumerate}
+		\item $f(U) = D(0, 1)$
+		\item $\abs{f'(0)}$ est maximum sur $A$. 
+	\end{enumerate}
+\end{lemme}
+\begin{proof}
+	\begin{description}
+		\item[$i \Rightarrow ii$] D'après le théorème d'inversion globale \ref{thm:global_inv}, les éléments de $A$ sont des isomorphismes sur leur image. 
+			Soit $f \in A$ d'image $D(0, 1)$. Alors $h = g \circ f^{-1} : D(0, 1) \to g(U)$ est un isomorphisme tel que $h(0) = 0$. 
+			Par le lemme de Schwarz \ref{thm:lemme_schwarz}, $\abs{h'(0)} \leq 1$ donc $\abs{g'(0)} \leq \abs{f'(0)}$ et $\abs{f'(0)}$ est maximum. 
+		\item[$ii \Rightarrow i$] On montre $\lnot i \Rightarrow \lnot ii$. Soit $f \in A$ et $a \in D(0, 1)$ avec $a \notin f(U)$. 
+			Soit $\phi_{a} \in \mathrm{Aut} D(0, 1): z\mapsto \frac{z - a}{1 - \bar{a}z}$. 
+			Comme $f(U)$ est simplement connexe, $F(z) = \log \phi_{a}f(z)$ est définie holomorphe et injective dans $U$ et $\Re F(z) < 0$. 
+			Pour $u, v \in \C$ avec $\Re u, \Re v < 0$, on a: $\abs{\frac{v - u}{v + \bar{u}}} < 1$.\\
+			Ainsi, $g(z) = \frac{F(z) - F(0)}{F(z) + \bar{F(0)}}$ est holomorphe injective dans $U$, $g(0) = 0$, $\abs{g(z)} < 1$ et donc $g \in A$. 
+			Enfin
+			\begin{equation*}
+				\abs{\frac{g'(0)}{f'(0)}} = \frac{1 - \abs{a}^{2}}{2\abs{a}\log\abs{\frac{1}{a}}} > 1
+			\end{equation*}
+			car $\abs{\phi_{a}'(0)} = 1 - \abs{a}^{2}, \abs{\phi_{a}(0)} = \abs{a}, \Re F(0) = \log\abs{1/A}$
+	\end{description}
+\end{proof}
+
+\begin{théorème}
+	{de l'Application Conforme de Riemann}{riemann-appli-conforme}
+	Tout ouvert simplement connexe $U$ de $\C$, distinct de $\C$ est isomorphe à $D(0, 1)$. 
+\end{théorème}
+\begin{proof}
+	D'après le lemme \ref{lemme:iso-ouvert-dans-compact}, quitte à effectuer une homothétie et une translation nous pouvons supposer $0 \in U \subseteq D(0, 1)$.\\
+	D'après le lemme \ref{lemme:iso-disque-unité}, il suffit de prouver qu'il existe $f \in A$ telle que $\sup_{g \in A}\abs{g'(0)} = \abs{f'(0)}$. 
+	On munit $\O(U)$ muni de la topologie de la convergence uniforme sur tout compact et on pose
+	\begin{equation*}
+		B = \left\{ f \in A \middle| \abs{f'(0)} \geq 1\right\}
+	\end{equation*}
+	Alors $B$ est non vide et bornée dans $\O(U)$ car pour tout $z \in U, \abs{f(z)} < 1$, donc pour tout compact $\sup_{K}\abs{f} < 1$. \\
+	La partie $B$ est fermée dans $\O(U)$. En effet, pour $f \in \overline{B}$ et $f_{n}$ convergeant uniformément sur tout compact vers $f$, on a $f(0) = \lim f_{n}(0) = 0$ et de plus $f' = \lim f_{n}'$ d'où $\abs{f'(0)} = \lim \abs{f_{n}'(0)} \geq 1$. 
+	Ainsi $f$ n'est pas constante et comme c'est une limite de fonctions holomorphes injectives, elle est injective. 
+	Comme $\abs{f_{n}(z)} < 1$ sur $D(0, 1)$, $\abs{f(z)} \leq 1$ sur $U$ et d'après le principe du maximum, comme $f$ n'est pas constante, il n'existe pas de point $z \in U$ où $\abs{f(z)} = 1$. Donc $f \in B$. 
+	Ainsi, $B$ est fermée bornée dans $\O(U)$ donc compacte, d'où l'existence d'un maximum à $g \mapsto \abs{g'(0)}$. 
+\end{proof}
+
+\begin{corollaire}
+	{Homéomorphie d'Ouverts}{}
+	Deux ouverts simplement connexes $U$ et $V$ de $\C$ distincts de $\C$ sont isomorphes.\\
+	Deux ouverts simplement connexes $U$ et $V$ de $\C$ sont homéomorphes. 
+\end{corollaire}
+
 \end{document}
+
