@@ -5,14 +5,17 @@
 \date{\today}
 
 \begin{document}
-\part[Langages Réguliers]{Cours 1 28/09}
-\section{Langages, Automates, RegExp, Monoïdes finis}
-\begin{definition}
-    On appelle \emph{alphabet} un ensemble fini $\Sigma$ de lettres. \\
-    On appelle \emph{mot} une suite finie de lettres. \\
-    On appelle \emph{langage} un ensemble de mots
-\end{definition}
-\begin{definition}
+\chapter{Théorie des Langages Formels}
+\section{Langages Réguliers}
+\subsection{Langages, Automates, RegExp, Monoïdes finis}
+\begin{définition}{Premières Notations}{}
+    \begin{itemize}
+    \item \emph{alphabet} un ensemble fini $\Sigma$ de lettres. 
+    \item \emph{mot} une suite finie de lettres. 
+    \item \emph{langage} un ensemble de mots
+    \end{itemize}
+\end{définition}
+\begin{définition}{Automate}{}
     On appelle \emph{automate sur l'alphabet $\Sigma$} un graphe orienté dont les arêtes sont étiquetées par les lettres de l'alphabet $\Sigma$\\
     Formellement, c'est un quadruplet $\mathcal{A} = (Q, \Sigma, I, F, \delta)$ ou : \begin{itemize}
         \item $Q$ est un ensemble fini d'états
@@ -28,8 +31,8 @@
         \item $\forall q, a, \left| \delta(q, a)\right| \leq 1$
         \item $\left| I\right| = 1$
     \end{itemize} 
-\end{definition}
-\begin{definition}
+\end{définition}
+\begin{définition}{Expression Régulière}{}
     Une expression régulière est de la forme : 
     \begin{itemize}
         \item $a \in \Sigma$ 
@@ -38,9 +41,9 @@
         \item $r \cdot r$ ($\cdot$ désigne la concaténation : $L_1 \cdot L_2 = \left\{w_{1}w_{2} \ | \ w_{1} \in L_{1}, \ w_{2} \in L_{2} \right\}$)
         \item $r^{*}$ ($*$ désigne l'étoile de Kleene, $L^{*} = \left\{ \bigodot\limits_{w \in s} w \ \mid \ s \in \bigcup\limits_{n \in \mathbb{N}} L^{n} \right\}$)
     \end{itemize}
-\end{definition}
+\end{définition}
 
-\begin{definition}[Automate des Parties]
+\begin{définition}{Automate des Parties}{}
     On pose, si $\mathcal{A} = (Q, \Sigma, I, F, \delta)$ est un automate : 
     \begin{itemize}
         \item $\hat{Q} = 2^{Q} = \left\{q_{S} \mid S \subset Q\right\}$
@@ -49,7 +52,8 @@
         \item $\hat{\delta}(q_{S}, a) = \left\{q_{S^{'}}\right\}$ avec $S^{'} = \bigcup\limits_{q \in S}\delta(q, a)$
     \end{itemize}
     Alors, $\hat{\mathcal{A}} = (\hat{Q}, \Sigma, \hat{I}, \hat{F}, \hat{\delta})$ est un automate déterministe reconnaissant $\mathcal{L}(\mathcal{A})$
-\end{definition}
+\end{définition}
+
 \begin{proof}
     On procède par double inclusion :
     \begin{itemize}
@@ -58,18 +62,18 @@
     \end{itemize}
 \end{proof}
 
-\begin{definition}
+\begin{définition}{Reconnaissance par Monoïde}{}
     Un monoïde est un magma associatif unifère. \\
     Un morphisme de monoïde est une application $\phi : (N, \cdot_{N}) \rightarrow (M, \cdot_{M})$ telle que: \begin{itemize}
         \item $\phi(1_{N}) = 1_{M}$
         \item $\phi(n_{1}n_{2}) = \phi(n_{1})\phi(n_{2})$
     \end{itemize}
     Un langage $L$ est reconnu par $(M, \times)$ ssi il existe $P \subset M$ tel que $L = \phi^{-1}(P)$ où $\phi$ est un morphisme de $\Sigma^{*}$ dans $M$
-\end{definition}
+\end{définition}
 
-\begin{proposition}
+\begin{propositionfr}{Reconnaissance par Monoïde}{}
     $L\subseteq \Sigma^{*}$ est reconnu par un automate ssi $L$ est reconnu par un monoïde fini.
-\end{proposition}
+\end{propositionfr}
 \begin{proof}
     \begin{itemize}
         \item Soit $L$ reconnu par un monoïde fini $(M, \times)$. Soit $\phi$ un morphisme tel que $L = \phi^{-1}(P), \ P\subset M$. On pose $\mathcal{A} = (M, \Sigma, \left\{1\right\}, P, \delta)$ où $\delta(q, a) = q \times \phi(a)$. Alors, $\mathcal{A}$ reconnaît $L$.
@@ -77,10 +81,9 @@
     \end{itemize}
 \end{proof}
 
-\part[Quotients et Automates Minimaux]{Cours 2 - 5/10}
-
-\section{Lemme de Pompage}
-\begin{theorem}[Lemme de Pompage/Lemme de l'Etoile]
+\section{Quotients et Automates Minimaux}
+\subsection{Lemme de Pompage}
+\begin{théorème}{Lemme de Pompage/Lemme de l'Etoile}{}
     Si $L$ est un langage régulier, $\exists n \in \N$ 
     $\forall w \in L, \abs{w} \geq n \Rightarrow \exists x, y, z$ tels que : 
         \begin{itemize}
@@ -89,33 +92,36 @@
             \item $y \neq \epsilon$
             \item $\forall n \geq 0, xy^{n}z \in L$
         \end{itemize}
-\end{theorem}
+\end{théorème}
 \begin{proof}
     Faire un calcul de $\mathcal{A}$ sur $w$ tel que $\abs{w} \geq n$. Celui-ci passe deux fois par le même état.
 \end{proof}
 
-\section{Langages Quotients}
-\subsection{Quotients d'un Langage à Gauche}
-\begin{definition}[Quotient à Gauche]
+\subsection{Langages Quotients}
+\subsubsection{Quotients d'un Langage à Gauche}
+\begin{définition}{Quotient à Gauche}{}
     Soit $L, K \subseteq \Sigma^{*}, u \in \Sigma^{*}$. \\
     Le quotient à gauche de $L$ par $u$ noté $u^{-1}L$ est : $\left\{v \in \Sigma^{*} \mid uv \in L\right\}$\\
     Le quotient à gauche de $L$ par $K$, $K^{-1}L$ est $\bigcup_{u \in K}u^{-1}L$
-\end{definition}
-\begin{proposition}
+\end{définition}
+
+\begin{propositionfr}{Calcul sur les Quotients}{}
     \begin{itemize}
         \item $w^{-1}(K+L) = w^{-1}K + w^{-1}L$
         \item $(wa)^{-1}L = a^{-1}(w^{-1}L)$
         \item $w^{-1}(KL) = (w^{-1}K \cdot L) + \sum\limits_{u \in L, v \in \Sigma^{*}\\ w = uv} v^{-1}L$
     \end{itemize}
-\end{proposition}
+\end{propositionfr}
 
-\subsection{Quotient d'un Automate à Gauche}
-\begin{definition}
+\subsubsection{Quotient d'un Automate à Gauche}
+\begin{définition}{Quotient à Gauche}{}
     On définit le quotient à gauche d'un automate par un mot $u$ comme celui obtenu en remplaçant les états initiaux par les résultats d'un calcul de l'automate sur $u$.
-\end{definition}
-\begin{proposition}
-    $L$ est régulier si et seulement si il a un nombre fini de quotients à gauche.
-\end{proposition}
+\end{définition}
+
+\begin{propositionfr}{Régularité et Quotients à Gauche}{}
+    Un langage $L$ est régulier si et seulement si il a un nombre fini de quotients à gauche.
+\end{propositionfr}
+
 \begin{proof}
     \begin{itemize}
         \item Un automate reconnaissant $L$ a au plus un quotient par état.
@@ -124,21 +130,22 @@
     \end{itemize}
 \end{proof}
 
-\subsection{Construction de l'Automate Minimal}
-\begin{definition}
+\subsubsection{Construction de l'Automate Minimal}
+\begin{définition}{Distinction d'états}{}
     Deux états $q_{1}, q_{2}$ sont distingables si : $\exists w \in \Sigma^{*}, \delta(q_{1}, w) \in F, \delta(q_{2} \notin F)$. 
-\end{definition}
-\begin{proposition}
+\end{définition}
+
+\begin{propositionfr}{Distinction et Quotient à Gauche}{}
     $q_{1}$ et $q_{2}$ sont distingables s'ils n'ont pas même quotient à gauche. Si $\delta(q, a)$ est distingable $\delta(q^{'}, a)$, $q, q^{'}$ sont distingables.\\
     La relation $q, q'$ sont distingables est une relation d'équivalence. 
-\end{proposition}
+\end{propositionfr}
 
-\part[Logique Monadique]{Cours 3 - 12/10}
-\section{Langages et Logique}
-\subsection{Objectif}
+\section{Logique Monadique}
+\subsection{Langages et Logique}
+\subsubsection{Objectif}
 On associe à $w \in \Sigma^{*}$ une structure $D_{w}$ et à $L \subseteq \Sigma^{*}$ une structure $\phi_{L}$ telles que : $w \in L\setminus \left\{\epsilon\right\} \Leftrightarrow D_{w} \vdash \phi_{L}$. On se place dans le cadre de la logique du premier ordre et de la monadique du second ordre.\\
 
-\begin{definition}
+\begin{définition}{Signature et Position}{}
     On définit $\textsf{pos}(w) = \left\{0, \ldots, \abs{w} - 1\right\}$. On définit une signature i.e. un ensemble de relations : 
 \[
     \begin{aligned}
@@ -147,24 +154,26 @@ On associe à $w \in \Sigma^{*}$ une structure $D_{w}$ et à $L \subseteq \Sigma
     \end{aligned}   
 \]    
 On définit alors la structure $D_{w} = \left(\textsf{pos}(w), \left\{L_{a}^{D_{w}}\right\}_{a \in \Sigma}, <_{w}\right)$
-\end{definition}
+\end{définition}
+
 \begin{remark}
     On aurait pû remplacer $<_{w}$ par $succ_{w}$, mais on perd en expressivité. 
 \end{remark}
 
-\subsection{Logique du Premier Ordre et Monadique du Second Ordre}
-\begin{definition}[Logique du Premier Ordre]
+\subsubsection{Logique du Premier Ordre et Monadique du Second Ordre}
+\begin{définition}{Logique du Premier Ordre}{}
     On définit par induction la logique du premier ordre.
     \begin{itemize}
-        \item Constantes
-        \item Variables
+        \item Constantes: $\top, \bot$
+        \item Variables (un alphabet quelconque)
         \item Si $R$ est une relation d'arité $n$, $t_{i}$ des termes : $R(t_{1}, \ldots, t_{n})$ 
         \item $\lnot \phi$, $\phi_{1} \land \phi_{2}$, $\phi_{1} \lor \phi_{2}$
         \item $\forall x, \phi, \exists \phi$
     \end{itemize}
-\end{definition}
+\end{définition}
+
 On cherche à associer à $\phi : \exists x,\ (L_{0}(x) \land \forall y (y < x \rightarrow (L_{1}(y))))$, un langage $L_{\phi} = \left\{w \mid D_{w} \vdash \phi \right\}$. 
-\begin{definition}{Monadique du Second Ordre}
+\begin{définition}{Logique Monadique du Second Ordre}{}
     Sont des formules : 
     \begin{itemize}
         \item $\forall X,\ \phi$ avec $X$, variable du second ordre qui a une arité associée.
@@ -172,7 +181,7 @@ On cherche à associer à $\phi : \exists x,\ (L_{0}(x) \land \forall y (y < x \
         \item $(x_{1}, \ldots, x_{n}) \in X$ avec $X$ d'arité $n$. On trouve aussi une formule pour les graphes qui mettent en relation deux sommets $s, t$ :
     \end{itemize}
     On se restreint dans la suite à des variables d'arité $1$
-\end{definition}
+\end{définition}
 
 On considère un vocabulaire qui contient une relation $E$ ("arêtes d'un graphe"). On représente un graphe par $D_{G}$ l'ensemble de ses sommets et $E^{D_{G}}$ l'ensemble des arêtes de ce graphe.
 \begin{example}
@@ -194,13 +203,14 @@ On considère un vocabulaire qui contient une relation $E$ ("arêtes d'un graphe
 
 Ainsi, on peut en déduire une méthode pour reconnaître le langage d'un automate $\mathcal{A} = \left(\left\{0, \ldots, k\right\}, \Sigma, 0, \Delta, F\right)$ avec une formule $\phi_{\mathcal{A}}$ de la monadique du second ordre.
 
-\begin{theorem}
+\begin{théorème}{Reconnaissance Logique et Régularité}
     Un langage $L = L(\mathcal{A})$ est régulier, si et seulement si il existe une formule $\phi = \phi_{\mathcal{A}}$ telle que $\forall w \in L, D_{w} \vdash \phi$.
-\end{theorem}
+\end{théorème}
+
 \begin{proof}
     \begin{itemize}
-        \item $(\Rightarrow)$ : On peut obtenir le premier élément d'un mot par la formule $\textsf{first}(x) = \forall y ((x = y)\lor x < y)$. On peut faire de même pour savoir si un couple est composé d'une paire successeur-successeuse de l'automate, ou si $x$ est la dernière lettre.\\
-        On sépare les positions d'un mot selon l'état de l'automate depuis lequel on part. Il faut alors vérifier que le premier élément est bien dans un état initial, que toute transition est bien valide, qu'on est dans au moins un état avant chaque lettre, et que la dernière position est bien écrite depuis une transition vers un état acceptant. \\
+        \item[$(\Rightarrow)$] On peut obtenir le premier élément d'un mot par la formule $\textsf{first}(x) = \forall y ((x = y)\lor x < y)$. On peut faire de même pour savoir si un couple est composé d'une paire successeur-successeuse de l'automate, ou si $x$ est la dernière lettre.\\
+        On sépare les positions d'un mot selon l'état de l'automate depuis lequel on section. Il faut alors vérifier que le premier élément est bien dans un état initial, que toute transition est bien valide, qu'on est dans au moins un état avant chaque lettre, et que la dernière position est bien écrite depuis une transition vers un état acceptant. \\
         On obtient alors, en notant $k$ le nombre d'états, et $0$ l'état initial : 
         \begin{equation}
             \begin{split}
@@ -210,7 +220,7 @@ Ainsi, on peut en déduire une méthode pour reconnaître le langage d'un automa
                 & \forall x \ \left(\textsf{last}(x) \rightarrow \bigvee_{\exists j \in F \mid (i, a, j) \in \Delta} \left(X_{i}(x) \land L_{a}(x)\right)\right)
             \end{split}
         \end{equation}
-        \item $(\Leftarrow)$ : On procède par induction. 
+        \item[$(\Leftarrow)$] On procède par induction. 
         \begin{itemize}
             \item Initialisation : On peut facilement exhiber des automates qui reconnaissent les formules atomiques : $\textsf{Sing}(X), X \subseteq Y, X \subseteq L_{a}$.
             \item Hérédité : On raisonne sur les connecteurs, et on vérifie aisément, par les propriétés de cloture des langages réguliers le résultat. Pour ce qui est de la quantification existentielle, si le langage $L$ défini par $\psi(X_{1}, \ldots, X_{n})$ sur $\Sigma\times\left\{0, 1\right\}^{n}$ est reconnu par $\mathcal{A}$. On exhibe un automate reconnu par $\phi(X_{1}, \ldots, X_{n-1}) = \exists X_{n}\psi(X_{1}, \ldots, X_{n})$, il n'a alors plus qu'a trouver une suite de $0-1$ qui définit la $n$-ième composante additionnelle et fonctionne sur $\Sigma\times\left\{0, 1\right\}^{n}$ comme $\mathcal{A}$. Pour le $\forall$, il suffit de prendre la négation du $\exists$
@@ -218,14 +228,13 @@ Ainsi, on peut en déduire une méthode pour reconnaître le langage d'un automa
     \end{itemize}
 \end{proof}
 
-\part[Langages Algébriques]{Cours 4 : 26/10}
+\section{Langages Algébriques}
 On a déjà vu le type 3 de la hiérarchie de Chomsky : les langages réguliers. On passe aux langages algébriques, ou hors-contexte, définis par des grammaires hors-contextes.
-
-\section{Limites des Langages Réguliers}
+\subsection{Limites des Langages Réguliers}
 Le langage $\{a^{n}b^{n}\mid n\in \N\}$ n'est pas régulier. On va donc définir une classe de langage plus grande.
 
-\subsection{Grammaires}
-\begin{definition}[Grammaire hors-contexte]
+\subsubsection{Grammaires}
+\begin{définition}{Grammaire hors-contexte}{}
     Une grammaire hors-contexte est un quadruplet $(\Sigma, V, S, R)$ où :
     \begin{itemize}
         \item $\Sigma$ est un alphabet fini
@@ -233,9 +242,9 @@ Le langage $\{a^{n}b^{n}\mid n\in \N\}$ n'est pas régulier. On va donc définir
         \item $S\in V$ est un axiome
         \item $R$ une sous partie de $V \times (\Sigma \cup V)^{\star}$
     \end{itemize}    
-\end{definition}
+\end{définition}
 
-\begin{definition}
+\begin{définition}{Dérivation}{}
     On dit que $u$ produit (ou dérive) $v$ en une étape si il existe $\alpha, \beta, X, \gamma$ tel que : 
     \begin{itemize}
         \item $u = \alpha X \beta$
@@ -243,12 +252,12 @@ Le langage $\{a^{n}b^{n}\mid n\in \N\}$ n'est pas régulier. On va donc définir
         \item $X \mapsto \gamma$ est dans $R$.
     \end{itemize}
     On note ceci $u \rightarrow v$. On note $u \xrightarrow{k} v$ si $u$ produit $v$ en $k$ étapes et $u \xrightarrow{\star} v$ si il existe un $k$.
-\end{definition}
+\end{définition}
 
-\begin{definition}
+\begin{définition}{Langage d'une Grammaire}{}
     Si $G$ est une grammaire : $\hat{\mathcal{L}}_{G}(x) = \left\{w \in \left(\Sigma \cup V\right)^{\star}\mid x \xrightarrow{\star} w \right\}$
     On définit aussi $\mathcal{L}_{G}(x) = \hat{\mathcal{L}}_{G}(x) \cap \Sigma^{\star}$.
-\end{definition}
+\end{définition}
 
 Par exemple, pour la grammaire $S \rightarrow aSb + \epsilon$, on a $\hat{\mathcal{L}}_{G_{a^{n}b^{n}}} = \left\{a^{n}Sb^{n}\mid n \in \N \right\} \cup \left\{a^{n}b^{n} \mid n \in \N \right\}$.
 
@@ -265,29 +274,29 @@ Pour les langages de Dyck, on peut les reconnaître par :
     Le langages reconnu par $T$ est le langage de Dyck primitif. 
 \end{remark}
 
-\subsection{Langages Algébriques et Clôture}
-\begin{proposition}
-    On appelle algébrique un langage reconnu par une grammaire algébrique.
+\subsubsection{Langages Algébriques et Clôture}
+On appelle algébrique un langage reconnu par une grammaire algébrique.
+\begin{propositionfr}{Propriétés des Langages Algébriques}{}
     \begin{center}
-        \begin{tabular}{llp{6cm}}
+        \begin{tabular}{p{3.5cm}p{3.5cm}p{5cm}}
             \toprule
-            Langages Réguliers & Langages Algébriques & \\
+            Langages Réguliers & Langages Algébriques & Preuve pour les langages Algébriques\\
             \midrule
             Clos par Union & Clos par Union & On prend l'union des règles de grammaires : $S \rightarrow S_{1}\ S_{2}$, en faisant attention à disjoindre les symboles non-terminaux\\
             Clos par Concaténation & Clos par Concaténation & On prend la concaténation des règles de grammaire : $S \rightarrow S_{1} \cdot S_{2}$, en faisant attention à disjoindre les symboles non-terminaux\\
-            Clos par Intersection & NON Clos par Intersection & \\
-            Clos par Complément & \dots &\\
+            Clos par Intersubsection & NON Clos par Intersubsection & \\
+            Clos par Complémentation & NON Clos par Complémentation &\\
             Clos par Etoile de Kleene & Clos par Etoile de Kleene & $S \rightarrow S S_{1} \mid \epsilon$\\
             \bottomrule         
         \end{tabular}
     \end{center}
-\end{proposition}
+\end{propositionfr}
 
-\begin{theorem}[Intersection Algébrique-Régulier]\label{thm:capalgreg}
+\begin{théorème}{Intersubsection Algébrique-Régulier}{capalgreg}
     Si $L_{1}$ est algébrique et $L_{2}$ est régulier, alors $L_{1} \cap L_{2}$ est algébrique.
-\end{theorem}
+\end{théorème}
 
-\begin{definition}[Forme Normale de Chomsky]\label{thm:fnc}
+\begin{définition}{Forme Normale de Chomsky}{}
     Une grammaire $G = \left(\Sigma, V, S, R\right)$ est sous forme normale de chomsky si toutes ses règles de grammaire sont de la forme : 
     \begin{itemize}
         \item $X \rightarrow a$
@@ -295,60 +304,65 @@ Pour les langages de Dyck, on peut les reconnaître par :
         \item $S \rightarrow \epsilon$
     \end{itemize}
     avec $X \in V$ et $X_{1}, X_{2} \in V \setminus \left\{S\right\}$.
-\end{definition}
-\begin{theorem}
-    Pour tout langage algébrique $L$, il existe $G$ sous forme normale de Chomsky telle que $L_{G}(S) = L$.
-\end{theorem}
-\begin{definition}
-    On dit que $x$ est accessible depuis $S$ s'il existe $\alpha, \beta \in \left(\Sigma \cup V\right)^{\star}$ tels que $S \xrightarrow{\star} \alpha X \beta$.\\
-    On dit que $x$ est productif si il existe $w \in \Sigma^{\star}$ tel que $X \xrightarrow{\star} w$.
-    On dit que $x$ est utile s'il est accessible et productif.
-\end{definition}
+\end{définition}
 
-\begin{lemma}\label{lemme1chomskygrammar}
+\begin{théorème}{Normalisation de Chomsky}{fnc}
+    Pour tout langage algébrique $L$, il existe $G$ sous forme normale de Chomsky telle que $L_{G}(S) = L$.
+\end{théorème}
+
+\begin{définition}{Accessibilité, Productivité, Utilité}{}
+    \begin{itemize}
+    \item On dit que $x$ est accessible depuis $S$ s'il existe $\alpha, \beta \in \left(\Sigma \cup V\right)^{\star}$ tels que $S \xrightarrow{\star} \alpha X \beta$.
+    \item On dit que $x$ est productif si il existe $w \in \Sigma^{\star}$ tel que $X \xrightarrow{\star} w$.
+    \item On dit que $x$ est utile s'il est accessible et productif.
+    \end{itemize}
+\end{définition}
+
+\begin{lemme}{}{lemme1chomskygrammar}
     Pour toute grammaire $G$, il existe $G^{'}$ telle que $L(G) = L(G^{'})$ et $G^{'}$ ne contient que des symboles accessibles.
-\end{lemma}
+\end{lemme}
+
 \begin{proof}
     Soit $G^{'}$ obtenue en retirant tous les symboles non accessibles, i.e. on retire n'importe quelle règle qui contient un de ces symboles. Soit une dérivation sur $G$ à partir de $S$. Par définition de l'accessibilité, c'est une dérivation sur $G^{'}$ à partir de $S$ donc $L(G) \subseteq L(G^{'})$. Puisque toute production de $G^{'}$ est une production de $G$, on a bien le résultat.
 \end{proof}
 
-\begin{lemma}\label{lemme2chomskygrammar}
+\begin{lemme}{}{lemme2chomskygrammar}
     Pour toute grammaire $G$, il existe $G^{'}$ telle que $L(G) = L(G^{'})$ ne contient que des symboles utiles.
-\end{lemma}
+\end{lemme}
 \begin{proof}
     On marque les variables productives. Par récurrence, on trouve que $X$ est productive si $X \rightarrow w$ où $w$ est un mot sur $\Sigma$ union l'ensemble des variables productives.\\
     En prenant $V^{'}$ l'ensemble des variables productives de $G$, $R^{'} = R \cap V^{'} \times \left(\Sigma \cup V^{'}\right)^{\star}$. On a bien le résultat par les mêmes arguments que ci dessus.
 \end{proof}
 
 \begin{proof}[Preuve du théorème sur la FNC \ref{thm:fnc}]
-    On utilise, dans cet ordre, \ref{lemme2chomskygrammar} puis \ref{lemme1chomskygrammar}, pour se ramener à n'avoir que des états utiles.\\
+    On utilise, dans cet ordre, \ref{lemme:lemme2chomskygrammar} puis \ref{lemme:lemme1chomskygrammar}, pour se ramener à n'avoir que des états utiles.\\
     Puis, on introduit de nouvelle règles : 
-    \begin{itemize}
-        \item (TERM) : On introduit de nouveaux terminaux : Si $X \rightarrow a X b$, on écrit : 
+    \begin{description}
+        \item[(TERM)] On introduit de nouveaux terminaux : Si $X \rightarrow a X b$, on écrit : 
         \begin{itemize}
             \item $X \rightarrow N_{a} X N_{b}$
             \item $N_{a} \rightarrow a$
             \item $N_{b} \rightarrow b$
         \end{itemize}
-        \item (INIT) : On introduit un nouvel axiome : $S^{'} \rightarrow S$
-        \item (BIN) : On simplifie la règle : $X\rightarrow X_{1}\ X_{2} \ \ldots \ X_{n}$ pour $n \geq 3$.
+        \item[(INIT)] On introduit un nouvel axiome : $S^{'} \rightarrow S$
+        \item[(BIN)] On simplifie la règle : $X\rightarrow X_{1}\ X_{2} \ \ldots \ X_{n}$ pour $n \geq 3$.
         On introduit $X_{2}^{'}, \ldots, X_{n}^{'}$ de nouveaux non-terminaux et les règles : 
         \begin{itemize}
             \item $X\rightarrow X_{1} \ X_{2}^{'}$
             \item $\forall i, X_{i}^{'} \rightarrow X_{i} \ X_{i+1}^{'}$
         \end{itemize}
-        \item ($\epsilon$) : On simplifie $X_{1} \rightarrow X\ X_{2} \ X \ X_{3} \ X $ en introduisant à la place : 
+        \item[($\epsilon$)] On simplifie $X_{1} \rightarrow X\ X_{2} \ X \ X_{3} \ X $ en introduisant à la place : 
         \begin{itemize}
             \item $X_{1} \rightarrow X \ X_{2} \ X \ X_3$
             \item $X_{1} \rightarrow X \ X_{2} \ X_3 \ X$
             \item Et ainsi de suite pour chaque règle où on peut choisir $X = \epsilon$.
         \end{itemize}
-        \item (UNIT) : On va simplifier $X \rightarrow Y$, en remplaçant toute apparition de $X$ dans une expression par $Y$. 
-    \end{itemize}
+        \item[(UNIT)] On va simplifier $X \rightarrow Y$, en remplaçant toute apparition de $X$ dans une expression par $Y$. 
+    \end{description}
     En choisissant correctement l'ordre des règles, on a bien le résultat. 
 \end{proof}
 
-\begin{proof}[Preuve du théorème sur l'Intersection \ref{thm:capalgreg}]
+\begin{proof}[Preuve du théorème sur l'Intersubsection \ref{thm:capalgreg}]
     On se donne une grammaire $G = \left(\Sigma, S, V, R\right)$ produisant $L_{1}$ et un automate $\mathcal{A} = \left(Q, \Sigma, I, F, \delta\right)$ reconnaissant $L_{2}$.\\
     On passe notre grammaire $G$ sous forme normale de Chomsky, i.e. les productions de $G$ sont sous la forme : 
     \begin{itemize}
@@ -373,7 +387,7 @@ Pour les langages de Dyck, on peut les reconnaître par :
     On obtient alors bien le résultat par induction.
 \end{proof}
 
-\begin{definition}
+\begin{définition}{Arbre de Dérivation}{}
     On appelle arbre de dérivation un arbre étiqueté par $\left(\Sigma \cup V\right)$ tel que : 
     \begin{itemize}
         \item La racine est étiquetée par $S$
@@ -381,15 +395,56 @@ Pour les langages de Dyck, on peut les reconnaître par :
     \end{itemize}
     
     Une grammaire est dite ambigue lorsqu'il existe un mot qui possède au moins deux arbres de dérivation syntaxique possible. Un langage est innéramment ambigu si toute grammaire qui le reconnaît est ambigu. 
-\end{definition}
+\end{définition}
 
-\part[Automates à Pile]{Cours 5 : 9/11}
+\section{Automates à Pile}
+\subsection{Définitions}
+\begin{définition}
+    {Automate à Pile}{}
+    Un automate à pile est un septuplet 
+    \begin{equation*}
+	    A = \left(Q, \Sigma, \Gamma, \delta, q_{0}, Z_{0}, F\right)
+    \end{equation*}
+    où
+    \begin{itemize}
+	    \item $Q$ est un ensemble fini non vide d'états
+	    \item $\Sigma$ est un alphabet de symboles d'entrée
+	    \item $\Gamma$ est un alphabet de symboles de pile
+	    \item $q_{0}$ est l'état initial
+	    \item $Z_{0}$ est le symbole de haut de pile initial
+	    \item $F \subseteq Q$ est un ensemble d'états finaux
+	    \item $\delta : Q \times \left(\Sigma\cup \{\epsilon\}\right) \times \Gamma \longrightarrow \mathcal{P}_{F}\left(Q\times \Gamma^{*}\right)$ est une fonction dite de transition
+    \end{itemize}
+\end{définition}
+À un instant, on a besoin de trois choses pour décrire l'automate: son état, ce qu'il reste sur la bande d'entrée, le contenu de la pile. 
 
+\begin{définition}
+	{Descripteur Instantané}{}
+	Soit $A$ un automate à pile. Une description instantanée de $A$ est un élément de $Q \times \Sigma^{*} \times \Gamma^{*}$. Un descripteur instantané initial est un élément de $\{q_0\} \times \Sigma^{*}\times \{Z_{0}\}$. 
+\end{définition}
 
+\begin{définition}
+	{Relation de Mouvement}{}
+	Soit $A$ un automate à pile. On définit une relation $\vdash$ dite relation de mouvement par 
+	\begin{equation*}
+		(q, ax, \alpha Z) \vdash (q', x, \alpha \beta) \Longleftrightarrow (q', \beta) \in \delta(q, a, Z)
+	\end{equation*}
+	pour tous $q, q'\in Q$, $a \in \Sigma \cup \{\epsilon\}$, $x \in \Sigma^{*}$, $\alpha, \beta \in \Gamma^{*}$, et $Z \in \Gamma$.
+\end{définition}
 
-\part[Machines de Turing]{Cours 6 : 16/11}
-\section{Définitions}
-\subsection{Décision}
+\begin{définition}
+	{Langages Reconnus}{}
+	Soit $A$ un automate à pile. On définit: 
+	\begin{itemize}
+		\item $T(A) = \left\{\omega \in \Sigma^{*} \middle| 
+	\end{itemize}<++>
+\end{définition}<++>
+
+\subsection{Équivalence avec les CFG}
+\chapter{Calculabilité}
+\section{Machines de Turing}
+\subsection{Définitions}
+\subsubsection{Décision}
 \begin{definition}[Problèmes de Décision]
     Un problème de décision est un langage $L \subseteq \Sigma^{\star}$ sur l'alphabet $\Sigma$.
 \end{definition}
@@ -402,7 +457,7 @@ Pour les langages de Dyck, on peut les reconnaître par :
     Passer d'une forme à l'autre est un problème d'encodage.
 \end{example}
 
-\subsection{Machine de Turing Déterministe à une Bande}
+\subsubsection{Machine de Turing Déterministe à une Bande}
 Prenons $L = \left\{w \# w \mid w \in \left\{0, 1\right\}^{\star}\right\}$. Une machine de Turing contient une mémoire, qu'on représente par une bande, et une tête de lecture et d'écriture, qui peut accéder à une case, et la remplir ou d'une lettre, ou d'un blanc. Ici, par exemple, on peut lire le premier caractère à gauche, s'en souvenir, l'effacer, lire le premier caractère à droite, le comparer au caractère lu à gauche, s'arrêter si c'est différent, l'effacer et continuer sinon...
 
 \begin{definition}[Machine de Turing]
@@ -441,7 +496,7 @@ Prenons $L = \left\{w \# w \mid w \in \left\{0, 1\right\}^{\star}\right\}$. Une 
     $L$ est décidable (récursivement énumérable) s'il existe une TM qui décide (reconnaît) $L$.
 \end{definition}
 
-\subsection{Extensions}
+\subsubsection{Extensions}
 On peut avoir plusieurs bandes, mais cela n'apporte pas d'expressivité.
 
 \begin{definition}[Machines de Turing non-déterministes]
@@ -456,7 +511,7 @@ On peut avoir plusieurs bandes, mais cela n'apporte pas d'expressivité.
 \end{proof}
 
 
-\subsection{Machine de Turing Universelle}
+\subsubsection{Machine de Turing Universelle}
 \begin{definition}[Machine de Turing Universelle]
     Une TM universelle est une machine qui permet de simuler, étant donné un encodage, une machine de Turing.    
 \end{definition}
@@ -468,8 +523,8 @@ On peut par exemple encoder une TM $(Q, \Sigma, \Gamma, \delta, q_{0}, q_{accept
 On se donne ensuite une seconde bande sur laquelle on va effectuer les calculs.
 
 
-\section{Limites - 1ère Partie}
-\subsection{indécidabilité}
+\subsection{Limites - 1ère Partie}
+\subsubsection{indécidabilité}
 En réalité, tous les langages ne sont pas décidables : 
 \begin{proposition}
     Le langage $A_{TM} = \left\{\scalar{M}, \scalar{w} \mid M \text{ accepte } w\right\}$ n'est pas décidable.
@@ -483,19 +538,11 @@ En réalité, tous les langages ne sont pas décidables :
     Le problème de l'arrêt $H_{TM} = \left\{\scalar{M}\mid M \text{ s'arrête sur le mot vide}\right\}$ est indécidable. 
 \end{proposition}
 
-\subsection{Propriétés de Langages}
+\subsubsection{Propriétés de Langages}
 \begin{definition}
     Une propriété de langage est un ensemble $\mathcal{P}$ de codes de machine de Turing, tq $\forall M_{1}, M_{2}$, $\scalar{M_{1}} \in \mathcal{P} \wedge \mL(M_{1}) = \mL(M_{2}) \Leftrightarrow \scalar{M_{2}} \in \mathcal{P}$. \\
     Une propriété est non triviale si : $\exists M_{1}, \ \scalar{M_{1}} \notin \mathcal{P}$ et $\exists M_{2}, \ \scalar{M_{2}}$.
 \end{definition}
-
-\begin{theorem}[Rice]
-    Toute propriété de langage non triviale est indécidable.
-\end{theorem}
-
-\begin{proof}
-    Cf plus tard    
-\end{proof}
 
 \begin{proposition}[Réduction de Turing]
     Supposons que $A$ décide $L$. Pour décider $L^{'}$, on construit $B$ utilisant $A$ comme sous-outil. Alors :
@@ -506,11 +553,9 @@ En réalité, tous les langages ne sont pas décidables :
     On a construit : $f : \Sigma_{L} \rightarrow \Sigma_{L^{'}}$ telle que $w\in L \Leftrightarrow f(w) \in L^{'}$.
 \end{proposition}
 
-
-\part[Indécidabilité]{Cours 7 : 23/11}
-
-\section{Problèmes Indécidables}
-\subsection{Théorème de Rice}
+\section{Indécidabilité}
+\subsection{Problèmes Indécidables}
+\subsubsection{Théorème de Rice}
 \begin{theorem}[Rice]
     Toute propriété de langage non triviale est indécidable.
 \end{theorem}
@@ -524,7 +569,7 @@ En réalité, tous les langages ne sont pas décidables :
     \end{itemize}
 \end{proof}
 
-\subsection{Problèmes des Correspondances de Post}
+\subsubsection{Problèmes des Correspondances de Post}
 \begin{definition}
     On appelle une tuile un objet de la forme : $\left[\begin{array}{c}u_{1} \\ v_{1} \end{array}\right]$ où $u_{1}, v_{1} \in \Sigma^{\star}$ 
 \end{definition}
@@ -590,7 +635,7 @@ En réalité, tous les langages ne sont pas décidables :
 \end{proof}
 
 \begin{theorem}
-    Décider de la vacuité de l'intersection de deux langages algébriques n'est pas décidable.
+    Décider de la vacuité de l'intersubsection de deux langages algébriques n'est pas décidable.
 \end{theorem}
 \begin{proof}
     Soit une instance de $PCP$ donnée par deux suites $u_{1}, \ldots, u_{m}$, $v_{1}, \ldots, v_{m}$ sur un alphabet $\Sigma$.\\
@@ -612,7 +657,7 @@ En réalité, tous les langages ne sont pas décidables :
             V \rightarrow & \sum_{b \in V}bV + \epsilon
         \end{aligned}    
     \]
-    On a donc réduit l'intersection de ces grammaires à PSP.
+    On a donc réduit l'intersubsection de ces grammaires à PSP.
 \end{proof}
 
 \begin{proposition}
@@ -624,10 +669,10 @@ En réalité, tous les langages ne sont pas décidables :
     \end{itemize}
 \end{proposition}
 
-
-\part[Classes de Complexité]{Cours 8 : 30/11}
-\section{Temps d'un Calcul et Premières Classes}
-\subsection{Définitions}
+\chapter{Complexité}
+\section{Classes de Complexité}
+\subsection{Temps d'un Calcul et Premières Classes}
+\subsubsection{Définitions}
 Dans la suite on se donne une machine de Turing (non nécessairement déterministe) avec une bande d'entrée, une bande de sortie et $k$ bandes de travail.
 \begin{definition}
     Pour un calcul $\gamma$ $q_{0}w \rightarrow Oq_{1}w \rightarrow \cdots \rightarrow C_{n}$ sur un mot $w$ on définit son temps comme $n$, on définit alors : \[t_{M}(w) = \max_{\gamma} t_{M}(\gamma)\\ t_{M}(n) = \max_{\abs{w} = n}t_{M}(w)\]
@@ -655,7 +700,7 @@ On définit alors :
     et de même en espace.
 \end{definition}
 
-\subsection{Inclusions et Accélération}
+\subsubsection{Inclusions et Accélération}
 \begin{theorem}[Linear Speed Up Theorem]
     Soit $k \geq 0$ un entier, et soit $\M$ une machine de Turing. Si $n = \O(t_{M}(n))$ alors il existe une TM $\M^{'}$ équivalente à $\M$ telle que $t_{\M^{'}} \leq \frac{t_{\M}(n)}{k}$
 \end{theorem}
@@ -674,7 +719,7 @@ On définit alors :
     Si $g$ est calculable, il existe $f$ calculable telle que $\comp{DTime}(f(n)) = \comp{DTime}(g(f(n)))$.
 \end{proposition}
 
-\subsection{Fonctions Constructibles}
+\subsubsection{Fonctions Constructibles}
 \begin{definition}
     On dit que $f$ est constructible en temps si : 
     \begin{itemize}
@@ -710,10 +755,10 @@ Pour justifier la bonne définition des classes de complexité $\comp{DTime}(f(n
     \end{itemize}
 \end{proof}
 
-\part[NP-Complétude]{Cours 9 : 7/12}
 \section{NP-Complétude}
+\subsection{NP-Complétude}
 
-\subsection{Vérification}
+\subsubsection{Vérification}
 \begin{definition}
     Un vérificateur en temps polynomial pour un langage $L$ est une machine déterministe $\mathcal{V}$ qui accepte des entrées de la forme $\scalar{w, c}$ en temps polynomial en $\abs{w}$ telle que $L = \left\{w \mid \exists c, \ \scalar{w, c} \in L(\mathcal{V})\right\}$
 \end{definition}
@@ -723,7 +768,7 @@ Pour justifier la bonne définition des classes de complexité $\comp{DTime}(f(n
 \end{theorem}
 
 
-\subsection{Réduction}
+\subsubsection{Réduction}
 \begin{definition}
     Soient $A$ et $B$ des problèmes codés par $L_{A}$ et $L_{B}$ sur les alphabets $\Sigma_{A}$ et $\Sigma_{B}$. Une réduction polynomiale de $A$ à $B$ est une fonction calculable en temps polynomial par une machine de Turing déterministe telle que : 
     \[
@@ -736,7 +781,7 @@ Pour justifier la bonne définition des classes de complexité $\comp{DTime}(f(n
     Si $A \leq_{P} B$ et $B \in P$ alors $A\in P$ 
 \end{proposition}
 
-\subsection{Complétude}
+\subsubsection{Complétude}
 \begin{definition}
     Un problème $A$ est dit $\comp{D}$-difficile si tout problème $B$ de $\comp{D}$ se réduit à $A$ en temps polynomial. S'il est de plus dans $\comp{D}$, il est dit $\comp{D}$-complet.
 \end{definition}
@@ -746,7 +791,7 @@ Pour justifier la bonne définition des classes de complexité $\comp{DTime}(f(n
 \end{proposition}
 
 
-\subsection{Théorème de Cook-Levin}
+\subsubsection{Théorème de Cook-Levin}
 \begin{definition}
     Le problème SAT est le problème de la satisfiabilité d'une formul de calcul propositionnel. Le problème 3SAT couvre le cas où cette formule est en forme normale conjonctive avec au plus trois littéraux par clause. 
 \end{definition}
@@ -762,9 +807,9 @@ Pour justifier la bonne définition des classes de complexité $\comp{DTime}(f(n
     Par réduction de \comp{SAT}
 \end{proof}
 
-\part[Précisions sur la Complétude]{Cours 10 : 14/12}
-\section{Précision sur la complétude}
-\subsection{FPT}
+\section[Précisions sur la Complétude]{Cours 10 : 14/12}
+\subsection{Précision sur la complétude}
+\subsubsection{FPT}
 \begin{definition}
     Un langage $L \subset \Sigma^{\star} \times \N$ est \textsc{Fixed Parameter Tractable} s'il existe un algo qui tourne en $f(k)n^{\O(1)}$ et décide $L$
 \end{definition}
@@ -778,9 +823,9 @@ Pour justifier la bonne définition des classes de complexité $\comp{DTime}(f(n
     \end{itemize}
 \end{definition}
 
-\subsection{DP}
+\subsubsection{DP}
 \begin{definition}
-    Un langage est $\comp{DP}$ s'il est l'intersection d'un langage de $\comp{NP}$ et d'un de $\comp{coNP}$.
+    Un langage est $\comp{DP}$ s'il est l'intersubsection d'un langage de $\comp{NP}$ et d'un de $\comp{coNP}$.
 \end{definition}
 
 \begin{definition}
@@ -805,8 +850,8 @@ Pour justifier la bonne définition des classes de complexité $\comp{DTime}(f(n
     \end{itemize}
 \end{proof}
 
-\section{Oraclicité}
-\subsection{Machines à Oracle}
+\subsection{Oraclicité}
+\subsubsection{Machines à Oracle}
 \begin{definition}
     Une machine à oracle $L$ est un machine de Turing étendue par: 
     \begin{itemize}
@@ -823,7 +868,7 @@ Pour justifier la bonne définition des classes de complexité $\comp{DTime}(f(n
     Puisqu'on peut réduire \comp{Sat} en temps polynomial, $\comp{P}^{\comp{Sat}} = \comp{P}^{\comp{NP}}$
 \end{proposition}
 
-\subsection{Hiérarchie Polynomiale}
+\subsubsection{Hiérarchie Polynomiale}
 \begin{definition}
     On définit par récurrence : 
     \begin{itemize}
@@ -842,7 +887,7 @@ Pour justifier la bonne définition des classes de complexité $\comp{DTime}(f(n
     \end{itemize}
 \end{proposition}
 
-\subsection{Par les machines Alternantes}
+\subsubsection{Par les machines Alternantes}
 \begin{definition}
     Une machine alternante est une machine de Turing où les états sont typés entre universels et existentiels.
 \end{definition}
@@ -855,7 +900,7 @@ Pour justifier la bonne définition des classes de complexité $\comp{DTime}(f(n
     \end{itemize}
 \end{proposition}
 
-\subsection{Par certificat}
+\subsubsection{Par certificat}
 \begin{proposition}
     $L \in \Sigma_{i}^{\comp{P}}$ s'il existe $M$ une machine de Turing déterministe en temps polynomial et un polynôme $q$ tel que : 
     \[
@@ -863,15 +908,15 @@ Pour justifier la bonne définition des classes de complexité $\comp{DTime}(f(n
     \]
 \end{proposition}
 
-\part[Classes en Espace]{Cours 11 : 21/12}
-\section{Définition de \comp{PSpace}, \comp{NPSpace}, \comp{NL}, \comp{L}}
+\section{Classes en Espace}
+\subsection{Définition de \comp{PSpace}, \comp{NPSpace}, \comp{NL}, \comp{L}}
 Dans toute la suite, on considère qu'on a une bande d'entrée, une ou plusieurs bande de travail, et une bande de sortie sur laquelle on ne peut qu'écrire et se déplacer à droite. 
 \begin{definition}
     L'espace utilisé est le nombre de cases utilisées sur les bandes de travail. 
 \end{definition}
 
 \begin{definition}
-    \comp{PSpace} 
+    \comp{PSpace} est l'ensemble des problèmes résolubles en espace polynomial. 
 \end{definition}
 
 
@@ -904,7 +949,7 @@ Dans la suite, lorsqu'on parle d'une machine bornée en espace par $s(n)$, on su
     \begin{itemize}
         \item \comp{QBF} $\in$ \comp{PSpace} : On va sur la deuxième bande de travail maintenir la valeur des $n$ variables lors du test courant. On teste pour $x_{0}$ une formule $\phi'$ où on a remplacé $x_{0}$ par $0$ puis une formule $\phi''$ où on a remplacé $x_{1}$ par $1$. 
         \item \comp{QBF} est \comp{PSpace}-difficile : Soit $L \in \comp{PSpace}$. On construit $f : \Sigma^{\star} \rightarrow$ input de \comp{QBF} tel que $\forall x \in \Sigma^{\star}, x \in L \Leftrightarrow f(x)$ est valide et $f$ calculable en temps polynomial. \\
-        Il existe une machine de Turing $M_{L}$ fonctionnant en espace polynomial $x\in L \Leftrightarrow M_{L}(x) = 1$. Ceci est équivalent au fait qu'il existe un chemin dans le graphe des configurations de $M_{L}$ sur $x$ qui part de $C_{init}$ à $C_{accept}$ de taille au plus $2^{O(s(n))}$.\\
+        Il existe une machine de Turing $M_{L}$ fonctionnant en espace polynomial $x\in L \Leftrightarrow M_{L}(x) = 1$. Ceci est équivalent au fait qu'il existe un chemin dans le graphe des configurations de $M_{L}$ sur $x$ qui section de $C_{init}$ à $C_{accept}$ de taille au plus $2^{O(s(n))}$.\\
         On définit par induction $\phi_{M, x, i}$ (à deux variables libres $C_{1}, C_{2}$) valide si et seulement si il existe un chemin de taille au plus $2^{i}$ allant de $C_{1}$ à $C_{2}$ dans le graphe des configurations de $M$ sur $x$ : 
         \begin{itemize}
             \item $\phi_{M, x, 0}(C_{1}, C_{2})$ : cf.théorème de Cook \ref{thm:cook} avec une bande de taille $s(\abs{x})$
@@ -946,9 +991,9 @@ On considère des réductions en espace logarithmique. On peut effectivement les
 \end{proof}
 
 
-\section{\comp{PSpace}-complétude}
+\subsection{\comp{PSpace}-complétude}
 
-\section{Théorème de Savitch}
+\subsection{Théorème de Savitch}
 \begin{theorem}
     Si $s(n) \geq \log n$, alors $\comp{NSpace}(s(n)) \subseteq \comp{Space}(s^{2}(n))$
 \end{theorem}
@@ -956,10 +1001,10 @@ On considère des réductions en espace logarithmique. On peut effectivement les
 
 
 
-\section{Liens à \comp{PSpace}}
-\subsection{Relations \comp{PH} - \comp{PSpace}}
+\subsection{Liens à \comp{PSpace}}
+\subsubsection{Relations \comp{PH} - \comp{PSpace}}
 
-\subsection{\comp{AP} = \comp{PSpace}}
+\subsubsection{\comp{AP} = \comp{PSpace}}
 On a aussi \comp{APSpace} = \comp{ExpTime} et \comp{AExpTime} = \comp{ExpSpace}
 
 

@@ -1,10 +1,8 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{cours}
+\ProvidesClass{beamercours}
 
-\LoadClassWithOptions{book}
-\RequirePackage[a4paper,margin=3cm]{geometry}
+\LoadClassWithOptions{beamer}
 \RequirePackage{cmap}
-\RequirePackage{lmodern}
 \RequirePackage[utf8]{inputenc}
 \RequirePackage[T1]{fontenc}
 \RequirePackage[french]{babel}
@@ -13,58 +11,66 @@
 \RequirePackage{tikz}
 \RequirePackage{booktabs}
 \RequirePackage{textcomp}
-\RequirePackage{pdfpages}
 \tikzset{>=stealth}
 \RequirePackage{ragged2e}
-\RequirePackage{amsmath}
-\RequirePackage{dsfont}
-
-\RequirePackage{amsfonts}
-\RequirePackage{mathrsfs}
-\RequirePackage{amsthm}
-\RequirePackage{amssymb}
+\RequirePackage{amsmath, amsthm, amssymb, amsfonts}
 \RequirePackage{multirow}
+\RequirePackage{stmaryrd}
+\RequirePackage{nicematrix}
+\RequirePackage{makecell}
 \RequirePackage{listings}
 \RequirePackage{algorithm}
-\RequirePackage{titlesec}
-\RequirePackage{enumitem}
 \RequirePackage{algpseudocode}
-\RequirePackage{etoc}
-\RequirePackage{stmaryrd}
-\setcounter{secnumdepth}{4}
-\RequirePackage{wrapfig}
-\RequirePackage{graphicx}
-\RequirePackage{hyperref}
-\RequirePackage[justification=centering]{caption}
 
-\author{Null}
-\title{None}
+\newenvironment{attention}{\begin{tabular}{m{.1\linewidth}m{.8\linewidth}}\includegraphics[width=\linewidth]{attention}&}{\end{tabular}}
 
+\usefonttheme[onlymath]{serif}
+\RequirePackage{setspace}
+\setstretch{1.2}
 
-\AtBeginDocument{\def\labelitemi{$\bullet$}}
-\AfterBeginDocument{
-    \maketitle
-    \begin{center}
-        \includegraphics[height=6em]{/home/matthieu/Documents/ETUDES/ENS/ens_psl.pdf}
-    \end{center}
-    %\newpage
-    \tableofcontents}
+\mode<presentation>
+\usetheme{Pittsburgh}
 
 
-\titleformat{\paragraph}
-{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
-\titlespacing*{\paragraph}
-{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+%\AtBeginSection[]{\begin{frame}{Plan}\tableofcontents[subsectionstyle=show/shaded/hide,sectionstyle=show/shaded]\end{frame}}
 
-\newtheorem{theorem}{Théorème}[subsection]
-\newtheorem{corollary}{Corollaire}[theorem]
-\newtheorem{lemma}[theorem]{Lemme}
+%\AtBeginSubsection[]{\begin{frame}{Plan}\tableofcontents[subsectionstyle=show/shaded/hide,sectionstyle=show/shaded]\end{frame}}
+
+%\author{Matthieu Boyer}
+% \institute{\includegraphics[height=3em]{ens_psl}}
+
+%\setbeamertemplate{navigation symbols}{}
+
+%\lstset{showstringspaces=false}
+
+\newcommand{\latex}[1][]{\lstinline[language={[LaTeX]TeX},emph={#1}]}
+\lstnewenvironment{latexblock}[1][]{\lstset{columns=flexible,language=[LaTeX]TeX,emph={#1}}}{}
+\newcommand{\deriv}[2]{\frac{\mathrm{d}}{\mathrm{d}#1}\!\left(#2\right)}
+\newtheorem{definitionfr}{Définition}
+
+
+\ifdefined\beamerboxesrounded
+\definecolor{mygray}{gray}{0.90}
+\definecolor{mygreen}{rgb}{0,0.5,0}
+\definecolor{maroon}{rgb}{0.5,0,0}
+\lstset{emphstyle=\color{alert},basicstyle=\small\ttfamily,stringstyle=\color{mygreen},keywordstyle=\color{structure.fg},commentstyle=\color{maroon}\itshape,backgroundcolor=\color{mygray}}
+\let\oldlatex\latex
+\renewcommand{\latex}[1]{\colorbox{mygray}{\oldlatex{#1}}}
+\fi
+
+\renewcommand{\ALG@name}{Algorithme}
+\newcommand{\algorithmautorefname}{Algorithme}
+\makeatother 
+
+\algblock{Input}{EndInput}
+\algnotext{EndInput}
+
 \newtheorem{remark}{Remarque}[theorem]
 \newtheorem{proposition}{Proposition}[subsection]
-\newtheorem{definition}{Définition}[subsection]
-\newtheorem{example}{Exemple}[subsection]
-
-
+\renewcommand\qedsymbol{$\blacksquare$}
+\renewcommand{\phi}{\varphi}
+\renewcommand{\epsilon}{\varepsilon}
+\renewcommand{\emptyset}{\varnothing}
 \renewcommand{\d}{{\, \rm d}}
 
 %Symboles
@@ -79,8 +85,8 @@
 \renewcommand{\O}{\mathcal{O}}
 \newcommand{\A}{\mathcal{A}}
 \newcommand{\mL}{\mathcal{L}}
-\newcommand{\B}{\mathcal{B}}
 \newcommand{\ml}{\mathcal{l}}
+\newcommand{\mP}{\mathcal{P}}
 
 \renewcommand{\P}{\mathbb{P}}
 \renewcommand{\d}{{\rm \, d}}
@@ -89,6 +95,7 @@
 \newcommand{\lin}{\mathcal{L}}
 \newcommand{\M}{\mathcal{M}}
 \newcommand{\cont}{\mathcal{C}}
+
 \renewcommand{\phi}{\varphi}
 \renewcommand{\epsilon}{\varepsilon}
 \renewcommand{\emptyset}{\varnothing}
@@ -99,20 +106,11 @@
 \DeclareMathOperator{\Gl}{Gl}
 \DeclareMathOperator{\pgcd}{pgcd}
 \DeclareMathOperator{\Tr}{Tr}
-\DeclareMathOperator{\Aut}{Aut}
 \DeclareMathOperator{\rg}{rg}
 \DeclareMathOperator{\ch}{ch}
 \DeclareMathOperator{\sh}{sh}
-\DeclareMathOperator{\sgn}{sgn}
 \renewcommand{\th}{\mathop{\rm th}}
-\makeatletter
-\renewcommand{\ALG@name}{Algorithme}
-\newcommand{\algorithmautorefname}{Algorithme}
-\makeatother 
-
-\algblock{Input}{EndInput}
-\algnotext{EndInput}
-
+\DeclareMathOperator{\Vect}{Vect}
 
 %Macros
 \newcommand{\applic}[4]{\begin{array}[t]{rcl}
@@ -133,10 +131,18 @@
 \newcommand{\vect}[2][]{\text{Vect}_{#2}\left(#1\right)}
 \renewcommand{\H}{\mathbb{H}}
 \newcommand{\transpose}[1]{{^{\mathsf{t}}}#1}
-\newcommand{\onen}[1]{\left\llbracket 1, #1\right\rrbracket}
-\newcommand{\partialderiv}[2]{\frac{\partial #1}{\partial #2}}
 \newcommand{\comp}[1]{\textsc{#1}}
+\newcommand{\onen}[1]{\left\llbracket 1, #1\right\rrbracket}
 
+
+\definecolor{vulm}{HTML}{7d1dd3}
+\definecolor{yulm}{HTML}{ffe500}
+\setbeamercolor{structure}{fg = vulm}
+\setbeamercolor{section in head/foot}{fg = yulm}
+\setbeamercolor{subsection in head/foot}{fg = yulm}
+\setbeamercolor{background canvas}{bg = yulm!10}
+
+\usetikzlibrary{decorations.pathreplacing,calligraphy}
 \usetikzlibrary{automata, arrows, calc, matrix, positioning}
 \usetikzlibrary{math}
 \definecolor{vulm}{HTML}{7d1dd3}
@@ -147,18 +153,24 @@
 \tcbuselibrary{theorems}
 \NewTcbTheorem[auto counter, number within=section]{définition}{Définition}%
  {colback=yulm!10, colframe=vulm!45!black, fonttitle=\bfseries}{def}
+\resetcounteronoverlays{tcb@cnt@définition}
 
 \NewTcbTheorem[auto counter, number within=section]{théorème}{Théorème}%
  {colback=yulm!10!white, colframe=vulm!65!black, fonttitle=\bfseries}{thm}
+ \resetcounteronoverlays{tcb@cnt@théorème}
 
 \NewTcbTheorem[auto counter, number within=section]{propositionfr}{Proposition}%
  {colback=yulm!10!white, colframe=vulm!25!black, fonttitle=\bfseries}{propo}
+ \resetcounteronoverlays{tcb@cnt@propositionfr}
 
 \NewTcbTheorem[auto counter, number within=section]{corollaire}{Corollaire}%
  {colback=yulm!10, colframe=vulm!35!black, fonttitle=\bfseries}{cor}
+ \resetcounteronoverlays{tcb@cnt@corollaire}
 
 \NewTcbTheorem[auto counter, number within=section]{lemme}{Lemme}%
  {colback=yulm!10, colframe=vulm!15!black, fonttitle=\bfseries}{lemme}
+ \resetcounteronoverlays{tcb@cnt@lemme}
 
 \NewTcbTheorem[auto counter, number within=section]{remarque}{Remarque}%
  {colback=yulm!10, colframe=vulm!65!black, fonttitle=\bfseries}{rem}
+ \resetcounteronoverlays{tcb@cnt@remarque}

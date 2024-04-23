@@ -238,7 +238,73 @@ Mais, on sait que la profondeur moyenne des feuilles est égale à la somme des 
 		\end{equation*}
 
 
-\end{enumerate}<++>
+\end{enumerate}
+
+
+\section{TD9}
+\subsection{Exercice 1}
+\begin{enumerate}
+	\item On a: 
+	\begin{equation*}
+		\begin{aligned}
+			H(X \mid Y) =& \sum_{x \in X, y \in Y} P_{X, Y}(x, y) \log P_{X \mid Y}(x \mid y)\\
+			=& \sum_{y \in Y} \sum_{x \in X} P_{X, Y}(x, y) \log P_{X \mid Y}(x\mid y)\\
+			=& \sum_{y \in Y} P_{Y}(y) \sum_{x \in X}P_{X|Y}(x)\log P_{X \mid Y}(x \mid y)\\
+			=& \sum_{y \in Y} P_{Y}(y) H(X \mid Y = y)
+		\end{aligned}
+	\end{equation*}
+
+	\item On a trivialement, pour tous $X, Y, y$, $-\log P_{X \mid Y}(x\mid y) \geq 0$. Par somme, on a le résultat. 
+	Par ailleurs, on a $H(X \mid Y) > 0$ si et seulement si on a:
+	\begin{equation*}
+		P_{X, Y}(x, y) \neq 0 \Leftrightarrow P_{X\mid Y}(x\mid y) = 1
+	\end{equation*}
+	c'est à dire si et seulement si, presque sûrement, $x = \phi(Y)$. 
+
+	\item On a: 
+	\begin{equation*}
+		\begin{aligned}
+			H(X, Y) =& \sum_{(x, y) \in X \times Y} P_{X, Y}(x, y) \log P_{X, Y}(x, y)\\
+			=& \sum_{y \in Y} \sum_{x \in X} P_{X\mid Y}(x\mid y) P_{Y}(y)\log \left(P_{X\mid Y}(x\mid y)\times P_{Y}(y)\right)\\
+			=& \sum_{y \in Y} \left(P_{Y}(y)\sum_{x \in X} P_{X \mid Y}(x \mid y) \log P_{X \mid y}(x \mid y)\right) + P_{Y}(y)\log P_{Y}(y) \\
+			=& H(X \mid Y) + H(Y)
+		\end{aligned}
+	\end{equation*}
+
+	\item Récurrence triviale en considérant $(X_{1}, (X_{2}, \ldots, X_{n})$ comme variables dans l'équation précédente.
+	
+	\item Si $X \perp Y$ on a le résultat. Sinon, on a $-P_{X, Y}(x, y)\log P_{X\mid Y}(x\mid Y) > -P_{X}(x, y)\log P_{X}(x)$ par stricte convexité de $\phi: t\mapsto t\log t$. 
+
+	\item De même que la question précédente.
+
+	\item De même que la question précédente. 
+
+	\item On a, par définition $P_{\phi(X)}(\phi(x)) = \sum_{x\in \phi^{-1}(\phi(x))} P_{X}(x)$ donc par transfert on vérifie bien que $H(\phi(X)) \leq H(X)$ avec égalité si et seulement si $\phi$ est injective. 
+
+	\item Il s'agit simplement de considérer dans les propriétés précédentes les variables $(X_{j})_{j \neq i}$ et $X_{i}$. Pour la deuxième inégalité, par positivité on a trivialement le résultat du point $8$. 
+
+	\item L'aspect suffisant est évident par $H(X, Y) = H(Y) + H(X \mid Y) = H(X) + H(Y\mid X)$. De plus si $H(X) < \infty$ et $H(Y) \infty$, par $8$ on a $H(X, Y) \leq H(Y) + H(X) < \infty$. 
+
+	\item On applique simplement les raisonnements précédents en passant à l'entropie conditionnelle plutôt qu'à l'entropie qui vérifiera ici les mêmes propriétés. 
+\end{enumerate}
+
+\subsection{Exercice 2}
+Les propriétés de l'entropie conditionnelle point par point se démontrent de même que précédemment. 
+
+\subsection{Exercice 3}
+\begin{enumerate}
+	\item On a déjà démontré que $I(X, Y) = H(X) - H(X \mid Y) = H(Y) - H(Y \mid X)$. Par conséquent, comme $H(X\mid Y) = 0$ si $X = \phi(Y)$, on a $I(X, X) = H(X) - H(X \mid X) = H(X)$. 
+	\item Découle du point $v$ de l'exercice précédent. 
+	\item $I(X, Y) = H(X) - H(X \mid Y) = H(Y) - H(Y\mid X) = I(Y, X)$
+	\item $I(X, Y) + H(X, Y) = H(X) - H(X \mid Y) + H(Y) + H(X \mid Y) = H(X) + H(Y)$ par le point $iii$ de l'exercice 1. 
+	\item Déjà démontré. 
+	\item Vient par positivité de $H(X \mid Y)$ et de $H(X \mid Y) = 0 \Leftrightarrow X = \phi(Y)$ presque sûrement. 
+	\item Vient du point $vi$ de l'exercice $1$. 
+	\item Vient de l'exercice $1$. 
+	\item Par récurrence sur $k, l$, on a $I(X_{k}, X_{l + 1} = I(X_{k}, f(X_{l}) = I(f(X_{l}), X_{k}) \leq I(X_{l}, X_{k}) = I(X_{k}, X_{l})$ et de même $I(X_{k}, X_{l}) \leq I(X_{k + 1}, X_{l})$. 
+	\item Calcul direct.
+
+\end{enumerate}
 
 
 \end{document}

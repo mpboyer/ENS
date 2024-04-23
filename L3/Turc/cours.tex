@@ -13,6 +13,9 @@
 \newcommand{\sce}{\textsc{e}}
 \newcommand{\thead}[1]{\multicolumn{1}{c}{\bfseries #1}}
 
+\renewcommand{\labelitemi}{$\bullet$}
+\renewcommand{\labelitemii}{$\diamond$}
+
 \begin{document}
 \section{Birinci Ders}
 \subsection{Quelques Mots}
@@ -807,7 +810,7 @@ Cette combinatoire permet de nombreuses modulations de la signification, dont vo
                              &                          & \hspace{20pt} (action réelle présente ou passée)  \\
         \CodeAfter
         \begin{tikzpicture}
-            \foreach \i in {2, 7, 9, 10, 11, 12, 16, 17, 19}{\draw (1|-\i) -- (4|-\i);}
+            \foreach \i in {2, 6, 8, 10, 11, 12, 16, 17, 19}{\draw (1|-\i) -- (4|-\i);}
             \foreach \i in {2, 3, 4}{\draw (\i|-1) -- (\i|-19);}
             \draw (1|-2)--(1|-19);
             \draw (2|-1) -- (4|-1);
@@ -815,7 +818,43 @@ Cette combinatoire permet de nombreuses modulations de la signification, dont vo
     \end{NiceTabular}
 \end{center}
 
+Pour les noms d'action, plusieurs formes au sein de cet ensemble peuvent recevoir des suffixes de personne, ce qui leur permet de jouer un rôle essentiel dans la syntaxe turque. 
 
+Cette déclinaison personnelle s'applique en particulier aux noms d'action constatif \textsl{-d\sci k} et intentif \textsl{-(y)\sce c\sce k}, qui peuvent se prêter à de multiples emplois: 
+\begin{center}
+	\renewcommand{\arraystretch}{1.3}
+	\begin{NiceTabular}
+		{p{.5\textwidth}p{.5\textwidth}}
+		Comme \bf adjectif: & Comme \bf substantif:\\
+		Le nom verbal signifie toutes les relations de verbe à complément (objet, attribution, lieu, temps, etc\ldots):
+		\begin{itemize}
+			\item {\sl verdi\ug im para} (l'argent que j'ai donné)
+			\item {\sl para verdi\ug im adam} (l'homme auquel j'ai donné de l'argent)
+			\item {\sl adama para verdi\ug im yer} (le lieu où j'ai donné de l'argent à l'homme)
+		\end{itemize}
+		& \begin{itemize}
+			\item Le nom signifie l'action elle-même: {\sl sana bunu dedi\ug im önemli de\ug il} (le fait que je t'aie dit cela n'a aucune importance). Cet emploi est analogue à celui du nom d'action en {\sl -m\sce} à une différence près: celui-ci exprime une action conçue comme virtuelle (volonté, crainte, désir) tandis que les formes en {\sl -d\sci k} et en {\sl -(y)\sce c\sce k} prêtent au sujet de la proposition une action conçue comme un fait positif, une éventualité objective ou une intention constatable. 
+			\item Le nom signifie le contenue de l'action: {\sl sana diyece\ug im} (j'ai quelque chose à te dire). 
+		\end{itemize}
+		\\
+		Le nom verbal reste au cas absolu, comme il est de règle pour tout adjectif en turc. 
+		& Le nom verbal peut être décliné à tous les cas: 
+		\begin{itemize}
+			\item {\sl bunu dedi\ug imi anlamad\i lar} (ils n'ont pas compris que j'avais dit cela)
+			\item {\sl bunu dedi\ug imden emin misin?} (es-tu certaine que j'ai dit cela?)
+		\end{itemize}
+		\\
+		\begin{itemize}[label=$\rightarrow$]
+			\item Cette construction est proche de celle de la proposition nominale épithète
+			\item Le même modèle permet d'employer d'autres noms d'agent comme épithètes complexes: {\sl çok kitab\i \ olan talebe} (l'étudiant qui a beaucoup de livres). 
+		\end{itemize}
+        \CodeAfter
+        \begin{tikzpicture}
+            \foreach \i in {2, ..., 4} {\draw (1|-\i) -- (3|-\i);}
+            \draw (2|-1) -- (2|-5);
+        \end{tikzpicture}
+	\end{NiceTabular}
+\end{center}
 
 \appendix
 \newpage
@@ -1141,7 +1180,19 @@ Cette combinatoire permet de nombreuses modulations de la signification, dont vo
     \midrule
     toparlamak       & collecter/rassembler des éléments                    & deniz           & mer \\
     \midrule 
-    kenar & bord & olay\i & affaire, évènement
+    kenar & bord & olay\i & affaire, évènement\\
+    \midrule 
+    ho\ch lanmak & aimer, être rendu heureux de par & ba\ch lanmak & se lancer dans, se mettre à \\
+    \midrule
+    sa\ug & droite & sol & gauche\\
+    \midrule 
+    u\ug ra\ch mak & être en train de faire & dü\ch ünmek & penser\\
+    \midrule
+    gerekmek & nom: nécessité, verbe nécessairement suffixé: il faut & iyi ki do\ug dum & Bon Anniversaire\\
+    \midrule
+    do\ug mak & naître & müsaadenizle & avec votre permission (obséquieux)\\
+    \midrule 
+    
 \end{longtable}
 
 
