@@ -2598,5 +2598,600 @@ On rappelle qu'un paralléllogramme est de la forme
 	Deux ouverts simplement connexes $U$ et $V$ de $\C$ sont homéomorphes. 
 \end{corollaire}
 
+\section{Espaces de Fonctions Méromorphes}
+\subsection{Séries de Fonctions Méromorphes}
+\begin{définition}
+	{Uniforme Convergence}{}
+	Soit $(f_{n})$ une suite de fonctions méromorphes sur $U$. La série de fonctions $\sum f_{n}$ est dite uniformément convergente sur une partie $A$ de $U$ s'il existe un sous-ensemble fini de $J$ de $\N$ tel que: 
+	\begin{enumerate}
+		\item Pour tout $n \in \N \setminus J$, $f_{n}$ n'a pas de pôle dans $A$
+		\item La série $\sum_{n \in \N \setminus J} f_{n}$ est uniformément convergente sur $A$
+	\end{enumerate}
+\end{définition}
+
+\begin{théorème}
+	{Méromorphie de la Somme}{somme-meromorphe}
+	Soit $\sum f_{n}$ une série de fonctions méromorphes sur $U$. 
+	Si elle converge uniformément sur tout compact de $U$, alors sa somme $f$ est méromorphe sur $U$.
+	De plus la série $\sum f_{n}'$ converge uniformément sur tout compact de $U$ et sa somme est la fonction méromorphe $f'$. 
+\end{théorème}
+
+\begin{proof}
+	Pour tout ouvert $V \subseteq K$ inclus dans un compact $K$ de $U$, il existe $n_{0}$ tel que $f_{n}$ n'ai pas de pôle dans $K$ pour $n \geq n_{0}$, donc $f_{n}$ est holomorphe sur $V$ et 
+	\[
+		f = \sum_{n \leq n_{0}} f_{n} + \sum_{n > n_{0}} f_{n}
+	\]
+	est méromorphe sur $V$. Par conséquent, $f$ est méromorphe.\\
+	Sur $K$, la série $\sum_{n > n_{0}} f_{n}$ est uniformément convergente, donc $\sum f_{n}'$ l'est aussi. 
+	Ainsi, on a bien le résultat souhaité. 
+\end{proof}
+
+\subsection{Produits Infinis}
+Le théorème ci-dessous est un rappel du théorème de convergence des produits infinis de fonctions holomorphes~\ref{thm:produits-infinis}
+\begin{théorème}
+	{Produits Holomorphes}{produits-holomorphes}
+	Soit $U$ un ouvert connexe de $\C$ et $(f_{n})$ une suite de fonctions non nulles holomorphes telle que la série $\sum \abs{f_{n} - 1}$ converge uniformément sur tout compact de $U$. Alors, la suite des produits $\left(\prod_{k = 0}^{n} f_{k}\right)$ converge uniformément sur tout compact de $U$ vers une fonctions $f$ non nulle holomorphe sur $U$. 
+\end{théorème}
+
+\begin{lemme}
+	{}{}
+	Soit $G(z) = \prod_{n = 1}^{+\infty} \left(1 + \frac{z}{n}\right) e^{-z/n}$.
+	Alors, $G$ est holomorphe sur $\C$ et ne s'annule que sur les entiers strictement négatifs et de plus: 
+	\begin{enumerate}
+		\item Pour tout $z \notin \Z$, $G(z)G(-z) = \frac{\sin(\pi z)}{\pi z}$
+		\item Pour tout $z \notin -\N$, $G(z - 1) = z G(z)e^{\gamma}$ pour $\gamma = \lim \sum \frac{1}{k} - \log n$. 
+	\end{enumerate}
+\end{lemme}
+
+
+\begin{définition}
+	{Fonction Gamma}{gamma}
+	La fonction $\Gamma$ est la fonction méromorphe sur $\C$
+	\begin{equation*}
+		\Gamma(z)=\frac{e^{-\gamma z}}{z}\frac{1}{\prod_{n = 1}^{+\infty}\left(1 + \frac{z}{n}\right)e^{-z/n}}
+	\end{equation*}
+	La fonction $\Gamma$ admet pour seuls pôles simples les entiers strictement négatifs car 
+	\begin{equation*}
+		\Gamma(z) = \frac{e^{-\gamma z}}{z}\frac{\tan(\pi z)}{\pi}
+	\end{equation*}
+\end{définition}
+
+\begin{propositionfr}
+	{Propriétés de Gamma}{gamma-prop}
+	\begin{enumerate}
+		\item $\Gamma(1) = 1$
+		\item $\Gamma(z + 1) = z \Gamma(z)$, en particulier $\Gamma(n) = (n - 1)!$
+		\item (Formule des Compléments) $\Gamma(z) \Gamma(1 - z) = \frac{\pi}{\sin(\pi z)}$, en particulier $\Gamma(1/2) = \sqrt{\pi}$.
+		\item $\Gamma(z) = \lim\limits_{n \to \infty} \frac{n!}{z(z + 1)\cdots(z + n)}n^{z}$
+		\item $Res(\Gamma, -n) = \frac{(-1)^{n}}{n!}$
+	\end{enumerate}
+\end{propositionfr}
+Ces propriétés découlent immédiatement des propriétés de $G$. 
+
+\subsection{Problème de Weierstrass}
+\begin{définition}
+	{Problème de Weierstrass}{}
+	Le problème de Weierstrass est le suivant: étant donné une suite de complexes sans point d'accumulation, existe-t-il une fonction n'ayant des zéros qu'en ces complexes (comptés avec multiplicités)?
+\end{définition}
+
+\begin{propositionfr}
+	{Sur les réponses au Problème}{solutions-prob-weier}
+	\begin{enumerate}
+		\item Si $f_{1}, f_{2}$, conviennent, alors $f_{1} = f_{2}e^{h}$ où $h \in \O(\C)$
+		\item Si la suite $(a_{n})$ n'a pas de valeur d'adhérence elle diverge vers $\infty$
+		\item On peut poser le problème sur tout ouvert $U$ de $\C$. 
+		\item On peut supposer tous les $a_{k} \neq 0$ quitte à multiplier par une puissance convenable la fonction solution. 
+		\item Le problème est trivial pour une suite finie en prenant un polynôme.  
+	\end{enumerate}
+\end{propositionfr}
+
+
+\begin{définition}
+	{Facteur Principal de Weierstrass}{facteur-weier}
+	Le facteur principal de Weierstrass d'ordre $m \geq 1$ est la fonction holomorphe sur $\C$ 
+	\begin{equation*}
+		W_{1}(z) = (1 - z), \ldots, W_{m}(z) = (1 - z)\exp\left(\sum_{k = 1}^{m - 1}\frac{z^{k}}{k}\right)
+	\end{equation*}
+
+\end{définition}
+
+\begin{lemme}
+	{Distance Un-Facteur}{dist-un-facteur}
+	Si $\abs{z} \leq 1$ alors $\abs{1 - W_{p}(z)} \leq \abs{z}^{p}$
+\end{lemme}
+
+\begin{proof}
+	On écrit $W_{p}(z) = \sum_{k = 0}^{+\infty} a_{k}z^{k}$. Par définition, $W_{p}(0) = 1$ donc $a_{0} = 1$.
+	\begin{itemize}
+		\item On a: 
+			\begin{equation*}
+				W_{p}(z) = (1- z)e^{u}, u = z + z^{2}/2 + \cdots + z^{p - 1}/(p - 1)
+			\end{equation*}
+			Donc $W_{p}'(z) = -e^{u} + (1 - z)u'e^{u} = -z^{p - 1}e^{u} = \sum_{k = 1}^{+ \infty}ka_{k}z^{k - 1}$. D'où, $a_{1} = \cdots = a_{p - 1} = 0$.
+		\item Comme précédemment, pour $k \geq p$, $a_{k}$ s'identifie au produit de $-1/k$ et du coefficient de $z^{k - p}$ dans $e^{u}$. Or: 
+			\begin{equation*}
+				e^{u} = e^{z}e^{z^{2}/2}\cdots e^{z^{p- 1}/(p-1)}
+			\end{equation*}
+			Donc $a_{k} \in \R_{-}$ pour $k \geq p$. 
+		\item En $z = 1$ on a: 
+			\begin{equation*}
+				0 = W_{p}(1) = 1 + \sum_{k = p}^{+\infty}a_{k}
+			\end{equation*}
+			d'où, $\sum_{k \geq p} a_{k} = 1$. 
+	\end{itemize}
+	Ainsi, pour $\abs{z}\leq 1$, on a: 
+	\begin{equation*}
+		\abs{W_{p}(z) - 1} = \abs{\sum_{k = p}^{+ \infty} a_{k}z^{k}} \leq \abs{z}^{p}
+	\end{equation*}
+\end{proof}
+
+\begin{lemme}
+	{Produit Fini}{produit-fini}
+	Soit $(a_{n})$ une suite complexe qui diverge vers $\infty$. Alors, il existe une suite d'entiers naturels $(p_{n})$ telle que 
+	\begin{equation*}
+		\forall r > 0, \sum_{n = 1}^{\infty}\left(\frac{r}{\abs{a_{n}}}\right)^{p_{n}}  < + \infty
+	\end{equation*}
+\end{lemme}
+\begin{proof}
+	En prenant $p_{n} = n$ on a le résultat. En effet, pour $r > 0$, comme $a_{n}$ diverge, àpcr, $\abs{a_{n}} > r/2$ et donc par comparaison à une série géométrique, on a le résultat. 
+\end{proof}
+
+\begin{théorème}
+	{Solution au problème de Weierstrass}{solutions-weier}
+	Soit $a_{n}$ une suite complexe sans point d'accumulation. Il existe une fonction holomorphe sur $\C$ dont les zéros sont exactement les $a_{n}$ comptés avec multiplicité. 
+\end{théorème}
+\begin{proof}
+	Soit $p_{n}$ une suite satisfaisant les hypothèses du lemme précédent~\ref{lemme:produit-fini} et $f_{n} = W_{p_{n}}(z/a_{n} - 1$. 
+	Ainsi, sur $\overline{D}(0, r)$ pour $n \geq N$ assez grand, 
+		\begin{equation*}
+			\abs{f_{n}(z)} = \abs{W_{p_{n}}(z/a_{n}) - 1} \leq \abs{z/a_{n}}^{p_{n}} \leq (r/\abs{a_{n}})^{p_{n}}
+		\end{equation*}
+	Comme $\sum \left(r/\abs{a_{n}}\right)^{p_{n}} < \infty$, $\sum \abs{f_{n}}$ converge uniformément sur $\overline{D}(0, r)$ et $\prod (f_{n} + 1)$ converge localement uniformément sur $\C$ vers une solution du problème de Weierstrass.	
+\end{proof}
+
+\begin{corollaire}
+	{Méromorphie et Holomorphie}{méro-holo}
+	Toute fonction méromorphe sur $\C$ est le queotient de deux fonctions holomorphes sur $\C$. 
+\end{corollaire}
+\begin{proof}
+	Soit $h$ méromorphe sur $\C$. Soit $P$ le multi-ensemble des pôles de $h$ avec multiplicités. Il existe $g$ solution du problème de Weierstrass pour $P$. La fonction $f = \frac{h}{g}$ est alors holomorphe sur $\C$. 
+\end{proof}
+
+
+\begin{corollaire}
+	{Pareil qu'au-dessus en fait}{}
+	Toute fonction $f \in \O(\C)$ non nulle s'écrit 
+	\begin{equation*}
+		f(z) = z^{m}e^{h}\prod_{n}W_{p_{n}}(z/a_{n})
+	\end{equation*}
+	où $h \in \O(\C), a_{n} \in \C^{*}, p_{n} \in \N$ et $h, p_{n}$ ne sont pas définies de façon unique. 
+\end{corollaire}
+
+On retrouve ici une analogie avec la factorisation des entiers en produit d'une unité et de nombre premiers. 
+
+\begin{définition}
+	{Genre}{genre}
+	L'entier $s \in \N$ minimum avec $\sum_{n \geq 1} \frac{1}{\abs{a_{n}}^{s}} < + \infty$, s'il existe, est dit \emph{genre} du produit canonique $\prod_{n \geq 1}W_{s}(z/a_{n})$. 
+\end{définition}
+
+\begin{théorème}
+	{de Weierstrass}{weierstrass-again}
+	Soit $U$ un ouvert non trivial de $\C$ et $(a_{i})_{i\in I}$ une suite (éventuellement finie) d'éléments de $U$ sans point d'accumulation. 
+	Alors, il existe une fonction holomorphe sur $U$ dont les zéros sont exactement les $a_{i}$ avec multiplicités. 
+\end{théorème}
+\begin{proof}
+	Si $I$ est fini, la fonction $f(z) = \prod (z - a_{i})$ est solution. Sinon, on suppose $I = \N$\\
+	Comme la suite $a_{n}$ n'admet pas de points d'accumulation dans $U$, nous avons $\max(\abs{a_{n}}, d(a_{n}, \partial U)^{-1}) \xrightarrow[n \to \infty]{} \infty$. 
+	On construit une partition de $I = P \sqcup Q$ selon si $\abs{a_{n}} \geq d(a_{n}, \partial U)^{-1}$ ou non.\\ 
+	Ainsi, $\lim_{n \in P, n \to \infty} \abs{a_{n}} = + \infty$. 
+	La fonction $g(z) = \prod_{n \in P} W_{n}(z/a_{n})$ converge et admet pour zéros avec multiplicté les $a_{n}$ pour $n \in P$. \\
+	De même, $\lim_{n \in Q, n\to \infty}d(a_{n}, \partial U) = 0$. Pour tout $n \in Q$, soit $w_{n} \in\partial U$ tel que $\abs{w_{n} - a_{n}} = d(a_{n}, \partial U)$ et 
+		\begin{equation*}
+			f_{n}(z) = W_{n}\left(\frac{a_{n} - w_{n}}{z - w_{n}}\right)
+		\end{equation*}
+	Soit $K \subseteq U$ un compact et $\delta = d(K, \partial U)$. Ainsi, $\abs{z - w_{n}} \geq \delta, z \in K, n \in Q$. Comme $\abs{a_{n} - w_{n}}$ tend vers $0$ quand $n \in Q$ tend vers $+ \infty$, nous avons pour $n \in Q$ assez grand $\abs{a_{n} - w_{n}} < \frac{1}{2}\abs{z - w_{n}}.$ Ainsi, il existe $n_{0} \in Q$ tel que pour tout $n \geq n_{0}$ dans $Q$, 
+	\begin{equation*}
+		\abs{f_{n}(z) - 1} = \abs{1 - W_{n}\left(\frac{a_{n} - w_{n}}{z - w_{n}}\right)} \leq \abs{\frac{a_{n} - w_{n}}{z - w_{n}}}^{n} \leq \frac{1}{2}^{n}, z \in K
+	\end{equation*}
+	La série $\sum_{n \in Q} \abs{f_{n} - 1}$ converge donc uniformément sur tout compact de $U$. La fonction 
+	\begin{equation*}
+		f(z) = g(z) \prod_{n \in Q}f_{n}(z)	
+	\end{equation*}
+	 est alors solution du problème de Weierstrass sur $U$. 
+\end{proof}
+
+\part{Applications à la Théorie des Nombres}
+\section{Séries de Dirichlet}
+\subsection{Définitions et Convergence}
+\begin{définition}
+	{Série de Dirichlet}{}
+	Une série de Dirichlet est une expression de la forme 
+	\begin{equation*}
+		F(s) = \sum_{n = 1}^{\infty} \frac{f(n)}{n^{s}}, s\in \C
+	\end{equation*}
+	pour $f : \N \to \C$. 
+\end{définition}
+
+\begin{définition}
+	{Abscisse de Convergence}{}
+	Soit $F(s)$ une série de Dirichlet. \\
+	\emph{L'abscisse de convergence} est 
+	\begin{equation*}
+		\sigma_{conv} = \inf \left\{\Re s \middle| F(s) \text{ converge }\right\}.
+	\end{equation*}
+	\emph{L'abscisse de convergence absolue} est 
+	\begin{equation*}
+		\sigma_{abs} = \inf \left\{\Re s\middle| F(s) \text{ converge absolument} \right\}
+	\end{equation*}
+	\emph{La borne de prolongement holomorphe} est définie par 
+	\begin{equation*}
+		\sigma_{hol} = \inf \left\{\sigma^{'}\in \R\middle| F(s) \text{ admet un prolongement holomorphe sur } \Re s >'\right\}
+	\end{equation*}
+
+\end{définition}
+\begin{théorème}
+	{Landau}{landau}
+	Supposons que $f : \N \to \R_{+}$ est à valeur positives et $\sigma_{abs} < \infty$. Alors, la série de Dirichlet $F(s)$ n'admet de prolongement holomorphe sur aucun voisinage de $\sigma_{abs}$. Dans ce cas, $\sigma_{hol} = \sigma_{abs}$. 
+\end{théorème}
+\begin{proof}
+	On note $\sigma = \sigma_{abs}$. Supposons que $F(s)$ admette un prolongement holomorphe sur le disque $D(\sigma, 3\varepsilon)$. Alors, $F(s)$ est holomorphe sur $\Omega = D(\sigma, 3\varepsilon) \cup \{s \mid \Re s > \sigma\}$. Sur $D(\sigma + \epsilon, 3\epsilon) \subseteq \Omega$, $F(s)$ est somme de sa série de Taylor, et nous pouvons calculer $F^{(k)}$ en dérivant terme à terme la série de Dirichlet. Nous obtenons: 
+	\begin{equation*}
+		F(\sigma - \epsilon) = \sum_{k = 0}^{+ \infty}\sum_{n = 0}^{+\infty}\frac{f(n) (-\log n)^{k}}{n^{\sigma + \epsilon}}\frac{(-2\epsilon)^{k}}{k!} = \sum_{n = 1}^{+ \infty} \frac{f(n)}{n^{\sigma - \epsilon}}
+	\end{equation*}
+	en intervertissant les deux sommes. 
+	Donc $F$ converge en $\sigma -  \varepsilon$ donc sur le demi-plan $\Re s > \sigma - \varepsilon$, ce qui est absurde. 
+\end{proof}
+
+
+\begin{lemme}
+	{}{}
+	Soient $ 0 < \alpha < \beta$ et $z = x + i y$ avec $x > 0$. Alors, 
+	\begin{equation*}
+		\abs{e^{-\alpha z} - e^{-\beta z}} \leq \abs{\frac{z}{x}}\left(e^{-\alpha x} - e^{-\beta x}\right)
+	\end{equation*}
+	En particulier, si $n \in \N^{*}$ et $\Re(s - s_{0}) > 0$: 
+	\begin{equation*}
+		\abs{n^{-(s - s_{0})} - (n + 1)^{-(s - s_{0})}} \leq \frac{\abs{s - s_{0}}}{\Re(s - s_{0})}\left(n^{-\Re(s-s_{0})} - (n + 1)^{\Re(s-s_{0})}\right)
+	\end{equation*}
+\end{lemme}
+
+\begin{théorème}
+	{Convergence Uniforme}{conv-unif-dirichlet}
+	Soit $F(s) = \sum f(n)n^{-s}$ une série de Dirichlet et $s_{0} \in \C$. 
+	\begin{enumerate}
+		\item Si la suite des sommes partielles $A_{n}(s_{0})$ est bornée, alors $F(s)$ converge uniformément sur tout compact du demi plan $\Re(s - s_{0}) > 0$. 
+		\item Si $F(s_{0)}$ converge, alors $F(s)$ converge uniformément dans tout secteur angulaire $\abs{\arg(s - s_{0})} \leq \alpha < \pi/2$ du demi-plan $\Re(s - s_{0}) \geq 0$. 
+	\end{enumerate}
+\end{théorème}
+\begin{proof}
+	Découle du lemme précédent et du lemme d'Abel. %TODO: Réécrire en mieux
+\end{proof}
+
+\begin{corollaire}
+	{Holomorphie}{holomorphie-dirichlet}
+	Soit $F(s) = \sum f(n) n^{-s}$ une série de Dirichlet et $\sigma_{conv} \in \R \cup \{- \infty\}$ son abscisse de convergence. 
+	Alors $F(s)$ converge en tout $s$ du demi-plan $\Re(s) > \sigma_{conv}$ et définit une fonction holomorphe sur ce demi-plan. En particulier, $\sigma_{hol} \leq \sigma_{conv}$. 
+\end{corollaire}
+
+\begin{corollaire}
+	{Dérivées}{}
+	Les dérivées d'une série de Dirichlet sur le demi-plan $\Re s > \sigma_{conv}$ s'obtiennent par dérivation terme à terme: 
+	\begin{equation*}
+		F^{(k)}(s) = (-1)^{k}\sum_{n = 1}^{+ \infty}\frac{f(n)(\log n)^{k}}{n^{s}}
+	\end{equation*}
+\end{corollaire}
+
+\subsection{Propriétés des Séries de Dirichlet}
+\begin{lemme}
+	{Technique}{technique}
+	Soif $F(s) = \sum f(n) n^{-s}$ une série de Dirichlet. Pour $N \geq 1$, $\Re s \geq c > \sigma_{abs}$ on a: 
+	\begin{equation*}
+	\abs{\sum_{n = N}^{+ \infty} f(n) n^{-s}} \leq N^{-(\Re s - c)}\sum_{n = N}^{+\infty}\abs{f(n)}n^{-c}n^{-(\Re s - c)}
+	\end{equation*}
+\end{lemme}
+
+\begin{théorème}
+	{Limite en l'infini}{limit-dirichlet}	
+	Soit $s = \sigma + it$ avec $\sigma, t \in \R$. Alors, 
+	\begin{equation*}
+		\lim_{\sigma \to + \infty} F(\sigma + it) = f(1)
+	\end{equation*}
+	uniformément en $t$. 
+\end{théorème}
+
+\begin{proof}
+	Soit $c > \sigma_{abs}$ D'après le lemme \ref{lemme:technique} précédent, pour $\sigma > c$, on a: 
+	\begin{equation*}
+		\abs{\sum_{n = 2}^{+ \infty} f(n)n^{-s}} \leq 2^{-(\sigma - c)}\sum_{n = 2}^{+\infty}\abs{f(n)}n^{-c} = \frac{A}{2^{\sigma}}
+	\end{equation*}
+	où $A$ est indépendant de $\sigma$ et de $t$. 
+\end{proof}
+
+
+\begin{théorème}
+	{Unicité des Coefficients}{unicité-coeff-dirichlet}
+	Soit deux séries de Dirichlet 
+	\begin{equation*}
+		F(s) = \sum f(n)n^{-s} \text{ et } G(s) = \sum g(n)n^{-s}
+	\end{equation*}
+	qui convergent absolument pour $\Re s > \sigma_{abs}$. Si $F(s) = G(s)$ pour une suite $s_{k}$ avec $\Re s_{k} \xrightarrow[k \to \infty]{} + \infty$, alors $f(n) = g(n)$ pour tout $n$. 
+\end{théorème}
+\begin{proof}
+	Posons $h(n) = f(n) - g(n)$ et $H = F - G$. Suppsons qu'il existe $N$ minimal avec $h(N) \neq 0$. Ainsi, 
+	\begin{equation*}
+		H(s) = \frac{h(N)}{N^{s}} + \sum_{n = N + 1}^{+\infty}h(n)n^{-s} \text{ et } h(N) = N^{s}H(s) - N^{s}\sum_{n = N + 1}^{+ \infty}h(n)n^{-s}
+	\end{equation*}
+	Pour $s = s_{k}, H(s_{k}) = 0$, donc
+	\begin{equation*}
+		h(N) = -N^{s_{k}}\sum_{n = N + 1}^{+\infty}h(n)n^{-s_{k}}
+	\end{equation*}
+	Soit $k$ tel que $\Re s_{k} > c > \sigma_{abs}$. Par le lemme technique \ref{lemme:technique}, 
+	\begin{equation*}
+		\abs{h(N)} \leq \left(\frac{N}{N + 1}\right)^{\Re s_{k}} A
+	\end{equation*}
+	où $A$ est indépendant de $k$. On trouve $h(N) = 0$ en faisant tendre $k$ vers plus l'infini. 
+\end{proof}
+
+\begin{théorème}
+	{Produit et Convolution}{}
+	Soit deux séries de Dirichlet
+	\begin{equation*}
+		F(s) = \sum f(n)n^{-s}, G(s) = \sum \frac{g(n)}{n^{s}}
+	\end{equation*}
+	Alors, sur un demi-plan sur lequel ces deux séries convergent absolument, nous avons: 
+	\begin{equation*}
+		F(s)G(s) = \sum_{n \geq 1}\frac{h(n)}{n^{s}}
+	\end{equation*}
+	avec $h(n) = (f*g)(n) = \sum_{d \mid n}f(d)g(\frac{n}{d})$.
+\end{théorème}
+\begin{proof}
+	Pour tout $s$ dans un demi-plan de convergence de $F$ et $G$, 
+	\begin{equation*}
+		F(s)G(s) = \sum_{n\geq 1}\sum_{m\geq 1}f(n)g(m)(mn)^{-s}
+	\end{equation*}
+	Par convergence absolument, en réordonnant les termes: 
+	\begin{equation*}
+		F(s) G(s) = \sum_{k = 1}^{+\infty}\left(\sum_{mn = k}f(n)g(m)\right)k^{-s} = \sum_{k \geq 1}h(k)k^{-s}
+	\end{equation*}
+\end{proof}
+
+On montre par exemple ainsi que $\zeta(s)\sum_{n \geq 1}\frac{\mu(n)}{n^{s}} = 1$, où $\mu$ est la fonction de Moebius définie par: 
+\begin{equation*}
+	\mu(n) = \begin{cases}
+		0 & \text{ si } n \text{ est divisible par un carré différent de } 1\\
+		1 & \text{ si } n \text{ est le produit d'un nombre pair de premiers distincts} \\
+		-1 & \text{ si } n \text{ est le produit d'un nombre impair de premiers distincts}
+	\end{cases}
+\end{equation*}
+
+\subsection{Formule de la moyenne}
+\begin{théorème}
+	{Formule de la Moyenne}{moyenne-dirichlet}
+	Soient deux séries de Dirichlet $F(s)$ et $G(s)$ d'abscisses de convergence absolue respectives $\sigma_{abs}$ et $\sigma_{abs}'$. Alors, pour $a > \sigma_{abs}$ et $b > \sigma_{abs}'$, 
+	\begin{equation*}
+		\lim_{T \to +\infty}\frac{1}{2T}\int_{-T}^{T}F(a + it)G(b - it)\d t = \sum_{n \geq 1}\frac{f(n)g(n)}{n^{a + b}}. 
+	\end{equation*}
+\end{théorème}
+
+\begin{proof}
+	On a: 
+	\begin{equation*}
+		\begin{aligned}
+			F(a + it)G(b - it) =& \left(\sum_{m \geq 1}\frac{f(m)}{m^{a + it}}\right)\left(\sum_{n \geq 1}\frac{g(n)}{n^{b - it}}\right)\\
+		=& \sum_{m}\sum_{n}\frac{f(m)g(n)}{m^{a}n^{b}}\left(\frac{n}{m}\right)^{it}\\
+		=& \sum_{n \geq 1}\frac{f(n) g(n)}{n^{a + b}} + \sum_{m \geq 1}\sum_{n \geq 1, n \neq m} \frac{f(m)g(n)}{m^{a}n^{b}}\left(\frac{n}{m}\right)^{it}
+		\end{aligned}
+	\end{equation*}
+	avec
+	\begin{equation*}
+	\sum_{m \geq 1}\sum_{n \geq 1, n \neq m} \abs{\frac{f(m)g(n)}{m^{a}n^{b}}\left(\frac{n}{m}\right)^{it}} \leq \sum_{m \geq 1} \frac{\abs{f(m)}}{m^{a}}\sum_{n \geq 1}\frac{\abs{g(n)}}{n^{b}}
+	\end{equation*}
+	uniformément convergente pour tout $t$. En intégrant terme à terme on trouve bien le résultat. 
+\end{proof}
+
+\begin{théorème}
+	{Isolement des Coefficients}{isole-coeff}
+	Pour $\sigma > \sigma_{abs}$ et $x > 0$, on a:
+	\begin{equation*}
+		\lim_{T \to +\infty}\frac{1}{2T}\int_{- T}^{T}F(\sigma + it)x^{\sigma + it}\d t = \begin{cases}
+			f(n) & \text{ si } x = n\\
+			0 & \text{ sinon } 
+		\end{cases}
+	\end{equation*}
+\end{théorème}
+
+\subsection{Produits Eulériens}
+\begin{définition}
+	{Fonction Multiplicative}{}
+	Une fonction $f$ est dite multiplicative si $f(1) = 1$ et si pour tous $m, n$ premiers entre eux, $f(mn) = f(m)f(n)$. $f$ est dite complètement multiplicative si de plus $f(mn) = f(m)f(n)$ pour tous $m, n$. 
+\end{définition}
+
+\begin{lemme}
+	{Valeurs Primales}{valeurs-primales}
+	Soit $f$ multiplicative telle que $\sum_{n \geq 1}\abs{f(n)}$ converge. Alors, 
+	\begin{equation*}
+		\sum f(n) = \prod_{p \in \mP}\left(1 + \sum_{k \geq 1} f(p^{k})\right)
+	\end{equation*}
+	Si de plus $f$ est complètement multiplicative, 
+	\begin{equation*}
+		\sum_{n \geq 1} f(n) = \prod_{p \in \mP} \frac{1}{1 - f(p)}
+	\end{equation*}
+\end{lemme}
+\begin{proof}
+	Soit $P(x) = \prod_{p \leq x}\left( 1 + \sum_{k \geq 0} f(p^{k})\right)$. On a $P(x) = \sum_{n \in A}f(n)$ où $A$ est l'ensemble des entiers $n$ n'ayant que des facteurs premiers plus petits que $x$. Ainsi, 
+	\begin{equation*}
+		\abs{\sum_{n \geq 1} f(n) - P(x)} \leq \sum_{n > x}\abs{f(n)}
+	\end{equation*}
+	mais par hypothèse, le membre de droite tend vers $0$ quand $x \to 0$. 
+\end{proof}
+
+\begin{théorème}
+	{Produit Eulériens}{prod-eulerien}
+	Supposons que la série de Dirichlet $\sum f(n)n^{-s}$ converge absolument pour $\Re s > \sigma_{abs}$. Si $f$ est multiplicative, 
+	\begin{equation*}
+		\sum_{n \geq 1}\frac{f(n)}{n^{s}} = \prod_{p \in \mP}\left(1  + \sum_{k \geq 1}\frac{f(p^{k})}{p^{ks}}\right), \text{ pour } \Re s > \sigma_{abs}
+	\end{equation*}
+	Si $f$ est complètement multiplicative: 
+	\begin{equation*}
+		\sum_{n \geq 1}\frac{f(n)}{n^{s}} = \prod_{p \in \mP}\frac{1}{1 - \frac{f(p)}{p^{s}}}
+	\end{equation*}
+\end{théorème}
+
+\subsection{Fonctions L}
+\begin{définition}
+	{Caractère de Dirichlet}{}
+	Un caractère de Dirichlet modulo $D$ est un morphisme de groupe $\chi: \znz{D}^{*} \to \C^{*}$. Le caractère trivial est le caractère constant $1$. 
+\end{définition}
+
+On notera également $\chi$ la fonction périodique sur $\Z$ de période $D$ définie par la projection modulo $D$ composée avec $\chi$. 
+
+\begin{définition}
+	{Fonction $L$ de Dirichlet}{fonction-l}
+	La fonction $L$ de Dirichlet est la série de Dirichlet 
+	\begin{equation*}
+		L(\chi, s) = \sum_{n \geq 1}\frac{\chi(n)}{n^{s}}
+	\end{equation*}
+	où $\chi$ est un caractère de Dirichlet modulo $D$. 
+\end{définition}
+
+\begin{propositionfr}
+	{Propriétés}{prop-fonction-l}
+	Soit $\chi$ un caractère de Dirichlet modulo $D$. 
+	\begin{enumerate}
+		\item L'Abscisse de convergence absolue de $L(\chi, s)$ est $1$
+		\item Si $\Re s > 1$, $L(\chi, s) = \prod_{p \in \mP} \frac{1}{1 - \chi(p)p^{-s}}$ converge sur tout demi-plan $\Re(s) > c > 1$.
+		\item Si $\chi \neq \chi_{0}$, $\sigma_{conv} = 0$.
+	\end{enumerate}
+
+\end{propositionfr}
+\begin{proof}
+	Seul le point 3 demande démonstration, le reste découlant immédiatement de résultats précédents.\\
+	Si $\chi \neq \chi_{0}$, il existe $a \in \znz{D}^{*}$ avec $\chi(a) \neq 1$. Ainsi, 
+	\begin{equation*}
+		\chi(a) \sum_{x \in \znz{D}^{*}}\chi(x) = \sum_{x \in \znz{D}^{*}}\chi(x)
+	\end{equation*}
+	et $\sum_{x \in \znz{D}^{*}} \chi(x) = 0$. Par conséquent, toutes les sommes partielles sont bornées et on conclut par le théorème~\ref{thm:conv-unif-dirichlet}
+\end{proof}
+
+\begin{propositionfr}
+	{Prolongement Holomorphe}{prolong-holo-L}
+	Si $\chi \neq \chi_{0}$, la fonction $L(s, \chi)$ est prolongeable en une fonction holomorphe sur $\C$. 
+\end{propositionfr}
+\begin{proof}
+	Soit $f(t) = \sum_{n \geq 1} \chi(n)e^{-nt}$. La fonction $f$ est $\cont^{\infty}$ sur $\R_{+}^{*}$. Montrons que $f$ est prolongeable en $0$. On a: 
+	\begin{equation*}
+		f(t) = \sum_{j = 1}^{D}\sum_{k \geq 0} \chi(j + kD)e^{-(j + kD)t} = \frac{1}{1 - e^{-Dt}}\sum_{j \in \znz{D}^{*}}\chi(j)e^{-jt}
+	\end{equation*}
+	On peut donc prolonger $f$ en $0$. Ainsi, 
+	\begin{equation*}
+		L(s, \chi) = \frac{1}{\Gamma(s)}\int_{0}^{\infty}f(t)t^{s-1}\d t
+	\end{equation*}
+	est prolongeable sur $\C$. 
+\end{proof}
+
+\begin{lemme}
+	{Ordre et Caractère}{}
+	Pour $p \in \mP$ premier avec $D$, soit $g(p) = \phi(D) / n(p)$. Alors, on a:
+	\begin{equation*}
+		(1 - T^{n(p)})^{g(p)} = \prod_{\chi}(1 - \chi(p)T)
+	\end{equation*}
+\end{lemme}
+\begin{proof}
+	On a: 
+	\begin{equation*}
+		1 - T^{n(p)} = \prod_{z \in U_{n(p)}} (1 - \chi(p) T)
+	\end{equation*}
+	Pour tout $z \in U_{n(p)}$ il existe $g(p)$ caractères de $\znz{D}^{*}$ valant $z$ en $p$ car le noyau du morphisme: 
+	\begin{equation*}
+		\psi: \hat{\znz{D}^{*}} \to U_{n(p)}, \chi \mapsto \chi(p)
+	\end{equation*}
+	est de cardinal $g(p)$. 
+\end{proof}
+
+\begin{définition}
+	{Zeta des Caractères}{}
+	Pour $\Re s > 1$, on note 
+	\begin{equation*}
+		\zeta_{D}(s) = \prod_{\chi} L(s, \chi)
+	\end{equation*}
+\end{définition}
+
+\begin{propositionfr}
+	{Zeta Dirichlet}{}
+	La fonction $\zeta_{D}$ est une série de Dirichlet à coefficients positifs et convergente pour $\Re s > 1$. 
+\end{propositionfr}
+
+\begin{proof}
+	On a $\zeta_{D}(s) = \prod_{p \in \mP, (p, D) = 1}, \frac{1}{(1 - p^{-n(p)s})^{-g(p)}}$
+\end{proof}
+
+\begin{théorème}
+	{Valeur en 1}{}
+	Si $\chi \neq \chi_{0}$, $L(1, \chi) \neq 0$
+\end{théorème}
+\begin{proof}
+	Si on avait $L(1, \chi) = 0$ pour $\chi \neq \chi_{0}$, on aurait
+	\begin{equation*}
+		\zeta_{D}(s) \leq 1 + \sum_{p \in \mP, (p, D) = 1} g(p)p^{-n(p)s}
+	\end{equation*}
+	et donc, en $s = 0$, $\zeta_{D}(0) \geq + \infty$, ce qui est absurde. 
+\end{proof}
+
+\begin{définition}
+	{Premiers Modulos D}{}
+	Pour $a \in \N, (a, D) = 1$, on note
+	\begin{equation*}
+		\mP_{a} = \left\{p \in \mP \middle|\ p \equiv a \mod D\right\}
+	\end{equation*}
+	On note de plus, pour $\chi$ un caractère de $\znz{D}^{*}$
+	\begin{equation*}
+		f_{\chi}(s) = \sum_{p\in \mP, p \nmid D} \chi(p)p^{-s}
+	\end{equation*}
+\end{définition}
+
+\begin{lemme}
+	{Moyenne}{}
+	Pour $a \in \N$, $(a, D) = 1$, 
+	\begin{equation*}
+		\sum_{p \in \mP_{a}} = \frac{1}{\phi(D)}\sum_{\chi}\overline{\chi(a)}f_{\chi}(s)
+	\end{equation*}
+\end{lemme}
+\begin{proof}
+	On a, $\sum_{\chi}\overline{\chi(a)}f_{\chi}(s) = \sum_{p\in \mP, (p, D) = 1}\sum_{\chi}\overline{\chi(a)}\chi(p)p^{-s}$.
+	Or: 
+	\begin{equation*}
+		\sum_{\chi}\overline{\chi(a)}\chi(p) = \begin{cases} \phi(D) & \text{ si } a\equiv p \mod D\\
+			0 & \text{ sinon }
+		\end{cases}
+	\end{equation*}
+	D'où le résultat. 
+\end{proof}
+
+\begin{lemme}
+	{Bornitude}{}
+	\begin{enumerate}
+		\item Si $\chi \neq \chi_{0}$, $f_{\chi}$ est bornée au voisinage de $1$. 
+		\item Si $\chi = \chi_{0}$, $\lim_{s \to 1}\frac{f_{\chi_{0}}(s)}{\ln(s - 1)^{-1}} = 1$
+	\end{enumerate}
+\end{lemme}
+
+\begin{théorème}
+	{Progression Arithmétique}{prog-arith}
+	Soit $D \geq 2$, $(a, D) = 1$. L'ensemble $\mP_{a}$ a une densité 
+	\begin{equation*}
+		\lim_{s \to 1}\frac{\sum_{p \in \mP_{a}}p^{- s}}{\ln(s - 1)^{-1}} = \frac{1}{\phi(D)}
+	\end{equation*}
+	En particulier, il existe un nombre infini de premiers congrus à $a$ modulo $D$. 
+\end{théorème}
+\begin{proof}
+	On applique successivement les deux lemmes précédents. 
+\end{proof}
+
+\subsection{Fonctions Zeta}
+
+
+
 \end{document}
+
+
 

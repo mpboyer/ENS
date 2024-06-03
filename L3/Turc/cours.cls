@@ -7,7 +7,7 @@
 \RequirePackage{lmodern}
 \RequirePackage[utf8]{inputenc}
 \RequirePackage[T1]{fontenc}
-\RequirePackage[british, french]{babel}
+\RequirePackage[french]{babel}
 \RequirePackage{texnames}
 \RequirePackage{array}
 \RequirePackage{tikz}
