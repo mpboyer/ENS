@@ -1,0 +1,30 @@
+\documentclass{cours}
+
+\begin{document}
+\section{Exercice 1}
+L'évaluation de circuits booléens est $P$-complète. On considère la réduction à la logique de Horn.  
+On considère $H \gets$ et $H\gets B_{1} \land B_{2}$. 
+On considère la DB qui pour chaque $H\gets$ a un tuple $Fact(H)$ et pour chaque $H \gets B_{1} \land B_{2}$ on a un tuple $Rule(H, B_{1}, B_{2})$. 
+On prend comme programme Datalog le suivant $True(x) \gets Fact(x)$ et $True(x) \gets Rule(x, y, z) \land True(y) \land True(z)$. On vérifie trivialement qu'on a $True(A)$ si et seulement si $A$ est une conséquence du programme originel. 
+On encode bien en log space. 
+
+\section{Exercice 2}
+Datalog ne peut pas vérifier le nombre pair d'éléments d'un ensemble (FO ne peut pas mdr)
+
+\section{Exercice 3}
+Même argument que pour Datalog normal. 
+
+\section{Exercice 4}
+$initial_{k}(y) \gets \lnot \exists x, succ_{k}(x, y)$;
+
+$final_{k}(y) \gets \lnot \exists x, (succ_{k}(y, x) \land \lnot succ_{k}(x, y))$;
+
+$succ_{k}(x, y) \gets \lnot \exists z, (succ_{k}(x, z) \land succ_{k}(z, y) \land \lnot succ_{k}(y, z))$;
+
+\section{Exercice 5}
+cf TD5 exercice 2
+
+\section{Exercice 6}
+
+
+\end{document}

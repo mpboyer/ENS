@@ -29,7 +29,7 @@
 \setstretch{1.2}
 
 \mode<presentation>
-\usetheme{Pittsburgh}
+\usetheme{Dresden}
 
 
 %\AtBeginSection[]{\begin{frame}{Plan}\tableofcontents[subsectionstyle=show/shaded/hide,sectionstyle=show/shaded]\end{frame}}

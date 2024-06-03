@@ -1,0 +1,101 @@
+h1 {
+    color: #333;
+    font-size: 50px;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 50px;
+    text-align: center;
+    vertical-align: baseline;
+    direction: ltr;
+}
+
+header nav ul {
+    align: center;
+    padding: 0;
+    height: 0;
+    margin: 0;
+    border-bottom: 1px solid #aaa;
+    border-top: 1px solid #aaa;
+    display: table;
+    font-size: 1.3em;
+    margin: 0 auto;
+}
+
+header nav ul li {
+    color: #999;
+}
+    
+header nav ul li a {
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+header nav ul li {
+    font-family: "Josefin Slab",serif;
+    font-size: 30px;
+    transition: background-color 0.3s ease 0s;
+    list-style-type: none;
+    float: left;
+    vertical-align: baseline;
+    margin-top: 0;
+    margin-bottom: 0;
+    text-align: center;
+    line-height: 1.5;
+}
+
+header nav ul li.current {
+    color: #000;
+    background-color: #AAA;
+}
+
+header nav ul li:hover {
+    background-color: #999;
+    color: #FFF;
+}
+
+article {
+    font-family: "Open Sans",serif;
+    font-size: 16px;
+    color: #404040;
+    line-height: 1.5;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 42px;
+}
+
+
+header a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+article a {
+    color: #eb8b21;
+    text-decoration: none;
+}
+
+
+article table {
+    width: 100%;
+}
+
+
+article a:hover {
+    color: #228c80;
+}
+
+article li a {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+article form {
+    display: block;
+    background-color: #DDD;
+    border: 5px solid #777;
+    border-radius: 25px;
+    padding: 10px;
+    margin: 40px;
+}

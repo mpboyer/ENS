@@ -1,0 +1,129 @@
+Le projet s'appuie sur le langage Python 2 et l'outil Virtualenv. Vous
+aurez donc besoin de les installer. Cependant le gros du projet ne
+nécessite pas de maîtriser ces outils en profondeur.
+
+
+
+
+
+  ============================================================
+  =============  ÉTAPE RECOMANDÉE : VIRTUALENV    ============
+  ============================================================
+
+(Cette étape devient presque indispensable si vous n'êtes pas
+administrateur de la machine sur laquelle vous travaillez.)
+
+Virtualenv est un outil qui permet d'installer des add-ons à python
+sans vraiment les installer (en les installant dans un environnment
+virtuel).
+
+Veuillez installer virtualenv (voir guide de
+https://virtualenv.pypa.io/en/stable/installation/) ou utiliser un
+ordinateur qui est équippé de virtualenv.
+
+Nous allons maintenant créer un tel environnment virtuel. Dans le
+disque dur, un enviromment virtuel est stocké dans un dossier. Pour ce
+projet, vous allez créer l'environement virtuel dans le dossier du
+projet. Pour cela ouvrez un terminal, naviguez jusqu'au dossier et faites la
+commande suivante qui créé un environement virtuel nommé venv :
+
+       virtualenv venv
+
+Maintenant, activer cet environnement virtuel avec la commande :
+
+       source venv/bin/activate
+
+Votre terminal doit maintenant afficher "venv" au début de l'invite de
+commande (voir https://fr.wikipedia.org/wiki/Interface_en_ligne_de_commande)
+
+À chaque fois que vous ouvrez un nouveau terminal et que vous voulez
+avoir cet environnement virtuel, il faudra de nouveau naviguer jusqu'au
+dossier du projet puis faire :
+
+       source venv/bin/activate
+
+
+
+
+
+  ============================================================
+  ============= ÉTAPE 1 : INSTALLER LES PAQUETS   ============
+  ============================================================
+
+
+Pour cette étape vous avez besoin de pip (il est installé
+automatiquement avec virtualenv).
+
+Dans un terminal (éventuellement avec l'environnement virtuel activé),
+installer les paquets nécessaires au projet. Cela peut-être fait avec
+la commande :
+
+        pip install -r requirements.txt
+
+
+
+  ============================================================
+  ============= ÉTAPE 2 : FAIRE TOURNER LE SITE   ============
+  ============================================================
+
+Dans un terminal (avec éventuellement l'environnement virtuel activé),
+le site doit pouvoir se lancer avec la commande suivante :
+
+        python run.py
+
+OU (si sur votre système `python` correspond à python 3) :
+
+        python2 run.py
+
+Si tout marche, vous devrez avoir sur le terminal un message de la forme
+
+ * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 185-206-173
+    
+Et le site devrait être accessible à l'adresse http://127.0.0.1:5000/.
+Évidemment dans que vous n'avez pas créé la base de données, et que
+vous n'avez pas complété le fichier models.py, seule la page d'accueil
+fonctionnera !
+
+
+
+  ============================================================
+  ============= ÉTAPE 3 : CRÉER LA BASE DE DONNÉES ===========
+  ============================================================
+
+Trouver un schéma relationnel adapté, y ajouer quelques valeurs.
+SQLlite est une base de données légère qui stocke ses bases dans des
+fichiers. Pour lancer sqlite3 sur la base de données "univ.db" (qui
+est celle lue par le projet) :
+
+     sqlite3 univ.db
+
+Vous pouvez ensuite copier vos commandes ou alors simplement taper :
+
+     .read schema.sql
+
+pour que SQLite lise toutes les commandes de "schema.sql" 
+
+
+
+
+
+  ============================================================
+  =============     ÉTAPE 4 : MODIFIER LE SITE     ===========
+  ============================================================
+
+Pour la référence du module SQLite de python https://docs.python.org/2/library/sqlite3.html
+
+
+Le projet utilise les requêtes préparées, voir
+https://en.wikipedia.org/wiki/Prepared_statement#Python_DB-API
+vous allez devoir remplir des requêtes de la forme
+
+"""
+ SELECT a, b, c FROM T WHERE a=? AND b=? AND c=b
+""" % (valA,valB)
+
+Le premier ? sera remplacé par valA et le second par valB.
+

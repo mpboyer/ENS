@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% block body %}
+
+
+{% for (l,keys,name) in to_list %}
+<h2> {{ name }} </h2>
+<table border="1">
+  
+  <tr>
+    {% for k in keys %}
+    {% if k != "" %}
+      <th>{{ k }}</th>
+    {% endif %}
+    {% endfor%}
+{% for p in l %}
+  <tr>
+    {% for k in keys %}
+    {% if k != "" %}
+    <td>
+      {% if k == 'Details' %}
+      <a href="{{ p[0] }}/">see details</a>
+      {% else %}
+        {% if k == 'Delete' %}
+          <a href="del/{{ p[0] }}/">x</a>
+        {% else %}
+          {{ p[loop.index-1] }}
+        {% endif %}
+      {% endif %}
+    </td>
+    {% endif %}
+    {% endfor %}
+  </tr>
+{% endfor %}
+</table>
+
+{% endfor %}
+{% endblock %}

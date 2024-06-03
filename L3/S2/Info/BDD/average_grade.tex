@@ -1,0 +1,51 @@
+\documentclass{cours}
+
+% \usepackage{amsmath}
+
+\begin{document}
+\textit{In the following, all variables will be IDs, and elements of tables will be tuples}. We will denote by $1_{S}(e)$ the boolean function representing the proposition $e \in S$. If $x$ is a variable, $1_{x}$ is the same as $1_{\{x\}}$.
+
+The average grade for a certain course $c$ and a certain student $s$ is then given by:
+\begin{equation*}
+	a(c, s) = \frac{\sum_{v \in Validations} 1_{c}(v.class)\times v.coefficient \times \left(\sum_{g \in Grades} 1_{s}(g.student) \times 1_{v.id}(g.validation) \times g.grade\right)}{\sum_{v \in Validations}1_{c}(v.class)\times v.coefficient \times 100}
+\end{equation*}
+We get the following subquery to compute it: 
+\begin{center}
+	\tt SELECT SUM(Validations.coefficient * Grades.grade)/(SUM(Validations.coefficient)) FROM Validations JOIN Grades ON Validations.id = Grades.validation WHERE (Validations.class = c) GROUP BY Grades.student
+\end{center}
+
+Then, for a certain curriculum $\gamma$ and a student $s$: 
+\begin{equation*}
+	\alpha(\gamma, s) = \frac{\sum_{c \in Credits} c.credits \times a(c.class, s) \times 1_{\gamma}(c.curriculum) \times 1}{\sum_{c \in Credits}c.credits \times 1_{\gamma}(c.curriculum) \times 100}
+\end{equation*}
+
+We get the query below
+SELECT 
+	Persons.lname, 
+	Persons.fname, 
+	(SELECT SUM(Credits.credits *
+			(SELECT SUM(Validations.coefficient * Grades.grade)/
+				(SELECT SUM(Validations.coefficient)
+					FROM Validations 
+					JOIN Grades ON Validations.id = Grades.validation
+					JOIN Credits ON Validations.class = Credits.class
+					HAVING Grades.student = Persons.id 
+						AND Credits.curriculum = idCurriculum
+				)
+			)
+		)/
+		(SELECT SUM(Credits.credits) 
+			FROM Credits 
+			HAVING Credits.curriculum = idCurriculum
+		) 
+		FROM Validations 
+		JOIN Grades ON Valdiations.id = Grades.validation
+	)
+	FROM Credits 
+	JOIN Programs ON Credits.curriculum = Programs.curriculum
+	JOIN Persons ON Programs.student = Persons.id
+	GROUP BY Persons.id
+	WHERE Credits.curriculum = idCurriculum
+
+
+\end{document}

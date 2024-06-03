@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <title>Student Grade Application</title>
+  </head>
+  <body>
+      <header>
+        <h1>Student Grade Application</h1>
+        <nav>
+          <ul>
+            <li><a href="/person/">Persons</a></li>
+            <li><a href="/curriculum/">Curriculums</a></li>
+            <li><a href="/course/">Courses</a></li>
+          </ul>
+        </nav>
+      </header>
+      <article>
+        {% block body %}
+
+      {% endblock %}
+        {% for formAdd in forms %}
+          {% if formAdd.errors %}
+          <ul class="errors">
+            {% for field_name, field_errors in formAdd.errors|dictsort if field_errors %}
+            {% for error in field_errors %}
+            <li>{{ formAdd[field_name].label }}: {{ error }}</li>
+            {% endfor %}
+            {% endfor %}
+          </ul>
+          {% endif %}
+          <form method="post">
+          <b>{{ formAdd.formname }}</b><br/>
+          {%  for field in formAdd  %}
+            {{ field.label }} : {{ field }} <br/>
+          {% endfor%}
+          <input type="submit" value="add">
+          </form>
+        {% endfor %}
+      </article>
+  </body>
+</html>
