@@ -18,6 +18,7 @@
 \RequirePackage{ragged2e}
 \RequirePackage{amsmath}
 \RequirePackage{dsfont}
+
 \RequirePackage{amsfonts}
 \RequirePackage{mathrsfs}
 \RequirePackage{amsthm}
@@ -46,6 +47,7 @@
     \begin{center}
         \includegraphics[height=6em]{/home/matthieu/Documents/ETUDES/ENS/ens_psl.pdf}
     \end{center}
+    %\newpage
     \tableofcontents}
 
 
@@ -77,16 +79,16 @@
 \renewcommand{\O}{\mathcal{O}}
 \newcommand{\A}{\mathcal{A}}
 \newcommand{\mL}{\mathcal{L}}
+\newcommand{\B}{\mathcal{B}}
 \newcommand{\ml}{\mathcal{l}}
-\renewcommand{\P}{\mathbb{P}}
 \newcommand{\mP}{\mathcal{P}}
+\renewcommand{\P}{\mathbb{P}}
 \renewcommand{\d}{{\rm \, d}}
 
 \newcommand{\asympt}{\mathop{\sim}}
 \newcommand{\lin}{\mathcal{L}}
 \newcommand{\M}{\mathcal{M}}
 \newcommand{\cont}{\mathcal{C}}
-
 \renewcommand{\phi}{\varphi}
 \renewcommand{\epsilon}{\varepsilon}
 \renewcommand{\emptyset}{\varnothing}
@@ -97,12 +99,11 @@
 \DeclareMathOperator{\Gl}{Gl}
 \DeclareMathOperator{\pgcd}{pgcd}
 \DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\Aut}{Aut}
 \DeclareMathOperator{\rg}{rg}
 \DeclareMathOperator{\ch}{ch}
 \DeclareMathOperator{\sh}{sh}
-\DeclareMathOperator{\Mat}{Mat}
-\DeclareMathOperator{\Vect}{Vect}
-
+\DeclareMathOperator{\sgn}{sgn}
 \renewcommand{\th}{\mathop{\rm th}}
 \makeatletter
 \renewcommand{\ALG@name}{Algorithme}
@@ -133,3 +134,31 @@
 \renewcommand{\H}{\mathbb{H}}
 \newcommand{\transpose}[1]{{^{\mathsf{t}}}#1}
 \newcommand{\onen}[1]{\left\llbracket 1, #1\right\rrbracket}
+\newcommand{\partialderiv}[2]{\frac{\partial #1}{\partial #2}}
+
+
+\usetikzlibrary{automata, arrows, calc, matrix, positioning}
+\usetikzlibrary{math}
+\definecolor{vulm}{HTML}{7d1dd3}
+\definecolor{yulm}{HTML}{ffe500}
+\usepackage{caption}
+
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems}
+\NewTcbTheorem[auto counter, number within=section]{définition}{Définition}%
+ {colback=yulm!10, colframe=vulm!45!black, fonttitle=\bfseries}{def}
+
+\NewTcbTheorem[auto counter, number within=section]{théorème}{Théorème}%
+ {colback=yulm!10!white, colframe=vulm!65!black, fonttitle=\bfseries}{thm}
+
+\NewTcbTheorem[auto counter, number within=section]{propositionfr}{Proposition}%
+ {colback=yulm!10!white, colframe=vulm!25!black, fonttitle=\bfseries}{propo}
+
+\NewTcbTheorem[auto counter, number within=section]{corollaire}{Corollaire}%
+ {colback=yulm!10, colframe=vulm!35!black, fonttitle=\bfseries}{cor}
+
+\NewTcbTheorem[auto counter, number within=section]{lemme}{Lemme}%
+ {colback=yulm!10, colframe=vulm!15!black, fonttitle=\bfseries}{lemme}
+
+\NewTcbTheorem[auto counter, number within=section]{remarque}{Remarque}%
+ {colback=yulm!10, colframe=vulm!65!black, fonttitle=\bfseries}{rem}

@@ -304,9 +304,11 @@ L3/S1/Info/Compil/TD*
 L3/S2/Info/OS/weensyos-vmm
 L3/S2/Info/OS/OCommand
 *_build
-Associatif/COF
-Associatif/BOcal/**/*.jpg
-Associatif/BOcal/**/*.png
-Associatif/BOcal/**/*.jpeg
-Associatif/BOcal/**/*.pdf
-Associatif/BOcal/Bonjour
+Associatif/
+L3/Morphosyntactic-Categories/
+L3/S1/Info/Compil/compilateur-petit-purescript/
+L3/S2/Info/BDD/logfile
+L3/S2/Info/BDD/matthieu_boyer.tar
+L3/S2/Info/OS/krabbOS/
+L3/S2/Info/SemProg/analyfeur/
+L3/S2/Info/BDD/skeleton/
