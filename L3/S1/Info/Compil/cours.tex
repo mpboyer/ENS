@@ -6,7 +6,7 @@
 \begin{document}
 
 \newpage
-\part[Aperçu de la Compilation - Assembleur x86-64]{Cours 1 29/09}
+\part{Aperçu de la Compilation - Assembleur x86-64}
 \localtableofcontents
 \section{Introduction à la Compilation}
 Maîtriser les mécanismes de la compilation, transformation d'un langage dans un autre. Comprendre les aspects des langages de programmation.\\
@@ -124,7 +124,7 @@ Il y a quatres temps dans un appel :
           \end{enumerate}
 \end{enumerate}
 \newpage
-\part[Syntaxe abstraite, sémantique, interprètes]{Cours 2: 6/10}
+\part{Syntaxe abstraite, sémantique, interprètes}
 \localtableofcontents
 
 \section*{Introduction}
@@ -279,7 +279,7 @@ On utilise alors le module \texttt{Map} pour les environnements (c'est une \text
 Pour un interprète de la sémantique à petits pas, il vaut mieux utiliser un \textit{zipper} que de recalculer le contexte tout le temps.
 
 \newpage
-\part[Analyse Lexicale]{Cours 3 : 13/10}
+\part{Analyse Lexicale}
 \localtableofcontents
 \section*{Introduction}
 L'objectif est de partir du code source, une suite de caractère, pour obtenir une suite de lexèmes plus compréhensible et simple à analyse syntaxiquement
@@ -292,7 +292,7 @@ Les conventions diffèrent selon les langages et certains des caractères blancs
 On va utiliser des expressions régulières pour décrire les lexèmes et des automates finis pour les reconnaître. On exploite en particulier la capacité à construire un automate partant d'une ou plusieurs expressions régulières.
 
 \subsection[Expressions Régulières et Automates Finis]{Expressions Régulières et Automates Finis\footnote{Voir Cours de LFCC}}
-%TODO: ajouter un lien vers le cours. Faire un seul poly complet ? 
+%TODO: ajouter un lien vers le cours. Faire un seul poly complet ?
 
 \subsubsection{Expressions Régulières}
 \begin{definition}[Syntaxe]
@@ -474,7 +474,7 @@ On peut utiliser $\texttt{ocamllex}$ pour :
 \end{enumerate}
 
 \newpage
-\part[Analyse Syntaxique]{Cours 4 : 20/10}\label{part:AnalyseSyntaxique}
+\part{Analyse Syntaxique}\label{part:AnalyseSyntaxique}
 \localtableofcontents
 \section{Analyse Syntaxique}
 L'objectif de l'analyse syntaxique est, à partir d'une suite de lexèmes, de construire la syntaxe abstraite, qu'on représente sous forme d'arbre. En particulier, l'analyse syntaxique doit détecter les erreurs de syntaxe et les localiser précisément, les identifier (parenthèse non fermée, etc...) voire reprendre l'analyse pour découvrir de nouvelles erreurs. On va utiliser : une grammaire non contextuelle pour décrire la syntaxe et un automate à pile pour la reconnaître.
@@ -691,8 +691,6 @@ L'état initial est celui qui contient $\left[S \rightarrow \cdot \alpha, \#\rig
 Pour des questions de puissances de calcul, on introduit la classe $LALR(1)$, lookahead LR, qui est une approximation beaucoup utilisée dans les outils de la famille \texttt{yacc}.
 
 \newpage
-\part[Analyse Syntaxique 2]{Cours 5 : 27/10}
-\localtableofcontents
 \section{Localisations}
 L'outil \texttt{ocamllex} maintient, dans la structure de type \texttt{Lexing.lexbuf}, la position courante dans le texte source qui est analysé. On peut alors obtenir la localisation de la dernère chaîne reconnue par \texttt{ocamllex}. On peut utiliser ces informations pour localiser les erreurs de syntaxe, mais aussi de potentielles erreurs lexicales comme une chaîne ou un commentaire non fermé.\\
 L'outil \texttt{Menhir}\footnote{L'outil \texttt{Cairn} permet de visualiser l'analyse de \texttt{Menhir}.} récupère ces informations et les fournit dans deux valeurs \texttt{\$startpos} et \texttt{\$endpos}, qui, dans une action sémantique, correspondent au début et à la fin du texte reconnu par la règle de grammaire. On peut alors stocker cette information dans l'arbre de syntaxe abstraite.
@@ -707,7 +705,7 @@ On va ici construire un analyseur syntaxique pour des expressions arithmétiques
 \end{itemize}
 On part d'un analyseur lexical, par exemple écrit avec \texttt{ocamllex}:
 \begin{minted}{ocaml}
-type token = 
+type token =
     | CONST of int
     | PLUS
     | TIMES
@@ -717,7 +715,7 @@ type token =
 \end{minted}
 et on veut obtenir un arbre de syntaxe abstraite :
 \begin{minted}{ocaml}
-type expr = 
+type expr =
     | Const of int
     | Add of expr * expr
     | Mul of expr * expr
@@ -748,14 +746,14 @@ L'analyseur syntaxique suit la même structure que la fonction d'affichage\footn
     \begin{minted}{ocaml}
         let rec parse_expr () =
             let e = parse_term () in
-            if !t = PLUS then (next (); Add (e, parse_expr ())) else e 
+            if !t = PLUS then (next (); Add (e, parse_expr ())) else e
         and parse_term () =
             let e = parse_factor () in
             if !t = TIMES then (next (); Mul (e, parse_term ())) else e
         and parse_factor () = match !t with
             | CONST n -> next (); Const n
-            | LEFTPAR -> next (); 
-                let e = parse_expr () in 
+            | LEFTPAR -> next ();
+                let e = parse_expr () in
                 if !t <> RIGHTPAR then error ();
                 next (); e
             | _ -> error ()
@@ -811,7 +809,7 @@ n'est pas $LL(1)$. Plus généralement, si une grammaire contient $X \rightarrow
 Dans certains langages, l'indentation (blancs de début de ligne/alignement vertical) est utilisée pour définir la syntaxe. L'analyseur lexical introduit des lexèmes \texttt{NEWLINE} (fin de ligne), \texttt{INDENT} (quand l'indentation augmente) et \texttt{DEDENT} (quand elle diminue). Il suffit alors de les utiliser dans la grammaire du langage.
 
 \newpage
-\part[Typage]{Cours 6 : 10/11}
+\part{Typage}
 \localtableofcontents
 \section{Typage}
 Que faire lorsqu'on ajoute deux éléments de deux types différents ? Par exemple "5" et 37.
@@ -922,7 +920,7 @@ let rec type_expr env = function
     | Pair (e1, e2) ->
         Tproduct (type_expr env e1, type_expr env e2)
     | Fun (x, ty, e) ->
-        Tarrow (ty, type_expr (Smap.add x ty env) e)    
+        Tarrow (ty, type_expr (Smap.add x ty env) e)
     | Let (x, e1, e2) ->
         type_expr (Smap.add x (type_expr env e1) env) e2
     | App (e1, e2) -> begin match type_expr env e1 with
@@ -944,7 +942,7 @@ type expression = {
     desc : desc;
     loc : loc;
 }
-and desc = 
+and desc =
     | Var of string
     | Const of int
     | Op of string
@@ -998,7 +996,7 @@ and tdesc =
 let rec type_expr env e =
     let d, ty = compute_type env e in
     { tdesc = d; typ = ty }
-    
+
 and compute_type env e = match e.desc with
     | Const n ->
         Tconst n, Tint
@@ -1278,7 +1276,7 @@ Ceci permet une solution très simple pour contourner le problème, c'est une re
 Toutefois, dans ce cas là, après une première unification, on fixe le type. La solution est alors d'$\eta$-expanser pour faire apparaître une fonction, i.e. une valeur. En présence d'un système de modules, la réalité est encore plus complexe.
 
 
-\part[Mode de Passage des Paramètres]{Cours 7 : 17/11}
+\part{Mode de Passage des Paramètres}
 \section{Stratégie d'évaluation et passage des paramètres}
 \subsection{Evaluation}
 \begin{definition}
@@ -1311,7 +1309,7 @@ La sémantique précise également le mode de passage des paramètres lors d'un 
           \begin{minted}{ocaml}
         let f(x) =
             x := x + 1
-        
+
         main() =
             let v = 41
             f(v)
@@ -1322,7 +1320,7 @@ La sémantique précise également le mode de passage des paramètres lors d'un 
           \begin{minted}{ocaml}
         let f(x) =
             x := x + 1
-        
+
         main() =
             let v = 41
             f(v)
@@ -1332,7 +1330,7 @@ La sémantique précise également le mode de passage des paramètres lors d'un 
           \begin{minted}{ocaml}
         let f(x, y, z) =
             x*x + y*y
-        
+
         main() =
             int v := 41
             f(v)
@@ -1369,11 +1367,11 @@ L'appel par valeur implique que les structures sont copiées lorsqu'elles sont p
 Les structures sont également copiées lors des affectations de structures, i.e. des affectations de la forme \texttt{x = y}, où \texttt{x} et \texttt{y} ont le type \texttt{struct S} :
 \begin{minted}{c}
     struct S { int a; int b; };
-    
+
     void f(struct S x) {
         x.b = x.b + 1;
     }
-    
+
     int main() {
         struct S v = { 1, 2 };
         f(v);
@@ -1568,7 +1566,7 @@ Python est muni d'une stratégie d'évaluation stricte, avec appel par valeur. L
 Un tableau est un objet mutable :
 \begin{minted}{python}
     def incr(x):
-        x[1] += 1 
+        x[1] += 1
     a = [0] * 17
     a[1] = 41
     incra(a)
@@ -1709,7 +1707,7 @@ Il existe des langages ou la portée est dynamique, i.e. dépend de l'exécution
 
 Il faut choisir un emplacement mémoire pour chaque variable et être capable de calculer cet emplacement à l'exécution. Ici, les variables vont toutes être stockées sur la pile. A chaque fonction en cours d'exécution correspond une portion de la pile, appelée tableau d'activation, qui contient notamment ses paramères effectifs, l'adresse de retour et ses variables locales. On positionne le registre \texttt{\%rbp} au milieu de la pile de sorte à retrouver facilement l'emplacement d'une variable en ajoutant 8, 16 etc... En effet, le sommet de pile peut bouger si on y stocke des calculs intermédiaires ou si on est en train de préparer un appel de fonction. Pour chaque variable, le compilateur détermine une position dans la pile. Par exemple, dans le type \texttt{ident} :
 \begin{minted}{ocaml}
-    type ident = { offset : int; ... }    
+    type ident = { offset : int; ... }
 \end{minted}
 Pour les paramètres, ce sont +16, +24, etc... Pour les variables, ce sont -8, -16, etc, avec souvent plusieurs solutions possibles.
 
@@ -1750,8 +1748,8 @@ De même, les expressions booléennes sont compilées d'une manière très analo
 
 Les instructions sont compilées avec une fonction :
 \begin{minted}{ocaml}
-    let rec stmt = function 
-        | Sprintf e -> 
+    let rec stmt = function
+        | Sprintf e ->
             int_expr e ++ call "print_int"
         | Sif (e, s1, s2) ->
             ...
@@ -1815,7 +1813,7 @@ On modifie alors :
         | Eaddr { offset = ofs; by_reference = br } ->
             leaq (ind ~ofs rbp) rdi ++
             if br then movq (ind rdi) (reg rdi) else nop
-    
+
 \end{minted}
 
 Il faut modifier aussi le calcul des valeurs droites et de l'affectation, mais pas celui de l'appel grâce à la nouvelle construction :
@@ -1840,7 +1838,7 @@ Il reste à compiler les déclarations des fonctions :
       formals: ident list;
       locals : ident list;
       body : stmt; }
-    
+
     let function_decl f =
         let fs = List.fold_left (fun fs x -> max fs (abs x.offset)) 0 f.locals in
         ++ stmt f.body ++
@@ -1930,7 +1928,9 @@ On établit alors un résultat plus fort :
 Une telle preuve put être effectuée sur un vrai compilateur : CompCert, un compilateur C produisant du code efficace a été formellement vérifié avec Coq. Voir \url{http://compcert.inria.fr/}
 
 
-\part[Compilation des Langages Fonctionnels]{Cours 24/11}
+
+\part{Compilation des Langages Fonctionnels}
+\localtableofcontents
 \section{Fonctions comme Valeurs de Première Classe}
 On va étudier un fragment d'OcamL :
 \[
@@ -1961,7 +1961,7 @@ On considère l'exemple suivant de fermeture :
 \begin{minted}{ocaml}
     let rec pow i x =
         if i = 0 then 1. else x *. pow (i-1) x
-    
+
     let integrate_xn n =
         let f = pow n in
         let eps = 0.001 in
@@ -1981,7 +1981,7 @@ Dans la première fermeture \texttt{fun i ->}, l'environnement est $\{\texttt{po
     let integrate_xn = fun n ->
         let f = pow n in
         let eps = 0.001 in
-        let rec sum = 
+        let rec sum =
             fun x -> if x >= 1. then 0. else f x +. sum (x+. eps) in
         sum 0. *. eps
 \end{minted}
@@ -2116,7 +2116,7 @@ Par exemple la fonction suivante fait déborder la pile pour de trop grands arbr
 \begin{minted}{ocaml}
     type 'a tree = Empty | Node of 'a tree * 'a * 'a tree
 
-    let rec height = function 
+    let rec height = function
         |Empty -> 0
         | Node (l, _, r) -> 1 + max (height l) (height r)
 \end{minted}
@@ -2124,9 +2124,9 @@ Par exemple la fonction suivante fait déborder la pile pour de trop grands arbr
 Au lieu de calculer la hauteur $h$ de l'arbre, on calcule $k(h)$ pour une fonction $k$ quelconque, appelée continuation. On appelle ça la programmation par continuations. On déduit le programme voulu par la continuation identité :
 
 \begin{minted}{ocaml}
-    let rec height t k = match t with 
+    let rec height t k = match t with
         | Empty -> k 0
-        | Node (l, _, r) -> 
+        | Node (l, _, r) ->
             height l (fun hl ->
             height r (fun hr ->
             k (1 + max hl hr)))
@@ -2302,7 +2302,8 @@ Le type de l'expression $e_{1}$ permet d'optimiser la construction dans de nombr
 
 On peut par ailleur détecter les cas redondants lorsqu'une action n'apparaît pas dans le code produit, et détecter les filtrages non exhaustifs lorsque $error$ apparaît dans le code produit.
 
-\part[Compilateur Optimisant]{Cours 08/12}
+\part{Compilateur Optimisant}
+\localtableofcontents
 \section{Phases du Compilateur}
 On décompose la production de code en plusieurs phases :
 \begin{enumerate}
@@ -2768,7 +2769,6 @@ Si $in(I)$ change, il n'est nécessaire de refaire le calcul que pour les préd�
 
 Le calcul des ensemble $def$ et $use$ est immédiat pour la plupart des instructions. Toutefois, pour les appels, il est un peu plus subtil : on exprime que les $\min(6, n)$ premiers registres de la liste des paramètres vont être utilisés et que tous les registres \textit{caller-saved} peuvent être écrasés. Enfin, pour \texttt{return}, \texttt{\%rax} et les registres \textit{callee-saved} vont être utilisés.
 
-\part[Compilateur Optimisant II]{Cours : 22/12}
 \section{Location Transfer Language}
 On a déjà fait l'analyse de durée de vie.
 \subsection{Construction du Graphe d'Interférence}
@@ -2779,7 +2779,7 @@ On a déjà fait l'analyse de durée de vie.
 Soit une instruction qui définit une variable $v$ : tout autre variable $w$ vivante à la sortie de cette instruction peut interférer avec $v$. Cependant dans le cas particulier d'une instruction : \texttt{mov} $w$ $v$, on ne souhaite pas déclarer que $v$ et $w$ interfèrent, car il peut être précisément intéressant de réaliser $v$ et $w$ par le même emplacement et d'éliminer ainsi une ou plusieurs instructions.
 \begin{definition}
     Le graphe d'interférence d'une fonction est un graphe non orienté dont les sommets sont les variables et les sont de deux types : préférence ou interférence. \\
-    Pour chaque instruction qui définit une variable $v$ et dont les variables vivantes en sortie, autres que $v$, sont $w_{1}, \ldopts, w_{n}$, on procède ainsi :
+    Pour chaque instruction qui définit une variable $v$ et dont les variables vivantes en sortie, autres que $v$, sont $w_{1}, \ldots, w_{n}$, on procède ainsi :
     \begin{itemize}
         \item Si l'instruction n'est pas un \texttt{mov}, on ajoute les $n$ arêtes d'interférence.
         \item Sinon, on met une préférence sur $w$ et des interférences sur les autres.
@@ -2865,7 +2865,7 @@ Les pseudo-registres vidés en mémoire sont associés à des emplacements sur l
 
 Toutefois, il peut se trouver qu'il reste des instructions de la forme \texttt{move v v}. On les élimine pendant la traduction vers {\bf LTL}.\\
 \subsection{Traduction ERTL vers LTL}
-Les instructions LTL sont les mêmes que dans ERTL si ce n'est que les registres sont tous des registres physiques ou des emplacements de pile : 
+Les instructions LTL sont les mêmes que dans ERTL si ce n'est que les registres sont tous des registres physiques ou des emplacements de pile :
 \begin{minted}{ocaml}
     type instr =
         | Eaccess_global of ident * register * label
@@ -2877,7 +2877,7 @@ Les instructions LTL sont les mêmes que dans ERTL si ce n'est que les registres
         | ...
 \end{minted}
 On traduit chaque instruction ERTL à l'aide d'une fonction qui prend en argument le coloriage du graphe d'une part, et la structure du tableau d'activation d'autre part.
-Une variable $r$ peut être un registre physique, un pseudo registre réalisé par un registre physique, un pseudo-registre réalisé par un emplacement de pile. Dans tous les cas : 
+Une variable $r$ peut être un registre physique, un pseudo registre réalisé par un registre physique, un pseudo-registre réalisé par un emplacement de pile. Dans tous les cas :
 \begin{minted}{ocaml}
     let instr colors frame = function
         | Ertltree.Econst (n, r, l) ->
@@ -2887,9 +2887,9 @@ Une variable $r$ peut être un registre physique, un pseudo registre réalisé p
 \end{minted}
 Dans d'autre cas, c'est plus compliqué car toutes les opérandes ne sont pas autorisées. C'est le cas de l'accès à une variable globale par exemple. En effet, on ne peut pas \texttt{mov} depuis la pile.\\
 On utilise alors un registre intermédiaire. On adopte ici une solution simple : deux registres particuliers seront utilisés comme registres temporaires pour ces transferts avec la mémoire, et ne seront pas utilisés par ailleurs\\
-En pratique, on n'a pas nécessairement le loisir de gâcher ainsi deux registres ; on doit alors modifier le graphe d'interférence et relancer une allocation de registres pour déterminer un registre libre pour le transfert. Heureusement, en pratique, cela converge en $2$ ou $3$ étapes. 
+En pratique, on n'a pas nécessairement le loisir de gâcher ainsi deux registres ; on doit alors modifier le graphe d'interférence et relancer une allocation de registres pour déterminer un registre libre pour le transfert. Heureusement, en pratique, cela converge en $2$ ou $3$ étapes.
 
-Pour écrire dans la variable $r$, on se donne une fonction \texttt{write}, qui prend également en arguments le coloriage et l'étiquette où il faut aller après l'écriture : 
+Pour écrire dans la variable $r$, on se donne une fonction \texttt{write}, qui prend également en arguments le coloriage et l'étiquette où il faut aller après l'écriture :
 \begin{minted}{ocaml}
     let write colors r l = match lookup colors r with
         | Reg hr ->
@@ -2898,7 +2898,7 @@ Pour écrire dans la variable $r$, on se donne une fonction \texttt{write}, qui 
             tmp1, generate (Embinop (Mmov, Reg tmp1, Spilled n, l))
 \end{minted}
 
-On peut maintenant traduire facilement de ERTL vers LTL : 
+On peut maintenant traduire facilement de ERTL vers LTL :
 \begin{minted}{ocaml}
     let read1 colors r f = match lookup colors r with
         | Reg hr -> f hr
@@ -2999,7 +2999,7 @@ On utilise deux tables : une pour les étiquettes déjà visitées, et une pour 
 \end{minted}
 
 Dans le cas d'un branchement, on considère d'abord le cas favorable où le code d'un test négatif n'a pas encore été produit, sinon, il est possible que le code correspondant à un test positif n'ait pas été produit et on peut alors inverser la condition de branchement. Enfin, dans le cas où le code des deux branches est produit, on n'a pas d'autre choix que de produire un branchement inconditionnel. \\
-On rassemble ensuite tout dans un unique programme : 
+On rassemble ensuite tout dans un unique programme :
 \begin{minted}{ocaml}
     let f = open_in file in
     let buf = Lexing.from_channel f in
@@ -3019,9 +3019,9 @@ On rassemble ensuite tout dans un unique programme :
 
 \section{Résultats}
 Notre compilateur est de l'ordre de \texttt{gcc -01}, et contient $1991$ lignes. \\
-L'architecture présentée est celle de CompCert où les optimisations sont réalisées au niveau RTL. \texttt{gcc} intercale un langage SSA et les optimisations sont réalisées au niveau SSA et au niveau RTL. 
+L'architecture présentée est celle de CompCert où les optimisations sont réalisées au niveau RTL. \texttt{gcc} intercale un langage SSA et les optimisations sont réalisées au niveau SSA et au niveau RTL.
 \subsection{LLVM}
-Il s'agit d'une infrastructure pour aider à la construction de compilateurs optimisants. LLVM propose un langage intermédiaire, IR, et des outils d'optimisation et de compilation de ce langage. Le langage IR ressemble beaucoup à notre langage RTL, il contient : 
+Il s'agit d'une infrastructure pour aider à la construction de compilateurs optimisants. LLVM propose un langage intermédiaire, IR, et des outils d'optimisation et de compilation de ce langage. Le langage IR ressemble beaucoup à notre langage RTL, il contient :
 \begin{itemize}
     \item Des pseudo-registres
     \item Un graphe de flot de contrôle
@@ -3030,10 +3030,10 @@ Il s'agit d'une infrastructure pour aider à la construction de compilateurs opt
 Mais il y a aussi des différences notables : c'est un langage typé et le code est en forme SSA : chaque variable n'est affectée qu'une fois. Le code d'origine étant susceptible d'affecter plusieurs fois une même variable. On recourt alors à un opérateur appelé $\phi$ pour réconcilier plusieurs branches du flot de contrôle.\\
 L'intérêt de la forme SSA est que l'on peut maintenant attacher une propriété à chaque variable et l'exploiter ensuite partout où cette variable est utilisée. \\
 
-On peut tirer parti de LLVM pour : 
+On peut tirer parti de LLVM pour :
 \begin{itemize}
     \item Ecrire un nouveau compilateur pour un langage $S$ en se contenant d'écrire la partie avant et la traduction vers IR
-    \item Concevoir et réaliser de nouvelles optimisations sur le langage IR. 
+    \item Concevoir et réaliser de nouvelles optimisations sur le langage IR.
 \end{itemize}
 
 \end{document}

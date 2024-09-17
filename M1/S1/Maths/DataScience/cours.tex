@@ -1,0 +1,199 @@
+\documentclass{cours}
+
+\title{Science des Données}
+\author{Gabriel Peyré}
+
+\begin{document}
+\bettertitle
+
+\section{Théorie de Shannon}
+\subsection{Signaux Analogiques et Discrets}
+\begin{definition}
+	Un signal analogique est une fonction $f_{0}\in \mL^{2}\left(\left[0, 1\right]\right)$ où $[0, 1]$ est le domaine d'acquisition.
+	Une image analogique est une fonction $2D$ $f_{0}\in \mL^{2}\left(\left[0, 1\right]^{2}\right)$.
+	\label{def:signal_analogique}
+\end{definition}
+
+La plupart des méthodes discutées dans ce cours s'étendent à des fonctions multi-dimensionnelles
+\begin{equation*}
+	f_{0}: \left[0, 1\right]^{d}\longrightarrow \left[0, 1\right]^{s}
+\end{equation*}
+où $d$ est la dimension de l'espace d'entrée et $s$ est la dimension de l'espace de sortie.
+
+\subsubsection{Acquisition et Échantillonnage}
+\begin{definition}
+	L'acquisition du signal est une projection en petite dimension d'un signal continu effectuée par un outil matériel.
+	L'opération d'échantillonage correspond donc à une correspondance de l'ensemble des fonctions continues à un vecteur discret de dimension fini:
+	\begin{equation*}
+		f_{0}\in\mL^{2}\left(\left[0, 1\right]^{d}\right) \longmapsto f\in \C^{N}
+	\end{equation*}
+	\label{def:acquisition_signal}
+\end{definition}
+
+\subsubsection{Echantillonneur Invariant par Translation}
+\begin{definition}
+	Un échantillonneur invariant par translation performe l'acquisition comme la convolution entre le signal continu et une impulsion constante de réponse $h$ translaté à l'emplacement d'échantillonnage:
+	\begin{equation}
+		f_{n} = \int_{-S/2}^{S/2}f_{0}(x)h\left(\frac{n}{N} - x\right)\d x = f_{0}\star h\left(\frac{n}{N}\right)
+	\end{equation}
+	\label{def:ltis}
+\end{definition}
+
+\subsection{Théorème d'Échantillonage de Shannon}
+\subsubsection{Rappels sur la Transformée de Fourier}
+\begin{definition}
+Pour $f \in \mL^{1}\left(\R\right)$, on définit sa transformée de Fourier comme:
+\begin{equation}
+\forall \omega\in\R, \hat{f}\left(\omega\right) = \int_{\R}f(x)e^{-ix\omega}\d x
+\end{equation}
+\label{def:fourier_transform}
+\end{definition}
+
+\begin{proposition}
+	On a:
+	\begin{equation*}
+		\norm{\hat{f}}^{2} = \left(2\pi\right)^{-1}\norm{f}^{2}
+	\end{equation*}
+	de telle sorte que $f \mapsto \hat{f}$ peut être étendu par continuité à tout $\mL^{2}\left(\R\right)$ ce qui correspond à calculer $\hat{f}$ comme la limite quand $T\to +\infty$ de $\int_{-T}^{T}f(x)e^{-ix\omega}\d x$.
+	Quand de plus $\hat{f} \in \mL^{1}\left(\R\right)$ on peut inverser la transformée de Fourier:
+	\begin{equation*}
+		f(x) = \frac{1}{2\pi}\int_{\R}\hat{f}\left(\omega\right)e^{ix\omega}\d x
+	\end{equation*}
+	\label{prop:inv_fourier}
+\end{proposition}
+
+\begin{proposition}
+	La transformée de Fourier $\mF: f\mapsto\hat{f}$ échange la régularité avec la décroissance.
+	Si $f \in \cont^{p}\left(\R\right)$ avec une transformée de Fourier intégrable,
+	alors $\mF\left(f^{(p)}\right)\left(\omega\right) = \left(i\omega\right)^{p}\hat{f}\left(\omega\right)$
+	de telle sorte que $\abs{\hat{f}\left(\omega\right)} = \O\left(\abs{\omega}^{-p}\right)$.
+	Réciproquement,
+	\begin{equation*}
+		%\int_{\R} (1 + \abs{\omega})^{p}\abs{\hat{f}\left(\omega\right)}\d\omega < +\infty \Longrightarrow f \in \cont^{p}\left(\R\right)
+		\int_{\R} \left(1 + \abs{\omega}\right)^{p}\abs{\hat{f(\omega)}} \d \omega < +\infty \Longrightarrow f\in \cont^{p}\left(\R\right)
+	\end{equation*}
+	\label{prop:reg_fourier}
+\end{proposition}
+
+\subsubsection{Rappels sur la Série de Fourier}
+On note $\T = \R/2\pi\Z$ le tore.
+\begin{definition}
+Une fonction $f \in \mL^{2}\left(\T\right)$ est $2\pi$-périodique et peut être vue comme une fonction $f$ de $\mL^{2}\left(\left[0, 2\pi\right]\right)$ dont les coefficients de Fourier sont:
+\begin{equation*}
+	\forall n\in \Z, \hat{f}_{n} = \frac{1}{2\pi}\int_{0}^{2\pi}f(x)e^{-ixn}\d x
+\end{equation*}
+Cette formule est équivalente au produit scalaire $\hat{f}_{n} = \scalar{f, e_{n}}$ pour le produit scalaire canonique sur les fonctions sur le tore.
+Pour ce produit scalaire, les $\left(e_{n}\right)_{n \in \Z}$ forment une base de Hilbert.
+On a donc:
+\begin{equation*}
+	f = \sum_{n\in \Z}\scalar{f, e_{n}}e_{n}
+\end{equation*}
+et donc:
+\begin{equation*}
+	\norm{f - \sum_{n = -N}^{N}\scalar{f, e_{n}}e_{n}}_{L^{2}\left(\T\right)} \xrightarrow[N \to +\infty]{}0
+\end{equation*}
+\end{definition}
+\begin{proposition}
+Cette formule est équivalente au produit scalaire $\hat{f}_{n} = \scalar{f, e_{n}}$ pour le produit scalaire canonique sur les fonctions sur le tore.
+Pour ce produit scalaire, les $\left(e_{n}\right)_{n \in \Z}$ forment une base de Hilbert.
+On a donc:
+\begin{equation*}
+	f = \sum_{n\in \Z}\scalar{f, e_{n}}e_{n}
+\end{equation*}
+et donc:
+\begin{equation*}
+	\norm{f - \sum_{n = -N}^{N}\scalar{f, e_{n}}e_{n}}_{L^{2}\left(\T\right)} \xrightarrow[N \to +\infty]{}0
+\end{equation*}
+
+	\label{prop:scalar_fourier_series}
+\end{proposition}
+
+\subsubsection{Formule de Poisson}
+La formule de Poisson connecte la transformée de Fourier et les séries de Fourier aux opérateurs d'échantillonnage et de périodisation.
+Pour une fonction $h\left(\omega\right)$ (généralement $h = \hat{f}$), sa périodisation est:
+\begin{equation*}
+	h_{P}\left(\omega\right) = \sum_{n}h(\omega - 2\pi n)
+\end{equation*}
+Cette formule fait sens si $h \in \mL^{1}\left(\R\right)$ auquel cas $\norm{h_{P}}_{\mL^{1}\left(\T\right)} \leq \norm{h}_{\mL^{1}\left(\R\right)}$.
+La formule de Poisson correspond au diagramme suivant:
+\begin{center}
+	Échantillonnage
+\begin{tikzcd}
+	f(x) \arrow[r, "\mF"] \arrow[d] &[3cm] \hat{f} \arrow[d]\\
+	\left(f(n)\right)_{n} \arrow[r, "Série\ de\ Fourier"] & \displaystyle\sum_{n}f(n)e^{-i\omega n}
+\end{tikzcd}
+Périodisation
+\end{center}
+
+
+\begin{proposition}[Formule de Poisson]
+	Si $\hat{f}$ est à support compact et $\abs{f(x)} \leq C\left(1 + \abs{x}\right)^{-3}$ pour une constante $C$, alors:
+	\begin{equation*}
+		\forall \omega \in \R, \sum_{n}f(n)e^{-i\omega n} = \hat{f}_{P}(\omega)
+	\end{equation*}
+	\label{prop:formule_poisson}
+\end{proposition}
+
+\begin{proof}
+	Puisque $\hat{f}$ est à support compact, $\hat{f}_{P}$ est bien défini et $f$ étant rapidement décroissante, $\left(\hat{f}\right)_{P}$ est $\cont^{1}$.
+	Ainsi, on a:
+	\begin{equation*}
+		\left(\hat{f}\right)_{P}\left(\omega\right) = \sum_{k}c_{k}e^{ik\omega}
+	\end{equation*}
+	où
+	\begin{equation*}
+		c_{k} = \frac{1}{2\pi}\int_{0}^{2\pi}\left(\hat{f}\right)_{P}\left(\omega\right)e^{-ik\omega}\d \omega = \frac{1}{2\pi}\int_{\R}\hat{f}\left(\omega\right)e^{-ik\omega}\d \omega = f(-k)
+	\end{equation*}
+	puisque
+	\begin{equation*}
+		\int_{0}^{2\pi}\sum_{n}\abs{\hat{f}\left(\omega - 2\pi n\right)e^{-ik\omega}}\d \omega = \int_{\R}\abs{\hat{f}}
+	\end{equation*}
+	qui est bornée et où on a utilisé la proposition \ref{prop:inv_fourier} puisque $\hat{f}\in \mL^{1}\left(\R\right)$.
+\end{proof}
+
+\subsubsection{Théorème de Shannon}
+Le théorème de d'échantillonnage de Shannon énonce une condition suffisante pour que l'opérateur d'échantillonage $f \mapsto \left(f(ns)\right)_{n}$ soit inversible pour un certain pas d'échantillonage $s > 0$.
+Elle requiert que $\mathrm{supp}\left(\hat{f}\right) \subset \left[-\pi/s, \pi/s\right]$, ce qui implique, par la formule \ref{prop:inv_fourier}.
+
+\begin{thm}
+	Si $\abs{f(x)} \leq C\left(1 + \abs{x}\right)^{-3}$ pour une constante $C$ et $\mathrm{supp}\left(\hat{f}\right)\subset\left[-\pi/s, \pi/s\right]$ alors on a:
+	\begin{equation*}
+		\forall x \in \R, f(x) = \sum_{n}f(ns)\sinc\left(x/s - n\right)
+	\end{equation*}
+	et la convergence est uniforme.
+	\label{thm:shannon}
+\end{thm}
+
+\begin{proof}
+	Le changement de variable $g = f(s\cdot)$ résulte en $\hat{g} = \frac{1}{s}\hat{f}\left(\frac{\cdot}{s}\right)$:
+	\begin{equation*}
+		\hat{g}\left(\omega\right) = \int f(sx)e^{-i\omega x}\d x = \frac{1}{s}\int f(sx) e^{-i\left(\frac{\omega}{s}\right)sx}\d (sx) = \frac{\hat{f}\left(\frac{\omega}{s}\right)}{s}
+	\end{equation*}
+	donc on peut se restreindre à $s = 1$.
+	L'hypothèse de support compact implique $\hat{f}\left(\omega\right) = \mathds{1}_{\left[-\pi, \pi\right]}\left(\omega\right)\hat{f}_{P}\left(\omega\right)$.
+	En combinant la formule d'inversion \ref{prop:inv_fourier} et la formule de Poisson \ref{prop:formule_poisson}, on obtient:
+	\begin{equation*}
+		f(x) = \frac{1}{2\pi}\int_{-\pi}^{\pi}\hat{f}_{P}\left(\omega\right)e^{i\omega x}\d\omega = \frac{1}{2\pi}\int_{-\pi}^{\pi}\sum_{n}f(n)e^{i\omega\left(x - n\right)}\d \omega
+	\end{equation*}
+	Puisque $f$ est à décroissance rapide, l'intégrale de droite converge absolument et on peut échanger intégrale et somme et obtenir:
+	\begin{equation*}
+		f(x) = \sum_{n}f(n)\frac{1}{2\pi}\int_{-\pi}^{\pi}e^{i\omega(x-n)}\d\omega = \sum_{n}f(n)\sinc\left(x - n\right)
+	\end{equation*}
+\end{proof}
+
+En pratique, cette formule de reconstruction est peu pratique car converge très lentement.
+On peut obtenir une décroissance exponentielle en reprenant la preuve avec un $s' > s$.
+
+\subsubsection{Quantification}
+Une fois que le signal a été échantilloné pour obtenir un vecteur discret, pour le stocker et le transmettre
+il faut qualifier les valeurs à une certaine précision finie.
+En considérant par exemple un pas $s = \frac{1}{N}$, on échantillonne $\left(u_{n} = \left(f\left(\frac{n}{N}\right)\right)_{n = 1}^{N} \in \R^{\N}$ pour obtenir un vecteur de dimension finie $N$.
+Remarquons que ne s'intéresser qu'à des données finies revient à restreindre la fonction $f$ à un certain domaine compact et contredit dont le théorème de Shannon,
+puisqu'une fonction $f$ ne peut pas avoir un domaine compact et en fréquence et en espace (on ne peut donc pas avoir une reconstruction parfaite).
+
+\subsection{Théorème de Codage de Shannon}
+\subsubsection{Codage Uniforme}
+On considère un alphabet $\left(s_{1}, \ldots, s_{K}\right)$ de $K$ symboles.
+Par exemple, si on échantillonne et quantifie un signal bornée $0 \leq f_{0} < 1$ avec un pas de $1/K$, on peut considérer $s_{k} = k$.
+
+\end{document}
