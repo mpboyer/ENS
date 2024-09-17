@@ -1,3 +1,7 @@
+make all:
+	make p
+	make m
+
 make clean:
 	latexmk -c
 
