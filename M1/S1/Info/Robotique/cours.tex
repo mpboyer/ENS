@@ -1,7 +1,88 @@
 \documentclass[math]{cours}
-\title{<+titre+>}
-\author{<+auteur+>}
+\title{Introduction à la Robotique}
+\author{Justin Carpentier et Stéphane Caron}
 
 \begin{document}
+\bettertitle
+\section*{Introduction}
+L'objectif est de créer un framework général permettant de préparer à l'automatisation de tous les types de robots:
+\begin{itemize}
+	\item Manipulation
+	\item Locomotion
+	\item Hybrides
+\end{itemize}
+Un robot humanoïde étant beaucoup plus complexe qu'un quadripède, c'est le domaine qui fait avancer la robotique.\\
+
+On peut voir la robotique comme la fabrique artificielle du mouvement (par opposition au vivant).
+La robotique s'itnéresse au lien entre des choses qui bougent et le monde réel, et à son contrôle par ordinateur.
+C'est aussi le miroir de l'humain et des manières dont nous bougeons naturellement.
+On a une analogie entre les robots et le vivant.
+\begin{center}\begin{tabular}{cc}
+		Outil Inerte & Pierre\\
+		Action sans Locomotion & Végétal\\
+		Locomotion & Animal
+\end{tabular}\end{center}
+L'objectif est de construire des algorithmes pour des robots capables d'agir de manière autonome, notamment, qui tournent sur des ordinateurs portables.
+
+\section*{Historique de la Robotique}
+La robotique a seulement 60 ans~!
+\begin{itemize}
+	\item UNIMATE est le premier bras robotique industriel, vendu à partir de 1961.
+		Il a une logique pneumatique.
+	\item Les premières téléopérations assistées par ordinateur à la CEA (Commission de l'Énergie Atomique) ont commencées dans les années 1970
+	\item Du côté de la recherche, le LAAS-CNRS a construit le robot HILARE dans les années 70 sous l'impulsion de Jean Lagasse.
+	\item Les robots industriels se sont énormément développés entre les années 80 et 90.
+	\item Les premiers robots à jambes sont nés dans les années 80 sous la direction de Mark Hebert (fondateur de Boston Dynamics).
+		Les premiers bipèdes de l'Inria sont nés à partir des années 90.
+\end{itemize}
+
+\section{Le Contrôle du Mouvement}
+L'objectif est de se mouvoir pour agir.
+Le mouvement a lieu dans l'espace physique, espace commun entre l'objet et le robot.
+On n'a accès qu'à une projection à travers les \textit{sens} du robot, \emph{son espace sensoriel} et on envoie ensuite des commandes à \emph{l'espace moteur}.
+Il faut donc prendre en compte une boucle de contrôle:
+\begin{category}
+	& Physique\arrow[dl, bend right, "Percevoir"] & \\
+Sensoriel \arrow[rr, bend right] & & Moteur\arrow[ul, bend right]
+\end{category}
+
+On crée un boucle de contrôle:
+\begin{itemize}
+	\item On définit une action
+	\item On représente les éléments nécessaires à l'action et on contrôle les paramètres
+	\item On calcule les réactions nécessaires
+\end{itemize}
+Une partie de l'intelligence du mouvement est dans le design.
+Un bon design de robot facilite le mouvement.
+
+Le principe fondamental de la locomotion:
+On construit un espace de référence avec les positions des objets alentours.
+On calcule le déplacement de notre robot et on calculer ainsi les déplacements des autres objets:
+on compose des mouvements, ce qu'on fait donc mathématiquement en utilisant des crochets de Lie.
+
+On va faire des bilans de force qui agissent physiquement sur le centre de masse.
+Les robots humanoïdes sont, par le calcul, mus par des forces.
+On va donc devoir résoudre, efficacement, les équations de la mécanique Lagrangienne.
+
+Le roboticien a pour but de construire une fonction de contrôle pour passer de l'espace sensoriel à l'espace moteur.
+Il y a deux manières principales:
+\begin{description}
+	\item[Le Contrôle Optimal] On essaie de calculer les commandes moteurs en passant pas une estimation optimale et un contrôle optimal:
+		on a deux étapes de modélisation, le calcul de $x$ un état intermédiaire, et le calcul de $u$ l'ensemble des commandes moteurs.
+		\begin{align*}
+			\min_{x(.), u(.)} \int_{0}^{T}l_{t}\left(x(t), u(t)\right)\d t\\
+			\dot{x}(t) = f_{t}\left(x(t), u(t)\right)\\
+			x(0) = x_{0}
+		\end{align*}
+	\item[L'apprentissage par Politique] On veut calculer les commandes moteurs en passant par une simulation du résultat des consignes.
+		Ici, $x$ est un état caché de simulation qu'on crée par intégration puis génération, et on regénère des données de mesures.
+		On procède donc par apprentissage, et on cherche à résoudre:
+		\begin{align*}
+			\min_{\color{vulm}\theta}\mathbb{E}_{\xi}\left[\int_{0}^{T}l_{t}\left(x(t), {\color{vulm}\pi_{\theta}\left(x(t), \xi(t)\right)}\right)\d t\right]\\
+			\dot{x}(t) = f_{t}\left(x(t), {\color{vulm}\pi_{\theta}(x_{t}, \dot{\xi}(t))}\right)\\
+			x(0) \sim \xi_{0}
+		\end{align*}
+\end{description}
+
 
 \end{document}
