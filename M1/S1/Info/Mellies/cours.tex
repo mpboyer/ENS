@@ -1,0 +1,377 @@
+\documentclass[math]{cours}
+\title{Lambda-Calcul et Catégories}
+\author{Paul-André Mellies}
+
+\begin{document}
+\bettertitle
+
+\section{Introduction}
+\subsection{Introduction Historique}
+Le $\lambda$-calcul a été introduit dans les années 1930 par Church.
+Il est en lien avec des questions de linguistique, de logique et de calculabilité.
+\begin{definition}
+	Le $\lambda$-calcul est un langage de preuves pour une logique intuitionniste minimale (ou pour la théorie simple des types).
+	\label{def:lambdacalcul}
+\end{definition}
+Le $\lambda$-calcul non typé a la puissance des machines de Turing.
+
+\begin{definition}
+	Les catégories sont des structures algébriques (parfois appelées monoïdes à plusieurs objets)
+	\label{def:categoryyyyyyyy}
+\end{definition}
+Historiquement, les catégories ont été introduites pour la topologie algébriques dans les années 1940 avec les travaux de Eilenberg et Maclane.
+Leur objectif était de comprendre les propriétés fondamentales des espaces en s'intéressant aux morphismes entre espaces (les fonctions continues).
+
+Il y a une connexion forte au niveau de la théorie des preuves entre $\lambda$-calcul et théorie, qui est très similaire à ce qui s'était passé lors de la définition des algèbres de Boole.
+Dans ce deuxième cas, Boole montre qu'on peut mettre un ordre partiel sur les formules de la logique classique:
+\begin{equation*}
+	\phi \leq \Psi \text{ si et seulement si } \phi \Rightarrow \Psi
+\end{equation*}
+Une algèbre de Boole $(A, \leq, \land, \lor, \lnot, \top, \bot)$ est un ensemble ordonnée $A, \leq$ muni de fonctions préservant l'ordre $\land, \lor: A\times A \to A$:
+\begin{equation*}
+	\phi_{1} \leq \Psi_{1} \land \phi_{2} \leq \Psi_{2} \Longrightarrow \phi_{1} \land \phi_{2} \leq \Psi_{1}\land \Psi_{2}, \phi_{1} \lor \phi_{2} \leq \Psi_{1}\lor \Psi_{2}
+\end{equation*}
+et d'une fonction inversant l'ordre $\lnot: A \times A$:
+\begin{equation*}
+	\phi \leq \Psi \Rightarrow \lnot \Psi \leq \lnot \phi
+\end{equation*}
+vérifiant un certain nombre d'axiomes:
+\begin{multicols}{2}
+	\begin{itemize}
+		\item Associativité:
+				\begin{align*}
+					\left(\phi_{1}\land\phi_{2}\right) \land \phi_{3} = \phi_{1}\land\left(\phi_{2}\land \phi_{3}\right)\\
+					\left(\phi_{1}\lor\phi_{2}\right) \lor \phi_{3} = \phi_{1}\lor\left(\phi_{2}\lor \phi_{3}\right)
+				\end{align*}
+		\item Neutralité:
+				\begin{align*}
+					\phi \land \top = \top \land \phi = \phi\\
+					\phi \lor \bot = \bot \lor \phi = \phi
+				\end{align*}
+		\item Commutativité:
+			\begin{equation*}
+				\phi \land \Psi = \Psi \land \phi, \phi \lor \Psi = \Psi \lor \phi
+			\end{equation*}
+		\item Distributivité:
+			\begin{align*}
+				\phi \land \left(\Psi_{1} \lor \Psi_{2}\right) = \left(\phi \land \Psi_{1}\right) \lor \left(\phi \land \Psi_{2}\right)\\
+				\phi \lor \left(\Psi_{1} \land \Psi_{2}\right) = \left(\phi \lor \Psi_{1}\right) \land \left(\phi \lor \Psi_{2}\right)\\
+				\lnot\left(\phi \land \Psi\right) = \lnot\phi \lor \lnot \Psi, \lnot\top = \bot
+			\end{align*}
+		\item Idempotence:
+			\begin{align*}
+				\phi = \lnot\lnot \phi\\
+				\phi \land \phi = \phi, \phi \lor \phi = \phi
+			\end{align*}
+	\end{itemize}
+\end{multicols}
+Dans une algèbre de Boole, $\phi \land \psi$ est le plus grand minorant de $\phi$ et de $\psi$ et $\phi \lor \psi$ est le plus petit majorant de $\phi$ et $\psi$
+\begin{remarque}
+	On peut définir l'implication dans les algèbres de Boole comme $\phi \implies \psi = \lnot\phi \lor \psi$
+	\label{rem:implicationboole}
+\end{remarque}
+On va passer du système des algèbres de Boole ($\phi \leq \psi$ s'il existe une preuve que $\phi$ implique $\psi$)
+au système de catégories comme proposé par Lambek.
+\begin{definition}
+	On peut voir une catégorie comme un graphe dont les noeuds sont appelés objets et les arêtes sont appelées morphismes, maps ou flèches.
+	On peut composer les arêtes d'une catégorie, comme pour se déplacer sur le graphe.
+\end{definition}
+Ici on considère une catégorie dont les objets sont des formules logiques, et les morphismes sont des preuves d'implication.
+Il y a donc des liens très forts entre les catégories obtenues avec des formules et des preuves et celles obtenues par des types et des programmes fonctionnels entre les types.
+On va ici étudier les catégories à travers leurs représentations: on peut mieux comprendre une catégorie en la représentant comme une famille d'actions au moyen d'un foncteur.
+
+\subsection{Notion de Catégorie: Premiers Exemples}
+\begin{definition}[Catégorie]
+	Une \emph{catégorie} est décrite par les données suivantes:
+	\begin{itemize}
+		\item[0] Une classe\footnote{propriété non incarnée par un ensemble} d'objets (les noeuds d'un graphe).
+			On appelle les catégories dont les objets définissent un ensemble des \emph{petites catégories}.
+		\item[1] Pour toute paire d'objets $A, B$, un ensemble $\Hom(A, B)$ de fonctions de $A$ vers $B$ appelées \emph{morphismes} ou \emph{maps}.
+			On note ceci: $f: A \to B$ ou $A \xrightarrow{f} B$.
+		\item[2] Pour tous objets $A, B, C$, une loi de composition $\circ_{A, B, C}$:
+			\begin{equation*}
+				\begin{array}{rcl}
+				\Hom(B, C) \times \Hom(A, B) &\rightarrow & \Hom(A, C)\\
+				(g, f) &\mapsto & g\circ f
+				\end{array}
+			\end{equation*}
+		\item[2] Pour tout objet $A$, une fonction identité $\id_{A} \in \Hom(A, A)$
+		\item[3] Associativité:
+			\begin{center}
+				\begin{category}
+				& B \arrow{r}{g} & C\arrow{rd}{h} & \\
+				A\arrow{ur}{f}\arrow{urr}{g\circ f}\arrow{rrr}{h\circ\left(g\circ f\right)} & & & D
+				\end{category}
+			\end{center}
+			On peut aussi voir la composition comme la couverture de l'aire entre les noeuds du graphe:
+			\begin{category}
+				& B\arrow[r, no head]\arrow[drr, no head] & C \arrow[no head]{dr}{} & \\
+				A\arrow[ur, no head]\arrow[urr, crossing over, no head]\arrow[rrr, no head] & & & D
+			\end{category}
+			ou encore:
+			\begin{category}
+				& B\arrow[d, no head]\arrow[no head]{ddr}{}\arrow[no head]{ddl}{} & \\
+				& C\arrow[no head]{dr}{}\arrow[no head]{dl}{} & \\
+				A\arrow[rr, no head] & & D
+			\end{category}
+		\item[3] Neutralité: $f\circ \id_{A} = f = \id_{B} \circ f$.
+	\end{itemize}
+	\label{def:categorie}
+\end{definition}
+\begin{remarque}
+	Voir \emph{nerf d'une catégorie} pour voir la notion d'ensemble simplicial.
+\end{remarque}
+
+\begin{exemple}
+	\begin{description}
+	\item[PoSet] On considère d'abord les ensembles partiellement ordonnés comme des catégories:
+		\begin{proposition}
+	Chaque ensemble partiellement ordonné $(A, \leq)$ définit une catégorie dont les objets sont des éléments $a, b, c$ de $A$
+		avec une map $a\to b$ si et seulement si $a \leq b$ et $\Hom(a, b)$ un singleton si $a\leq b$ et $\emptyset$ sinon.
+	\label{prop:posetcat}
+	\end{proposition}
+\begin{proof}
+	On doit montrer l'existence d'une identité, d'une loi de composition, et les propriétés d'associativité et de neutralité:
+		\begin{itemize}
+				\item Par réflexivité de l'ordre: $a \leq a$ et donc $a \xrightarrow{\id_{a}} a$ existe.
+					\item Par transitivité: si $a \leq b$ et $b \leq c$ alors $a\leq c$ et on peut donc voir la transitivité comme une composition:
+						\item L'associativité et la neutralité découlent immédiatement du fait que chaque $\Hom(a, b)$ contient au plus un élément.
+						\end{itemize}
+			\end{proof}
+
+	Réciproquement, une catégorie $\phi$ telle que chaque ensemble d'homomorphismes contienne au plus un élément est la même chose qu'un préordre:
+\begin{category}
+	a\arrow[loop left]{l}{\id = g \circ f} \arrow{r}{f} &
+		b\arrow{l}{g} \arrow[loop right]{l}{f\circ g = \id}
+\end{category}
+
+	\item[Monoïde] On considère maintenant les Monoïdes comme des catégories.
+\begin{proposition}
+	Chaque monoïde (M, m, e) définit une catégorie notée $\B M$ appelée sa suspension avec un seul objet $*$ tel que:
+		$\Hom(*, *) = M$ et $\circ: m, n \mapsto n\cdot m$.
+	\label{prop:moncat}
+	\end{proposition}
+	L'associativité et la neutralité de la catégorie $\B M$ sont des conséquences directes de l'associativité et de la neutralité du monoïde.
+
+	\begin{remarque}
+En prenant $M = \left(\N, +, 0\right)$, la représentation ainsi obtenue des entiers a un lien direct avec la théorie de l'homotopie: c'est le groupe de Poincaré (ou groupe fondamental) d'un espace topologique pointé.
+Tout espace topologique définit une catégorie dont les objets sont les éléments de l'espace topologique et les flèches sont les chemins, à homotopie près.
+\end{remarque}
+
+	\item[Types] On considère la catégorie cartésienne fermée des types simples comme objets et des $\lambda$-termes simplement typés (module $\beta\eta$-équivalence) comme morphismes:
+		\begin{category}
+			A\arrow{r}{x:A\models t:B} & B\arrow{r}{y:B\models u:C} & C
+		\end{category}<++>
+$A \xrightarrow{x:A \models t:B} B \xrightarrow{y:B\models u:C} C$ flèche dessous ($x:A \models u[t/y]: C$)
+Cette catégorie jouera le rôle en théorie de la démonstration de l'algèbre de Boole des formules
+\end{description}
+\end{exemple}
+
+\section{Catégories Cartésiennes}
+\begin{definition}
+	Un produit cartésien de deux objets $A$ et $B$ dans un catégorie $\phi$ est la donnée d'un triplet
+	\begin{equation*}
+		\left(A \times B, \pi_{1}: A\times B \to A, \pi_{2}: A \times B \to B\right)
+	\end{equation*}
+	\begin{category}
+		A & & B \\
+		& A\times B \arrow{ul}{\pi_{1}}\arrow{ur}{\pi_{2}} &
+	\end{category}
+	tel que pour toute paire de flèches: $X\xrightarrow{f} A$ et $X\xrightarrow{g} B$, il existe un et une seule flèche: $h: X \to A \times B$ telle que
+	$f = \pi_{1} \circ h, g = \pi_{2} \circ h$.
+	Pour $\phi = Set$, par exemple, $A \times B = \left\{(a, b)\mid a \in A, b\in B\right\}$ et $\pi_{1}: (a, b) \mapsto a$ et $h: x \mapsto (fx, gx)$.
+	\label{def:prodcart}
+\end{definition}
+
+\begin{exemple}
+	Dans une catégorie définie par une relation d'ordre sur $A, \leq$, le produit cartésien de $a, b\in A$ c'est la même chose que la borne inférieure $a\land b$ de $a$ et $b$ définie comme le plus grand des minorants de $a$ et $b$.
+	\begin{category}
+		a & & b\\
+		& a\land b\arrow{ul}{\leq}\arrow{ur}{\leq} &\\
+		& x\arrow[bend right]{uur}\arrow[bend left]{uul}\arrow[dotted]{u}{h} &
+	\end{category}
+\end{exemple}
+
+\begin{definition}[Objet Terminal]
+	Un objet terminal $\mathds{1}$ dans une catégorie $\cont$ est un objet tel que pour tout objet $A$ de $\cont$, $\Hom(A, \mathds{1})$ est une singleton.
+	\label{def:objterm}
+\end{definition}
+\begin{remarque}
+	Un objet initial est un objet terminal dans la catégorie duale (catégorie ou on renverse les flèches).
+\end{remarque}
+
+\begin{definition}
+	Une catégorie cartésienne est une catégorie $\cont$ munie d'un produit cartésien $\left(A\times B, \pi_{1}, \pi_{2}\right)$ et munie d'un objet terminal.
+	\label{def:cartcat}
+\end{definition}
+
+\begin{definition}
+	Une paire $\mathds{I} \xrightarrow{f} \mathds{J}$ et $\mathds{J} \xrightarrow{g} \mathds{I}$ telle que $f\circ g= \id_{\mathds{J}}$ et $g\circ f = \id_{\mathds{I}}$ est appelée \emph{isomorphisme}
+	\label{def:isomorphisme}
+\end{definition}
+
+\begin{proposition}
+	Deux objets terminaux sont isomorphes. Deux produits cartésiens d'une même paire d'objets sont isomorphes.
+	\label{prop:isomorphismeterminaux}
+\end{proposition}
+\begin{proof}
+	Soit $\mathds{I}, \mathds{J}$ deux objets terminaux d'une même catégorie. Il existe un unique morphisme $f$ (resp. $g$) de $\mathds{I}$ (resp. $\mathds{J}$) vers $\mathds{J}$ (resp. $\mathds{I}$).
+	De même, il existe un unique morphisme $\id_{\mathds{J}}$ de $\mathds{J}$ vers lui-même.
+	Le diagramme ci-dessous commute donc:
+	\begin{category}
+		& \mathds{J} & \\
+		\mathds{J}\arrow{ur}{\id_{\mathds{J}}}\arrow{rr}{g} & & \mathds{I}\arrow{ul}{f}
+	\end{category}
+	En particulier, on a bien $f \circ g = \id_{\mathds{J}}$.
+	Puisque la situation est symétrique, $g\circ f= \id_{\mathds{I}}$ et donc deux objets terminaux sont isomorphes.
+	\medskip
+	Si on a deux produits cartésiens $A\times B, A\otimes B$ de deux objets $A, B$, alors:
+	\begin{category}
+		A\times B\arrow[bend right]{ddr}{\pi_{A, 1}}\arrow{ddrr}{\pi_{B, 1}} & & & A\otimes B\arrow{ddll}{\pi_{A, 2}}\arrow[bend left]{ddl}{\pi_{B, 2}}\\
+		& & &\\
+		& A & B &
+	\end{category}
+	En particulier, par définition du produit cartésien, puisqu'il existe deux applications de $A\times B$ vers $A, B$, il existe une unique application $h_{1, 2}$ de $A\times B$ vers $A\otimes B$ telle que $\pi_{A, 2}\circ h_{1, 2} = \pi_{A, 1}$:
+	\begin{category}
+		& A\times B\arrow[bend left]{ddr}{\pi_{B, 1}}\arrow[bend right]{ddl}{\pi_{A, 1}}\arrow[bend right, dotted]{d}{f}& \\
+				& A\otimes B\arrow[dotted, bend right]{u}{g}\arrow{dr}{\pi_{B, 2}}\arrow{dl}{\pi_{A, 2}} & \\
+		A & & B
+	\end{category}
+	Il suffit donc de montrer que l'identité fait commuter le diagramme pour que avoir $f \circ g = \id_{A\times B}$ et donc le résultat:
+	\begin{category}
+		& & A\\
+		& A & \\
+		A\times B\arrow{r}{f}\arrow[bend left]{ur}{\pi_{A, 1}}\arrow[bend left]{uurr}{\pi_{A, 1}}\arrow[bend right]{drr}{\pi_{B, 1}} & A \otimes B\arrow{u}{\pi_{A, 2}}\arrow{r}{g} & A\times B\arrow{uu}{\pi_{A, 1}}\arrow{d}{\pi_{B, 2}} \\
+		& & B\\
+	\end{category}
+
+	On aurait aussi pu construire une catégorie $Span(A, B)$:
+	\begin{itemize}
+		\item Les objets sont des triplets $\scalar{f, X, g}$:
+			\begin{category}
+				A &  & B\\
+				& X\arrow{ul}{f}\arrow{ur}{g} &
+			\end{category}
+		\item Les flèches sont des $\scalar{f, X, g} \xrightarrow{h} \scalar{f', Y, g'}$:
+			\begin{category}
+				& Y\arrow{dl}\arrow{dr} & \\
+				A & & B\\
+				& X\arrow{ur}\arrow{ul}\arrow{uu}{h} &
+			\end{category}
+	\end{itemize}
+	Alors, $A \times B, \pi_{1}, \pi_{2}$ est un produit cartésien dans $\cont$ si et seulement si $\scalar{\pi_{1}, A\times B, \pi_{2}}$ est un objet terminal dans $Span(A, B)$.
+\end{proof}
+
+\section{TD 1}
+\subsection{Catégories et Foncteurs}
+\begin{enumerate}
+	\item On a le tableau suivant:
+		\begin{tabular}{>{\sc}ccc}
+			\bf Catégorie & \bf Objets &\bf Flèches\\
+			\midrule
+			Set & Ensembles & Fonctions\\
+			Top & Espaces Topologiques & Fonctions Continues\\
+			Vect & Espaces Vectoriels & Applications Linéaires\\
+			Grp & Groupes & Morphismes
+		\end{tabular}
+	\item Un foncteur est un morphisme entre catégories.
+	\item La catégorie \textsc{Cat} est la catégorie dont les objets sont des catégories et les flèches sont des foncteurs
+\end{enumerate}
+
+\subsection{Catégories Cartésiennes}
+\begin{description}
+	\item[Question 3, 4, 5] Voir la preuve de \ref{prop:isomorphismeterminaux}.
+	\item[Question 6] On a le diagramme commutatif suivant:
+		\begin{category}
+			& A\arrow[bend right]{ddl}\arrow[bend left]{ddr}{\id_{A}}\arrow[dotted]{d}{h} & \\
+			& \term \times A\arrow{dl}\arrow{dr}{\pi_{A}}\arrow{dd}{\pi_{A}} & \\
+			\term & & A\arrow[bend left]{dl}{\id_{A}}\\
+			& A &
+		\end{category}
+		Donc $\pi_{A} \circ h = \id_{A}$.
+		\begin{category}
+			& \term\times A\arrow{d}{\pi_{A}}\arrow[bend left]{ddr}{\pi_{1}}\arrow[bend right]{ddl}{\pi_{A}} & \\
+			& A\arrow{dl}{\id_{A}}\arrow{d}{h} & \\
+			A & \term \times A\arrow{l}{\pi_{A}}\arrow{r}{\pi_{1}} & \term
+		\end{category}
+
+		De même pour $A \times \term$, par symétrie.
+		On peut par ailleurs procéder de même que pour les produits cartésiens pour montrer que $A\times \term \simeq \term\times A$.
+	\item[Question 7] On montre que $B\times A$ vérifie les propriétés de produit cartésien pour $A$ et $B$:
+		\begin{category}
+			& C\arrow{dr}{f}\arrow{dl}{g}\arrow[dotted]{d}{h} & \\
+			B & B \times A\arrow{l}{\pi_{B}}\arrow{r}{\pi_{A}} & A
+		\end{category}
+	\item[Question 8]
+		On a le diagramme suivant:
+		\begin{category}
+			& & \left(A\times B\right)\times C\arrow[color=black, dl, "\pi_{A\times B}"]\arrow[color=vulm, ddrr, "\pi_{C}"]\arrow[color=blue, dashed, dddr, "\pi_{B\times C}"] & & \\
+			& A\times B\arrow[color=vulm, dl, "\pi_{A}"]\arrow[color=vulm, dr, "\pi_{B}"] & & & \\
+		A & & B & & C \\
+		& & & B\times C\arrow[color=yulm, ul, "\pi_{B}"]\arrow[color=yulm, ur, "\pi_{C}"]\\
+		& & A\times \left(B\times C\right)\arrow[color=yulm, uull, "\pi_{A}"]\arrow[color=black, ur, "\pi_{B\times C}"]\arrow[color=blue, dashed, uuul, "\pi_{A\times B}"] & &
+		\end{category}
+		On a donc un morphisme de $(A\times B) \times C \to B$ et un morphisme $(A\times B)\times C \to C$.
+		Il existe donc un (unique) morphisme $(A\times B)\times C\to B\times C$ (faisant commuter le diagramme idoine).
+		On a maintenant deux morphismes depuis $(A\times B)\times C$:
+		\begin{itemize}
+			\item un vers $A$
+			\item un vers $B \times C$
+		\end{itemize}
+		On peut donc trouver un (unique) morphisme $h$:$(A\times B)\times C \to A\times (B\times C)$ (faisant toujours commuter le diagramme idoine).
+		On construit de la même façon $\tilde{h}: A\times (B\times C) \to (A\times B) \times C$.
+		On vérifie de façon similaire à la question précédente que $h\circ \tilde{h} = \id$ et $\tilde{h} \circ h = id$.
+		Donc $(A\times B)\times C \simeq A\times (B\times C)$.
+\end{description}
+\begin{table}[h]
+	\centering
+	\begin{grammar}
+		\firstrule{M}{x}{}
+		\grule{M N}{}
+		\grule{$\lambda$x. M}{}
+	\end{grammar}
+	\caption{Termes du Lambda-Calcul Pur}
+\end{table}
+
+La \betared:
+\begin{equation*}
+	\left(\lambda x.M\right) N \longrightarrow M\left[X:=N\right]
+\end{equation*}
+
+L'\etaexp:
+\begin{equation*}
+	M\longrightarrow \lambda x.\left(M x\right)
+\end{equation*}
+
+\begin{remarque}
+	Un $\lambda$-terme est considéré à renommage $\equiv_{\alpha}$ des variables liées:
+	\begin{equation*}
+		\lambda x.\lambda y.x \equiv_{\alpha} \lambda z.\lambda y.z
+	\end{equation*}
+\end{remarque}
+
+\subsubsection{Apparitions et Variables Libres}
+L'ensemble des occurences d'un $\lambda$-terme $M$ est défini par induction:
+\begin{table}
+	\centering
+	\begin{tabular}{rcl}%
+		$occ(x)$ & = & $\{\epsilon\}$\\
+		$occ(MN)$ & = & $\{\epsilon\} \cup \{1\cdot o\mid o\in occ(M)\} \cup \{2\cdot o\mid o \in occ(N)\}$\\
+		$occ(\lambda x.M)$ & = & $\{\epsilon\} \cup \{1 \cdot o\mid o\in occ(M)\}$
+	\end{tabular}
+	\caption{Occurences d'un Lambda Terme}
+	\label{tab:occurences}
+\end{table}
+
+L'ensemble des variables libres d'un $\lambda$-terme $M$ est défini par induction:
+\begin{table}
+	\centering
+	\begin{tabular}{rcl}
+	$FV(x)$ & = & $\{x\}$\\
+
+	\end{tabular}
+	\caption{Ensemble des Variables Libres d'un Lambda Terme}
+	\label{tab:freevars}
+\end{table}
+
+\end{document}
