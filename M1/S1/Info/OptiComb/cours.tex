@@ -1,7 +1,243 @@
-\documentclass[math]{cours}
-\title{<+titre+>}
-\author{<+auteur+>}
+\documentclass[math, info]{cours}
+\title{Optimisation Combinatoire}
+\author{Chien-Chen Huang}
 
 \begin{document}
+\bettertitle
+\section{Max-Flow (min-cut)}
+\subsection{Max-Flow}
+\begin{definition}
+	Soit $G = \left(V, E\right)$ un graphe orienté, $c: E \to \R^{+}$ une fonction de capacité et $s, t \in V$ deux sommets terminaux,
+	$f: E\to \R^{+}$ est un flot si:
+	\begin{enumerate}
+		\item $0 \leq f(e) \leq c(e), \forall e \in E$
+		\item $\sum_{e \in \delta^{-}(v)} f(e) = \sum_{e \in \delta^{+}(v)} f(e), \forall v \in V \setminus \{s, t\}$ (Conservation du Flot).
+	\end{enumerate}
+	\label{def:flot}
+\end{definition}
+
+On va s'intéresser au problème suivant:
+\problemStatement{Max-Flow}{Entrée={$G = \left(V, E\right)$ un graphe orienté, $c: E \to \R^{+}$ une fonction de capacité et $s, t \in V$ deux sommets terminaux}, Sortie={Une fonction de flot $f$ maximale, c'est à dire avec un volume maximal: $\sum_{e \in \delta^{+}(s)} f(e) - \sum_{e \in \delta^{-}(s)} f(e)$}}
+
+\begin{thm}
+	On rappelle qu'obtenir un flot maximal est équivalent à obtenir une coupe de poids minimal.
+\end{thm}
+
+On définit pour cela le réseau résiduel d'une fonction de flot $f$:
+\begin{definition}
+	Étant donné un flot $f$, pour chaque arrête $e = (u, v) \in E$, on définit:
+	\begin{align*}
+		(u, v) \in F \text{ si } c(e) - f(e) > 0 \\
+		(v, u) \in F \text{ si } f(e) > 0
+	\end{align*}
+	Dans le premier cas, on définit $u(e) = c(e) - f(e)$. Dans le deuxième cas on définit $u(e) = f(e)$.
+	\label{def:residualnetwork}
+\end{definition}
+
+\begin{proposition}
+	Si on pousse de $u$ à $v$, i.e. si $f(((u, v)) > 0$, alors $(v, u)$ doit apparaître dans le réseau résiduel.
+	\label{prop:pakompri}
+\end{proposition}
+
+On propose alors l'algorithme de Ford-Fulkerson, se basant sur des chemins augmentants pour résoudre le problème:
+\begin{algorithm}
+	\caption{Ford-Fulkerson}
+	\label{alg:fordfulkerson}
+	Tant que $G(f)$ a un chemin de $s$ à $t$ noté $p$, on pousse le plus possible le long du chemin $p$.
+\end{algorithm}
+
+\begin{thm}
+	Si l'algorithme de Ford-Fulkerson termine, alors $f$ est un flot maximal.
+\end{thm}
+
+\begin{proof}
+	Soit $U \subseteq V$ l'ensemble des sommets atteignables depuis $s$ dans $G(f)$. On a par \ref{prop:pakompri}
+	\begin{equation*}
+		\begin{aligned}
+			\sum_{e \in \delta^{+}(s)} f(e) - \sum_{e\in \delta^{-}(s)}f(e) = & \sum_{e \in \delta^{+}(U)}f(e) - \sum_{e \in \delta^{-}(U)}f(e) \\
+			=                                                                 & \sum_{e\in \delta^{+}(U)} c(e) = \text{cut size de U}
+		\end{aligned}
+	\end{equation*}
+\end{proof}
+Toutefois la complexité de cet algorithme dépend de la valeur du flot maximum, et celui-ci ne termine même pas pour des réels.
+
+On va chercher un algorithme dont la complexité n'en dépend pas (dit fortement polynomial), ce qui nous amène à la notion de pré-flot:
+\begin{definition}
+	Soit $G = \left(V, E\right)$ un graphe orienté, $c: E \to \R^{+}$ une fonction de capacité et $s, t \in V$ deux sommets terminaux,
+	$f: E\to \R^{+}$ est un pré-flot si:
+	\begin{enumerate}
+		\item $0 \leq f(e) \leq c(e), \forall e \in E$
+		\item $\mathrm{exces}(v) = \sum_{e \in \delta^{-}(v)} f(e) \geq \sum_{e \in \delta^{+}(v)} f(e), \forall v \in V \setminus \{s, t\}$.
+	\end{enumerate}
+	\label{def:preflot}
+\end{definition}
+
+On va essayer de construire un algorithme dont le principe est cette fois ci d'avancer
+\begin{definition}
+	\begin{itemize}
+		\item Un sommet $v \in V\setminus \{s, t\}$ est dite \emph{actif} si $\mathrm{exces}(v) > 0$.
+		\item Un étiquetage des sommets $d: V \to \N$ est valide si $\forall (u, v) \in G(f)$ (pour $f$ un pré-flot), on a: $d(u) \leq d(v) + 1$.
+		\item Une arête $(u, v) \in G(f)$ est admissible si $d(u) = d(v) + 1$.
+	\end{itemize}
+	\label{def:activenode}
+\end{definition}
+
+On obtient alors l'algorithme suivant, proposé originellement par Andrew Goldberg en 1989:
+\begin{algorithm}
+	\caption{Push-Relabel}
+	\label{alg:pushrelabel}
+	\begin{description}
+		\item[Initialisation]: On pose $\forall e \in \delta^{+}(s), f(e) = c(e)$, sinon $f(e) = 0$.
+		      On pose $d(s) = n, d(v) = 0 \forall v \neq s$.
+		\item[Boucle] Tant qu'il existe un sommet actif $v$, on effectue deux actions:
+		      \begin{description}
+			      \item[\tt Push] S'il existe $(u,v) \in G(f)$ admissible, on pousse $\min \left(\mathrm{exces}(u), u(e)\right)$ selon l'arête $(u, v)$.
+			      \item[\tt Relabel] On pose $d(u) = \min_{v\mid (u, v) \in G(f)}d(v) + 1$
+		      \end{description}
+	\end{description}
+\end{algorithm}
+
+On va donc prouver la correction de cet algorithme.
+Pour cela, on se base sur les deux lemmes suivants:
+\begin{lemme}
+	Si $v$ est actif, alors $v$ a un chemin orienté vers $s$ dans $G(f)$.
+	\label{lem:preflow1}
+\end{lemme}
+\begin{proof}
+	Soit $X \subseteq V$ l'ensemble des sommets ayant un chemin vers $s$ dans $G(f)$.
+	Par l'absurde, il existe $w \in V\setminus X$ actif. On a alors:
+	\begin{equation*}
+		0 < \sum_{v \in V \setminus X} \left(\sum_{e \in \delta^{-}(v)} f(e) - \sum_{e\in \delta^{+}(v)} f(e)\right) = \sum_{e \in \delta^{-}(v\setminus x)} f(e) - \sum_{e\in \delta^{+}(V\setminus X)} f(e)
+	\end{equation*}
+	Or, $\sum_{e \in \delta^{-}(v\setminus x)} f(e) = 0$, d'où le résultat.
+\end{proof}
+
+\begin{lemme}
+	Étant donné un chemin $P$ de $u$ à $v$, alors, $\abs{P} \geq d(u) - d(v)$, si $d$ est valide.
+	\label{lem:preflow2}
+\end{lemme}
+\begin{proof}
+	Si $P = v_{0}v_{1}\cdots v_{x}$, puisque $d$ est valide: $d(v_{i}) \leq d(v_{i + 1}) + 1$ pour tout $i$.
+	D'où, $d(v_{0}) \leq d(v_{x}) + x$.
+	D'où le résultat.
+\end{proof}
+
+On obtient un corollaire très utile:
+\begin{corollaire}
+	Pour tout $n$, $d(u) \leq 2n - 1$.
+	\label{cor:preflow1}
+\end{corollaire}
+\begin{proof}
+	Si $u$ est actif et $d(u) = 2n$, tout chemin de $u$ à $s$ est de longueur au moins $n$, ce qui est impossible puisque $\abs{V} = n$.
+\end{proof}
+
+\begin{thm}[Correction de Push-Relabel]
+	Quand l'algorithme \ref{alg:pushrelabel} s'arrête, on obtient un max-flow.
+	\label{thm:pushrelabel}
+\end{thm}
+\begin{proof}
+	Il n'y a jamais de chemin de $s$ à $t$ dans $G(f)$ par \ref{lem:preflow2}.
+	Par ailleurs, il n'y a pas de sommet actif à l'arrêt de l'algorithme, ce qui signifie qu'on a bien un véritable flot.
+	La preuve de correction de \ref{alg:fordfulkerson} s'applique donc.
+\end{proof}
+
+\begin{thm}[Complexité de Push-Relabel]
+	L'algorithme \ref{alg:pushrelabel} s'arrête en temps $\O(V^{2}E)$.
+\end{thm}
+
+\begin{proof}
+	On a toujours $3$ opérations:
+	\begin{itemize}
+		\item Le \texttt{Relabel} qui prend un temps $\O(V^{2})$ (au plus $(n-2) \times (2n-1)$ opérations).
+		\item Le \texttt{Push Saturant} (push qui permet à $f((u, v))$ d'atteindre $c((u, v))$). Celui-ci va supprimer l'arête $(u, v)$ de $G(f)$.
+		      Pour que l'arc soit réinséré dans $G(f)$ pour un autre push saturant,
+		      $v$ doit d'abord être réétiqueté.
+		      Ensuite, après un push sur $(v, u)$, $u$ doit être réétiqueté.
+		      Au cours du processus, $d(u)$ augmente d'au moins $2$
+		      Il y a donc $\O(V)$ push saturants sur $(u, v)$ et donc $\O(VE)$ push saturants au total.
+		\item Le \texttt{Push Non-Saturant} qu'on effectue un nombre $\O(V^{2}E)$ de fois.
+		      En effet, borner le nombre de push non-saturants peut se faire à partir d'un argument de potentiel.
+		      On utilise la fonction de potentiel $\Phi =\sum_{v \text{ actif}} d(v)$.
+		      Il est clair que $\Phi = 0$ à l'initialisation et reste toujours positive durant l'exécution.
+		      Par ailleurs, un push non-saturant diminue $\Phi$ d'au moins $1$.
+		      De plus, le relabel et le push augmentent $\Phi$ d'au plus $1$ et d'au plus $(2V - 1)$ respectivement.
+		      On a donc: $\Phi \leq \left(2V-1\right)\left(V - 2\right) + \left(2V - 1\right)\left(2VE\right)$.
+		      On a donc: $\Phi \leq \O\left(V^{2}E\right)$.
+	\end{itemize}
+	L'algorithme prend donc un temps $\O\left(V^{2}E\right)$.
+\end{proof}
+
+Pour essayer d'améliorer l'algorithme on propose la version suivante:
+\begin{algorithm}
+	\caption{Push-Relabel +}
+	\label{alg:pushrelabel+}
+	Boucle: On choisit le sommet actif $v$ avec la plus haute étiquette, on effectue deux actions:
+	\begin{description}
+		\item[\tt Push] S'il existe $(u,v) \in G(f)$ admissible, on pousse $\min \left(\mathrm{exces}(u), u(e)\right)$ selon l'arête $(u, v)$.
+		\item[\tt Relabel] On pose $d(u) = \min_{v\mid (u, v) \in G(f)}d(v) + 1$
+	\end{description}
+\end{algorithm}
+Il est clair que l'algorithme reste correcte, toutefois, on change la complexité pour de $V^{2}E$ à $V^{3}$.
+On peut même encore améliorer la complexité pour obtenir $\O(V^{2}\sqrt{E})$, et même $\O(V^{1 + o(1)}\log(E))$
+
+\begin{algorithm}
+	\caption{Edmonds-Karp}
+	\label{alg:edmondskarp}
+	Pour cet algorithme, on applique Ford-Fulkerson en choisissant le plus court des chemins de $s$ à $t$.
+\end{algorithm}
+\begin{thm}[Complexité d'Edmonds-Karp]
+	L'algorithme de Edmonds-Karp prend un temps $\O(VE^{2})$.
+\end{thm}
+
+Dans la suite, on note $f_{0}, f_{1},\cdots$ les flots obtenus de sorte que $f_{i + 1}$ est obtenu du plus court chemin $P_{i}$ dans $G(f_{i})$.
+
+\begin{lemme}
+	$\forall i$:
+	\begin{itemize}
+		\item $\abs{P_{i}} \leq \abs{P_{i + 1}}$
+		\item Si $P_{i}$ et $P_{i + 1}$ utilisent deux arcs opposés (i.e. $(u, v)$ et $(v, u)$), alors $\abs{P_{i}} + 2 \leq \abs{P_{i + 1}}$.
+	\end{itemize}
+	\label{lem:edmondskarp1}
+\end{lemme}
+\begin{proof}
+	On pose $H = P_{i} \cup P_{i + 1}$ où les arcs opposés sont supprimés.
+	On ajoute alors $2$ arcs supplémentaires de $t$ à $s$.
+	Comme alors $H$ est eulérien, il existe deux chemins disjoints $q_{1}, q_{2}$ de $s$ à $t$ dans $H$.
+	Notons que toutes les arêtes de $H$ (sauf les arêtes de $t$ à $s$) sont dans $G(f_{i})$.
+	On a de plus $\abs{P_{i}} \leq q_{1}, q_{2}$ d'où
+	\begin{equation*}
+		2\abs{P_{i}} \leq \abs{q_{1}} + \abs{q_{2}} \leq \abs{H} \leq \abs{P_{i}} + \abs{P_{i + 1}} - 2
+	\end{equation*}
+\end{proof}
+
+\begin{lemme}
+	Soit $l < k$ tel que $P_{l}$ et $P_{k}$ utilisent des arcs opposés.
+	Alors, $\abs{P_{l}} + 2 \leq \abs{P_{k}}$.
+	\label{lem:edmondskarp2}
+\end{lemme}
+\begin{proof}
+	La preuve précédente peut être aisément adaptée:
+	On peut supposer que pour $l < i < k$, $P_{i}$ n'a pas d'arcs opposés avec $P_{k}$, sinon le résultat se déduit par récurrence par le lemme précédent.
+	On pose $H = P_{l} \cup P_{k}$ où les arcs opposés sont supprimés.
+	On ajoute alors $2$ arcs supplémentaires de $t$ à $s$.
+	Comme alors $H$ est eulérien, il existe deux chemins disjoints $q_{1}, q_{2}$ de $s$ à $t$ dans $H$.
+	Notons que toutes les arêtes de $H$ (sauf les arêtes de $t$ à $s$) sont dans $G(f_{l})$.
+	On a de plus $\abs{P_{l}} \leq q_{1}, q_{2}$ d'où
+	\begin{equation*}
+		2\abs{P_{l}} \leq \abs{q_{1}} + \abs{q_{2}} \leq \abs{H} \leq \abs{P_{l}} + \abs{P_{k}} - 2
+	\end{equation*}
+\end{proof}
+
+\begin{lemme}
+	Un arc dans $G(f)$ peut être une arête bottleneck (c'est à dire une arête avec le moins de capacité) au plus $\O(n)$ fois.
+\end{lemme}
+\begin{proof}
+	Pour qu'une arête $e$ soit bottleneck une nouvelle fois, il faut que la longueur du nouveau plus court chemin ait augmenté au moins de $2$.
+\end{proof}
+
+
+\begin{proof}[de la Complexité d'Edmonds-Karp]
+	Chaque arête peut être utilisée au plus $\O(n)$, il y a donc au plus $nm$ itérations, et les itérations se font en temps $\O(m)$, ce qui est le résultat.
+\end{proof}
 
 \end{document}
