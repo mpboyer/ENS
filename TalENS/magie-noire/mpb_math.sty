@@ -1,0 +1,139 @@
+% Package Definition
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{mpb_math}
+
+% Needed Packages Imports
+\RequirePackage{amsmath, amsfonts, amssymb, amsthm}
+\RequirePackage{mathrsfs}
+\RequirePackage{dsfont}
+\RequirePackage{stmaryrd}
+\RequirePackage{mathtools}
+\RequirePackage{tikz-cd}
+\RequirePackage{thmstyle}
+
+% Symbol Shorthands
+\newcommand{\Id}{\mathrm{Id}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\K}{\mathbb{K}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\T}{\mathbb{T}}
+\newcommand{\U}{\mathbb{U}}
+\renewcommand{\P}{\mathbb{P}}
+\renewcommand{\H}{\mathbb{H}}
+\renewcommand{\S}{\mathbb{S}}
+\newcommand{\term}{\mathds{1}}
+
+\renewcommand{\O}{\mathcal{O}}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\mL}{\mathcal{L}}
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\cont}{\mathcal{C}}
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\ml}{\mathcal{l}}
+\newcommand{\mP}{\mathcal{P}}
+\newcommand{\mT}{\mathcal{T}}
+\newcommand{\mE}{\mathcal{E}}
+\newcommand{\mS}{\mathcal{S}}
+\newcommand{\mF}{\mathcal{F}}
+
+\renewcommand{\d}{{\rm \, d}}
+
+\renewcommand{\so}{\mathfrak{so}}
+\newcommand{\Sym}{\mathfrak{S}}
+
+\newcommand{\asympt}{\mathop{\sim}}
+\renewcommand{\phi}{\varphi}
+\renewcommand{\epsilon}{\varepsilon}
+\renewcommand{\emptyset}{\varnothing}
+\renewcommand\qedsymbol{$\blacksquare$}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\walrus}{:=}
+
+% Operators
+\DeclareMathOperator{\Card}{Card}
+\DeclareMathOperator{\Gl}{Gl}
+\DeclareMathOperator{\pgcd}{pgcd}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Vect}{Vect}
+\DeclareMathOperator{\rg}{rg}
+\DeclareMathOperator{\ch}{ch}
+\DeclareMathOperator{\sh}{sh}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\sinc}{sinc}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Obj}{Obj}
+\renewcommand{\th}{\mathop{\rm th}}
+
+% Macros
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\ninf}[1]{\left\lVert #1 \right\rVert_\infty}
+\newcommand{\normop}[1]{\left| \left| \left| #1 \right| \right| \right|}
+\newcommand{\scalar}[1]{\left\langle #1 \right\rangle}
+\newcommand{\znz}[1]{\Z/#1\Z}
+\newcommand{\mat}[2]{\mathscr{M}_{#1}\left(#2\right)}
+\newcommand{\poly}[1]{\mathscr{P}_{#1}}
+\newcommand{\vect}[2][]{\text{Vect}_{#1}\left(#2\right)}
+\newcommand{\transpose}[1]{{^{\mathsf{t}}}#1}
+\newcommand{\onen}[1]{\left\llbracket 1, #1\right\rrbracket}
+\newcommand{\deriv}[2]{\frac{\d}{\d#1}\!\left(#2\right)}
+\newcommand{\partialderiv}[2]{\frac{\partial #1}{\partial #2}}
+
+\newcommand{\applic}[4]{\begin{array}[t]{rcl}
+#1 & \to & #2 \\
+#3 & \mapsto & #4
+\end{array}}
+
+
+% Grammar in math mode
+\newenvironment{mgrammar}%
+    {
+    \setlength\tabcolsep{4pt}
+    \begin{tabular}{>{$}l<{$}>{$}r<{$}>{$}l<{$} r}
+    }
+    { 
+    \end{tabular}
+    }
+
+% Grammar in text mode
+\newenvironment{grammar}%
+    {
+    \setlength\tabcolsep{4pt}
+    \begin{tabular}{l r l r}
+    }
+    { 
+    \end{tabular}
+    }
+
+% Command for grammar lines
+\newcommand*{\firstrule}[3]{#1 &::= & #2& \quad \ifstrempty{#3}{}{\textit{(#3)}}\\}
+\newcommand*{\grule}[2]{&| &#1& \quad \ifstrempty{#2}{}{\textit{(#2)}}\\}
+\newcommand*{\gskip}{&&\\}
+
+%Macros for \lambda-Calculus
+\newcommand*{\betared}{$\beta$-réduction }
+\newcommand*{\etaexp}{$\eta$-expension }
+\newcommand*{\lambdacalcul}{$\lambda$-calcul }
+
+
+\newenvironment{category}[1][]%
+{\begin{center}
+	\begin{tikzcd}[#1]
+}{\end{tikzcd}
+\end{center}}
+
+\newcommand{\rbarrow}[1][]{\arrow[to path={[pos=0.25] -- ([xshift=.5cm]\tikztostart.east) |- (\tikztotarget) \tikztonodes}, #1]}
+\newcommand{\lbarrow}[1][]{\arrow[to path={[pos=0.25] -- ([xshift=-.5cm]\tikztostart.west) |- (\tikztotarget) \tikztonodes}, #1]}
+\newcommand{\ubarrow}[1][]{\arrow[to path={ -- ([yshift=.5cm]\tikztostart.north) -- ([yshift=.5cm]\tikztotarget.north) -- (\tikztotarget) \tikztonodes}, #1]}
+\newcommand{\dbarrow}[1][]{\arrow[to path={[pos=.5] -- ([yshift=-.5cm]\tikztostart.south) -- ([yshift=-.5cm]\tikztotarget.south) -- (\tikztotarget) \tikztonodes}, #1]}
+
+\newcommand{\uuarrow}[3][]{\arrow[Rightarrow, to path={([yshift=.1cm]#2.north) -- ([yshift=-.1cm]#3.south)\tikztonodes}, #1]}
+\newcommand{\ddarrow}[3][]{\arrow[Rightarrow, to path={([yshift=-.1cm]#2.south) -- ([yshift=.1cm]#3.north)\tikztonodes}, #1]}
+\newcommand{\rrarrow}[3][]{\arrow[Rightarrow, to path={([xshift=.1cm]#2.east) -- ([xshift=-.1cm]#3.west)\tikztonodes}, #1]}
+\newcommand{\llarrow}[3][]{\arrow[Rightarrow, to path={([xshift=.-1cm]#2.west) -- ([xshift=.1cm]#3.east)\tikztonodes}, #1]}
+

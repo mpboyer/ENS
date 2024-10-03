@@ -11,7 +11,7 @@ L'objectif est de créer un framework général permettant de préparer à l'aut
 	\item Locomotion
 	\item Hybrides
 \end{itemize}
-Un robot humanoïde étant beaucoup plus complexe qu'un quadripède, c'est le domaine qui fait avancer la robotique.\\
+Un robot humanoïde étant beaucoup plus complexe qu'un quadripède, la construction de robots humanoïdes et leur perfectionnement font avancer la robotique.
 
 On peut voir la robotique comme la fabrique artificielle du mouvement (par opposition au vivant).
 La robotique s'itnéresse au lien entre des choses qui bougent et le monde réel, et à son contrôle par ordinateur.
@@ -19,7 +19,9 @@ C'est aussi le miroir de l'humain et des manières dont nous bougeons naturellem
 On a une analogie entre les robots et le vivant.
 \begin{center}\begin{tabular}{cc}
 		Outil Inerte & Pierre\\
+		\midrule
 		Action sans Locomotion & Végétal\\
+		\midrule
 		Locomotion & Animal
 \end{tabular}\end{center}
 L'objectif est de construire des algorithmes pour des robots capables d'agir de manière autonome, notamment, qui tournent sur des ordinateurs portables.
@@ -37,11 +39,12 @@ La robotique a seulement 60 ans~!
 \end{itemize}
 
 \section{Le Contrôle du Mouvement}
+\subsection{Introduction}
 L'objectif est de se mouvoir pour agir.
 Le mouvement a lieu dans l'espace physique, espace commun entre l'objet et le robot.
 On n'a accès qu'à une projection à travers les \textit{sens} du robot, \emph{son espace sensoriel} et on envoie ensuite des commandes à \emph{l'espace moteur}.
 Il faut donc prendre en compte une boucle de contrôle:
-\begin{category}
+\begin{category}[]
 	& Physique\arrow[dl, bend right, "Percevoir"] & \\
 Sensoriel \arrow[rr, bend right] & & Moteur\arrow[ul, bend right]
 \end{category}
@@ -69,6 +72,7 @@ Il y a deux manières principales:
 \begin{description}
 	\item[Le Contrôle Optimal] On essaie de calculer les commandes moteurs en passant pas une estimation optimale et un contrôle optimal:
 		on a deux étapes de modélisation, le calcul de $x$ un état intermédiaire, et le calcul de $u$ l'ensemble des commandes moteurs.
+		On résout alors le problème de minimisation:
 		\begin{align*}
 			\min_{x(.), u(.)} \int_{0}^{T}l_{t}\left(x(t), u(t)\right)\d t\\
 			\dot{x}(t) = f_{t}\left(x(t), u(t)\right)\\
@@ -83,6 +87,156 @@ Il y a deux manières principales:
 			x(0) \sim \xi_{0}
 		\end{align*}
 \end{description}
+
+\subsection{Les Mathématiques du Mouvement}
+\begin{definition}
+	La cinematique est l'étude du mouvement sans considérer les forces qui le génère.
+	\label{def:kinematics}
+\end{definition}
+On va essayer d'obtenir une chaîne cinématique du robot (ensemble de joints/pivots attachés par des solides rigides) pour le modéliser.
+Étant donné les angles des joints, on va chercher à calculer la position du robot.
+Réciproquement, étant donné une position et une orientation, on va chercher à calculer les angles des joints à chercher.
+Plus généralement, on va chercher à résoudre les équations cinématiques sur une trajectoire, i.e. calculer les vitesses des joints.
+
+\begin{definition}
+Une fois qu'on a défini un repère de reférence dans l'espace, on peut localiser n'importe quel point de l'espace en spécifiant un vecteur de position.
+Pour établir l'orientation d'un système on y attache un système de coordonnées.
+\end{definition}
+
+Il y a d'autres manières de représenter les rotations:
+\begin{itemize}
+	\item Matrices Orthonormales $3\times 3$ - $9$ items
+	\item Les Angles d'Euler - $3$ items
+	\item L'Axe de Rotation - $3$ items
+	\item Les Quaternions Unitaires - $4$ items
+\end{itemize}
+
+\begin{definition}
+	Pour les matrices orthonormales, l'orientation est définie par la matrice de rotation, i.e. l'expression du nouveau système de coordonnées dans le repère de référence.
+	\label{def:rotationmatrix}
+\end{definition}
+
+\begin{proposition}
+Chaque élément de la matrice de rotation correspond au produit scalaire entre les deux systèmes de coordonnées.
+\end{proposition}
+\begin{proposition}
+Le groupe des rotations en dimension $3$ correspond au groupe Spécial Orthogonal de dimension $3$.
+En particulier, si $R \in SO(3)$:
+\begin{itemize}
+	\item $R$ est orthonormale
+	\item $R\transpose{R} = \Id_{3}$
+	\item $\det(R) = 1$.
+\end{itemize}
+On a $9$ degrés de liberté mais $6$ contraintes liées à l'orthogonalité, $SO(3)$ est donc un groupe de dimension $3$.
+\end{proposition}
+
+\begin{definition}
+	Les angles d'Euler sont une suite de $3$ rotations successives autour des axes fixés du repère de référence.
+	C'est une méthode équivalente aux matrices orthonormales, bien que coûteuse à calculer.
+	\label{def:eulerangles}
+\end{definition}
+
+\begin{proof}
+
+\end{proof}
+
+Il y a parfois des singularités, lorsqu'obtenir un mouvement continu implique d'avoir une vitesse infinie.
+
+\begin{definition}
+	Les quaternions sont la donnée d'un vecteur $\vec{k}$ et d'un angle $\theta$ permettant d'obtenir $4$ paramètres dont les carrés somment à $1$.
+	C'est une méthode équivalent aux matrices orthonormales mais qui n'est pas différentiable car génère une double couverture de la sphère unité.
+	\label{def:quaternions}
+\end{definition}
+
+On a également besoin de définir les vitesses angulaires.
+\begin{definition}
+	Les vitesses angulaires correspondent à la dérivée temporelle d'une rotation.
+	Elles sont dans l'espace tangent de $SO(3)$ noté $\mathfrak{so}(3)$.
+	\label{}
+\end{definition}
+
+\begin{thm}
+	$\so(3)$ est le groupe des matrices antisymétriques.
+	\label{prop:so3}
+\end{thm}
+
+\begin{proof}
+	On a, en dérivant la condition d'orthogonalité:
+	\begin{align*}
+		R(t)\transpose{R(t)} = \Id_{3}\\
+		\dot{R}\transpose{R} + R\transpose{\cdot{R}} = 0_{3}\\
+		\cdot{R}\transpose{R} = -\transpose{\left(\cdot{R}\transpose{R}\right)}
+	\end{align*}
+	On a: $W = -\transpose{W}$ si on pose $W = -\transpose{\left(R\transpose{\cdot{R}}\right)}$.
+	Donc:
+	\begin{equation*}
+		W \in \left\{ \begin{bmatrix}
+				0 & -w_{1} & -w_{2}\\
+				w_{1} & 0 & -w_{3}\\
+				w_{2} & w_{3} & 0
+		\end{bmatrix}\ \middle|\ w \in \R^{3}\right\} = \A_{3}
+	\end{equation*}
+	La réciproque est triviale.
+\end{proof}
+
+
+\begin{proposition}
+	Si $W$ reste constante dans le temps, on peut paramétriser les rotations par un vecteur de $\R^{3}$.
+	\label{prop:exponentialmap}
+\end{proposition}
+\begin{proof}
+	On a: $W = -\transpose{W}$ si on pose $W = -\transpose{\left(R\transpose{\cdot{R}}\right)}$.
+	On a donc:
+	\begin{equation*}
+		\cdot{R}(t) = WR(t) \text{ avec } R(0) = R_{0} \in SO(3)
+	\end{equation*}
+	Autrement dit:
+	\begin{equation*}
+		R(t) = R(0) \exp\left(tW\right) \text{ avec } \exp(tW) = \sum_{n = 0}^{+\infty} \frac{\left(tW\right)^{n}}{n!}
+	\end{equation*}
+\end{proof}
+Puisqu'on discrétise le temps, on peut toujours considérer $W$ constante et appliquer cette formule.
+
+Pour les matrices antisymétriques, il est aisé de calculer cette exponentielle:
+\begin{proposition}
+	On a:
+	\begin{equation*}
+		\exp(tW) = \Id_{3} + \sin(t)W + \frac{1 - \cos(t)}{t}W^{2}
+	\end{equation*}
+	\label{prop:antisymmetricexponential}
+\end{proposition}
+\begin{proof}
+	Étant donné $W \in \A_{3}$, on a $W^{2} = W\transpose{W} - \Id_{3}$ et $W^{3} = -W$.
+\end{proof}
+
+\begin{proposition}
+	L'exponentielle correspond à:
+	\begin{equation*}
+		\exp: \applic{\so(3)}{SO(3)}{W}{\Id_{3} + \sin(t)W + \frac{1 - \cos(t)}{t}W^{2}}
+	\end{equation*}
+	qui est surjective et $2\pi$ périodique.
+	\label{prop:surjectiveexponential}
+\end{proposition}
+Autrement dit, si on n'échantillonne pas assez, on va perdre en informations sur le nombre de tour faits.
+
+\begin{thm}
+	On peut définir un opérateur réciproque à l'exponentielle qu'on notera $\log: R \in SO(3) \to \so(3)$.
+	On a:
+	\begin{equation*}
+		W = \frac{\norm{W}}{2\sin(\norm{W})}\begin{bmatrix}
+			r_{32} - r_{23}\\
+			r_{13} - r_{31}\\
+			r_{21} - r_{12}
+		\end{bmatrix}
+	\end{equation*}
+	Ceci nous permet de calculer la distance entre deux rotations, appelée géodésique:
+	\begin{equation*}
+		d(R_{1}, R_{2}) = \norm{\log\left(\transpose{R_{1}}R_{2}\right)}
+	\end{equation*}
+	\label{prop:definitionlogarithm}
+\end{thm}
+
+\subsection{Transformations Rigides}
 
 
 \end{document}

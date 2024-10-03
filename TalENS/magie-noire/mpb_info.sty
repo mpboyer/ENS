@@ -1,0 +1,149 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{mpb_info}
+\def\kholle{0}
+\DeclareOption{kholle}{\renewcommand{\kholle}{1}}
+\ProcessOptions\relax
+\RequirePackage{circuitikz}
+\RequirePackage{algorithm, algpseudocode}
+\RequirePackage{listings}
+\RequirePackage{thmstyle}
+\RequirePackage{xparse}
+
+% Algorithms 
+\makeatletter
+\renewcommand{\ALG@name}{Algorithme}
+\newcommand{\algorithmautorefname}{Algorithme}
+\makeatother
+
+\algblock{Input}{EndInput}
+\algnotext{EndInput}
+
+% Listings
+\lstset{showstringspaces=false}
+\newcommand{\latex}[1][]{\lstinline[language={[LaTeX]TeX},emph={#1}]}
+\lstnewenvironment{latexblock}[1][]{\lstset{columns=flexible,language=[LaTeX]TeX,emph={#1}}}{}
+
+\RequirePackage{minted}
+\usemintedstyle{perldoc}
+%\setmintedinline{bgcolor=yulm!10}
+
+\ifnum\kholle=0
+\newenvironment{code}[1]
+{\VerbatimEnvironment
+  \begin{center}
+  \begin{minipage}{.9\textwidth}%
+  \begin{codeBox}%
+  \color{black}%
+  \begin{minted}[%
+    fontsize=\scriptsize,
+    breaklines,
+    ]{#1}%
+}%
+{\end{minted}%
+  \end{codeBox}%
+  \end{minipage}%
+  \end{center}%
+}
+\fi
+
+\RequirePackage{environ}
+\def\app@exe{\immediate\write18}
+
+\newcommand{\n}{\\n}
+\renewcommand{\t}{\\t}
+\renewcommand{\r}{\\r}
+
+\ifnum\kholle=1
+\NewEnviron{code}[1]%
+{\begin{center}
+\begin{minipage}{.9\textwidth}
+\begin{codeBox}
+	\color{black}
+%\XSIMfilewritestart
+\app@exe{echo -e $"\BODY" >> \jobname.tmp}
+\inputminted{#1}{\jobname.tmp}
+\app@exe{rm -f \jobname.tmp}
+\end{codeBox}
+\end{minipage}
+\end{center}
+}
+\NewEnviron{inputcode}[2]%
+{\begin{center}
+\begin{minipage}{.9\textwidth}
+\begin{codeBox}
+	\color{black}
+	\inputminted[breaklines]{#1}{#2}
+\end{codeBox}
+\end{minipage}
+\end{center}
+}\fi
+
+
+\newmintinline[theccode]{cpp}{}
+\newcommand{\ccode}[1]{
+	\tikz[baseline=(s.base)]
+	{
+		\node(s)
+		[
+			%rounded corners, 
+			inner xsep = 5pt, 
+			inner ysep = 2pt,
+			fill = yulm!5!white,
+			draw = vulm!50!black,
+			text height = 2ex,
+			text depth = 1ex,
+		]{\theccode{#1}};
+	}
+}
+	
+
+% Problemn Description
+\RequirePackage{nicematrix}
+\newcounter{numberofrows}
+
+\ExplSyntaxOn
+
+\newcolumntype{A}{>{\stepcounter{numberofrows}}l}
+\NewDocumentCommand{\problemStatement}{mm}{%
+        \renewcommand{\arraystretch}{1.2}
+        \setcounter{numberofrows}{1}
+        \arteche_problemstatement:nn { #1 } { #2 }
+ }
+
+\prop_new:N \l_arteche_problemstatement_body_prop
+
+\cs_new_protected:Nn \arteche_problemstatement:nn
+ {
+  \prop_set_from_keyval:Nn \l_arteche_problemstatement_body_prop { #2 }
+  \begin{center}
+          \begin{NiceTabular}{@{}Ap{.7\linewidth}@{}}
+                  \CodeBefore
+                  \begin{tikzpicture}
+                          \draw[thick, fill=yulm!5!white, draw=vulm] (1|-1) rectangle (3|-2);
+                  \end{tikzpicture}
+                  \Body
+                  \multicolumn{2}{@{}c@{}}{\stepcounter{numberofrows}\textsc{\textcolor{vulm}{#1}}}\tabularnewline
+  \prop_map_function:NN \l_arteche_problemstatement_body_prop \__arteche_problemstatemet_do:nn
+  \CodeAfter
+  \begin{tikzpicture}
+        \draw[draw=vulm, thick] (1|-1) -- (1|-\thenumberofrows);
+        \draw[draw=vulm, thick] (1|-\thenumberofrows) -- (3|-\thenumberofrows);
+  \end{tikzpicture}
+  \end{NiceTabular}
+  \end{center}
+}
+
+\cs_new_protected:Nn \__arteche_problemstatemet_do:nn
+ {
+  \bfseries \tl_rescan:nn { } { \ #1 }: & #2 \\
+ }
+
+\ExplSyntaxOff
+
+% Logic Circuit
+\ctikzset{
+	logic ports=ieee,
+	logic ports/scale=1,
+}
+
+\newenvironment{circuit}[1][]{\begin{center}\begin{circuitikz}[#1]}{\end{circuitikz}\end{center}}

@@ -98,18 +98,18 @@ On va ici étudier les catégories à travers leurs représentations: on peut mi
 		\item[2] Pour tout objet $A$, une fonction identité $\id_{A} \in \Hom(A, A)$
 		\item[3] Associativité:
 			\begin{center}
-				\begin{category}
+				\begin{category}[]
 				& B \arrow{r}{g} & C\arrow{rd}{h} & \\
 				A\arrow{ur}{f}\arrow{urr}{g\circ f}\arrow{rrr}{h\circ\left(g\circ f\right)} & & & D
 				\end{category}
 			\end{center}
 			On peut aussi voir la composition comme la couverture de l'aire entre les noeuds du graphe:
-			\begin{category}
+			\begin{category}[]
 				& B\arrow[r, no head]\arrow[drr, no head] & C \arrow[no head]{dr}{} & \\
 				A\arrow[ur, no head]\arrow[urr, crossing over, no head]\arrow[rrr, no head] & & & D
 			\end{category}
 			ou encore:
-			\begin{category}
+			\begin{category}[]
 				& B\arrow[d, no head]\arrow[no head]{ddr}{}\arrow[no head]{ddl}{} & \\
 				& C\arrow[no head]{dr}{}\arrow[no head]{dl}{} & \\
 				A\arrow[rr, no head] & & D
@@ -140,7 +140,7 @@ On va ici étudier les catégories à travers leurs représentations: on peut mi
 			\end{proof}
 
 	Réciproquement, une catégorie $\phi$ telle que chaque ensemble d'homomorphismes contienne au plus un élément est la même chose qu'un préordre:
-\begin{category}
+\begin{category}[]
 	a\arrow[loop left]{l}{\id = g \circ f} \arrow{r}{f} &
 		b\arrow{l}{g} \arrow[loop right]{l}{f\circ g = \id}
 \end{category}
@@ -159,9 +159,9 @@ Tout espace topologique définit une catégorie dont les objets sont les éléme
 \end{remarque}
 
 	\item[Types] On considère la catégorie cartésienne fermée des types simples comme objets et des $\lambda$-termes simplement typés (module $\beta\eta$-équivalence) comme morphismes:
-		\begin{category}
-			A\arrow{r}{x:A\models t:B} & B\arrow{r}{y:B\models u:C} & C
-		\end{category}<++>
+		\begin{category}[column sep=large]
+			A\arrow[r, "x:A\models t:B"]\dbarrow[rr, "{x:A\models a\left[t/y\right]: C}"] & B\arrow[r, "y:B\models u:C"] & C
+ \end{category}
 $A \xrightarrow{x:A \models t:B} B \xrightarrow{y:B\models u:C} C$ flèche dessous ($x:A \models u[t/y]: C$)
 Cette catégorie jouera le rôle en théorie de la démonstration de l'algèbre de Boole des formules
 \end{description}
@@ -173,7 +173,7 @@ Cette catégorie jouera le rôle en théorie de la démonstration de l'algèbre 
 	\begin{equation*}
 		\left(A \times B, \pi_{1}: A\times B \to A, \pi_{2}: A \times B \to B\right)
 	\end{equation*}
-	\begin{category}
+	\begin{category}[]
 		A & & B \\
 		& A\times B \arrow{ul}{\pi_{1}}\arrow{ur}{\pi_{2}} &
 	\end{category}
@@ -185,7 +185,7 @@ Cette catégorie jouera le rôle en théorie de la démonstration de l'algèbre 
 
 \begin{exemple}
 	Dans une catégorie définie par une relation d'ordre sur $A, \leq$, le produit cartésien de $a, b\in A$ c'est la même chose que la borne inférieure $a\land b$ de $a$ et $b$ définie comme le plus grand des minorants de $a$ et $b$.
-	\begin{category}
+	\begin{category}[]
 		a & & b\\
 		& a\land b\arrow{ul}{\leq}\arrow{ur}{\leq} &\\
 		& x\arrow[bend right]{uur}\arrow[bend left]{uul}\arrow[dotted]{u}{h} &
@@ -218,7 +218,7 @@ Cette catégorie jouera le rôle en théorie de la démonstration de l'algèbre 
 	Soit $\mathds{I}, \mathds{J}$ deux objets terminaux d'une même catégorie. Il existe un unique morphisme $f$ (resp. $g$) de $\mathds{I}$ (resp. $\mathds{J}$) vers $\mathds{J}$ (resp. $\mathds{I}$).
 	De même, il existe un unique morphisme $\id_{\mathds{J}}$ de $\mathds{J}$ vers lui-même.
 	Le diagramme ci-dessous commute donc:
-	\begin{category}
+	\begin{category}[]
 		& \mathds{J} & \\
 		\mathds{J}\arrow{ur}{\id_{\mathds{J}}}\arrow{rr}{g} & & \mathds{I}\arrow{ul}{f}
 	\end{category}
@@ -226,19 +226,19 @@ Cette catégorie jouera le rôle en théorie de la démonstration de l'algèbre 
 	Puisque la situation est symétrique, $g\circ f= \id_{\mathds{I}}$ et donc deux objets terminaux sont isomorphes.
 	\medskip
 	Si on a deux produits cartésiens $A\times B, A\otimes B$ de deux objets $A, B$, alors:
-	\begin{category}
+	\begin{category}[]
 		A\times B\arrow[bend right]{ddr}{\pi_{A, 1}}\arrow{ddrr}{\pi_{B, 1}} & & & A\otimes B\arrow{ddll}{\pi_{A, 2}}\arrow[bend left]{ddl}{\pi_{B, 2}}\\
 		& & &\\
 		& A & B &
 	\end{category}
 	En particulier, par définition du produit cartésien, puisqu'il existe deux applications de $A\times B$ vers $A, B$, il existe une unique application $h_{1, 2}$ de $A\times B$ vers $A\otimes B$ telle que $\pi_{A, 2}\circ h_{1, 2} = \pi_{A, 1}$:
-	\begin{category}
+	\begin{category}[]
 		& A\times B\arrow[bend left]{ddr}{\pi_{B, 1}}\arrow[bend right]{ddl}{\pi_{A, 1}}\arrow[bend right, dotted]{d}{f}& \\
 				& A\otimes B\arrow[dotted, bend right]{u}{g}\arrow{dr}{\pi_{B, 2}}\arrow{dl}{\pi_{A, 2}} & \\
 		A & & B
 	\end{category}
 	Il suffit donc de montrer que l'identité fait commuter le diagramme pour que avoir $f \circ g = \id_{A\times B}$ et donc le résultat:
-	\begin{category}
+	\begin{category}[]
 		& & A\\
 		& A & \\
 		A\times B\arrow{r}{f}\arrow[bend left]{ur}{\pi_{A, 1}}\arrow[bend left]{uurr}{\pi_{A, 1}}\arrow[bend right]{drr}{\pi_{B, 1}} & A \otimes B\arrow{u}{\pi_{A, 2}}\arrow{r}{g} & A\times B\arrow{uu}{\pi_{A, 1}}\arrow{d}{\pi_{B, 2}} \\
@@ -248,12 +248,12 @@ Cette catégorie jouera le rôle en théorie de la démonstration de l'algèbre 
 	On aurait aussi pu construire une catégorie $Span(A, B)$:
 	\begin{itemize}
 		\item Les objets sont des triplets $\scalar{f, X, g}$:
-			\begin{category}
+			\begin{category}[]
 				A &  & B\\
 				& X\arrow{ul}{f}\arrow{ur}{g} &
 			\end{category}
 		\item Les flèches sont des $\scalar{f, X, g} \xrightarrow{h} \scalar{f', Y, g'}$:
-			\begin{category}
+			\begin{category}[]
 				& Y\arrow{dl}\arrow{dr} & \\
 				A & & B\\
 				& X\arrow{ur}\arrow{ul}\arrow{uu}{h} &
@@ -261,6 +261,157 @@ Cette catégorie jouera le rôle en théorie de la démonstration de l'algèbre 
 	\end{itemize}
 	Alors, $A \times B, \pi_{1}, \pi_{2}$ est un produit cartésien dans $\cont$ si et seulement si $\scalar{\pi_{1}, A\times B, \pi_{2}}$ est un objet terminal dans $Span(A, B)$.
 \end{proof}
+
+\section{La 2-catégorie des catégories, foncteurs et transformations naturelles}
+\subsection{Foncteurs entre Catégories}
+\begin{definition}
+	Soient $\A, \B$ deux catégories.
+	Un foncteur $\mF : \A\to \B$ est la donnée de:
+	\begin{enumerate}
+		\item[0] Un objet $F(A) \in \B$ pour tout objet $A$ de $\A$.
+		\item[1] Pour toute paire d'objets $A_{1}, A_{2} \in \A$, une fonction:
+			\begin{equation*}
+				F_{A_{1}, A_{2}}: \applic{\Hom_{\A}(A_{1}, A_{2})}{\Hom_{\B}(FA_{1}, FA_{2})}{f}{F(f)}
+			\end{equation*}
+		\item[2] On demande que les équations suivantes soient satisfaites:
+			\begin{itemize}
+				\item $F(g \circ f) = F(g) \circ F(f)$ où
+					\begin{category}[]
+						& A_{2}\arrow[dr, "g"] &\\
+						A_{1}\arrow[ur, "f"]\arrow[rr, "g\circ f"] & & A_{3}
+					\end{category}
+					C'est à dire:
+					\begin{category}[]
+						A_{1}\arrow[d, "f"]\arrow[to path={[pos=0.25] -- ([xshift=.5cm]\tikztostart.east) |- (\tikztotarget) \tikztonodes}, dd, "g \circ f"] & & FA_{1}\arrow[d, "Ff"]\arrow[to path={[pos=0.25] -- ([xshift=.5cm]\tikztostart.east) |- (\tikztotarget) \tikztonodes}, dd, "Fg \circ Ff"] & \\
+						A_{2}\arrow[d, "g"] & & FA_{2}\arrow[d, "Fg"] & \\
+						A_{3} & & FA_{3} &
+					\end{category}
+				\item Si $A \xrightarrow{\id_{A}} A$, $F(\id_{A}) = \id_{F(A)}$
+			\end{itemize}
+			Autrement dit, l'image de la composée est égale à la composée des images.
+	\end{enumerate}
+	\label{def:foncteur}
+\end{definition}
+
+\begin{exemple}
+	\begin{enumerate}
+		\item Un foncteur $F : \A \to \B$ entre catégories de préordre est la même chose qu'une fonction croissante (order preserving).
+		\item Un foncteur $F : \A \to \B$ entre catégories à un objet est la même chose qu'un homomorphisme $M \to N$ si $\A = \Sigma M$ et $\B = \Sigma N$.
+		\item Si $M$ est un monoïde, $\A = \Sigma M$ la catégorie à un objet associée, un foncteur $F: \A \to \mathrm{Set}$ la catégorie des ensembles et fonctions est la donnée d'un ensemble $X$ (l'image de $M$) et d'une action à gauche de $M$ sur $X$.
+			En effet, puisque chaque élément de $M$ est une flèche de $\Sigma M$ de l'objet dans lui même, pour tous $m, n \in M$, on a une flèche de $F(*)\to F(*)$ telles que $F(m\cdot n) = F(m) \circ F(n)$.
+			On vérifie alors bien les propriétés d'une action à gauche.
+
+			Similairement, si $M$ est le monoïde libre engendré par un alphabet $A$, l'action à droite $X \times A^{*} \to X$ étant une famille de fonctions $\delta_{a} : X \to X$ pour $a \in A$, i.e. un automate déterministe et total dont l'ensemble des états est $X$.
+		\item Soit $\mathbb{G}$ la catégorie à deux objets et quatre morphismes:
+			\begin{category}[]
+				1\arrow[loop right, "\id_{1}"]\arrow[d, shift left,"s"]\arrow[d, shift right,"t" swap]\\
+				0\arrow[loop right, "\id_{0}"]
+			\end{category}
+			Un foncteur $F:\mathbb{G} \to \mathrm{Set}$ est une paire d'ensembles $E= F(1)$, $V = F(0)$, et de deux fonctions $F(s), F(t): E \to V$.
+			En voyant $E$ comme un ensemble d'arêtes et $V$ comme un ensemble de sommets, $F(s)$ peut être vue comme une fonction $\partial_{0}$ qui à une arête $(x, y)$ associe $x$.
+			Rajouter un élément $2$ avec deux morphismes vers $1$ permettrait de définir des graphes avec des $2$-arêtes entre arêtes.
+			En prenant la catégorie des faces d'un triangle on obtiendrait la catégorie des ensembles simpliciaux.
+	\end{enumerate}
+\end{exemple}
+
+\subsection{Transformations entre Foncteurs}
+\subsubsection{Transformation}
+On va essayer de suivre l'intuition selon laquelle la théorie des catégories préserve l'ordre.
+\begin{category}[]
+	\left(A,\leq_{A}\right)\arrow[bend left, "g" name=U, rr]\arrow[bend right, rr, "f" {swap, name=D}] & & \left(B, \leq_{B}\right)\arrow[to path={([yshift=.1cm]D.north) -- ([yshift=-.1cm]U.south)\tikztonodes}, "\rotatebox{90}{$\leq$}" description, phantom]
+\end{category}
+On a alors $f\leq g \Leftrightarrow \forall a \in A, f a \leq g a$.
+
+On va essayer de généraliser cette définition. On se donne deux foncteurs $F, G$ de $\A$ dans $\B$ et on va définir une transformation point à point de $F$ vers $G$:
+\begin{definition}
+	Une transformation $\theta: F \Rightarrow G$ est une famille $\left(\theta_{A}: FA \to GA\right)_{A \in \mathrm{Obj}\A}$ de flèches de $\B$ indicée par les objets de $\A$.
+	On note ceci:
+	\begin{category}[]
+		\A\arrow[bend left, "G" name=U, rr]\arrow[bend right, "F" {swap, name=D}, rr] & & \B\arrow[Rightarrow, to path={([yshift=.1cm]D.north) -- ([yshift=-.1cm]U.south)\tikztonodes}, "\theta"]
+	\end{category}
+	\label{def:transformation}
+\end{definition}
+
+\begin{definition}
+	La catégorie $\mathrm{Trans}(\A, \B)$ a pour objet les foncteurs $\A \xrightarrow{F} \B$ et pour flèches les transformations $\theta: F \Rightarrow G$.
+	\begin{itemize}
+		\item La transformation $\id_{F}: F\Rightarrow F$ est définie par $\id_{F} = \left(F A \xrightarrow{\id_{FA}} FA\right)_{A\in \mathrm{Obj}\A}$
+		\item La transformation $\psi \cdot \phi: F\Rightarrow H$ composée de $\phi: F\Rightarrow G$ et $\psi: G\Rightarrow H$ telle que: $\left(\psi\cdot\phi\right)_{A} = \psi_{A}\circ_{\B}\phi_{A}$.
+	\end{itemize}
+	\label{def:transcat}
+\end{definition}
+
+\subsubsection{Action à Gauche de Post-Composition}
+Supposons qu'on ait la situation suivante:
+\begin{category}[]
+	\A\arrow[bend left, "G" name=U, rr]\arrow[bend right, "F" {swap, name=D}, rr] & & \B\arrow[Rightarrow, to path={([yshift=.1cm]D.north) -- ([yshift=-.1cm]U.south)\tikztonodes}, "\theta"]\arrow[r, "H"] &\cont
+\end{category}
+où $\A, \B, \cont$ sont des catégories, $F, G: \A \to \B$ et $H: \B \to \cont$ sont des foncteurs et $\theta: F\rightarrow G$ est une transformation.
+
+\begin{definition}
+	La transformation $H \circ_{L} \theta: H\circ F \Rightarrow H\circ G$ est définie par $\left(H \circ \theta\right)_{A} = H\left(\theta_{A}\right): HFA \to HGA$
+	\label{def:actiontransfo}
+\end{definition}
+Autrement dit, une transformation est la donnée pour tout objet de la catégorie de départ d'une flèche dans la catégorie d'arrivée.
+
+\begin{proposition}
+	On a alors une série d'équations:
+	\begin{enumerate}
+		\item On a:
+			\begin{equation*}
+				H\circ_{L} \left(\psi \cdot \phi\right) = \left(H\circ_{L}\psi\right)\cdot \left(H\circ_{L}\psi\right)
+			\end{equation*}
+			et de même:
+			\begin{equation*}
+				H\circ_{L} \Id_{F} = \Id_{H\circ F}
+			\end{equation*}
+			Autrement dit:
+			\begin{equation*}
+				H\circ_{L} :
+				\begin{array}{rcl}
+					\mathrm{Trans}\left(\A, \B\right) & \longrightarrow & \mathrm{Trans}\left(\A, \cont\right)\\
+					F: \A \to \B & \longmapsto & H\circ F: \A\to \cont\\
+					\begin{tikzcd}
+						\A\arrow[bend left, "G" name=U, rr]\arrow[bend right, "F" {swap, name=D}, rr] & & \B\arrow[Rightarrow, to path={([yshift=.1cm]D.north) -- ([yshift=-.1cm]U.south)\tikztonodes}, "\theta"]
+					\end{tikzcd} & \longmapsto & \begin{tikzcd}[column sep=large]
+						\A\arrow[bend left, "H\circ G" name=U, rr]\arrow[bend right, "H\circ F" {swap, name=D}, rr] & & \cont\arrow[Rightarrow, to path={([yshift=.1cm]D.north) -- ([yshift=-.1cm]U.south)\tikztonodes}, "H\circ_{L} \theta"]
+					\end{tikzcd}
+				\end{array}
+			\end{equation*}
+			$H \circ_{L} -$ est un foncteur. On dit que l'action est fonctorielle.
+		\item On a:
+			\begin{equation*}
+				\left(H'\circ H\right)\circ_{L}\theta = H'\circ_{L}\left(H\circ_{L}\theta\right)
+			\end{equation*}
+			et de même:
+			\begin{equation*}
+				\Id_{\B}\circ_{L}\theta = \theta
+			\end{equation*}
+	\end{enumerate}
+	\label{prop:transfocomp}
+\end{proposition}
+\begin{proof}
+	\begin{enumerate}
+		\item La première propriété est immédiate par la composition des foncteurs.
+		\item On a:
+			\begin{equation*}
+				\begin{aligned}
+					\left( \left( H'\circ H \right) \circ_{L} \theta \right)_{A\in \Obj\A} =& H'\circ H\left(\theta_{A}: FA\to GA\right)\\
+					=& H'\left(H\theta_{A}\right)\\
+					=& H'\circ \left(H\circ \theta_{A}\right)\\
+					=& \left( H'\circ_{L}\left( H \circ_{L} \theta \right) \right)_{A\in \Obj\A}
+				\end{aligned}
+			\end{equation*}
+			D'où la deuxième propriété.
+	\end{enumerate}
+\end{proof}
+
+\subsubsection{Action à droite de Pré-Composition}
+On suppose qu'on à:
+\begin{category}
+	\A\arrow[r, "H"] & \B\arrow[bend left, rr, "G" name=U]\arrow[bend right, rr, "F"{swap, name=D}] & & \cont\uuarrow["\theta"]{D}{U}
+\end{category}<++>
+
 
 \section{TD 1}
 \subsection{Catégories et Foncteurs}
@@ -282,14 +433,14 @@ Cette catégorie jouera le rôle en théorie de la démonstration de l'algèbre 
 \begin{description}
 	\item[Question 3, 4, 5] Voir la preuve de \ref{prop:isomorphismeterminaux}.
 	\item[Question 6] On a le diagramme commutatif suivant:
-		\begin{category}
+		\begin{category}[]
 			& A\arrow[bend right]{ddl}\arrow[bend left]{ddr}{\id_{A}}\arrow[dotted]{d}{h} & \\
 			& \term \times A\arrow{dl}\arrow{dr}{\pi_{A}}\arrow{dd}{\pi_{A}} & \\
 			\term & & A\arrow[bend left]{dl}{\id_{A}}\\
 			& A &
 		\end{category}
 		Donc $\pi_{A} \circ h = \id_{A}$.
-		\begin{category}
+		\begin{category}[]
 			& \term\times A\arrow{d}{\pi_{A}}\arrow[bend left]{ddr}{\pi_{1}}\arrow[bend right]{ddl}{\pi_{A}} & \\
 			& A\arrow{dl}{\id_{A}}\arrow{d}{h} & \\
 			A & \term \times A\arrow{l}{\pi_{A}}\arrow{r}{\pi_{1}} & \term
@@ -298,13 +449,13 @@ Cette catégorie jouera le rôle en théorie de la démonstration de l'algèbre 
 		De même pour $A \times \term$, par symétrie.
 		On peut par ailleurs procéder de même que pour les produits cartésiens pour montrer que $A\times \term \simeq \term\times A$.
 	\item[Question 7] On montre que $B\times A$ vérifie les propriétés de produit cartésien pour $A$ et $B$:
-		\begin{category}
+		\begin{category}[]
 			& C\arrow{dr}{f}\arrow{dl}{g}\arrow[dotted]{d}{h} & \\
 			B & B \times A\arrow{l}{\pi_{B}}\arrow{r}{\pi_{A}} & A
 		\end{category}
 	\item[Question 8]
 		On a le diagramme suivant:
-		\begin{category}
+		\begin{category}[]
 			& & \left(A\times B\right)\times C\arrow[color=black, dl, "\pi_{A\times B}"]\arrow[color=vulm, ddrr, "\pi_{C}"]\arrow[color=blue, dashed, dddr, "\pi_{B\times C}"] & & \\
 			& A\times B\arrow[color=vulm, dl, "\pi_{A}"]\arrow[color=vulm, dr, "\pi_{B}"] & & & \\
 		A & & B & & C \\
@@ -322,56 +473,34 @@ Cette catégorie jouera le rôle en théorie de la démonstration de l'algèbre 
 		On construit de la même façon $\tilde{h}: A\times (B\times C) \to (A\times B) \times C$.
 		On vérifie de façon similaire à la question précédente que $h\circ \tilde{h} = \id$ et $\tilde{h} \circ h = id$.
 		Donc $(A\times B)\times C \simeq A\times (B\times C)$.
+	\item[Question 9] On notera $A + B$ le coproduit de $A$ et $B$.
+		Il doit faire le diagramme commuter:
+		\begin{category}[]
+			& C &\\
+			A\arrow[ur, "f"]\arrow[r, "i_{A}" swap] & A\bigsqcup B\arrow[dashed, "h", u] & B\arrow[ul, "g" swap]\arrow[l, "i_{2}"]
+		\end{category}
+		On remarque notamment que $A + B$ est un coproduit de $A$ et $B$ dans $\cont$ si et seulement si $A + B$ est un produit de $A$ et $B$ dans $\cont^{op}$.
+		En prenant pour $A + B$ (si $A, B \in \mathrm{Set}$) l'ensemble abstrait défini à isomorphisme près par:
+		\begin{equation*}
+			\left\{ (A, a) \mid a\in A \right\} \cup \left\{ (B, b) \mid b \in B \right\}
+		\end{equation*}
+		avec $i_{A}$ et $i_{B}$ les inclusions.
+		On a bien le résultat puisque si $f: A \to C$ et $g: B\to C$, la fonction $h: (A, x) \mapsto f(x); (B, y) \mapsto g(y)$ est unique car entièrement définie sur $A + B$.
+		Formellement c'est l'union disjointe.
+	\item[Question 10] L'objet terminal de $\mathrm{Rel}$ est l'ensemble vide. En effet, on a toujours une unique relation entre $X$ et l'ensemble vide: la relation vide.
+		Il est clair que $\mathrm{Rel}^{op} = \mathrm{Rel}$.
+		L'union disjointe est le produit cartésien.
+		On prend comme projection $\pi_{A} = \left\{ \left( (A, e), e \right)\mid e \in A \right\}$
+	\item[Question 11] On prend pour objet terminal l'espace vectoriel nul.
+		On prend comme produit cartésien la somme directe disjointe sur les bases.
+		Par le même raisonnement que précédemment, on a le résultat.
+	\item[Question 12] L'objet terminal est la catégorie triviale avec un objet et un morphisme.
+		On définit le produit de cartésien par des couples d'objet et dont les flèches sont des couples de fonctions.
+		La projection est alors similaire à celle de $\mathrm{Set}$.
+	\item[Question 13] De la même manière que précédemment, en considérant des couples de morphisme du produit cartésien de l'origine dans le produit cartésien de l'image.
+		On a le résultat par propriété fondamentale.
+	\item[Question 14]
 \end{description}
-\begin{table}[h]
-	\centering
-	\begin{grammar}
-		\firstrule{M}{x}{}
-		\grule{M N}{}
-		\grule{$\lambda$x. M}{}
-	\end{grammar}
-	\caption{Termes du Lambda-Calcul Pur}
-\end{table}
 
-La \betared:
-\begin{equation*}
-	\left(\lambda x.M\right) N \longrightarrow M\left[X:=N\right]
-\end{equation*}
-
-L'\etaexp:
-\begin{equation*}
-	M\longrightarrow \lambda x.\left(M x\right)
-\end{equation*}
-
-\begin{remarque}
-	Un $\lambda$-terme est considéré à renommage $\equiv_{\alpha}$ des variables liées:
-	\begin{equation*}
-		\lambda x.\lambda y.x \equiv_{\alpha} \lambda z.\lambda y.z
-	\end{equation*}
-\end{remarque}
-
-\subsubsection{Apparitions et Variables Libres}
-L'ensemble des occurences d'un $\lambda$-terme $M$ est défini par induction:
-\begin{table}
-	\centering
-	\begin{tabular}{rcl}%
-		$occ(x)$ & = & $\{\epsilon\}$\\
-		$occ(MN)$ & = & $\{\epsilon\} \cup \{1\cdot o\mid o\in occ(M)\} \cup \{2\cdot o\mid o \in occ(N)\}$\\
-		$occ(\lambda x.M)$ & = & $\{\epsilon\} \cup \{1 \cdot o\mid o\in occ(M)\}$
-	\end{tabular}
-	\caption{Occurences d'un Lambda Terme}
-	\label{tab:occurences}
-\end{table}
-
-L'ensemble des variables libres d'un $\lambda$-terme $M$ est défini par induction:
-\begin{table}
-	\centering
-	\begin{tabular}{rcl}
-	$FV(x)$ & = & $\{x\}$\\
-
-	\end{tabular}
-	\caption{Ensemble des Variables Libres d'un Lambda Terme}
-	\label{tab:freevars}
-\end{table}
 
 \end{document}

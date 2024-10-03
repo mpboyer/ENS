@@ -33,30 +33,30 @@
                         \alpha_{i p + 1, j p + 1} & \ldots & \alpha_{i p + 1, j (p + 1)}\\
                         \vdots & & \vdots\\
                         \alpha_{i (p + 1), j p + 1} & \ldots & \alpha_{i (p + 1), j (p + 1)}
-                    \end{matrix}                    
+                    \end{matrix}
                     \right) \in \mathcal{M}_{p}
-            \]  
-            Thus, we can multiply a matrix in $\mathcal{M}_{ap, bp}$ by a matrix $\mathcal{M}_{bp, cp}$ in $M(a, b, c)M(p, p, p)$ multiplications. Thus : 
+            \]
+            Thus, we can multiply a matrix in $\mathcal{M}_{ap, bp}$ by a matrix $\mathcal{M}_{bp, cp}$ in $M(a, b, c)M(p, p, p)$ multiplications. Thus :
             \[
                 M(ap, bp, cp) \leq M(a, b, c)M(p, p, p)
             \]
-            
+
         \subsection{Question 4}
             \begin{itemize}
                 \item If $0 \leq r \leq \alpha$: $w(1, r, 1)$ is the smallest number $k$ such that $M(n, n^{r}, n) = \O(n^{k + o(1)})$. But, again by seeing $A$ an $n\times n^{\alpha}$ matrix as a $n\times n^{r}$ matrix next to a $n, n^{\alpha} - n^{r}$ matrix and same for $B$, we get $M(1, r, 1) \leq M(1, \alpha, 1)$ and thus $w(1, r, 1) \leq w(1, \alpha, 1) = 2$.
-                \item If $\alpha \leq r \leq 1$ : by seeing a $n \times n^{r}$ matrix $A$ as a $n^{\frac{1 - r}{1 - \alpha}} \times n^{\frac{\left(1 - r\right)\alpha}{1 - \alpha}}$ bloc matrix with blocks of size $n^{\frac{r - \alpha}{1 - \alpha }}\times n^{\frac{r - \alpha}{1 - \alpha}}$ and applying the reasoning from 3. we get that : 
+                \item If $\alpha \leq r \leq 1$ : by seeing a $n \times n^{r}$ matrix $A$ as a $n^{\frac{1 - r}{1 - \alpha}} \times n^{\frac{\left(1 - r\right)\alpha}{1 - \alpha}}$ bloc matrix with blocks of size $n^{\frac{r - \alpha}{1 - \alpha }}\times n^{\frac{r - \alpha}{1 - \alpha}}$ and applying the reasoning from 3. we get that :
                 \[
                     \begin{aligned}
-                        M(n, n^{r}, n) = &\ M\left(n^{\frac{1 - r}{1 - \alpha}} \cdot n^{\frac{r - \alpha}{1 - \alpha }}, n^{\frac{\left(1 - r\right)\alpha}{1 - \alpha}}\right.\\ 
+                        M(n, n^{r}, n) = &\ M\left(n^{\frac{1 - r}{1 - \alpha}} \cdot n^{\frac{r - \alpha}{1 - \alpha }}, n^{\frac{\left(1 - r\right)\alpha}{1 - \alpha}}\right.\\
                         &\ \left.\times n^{\frac{r - \alpha}{1 - \alpha}}, n^{\frac{1 - r}{1 - \alpha}} \cdot n^{\frac{r - \alpha}{1 - \alpha }}\right)\\
                          \leq&\  M\left(n^{\frac{1 - r}{1 - \alpha}}, n^{\frac{(1 - r)\alpha}{1 - \alpha}}, n^{\frac{1 - r}{1 - \alpha}}\right)\\
                         &\ \times M\left(n^{\frac{r - \alpha}{1 - \alpha}}, n^{\frac{r - \alpha}{1 - \alpha}}, n^{\frac{r - \alpha}{1 - \alpha}}\right)\\
                         = &\ \O\left(\left(n^{\frac{1 - r}{1 - \alpha}}\right)^{{w(1, \alpha, 1)}}\left(n^{\frac{r - \alpha}{1 - \alpha}}\right)^{\omega}\right)\\
                         = &\ \O\left(n^{\frac{2 * (1 - r) + \left(r - \alpha\right) \omega}{1 - \alpha}}\right)
-                    \end{aligned}      
+                    \end{aligned}
                 \]
                 The first big O equality comes from a substitution in $M(n, n^{\alpha}, n) = \O(n^{w(1, \alpha, 1)})$ of $n$ by $n^{\frac{1 - r}{1 - \alpha}}$.
-                We obtain : 
+                We obtain :
                 \[
                     \begin{aligned}
                         w(1, r, 1)  \leq &\ \frac{2 \times \left(1 - r\right) + \left(r - \alpha\right)\omega}{1 - \alpha}\\
@@ -66,22 +66,22 @@
                     \end{aligned}
                 \]
             \end{itemize}
-            
+
         \subsection{Question 5}
             Let $1 \leq l \leq n$, $a_{k}, b_{k}$ such that $a_{k}b_{k}$ is decreasing.
-            If $l = 1$, the result is trivial. 
-        
+            If $l = 1$, the result is trivial.
+
             Consider for $i \in \left\llbracket 1, l - 1\right\rrbracket$ the quantity $a_{i}b_{j} + a_{j}b_{i}$, we get :
             \begin{itemize}
                 \item If $a_{i} > a_{j}$ : $a_{i}b_{j} + a_{j}b_{i} > a_{j}b_{j}$
                 \item Else : $a_{i}b_{j} + a_{j}b_{i} > a_{i}b_{i} > a_{j}b_{j}$ by hypothesis.
             \end{itemize}
 
-            Then we get : 
+            Then we get :
             \[\sum_{j = i + 1}^{n} a_{i}b_{j} + a_{j}b_{i} > \sum_{k = l}^{n} a_{k}b_{k}\] since the $a_{k}$ and $b_{k}$ are positive.
-            By summing :  
+            By summing :
             \[\sum_{i = 1}^{l -1}\sum_{j = i + 1}^{n} a_{i}b_{j} + a_{j}b_{i} > l\sum_{k = l}^{n} a_{k}b_{k}\]
-            But : 
+            But :
             \[m_{1}m_{2} = \sum_{i = 1}^{n}a_{i} \sum_{j = 1}^{n}b_{j} = \sum_{i = 1}^{n}\sum_{j = i + 1}^{n}a_{i}b_{l} > \sum_{i = 1}^{l - 1}\sum_{j = i + 1}^{n}a_{i}b_{j}\]
             Thus :
             \[\sum_{k = l}^{n} a_{k}b_{k} < \frac{m_{1}m_{2}}{l}\]
@@ -89,7 +89,7 @@
         \subsection{Question 6}
         We will first prove correctness by induction : \\
         Initialization : If $m^{2} \leq n^{2}$, it is clear.\\
-        Heredity : Since $\pi$ is bijective, $I\sqcup J = \llbracket 1, n \rrbracket$, we get that no two columns in $A_{*I}$ and $A_{*J}$ have an element in the same row. Then, if $i, j \in \llbracket 1, n \rrbracket$, we get : 
+        Heredity : Since $\pi$ is bijective, $I\sqcup J = \llbracket 1, n \rrbracket$, we get that no two columns in $A_{*I}$ and $A_{*J}$ have an element in the same row. Then, if $i, j \in \llbracket 1, n \rrbracket$, we get :
         \[
             \left[AB\right]_{i, j} = \sum_{k\in \llbracket 1, n\rrbracket} a_{i, k}b_{k, j} = \sum_{k\in I}a_{i, k}b_{k,j} + \sum_{k \in J}a_{i,k}b_{k,j} = \left[A_{*I}B_{I*}\right]_{i, j} + \left[A_{*J}B_{J*}\right]_{i, j}
         \]
@@ -101,14 +101,14 @@
             \item Else, its complexity is the sum of three steps :
             \begin{itemize}
                 \item Calculating $C_{1} = A_{*I}B_{I*}$ takes $M(n, l, n) = \O(n^{w(1, r, 1) + o(1)})$ multplications for $r = \frac{\ln l}{\ln n} < 1$.
-                \item From question 5), calculating $C_{2} = A_{*J}B_{J*}$ takes at most $\frac{m^{2}}{l}$ multiplications. 
+                \item From question 5), calculating $C_{2} = A_{*J}B_{J*}$ takes at most $\frac{m^{2}}{l}$ multiplications.
                 \item Summing the results takes $\O(n^{2})$ operations.
             \end{itemize}
         \end{itemize}
 
         We obtain a time complexity in the worst case in $\O(n^{w(1, r, 1) + o(1)} + \frac{m^{2}}{l} + n^{2})$, assuming that $m^{2} > n^{2}$.
         In that case, we let $l = m^{\frac{2}{\beta + 1}}n^{\frac{\alpha\beta - 2}{\beta + 1}}$.
-        Then, the computation of $C_{1}$ takes $\O(n^{w(1, r, 1) + o(1)}) = \O(n^{2 + \beta\left(\frac{\ln l}{\ln n} - \alpha\right)})$ from question 4. Then, we get : 
+        Then, the computation of $C_{1}$ takes $\O(n^{w(1, r, 1) + o(1)}) = \O(n^{2 + \beta\left(\frac{\ln l}{\ln n} - \alpha\right)})$ from question 4. Then, we get :
         \[
             \begin{aligned}
                 n^{2 + \beta\left(\frac{\ln l}{\ln n} - \alpha\right)} =& n^{2 - \alpha\beta} l^{\beta} \\
@@ -119,38 +119,38 @@
             \end{aligned}
         \]
 
-        Moreover, since the computation of $C_{2}$ is done in $\O(\frac{m^{2}}{l})$, replacing $l$ by its value : 
+        Moreover, since the computation of $C_{2}$ is done in $\O(\frac{m^{2}}{l})$, replacing $l$ by its value :
         \[
             \frac{m^{2}}{l} = m^{2 - \frac{2}{\beta + 1}}n^{\frac{2}{\beta + 1} - \frac{\alpha \beta}{\beta + 1}} = m^{\frac{2\beta}{\beta + 1}}n^{\frac{2 - \alpha\beta}{\beta + 1}}
         \]
-            
-        In the end, we get a total complexity in : 
+
+        In the end, we get a total complexity in :
         \[
             \O\left(m^{\frac{2\beta}{\beta + 1}}n^{\frac{2 - \alpha \beta}{\beta + 1}} + o(1)\right) + \O\left(m^{\frac{2\beta}{\beta + 1}}n^{\frac{2 - \alpha \beta}{\beta + 1}}\right) + \O(n^{2}) = \O\left(m^{\frac{2\beta}{\beta + 1}}n^{\frac{2 - \alpha \beta}{\beta + 1} + o(1)}\right)
         \]
 
-        Using the given values for $\alpha$ and $\beta$, this time complexity is in \[\O(m^{0.7}n^{1.21} + n^{2 + o(1)})\]   
+        Using the given values for $\alpha$ and $\beta$, this time complexity is in \[\O(m^{0.7}n^{1.21} + n^{2 + o(1)})\]
 
     \newpage
     \section{Exercise 2}
         \subsection{Question 1}
-            Since concatenation is associative, we can look at the concatenation of a list of length $n$ as the concatenation of the numbers resulting of the concatenation of any partition $A_{1}, \ldots, A_{d}$ of the list such that if $i < j$, $a_{j} \in A_{k} \Rightarrow a_{i} \in A_{l}$ where $l \leq k$. Thus, if the list is sorted, after concatenation of a part of its elements (provided they are neighbours), the obtained list remains sorted. 
-            
-            Since for one and two elements, it is clear that results hold, we only need to cover the case of an insertion. Indeed, if sorting by insertion gives a correct result, then any sorting algorithm gives a correct result. Suppose that a list with $n$ elements $a_{0}, \ldots, a_{n- 1}$ is sorted using the order defined. Let $a_{n}$ be another number, and suppose it is inserted between $a_{i}$ and $a_{i + 1}$ by insertion sort.
-            Then, suppose that the result we obtain is not the right one. We return to the case of three elements, since the final concatenation can be seen as the one of the results of the concatenation of $(a_{0}, \ldots, a_{j})$, $(a_{n})$ and $(a_{j + 1}, \ldots, a_{n - 1})$. Indeed, the values are still sorted using our order. The result obtained by the case of three elements would not be right, and thus the list would not be sorted. 
+            Since concatenation is associative, we can look at the concatenation of a list of length $n$ as the concatenation of the numbers resulting of the concatenation of any partition $A_{1}, \ldots, A_{d}$ of the list such that if $i < j$, $a_{j} \in A_{k} \Rightarrow a_{i} \in A_{l}$ where $l \leq k$. Thus, if the list is sorted, after concatenation of a part of its elements (provided they are neighbours), the obtained list remains sorted.
 
-            In the case of three elements, $a_{0} \preceq a_{1} \preceq a_{2}$. By checking all $6$ permutations of the elements, we obtain the wanted result. 
+            Since for one and two elements, it is clear that results hold, we only need to cover the case of an insertion. Indeed, if sorting by insertion gives a correct result, then any sorting algorithm gives a correct result. Suppose that a list with $n$ elements $a_{0}, \ldots, a_{n- 1}$ is sorted using the order defined. Let $a_{n}$ be another number, and suppose it is inserted between $a_{i}$ and $a_{i + 1}$ by insertion sort.
+            Then, suppose that the result we obtain is not the right one. We return to the case of three elements, since the final concatenation can be seen as the one of the results of the concatenation of $(a_{0}, \ldots, a_{j})$, $(a_{n})$ and $(a_{j + 1}, \ldots, a_{n - 1})$. Indeed, the values are still sorted using our order. The result obtained by the case of three elements would not be right, and thus the list would not be sorted.
+
+            In the case of three elements, $a_{0} \preceq a_{1} \preceq a_{2}$. By checking all $6$ permutations of the elements, we obtain the wanted result.
 
         \subsection{Question 2}
             Consider two integers $X = X_{1}\ldots X_{n}$ and $Y = Y_{1}\ldots Y_{m}$. We suppose without loss of generality that $n \leq m$. We need to compare the strings $X_{1}\ldots X_{n}\mid Y_{1}\ldots Y_{m - n}\mid Y_{m - n + 1}\ldots Y_{m}$ and $Y_{1}\ldots Y_{n}\mid Y_{n + 1}\ldots Y_{m}\mid X_{1}\ldots X_{n}$. The vertical bars $\mid$ serve only as placeholders for the next step. We will first get the Lowest Common Ancestor (LCA) of $X$ and $Y$. If it is strictly smaller than $\abs{X}$, we return the comparison of the next digits in $X$ and $Y$, else, if it is of length $\abs{X}$, we go to next step : we apply the same operations to $Y_{n + 1}\ldots Y_{m}$ and $Y$. If we still have an equality, we then go to the final step and start over with $Y_{m - n + 1}\ldots Y_{m}$ and $X$.
-        
+
         \subsection{Question 3}
             There are $10^{\log_{10}(n)/4} = \sqrt[4]{n}$ numbers that, in base $10$, are written using at most $\frac{\log_{10}n}{4}$ digits. Then, we can sort all the integers using counting sort : we create an array $A$ of size $\sqrt[4]{n}$ with only zeros. We first need to sort the indices in this array using the relationship defined in 1), which is done using an optimal sorting algorithm in $\O(\sqrt[4]{n}\log n) = \O(n)$.
             Then, if we see $i$ in the list of numbers with at most $\frac{\log_{10} n}{4}$ digits, we increase the slot in array corresponding to $i$ by $1$. This is done in $\O(n)$ since we see each digit at most once. Then, again, by iterating through $i \in \llbracket 0, \sqrt[4]{n} - 1 \rrbracket$ we can add $i$ to a list $A[i]$ times. This is again done in $\O(n)$.
 
         \subsection{Question 4}
-            There are at most $\frac{n}{\frac{\log_{10} n}{4}}$ numbers with at least $\frac{\log_{10} n}{4}$ digits. Then using an optimal sorting algorithm, since the comparisons are done in $\O(1)$ by question 2), we get a complexity in : 
-            \[ 
+            There are at most $\frac{n}{\frac{\log_{10} n}{4}}$ numbers with at least $\frac{\log_{10} n}{4}$ digits. Then using an optimal sorting algorithm, since the comparisons are done in $\O(1)$ by question 2), we get a complexity in :
+            \[
                 \begin{aligned}
                     \O\left(\frac{4n}{\log_{10}n}\log_{10}\left(\frac{4n}{\log_{10}n}\right)\right) = &\ \O\left(4n\times\frac{\log_{10}(4) + \log_{10}(n) - \log_{10}(\log_{10}(n))}{\log_{10}(n)}\right)\\
                     = &\ \O\left(n\times\left(1 + \frac{\log_{10}(4)}{\log_{10}(n)} - \frac{\log_{10}\left(\log_{10}(n)\right)}{\log_{10}(n)}\right)\right)\\
@@ -160,11 +160,11 @@
 
         \subsection{Question 5}
         We will denote by $\abs{X}$ the number of digits of $X$ and by $A, k$ the input array and its length.\\
-        Based on the previous questions, we propose the following algorithm : 
+        Based on the previous questions, we propose the following algorithm :
         \begin{enumerate}
             \item We compute the generalised suffix tree of the numbers. This is done in \[\O\left(\sum_{i \in \llbracket 0, k - 1\rrbracket}\abs{A[i]}\right) = \O(n)\]
-            \item We first sort the digits with at most $\frac{\log_{10} n}{4}$ digits.  From this, by question 3), we can sort all the numbers is $\O(n)$ time. 
-            \item Then, by question 4), we can sort the rest of the numbers in $\O(n)$ time. 
+            \item We first sort the digits with at most $\frac{\log_{10} n}{4}$ digits.  From this, by question 3), we can sort all the numbers is $\O(n)$ time.
+            \item Then, by question 4), we can sort the rest of the numbers in $\O(n)$ time.
             \item We then merge the two sorted arrays in linear time in the sum of the lengths, thus in $\O(n)$.
             \item Finally, we can compute the concatenation in $\O(n)$.
         \end{enumerate}

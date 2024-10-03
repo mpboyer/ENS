@@ -108,7 +108,7 @@ Examples :
     \begin{algorithmic}
         \Input
         $ n$
-        \EndInput   
+        \EndInput
         \State $Tab \gets zeros(n)$ \Comment $zeros(n)$ returns a $n$-array of zeros.
         \State $Tab[0] \gets 0$
         \State $Tab[1] \gets 1$
@@ -946,7 +946,7 @@ The naïve algorithm consists of looking, for each possible starting position in
     \end{itemize}
 \end{proof}
 
-% TODO : add match function 
+% TODO : add match function
 \begin{algorithm}
     \caption{Knuth-Morris-Pratt Algorithm : KMP}
     \begin{algorithmic}
@@ -1997,10 +1997,10 @@ Kernelization is a method for parametrized preprocessing. We want to reduce the 
     \end{itemize}
 \end{proof}
 
-The real issue is to know which problems have polynomial kernels. 
+The real issue is to know which problems have polynomial kernels.
 
 \subsubsection{\textsc{Vertex Cover}}
-We define two reduction rules for $k$-\textsc{Vertex Cover} : 
+We define two reduction rules for $k$-\textsc{Vertex Cover} :
 \begin{proposition}
     \begin{itemize}
         \item If $v$ has degree $0$, then reduce to $(G - v, k)$
@@ -2012,12 +2012,12 @@ We define two reduction rules for $k$-\textsc{Vertex Cover} :
     If $(G, k)$ is a YES instance for $k$-\textsc{Vertex Cover} on which reduction rules cannot be applied, $G$ has at most $k^{2}$ edges and $k^{2} + k$ vertices.
 \end{lemma}
 \begin{proof}
-    Let $S$ be a vertex cover of $G$ of size at most $k$. Each vertex hits at most $k$ edges because of the second rule. So there is at most $k^{2}$ edges. Each vertex is either in $S$ or is one of the at most $k$ neighbours of a vertex in $S$ so there are at most $k^{2} + k$ vertices. 
+    Let $S$ be a vertex cover of $G$ of size at most $k$. Each vertex hits at most $k$ edges because of the second rule. So there is at most $k^{2}$ edges. Each vertex is either in $S$ or is one of the at most $k$ neighbours of a vertex in $S$ so there are at most $k^{2} + k$ vertices.
 \end{proof}
 
 \begin{proposition}[Kernelization for \textsc{Vertex Cover}]
     \begin{itemize}
-        \item Apply reduction rules exhaustively. 
+        \item Apply reduction rules exhaustively.
         \item We get an equivalent instance $(G^{'}, k')$ with $k' \leq k$.
         \item If $\abs{E(g)} > k'^{2}$ $\abs{V}(G) > k'^{2} + k'$ return NO
         \item Otherwise we have a kernel of size $\O(2k^{2} + k)$.
@@ -2025,34 +2025,34 @@ We define two reduction rules for $k$-\textsc{Vertex Cover} :
 \end{proposition}
 
 \begin{theorem}
-    \textsc{Vertex Cover} has a kernel with at most $2k$ vertices. 
+    \textsc{Vertex Cover} has a kernel with at most $2k$ vertices.
 \end{theorem}
-This is done using Linear Programming. 
+This is done using Linear Programming.
 
 \subsection{Color Coding}
 \subsubsection{$k$-\textsc{Path}}
 \begin{definition}
-    Given $G, k$, decide if $G$ contains a path on $k$ vertices. 
+    Given $G, k$, decide if $G$ contains a path on $k$ vertices.
 \end{definition}
 
 We will use a randomize\footnote{BOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO} algorithm that can be determinized.
 
-We transform the problem into the following : 
+We transform the problem into the following :
 \begin{itemize}
-    \item Assume the vertices are colored randomly with $\left\{1, \ldots, k\right\}$. 
-    \item Find a path colored $1 - 2 - \cdots - k$. 
+    \item Assume the vertices are colored randomly with $\left\{1, \ldots, k\right\}$.
+    \item Find a path colored $1 - 2 - \cdots - k$.
 \end{itemize}
 
-The algorithm is the following : 
+The algorithm is the following :
 \begin{itemize}
     \item Assign color from $\left[k\right]$ to the vertices uniformly and independently at random
     \item Output YES if there is a path colored $1 - 2 - \cdots - k$ else NO
 \end{itemize}
 \begin{proposition}
-    If $G$ has a $k$-path, the probability that this $k$-path is colored $1 - 2 - \cdots - k$ is $1/k^{k}$. So if $G$ is a YES instance the algo outputs YES with probability at least $1/(k^k)$, and if it is a NO instance, the algorithm outputs NO. Then, after $k$ repetitions, error probability is at most $1/e$. 
+    If $G$ has a $k$-path, the probability that this $k$-path is colored $1 - 2 - \cdots - k$ is $1/k^{k}$. So if $G$ is a YES instance the algo outputs YES with probability at least $1/(k^k)$, and if it is a NO instance, the algorithm outputs NO. Then, after $k$ repetitions, error probability is at most $1/e$.
 \end{proposition}
 
-To find a colored path, we delete edges in the graph from vertices colored $i$ to vertices colored $j$ for $j \neq i-1, i + 1$ and orient edges towards the larger class. We can find a path in linear time with BFS. 
+To find a colored path, we delete edges in the graph from vertices colored $i$ to vertices colored $j$ for $j \neq i-1, i + 1$ and orient edges towards the larger class. We can find a path in linear time with BFS.
 
 \begin{proposition}
     The final complexity of this algorithm is $\O(c\cdot k^{k} \cdot (n + m))$ and it has probability of success $1/e^{c}$.
@@ -2062,14 +2062,14 @@ We can still improve color coding by solving the existence of a colorful path in
 We can solve this problem using Dynamic Programming : we solve for each vertex $v$ and set of color $C \subseteq \onen{k}$, the value of $D(v, C)$ that is YES is there is path ending at $v$ using each colour of $C$. \\
 If we denote by $\chi : V \rightarrow [k]$ the random coloring, $D(v, C)$ is YES if and only if $\chi(v) \in C$ and there is an edge $uv$ for which $D(u, C\setminus \chi(v))$ is YES. We thus can solve this in time $2^{k}\times \abs{E}$.
 
-Finally we get the following algorithm : 
+Finally we get the following algorithm :
 \begin{proposition}
-    Repeat $e^{k}$ times : 
+    Repeat $e^{k}$ times :
     \begin{enumerate}
         \item Sample a coloring $c$
-        \item Check if $G$ contains a colorful $k$-path in time $\O(2^{k}\cdot \abs{E})$ and return YES if it does. 
+        \item Check if $G$ contains a colorful $k$-path in time $\O(2^{k}\cdot \abs{E})$ and return YES if it does.
     \end{enumerate}
-    If no colorful $k$-path was found, return NO. 
+    If no colorful $k$-path was found, return NO.
 \end{proposition}
 
 \subsubsection{Derandomization}
@@ -2078,7 +2078,7 @@ Finally we get the following algorithm :
 \end{definition}
 
 \begin{theorem}
-    There is a $k$-perfect family of functions $\onen{n} \rightarrow \onen{k}$ with size $2^{\O(k)}\log n$ and can be constructed in poly-time in the size of the family. 
+    There is a $k$-perfect family of functions $\onen{n} \rightarrow \onen{k}$ with size $2^{\O(k)}\log n$ and can be constructed in poly-time in the size of the family.
 \end{theorem}
 
 Then, instead of trying $\O(e^{k})$ random colorings, we go through a $k$-perfect family $\mathcal{H}$ of functions $\onen{n} \rightarrow \onen{k}$. Then, $k$-\textsc{Path} can be solved in deterministic time $2^{\O(k)}\cdot n^{\O(1)}$.
@@ -2086,16 +2086,16 @@ Then, instead of trying $\O(e^{k})$ random colorings, we go through a $k$-perfec
 
 \part[Approximation Algorithm]{Lecture 10 : 11/01}
 \section{Definitions}
-Suppose we want to solve an optimization problem $\mathcal{P}$. Say that a solution has a certain cost we want to minimize. Denote by $OPT(P)$ the cost of an optimal solution of $\mathcal{P}$. Suppose we have an algorithm that outputs a non-optimal solution of cost $ALG(P)$. $ALG$ has approximation ratio $\rho(n)$ if for any instance $P$ of size $n$ we have : \[ ALG(P) \leq \rho(n)\cdot OPT(P)\] 
+Suppose we want to solve an optimization problem $\mathcal{P}$. Say that a solution has a certain cost we want to minimize. Denote by $OPT(P)$ the cost of an optimal solution of $\mathcal{P}$. Suppose we have an algorithm that outputs a non-optimal solution of cost $ALG(P)$. $ALG$ has approximation ratio $\rho(n)$ if for any instance $P$ of size $n$ we have : \[ ALG(P) \leq \rho(n)\cdot OPT(P)\]
 
 \begin{definition}
-    An algorithm has an approximation ratio of $\rho(n)$ if for any input of size $n$ the cost ALG of the solution produced by the algorithm is with a factor of $\rho(n)$ of the cost $OPT$ of an optimal solution : 
+    An algorithm has an approximation ratio of $\rho(n)$ if for any input of size $n$ the cost ALG of the solution produced by the algorithm is with a factor of $\rho(n)$ of the cost $OPT$ of an optimal solution :
     \[
         1 \leq \max \left(\frac{OPT}{ALG}, \frac{ALG}{OPT}\right) \leq \rho(n)
     \]
 \end{definition}
 
-Many NP-Hard problems  have small constant approximation ratio. Others have approximation ratio that grows with $n$. When the best approximation ration grows linearly, there is trouble. 
+Many NP-Hard problems  have small constant approximation ratio. Others have approximation ratio that grows with $n$. When the best approximation ration grows linearly, there is trouble.
 
 An approximation scheme is an algorithm scheme is an algorithm that outputs a $(1 + \epsilon)$-approximation where $\epsilon$ is part of the input.
 \begin{definition}
@@ -2119,7 +2119,7 @@ An approximation scheme is an algorithm scheme is an algorithm that outputs a $(
         \EndIf
     \end{algorithmic}
 \end{algorithm}
-Yet, for a star graph, the algorithm returns a set of size $n-1$ while there is a solution of size $1$. 
+Yet, for a star graph, the algorithm returns a set of size $n-1$ while there is a solution of size $1$.
 
 \begin{algorithm}
     \caption{Greedy Algorithm}
@@ -2132,8 +2132,8 @@ Yet, for a star graph, the algorithm returns a set of size $n-1$ while there is 
 \end{algorithm}
 
 We need to find a lower bound of an optimal solution : \\
-Assume there is a certain quantity $Q$ such that $Q \leq OPT$. If we can prove that $ALG \leq c \times Q$ then $ALG$ is a $c$-approximation. 
-Here, a Vertex Cover is at least as large as a maximal matching. We get : 
+Assume there is a certain quantity $Q$ such that $Q \leq OPT$. If we can prove that $ALG \leq c \times Q$ then $ALG$ is a $c$-approximation.
+Here, a Vertex Cover is at least as large as a maximal matching. We get :
 
 \begin{algorithm}
     \caption{Based on Matching}
@@ -2147,7 +2147,7 @@ Here, a Vertex Cover is at least as large as a maximal matching. We get :
 \end{algorithm}
 
 Here, we have a $2$-approximation algorithm. We need to see if we can improve the approximation ratio. It is tight from looking at $K_{n, n}$. \\
-State of the art, the best approx algorithm known has approximation factor $\left(2 - \Theta\left(\frac{1}{\sqrt{\log n}}\right)\right)$. If Unique Game Conjecture is true, we cannot find better that $2$ for a constant factor. 
+State of the art, the best approx algorithm known has approximation factor $\left(2 - \Theta\left(\frac{1}{\sqrt{\log n}}\right)\right)$. If Unique Game Conjecture is true, we cannot find better that $2$ for a constant factor.
 
 \subsection{\textsc{Travelling-Salesman Problem}}
 \begin{definition}
@@ -2168,11 +2168,11 @@ We can assume WLOG that the graph is complete. We denote by $c(A)$ the weight of
 \end{proof}
 
 \begin{definition}
-    \textsc{Metric Travelling-Salesman Problem} is \textsc{TSP} where the weight function $c$ of the graph is a metric. 
+    \textsc{Metric Travelling-Salesman Problem} is \textsc{TSP} where the weight function $c$ of the graph is a metric.
 \end{definition}
 
 \begin{theorem}
-    \textsc{MTSP} has a $2$-approximation algorithm. 
+    \textsc{MTSP} has a $2$-approximation algorithm.
 \end{theorem}
 \begin{proof}
     We have $c{TSP} > c{MST}$. Indeed, removing an edge $TSP$ gives a spanning tree.
@@ -2183,12 +2183,12 @@ We can assume WLOG that the graph is complete. We denote by $c(A)$ the weight of
             \State\Return Preorder Walk of $M$
         \end{algorithmic}
     \end{algorithm}
-    This is a two approx : If $T$ is a 
+    This is a two approx : If $T$ is a
 \end{proof}
 
 \subsection{\textsc{Set-Covering}}
 \begin{definition}
-    Given a hypergraph $\left(V, \mathcal{F}, c\right)$ where $V$ is finite a set of elements, $\mathcal{F}$ is a set of subsets of $V$ and $c$ is a cost function, output a cost minimum subset of $\mathcal{F}$ that covers all elements of $V$. 
+    Given a hypergraph $\left(V, \mathcal{F}, c\right)$ where $V$ is finite a set of elements, $\mathcal{F}$ is a set of subsets of $V$ and $c$ is a cost function, output a cost minimum subset of $\mathcal{F}$ that covers all elements of $V$.
 \end{definition}
 First, a greedy algorithm. Here, the criteria is basing on the number of uncovered vertices.\\
 \begin{algorithm}
@@ -2221,7 +2221,7 @@ Yet, if there is a set in $\mathcal{F}$ of weight $10^{10}$ that is covered by t
 \end{theorem}
 \begin{proof}
     Define $price(v) = c(S)/\abs{S \cap U}$ where $S$ is the hyperedge that covers $v$ for the first time. \\
-    The total cost of a solution is $\sum_{v \in V} price(v)$. Number the elements of $V$ by order of choose, with $v_{n}$ being the first chose one. We have : 
+    The total cost of a solution is $\sum_{v \in V} price(v)$. Number the elements of $V$ by order of choose, with $v_{n}$ being the first chose one. We have :
     \begin{lemma}
         For each $k \in \onen{n}, price(v_{k}) \leq OPT/k$
     \end{lemma}
@@ -2232,15 +2232,15 @@ Yet, if there is a set in $\mathcal{F}$ of weight $10^{10}$ that is covered by t
             price(v_{k}) \leq \frac{OPT}{\abs{U}} \leq \frac{OPT}{k}
         \]
     \end{proof}
-    Hence, the total cost is : 
+    Hence, the total cost is :
     \[
         \sum_{k = 1}^{n}price(v_{k}) \leq OPT \sum_{k = 1}^{n} \frac{1}{k} \leq OPT\cdot (\log n + 1)
     \]
 
-    
+
 \end{proof}
 \begin{theorem}
-    \textsc{Greedy-Set-Cover} does not have an approximation ration of $\left(1 - o(1)\right)\ln n$. 
+    \textsc{Greedy-Set-Cover} does not have an approximation ration of $\left(1 - o(1)\right)\ln n$.
 \end{theorem}
 
 \subsection{Layering and \textsc{Weighted Vertex-Cover}}
@@ -2249,7 +2249,7 @@ Yet, if there is a set in $\mathcal{F}$ of weight $10^{10}$ that is covered by t
 \end{definition}
 
 \begin{definition}
-    A degree weighted function of a graph $G$ is a function $\omega : V \rightarrow \N$ such that 
+    A degree weighted function of a graph $G$ is a function $\omega : V \rightarrow \N$ such that
     \[
         \exists c, \forall v, \omega(v) \leq c \cdot \deg v
     \]
@@ -2259,11 +2259,11 @@ Yet, if there is a set in $\mathcal{F}$ of weight $10^{10}$ that is covered by t
     Let $G$ be a graph with weight function $\omega$. If $\omega$ is a degree weighted function, then $\omega(V) \leq 2\cdot OPT$
 \end{lemma}
 \begin{proof}
-    We have : 
+    We have :
     \[
         \omega(V) =  \sum_{v \in V} \omega(v) \leq \sum_{v \in V}c\deg(v) \leq 2c\abs{E}
     \]
-    If $S^{\star}$ is an optimal solution, 
+    If $S^{\star}$ is an optimal solution,
     \[
         OPT = \omega(S^{\star}) = \sum_{v \in S^{\star}} \omega(v) = c \cdot \sum_{v \in S^{\star}} \deg v
     \]
@@ -2277,7 +2277,7 @@ Yet, if there is a set in $\mathcal{F}$ of weight $10^{10}$ that is covered by t
             \State Remove $D = \left\{v \mid \deg v = 0\right\}$
             \State Compute $c = \min \left\{\omega/\deg(v)\right\}$
             \State Compute degree-weighted function $t = c \cdot \deg(v)$
-            \State Compute the residual weight function $\omega_{1} = \omega - t = \omega- c \cdot \deg$ 
+            \State Compute the residual weight function $\omega_{1} = \omega - t = \omega- c \cdot \deg$
             \State Pick the set $W = \left\{v \mid \omega_{1}(v) = 0\right\}$
             \State $G_{1} = G - \left(D \cup W\right)$
             \State $G \gets G_{1}, \omega \gets \omega_{1}$.
@@ -2291,11 +2291,11 @@ Yet, if there is a set in $\mathcal{F}$ of weight $10^{10}$ that is covered by t
 \begin{proof}
     It is clearly correct.\\
     Let $S = W_{0} \cup \ldots \cup W_{k}$ be the solution output by the algorithm. Observe that $\omega_{l}(v) = \omega_{0}(v) - \sum_{i = 0}^{l- 1}t_{i}(v)$. Let $v \in S$. If $v \in W_{l}$, $w_{0}(v) = \sum_{i = 0}^{l - 1}t_{i}(v)$.\\
-    Let $S^{\star}$ be an optimal vertex cover of $G$. For each layer $i$, $S^{\star} \cap V\left(G_{i}\right)$ is a vertex cover of $G_{i}$. Therefore by the degree weighted function Lemma : 
+    Let $S^{\star}$ be an optimal vertex cover of $G$. For each layer $i$, $S^{\star} \cap V\left(G_{i}\right)$ is a vertex cover of $G_{i}$. Therefore by the degree weighted function Lemma :
     \[
         t_{i}\left(S\cap V(G_{i})\right) \leq 2 t_{i}\left(S^{\star} \cap V(G_{i})\right)
     \]
-    Hence : 
+    Hence :
     \[
         \omega(S) = \sum_{i = 0}^{k} t_{i}\left(S \cap V(G_{i})\right) \leq 2 \sum_{i = 0}^{k} t_{i}(S^{\star} \cap V(G_{i})) \leq 2 \omega(S^{\star})
     \]
@@ -2304,7 +2304,7 @@ Yet, if there is a set in $\mathcal{F}$ of weight $10^{10}$ that is covered by t
 \section{Definition}
 \subsection{Linear Programming}
 \begin{definition}
-    A system of linear equation is of the form : 
+    A system of linear equation is of the form :
     \[
         \begin{aligned}
             a_{11} x_{1} + \ldots + a_{1n} x_{n} &= b_{1}\\
@@ -2312,18 +2312,18 @@ Yet, if there is a set in $\mathcal{F}$ of weight $10^{10}$ that is covered by t
             a_{n1}x_{1} + \ldots + a_{nn}x_{n} &= b_{n}
         \end{aligned}
     \]
-    We write it as $Ax = b$ where $A$ is a matrix. 
+    We write it as $Ax = b$ where $A$ is a matrix.
 \end{definition}
 \begin{definition}
     A linear program is made of $n$ decision variables $x_{1}, \ldots, x_{n} \in \R$, $m$ linear constraints
     \[
         \sum_{j = 1}^{n} a_{ij} \star b_{i}
     \]
-    where $\star \in \{\leq, \geq, =\}$; and a function we want to maximise. 
+    where $\star \in \{\leq, \geq, =\}$; and a function we want to maximise.
 \end{definition}
 
 \begin{proposition}
-    Linear Programming and Linear Algebra work in a similar way : 
+    Linear Programming and Linear Algebra work in a similar way :
     \begin{center}
         \begin{tabular}{p{.15\textwidth}p{.25\textwidth}p{.25\textwidth}c}
             & Basic Problem & Algorithm & Solution Set\\
@@ -2342,23 +2342,23 @@ Linear Programming allows to model most of the problems we have seen in this cla
 
 \subsection{First Example}
 Suppose a factory makes tables and chairs. Each table returns a profit of $200\$$ and each chair a profit of $\$100$. Each table takes $1$ unit of metal and $3$ units of wood and each chair takes $2$ units of metal and $1$ unit of wood. The factory has $6k$ units of metal and $9k$ units of wood. We want to maximize profit.\\
-We can model this problem using linear Programming, let $x_{1}$ be the number of tables and $x_{2}$ be the number of chairs 
+We can model this problem using linear Programming, let $x_{1}$ be the number of tables and $x_{2}$ be the number of chairs
 \[
     \begin{aligned}
         3x_{1} + x_{2} &\leq 9\\
         x_{1} + 2x_{2} &\leq 6\\
         \textnormal{Maximize } 2x_{1} + x_{2}
-    \end{aligned}    
+    \end{aligned}
 \]
 
 \subsection{Flow}
 \begin{proposition}
-    We are given $G = (V, E, s, t, c)$ with: 
+    We are given $G = (V, E, s, t, c)$ with:
     \begin{itemize}
         \item A directed Graph $G = V, E$
         \item A source vertex $s \in V$
         \item A tap vertex $t\in V$
-        \item A non-negative integral capacity function $c$. 
+        \item A non-negative integral capacity function $c$.
     \end{itemize}
     Introduce one decision variable for each edge $\{f_{e}\}_{e \in E(G)}$
     \[
@@ -2377,15 +2377,15 @@ We can model this problem using linear Programming, let $x_{1}$ be the number of
 \subsection{\textsc{Vertex Cover}}
 \begin{proposition}
     Introduce $x_{v} \in \{0, 1\}$ for each $v \in V(G)$. Setting $x_{v} = 0$ means that $x_{v}$ is not in the solution.\\
-    We want to minimize $\sum_{v \in V}x_{v}$ subject to 
+    We want to minimize $\sum_{v \in V}x_{v}$ subject to
     \[
         \begin{aligned}
             x_{u} + x_{v} &\geq 1 \text{  for all } uv \in E(G)\\
             x_{v} &\in \{0, 1\}  \text{  for all } v \in V(G)
         \end{aligned}
     \]
-    Its relaxation is called Fractional Vertex Cover: 
-    We want to minimize $\sum_{v \in V}x_{v}$ subject to 
+    Its relaxation is called Fractional Vertex Cover:
+    We want to minimize $\sum_{v \in V}x_{v}$ subject to
     \[
         \begin{aligned}
             x_{u} + x_{v} &\geq 1 \text{  for all } uv \in E(G)\\
@@ -2397,7 +2397,7 @@ We can model this problem using linear Programming, let $x_{1}$ be the number of
 \section{Solving LP}
 \subsection{Definition}
 \begin{definition}[Standard form]
-    We want to maximize $\sum_{j = 1}^{n} c_{j}x_{j}$ subject to 
+    We want to maximize $\sum_{j = 1}^{n} c_{j}x_{j}$ subject to
     \[
         \begin{aligned}
             \sum_{j = 1}^{n}a_{ij}x_{j} &\leq b_{i}, \ \forall 1 \leq i \leq m\\
@@ -2414,14 +2414,14 @@ We can model this problem using linear Programming, let $x_{1}$ be the number of
 \subsection{Geometric Interpretation}
 The set of points $x \in \R^{n}$ at which a constraint holds with equality is a hyperplane. \\
 Thus, each constraint is satisfied by a closed half-space of $\R^{n}$, and the set of feasible solution is the intersection of $m$ closed half-spaces, that is, a convex polyhedron $P$. \\
-A linear program can have no optimal solution : 
+A linear program can have no optimal solution :
 \begin{itemize}
     \item if the set of feasible solution is empty
-    \item if for every integer $M$, there exists a feasible point $x$ such that $c \cdot x \geq M$. In this case the set of feasible solution is unbounded. 
+    \item if for every integer $M$, there exists a feasible point $x$ such that $c \cdot x \geq M$. In this case the set of feasible solution is unbounded.
 \end{itemize}
 \begin{proposition}
     Because the objective function is linear, the set $\{x \mid \transpose{C}x = t\}$ is a hyperplan for any $t \in \R$. For each $t$, this is called a level set of the objective function. \\
-    Thus, if the maximum is $z^{\star}$, it is a supporting hyperplane of the $P$. So $\{x \mid \transpose{C}x = z^{\star}\}$ contains an extreme point (or vertex) of $P$. 
+    Thus, if the maximum is $z^{\star}$, it is a supporting hyperplane of the $P$. So $\{x \mid \transpose{C}x = z^{\star}\}$ contains an extreme point (or vertex) of $P$.
 \end{proposition}
 
 \begin{definition}
@@ -2429,9 +2429,9 @@ A linear program can have no optimal solution :
 \end{definition}
 
 \subsection{Algorithm}
-We compute the coordinates of all the vertices of the polytope : 
+We compute the coordinates of all the vertices of the polytope :
 \begin{itemize}
-    \item There are $n$ variables and $m$ constraints. 
+    \item There are $n$ variables and $m$ constraints.
     \item A vertex of $P$ is a solution that satifies at least $n$ inequality constraints with equality.
 \end{itemize}
 \begin{algorithm}
@@ -2443,7 +2443,7 @@ We compute the coordinates of all the vertices of the polytope :
         \State Get the maximum value
     \end{algorithmic}
 \end{algorithm}
-This is a finite algorithm. 
+This is a finite algorithm.
 \subsection{Simplex Method}
 \begin{algorithm}
     \caption{Simplex Method}
@@ -2458,7 +2458,7 @@ This is a finite algorithm.
 
 \subsection{Equational Form}
 \begin{definition}
-    We want to maximize $\sum_{j = 1}^{n} c_{j}x_{j}$ subject to 
+    We want to maximize $\sum_{j = 1}^{n} c_{j}x_{j}$ subject to
     \[
         \begin{aligned}
             \sum_{j = 1}^{n}a_{ij}x_{j} &= b_{i}, \ \forall 1 \leq i \leq m\\
@@ -2479,8 +2479,7 @@ This is a finite algorithm.
     The simplex is very fast in practice and routinely solves linear programs. However, it is a bizarre mathematical fact that the worst-case running time of the simplex method is exponential in the input size. \\
 \end{proposition}
 \begin{proof}
-    The number of vertices of an hypercube is exponential in the dimension. A 'squashed' version of the hypercube can be used to force the simplex method to have exponential time by going through all the vertices. 
+    The number of vertices of an hypercube is exponential in the dimension. A 'squashed' version of the hypercube can be used to force the simplex method to have exponential time by going through all the vertices.
 \end{proof}
 
 \end{document}
-
