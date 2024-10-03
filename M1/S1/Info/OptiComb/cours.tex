@@ -5,7 +5,7 @@
 \begin{document}
 \bettertitle
 \section{Max-Flow (min-cut)}
-\subsection{Max-Flow}
+\subsection{Ford-Fulkerson}
 \begin{definition}
 	Soit $G = \left(V, E\right)$ un graphe orienté, $c: E \to \R^{+}$ une fonction de capacité et $s, t \in V$ deux sommets terminaux,
 	$f: E\to \R^{+}$ est un flot si:
@@ -61,6 +61,7 @@ On propose alors l'algorithme de Ford-Fulkerson, se basant sur des chemins augme
 \end{proof}
 Toutefois la complexité de cet algorithme dépend de la valeur du flot maximum, et celui-ci ne termine même pas pour des réels.
 
+\subsection{Push-Relabel}
 On va chercher un algorithme dont la complexité n'en dépend pas (dit fortement polynomial), ce qui nous amène à la notion de pré-flot:
 \begin{definition}
 	Soit $G = \left(V, E\right)$ un graphe orienté, $c: E \to \R^{+}$ une fonction de capacité et $s, t \in V$ deux sommets terminaux,
@@ -180,6 +181,7 @@ Pour essayer d'améliorer l'algorithme on propose la version suivante:
 Il est clair que l'algorithme reste correcte, toutefois, on change la complexité pour de $V^{2}E$ à $V^{3}$.
 On peut même encore améliorer la complexité pour obtenir $\O(V^{2}\sqrt{E})$, et même $\O(V^{1 + o(1)}\log(E))$
 
+\subsection{Edmonds-Karp}
 \begin{algorithm}
 	\caption{Edmonds-Karp}
 	\label{alg:edmondskarp}
@@ -236,8 +238,223 @@ Dans la suite, on note $f_{0}, f_{1},\cdots$ les flots obtenus de sorte que $f_{
 \end{proof}
 
 
-\begin{proof}[de la Complexité d'Edmonds-Karp]
+\begin{proof}[Démonstration de la Complexité d'Edmonds-Karp]
 	Chaque arête peut être utilisée au plus $\O(n)$, il y a donc au plus $nm$ itérations, et les itérations se font en temps $\O(m)$, ce qui est le résultat.
 \end{proof}
+
+\section{Couplage Maximal}
+\subsection{Théorème de K\H{o}nig}
+\begin{definition}
+	Etant donné un graphe $G = \left(V, E \right)$, $M \subseteq E$ est un couplage si et seulement si $\delta_{M}(v) \leq 1$ pour tout noeud $v$.\\
+	Un chemin $P$ est dit $M$-alternant s'il alterne entre une arête de $M$ et une arêtre de $E\setminus M$. \\
+	Un chemin $M$-alternant $P$ est dit $M$-augmentant s'il commence et termine par un noeud non couvert par $M$.
+	\label{def:matching}
+\end{definition}
+
+\begin{thm}
+	Un couplage $M$ est maximal si et seulement si il n'y a pas de chemin $M$-augmentant.
+\end{thm}
+\begin{proof}
+	\begin{itemize}
+		\item[$\Leftarrow$] S'il y a un chemin $M$-augmentant
+		\item[$\Rightarrow$] Supposons qu'il existe un $M^{*}$ avec $\abs{M^{*}} > \abs{M}$ est $M$ n'a pas de chemin augmentant.
+			$M^{*} \otimes M$ est un sous-graphe de $G$ avec degré dans $\{0, 1, 2\}$.
+			On a plusieurs possiblités pour ce graphe ($M^{*}$ est en rouge, $M$ en bleu).
+			\begin{category}
+				\cdot & & \cdot\arrow[color=red, r, no head] & \cdot\arrow[color=blue, d, no head]
+				& & \cdot\arrow[color=red, dr, no head] & & &\cdot\arrow[dr, color=blue, no head]
+				\\
+				\cdot & & \cdot\arrow[color=blue, u, no head] & \cdot\arrow[color=red, l, no head]
+				& & & \cdot\arrow[dl, color=blue, no head] & & & \cdot\arrow[dl, color=red, no head]
+				\\
+				& & \cdot\arrow[dr, color=red, no head] & & & \cdot\arrow[dr, color=red, no head] &  & &\cdot\arrow[dr, color=blue, no head]& \\
+				& & & \cdot & & & \cdot & & &\cdot\\
+			\end{category}
+			Toutefois, le quatrième type de graphe n'est pas possible puisque s'il y a plus de rouges que de bleus, on a un chemin augmentant pour $M$.
+			Alors en suivant le
+	\end{itemize}
+\end{proof}
+
+\begin{thm}
+	On peut trouver un couplage maximal en $\O(mn)$.
+\end{thm}
+\begin{proof}
+
+\end{proof}
+
+\begin{thm}[de K\H{o}nig]
+	Dans un graphe biparti $G = \left(A \sqcup B, E\right)$:
+	\begin{equation*}
+		\max_{couplage}\abs{M} = \min_{\text{\sc Vertex Cover}}\abs{C}
+	\end{equation*}
+\end{thm}
+
+Avant de prouver le théorème, une observation:
+\begin{proposition}[Dualité Faible]
+	Dans un graphe $G$ (non nécessairement biparti), on a:
+	\begin{equation*}
+		\abs{M} \leq \abs{C}
+	\end{equation*}
+	\label{prop:weakduality}
+\end{proposition}
+\begin{proof}
+	Puisque les arêtes de $M$ ne couvrent qu'au plus une fois chaque sommet, en particulier:
+	\begin{equation*}
+		\sum_{v \in C} 1 \geq \sum_{(u, v) \in M} \left(1 + 1\right) \geq \sum_{e \in M} 1
+	\end{equation*}
+\end{proof}
+
+\begin{proof}[Démonstration du Théorème de K\H{o}nig]
+	Soit $M$ un couplage maximal de $G$.
+	On pose $U$ l'ensemble des sommets non atteints par $M$ dans $A$ et $Z$ l'ensemble des sommets connecté par un chemin $M$ alternant aux sommets de $U$.
+	On pose $S = Z \cap X$ et $T = Z \cap Y$.
+	Alors, chaque sommet de $T$ est atteint par $M$ et $T$ est l'ensemble des voisins de $S$.
+	Posons $K  = \left( X \setminus S \right)\cup T$. Chaque arête de $G$ a une de ses extrémités dans $K$.
+	Donc $K$ est une couverture des sommets de $G$ et $\abs{M} = \abs{K}$ d'où le résultat.
+\end{proof}
+
+\subsection{Dualité et Programmation Linéaire}
+\begin{definition}
+	La programmation linéaire s'intéresse à la maximisiation de $\transpose{w}X$ en vérifiant $X\leq 0$ et $AX\leq b$ (problème de packing) ou à la minimisation de $b^{T}Y$ en vérifiant $\transpose{A}y \geq w$ avec $y \geq 0$ (problème de covering).
+	\label{def:linearprog}
+\end{definition}
+
+Quelques exemples:
+\begin{exemple}[Couplage Maximal comme Programmation Linéaire]
+	On cherche à maximiser $\sum_{e} X_{e}$ en ayant $\forall v \in A \cup B \sum_{e \in \delta(v)} X_{e} \leq 1$ et $\forall e \in E, X_{e} \geq 0$.
+	On a donc ici $A$ la matrice $(A_{v\in V, e\in E})$ d'incidence du graphe et $b$ et $w$ le vecteur Attila.
+	On essaye de mettre autant d'arêtes que possible (packing).
+
+	Ce problème peut donc aussi s'écrire comme la minimisation de $\sum_{v \in A\cup B} Y_{v}$ en ayant $Y_{u} + Y_{v} \geq 1 \forall e = (u, v) \in E$, $Y_{u} \geq 0 \forall u \in A\cup B$.
+	On essaye de mettre aussi peu d'arêtes que possible (covering).
+\end{exemple}
+
+\begin{proposition}
+	La dualité faible de la programmation linéaire est: $\forall x, y$ qui vérifie les contraintes, on a:
+	\begin{equation*}
+		\transpose{w}X \leq \transpose{b}Y
+	\end{equation*}
+	\label{prop:dualitylinearprog}
+\end{proposition}
+\begin{proof}
+	\begin{equation*}
+		\transpose{w}x \leq \left(\transpose{Y}A\right)X = \transpose{Y}\left(AX\right) \leq \transpose{Y}b= \transpose{b}Y
+	\end{equation*}
+\end{proof}
+
+Ceci redémontre la dualité faible pour les graphes.
+
+\begin{thm}[Dualité Forte]
+	Il existe $X^{*}, Y^{*}$ tels que $\transpose{w}X^{*} = \transpose{b}Y^{*}$.
+\end{thm}
+La dualité permet de faire les liens entre Max-Flow et Min-Cut ainsi qu'entre Max-Matching et Min-Vertex-Cover.
+
+\subsection{Couplage Pondéré}
+\begin{definition}
+	Soit un graphe $G = \left(A\cup B, E = A \times B\right)$ avec $\abs{A} = \abs{B}$ et une fonction de poids entière sur les arêtes, on dit que $\pi: A\cup B \to \N$ est une couverture si $\forall e \in E, \pi(a) + \pi(b) \geq w(e)$.
+	\label{def:cover}
+\end{definition}
+
+\begin{thm}[Egrevary]
+	On a:
+	\begin{equation*}
+		\max_{M \text{ couplage parfait}} w(M) = \min_{\pi \text{ couverture entière}} \sum_{v \in A\cup B} \pi(v)
+	\end{equation*}
+\end{thm}
+
+\begin{proposition}[Dualité Faible]
+	On a: $w(M) \leq \sum \pi(v)$.
+	\label{prop:weakduality2}
+\end{proposition}
+\begin{proof}
+	De même que précédemment en remplaçant par l'inégalité d'une couverture.
+\end{proof}
+
+\begin{proof}[Démonstration du Théorème d'Egevary]
+	Soit $\pi$ une couverture minimale.
+	Posons $G_{\pi} \subseteq G$ où une arête $e = (a, b)$ est dans $G_{\pi}$ si et seulement si $\pi(a) + \pi(b) = w(e)$.
+	C'est le sous-graphe des arêtes qu'on ne peut pas modifier.
+	Soit $M$ le couplage maximal dans $G_{\pi}$.
+	Si $\abs{M} = \abs{A} = \abs{B}$ alors on a fini puisqu'on a toujours égalité dans la preuve de la dualité faible.
+	Sinon, si $M$ n'est pas parfait, on définit $\pi'$ comme suit:
+	\begin{equation*}
+		\begin{cases}
+			\forall a \in A_{1} & \pi'(a) = \pi(a) - 1\\
+			\forall b \in B_{1} & \pi'(b) = \pi(b) + 1\\
+			\forall v \notin A_{1} \cup B_{1} & \pi'(v) = \pi(v)
+		\end{cases}
+	\end{equation*}
+	où $A_{1}$ est l'ensemble des sommets atteignables depuis un sommet non atteint pas $M$ passant par un chemin augmentant et $B_{1}$ est l'ensemble des sommets couplés à des sommets de $A_{1}$.
+	On définit également $B_{2}$ l'ensemble des sommets de $B$ atteignables depuis un sommet non atteint par $M$ en passant par un chemin $M$-augmentant, $A_{2}$ l'ensemble des sommets couplés à des sommets de $B_{2}$ et $A_{3}, B_{3}$ le reste de $A$ et $B$.
+	Puisque les arêtes qui ne sont pas dans $G_{\epsilon}$ vérifient $\pi(a) + \pi(b) \geq w\left( (a,b) \right) + 1$, on a toujours $\pi'(a) + \pi'(b) \geq w(e)$.
+	De plus, on a bien $\sum \pi' < \sum \pi$ et $\pi'$ couvre toutes les arêtes, mais $\pi'$ peut être négative.
+	Si $\pi'(a_{0}) = -1$, alors on définit $\pi''$ comme:
+	\begin{equation*}
+		\begin{cases}
+			\pi''(a) = \pi'(a) + 1 & \forall a \in A\\
+			\pi''(b) = \pi'(b) - 1 & \forall b \in B
+		\end{cases}
+	\end{equation*}
+	Ceci garantit que tous les $\pi''(a)$ sont non négatifs et que $\sum\pi'' = \sum\pi'$.
+	Par ailleurs les $\pi''(b)$ sont aussi non négatifs. En effet, si on arrive à celà, on a une arête d'un poids $0 \leq w(e) \leq -1 + 0$.
+	Donc $\pi''$ est une couverture plus petite que $\pi$.
+\end{proof}
+
+Ceci nous donne par ailleurs un algorithme pour calculer une couverture minimale/un couplage maximal.
+Toutefois, celui-ci effectue au plus $\abs{A}\max_{e} w(e) = \frac{nw}{2}$ itérations et est donc pseudo polynomial.
+Par ailleurs, cet algorithme ne termine pas nécessairement sur les réels.
+\medskip
+
+La version ci-dessous, appelée méthode hongroise, termine quant à elle sur les réels et est plus efficace:
+\begin{algorithm}
+	\caption{Méthode Hongroise (Kuhn 1957)}
+	\begin{algorithmic}
+		\State $M \gets \emptyset$, $\displaystyle\pi(a) \gets \max_{e \in \delta(a)} w(e)$ et $\pi(b) \gets 0$
+		\While {$M$ n'est pas parfait}
+			\State {Construire $G_{\pi}$.}
+			\State {Trouver le couplage maximal $M$ dans $G_{\pi}$ (par augmentation) et définir $A_{1}, A_{2}, A_{3}, B_{1}, B_{2}, B_{3}$}
+			\State{Poser $\displaystyle\Delta \gets \min_{a\in A_{1}, b\in B_{2} \cup B_{3}} \pi(a) + \pi(b) - w((a, b))$}
+			\State{$\pi(a) \gets \pi(a) - \Delta$ et $\pi(b) \gets \pi(b) + \Delta$}
+			\State{$\delta \gets \min_{a \in A}\pi(a)$.}
+			\If {$\delta < 0$}
+				\State {$\pi(a) \gets \pi(a) - \delta$ et $\pi(b) \gets \pi(b) + \delta$}
+			\EndIf
+		 \EndWhile
+	\end{algorithmic}
+\end{algorithm}
+
+\begin{thm}
+	Cette méthode termine et est demande un temps $\O(n^{2}nn)$.
+\end{thm}
+\begin{proof}
+	\begin{itemize}
+		\item La boucle prend un temps $\O(m)$ pour s'effectuer.
+		\item On peut l'effectuer au plus $n$ fois (lorsqu'$\abs{A_{1}}$ augmente) et $n$ fois lorsque $\abs{M}$ augmente.
+			Puisque ces deux effets peuvent se combiner, on a bien le résultat.
+	\end{itemize}
+\end{proof}
+
+\subsection{Relaxation et Optimalité}
+\begin{proposition}[Relaxation]
+	Étant donné un problème de programmation linéaire dual, $X^{*}$ et $Y^{*}$ sont tous les deux optimaux si et seulement si:
+	\begin{align*}
+		X_{i}^{*} \Longrightarrow \left(\transpose{A}Y^{*}\right)_{i} = W_{i}\\
+		Y_{j}^{*} \Longrightarrow \left(AX^{*}\right)_{j} = b_{j}
+	\end{align*}
+	\label{prop:relaxation}
+\end{proposition}
+\begin{proof}
+	On a:
+	\begin{equation*}
+		\transpose{W}X \leq \transpose{Y}AX \leq \transpose{Y}b
+	\end{equation*}
+	Il y a égalité si et seulement si les contraintes sont serrées.
+	D'où le résultat.
+\end{proof}
+
+On peut appliquer ceci aux problèmes de couplage maximal:
+Si une arête est utilisée ($X_{e} > 0$), alors $Y_{u} + Y_{v} = 1$ et donc elle est la seule à atteindre l'une de ses extrémités.
+
+On peut appliquer de même cela à Max-Flow Min-Cut
 
 \end{document}
