@@ -218,7 +218,7 @@ Cette catégorie jouera le rôle en théorie de la démonstration de l'algèbre 
 	Soit $\mathds{I}, \mathds{J}$ deux objets terminaux d'une même catégorie. Il existe un unique morphisme $f$ (resp. $g$) de $\mathds{I}$ (resp. $\mathds{J}$) vers $\mathds{J}$ (resp. $\mathds{I}$).
 	De même, il existe un unique morphisme $\id_{\mathds{J}}$ de $\mathds{J}$ vers lui-même.
 	Le diagramme ci-dessous commute donc:
-	\begin{category}[]
+	\begin{category}[/tikz/commutative diagrams/labels=description]
 		& \mathds{J} & \\
 		\mathds{J}\arrow{ur}{\id_{\mathds{J}}}\arrow{rr}{g} & & \mathds{I}\arrow{ul}{f}
 	\end{category}
@@ -226,13 +226,13 @@ Cette catégorie jouera le rôle en théorie de la démonstration de l'algèbre 
 	Puisque la situation est symétrique, $g\circ f= \id_{\mathds{I}}$ et donc deux objets terminaux sont isomorphes.
 	\medskip
 	Si on a deux produits cartésiens $A\times B, A\otimes B$ de deux objets $A, B$, alors:
-	\begin{category}[]
+	\begin{category}[labels=description]
 		A\times B\arrow[bend right]{ddr}{\pi_{A, 1}}\arrow{ddrr}{\pi_{B, 1}} & & & A\otimes B\arrow{ddll}{\pi_{A, 2}}\arrow[bend left]{ddl}{\pi_{B, 2}}\\
 		& & &\\
 		& A & B &
 	\end{category}
 	En particulier, par définition du produit cartésien, puisqu'il existe deux applications de $A\times B$ vers $A, B$, il existe une unique application $h_{1, 2}$ de $A\times B$ vers $A\otimes B$ telle que $\pi_{A, 2}\circ h_{1, 2} = \pi_{A, 1}$:
-	\begin{category}[]
+	\begin{category}[labels=description]
 		& A\times B\arrow[bend left]{ddr}{\pi_{B, 1}}\arrow[bend right]{ddl}{\pi_{A, 1}}\arrow[bend right, dotted]{d}{f}& \\
 				& A\otimes B\arrow[dotted, bend right]{u}{g}\arrow{dr}{\pi_{B, 2}}\arrow{dl}{\pi_{A, 2}} & \\
 		A & & B
@@ -241,7 +241,7 @@ Cette catégorie jouera le rôle en théorie de la démonstration de l'algèbre 
 	\begin{category}[]
 		& & A\\
 		& A & \\
-		A\times B\arrow{r}{f}\arrow[bend left]{ur}{\pi_{A, 1}}\arrow[bend left]{uurr}{\pi_{A, 1}}\arrow[bend right]{drr}{\pi_{B, 1}} & A \otimes B\arrow{u}{\pi_{A, 2}}\arrow{r}{g} & A\times B\arrow{uu}{\pi_{A, 1}}\arrow{d}{\pi_{B, 2}} \\
+		A\times B\arrow[r, "f"]\arrow[bend left=10, ur, "\pi_{A, 1}" description]\arrow[bend left=30, uurr, "\pi_{A, 1}" description]\arrow[bend right, drr, "\pi_{B, 1}" description] & A \otimes B\arrow[u, "\pi_{A, 2}" description]\arrow[r, "g" description] & A\times B\arrow[uu, "\pi_{A, 1}" description]\arrow[d, "\pi_{B, 2}" description] \\
 		& & B\\
 	\end{category}
 
@@ -250,7 +250,7 @@ Cette catégorie jouera le rôle en théorie de la démonstration de l'algèbre 
 		\item Les objets sont des triplets $\scalar{f, X, g}$:
 			\begin{category}[]
 				A &  & B\\
-				& X\arrow{ul}{f}\arrow{ur}{g} &
+				& X\arrow{ul}{f}\arrow[ur, "g" swap]&
 			\end{category}
 		\item Les flèches sont des $\scalar{f, X, g} \xrightarrow{h} \scalar{f', Y, g'}$:
 			\begin{category}[]
@@ -349,8 +349,8 @@ Supposons qu'on ait la situation suivante:
 où $\A, \B, \cont$ sont des catégories, $F, G: \A \to \B$ et $H: \B \to \cont$ sont des foncteurs et $\theta: F\rightarrow G$ est une transformation.
 
 \begin{definition}
-	La transformation $H \circ_{L} \theta: H\circ F \Rightarrow H\circ G$ est définie par $\left(H \circ \theta\right)_{A} = H\left(\theta_{A}\right): HFA \to HGA$
-	\label{def:actiontransfo}
+	La transformation (dite d'action à gauche) $H \circ_{L} \theta: H\circ F \Rightarrow H\circ G$ est définie par $\left(H \circ \theta\right)_{A} = H\left(\theta_{A}\right): HFA \to HGA$
+	\label{def:actiongauchetransfo}
 \end{definition}
 Autrement dit, une transformation est la donnée pour tout objet de la catégorie de départ d'une flèche dans la catégorie d'arrivée.
 
@@ -359,7 +359,7 @@ Autrement dit, une transformation est la donnée pour tout objet de la catégori
 	\begin{enumerate}
 		\item On a:
 			\begin{equation*}
-				H\circ_{L} \left(\psi \cdot \phi\right) = \left(H\circ_{L}\psi\right)\cdot \left(H\circ_{L}\psi\right)
+				H\circ_{L} \left(\psi \cdot \phi\right) = \left(H\circ_{L}\psi\right)\cdot \left(H\circ_{L}\phi\right)
 			\end{equation*}
 			et de même:
 			\begin{equation*}
@@ -408,10 +408,206 @@ Autrement dit, une transformation est la donnée pour tout objet de la catégori
 
 \subsubsection{Action à droite de Pré-Composition}
 On suppose qu'on à:
-\begin{category}
+\begin{category}[]
 	\A\arrow[r, "H"] & \B\arrow[bend left, rr, "G" name=U]\arrow[bend right, rr, "F"{swap, name=D}] & & \cont\uuarrow["\theta"]{D}{U}
-\end{category}<++>
+\end{category}
 
+Ceci permet de définir une transformation, dite d'action à droite:
+\begin{definition}
+	La transformation (d'action à droite) $\theta \circ_{R} H : F\circ H \Rightarrow G\circ H$ est définie par:
+	$\left(\theta\circ_{R} H \right)_{C \in \Obj\cont} = \theta_{HC}$.
+	\label{def:actiondroitetransfo}
+\end{definition}
+
+\begin{proposition}
+	$\circ_{H}$ définit un foncteur:
+	\begin{equation*}
+		\begin{array}[]{rcl}
+			\mathrm{Trans}\left(\A, \B\right) & \longrightarrow & \mathrm{Trans}\left(\A, \cont\right)\\
+			& & \\
+
+		\end{array}
+	\end{equation*}
+	Si on a:
+	\begin{category}[column sep=huge]
+		\cont\ar[r, "H"] & \A\arrow[r, bend left=50, "G" name=C]\arrow[r, "F" {description, name=B}]\arrow[r, bend right=50, "E" {swap, name=A}]\arrow[Rightarrow, to path={([yshift=.1cm]A.north) -- ([yshift=-.1cm]B.south)\tikztonodes}, "\theta_{1}"]\uuarrow["\theta_{2}"]{B}{C} & \B
+	\end{category}
+	Alors $\left(\theta_{2}\circ_{R} H \right) \cdot \left( \theta_{1}\circ_{R} H \right) = \left(\theta_{2}\cdot \theta_{1}\right)\circ_{R} H$
+	De même, on a:
+	\begin{equation*}
+		\id_{F}\circ_{R} H = \id_{F\circ H}
+	\end{equation*}
+	\label{prop:actiondroiteequations}
+\end{proposition}
+
+\begin{proposition}
+	Les actions à gauche et à droite sont compatibles au sens où:
+	\begin{category}[]
+		\A' \ar[r, "H_{\A'}"] & \A\ar[r, bend left, "G" name=B]\ar[r, bend right, "F" {swap, name=A}]\uuarrow["\theta"]{A}{B} & \B\ar[r, "H_{B}"] & \B'
+	\end{category}
+	En particulier:
+	\begin{equation*}
+		\left(H_{\B} \circ_{L}\theta \right)\circ_{R} H_{\A} = H_{\B}\circ_{L}\left(\theta \circ_{R} H_{\A} \right)
+	\end{equation*}
+	cette transformation étant définie en $A'\in \mathrm{Obj}\A'$ par:
+	\begin{equation*}
+		H_{\B}\left(\theta_{H_{\A}A'}\right): H_{\B} FH_{\A}A'\to H_{\B}GH_{\A}A'
+	\end{equation*}
+	Ces équations assurent que tout diagramme de la forme:/
+	\begin{category}[]
+		\A'''\ar[r] & \A''\ar[r]  &\A' \ar[r, "H_{\A'}"] & \A\ar[r, bend left, "G" name=B]\ar[r, bend right, "F" {swap, name=A}]\uuarrow["\theta"]{A}{B} & \B\ar[r, "H_{B}"] & \B'\ar[r] & \B''\ar[r] & \B'''
+	\end{category}
+	définit une transformation de manière unique.
+	\label{prop:moustache}
+\end{proposition}
+
+\begin{proposition}
+	Toutefois, si on se donne deux transformations:
+	\begin{category}[]
+		\A\ar[r, bend left=50, "G_{1}" name=B1]\ar[r, bend right=50, "F_{1}" {swap, name=A1}]\uuarrow["\theta_{1}"]{A1}{B1} & \B\ar[r, bend left=50, "G_{2}" name=B2]\ar[r, bend right=50, "F_{2}" {swap, name=A2}]\uuarrow["\theta_{2}"]{A2}{B2} & \cont
+	\end{category}
+	on a deux manières de composer, qui donnent en général des transformations différentes.
+	\begin{category}[arrows=Rightarrow]
+		G_{2} \circ G_{1} & & G_{2} \circ G_{1}\\
+		F_{2} \circ G_{1}\arrow[u, "\theta_{2} \circ_{R} G_{1}"] & & G_{2}\circ F_{1}\arrow[u, "G_{2}\circ_{L} \theta_{1}"]\\
+		F_{2}\circ F_{1} \arrow[u, "F_{2}\circ_{L}\theta_{1}"] & & F_{2}\circ F_{2} \arrow[u, "\theta_{2}\circ_{R} F_{1}"]
+	\end{category}
+	\label{prop:bimoustache}
+\end{proposition}
+\begin{proof}
+	On considère les catégories $\A = \term$ à un élément, $\B$ définie par:
+	\begin{category}
+		1 \\ 0\arrow[u]
+	\end{category}
+	et $\cont$ définie par le diagramme non commutatif suivant:
+	\begin{category}
+		b\arrow[r, "g'"] & d\\
+		a\arrow[u, "g"]\arrow[ur, phantom, "\neq"]\arrow[r, "f"'] & c\arrow[u, "f'"']
+	\end{category}
+	On considère alors le diagramme suivant:
+	\begin{category}[]
+		& 1\arrow[rr, bend left, "G_{2}" name=B2] & & b\arrow[r, "g'"] & d\\
+		\mathds{1}\arrow[ur, bend left, "G_{1}" {description, name=B1}]\arrow[dr, bend right, "F_{1}" {description, name=A1}]\uuarrow["\theta_{1}"']{A1}{B1} & & & & \\
+		& 0\arrow[uu, "j"]\arrow[rr, bend right, "F_{2}" {name=A2, swap}]\uuarrow["\theta_{2}"]{A2}{B2} & & a\arrow[uu, "g"]\arrow[r, "f"'] & c\arrow[uu, "f'"']\\
+		\A & \B & & \cont
+	\end{category}
+	On pose:
+	\begin{align*}
+		\theta_{1}(\mathds{1}) = j\\
+		F_{2}(0) = a, G_{2}(0) = c\\
+		F_{2}(j) = g, G_{2}(j) = f'\\
+		\theta_{2}(0) = f, \theta_{2}(1) = g'\\
+	\end{align*}
+\end{proof}
+
+Les propriétés et équations des actions définissent une sesquicatégorie des catégories, foncteurs et transformations.
+
+\begin{definition}
+	Une transformation $\theta: F\Rightarrow G$ est dite naturelle lorsque le diagramme suivant commute:
+	\begin{category}
+		GA\arrow[r, "Gf"] & GA'\\
+		FA\arrow[u, "\theta_{A}"]\arrow[r, "Ff"'] & FA'\arrow[u, "\theta_{A'}"']
+	\end{category}
+	pour toute flèche $f$ de la catégorie $\A$.
+	\label{def:transformationnaturelle}
+\end{definition}
+
+\begin{definition}[Catégorie des Transformations Naturelles]
+	La transformation $\id_{F}$ est naturelle:
+	\begin{equation*}
+		\id_{F} : F \Rightarrow F, \left(\id_{F}\right) = \id_{FA}
+	\end{equation*}
+	On note $\mathrm{Nat}(\A, \B)$ la catégorie dont les objets sont les foncteurs $F: \A \to \B$ et dont les flèches sont les transforamtions naturelles.
+	\label{prop:categorietransnat}
+\end{definition}
+
+\begin{proposition}
+	La composée verticale de deux transformations naturelles est une transformation naturelle:
+	\begin{category}[column sep=large]
+		\A\arrow[r, bend left=75, "H" name=C]\arrow[r, "G" {description, name=B}]\arrow[r, bend right=75, "F" {swap, name=A}]\arrow[Rightarrow, to path={([yshift=.1cm]A.north) -- ([yshift=-.1cm]B.south)\tikztonodes}, "\psi"]\uuarrow["\phi"]{B}{C} & \B
+	\end{category}
+	\label{prop:compositionnaturelle}
+\end{proposition}
+\begin{proof}
+	Le diagramme suivant commute:
+	\begin{category}
+		HA\ar[r, "Hf"] & HA'\\
+		GA\ar[u, "\psi_{A}"]\ar[r, "Gf"] & GA'\ar[u, "\psi_{A'}"']\\
+		FA\ar[u, "\phi_{A}"]\ar[r, "Ff"] & FA'\ar[u, "\phi_{A'}"']
+	\end{category}
+\end{proof}
+
+\begin{proposition}
+	Les actions à gauche et à droite d'un foncteur préservent la naturalité des transformations.
+	\label{prop:actionetnaturalité}
+\end{proposition}
+\begin{proof}
+	Tout foncteur $H : \B \to \B'$ définit un foncteur
+	\begin{equation*}
+		H\circ_{L}: \mathrm{Nat}(\A, \B) \to \mathrm{Nat}(\A, \B')
+	\end{equation*}
+	Tout foncteur $H: \A'\to \A$ définit un foncteur
+	\begin{equation*}
+		\circ_{R} H: \mathrm{Nat}(\A, \B) \to \mathrm{Nat}(\A', \B)
+	\end{equation*}
+\end{proof}
+
+\begin{proposition}
+	Si $\theta_{1}, \theta_{2}$ sont des transformations naturelles:
+	\begin{category}[]
+		\A\ar[r, bend left=50, "G_{1}" name=B1]\ar[r, bend right=50, "F_{1}" {swap, name=A1}]\uuarrow["\theta_{1}"]{A1}{B1} & \B\ar[r, bend left=50, "G_{2}" name=B2]\ar[r, bend right=50, "F_{2}" {swap, name=A2}]\uuarrow["\theta_{2}"]{A2}{B2} & \cont & & "Higher pasting diagram"
+	\end{category}
+	alors les transformations naturelles "$\theta_{1}$ puis $\theta_{2}$" et "$\theta_{2}$ puis $\theta_{1}$" coïncident.
+	\label{prop:bimoustachenaturelle}
+\end{proposition}
+
+\begin{vocabulary}
+	$\theta_{2} \circ \theta_{1}$ désigne la transformation naturelle obtenue de la composition horizontale de
+	transformations naturelles
+\end{vocabulary}
+
+\begin{definition}
+	Une $2$-catégoprie est une sesquicatégorie où la loi \ref{prop:bimoustachenaturelle} est satisfaite.
+	\label{def:2catégorie}
+\end{definition}
+
+\begin{thm}
+	Les catégories, foncteurs et tranformations naturelles définissent une $2$-catégorie.
+\end{thm}
+
+\begin{exemple}
+	On réétudie la catégorie $\mathbb{G}$:
+	\begin{category}[]
+		1\arrow[loop left, "\id_{1}"]\arrow[dd, shift left,"s"]\arrow[dd, shift right,"t" swap] & & \\
+		& \mathbb{G} \arrow[r, bend left=20, "G" name=B]\arrow[r, bend right=20, "F"' name=A] \uuarrow["\theta"]{A}{B}& \mathrm{Set}\\
+		0\arrow[loop left, "\id_{0}"] & &
+	\end{category}
+	Ici, $F$ et $G$ définissent deux graphes $\scalar{F}$ et $\scalar{G}$.
+	\begin{category}
+		\text{L'ensemble des sommets de $\scalar{F}$ } FV \ar[r, "\theta_{V}"] & GV \text{ L'ensemble des sommets de } \scalar{G} \\
+		\text{L'ensemble des arêtes de $\scalar{F}$ } FE \ar[r, "\theta_{E}"] & GE \text{ L'ensemble des arêtes de } \scalar{G}
+	\end{category}
+	Une transformation $\theta \in \mathrm{Trans}\left(\mathbb{G}, \mathrm{Set}\right)$ définit deux fonctions.
+	\begin{proposition}
+		Un homomorphisme de graphe:
+		\begin{equation*}
+			\scalar{F} \to \scalar{G}
+		\end{equation*}
+		est la même chose qu'une transformation naturelle:
+		\begin{equation*}
+			\theta: F \Rightarrow G
+		\end{equation*}
+		\label{prop:homographenaturel}
+	\end{proposition}
+	\begin{proof}
+		On a deux diagrammes:
+		\begin{category}
+			FE\ar[d, "Fs"]\ar[r, "\theta_{E}"]\ar[dr, phantom, "1"] & GE\ar[d, "Gs"] & & FE\ar[r, "\theta_{E}"]\ar[d, "Ft"]\ar[dr, phantom, "2"] & GE\ar[d, "Gt"]\\
+			FV\ar[r, "\theta_{V}"] & GV & & FV\ar[r, "\theta_{V}"] & GV
+		\end{category}
+		Le fait que $1$ et $2$ commutent signifie que \textit{l'image de la source est la source de l'image}.
+	\end{proof}
+\end{exemple}
 
 \section{TD 1}
 \subsection{Catégories et Foncteurs}
@@ -499,8 +695,101 @@ On suppose qu'on à:
 		La projection est alors similaire à celle de $\mathrm{Set}$.
 	\item[Question 13] De la même manière que précédemment, en considérant des couples de morphisme du produit cartésien de l'origine dans le produit cartésien de l'image.
 		On a le résultat par propriété fondamentale.
-	\item[Question 14]
 \end{description}
 
+
+
+\section{TD 2}
+\subsection{Produits Fibrés}
+\begin{definition}
+	Un diagramme commutatif dans $\cont$:
+	\begin{category}[]
+		P\ar[r, "p_{2}"]\ar[d, "p_{1}"]\ar[dr, phantom, "(*)"] & Y\ar[d, "g"]\\
+		X\ar[r, "f"] & Z
+	\end{category}
+	est un pullback, tiré en arrière ou produit fibré de $X$ et $Y$ au dessus de $Z$ quand pour tout diagramme commutatif:
+	\begin{category}
+		Q\arrow["q_{2}", bend left, drr]\arrow["q_{1}"', bend right, ddr] & & \\
+	& & Y\arrow["g", d]\\
+	& X\arrow["f"', r] & Z
+	\end{category}
+	il existe un unique morphisme $h: Q \to P$ tel que le diagramme ci-dessous commute:
+	\begin{category}[]
+		Q\arrow["q_{2}", bend left, drr]\arrow[dr, dashed, "h"]\arrow["q_{1}"', bend right, ddr] & & \\
+		& P\ar[r, "p_{2}"]\ar[d, "p_{1}"] & Y\arrow["g", d]\\
+	& X\arrow["f"', r] & Z
+	\end{category}
+	\label{def:pullback}
+\end{definition}
+
+\begin{description}
+	\item[Question 1] On propose pour $P$ l'ensemble des couples $(x, y)$ dont les composantes sont dans les mêmes fibres, i.e., $P = \left\{(x, y) \in \hat{X} \times \hat{Y} \mid f(x) = g(y) \right\}$ où $\hat{X}$ est un système de représentants des classes d'équivalence définies par les fibres de $X$ sous $f$
+		Les projections sont alors les projections sur la première et la deuxième composante.
+
+		On a donc une unique définition du morphisme $h$ en considérant si $q \in Q$, $h(q) \in f^{-1}(f(q_{1}(q)))\cap \hat{X} \times g^{-1}(g(q_{2}(q))) \cap \hat{Y}$
+	\item[Question 2 et 3] Ajouter un morphisme $Q \to Y''$ crée un diagramme commutatif avec les bords bas et droit de $(c)$.
+		Le carré au dessus de $(a)$ ainsi créé a un morphisme vers $Y'$ qui, puisque $Y'$ est un pullback pour $Y$ et $X'$ au dessus de $X$, créé un diagramme carré commutant au dessus de $X'' \to X' \to X$ et $Y \to X$.
+		\begin{category}
+			Q\ar[dr, dashed, shift left, "h"]\ar[dashed, color=blue, "h''"', dr, shift right] \ar[color=vulm, "a", drrr, bend left]\ar[ddr, bend right=30, "b"']\ar[ddrr, bend right=100, color=vulm, "f'\circ b"']\arrow[drr, bend left=15, "h'", color=vulm] & & &\\
+			& Y''\ar[d, "g''"', color=blue]\ar[r, "p'", color=blue] & Y'\ar[r, "p", color=vulm]\ar[shift right, color=blue, d]\ar[d, shift left, color=vulm, "g'"] & Y\ar[d, "g"', color=vulm]\\
+			& X''\ar[r, "f'"', color=blue] & X'\ar[r, "f"', color=vulm] & X
+		\end{category}
+		Finalement, le carré de gauche est un pullback si et seulement si le grand carré est un pullback.
+	\item[Question 4]
+		On considère l'ensemble $X = \{1\}$ et l'ensemble $Y = \{1, 2\}$ ainsi que les fonctions $i: 1 \in X \mapsto 1\in Y$ et $p: y \in Y \mapsto 1\in X$.
+		Alors:
+		\begin{category}
+			X\arrow[r, "\id"]\arrow[d, "\id"] & X\arrow[r, "\id"]\arrow[d, "i"] & X\arrow[d, "\id"]\\
+			X\arrow[r, "i"] & Y\arrow[r, "p"] & X
+		\end{category}
+		et donc on a le résultat.
+\end{description}
+
+\subsection{Monomorphismes et Épimorphismes}
+\begin{description}
+	\item[Question 1] Trivial, je le ferai faire à un sup en khôlle.
+	\item[Question 2] Trivial, je le ferai faire à un autre sup en khôlle.
+	\item[Question 3] Si on a:
+		\begin{align*}
+			\forall a, b: X\to A, f\circ a = f\circ b \Rightarrow a = b\\
+			\forall a, b: X\to B, g\circ a = g\circ b \Rightarrow a = b
+		\end{align*}
+		En particulier, pour tous $a, b : X\to A$:
+		\begin{equation*}
+			\begin{aligned}
+				g\circ f \circ a = g\circ f \circ b  \Longrightarrow & g \circ (f\circ a) = g\circ (f\circ b)\\
+				\text{(Par propriété de $g$) } \Longrightarrow & f\circ a = f\circ b \\
+				\text{(Par propriété de $f$) } \Longrightarrow & a = b
+			\end{aligned}
+		\end{equation*}
+		On procède de même pour les épimorphismes.
+	\item[Question 4] Si $m$ est un mono, le résultat est clair puisqu'alors toutes les flèches telles que $m\circ q_{1} = m\circ q_{2} = m\circ \id \circ h$ induisent $q_{1} = q_{2} = \id \circ h = h$.\\
+		Réciproquement, si on a le diagramme suivant:
+		\begin{category}[]
+			Q\arrow["q_{2}", bend left, drr]\arrow[dr, dashed, "h"]\arrow["q_{1}"', bend right, ddr] & & \\
+			& A\ar[r, "\id"]\ar[d, "\id"] & A\arrow["m", d]\\
+			& A\arrow["m"', r] & B
+		\end{category}
+		en particulier, $h = q_{1}$ et $h = q_{2}$ conviennent, donc $q_{1} = q_{2}$ par unicité de $h$.
+		Comme de plus, puisque le diagramme
+		\begin{category}[]
+						A\ar[r, "\id"]\ar[d, "\id"] & A\arrow["m", d]\\
+			A\arrow["m"', r] & B
+
+		\end{category}
+		est un pullback, on a le diagramme précédent dès que $m \circ q_{2} = m \circ q_{1}$ et donc $m$ est un mono.
+	\item[Question 5] Si on a le pullback suivant, on suppose que $m$ est un monomorphisme:
+		\begin{category}
+			V\ar[r, "p"]\ar[d, "m'"'] & U\arrow["m", d]\\
+			B\arrow["f"', r] & A
+		\end{category}
+		Soit $Q$ un objet et $h, h': Q \to V$ telles que $m'\circ h = m'\circ h'$.
+		\begin{category}
+			Q\arrow[dr, dashed, "h", "h'" swap] & & \\
+			& V\ar[r, "p"]\ar[d, "m'"'] & U\arrow["m", d]\\
+			& B\arrow["f"', r] & A
+		\end{category}
+		En posant $q_{2} = p\circ h$,
+\end{description}
 
 \end{document}

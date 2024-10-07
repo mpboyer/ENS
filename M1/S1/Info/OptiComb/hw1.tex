@@ -1,0 +1,51 @@
+\documentclass[math]{cours}
+\title{Homework 1}
+\author{Matthieu Boyer}
+
+\begin{document}
+\maketitle
+\section{Question 1}
+\subsection{Question 1(a)}
+Initially, we have $d^{*} = 0$.
+Moreover, we always have $d^{*} \geq 0$ and an increase of $d^{*}$ is caused by a relabeling.
+Thus, $d^{*}$ can only increase $2n^{2}$ times (the maximum number of relabelings) and decrease as many times.\\
+$\boxed{\text{There are thus at most } 4n^{2} \text{ phases.}}$
+
+\subsection{Question 1(b)}
+\begin{itemize}
+	\item Relabeling $v$ causes $\bar{d}(v)$ to increase but cannot cause $\bar{d}(w)$ to increase if $w \neq v$.\\
+		\boxed{\text{Thus, relabeling a node increases $\Phi$ by at most $\frac{n}{K}$.}}
+	\item A saturating push creates at most one new active node.\\
+		\boxed{\text{Thus, a saturating push increases $\Phi$ by at most $\frac{n}{K}$.}}
+	\item A nonsaturating push across the edge $(u, v)$ deactivates node $u$ and might activate node $v$.
+		Then we have $\bar{d}(v) \leq \bar{d}(u)$, and hence a nonsaturating push does not increase $\Phi$.\\
+		\medskip
+		During heavy phases, we execute $\rho > K$ nonsaturating pushes.
+		Since $d^{*}$ is constant during the phase, all $\rho$ nonsaturating pushes must be from nodes at level $d^{*}$.\\
+		Indeed, we choose nodes from the highest level, thus $d^{*}$.\\
+		The phase terminates either when all nodes in level $d^{*}$ are deactivated or when relabeling moves a node to level $d^{*} + 1$.\\
+		Level $d^{*}$ thus contains $\rho > K$ nodes (either active or inactive) throughout the phase.\\
+		Hence, each nonsaturating push decreases $\Phi$ by at least one, since $\bar{d}(v) \leq \bar{d}(u) - 1$ for $(u, v)$ with $\abs{\left\{w\mid d(w) = d(u)\right\}} \geq K$.\\
+		Finally, a heavy phase of non saturating push will decrease $\Phi$ by at least $\rho > K$.\\
+		\smallskip
+
+		For light phases, the bound is easier: the number of nonsaturating pushes is bounded $K$.
+\end{itemize}
+
+\subsection{Question 1(c)}
+The total increase of $\Phi$ is bounded by $\frac{(2n^{2} + 2nm)n}{K}$ and so the total decrease cannot be more than that (since $\Phi \geq 0$).
+Therefore, the number of nonsaturating push cannot be more than $\frac{2n^{3} + 2n^{2}m}{K}$.
+The number of non saturating pushes in both phases, is then bounded by:
+\begin{equation*}
+	\frac{2n^{3} + 2n^{2}m}{K} + 4n^{2}K
+\end{equation*}
+since $4n^{2}$ is the number of phases (and thus more than the number of light phases).
+
+Finally, since $n = \O(m)$ (the graph being connex $m \geq n - 1$ and $n \leq m + 1$), taking $K = \sqrt{m}$ we get a complexity in $\O(n^{2}\sqrt{m})$.
+
+\hrule
+
+\section{Question 2}
+We have:
+
+\end{document}
