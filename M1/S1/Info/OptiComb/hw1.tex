@@ -46,6 +46,23 @@ Finally, since $n = \O(m)$ (the graph being connex $m \geq n - 1$ and $n \leq m 
 \hrule
 
 \section{Question 2}
-We have:
+We will use Ford-Fulkerson's theorem on an appropriate graph to prove this property.
+Let us write $U = \left\{a_{1}, \ldots, a_{n} \right\}$.
+We define a set of vertices $V$ by:
+\begin{equation*}
+	V = \left\{s, \bar{S_{1}}, \ldots, \bar{S_{k}}, \bar{a_{1}}, \ldots, \bar{a_{n}}, \tilde{a_{1}}, \ldots \tilde{a_{n}}, \bar{T_{1}}, \ldots, \bar{T_{n}}, t\right\}
+\end{equation*}
+Then, we add arcs with a capacity function:
+\begin{itemize}
+	\item An arc $(s, \bar{S_{i}})$ with capacity $1$ for each $j \in \onen{k}$.
+	\item An arc $(s, \tilde{a_{i}})$ with capacity $0$ for each $i \in \onen{n}$.
+	\item An arc $(\bar{S_{j}}, \bar{a_{i}})$ with infinite capacity for $i, j$ such that $a_{i} \in S_{j}$.
+	\item An arc $(\bar{a_{i}}, \tilde{a_{i}})$ with capacity $1$ for each $i \in \onen{n}$.
+	\item An arc $(\bar{a_{i}}, t)$ with capacity $0$ for each $i \in \onen{n}$.
+	\item An arc $(\tilde{a_{i}}, \bar{T_{j}})$ with infinite capacity for $i, j$ such that $a_{i} \in T_{j}$.
+	\item An arc $(\bar{T_{j}}, t)$ with capacity $1$ for each $j\in \onen{k}$.
+\end{itemize}
+
+See pages 134+ in flows in networks
 
 \end{document}
