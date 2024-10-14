@@ -2,6 +2,11 @@
 \title{Homework 1}
 \author{Matthieu Boyer}
 
+\def\bR{\bar{R}}
+\def\tR{\tilde{R}}
+\def\Ac{A^{\complement}}
+\def\oc{\mathrm{oc}}
+
 \begin{document}
 \maketitle
 \section{Question 1}
@@ -52,17 +57,123 @@ We define a set of vertices $V$ by:
 \begin{equation*}
 	V = \left\{s, \bar{S_{1}}, \ldots, \bar{S_{k}}, \bar{a_{1}}, \ldots, \bar{a_{n}}, \tilde{a_{1}}, \ldots \tilde{a_{n}}, \bar{T_{1}}, \ldots, \bar{T_{n}}, t\right\}
 \end{equation*}
-Then, we add arcs with a capacity function:
+That is, we have $4$ families of vertices that we will connect:
+\begin{enumerate}
+	\item $\mS = \left\{\bar{S_{j}} \forall j \leq k \right\}$
+	\item $\bR = \left\{\bar{a_{i}} \forall i \leq n \right\}$
+	\item $\tR = \left\{\tilde{a_{i}}\forall i \leq n \right\}$
+	\item $\mT = \left\{\bar{T_{j}}\forall j \leq k \right\}$
+\end{enumerate}
+Then, we add edges with a capacity function $c: E \to \R^{+} \cup \{+\infty\}$ and a minimum flow function $l: E \to \R^{+}$:
 \begin{itemize}
-	\item An arc $(s, \bar{S_{i}})$ with capacity $1$ for each $j \in \onen{k}$.
-	\item An arc $(s, \tilde{a_{i}})$ with capacity $0$ for each $i \in \onen{n}$.
-	\item An arc $(\bar{S_{j}}, \bar{a_{i}})$ with infinite capacity for $i, j$ such that $a_{i} \in S_{j}$.
-	\item An arc $(\bar{a_{i}}, \tilde{a_{i}})$ with capacity $1$ for each $i \in \onen{n}$.
-	\item An arc $(\bar{a_{i}}, t)$ with capacity $0$ for each $i \in \onen{n}$.
-	\item An arc $(\tilde{a_{i}}, \bar{T_{j}})$ with infinite capacity for $i, j$ such that $a_{i} \in T_{j}$.
-	\item An arc $(\bar{T_{j}}, t)$ with capacity $1$ for each $j\in \onen{k}$.
+	\item An edge $(s, \bar{S_{i}})$ with capacity $1$ for each $j \in \onen{k}$.
+	\item An edge $(s, \tilde{a_{i}})$ with capacity $0$ for each $i \in \onen{n}$.
+	\item An edge $(\bar{S_{j}}, \bar{a_{i}})$ with infinite capacity for $i, j$ such that $a_{i} \in S_{j}$.
+	\item An edge $(\bar{a_{i}}, \tilde{a_{i}})$ with capacity $1$ for each $i \in \onen{n}$.
+	\item An edge $(\bar{a_{i}}, t)$ with capacity $0$ for each $i \in \onen{n}$.
+	\item An edge $(\tilde{a_{i}}, \bar{T_{j}})$ with infinite capacity for $i, j$ such that $a_{i} \in T_{j}$.
+	\item An edge $(\bar{T_{j}}, t)$ with capacity $1$ for each $j\in \onen{k}$.
+	\item An edge $(s, t)$ with infinite capacity and an edge $(t, s)$ with minimum flow $k$ and infinite capacity.
 \end{itemize}
+Then having a feasible flow on this graph is equivalent to having a common SDR for $S$ and $T$,
+	since necessarily we have $1$ flow going in each $S_{i}$ (from the fact that $\sum_{v \in \delta^{-}(s)} f(v, s) = f(t, s) \geq c(t, s) \geq k$)
+	and thus need to choose an edge from $S_{i}$ to a certain $\bar{a_{j}}$ (such that $a_{j} \in S_{i}$)
+	and that means $\tilde{a_{j}}$ leaves its flow to a $T_{l}$ such that $a_{j} \in T_{l}$.
 
-See pages 134+ in flows in networks
+Then, by Ford-Fulkerson's max-flow-min-cut theorem, this is possible if and only if, for all subset $A$ of the vertices, we have the following inequality:
+\begin{equation}
+	c(A, \Ac) = \sum_{e \in E \cap \left(A\times \Ac\right)} c(e) \geq
+	\sum_{e \in E \cap \left(\Ac\times A \right)}l(e) = l(\Ac, A)
+	\label{eqfordfulkerson}
+\end{equation}
+
+Here, we have multiple cases to more easily find a closed form for this inequality from the capacity and minimal flows:
+\begin{enumerate}
+	\item Either both $s$ and $t$ are in $A$ and then:
+		\begin{align*}
+			c(A, \Ac) = c\left(s, \mS\cap \Ac \right) + c\left(\mS\cap A, \bR\cap \Ac\right) + c\left(\bR\cap A, \tR \cap \Ac \right) + c\left(\tR\cap A, \mT \cap \Ac\right)\\
+			l\left( \Ac, A \right) = l\left(\bR\cap \Ac, \tR\cap A \right) = 0
+		\end{align*}
+	\item Either both $s$ and $t$ are in $\Ac$ and then:
+		\begin{align*}
+			c\left(A, \Ac\right) = c\left(\mS \cap A,  \bR \cap \Ac\right) + c\left(\bR \cap A, \tR\cap \Ac \right) + c\left(\tR\cap A, \mT \cap \Ac \right) + c(\mT\cap A, t)\\
+			l\left(\Ac, A \right) = l\left(\bR \cap \Ac, \tR\cap A \right) = 0
+		\end{align*}
+		Both of these cases are symmetrical.
+	\item If $s \in \Ac, t\in A$ then $c(A, \Ac) \geq c(t, s) = \infty$ so the inequality is always verified.
+	\item Finally, if $s \in A$ and $t \in \Ac$, we have:
+		\begin{align*}
+			c\left(A, \Ac \right) = c\left(s, \mS \cap \Ac \right) + c\left(\mS \cap A, \bR \cap \Ac \right) + c\left(\bR \cap A, \tR \cap \Ac \right) + c\left(\tR\cap A, \mT \cap \Ac\right) + c\left(\mT\cap A, t \right)\\
+			l\left(\Ac, A \right) = l\left( \bR\cap \Ac, \tR\cap \A \right) + k = k
+		\end{align*}
+\end{enumerate}
+However, the inequalities of the first two case are less strong than the equality of the last case since:
+\begin{align*}
+	c\left(\mT\cap A, t \right) = \abs{\mT \cap A} \leq k\\
+	c\left(s, \mS\cap \Ac \right) = \abs{\mS\cap \Ac} \leq k
+\end{align*}
+Therefore, the inequality \ref{eqfordfulkerson} reduces to:
+\begin{align*}
+	\abs{\mS \cap \Ac} + c\left(\mS\cap A, \bR\cap \Ac \right) + c\left(\bR\cap A, \tR\cap \Ac \right) + c\left( \tR\cap A, \mT\cap \Ac \right) + \abs{\mT \cap A} \geq k\\
+	\abs{\mT \cap \Ac} + \abs{\mS\cap A} \leq k + c\left(\mS \cap A, \bR\cap\Ac \right) + c\left(\bR \cap A, \tR\cap \Ac \right) + c\left(\tR\cap A, \mT\cap\Ac \right)
+\end{align*}
+So there is a feasible flow if the above inequality stands for all $A \subseteq V$.
+This inequality is always true if either $\left(\mS\cap A, \bR\cap \Ac \right)$ or $\left(\tR\cap A, \mT\cap \Ac \right)$ is not empty.
+If this is not true, then we know the outgoing edges of any node in $\mS \cap A$ go to nodes in $\bR \cap A$ and that all ingoing edges to nodes in $\mT\cap \Ac$ come from nodes in $\tR\cap\Ac$.
+We then see that the right side is at its lowest point when taking $\bR \cap A = \delta^{+}\left(\mS \cap A\right)$ and $\tR\cap \Ac = \delta^{-}\left( \mT\cap \Ac \right)$.
+Then, we get:
+\begin{equation*}
+	\abs{\mS \cap A} + \abs{\mT\cap \Ac} \leq n + c\left(\delta^{+}\left(\mS\cap A \right), \delta^{-}\left( \mT\cap B \right) \right)
+\end{equation*}
+This being true for all $A \subseteq V$, we can replace $\mS\cap A$ for any subset $X$ of $\mS$ or even $X \subseteq \onen{k}$, and similarly we replace $\mT\cap \Ac$ by any subset $Y$ of $\onen{k}$.
+Then, the equation becomes:
+\begin{equation*}
+	\abs{X} + \abs{Y} \leq k + \sum_{I\left(X\right) \cap I\left(Y\right)} 1
+\end{equation*}
+which is exactly the result:
+\begin{thm}
+There is a common set of distinct representatives for $S = \left\{S_{1}, \ldots, S_{k} \right\}$ and $T = \left\{T_{1}, \ldots, T_{k} \right\}$ over a same ground set $U$ if and only if, for every $X, Y \subseteq \onen{k}$ the following inequality is verified:
+\begin{equation*}
+	\abs{X} + \abs{Y} \leq k + \abs{I\left(X\right) \cap I\left(Y\right)}
+\end{equation*}
+\end{thm}
+
+\section{Question 4}
+First, we remind the Tutte-Berge's minimax formula on a network $\mathcal{G} = \left(V, E\right)$ in the formulation we will be using:
+\begin{equation}
+	\max_{M \text{ matching}} \abs{M} = \frac{1}{2}\min_{U \subseteq V} \left(\abs{U} - \oc\left(\mathcal{G} \setminus U\right) + \abs{V} \right)
+\end{equation}
+where $\oc(H)$ is the number of connex components of $H$ with an odd number of vertices (which will be denoted as \emph{odd components}).
+We know then that a graph $\mathcal{G}$ has a perfect matching if and only if there is a matching of size $\frac{\abs{V}}{2}$, or, plugging it into the formula, if and only if the suppression of any subset $U$ creates at most $\abs{U}$ odd components, i.e., the following condition is true:
+\begin{equation}
+	\label{eq:tuttecondition}
+	\forall U \subseteq V, \oc\left(\mathcal{G} \setminus U\right) \leq \abs{U}
+\end{equation}
+
+Now, if the following condition is verified for our graph $G = \left(A\sqcup B, E\right)$ where $\abs{A} = \abs{B} = n = \frac{\abs{V}}{2}$:
+\begin{equation}
+	\forall X \subseteq A, \abs{\Gamma\left(X\right)} \geq \abs{X}
+	\label{eq:hallcondition}
+\end{equation}
+
+Consider the graph $H$ built from $G$ by adding edges to make $B$ a clique (complete graph), then if $H$ has a perfect matching, since edges from vertices in $A$ considered in $H$ must go to vertices in $B$ considered as vertices in $H$, then $G$ has a perfect matching.
+We will now show that if $G$ satisfies \ref{eq:hallcondition} then $H$ has a perfect matching, meaning $G$ has a perfect matching.
+To do so, we will show that $H$ verifies \ref{eq:tuttecondition}. Suppose there is a certain $U$ such that $\oc\left(H \setminus U\right) > \abs{U}$.
+Since $B$ seen in $H$ forms a clique, there is a certain component $C$ of $H \setminus U$ which contains all of $B \setminus U$, and the other components are $k$ singletons from $A \setminus U$.
+There are then two cases: either $\abs{C}$ is odd and $\oc\left(H \setminus U\right) = k + 1$ or $\abs{C}$ is even and $\oc\left(H \setminus U\right) = k$.
+Since we know that $G$ verifies \ref{eq:hallcondition}, if we let:
+\begin{equation*}
+	S = \left\{x \in A\mid \Gamma(x) \subseteq B \cap U \right\}
+\end{equation*}
+we have
+\begin{equation*}
+	k = \abs{S} \leq \abs{B \cap U} \leq \abs{U}
+\end{equation*}
+and thus $\oc\left(H \setminus U \right) \leq \abs{U} + 1$.
+However since $\abs{H} = 2n$ is even, $\oc\left(H \setminus T \right)$ has the same parity as $\abs{T}$.
+Thus $k \leq \abs{U}$ or $\oc\left(H \setminus U \right) \leq \abs{U}$ for any $U \subseteq V$.
+\boxed{Finally $H$ has a perfect matching per \ref{eq:tuttecondition} and thus $G$ has a perfect matching.}
+
+
 
 \end{document}

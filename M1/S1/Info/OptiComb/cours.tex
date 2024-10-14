@@ -243,7 +243,6 @@ Dans la suite, on note $f_{0}, f_{1},\cdots$ les flots obtenus de sorte que $f_{
 \end{proof}
 
 \section{Couplage Maximal}
-\subsection{Théorème de K\H{o}nig}
 \begin{definition}
 	Etant donné un graphe $G = \left(V, E \right)$, $M \subseteq E$ est un couplage si et seulement si $\delta_{M}(v) \leq 1$ pour tout noeud $v$.\\
 	Un chemin $P$ est dit $M$-alternant s'il alterne entre une arête de $M$ et une arêtre de $E\setminus M$. \\
@@ -278,10 +277,8 @@ Dans la suite, on note $f_{0}, f_{1},\cdots$ les flots obtenus de sorte que $f_{
 \begin{thm}
 	On peut trouver un couplage maximal en $\O(mn)$.
 \end{thm}
-\begin{proof}
 
-\end{proof}
-
+\subsection{Théorème de K\H{o}nig}
 \begin{thm}[de K\H{o}nig]
 	Dans un graphe biparti $G = \left(A \sqcup B, E\right)$:
 	\begin{equation*}
@@ -349,7 +346,7 @@ Ceci redémontre la dualité faible pour les graphes.
 \end{thm}
 La dualité permet de faire les liens entre Max-Flow et Min-Cut ainsi qu'entre Max-Matching et Min-Vertex-Cover.
 
-\subsection{Couplage Pondéré}
+\subsection{Couplage Pondéré dans un graphe biparti}
 \begin{definition}
 	Soit un graphe $G = \left(A\cup B, E = A \times B\right)$ avec $\abs{A} = \abs{B}$ et une fonction de poids entière sur les arêtes, on dit que $\pi: A\cup B \to \N$ est une couverture si $\forall e \in E, \pi(a) + \pi(b) \geq w(e)$.
 	\label{def:cover}
@@ -456,5 +453,191 @@ On peut appliquer ceci aux problèmes de couplage maximal:
 Si une arête est utilisée ($X_{e} > 0$), alors $Y_{u} + Y_{v} = 1$ et donc elle est la seule à atteindre l'une de ses extrémités.
 
 On peut appliquer de même cela à Max-Flow Min-Cut
+
+
+\subsection{Forêts Hongroises et Floraisons}
+\begin{definition}[Forêt Hongroise]
+	Dans un graphe biparti, on construit une forêt dite hongroise en partant des sommets non couplésde $B$, en considérant ses voisins.
+	Si ses voisins ne sont pas dans le couplage, on a un chemin augmentant.
+	Sinon on ajoute les deux arêtes à la forêt et le nouveau sommet de $B$ à la liste des sommets à considérer et on itère en évitant les sommets déjà atteints (puisque ça ne sert à rien).
+	On appelle l'étape d'agrandissement de la forêt le \emph{probing}.
+	\label{def:hungarianforest}
+\end{definition}
+
+On regarde toutes les arêtes au plus une fois, ce qui donne une complexité $\O(\abs{E})$.
+
+\begin{proposition}
+	Si on ne trouve pas de chemin augmentant, on a un couplage maximal.
+	\label{prop:maxcouple}
+\end{proposition}
+
+On va s'intéresser aux floraisons (cycles de longueur impaire) qui peuvent apparaître en créant l'équivalent d'une forêt hongroise dans un graphe non biparti.
+Ceci nous mène à l'algorithme suivant.
+\begin{algorithm}
+	\caption{Edmonds Blossom Algorithm}
+	\begin{description}
+		\item[Initialization] (étant donné un couplage initial $M$)\\
+			$A = \emptyset$\\
+			$B = \left\{v \in V\mid \not\exists u, (u, v)\in M \right\}$ (ce seront les racines de la forêt hongroise)\\
+		\item[Boucle] Tant qu'il existe $u \in B$ tel que $(u, v)$ n'a pas été probée:
+		\begin{enumerate}
+			\item Ou bien $v \in A$ et on ne fait rien
+			\item Ou bien $v \notin A \cup B$, auquel cas $v$ est couplé à $w$ et on ajoute $(u, v)$ et $(v, w)$ à la forêt, en posant $A = A \cup \{v\}$ et $B = B \cup \{w\}$.
+			\item Ou bien $v \in B$ et:
+				\begin{enumerate}
+					\item ou bien $u$ et $v$ sont dans des arbres différents: on augmente (en utilisant le chemin de la racine de $u$ à la racine de $v$) et on recommence l'algorithme en rouvrant toutes les floraisons
+					\item ou bien on contracte la floraison constituées des chemins de $u$ et $v$ à leur plus petit ancêtre commun (LCA) et $(u, v)$.
+						On traite ensuite cette floraison comme un sommet dans $B$.
+				\end{enumerate}
+		\end{enumerate}
+	\end{description}
+\end{algorithm}
+
+\begin{thm}
+	L'algorithme d'Edmonds trouve le couplage maximal.
+	\label{thm:edmondsblossom}
+\end{thm}
+
+\begin{proposition}
+	Le graphe après contraction a un chemin augmentant si et seulement si le graphe pré contraction a un chemin augmentant.
+	\label{prop:blossomcontraction}
+\end{proposition}
+\begin{proof}
+	On note $G'$ le graphe formé après la contraction d'une floraison dans $G$.
+	\begin{itemize}
+		\item Considérons un chemin augmentant dans $G'$ qui passe par la contraction. On a deux cas:
+			\begin{enumerate}
+				\item Si la floraison est une des extrémités du chemin, on sait que dans la floraison (qui a $2k + 1$ sommets) il n'y aura qu'un noeud d'attache.
+					Ce sommet n'est pas dans $M$ car il s'agit d'une arête finale d'un chemin augmentant dans $G'$.
+					Ainsi, si le sommet est la base de la floraison, le chemin s'arrête et on renvoit le chemin original.
+					Sinon, on peut étendre notre chemin selon des arêtes alternants jusqu'à avoir atteint le sommet de base.
+				\item Sinon, on définit $v_{L}$ et $v_{R}$ les sommets adjacents à la floraison.
+					On peut toujours prendre un chemin de $v_{L}$ à $v_{R}$ de longueur paire.
+					Ainsi, on trouve un chemin augmentant dans $G$, puisque seulement l'une des deux $v_{L}$ et $v_{R}$ est couplée à la floraison et donc à la base de la floraison.
+			\end{enumerate}
+		\item Si on a chemin augmentant dans $G$ qui passe par la floraison, on enlève un nombre pair d'arêtes du chemin donc le chemin dans $G'$ reste un chemin augmentant.
+	\end{itemize}
+\end{proof}
+
+
+
+On définit quelques invariants pour l'analyse de l'algorithme:
+\begin{itemize}
+	\item Tous les sommets de $A$ sont reliés à des sommets de $B$
+	\item Une floraison est toujours dans $B$
+	\item Si $G'$ est le graphe dérivé d'une suite de contraction de floraisons, alors $G'$ a un chemin augmentant si et seulement si $G$ a un chemin augmentant.
+		Ceci découle trivialement de \ref{prop:blossomcontraction}.
+	\item Si on trouve un chemin augmentant dans $G'$ alors on peut rouvrir toutes les floraisons pour augmenter la taille de $M$ dans $G$.
+	\item Chaque noeud dans $B$ (resp. $A$) peut revenir à sa racine par un chemin alternant de longueur paire (resp. impaire).
+\end{itemize}
+
+Soit $U$ l'ensemble des sommets qui ne sont pas dans la forêt hongroise.
+
+\begin{proof}[Démonstration de \ref{thm:edmondsblossom}]
+	\begin{description}
+		\item[Preuve 1] On montre qu'à la fin de cet algorithme, dans $G'$ (possiblement après beaucoup de contractions), il n'y a pas de chemin augmentant.\\
+				À la fin de l'algorithme d'Edmonds, il n'y a pas d'arêtes dans $B \times \left(B \cup U \right)$ (il peut y avoir des arêtes dans $A \times \left( A\cup U \right)$).
+				Sinon, on aurait un moyen d'ajouter une arête à la forêt hongroise.
+				Il n'y a donc pas de chemin augmentant dans $G'$.
+		 \item[Preuve 2] Par le théorème de Tutte-Berge.
+			 \begin{thm}[Tutte-Berge Minimax]
+				 \begin{equation*}
+				 	\max_{M \ couplage} \abs{M} = \min_{A \subseteq V}\frac{\abs{V} - \left(oc\left(V \setminus A \right) - \abs{A} \right)}{2}
+				\end{equation*}
+				où $oc(V \setminus A)$ est le nombre de composantes connexes de taille impaire de $V \setminus A$
+			 \end{thm}
+			 L'algorithme d'Edmonds trouve un certain $A$ tel que:
+			 \begin{equation*}
+				 \abs{U} = oc\left(V\setminus A \right) - \abs{A}
+			 \end{equation*}
+			 En effet, tout élément de $A$ est matché à un élément de $B$ non racine.
+			 Les éléments non matchés étant les racines d'arbres de la forêt, ils sont dans $B$.
+			 En enlevant les éléments de $A$, on crée une composante connexe de taille impaire par élément de $B$.
+			 Comme par ailleurs, $\abs{B} - \abs{A}$ est exactement l'ensemble des sommets non couplés, on a le résultat.
+			 En a donc bien le résultat.
+	\end{description}
+\end{proof}
+
+\begin{thm}
+	Cet algorithme demande un temps en $\O(mn^{2})$.
+	\label{prop:edmondsblossomtimecomplexity}
+\end{thm}
+
+\subsection{Streaming Algorithms}
+\begin{definition}
+	Un algorithme de streaming est un algorithme qui ne peut pas stocker en mémoire toute son entrée en même temps.
+	\label{def:streamingalgorithm}
+\end{definition}
+
+On se limite ici à un algorithme qui ne peut stocker que $\O(n\mathrm{polylog}(n))$ arêtes pour trouver un couplage maximal.
+
+\begin{thm}
+	Il y a un algorithme de streaming qui nécessite $\O\left(\frac{n}{\varepsilon}\log W \right)$ d'espace et renvoie une $\left(\frac{1}{2}-\varepsilon \right)$-approximation.
+\end{thm}
+\begin{proof}
+\begin{algorithm}
+	\caption{Algorithme de Streaming pour les Couplages Maximaux}
+	\begin{description}
+		\item[Initialisation] On pose $\pi(u) = 0$ pour tout $u \in V$
+			On crée une pile $S$ vide.
+		\item[Phase de Streaming]
+			Tant qu'une nouvelle arête $e =(a, b)$ arrive:
+			Si $w(e) > (1 + \epsilon)(\pi(a) + \pi(b))$:
+			\begin{itemize}
+				\item $\Delta = w(e) - (1 + \varepsilon)(\pi(a) + \pi(b))$
+				\item $\pi(a) += \Delta$
+				\item $\pi(b) += \Delta$
+			\end{itemize}
+		\item[Phase Finale] On effectue un algorithme glouton inverse en enlevant les arêtes de $S$ une par une et en les ajoutant dans $M$ si possible.
+	\end{description}
+	\label{alg:streamingmatching}
+\end{algorithm}
+
+\begin{lemme}
+	On a:
+	\begin{equation*}
+		\left(\sum_{v \in V} \pi(v) \right)\left(1 + \varepsilon \right) \geq \max_{M \ couplage} w(M)
+	\end{equation*}
+	\label{lemma:streammatching1}
+\end{lemme}
+\begin{proof}
+	On a le problème de programmation linéaire suivant:
+	\begin{align*}
+		\max \sum_{e \in E} w(e)\chi_{e}\\
+		\forall v \in V \sum_{e \in \delta(v)} \chi_{e} \geq 1\\
+		\forall e \in E \chi_{e} \geq 0
+	\end{align*}
+	dont le dual est:
+	\begin{align*}
+		\min \sum_{v \in V}\pi(v)\\
+		\pi(a) + \pi(b) \geq w(e) \forall e=(a, b) \in E\\
+		\pi(v) \geq 0 \forall v \in V
+	\end{align*}
+	On a le résultat par dualité faible en vérifiant que $(1 + \epsilon)\pi$ convient.
+\end{proof}
+
+\begin{lemme}
+	Le couplage résultat $M$ vérifie l'inégalité:
+	\begin{equation*}
+		w(M) \geq \frac{1}{2}\left(\sum_{v\in V}\pi(v) \right)
+	\end{equation*}
+\end{lemme}
+\begin{proof}
+	L'algorithme va créer un pile de poids pour chaque noeuds (les $\Delta$ consécutifs des arêtes mettant en jeu le sommet).
+	En particulier
+\end{proof}
+
+On a alors:
+\begin{align*}
+	w(M) \leq \frac{1}{2(1+\varepsilon)}opt\\
+	\geq \left(\frac{1}{2} - 3\varepsilon \right)opt
+\end{align*}
+
+\medskip
+
+Pour ce qui est l'espace, il y a toujours au plus $\log_{1 + \epsilon}W$ $\Delta$ dans la fonction de poids, et on a $n$ sommets.
+En effet, à chaque fois qu'on ajoute un $\Delta$, la valeur augmente de $1 + \epsilon$ au moins.
+On a le résultat en prenant un développement limité.
+\end{proof}
 
 \end{document}

@@ -13,6 +13,12 @@ class Vertex():
         self.faces = []
 
 
+def read_off(file):
+    with open(file, 'r') as f:
+        everything = f.readlines()
+    return everything
+
+
 class Manifold():
     def __init__(self, vertices, edges, faces):
         self.number_vertices = len(vertices)

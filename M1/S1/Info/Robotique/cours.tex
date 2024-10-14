@@ -18,35 +18,34 @@ La robotique s'itnéresse au lien entre des choses qui bougent et le monde réel
 C'est aussi le miroir de l'humain et des manières dont nous bougeons naturellement.
 On a une analogie entre les robots et le vivant.
 \begin{center}\begin{tabular}{cc}
-		Outil Inerte & Pierre\\
+		Outil Inerte           & Pierre  \\
 		\midrule
-		Action sans Locomotion & Végétal\\
+		Action sans Locomotion & Végétal \\
 		\midrule
-		Locomotion & Animal
-\end{tabular}\end{center}
+		Locomotion             & Animal
+	\end{tabular}\end{center}
 L'objectif est de construire des algorithmes pour des robots capables d'agir de manière autonome, notamment, qui tournent sur des ordinateurs portables.
 
 \section*{Historique de la Robotique}
 La robotique a seulement 60 ans~!
 \begin{itemize}
 	\item UNIMATE est le premier bras robotique industriel, vendu à partir de 1961.
-		Il a une logique pneumatique.
+	      Il a une logique pneumatique.
 	\item Les premières téléopérations assistées par ordinateur à la CEA (Commission de l'Énergie Atomique) ont commencées dans les années 1970
 	\item Du côté de la recherche, le LAAS-CNRS a construit le robot HILARE dans les années 70 sous l'impulsion de Jean Lagasse.
 	\item Les robots industriels se sont énormément développés entre les années 80 et 90.
 	\item Les premiers robots à jambes sont nés dans les années 80 sous la direction de Mark Hebert (fondateur de Boston Dynamics).
-		Les premiers bipèdes de l'Inria sont nés à partir des années 90.
+	      Les premiers bipèdes de l'Inria sont nés à partir des années 90.
 \end{itemize}
 
-\section{Le Contrôle du Mouvement}
-\subsection{Introduction}
+\subsection{Introduction au Contrôle du Mouvement}
 L'objectif est de se mouvoir pour agir.
 Le mouvement a lieu dans l'espace physique, espace commun entre l'objet et le robot.
 On n'a accès qu'à une projection à travers les \textit{sens} du robot, \emph{son espace sensoriel} et on envoie ensuite des commandes à \emph{l'espace moteur}.
 Il faut donc prendre en compte une boucle de contrôle:
 \begin{category}[]
 	& Physique\arrow[dl, bend right, "Percevoir"] & \\
-Sensoriel \arrow[rr, bend right] & & Moteur\arrow[ul, bend right]
+	Sensoriel \arrow[rr, bend right] & & Moteur\arrow[ul, bend right]
 \end{category}
 
 On crée un boucle de contrôle:
@@ -71,24 +70,25 @@ Le roboticien a pour but de construire une fonction de contrôle pour passer de 
 Il y a deux manières principales:
 \begin{description}
 	\item[Le Contrôle Optimal] On essaie de calculer les commandes moteurs en passant pas une estimation optimale et un contrôle optimal:
-		on a deux étapes de modélisation, le calcul de $x$ un état intermédiaire, et le calcul de $u$ l'ensemble des commandes moteurs.
-		On résout alors le problème de minimisation:
-		\begin{align*}
-			\min_{x(.), u(.)} \int_{0}^{T}l_{t}\left(x(t), u(t)\right)\d t\\
-			\dot{x}(t) = f_{t}\left(x(t), u(t)\right)\\
-			x(0) = x_{0}
-		\end{align*}
+	      on a deux étapes de modélisation, le calcul de $x$ un état intermédiaire, et le calcul de $u$ l'ensemble des commandes moteurs.
+	      On résout alors le problème de minimisation:
+	      \begin{align*}
+		      \min_{x(.), u(.)} \int_{0}^{T}l_{t}\left(x(t), u(t)\right)\d t \\
+		      \dot{x}(t) = f_{t}\left(x(t), u(t)\right)                      \\
+		      x(0) = x_{0}
+	      \end{align*}
 	\item[L'apprentissage par Politique] On veut calculer les commandes moteurs en passant par une simulation du résultat des consignes.
-		Ici, $x$ est un état caché de simulation qu'on crée par intégration puis génération, et on regénère des données de mesures.
-		On procède donc par apprentissage, et on cherche à résoudre:
-		\begin{align*}
-			\min_{\color{vulm}\theta}\mathbb{E}_{\xi}\left[\int_{0}^{T}l_{t}\left(x(t), {\color{vulm}\pi_{\theta}\left(x(t), \xi(t)\right)}\right)\d t\right]\\
-			\dot{x}(t) = f_{t}\left(x(t), {\color{vulm}\pi_{\theta}(x_{t}, \dot{\xi}(t))}\right)\\
-			x(0) \sim \xi_{0}
-		\end{align*}
+	      Ici, $x$ est un état caché de simulation qu'on crée par intégration puis génération, et on regénère des données de mesures.
+	      On procède donc par apprentissage, et on cherche à résoudre:
+	      \begin{align*}
+		      \min_{\color{vulm}\theta}\mathbb{E}_{\xi}\left[\int_{0}^{T}l_{t}\left(x(t), {\color{vulm}\pi_{\theta}\left(x(t), \xi(t)\right)}\right)\d t\right] \\
+		      \dot{x}(t) = f_{t}\left(x(t), {\color{vulm}\pi_{\theta}(x_{t}, \dot{\xi}(t))}\right)                                                              \\
+		      x(0) \sim \xi_{0}
+	      \end{align*}
 \end{description}
 
-\subsection{Les Mathématiques du Mouvement}
+\section{Les Mathématiques du Mouvement}
+\subsection{Cinématique et Rotations}
 \begin{definition}
 	La cinematique est l'étude du mouvement sans considérer les forces qui le génère.
 	\label{def:kinematics}
@@ -99,8 +99,8 @@ Réciproquement, étant donné une position et une orientation, on va chercher �
 Plus généralement, on va chercher à résoudre les équations cinématiques sur une trajectoire, i.e. calculer les vitesses des joints.
 
 \begin{definition}
-Une fois qu'on a défini un repère de reférence dans l'espace, on peut localiser n'importe quel point de l'espace en spécifiant un vecteur de position.
-Pour établir l'orientation d'un système on y attache un système de coordonnées.
+	Une fois qu'on a défini un repère de reférence dans l'espace, on peut localiser n'importe quel point de l'espace en spécifiant un vecteur de position.
+	Pour établir l'orientation d'un système on y attache un système de coordonnées.
 \end{definition}
 
 Il y a d'autres manières de représenter les rotations:
@@ -117,17 +117,17 @@ Il y a d'autres manières de représenter les rotations:
 \end{definition}
 
 \begin{proposition}
-Chaque élément de la matrice de rotation correspond au produit scalaire entre les deux systèmes de coordonnées.
+	Chaque élément de la matrice de rotation correspond au produit scalaire entre les deux systèmes de coordonnées.
 \end{proposition}
 \begin{proposition}
-Le groupe des rotations en dimension $3$ correspond au groupe Spécial Orthogonal de dimension $3$.
-En particulier, si $R \in SO(3)$:
-\begin{itemize}
-	\item $R$ est orthonormale
-	\item $R\transpose{R} = \Id_{3}$
-	\item $\det(R) = 1$.
-\end{itemize}
-On a $9$ degrés de liberté mais $6$ contraintes liées à l'orthogonalité, $SO(3)$ est donc un groupe de dimension $3$.
+	Le groupe des rotations en dimension $3$ correspond au groupe Spécial Orthogonal de dimension $3$.
+	En particulier, si $R \in SO(3)$:
+	\begin{itemize}
+		\item $R$ est orthonormale
+		\item $R\transpose{R} = \Id_{3}$
+		\item $\det(R) = 1$.
+	\end{itemize}
+	On a $9$ degrés de liberté mais $6$ contraintes liées à l'orthogonalité, $SO(3)$ est donc un groupe de dimension $3$.
 \end{proposition}
 
 \begin{definition}
@@ -163,17 +163,17 @@ On a également besoin de définir les vitesses angulaires.
 \begin{proof}
 	On a, en dérivant la condition d'orthogonalité:
 	\begin{align*}
-		R(t)\transpose{R(t)} = \Id_{3}\\
-		\dot{R}\transpose{R} + R\transpose{\cdot{R}} = 0_{3}\\
+		R(t)\transpose{R(t)} = \Id_{3}                       \\
+		\dot{R}\transpose{R} + R\transpose{\cdot{R}} = 0_{3} \\
 		\cdot{R}\transpose{R} = -\transpose{\left(\cdot{R}\transpose{R}\right)}
 	\end{align*}
 	On a: $W = -\transpose{W}$ si on pose $W = -\transpose{\left(R\transpose{\cdot{R}}\right)}$.
 	Donc:
 	\begin{equation*}
 		W \in \left\{ \begin{bmatrix}
-				0 & -w_{1} & -w_{2}\\
-				w_{1} & 0 & -w_{3}\\
-				w_{2} & w_{3} & 0
+			0     & -w_{1} & -w_{2} \\
+			w_{1} & 0      & -w_{3} \\
+			w_{2} & w_{3}  & 0
 		\end{bmatrix}\ \middle|\ w \in \R^{3}\right\} = \A_{3}
 	\end{equation*}
 	La réciproque est triviale.
@@ -224,8 +224,8 @@ Autrement dit, si on n'échantillonne pas assez, on va perdre en informations su
 	On a:
 	\begin{equation*}
 		W = \frac{\norm{W}}{2\sin(\norm{W})}\begin{bmatrix}
-			r_{32} - r_{23}\\
-			r_{13} - r_{31}\\
+			r_{32} - r_{23} \\
+			r_{13} - r_{31} \\
 			r_{21} - r_{12}
 		\end{bmatrix}
 	\end{equation*}
@@ -237,6 +237,266 @@ Autrement dit, si on n'échantillonne pas assez, on va perdre en informations su
 \end{thm}
 
 \subsection{Transformations Rigides}
+\begin{definition}
+	Le groupe des transformations rigides en dimension $3$ est le groupe spécial euclidien dénoté $SE(3)$:
+	\begin{equation*}
+		SE(3) = \left\{g: \E^{3} \to \E^{3}, \forall X, Y\in \E^{3}, \norm{g(X) - g(y)}^{2} = \norm{X - Y}^{2}\right\}
+	\end{equation*}
+	\label{def:SE3}
+\end{definition}
 
+\begin{proposition}
+	Une transformation rigide agit sur des points $p \in \R^{3}$ et est isomorphe à une rotation et une translation:
+	\begin{equation*}
+		M(p) = R(p) + t\in E^{3}
+	\end{equation*}
+	\label{prop:decompos}
+\end{proposition}
+
+De la même manière qu'on a pu plonger $SO(3)$ dans le groupe des matrices orthonormales, on peut plonger $SE(3)$ dans le groupe des matrices inversibles $GL(4)$:
+\begin{equation*}
+	M(p) = \begin{bmatrix}
+		R     & t \\
+		0_{3} & 1
+	\end{bmatrix}
+	\begin{bmatrix}
+		p \\
+		1
+	\end{bmatrix}
+\end{equation*}
+
+On a une loi de composition:
+\begin{equation*}
+	M_{1} \circ M_{2} = \begin{bmatrix}
+		R_{1}R_{2} & t_{1} + R_{1}t_{2} \\
+		0_{3}      & 1
+	\end{bmatrix}
+\end{equation*}
+Ceci nous permet de définir un espace des vitesses linéaires et angulaires:
+\begin{equation*}
+	\dot{M}(s)M(s)^{-1} = \begin{bmatrix}
+		\dot{R}(s)\transpose{R}(s) & \dot{t}(s) - \dot{R}(s)\transpose{R}(s)t(s) \\
+		0_{3}                      & 1
+	\end{bmatrix}
+\end{equation*}
+On reconnaît la vitesse angulaire et la vitesse linéaire:
+la paire $(v, w) \in se(3) \simeq \R^{3} \times \so(3)$ correspond au vecteur tangent.
+
+\begin{definition}
+	De la relation entre $M(s)$ et sa dérivée $\dot{M}(s)$, on peut construire une carte exponentielle:
+	\begin{equation*}
+		\exp_{\se(3)}(v, w) = \begin{bmatrix}
+			\exp_{\so(3)}(w) & \frac{1}{\norm{w}}\left(w\transpose{w}v + \left(I_{3} - \exp_{\so(3)}(w)\right)w \times v \right) \\
+			0_{3}            & 1
+		\end{bmatrix}
+	\end{equation*}
+	de sorte que:
+	\begin{equation*}
+		\exp_{\se(3)}: \applic{\se(3)}{SO(3)}{(v, w)}{M}
+	\end{equation*}
+	\label{def:expse3}
+\end{definition}
+
+\begin{definition}
+	On peut de même définir une distance par un logarithme:
+	\begin{equation*}
+		\log_{SE(3)}: M \longmapsto
+	\end{equation*}
+	\label{def:logSE3}
+\end{definition}
+
+\subsection{Cinématique directe}
+L'idée est, à partir des différents angles au niveau des articulations du robot, comment calculer la position et l'orientation terminale.
+
+\begin{definition}
+	Une chaîne cinématique est composée de corps rigides interconnectés par des articulations. Les articulations définissent les degrés de liberté possible le long de la chaîne cinématique.
+	La topologie de l'articulation définit les degrés de liberté, i.e., le mouvement relatif permis entre les deux corps.
+	\label{def:chainecinematique}
+\end{definition}
+
+Pour une liaison pivot, on a par exemple:
+\begin{equation*}
+			      K_{i}: q\in \S^{1} \simeq \R \mapsto \begin{bmatrix}
+				      \cos q  & \sin q & 0 & 0 \\
+				      -\sin q & \cos q & 0 & 0 \\
+				      0       & 0      & 1 & 0 \\
+				      0       & 0      & 0 & 1
+			      \end{bmatrix}
+		      \end{equation*}
+	\label{def:articulations}
+
+\begin{proposition}
+	On peut calculer le placement de l'organe terminal en connaissant la mesure des angles articulaires:
+	\begin{enumerate}
+		\item On calcule la position relative du repère d'une articulation par rapport au repère de l'articulation précédente
+		\item On récupère en composant la position relative du repère $n$ par rapport au repère de la première base.
+		\item On peut alors lire l'espace des configurations:
+		      \begin{equation*}
+			      Q = \times_{k = 1}^{N} Q_{i} \simeq \R^{\sum_{k = 1}^{N} n_{i}}
+		      \end{equation*}
+	\end{enumerate}
+	\label{prop:positiondirecte}
+\end{proposition}
+
+\begin{definition}
+	Le changement de configuration d'une articulation provient de la mise en mouvement de cette articulation:
+	\begin{enumerate}
+		\item Position relative de l'articulation entre les deux repères adjacents:
+		\item Vitesse relative engendrée par l'articulation:
+	\end{enumerate}
+	Pour quelques liaisons:
+	\begin{multicols}{2}
+	\begin{itemize}
+		\item Liaison Pivot
+		\item Prismatique \begin{equation*}
+			      S_{i}(q_{i}) = \begin{bmatrix}
+				      0 \\ 0\\ 1\\ 0\\ 0\\ 0
+			      \end{bmatrix}
+		      \end{equation*}
+%		\item[Cylindrique]
+%		\item[Planaire]
+%		\item[Vis]
+%		\item[Sphérique]
+	\end{itemize}
+	\end{multicols}{2}
+	\label{def:vitessearticulaire}
+\end{definition}
+
+\begin{proposition}
+	On peut calculer la vitesse de l'organe terminal en connaissant la mesure des angles et des vitesses articulaires:
+	\begin{enumerate}
+		\item On calcule la position relative de l'organe terminal:
+		\item On calcule la vitesse relative de l'organe terminal:
+		      \begin{equation*}
+			      k_{n}^{0}: (q, \dot{q}) \mapsto \sum_{i = 1}^{n} k_{i}(q_{i}, \dot{q_{i}}
+		      \end{equation*}
+	\end{enumerate}
+	\label{prop:vitesseterminale}
+\end{proposition}
+
+\begin{thm}
+	On relie la vitesse articulaire à la vitesse spatiale des corps en mouvements par:
+	\begin{equation*}
+		k_{n}(q, \dot{q}) = J(q)\begin{bmatrix}
+			\dot{q_{1}} \\
+			\vdots      \\
+			\dot{q_{n}}
+		\end{bmatrix}
+	\end{equation*}
+\end{thm}
+\begin{proof}
+	Pour chaque articulation on a:
+	\begin{equation*}
+		v_{i}(q_{i}) = S_{i}(q_{i})\cdot{q}_{i}
+	\end{equation*}
+	Ceci correspond à la dérivée temporelle de la géométrie articulaire:
+	\begin{equation*}
+		\dot{M_{i}}(q_{i})M_{i}^{-1}(q_{i}) = S_{i}(q_{i})\dot{q}_{i}
+	\end{equation*}
+	Finalement:
+	\begin{equation*}
+		k_{n}(q, \dot{q}) = \sum_{i = 1}^{n}k_{i}(q_{i}, \dot{q}_{i}) =
+		\begin{bmatrix}
+			S_{i}(q_{1}), \cdots, S_{n}(q_{n})
+		\end{bmatrix}
+		\begin{bmatrix}
+			\dot{q}_{1} \\
+			\vdots      \\
+			\dot{q_{n}}
+		\end{bmatrix}
+	\end{equation*}
+	On reconnaît bien la jacobienne.
+\end{proof}
+
+\subsection{Cinématique Inverse}
+\begin{definition}
+	La cinématique inverse consiste à résoudre le problème suivant: étant donné la position et l'orientation d'un corps, à calculer la valeur des angles articulaires.
+	Autrement dit, il s'agit de résoudre le problème suivant:
+	\begin{equation*}
+		\min_{q\in Q} \norm{\log \left(K_{n}^{0}(q)^{-1}M^{*}\right)}
+	\end{equation*}
+	\label{def:cinematiqueinverse}
+\end{definition}
+On part du fait que si $q\in Q$ et $\delta q \in T_{q} Q$, alors $q + \delta q = q^{+} \in Q$.
+Le problème initial peut se mettre sous la forme d'un problème d'optimisation:
+\begin{equation*}
+	\min_{x \in \R^{n}}\frac{1}{2}\norm{f(x)}^{2}
+\end{equation*}
+On résout ce problème en linéarisant et en créant une suite d'itérés:
+\begin{equation*}
+	\min_{p\in \R^{n}} \frac{1}{2}\norm{f(x + p)}^{2}
+\end{equation*}
+i.e.:
+\begin{align*}
+	\min_{p\in \R^{n}}\frac{1}{2}\norm{f(x) + J(x)p}^{2}                                   \\
+	\nabla_{p}\frac{1}{2}\norm{\cdot}^{2} = \transpose{J(x)}\left(f(x) + J(x)p \right) = 0 \\
+	p^{*} = -\left(\transpose{J(x)}J(x) \right)^{-1}J(x)f(x)                               \\
+	p^{*} = -J(x)^{+}f(x)
+\end{align*}
+On définit alors une suite $x_{k}$ vérifiant $f(x_{k + 1}) < f(x_{k})$ à une marge près:
+\begin{equation*}
+	x_{k + 1} = x_{k} + \alpha_{k}p_{k}
+\end{equation*}
+vérifiant:
+\begin{equation*}
+	f(x_{k} + \alpha_{k}p_{k}) < f(x_{k}) + \alpha_{k} Df(x_{k})p_{k}
+\end{equation*}
+et on itère jusqu'à obtenir $\norm{\transpose{J(x)}f(x)} < \epsilon^{*}$.
+
+Toutefois, il peut y avoir plusieurs solutions différentes pour une même position finale.
+
+\subsection{Suivi de Trajectoire}
+Pour le suivi de trajectoire, on cherche à minimiser l'écart entre la position + vitesse de l'organe terminal vis-à-vis de la trajectoire de référence.
+
+\begin{proposition}
+	Valeurs de l'erreur:
+	\begin{equation*}
+		e(t, q(t)) = M(q(t)) \ominus M^{*}(t) = \log_{\se(3)}\left(M^{*}(t)^{-1}M(q(t)) \right)
+	\end{equation*}
+	Vitesse de l'erreur:
+	\begin{equation*}
+		\dot{e}(t, q(t), \dot{q}(t)) = v(q(t), \dot{q}(t)) - v*(t) = J(q(t))\dot{q}(t) - v^{*}(t)
+	\end{equation*}
+	Profil de correction d'erreur:
+	\begin{equation*}
+	\dot{e}(t, q(t), \dot{q}(t)) = -\lambda e(t, q(t)), \lambda > 0
+	\end{equation*}
+	\label{prop:erreurs}
+\end{proposition}
+
+On retrouve à nouveau un problème linéaire:
+\begin{equation*}
+	\min_{\dot{q}(t)}\frac{1}{2}\norm{\dot{e} + \lambda e}^{2}
+\end{equation*}
+qui se résout en:
+\begin{equation*}
+	\min_{\dot{q}}\frac{1}{2}\norm{J(q)\dot{q} - v^{*} + \lambda\left( M(q)\ominus M^{*} \right)}
+\end{equation*}
+i.e. $\min_{x} \frac{1}{2}\norm{Ax - b}^{2}$ qui est atteint en:
+\begin{equation*}
+	x^{*} = A^{+}b = \left(\transpose{A}A\right)^{-1}\transpose{A}
+\end{equation*}
+
+Pour résoudre correctement ceci, on va exploiter la redondance en solutions, on se donne deux taches, dont une strictement prioritaire:
+\begin{equation*}
+	(A_{1}, b_{1}) \gg (A_{2}, b_{2})
+\end{equation*}
+On peut avoir, ou une approche relachée:
+\begin{equation*}
+	\min_{x} \alpha_{1}\norm{A_{1} x -b_{1}}^{2} + \alpha_{2}\norm{A_{2}x - b_{2}}^{2} \text{ avec } \alpha_{1} \gg \alpha_{2} > 0
+\end{equation*}
+ou une approche stricte:
+\begin{equation*}
+	\min_{x}\frac{1}{2}\norm{A_{2}x - b_{2}}^{2} \text{ avec } A_{1}x = b_{1}
+\end{equation*}
+
+Ceci se résout:
+\begin{equation*}
+	\min_{x}\frac{1}{2}\norm{A_{1}x - b_{1}}^{2} \Rightarrow x^{*} = A_{1}^{+}b_{1}
+\end{equation*}
+Par redondance:
+\begin{equation*}
+	\forall y_{2} \in \R^{n}, x^{*} = A_{1}^{+}b_{1} + \left(I_{n} - A_{1}^{+}A_{1}\right)y_{2}
+\end{equation*}
 
 \end{document}
