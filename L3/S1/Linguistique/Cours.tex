@@ -30,7 +30,7 @@ Website\! : Moodle hosted by \href{https://moodle.u-paris.fr/course/view.php?id=
 Syllabus\! :
 
 \subsection*{Schedule}
-\begin{enumerate} 
+\begin{enumerate}
     \item Language as a psychological and social entity
     \item Language (non-)variation\! : Universals, variation within parameters
     \item \textbf{Morphology}, language typology
@@ -938,7 +938,7 @@ There is a big chasm between orthography and the actual sound of words\! :
 We need a better way than orthography to talk about the sounds of human speech.
 
 \subsubsection{Speech Sounds}
-The sounds of speech can be studied from two complementary perspectives, articulation and spectrography ? % TODO\! : Complete 
+The sounds of speech can be studied from two complementary perspectives, articulation and spectrography ? % TODO\! : Complete
 
 Producing speech sounds is done by moving air through the vocal tract. The air vibrates, and airwaves travel from vocal tract to the listener's eardrums. Sound quality changes when the shape of the vocal tract is modified by moving the jaw and the soft tissue organs inside.
 Speech sounds can be classified into different groups, depending how they are articulated. The main dimensions in which phoneticians classify sounds are\! :
@@ -1280,7 +1280,7 @@ For RH people, the language processing areas are mostly in the left hemisphere w
 In fact, when cutting corpus clausum (link between hemispheres), people cannot describe what they see with their left eye.\\
 
 \subsection{Aphasias}
-Distinction between aphasias : 
+Distinction between aphasias :
 \begin{center}
     \begin{tabular}{c|c}
         \toprule
@@ -1293,17 +1293,17 @@ Distinction between aphasias :
         \bottomrule
     \end{tabular}
 \end{center}
-Mostly, it is impossible to recover from such traumas. 
+Mostly, it is impossible to recover from such traumas.
 
 \subsection{Priming}
 Priming studies seem a bit weird a times, but a lot of them are replicable. \\
 Studying \textsl{dated} it seems that it's \textsl{give} + [PAST], but studying \textsl{gave}, it seems not. In the end, there is no way to be sure that one or the other theory is false. \\
 Then, priming effects suggest that the decompositional view is seemingly better. But sometimes, the atomic view seems better. Yet, looking at \textsl{boil} and \textsl{broil}, it seems that we check if the words are indeed the same. In the same way, \textsl{give} and \textsl{gave} similarity may inhibit the priming effect. Looking for a special signal (M350) in a EEG seems to validate this effect. On a neurological level, this hypothesis seems to be valid, but in the behaviour it is not clear. \\
-Yet in priming studies, subjects are facing written words, but how much more is this looking at effects on reading than language ? 
+Yet in priming studies, subjects are facing written words, but how much more is this looking at effects on reading than language ?
 
 \subsection{Parsing}
 There are two main types of parser : top down and bottom up, c.f. Compilation. Honestly I don't want to write down the parsing algorithms he shows.\\
-From the meanings of \textsl{buffalo} (being : a bison, a city, to bully), we can build a sentence with any number of \textsl{buffalo} following each other. Homophony makes stuff tough sometimes, and it might change the way that parsing works. 
+From the meanings of \textsl{buffalo} (being : a bison, a city, to bully), we can build a sentence with any number of \textsl{buffalo} following each other. Homophony makes stuff tough sometimes, and it might change the way that parsing works.
 
 \section[Class 12 \!: 11/01]{Machine Learning and Linguistics}
 \subsection{Machine Learning 101}
@@ -1311,7 +1311,7 @@ The point of Machine Learning is approximating a function. Loss functions are me
 The goal of machine learning is to find a specific hypothesis $f$ from a set $\mathbb{F}$ of potential hypothesis. $\mathbb{F}$ can be anything computable, for example, it can be the powerset of all valid rules we can format. Yet, we cannot build a loss function on pure CFGs, we need to make CFGs probabilistic to do so. \\
 A classic kind of model was $n$-grams. The idea is to assign probabilities for sequences of $n$ words in a look-up table. $4$-grams seem realistic. Yet, it is possible to find bigrams that could be valid, but are not possible by themselves, $n$-grams are fine, but they couldn't generate properly the language. \\
 Neural Networks are stacked linear regressions. Early Neural Networks were one layer, so they cannot learn XOR. Yet, if you have more than one non-linear layer, you can learn exclusive or. This is because you can rearrange the space in the first layer and transform it into a linear problem for the last layer. In principle, recurrent neural network are Turing-Complete, so they can represent natural language. \\
-To train a neural network on linguistics issues, we use gradient descent. 
+To train a neural network on linguistics issues, we use gradient descent.
 
 \subsection{Machine Learning and Linguistics}
 Many times, LLM have right answers, but their heuristics don't apply to all sentences. Then, while on entailed sentences, the accuracy is great, it is really low (15\%-ish) on non-entailed sentences. Thus, most of the time, LLMs are right for the wrong reasons.
