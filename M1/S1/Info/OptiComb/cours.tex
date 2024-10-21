@@ -519,8 +519,6 @@ Ceci nous mène à l'algorithme suivant.
 	\end{itemize}
 \end{proof}
 
-
-
 On définit quelques invariants pour l'analyse de l'algorithme:
 \begin{itemize}
 	\item Tous les sommets de $A$ sont reliés à des sommets de $B$
@@ -562,8 +560,19 @@ Soit $U$ l'ensemble des sommets qui ne sont pas dans la forêt hongroise.
 	Cet algorithme demande un temps en $\O(mn^{2})$.
 	\label{prop:edmondsblossomtimecomplexity}
 \end{thm}
+\begin{proof}
+	La construction d'une forêt hongroise se fait en $\O(m)$.\\
+	La construction d'une floraison se fait en au plus $\O(m)$, et peut se faire au plus $\O(n)$.
+	Ceci signifie qu'en temps au plus $\O(nm)$ il y a une augmentation.
+	Puisqu'on ne peut pas augmenter plus de $n$ fois, on a bien le résultat.
+\end{proof}
 
-\subsection{Streaming Algorithms}
+On peut améliorer la complexité de cet algorithme.
+Batinski a donné un algorithme pour une complexité en $\O(n^{3})$ et Tarjan a donné un algorithme en $\O(nm\log n)$.
+Il existe un algorithme en $\O(\sqrt{n} m)$ datant de 1980.
+On a désormais des algorithmes en $\O(\sqrt{n}m\log_{n}\frac{n^{2}}{m})$ et $\O(n^{w})$ la complexité optimale de multiplication de matrices.
+
+\subsection{Algorithmes de Streaming}
 \begin{definition}
 	Un algorithme de streaming est un algorithme qui ne peut pas stocker en mémoire toute son entrée en même temps.
 	\label{def:streamingalgorithm}
@@ -638,6 +647,217 @@ On a alors:
 Pour ce qui est l'espace, il y a toujours au plus $\log_{1 + \epsilon}W$ $\Delta$ dans la fonction de poids, et on a $n$ sommets.
 En effet, à chaque fois qu'on ajoute un $\Delta$, la valeur augmente de $1 + \epsilon$ au moins.
 On a le résultat en prenant un développement limité.
+\end{proof}
+
+
+\section{Global Min-Cut}
+On s'intéresse au problème suivant:
+\problemStatement{Global Min-Cut}{Input={$G=(V, E)$ avec une fonction de capacité $E\to \R^{+}$}, Output={$\emptyset\subsetneq U\subsetneq V$ tel que $c\left(\delta(U)\right)$ est minimal.}}
+Dans le cas d'un graphe orienté, on cherche à minimiser $c\left(\delta^{+}(U)\right)$.
+
+Il est clair que résoudre le problème dans le cadre d'un graphe orienté suffit.
+On va simplifier le problème pour résoudre le problème suivant:
+\problemStatement{Minimal $s$-Cut}{Input={$G=(V, E)$ avec une fonction de capacité $E\to \R^{+}$, $s\in V$}, Output={$\emptyset\subsetneq U\subsetneq V$ tel que $s \in U$ et $c\left(\delta(U)\right)$ est minimal.}}
+
+\begin{proposition}
+	On peut résoudre \textsc{Global Min-Cut} en résolvant deux fois \textsc{Minimal $s$-cut}, pour tout $s$.
+	\label{prop:minscut}
+\end{proposition}
+\begin{proof}
+	On résout le problème pour un certain $s$, puis on le résout sur le graphe renversé.
+\end{proof}
+
+Similairement, on va trouver un autre problème plus simple encore pour résoudre \textsc{Minimal $s$-cut}.
+\problemStatement{Minimal $X$-$t$-cut}{Input={$G=(V, E)$ avec une fonction de capacité $E\to \R^{+}$, $t\in V$ et $X \subsetneq V\setminus \{t\}$}, Output={$\emptyset \subsetneq U \subseteq V$ tel que $X \subseteq U \subseteq V\setminus \{t\}$ et $c\left(\delta(U)\right)$ est minimal.}}
+
+\begin{proposition}
+	Si on résout \textsc{Minimal $X$-$t$-cut} $n$ fois, on peut résoudre \textsc{Minimal $s$-cut}.
+	\label{prop:minxtcut}
+\end{proposition}
+
+On propose pour cela l'algorithme suivant:
+\begin{algorithm}
+	\caption{Minimal $s$-cut par Minimal $X$-$t$-cut}
+	\begin{description}
+		\item[Initialisation] Soit $X = \{s\}$.
+		\item[Boucle] Tant que $X \neq V$, on choisit $t \in V\setminus X$ arbitrairement.
+			Soit $S_{\abs{X}}$ le résultat de \textsc{Minimal $X$-$t$-cut}.
+			On augmente $X = X \cup \{t\}$
+		\item[Renvoi] On renvoie $\displaystyle\argmin_{1 \leq t \leq \abs{X} - 1} S_{t}$.
+	\end{description}
+\end{algorithm}
+
+\begin{proof}
+	Considérons la première itération (notée $\gamma$) où un sommet de l'autre côté de la $s$-cut optimale est choisi pour $t$.
+	Alors $c\left(\delta^{+}(S_{\gamma}\right) \leq c\left(\delta^{+}(\mathrm{opt s-cut}\right)$ et $c\left(\delta^{+}(\mathrm{opt s-cut}\right) \leq c(\delta^{+}(S_{\gamma}))$ car les deux coupes vérifient les deux propriétés.
+\end{proof}
+
+On va pouvoir résoudre toutes les \textsc{Minimal $X$-$t$-cut} en résolvant un seul problème de flot.
+On rappelle que $exces(v) = \sum_{e \in \delta^{-}(v)} f(e) - \sum_{e \in \delta^{+}(v)} f(e)$.
+On va construire un algorithme se basant sur l'algorithme Preflow Push \ref{alg:pushrelabel} qui va vérifier les deux invariants suivants:
+\begin{enumerate}
+	\item Sur $V \setminus X$, $exces(v) \geq 0$.
+	\item Pour tout $v \in X$, $d(v) = n$, $\forall u, v \in G(f), d(u) \leq d(v) + 1$, $d(t) \leq \abs{X} - 1$ et $d(t) \leq d(u)$.
+\end{enumerate}
+
+\begin{definition}
+	Le seau associé à $k$ est l'ensemble $B(k) = \left\{v \mid d(v) = k\right\}$.
+	$k$ est un niveau de coupe si pour tout $u \in B(k), (u, v) \in G(f), d(v) \geq d(u)$.
+	\label{def:bucketlevel}
+\end{definition}
+
+\begin{proposition}
+	Si $k$ est un niveau de coupe, l'ensemble des $u$ tels que $d(u) \geq k$ est une coupe dans le graphe résiduel $G(f)$.
+	\label{prop:cutleveliscut}
+\end{proposition}
+
+\begin{proposition}
+	Soit $k < n$ un niveau de coupe. Si pour tout $v \neq t$ tel que $d(v) < k$ on a $\mathrm{exces}(v) = 0$, alors $\{u \mid d(u) \geq k\}$.
+	\label{prop:cutlevelexcess}
+\end{proposition}
+\begin{proof}
+	Débrouille-toi, normalien~!
+\end{proof}
+
+\begin{algorithm}
+	\caption{Hao-Ortin --- $X$-preflow-push}
+	\begin{description}
+		\item[Initialisation] On pose $X = \{s\}$, $d(s) = n$, $d(v) = 0, \forall v \neq t$ où $t \in V \setminus\{s\}$,
+			$l = n - 1$, $f(e) = c(e), \forall e \in \delta^{+}(s)$.
+		\item[Boucle] Tant que $X \neq V$, on applique l'algorithme preflow-push (ou push-relabel) avec 3 modifications:
+			\begin{enumerate}
+				\item Un sommet $u \neq t$ est actif si et seulement si $d(u) < l$ et $\mathrm{exces}(u) > 0$.
+				\item Si $u$ va être ré-étiqueté et que $\abs{B(d(u))} = 1$, on ne ré-étiquette pas $u$ et on pose $l = d(u)$.
+				\item Si $u$ est ré-étiqueté pour avoir $d(u) > l$, on pose $l = n - 1$.
+			\end{enumerate}
+			On pose $S_{\abs{X}} = \left\{u \mid d(u) \geq l\right\}$, $X = X \cup \{t\}$, $d(t) = n$ et $\forall e \in \delta^{+}(t), f(e) = c(e)$.
+			On choisit pour le nouveau $t$ celui celui avec le minimum de $d(t)$ parmi les sommets de $V \setminus X$.
+			Si $d(t) \geq l$ on pose en plus $l = n - 1$.
+		\item[Renvoi] On renvoie $\argmin_{1 \leq \alpha \leq \abs{X} - 1} c\left(\delta^{+}S_{\alpha} \right)$.
+	\end{description}
+	\label{alg:haoortin}
+\end{algorithm}
+
+\begin{lemme}
+	Les seaux non vides (de niveau $< n$) sont toujours consécutifs.
+	\label{lemme:haoortin1}
+\end{lemme}
+\begin{proof}
+	Il est clair que le lemme est vrai initialement.
+	Par induction, il y a trois dangers possibles:
+	\begin{enumerate}
+		\item Un sommet est retiré par ré-étiquetage du niveau $k$. Ceci ne peut pas arriver puisqu'on ne ré-étiquette pas le dernier sommet d'un seau.
+		\item Un sommet est ajouté par ré-étiquetage au niveau $k$. Par définition, on ne peut pas aller plus haut que le minimum plus un.
+		\item Un $t$ est ajouté à $X$. Puisque l'hypothèse d'induction est valide, et puisqu'on a toujours $d(v) >= d(t)$, le seau en $d(t) - 1$ est vide et: ou bien tous les seaux autres sont vides, ou bien le seau en $d(t) + 1$ est non vide et l'hypothèse reste vraie.
+	\end{enumerate}
+\end{proof}
+
+\begin{lemme}
+	On a toujours $d(t) \leq \abs{X} - 1$.
+	\label{lemme:haoortin2}
+\end{lemme}
+\begin{proof}
+	Soit $t'$ le nouveau $t$ choisi.
+	On a $d(t') \leq d(t) + 1$ par le lemme \ref{lemme:haoortin1}.
+	Par induction, $d(t') \leq d(t) - 1 \leq \abs{X} = \abs{X \cup \{t\}} - 1$
+\end{proof}
+
+Le lemme précédent montre que l'algorithme \ref{alg:haoortin} vérifie les invariants précédents.
+
+\begin{lemme}
+	Pour $u \notin X$, on a $d(u) \leq n - 2$
+	\label{lemme:haoortin3}
+\end{lemme}
+\begin{proof}
+	Soit $v$ le sommet de $V \setminus X$ avec la plus grande étiquette.
+	Par le lemme \ref{lemme:haoortin1}, il y a au plus $n - \abs{X} - 1$ seaux entre $d(t)$ et $d(v$ d'où, par le lemme \ref{lemme:haoortin2}, $d(u) \leq d(t) + n - \abs{X} - 1 \leq n - 1 - 1 = n - 2$.
+\end{proof}
+
+\begin{corollaire}
+	$n - 1$ est un niveau de coupe.
+	\label{corollaire:haoortin1}
+\end{corollaire}
+
+\begin{lemme}
+	On a toujours $d(t) < l \leq n - 1$ et $l$ est toujours un niveau de coupe.
+	\label{lemme:haoortin4}
+\end{lemme}
+\begin{proof}
+	On va procéder par induction:
+	\begin{enumerate}
+		\item Dans le cas on prend $l = n - 1$, par \ref{corollaire:haoortin1}, on a le résultat.
+		\item Dans le cas où on pose $l = d(u)$, puisque $u$ est le dernier de son seau, tous ses voisins vérifient $d(v) \geq d(u) > d(t)$ d'où le résultat.
+	\end{enumerate}
+\end{proof}
+
+\begin{thm}
+	La cut de renvoi est une coupe $s$-minimale.
+\end{thm}
+\begin{proof}
+	Lorsque l'algorithme s'arrête, tous les sommets d'étiquette $< l$ sont inactifs et ont donc $\mathrm{exces} = 0$, d'où le résultat par la proposition \ref{prop:cutlevelexcess}
+\end{proof}
+
+\begin{thm}
+	L'algorithme demande un temps $\O(n^{2}m)$.
+\end{thm}
+\begin{proof}
+	\begin{itemize}
+		\item Les \emph{vrais} ré-étiquetages (ceux où $d(u)$ croît) demandent un temps $\O(n^{2})$
+		\item Les \emph{faux} ré-étiquetages (ceux où on change la valeur de $l$) demandent un temps $\O(n^{2})$: en effet chaque fois qu'on ré-étiquette un sommet autre que $t$, son étiquette augmente d'au moins 1 et l'augmentation est inférieure à $n - 2$.
+			L'étiquette de $t$ est $n$ à la fin de l'itération et n'augmente pas plus.
+		\item Les pushs saturants et non-saturants ne voient pas leur complexité changer.
+	\end{itemize}
+\end{proof}
+
+On peut trouver un algorithme un peu plus efficace en $\O(n^{2}m\log_{n}\frac{n^{2}}{m})$.
+
+\subsection{Karger}
+On présente ici un algorithme qui renvoie une cut correcte avec une bonne probabilité.
+\begin{algorithm}
+	\caption{Karger}
+	Tant que $\abs{V} > 2$, on choisit $e = (u, v)$ uniformément au hasard. On contracte $e$ en un sommet et on renvoie la cut définie par les $2$ sommets restants.
+\end{algorithm}
+
+\begin{lemme}
+	Étant donné une coupe optimale $\left(S, \bar{S} \right)$, la probabilité de prendre une arête dans $E\cap\left( S\times \bar{S} \right)$ est au plus
+	\label{lemme:karger1}
+\end{lemme}
+\begin{proof}
+	On a: $opt \leq \min_{v \in V} d(v) = \delta$.
+	Ainsi, $\P(échec) \leq \frac{\delta}{\abs{E}} \leq \frac{\delta}{\delta \abs{V}/2}\leq \frac{2}{\abs{V}}$.
+\end{proof}
+
+\begin{lemme}
+	La probabilité qu'on ne prenne jamais d'arête dans $E\cap \left(S \times \bar{S} \right)$ est $\geq \frac{1}{\binom{n}{2}} \geq \frac{2}{n^{2}}$.
+	\label{lemme:karger2}
+\end{lemme}
+\begin{proof}
+	Par le lemme \ref{lemme:karger1}, la probabilité $p$ vérifie:
+	\begin{equation*}
+		\begin{aligned}
+			p \geq & \left(1 - \frac{2}{n} \right)\left(1 - \frac{2}{n - 1} \right)\cdots \left( 1 - \frac{2}{3} \right)\\
+			=& \frac{n - 2}{n}\frac{n - 3}{n - 1}\frac{n - 4}{n - 2}\cdots\frac{2}{4}\frac{1}{3}\\
+			=& \frac{2}{n(n-1)} = \frac{1}{\binom{n}{2}}
+		\end{aligned}
+	\end{equation*}
+\end{proof}
+
+\begin{thm}
+	Si on répète l'algorithme de Karger $10\times n^{2}\log n$ fois, on réussit au moins une fois avec probabilité $1 - \frac{1}{n^{\O(1)}}$
+\end{thm}
+\begin{proof}
+	La probabilité $p$ d'échec vérifie:
+	\begin{equation*}
+		p \leq \left(1 - \frac{2}{n^{2}} \right)^{10n^{2}\log(n)} \leq \left(e^{-1}\right)^{5\log n} = \frac{1}{n^{5}}
+	\end{equation*}
+\end{proof}<++>
+
+\begin{thm}
+	Le nombre de coupes minimales est inférieur à $\binom{n}{2}$ et cette borne est optimale.
+\end{thm}
+\begin{proof}
+	Toutes les preuves précédentes étant vraies pour une coupe minimale quelconque, en sommant les probabilités on a le résultat.
+	En prenant un cycle on a le résultat, puisqu'une coupe est équivalente à choisir deux sommets
 \end{proof}
 
 \end{document}

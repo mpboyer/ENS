@@ -1,6 +1,25 @@
-\documentclass[math]{cours}
+\documentclass[math, info]{cours}
 \title{Lambda-Calcul et Catégories}
 \author{Paul-André Mellies}
+
+\usetikzlibrary{shapes}
+\tikzset{utriangle/.style={regular polygon, regular polygon sides=3,
+    inner sep=0.5pt}}
+\tikzset{btriangle/.style={regular polygon, regular polygon sides=3,
+    shape border rotate=180, inner sep=0.5pt}}
+
+\def\lambdaterme{$\lambda$-terme\ }
+\def\lambdatermes{$\lambda$-termes\ }
+\def\targ{\texttt{arg}}
+\def\tfun{\texttt{fun}}
+\def\tbody{\texttt{body}}
+\def\walrus{\coloneqq}
+\newcommand{\sub}[3]{#1\left[#2\walrus #3\right]}
+\def\alphaequivalence{$\alpha$-équivalence\ }
+\def\alphaequiv{\equiv_{\alpha}}
+\def\alphaconv{$\alpha$-conversion\ }
+\def\betaredex{$\beta$-redex\ }
+\newcommand{\rrightarrow}{\mathrel{\mathrlap{\rightarrow}\mkern1mu\rightarrow}}
 
 \begin{document}
 \bettertitle
@@ -853,6 +872,254 @@ Une des difficultés de cette explication est l'$\alpha$-conversion, que nous de
 	\label{def:lamocc}
 \end{definition}
 
+\begin{definition}
+	On définit une fonction $\mathrm{Lieur} : VarOcc\left(M\right) \to Occ(M) + Var, o\mapsto x$.
+	On dira qu'une occurence de variable est \emph{libre} lorsque $\mathrm{Lieur}_{M}(o) \in Var$, \emph{liée} sinon
+	La fonction $\mathrm{Lieur}_{M}$ est définie par induction:
+	\begin{equation*}
+		Lieur(x): \epsilon \mapsto x \in Var, VarOcc(x) = \{\epsilon\}
+	\end{equation*}
+	Intuition: $x \models x$ où le premier désigne le contexte de variable et le second est un $\lambda$-terme.
+	\begin{center}
+	\begin{mgrammar}
+		\firstrule{\mathrm{Lieur}(x)}{\epsilon \mapsto x}{}
+		\firstrule{\mathrm{Lieur}\left(App(M, N)\right)}{\applic{VarOcc(App(M, N))}{Occ(App(M, N)) + Var}{fun\cdot occ}{\begin{cases}
+					fun\cdot \mathrm{Lieur}(M)(occ) & \text{si } occ \text{ est liée dans } Occ(App(M, N))\\
+					\mathrm{Lieur}(M)(occ) & \text{sinon}
+		\end{cases}}}{}
+		\grule{\begin{array}{rcl}
+			arg\cdot occ & \mapsto & \begin{cases}
+				arg \cdot \mathrm{Lieur}(N)(occ) & \text{si } \mathrm{Lieur}(N)(occ) \in Occ(N)\\
+				\mathrm{Lieur}(N)(occ) & \text{sinon}
+			\end{cases}
+			\end{array}}{}
+	\firstrule{\mathrm{Lieur}(\lambda x. M)}{\applic{VarOcc\left(\lambda x.M \right)}{Occ(\lambda x.M) + Var}{body\cdot occ}{\begin{cases}
+				\epsilon &\text{si } \mathrm{Lieur}(M)(occ) = x\in Var\\
+				body \cdot \mathrm{Lieur}(M)(occ) &\text{si } \mathrm{Lieur}(M)(occ) \in Occ(M)\\
+				\mathrm{Lieur}(M)(occ) & \text{sinon }
+	\end{cases}}}{}
+	\end{mgrammar}
+	\end{center}
+\end{definition}
+
+\begin{definition}
+	On dit que deux $\lambda$-termes $M$ et $N$ sont $\alpha$-convertibles lorsque:
+	\begin{align*}
+		Occ(M) = Occ(N)\\
+		\mathrm{Lieur}(M) = \mathrm{Lieur}(N)
+	\end{align*}
+	Dans ce cas, on écrit
+	\begin{equation*}
+		M \equiv_{\alpha} N
+	\end{equation*}
+	\label{def:alphaconversion}
+\end{definition}
+
+\begin{exemple}
+	\begin{description}
+		\item[Identité]	On a:
+	\begin{equation*}
+		\lambda x. x \equiv_{\alpha} \lambda y . y
+	\end{equation*}
+	En effet:
+	\begin{category}
+		\phantom{·}& \phantom{·}\\
+		\lambda x\ar[u, no head]\ar[d, no head, "\texttt{body}"'] & \lambda y\ar[u, no head]\ar[d, no head] \\
+		x\ar[u, bend right] & y\ar[u, bend right]
+	\end{category}
+		\item[Je sais pas lol] On a:
+			\begin{category}[]
+				&\lambda x\ar[d, no head] & & & & \lambda y\ar[d, no head] &\\
+				& App\ar[dl, no head]\ar[dr, no head] & & \equiv_{\alpha} & & App\ar[dl, no head]\ar[dr, no head]& \\
+				\lambda x\ar[d, no head] & & x & & \lambda z\ar[d], no head & & y\\
+				x & & & & z & &
+			\end{category}
+
+		\item[C'est pareil] On a:
+			\begin{category}
+				\lambda x\ar[d, no head] & & \lambda x\ar[d, no head]\\
+				\lambda x\ar[d, no head] &\equiv_{\alpha}& \lambda y\ar[d, no head]\\
+				x\ar[u, bend left] & & y\ar[u, bend right]
+			\end{category}
+	\end{description}
+\end{exemple}
+
+\begin{remarque}
+	$\mathrm{Lieur}(M)$ associe à une occurence $occ \in VarOcc(M)$ d'une variable $x$ dans $M$ ou bien $x \in Var$ (cas libre) ou bien l'occurence maximale d'un préfixe de $occ$ étiqueté par $\lambda x$ (cas lié).
+\end{remarque}
+
+\begin{definition}
+	On définit le \lambdaterme $M_{\mid o}$ pour $o \in Occ(M)$, par induction sur $M$:
+	\begin{center}
+	\begin{mgrammar}
+		\firstrule{x_{\mid \epsilon}}{x}{}
+		\firstrule{App(M, N)_{\mid \epsilon}}{App(M, N)}{}
+		\firstrule{App(M, N)_{\mid \texttt{fun}\cdot occ}}{M_{\mid occ}}{}
+		\firstrule{App(M, N)_{\mid \texttt{arg}\cdot occ}}{N_{\mid occ}}{}
+		\firstrule{\left(\lambda x. M\right)_{\mid \epsilon}}{\lambda x. M}{}
+		\firstrule{\left(\lambda x. M\right)_{\mid \tbody\cdot occ}}{M_{\mid occ}}{}
+		\end{mgrammar}
+	\end{center}
+	\label{def:presubstit}
+\end{definition}
+
+\begin{definition}
+	Si $M, N$ sont des \lambdatermes et $x \in Var$, on définit $M[x \coloneqq N]$ par induction sur $M$, à $\alpha$-conversion près:
+	\begin{center}
+	\begin{mgrammar}
+		\firstrule{x[x\walrus N]}{N}{}
+		\firstrule{y[x\walrus N]}{y}{si $y \neq x$}
+		\firstrule{App(P, Q)[x\walrus N]}{App(P[x\walrus N], Q[x\walrus N])}{}
+		\firstrule{\sub{\left(\lambda y. M \right)}{x}{N}}{\lambda y.\left(\sub{M}{x}{N} \right)}{si $y \neq x$ et $y$ n'est pas libre dans $N$}
+		\firstrule{\sub{\left(\lambda x. M\right)}{x}{N}}{\lambda z. \sub{M'}{x}{N}}{}
+	\end{mgrammar}
+	\end{center}
+	Dans le dernier cas, on a choisi $\lambda z. M' \equiv_{\alpha} \lambda x. M$ avec $z \neq x$ et $z$ n'est pas libre dans $N$.
+	\label{def:substitution}
+\end{definition}
+
+\begin{proposition}
+	La classe de $\alpha$-équivalence de $\sub{M}{x}{N}$ ne dépend pas des choix faits dans le cas $M = \lambda x. P$.
+	De plus, si $M' \equiv_{\alpha} M$ et $N' \equiv_{\alpha} N$, alors $\sub{M}{x}{N} = \sub{M'}{x}{N'}$.
+	\label{prop:classesubstitution}
+\end{proposition}
+\begin{proof}
+	On a $\sub{\left(\lambda x. M\right)}{x}{N} = \lambda x. M$.
+	On a:
+	\begin{equation*}
+		Occ(\sub{M}{x}{N}) + \left\{occ_{x} \cdot occ\ \middle|\ \mathrm{Lieur}(M)(occ_{x}) = x \text{ et } occ\in Occ(N)\right\}
+	\end{equation*}
+	Par ailleurs:
+	\begin{equation*}
+		VarOcc(\sub{M}{x}{N}) = VarOcc(M) \setminus \left\{occ_{x} \mid \mathrm{Lieur}(M)(occ_{x}) = x \right\} \cup \left\{occ_{x} \mid \mathrm{Lieur}(M)(occ_{x}) = x\right\}\cdot VarOcc(N)
+	\end{equation*}
+	La fonction $\mathrm{Lieur}\left(\sub{M}{x}{N}\right)$ est définie comme suit:
+	\begin{enumerate}
+		\item Si $occ_{y} \in VarOcc(M)$ alors $\mathrm{Lieur}\left(\sub{M}{x}{N} \right)(occ_{y}) = \mathrm{Lieur}(M)(occ_{y})$
+		\item Si $occ_{y} = occ_{x} \cdot occ_{y}'$ pour $occ_{x} \in VarOcc(M)$ telle que $\mathrm{Lieur}(M)(occ_{x}) = x$, alors $\mathrm{Lieur}\left(\sub{M}{x}{N}\right)(occ_{y}) = occ_{x}\cdot \mathrm{Lieur}(N)(occ_{y}')$ si $\mathrm{Lieur}(N)(occ_{y}') \in Occ(N)$, $\mathrm{Lieur}(N)(occ_{y}') \in Var$ sinon.
+	\end{enumerate}
+	Cela montre que $\sub{M}{x}{N}$ ne dépend pas du choix de $M$ et $N$ dans la classe d'équivalence à $\alpha$-équivalence.
+\end{proof}
+
+\subsection[Betared et Etaexp]{\betared et \etaexp}
+\begin{definition}
+	La règle de \betared:
+	\begin{equation*}
+		\left(\lambda x.M \right) N \longrightarrow \sub{M}{x}{N} \text{\parbox{.3\textwidth}{sur les classes d'équivalence à $\alpha$-conversion près}}
+	\end{equation*}
+	La règle d'\etaexp:
+	\begin{equation*}
+		M \longrightarrow \lambda x. App(M, x)
+	\end{equation*}
+	\label{def:betaredetaexp}
+\end{definition}
+
+\begin{definition}
+	Une $\beta$-redex d'un \lambdaterme $M$ est une occurence $occ \in Occ(M)$ telle que $M_{\mid o}$ est de la forme $App(\lambda x . P, Q)$.
+	\label{def:betaredex}
+\end{definition}
+
+\begin{definition}[Contexte]
+	Un contexte est défini par induction:
+	\begin{center}
+		\begin{mgrammar}
+			\firstrule{C}{\lambda x.C}{}
+			\grule{App\left(C, N \right)}{}
+			\grule{App\left(L, C \right)}{}
+			\grule{id}{trou.}
+		\end{mgrammar}
+	\end{center}
+	Si $C$ est un contexte et $M$ est un \lambdaterme $C[M]$ est défini par induction:
+	\begin{center}
+		\begin{mgrammar}
+			\firstrule{\left(\lambda x. C \right)[M]}{\lambda x.\left(C[M] \right)}{}
+			\firstrule{id[M]}{M}{}
+			\firstrule{App\left(C, Q\right)[M]}{App(C[M], Q)}{}
+			\firstrule{App\left(P, C\right)[M]}{App\left(P, C[M]\right)}{}
+		\end{mgrammar}
+	\end{center}
+	\label{def:CONTEXTE}
+\end{definition}
+
+\begin{remarque}
+	\begin{align*}
+		\lambda x.[x] = \lambda x. x\\ \not\equiv_{\alpha} \lambda y.[x] = \lambda y. x
+	\end{align*}
+\end{remarque}
+
+\begin{definition}
+	On notera $\Lambda$ l'ensemble des \lambdatermes à \alphaconv près.
+	\label{def:classequivlambda}
+\end{definition}
+
+\begin{remarque}
+	Chaque contexte définit une fonction $\Lambda \to \Lambda$:
+	\begin{align*}
+		\lambda x. [-]: \applic{\Lambda}{\Lambda}{M}{\lambda x. M}\\
+		App(P, [-]): \applic{\Lambda}{\Lambda}{M}{App(P, M)}\\
+		[-]: \applic{\Lambda}{\Lambda}{M}{M}
+	\end{align*}
+\end{remarque}
+
+\begin{proposition}
+	Pour toute occurence $occ \in Occ(M)$, il existe un contexte $C$ tel que $M = C[M_{\mid occ}]$.
+	\label{prop:occcontexte}
+\end{proposition}
+
+\begin{definition}
+	Une \betaredex (nouvelle définition) est un triplet $(M, o, N)$ tel que $M_{occ} = App\left(\lambda x. P, Q \right)$, $M = C[M_{\mid occ}]$ et $N = C[\sub{P}{x}{Q}]$.
+	\label{def:betaredex2}
+\end{definition}
+
+\begin{vocabulary}
+	On note $M \xrightarrow{u} N$ pour un \betaredex $u = \left(M, occ, N\right)$.
+\end{vocabulary}
+
+On peut avoir:
+\begin{category}
+	M\ar[r, bend left, "u"]\ar[r, bend right, "v"'] & N
+\end{category}
+\begin{exemple}
+En prenant par exemple: $\Delta = \lambda x. App(x, x)$. On a notamment $App(\Delta, P) \xrightarrow{\epsilon} App(P, P)$.
+Notamment, si on note:
+\begin{category}
+	\Omega = App(\Delta, \Delta)\ar[loop right, "\epsilon"]
+\end{category}
+on a:
+\begin{category}
+	App\left(\Omega, \Omega \right)\ar[loop left, "\tfun"]\ar[loop right, "\targ"]
+\end{category}
+\end{exemple}
+\begin{exemple}
+	En posant $I = \lambda x. x$, on a \begin{tikzcd}
+		I(Ia) \ar[r, bend left]\ar[r, bend right] & Ia
+	\end{tikzcd}
+	En effet:
+		\begin{category}[]
+			& App\ar[dl, no head, "\tfun"]\ar[dr, no head, "\targ"] & &\\
+			\lambda x\ar[d, no head] & & App\ar[dl, no head, "\tfun"]\ar[dr, no head, "\targ"] &\\
+			x & \lambda y\ar[d, no head] & & a\\
+			& y & &
+		\end{category}
+	Peut se réduire par $\epsilon$ et par $\targ$ en:
+	\begin{category}[]
+		& App\ar[dl, no head]\ar[dr, no head] &\\
+		\lambda z & & a\\
+		z & &
+	\end{category}
+\end{exemple}
+
+\begin{thm}[de Church-Resser (confluence)]
+	Si $f: M \rrightarrow P$ et $g: M \rrightarrow Q$ sont deux chemins de \betared alors il existe un \lambdaterme $N$ et deux chemins de \betared: $f': Q \rrightarrow N$ et $g': P\rrightarrow N$:
+	\begin{category}[]
+		& M\ar[dl, "\forall f"']\ar[dr, "\forall G"]\arrow["\tilde{}" description, phantom] &\\
+		P\ar[dr, "\exists g'"'] & & Q\ar[dl, "\exists f'"]\\
+		& N &
+	\end{category}
+\end{thm}
+On montrera qu'il existe un choix canonique de $N$, $f'$ et $g'$ modulo permutation.
+
+
 \section{TD 1}
 \subsection{Catégories et Foncteurs}
 \begin{enumerate}
@@ -1098,5 +1365,43 @@ Une des difficultés de cette explication est l'$\alpha$-conversion, que nous de
 		      B\arrow["f"', r] & A
 		\end{category}
 		In Set, this is the fucking direct image.
-\end{description}<++>
+\end{description}
+\section{TD 3}
+\subsection{Égaliseurs et Coégaliseurs}
+\begin{description}
+	\item[Question 1] On prend pour $E$ l'ensemble $\left\{s \in X\mid f(s) = g(s) \right\}$. On pose alors $m$ l'injection $E \to X$.
+		On a alors trivialement, si $f\circ n = g\circ n$, $Im(n) \subseteq E$ vu comme partie de $X$.
+		D'où le résultat.
+	\item[Question 2] Si on a $n: A \to E$, $m\circ n: A \to X$. Puisque $fmn = gmn$, la factorisation $mn$ est unique par définition d'un égaliseur donc $m$ est un monomorphisme.
+	\item[Question 3] Un co-égaliseur de $f, g$ est une flèche $m : Y \to Q$ telle que $m\circ f = m\circ g$ et pour toute flèche $n: Y \to F$ telle que $n \circ f = n \circ g$, on a une unique factorisation $n = hm$.
+		Autrement dit, un co-égaliseur de $f, g$ est un égaliseur des flèches duales de $f, g$ dans la catégorie duale.
+	\item[Question 4] Le co-égaliseur étant le dual d'un égaliseur, c'est le dual d'un mono, et donc un épimorphisme.
+	\item[Question 5] Le co-égaliseur $Q$ de deux fonctions dans $\mathrm{Set}$ est l'ensemble quotient par $m: f(x) \tilde g(x)$ avec $m$ la projection.
+		En effet, si $n \circ f = n\circ g$, alors en particulier, l'image de $x \in E$ est entièrement déterminée par sa classe d'équivalence sous $m$.
+	\item[Question 6] Toute fonction surjective est la projection sur un ensemble de classe d'équivalences.
+		En prenant pour $f, g$ deux fonctions qui sont égales sur $Y / e$, on a le résultat.
+\end{description}
+\subsection{Factorisation Epi-Mono}
+\begin{description}
+	\item[Question 1] On définit un ensemble $U$ par $U = X/f$. Alors $e: X \to U, x \mapsto [f(x)]$ est surjective et $m : [f(x)] \to f(x)$ est injective puisque $\abs{U} = \abs{\Im(f)} = \abs{\Im(m)}$.
+	\item[Question 2] Si $e$ est injective et $m$ est surjective (en particulier $e$ est un epi et $m$ est un mono), et si $u, v$ font commuter le diagramme suivant:
+		\begin{category}
+			A\ar["u", r]\ar[d, "e"] & X\ar[d, "m"] \\
+			B\ar[r, "v"] & Y
+		\end{category}
+		alors, puisque $e$ est surjective, il existe $s$ une section telle que $e \circ s = \id$. En posant $h = us$, on a bien le résultat: si $s'$ est une autre section, $mus = ves = v =  ves' = mus'$.
+	\item[Question 3] Puisque toute composée de fonctions surjectives (resp. injectives) est surjective (resp. injective), $\left(\mathcal{E}, \mathcal{M}\right)$ définit un système de factorisation.
+	\item[Question 4] On considère d'abord $e_{2} \circ u$ et $v\circ m_{1}$:
+		\begin{category}
+			X_{1}\ar[dr, "e_{2} \circ u"']\ar[r, "e_{1}"] & U_{1}\ar[dr, "v\circ m_{1}"] &\\
+			& U_{2}\ar[r, "m_{2}"'] & Y_{2}
+		\end{category}
+		Il existe donc une unique flèche $h: U_{1} \to U_{2}$ qui fait commuter le diagramme:
+		\begin{category}
+			X_{1}\ar[r, "e_{1}"]\ar[d, "u"'] & U_{1}\ar[r, "m_{1}"]\ar[d, dashed, "h" description] &Y_{1}\ar[d, "v"]\\
+			X_{2}\ar[r, "e_{2}"'] & U_{2}\ar[r, "m_{2}"'] & Y_{2}
+		\end{category}
+
+\end{description}
+
 \end{document}

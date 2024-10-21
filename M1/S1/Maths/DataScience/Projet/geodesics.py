@@ -3,6 +3,11 @@ import numpy.linalg as npl
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 import csv
+from typing import *
+
+
+def opposite_edge(index, points):
+    return points[(index + 2) % 3] - points[(index + 1) % 3]
 
 
 class Manifold:
@@ -12,6 +17,14 @@ class Manifold:
         self.label = label
         if path is not None:
             self.load_ascii_from_off(path)
+
+    @property
+    def n(self):
+        return len(self.points)
+
+    @property
+    def m(self):
+        return len(self.faces)
 
     def __repr__(self):
         return f"{self.__name__}(label={self.label}, n_points={len(self.points)}, n_faces={len(self.faces)}"
@@ -92,21 +105,31 @@ class Manifold:
     def get_points(self):
         return lambda face: np.array([self.points[p] for p in self.faces[face]])
 
-    @classmethod
-    def unnormalized_normal(cls):
+    @property
+    def unnormalized_normal(self):
         return lambda face_vertices: np.cross(face_vertices[1] - face_vertices[0], face_vertices[2] - face_vertices[0])
 
-    @classmethod
-    def area(cls):
-        return lambda face_vertices: npl.norm(cls.unnormalized_normal()(face_vertices)) / 2
+    @property
+    def area(self):
+        return lambda face_vertices: npl.norm(self.unnormalized_normal(face_vertices)) / 2
 
-    @classmethod
-    def normalize(cls):
+    @property
+    def normalize(self):
         return lambda point: point / npl.norm(point) if npl.norm(point) else point
 
-    @classmethod
-    def gradient(cls):
-        return []
+    # grad(f)(j) = 1/2Aj sum_{i= 1}^{3}f_{i}J
+    @property
+    def gradient(self):
+        return lambda function: \
+            (lambda face_vertices:
+             sum(function(f) * np.cross(self.normalize(self.unnormalized_normal(face_vertices)),
+                                        opposite_edge(index, face_vertices))
+                 for (f, index) in enumerate(face_vertices) / (2 * self.area(face_vertices)))
+             )
+
+    @property
+    def gradient_mat(self):
+        return 
 
 
 if __name__ == '__main__':
