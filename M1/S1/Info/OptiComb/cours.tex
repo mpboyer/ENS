@@ -850,7 +850,7 @@ On présente ici un algorithme qui renvoie une cut correcte avec une bonne proba
 	\begin{equation*}
 		p \leq \left(1 - \frac{2}{n^{2}} \right)^{10n^{2}\log(n)} \leq \left(e^{-1}\right)^{5\log n} = \frac{1}{n^{5}}
 	\end{equation*}
-\end{proof}<++>
+\end{proof}
 
 \begin{thm}
 	Le nombre de coupes minimales est inférieur à $\binom{n}{2}$ et cette borne est optimale.
@@ -859,5 +859,199 @@ On présente ici un algorithme qui renvoie une cut correcte avec une bonne proba
 	Toutes les preuves précédentes étant vraies pour une coupe minimale quelconque, en sommant les probabilités on a le résultat.
 	En prenant un cycle on a le résultat, puisqu'une coupe est équivalente à choisir deux sommets
 \end{proof}
+
+\section{Matroïdes}
+On notera ici $I + x = I\cup \{x\}$ et $I - x = I \setminus \{x\}$.
+
+\begin{definition}
+	$M = \left(U, \mathbb{I} \right), \mathbb{I} \subseteq 2^{U}$ est un système indépendant si:
+	\begin{itemize}
+		\item[$A_{0}$] $\emptyset \in \I$
+		\item[$A_{1}$] $u \subseteq V \in \I \Rightarrow u \in \I$.
+	\end{itemize}
+	Les éléments de $\I$ sont appelés ensembles indépendants.
+	Si de plus, $M$ vérifie l'une des conditions équivalentes suivantes, $M$ est appelé un matroïde:
+	\begin{itemize}
+		\item[$A_{2}$] Pour $\bar{U} \subseteq U$ tous les ensembles indépendants maximaux dans $U$ ont la même taille.
+		\item[$A_{2}'$] Étant donné $I, J \in \I$, si $\abs{I} > \abs{J}$ il existe $x \in J \setminus I$ tel que $I + x \in \I$.
+		\item[$A_{2}'$] Pour $I, J \in I$ tels que $\abs{J\setminus I} = 2$ et $\abs{I\setminus J} = 1$ alors il existe $x \in J \setminus I$ tel que $I + x\in \I$.
+	\end{itemize}
+\end{definition}
+Les matroïdes ont été introduits dans différents domaines de manière indépendante dans les années 30.
+
+\begin{exemple}[Matroïde de Graphe]
+	Étant donné un graphe $(V, E)$, en considérant $U = E$ et $\I$ l'ensemble des forêts, $\left(U, \I\right)$ est un matroïde.
+	En effet, toutes les forêts maximales sont de taille $\abs{U} - \mathrm{cc}(G)$ où $\mathrm{cc}(G)$ est le nombre de composantes connexes de $G$.
+\end{exemple}
+
+\begin{exemple}[Matroïde Linéaire]
+	Étant donné une matrice $A = \left(C_{1}, \ldots, C_{n}\right)$, $U$ l'ensemble de ses colonnes et $\I$ l'ensemble des sous familles des colonnes linéairement indépendantes forment un matroïde.
+	En effet, cela à revient à dire que toutes les bases d'un même espace ont même cardinal.
+\end{exemple}
+
+\begin{exemple}[Matroïde de Partitions]
+	Étant donné un ensemble $U = \sqcup U_{i}$, on prend $\I$ l'ensemble des ensembles dont l'intersection avec chacun des $U_{i}$ est de cardinal au plus $1$.
+\end{exemple}
+
+\begin{definition}
+	\begin{itemize}
+		\item Le rang de $V \subseteq U$, noté $\gamma_{M}(V)$ l'entier $\max_{I \in \I \cap P(V)} \abs{I}$.
+		\item Si $\abs{I} = \gamma_{M}(V)$, $I$ est une base de $V$.
+		\item Si $\abs{I} = \gamma_{M}(U)$, $I$ est une base.
+		\item $C \subseteq U$ est un circuit si $C$ est un ensemble dépendant minimal.
+		\item On appelle l'ensemble engendré par $V$ l'ensemble $\mathrm{span}_{M}(V) = \left\{e \mid \gamma_{M}(V) = \gamma_{M}(V + e)\right\}$.
+	\end{itemize}
+\end{definition}
+
+\problemStatement{}{Entrée={Matroïde $M = \left(U, \I \right)$ avec une fonction de poids $w : U \to \R$}, Sortie={Ensemble indépendant de poids maximal.}}
+
+\begin{algorithm}
+	\caption{Algorithme Glouton -- Edmonds}
+	\begin{algorithmic}
+		\State $I \gets \emptyset$
+		\While {$\exists x \in U \setminus I$ tel que $w(x) > 0$ et $I + x \in \I$}
+			\State {$I = I + e$ où $e = \argmax w(e)$}
+		\EndWhile
+	\end{algorithmic}
+\end{algorithm}
+
+\begin{thm}[Rado - Edmonds]
+	L'algorithme glouton renvoie une solution optimale.
+\end{thm}
+\begin{proof}
+	Supposons que l'algorithme renvoie $I = \{e_{1}, \cdots, e_{h}\}$ (les éléments étant ordonnés par ordre décroissants de poids).
+	Supposons qu'on ait un ensemble $OPT = \{f_{1}, \cdots, f_{s}\}$ de poids optimal.
+	Supposons $w(OPT) > w(I)$.
+	Alors, on choisit le plus petit $l$ tel que $w(f_{l}) > w(e_{l})$. S'il n'en existe pas, prenons $l = h$.
+	Alors, $\{e_{1},\ldots, e_{l - 1}\}$ est un ensemble indépendent maximal dans $\{e_{1}, \ldots, e_{l - 1}, f_{1}, \ldots, f_{l}\}$.
+	Or, $f_{1}, \ldots, f_{l}$ est indépendant: on a une contradiction par la propriété $A_{2}$ des matroïdes.
+\end{proof}
+
+La preuve de cette algorithme nous donne une nouvelle condition équivalente pour la définition d'un matroïde:
+\begin{proposition}
+	L'algorithme glouton renvoie un ensemble indépendant de poids maximal pour toute fonction de poids si et seulement si $(U, \I)$ est un matroïde.
+	\label{prop:greedymatroid}
+\end{proposition}
+\begin{proof}
+	Il nous reste à montrer que cette propriété implique l'une des propriétés précédentes.
+	Supposons que la propriété ci-dessus soit vérifiée mais que $\left(U, \I\right)$ ne soit pas un matroïde.
+	Il existe $I, J$ maximaux tels que $\abs{I} > \abs{J}$.
+	Alors, on pose $w(e) = 1$ pour $e \in I \cup J$, $w(e) = 0$ sinon.
+	L'algorithme glouton ne spécifiant pas comment résoudre les conflits d'égalité, on pourrait avoir $J$ en résultat.
+\end{proof}
+
+\problemStatement{Intersection de Matroïdes}{Entrée={$M_{1} = \left(U, \I_{1}\right), M_{2} = \left(U, \I_{2}\right)$}, Sortie={Le plus grand $I \in \I_{1} \cap \I_{2}$}}
+
+On peut voir le problème de couplage dans les graphes bipartis ou le problème de couverture par un arbre coloré comme des problèmes d'intersection de matroïdes.
+
+Dans le cas du problème de couverture d'un arbre coloré par exemple, on prend le matroïde du graphe et le matroïde de partition sur les arêtes en considérant la partition par couleurs.
+Pour la couverture par un arbre dirigé, on prend le matroïde du graphe et le matroïde de la partition des arêtes selon leur destination.
+
+On note que l'intersection de deux matroïdes n'est pas un matroïde.
+On note par ailleurs que résoudre l'intersection de 3 matroïdes permet de résoudre des problèmes NP-Complets (réduction aux Chemins Hamiltonniens, ou 3D-Matching)
+
+\begin{lemme}
+	Si $I \in \I$, $I + x$ crée au plus un circuit $C$.
+\end{lemme}
+\begin{proof}
+	Par l'absurde, soit $A$ le plus petit contre-example. $A + x$ contient deux circuits $C_{1}, C_{2}$.
+	On peut supposer $A + x = C_{1} \cup C_{2}$.
+	Il existe par ailleurs $a \in C_{1} \setminus C_{2}$ et $b \in C_{2} \setminus C_{1}$.
+	Considérons $A' = A + x - a - b$.
+	Alors $A' \in I$ et $A$ et $A'$ sont tous deux des ensembles indépendants maximaux dans $A + x$.
+\end{proof}
+
+\begin{corollaire}
+	Si $I \in \I$, $I + x$ contient $C$, alors $I + x - y \in \I$, pour tout $y \in C$.
+\end{corollaire}
+
+\begin{definition}
+	On définit le graphe auxiliaire $G(I) = \left(I \sqcup U \setminus I, E\right)$ d'un ensemble indépendant $I \in \I_{1} \cap \I_{2}$ où $E$ est un ensemble d'arêtes orientées défini par:
+	\begin{itemize}
+		\item Si $I + x$ contient un circuit $C_{2}$ dans $M_{2}$, on met une arête de $y$ vers $x$ pour tout $y \in C_{2} - x$.
+		\item Si $I +x $ contient un circuit $C_{1}$ dans $M_{1}$, on met une arête de $x$ vers $y$ pour tout $y \in C_{1} - x$.
+	\end{itemize}
+	On définit de plus $X_{2} = \{e \mid I + e \in \I_{2}\}$ et $X_{1} = \{e \mid I + e\in \I_{1}\}$ des parties de $U \setminus I$.
+	\label{def:auxilarygraph}
+\end{definition}
+
+\begin{algorithm}
+	\caption{Edmonds}
+	\begin{algorithmic}
+		\State {$I \gets \emptyset$}
+		\While {il existe un chemin de $X_{2}$ vers $X_{1}$ dans $G(I)$}
+		\State {Trouver le plus court chemin $p$}
+		\State {$I = I \oplus P$}
+		\EndWhile
+	\end{algorithmic}
+\end{algorithm}
+
+\begin{thm}
+	Quand l'algorithme s'arrête, $I$ est le plus grand ensemble indépendent commun.
+\end{thm}
+
+\begin{lemme}
+	Soit $P = e_{0}f_{1}e_{1}f_{2}\cdots f_{t}e_{t}$ le plus court chemin dans $G(I)$ de $X_{2}$ vers $X_{1}$.
+	Soit $I_{0} = I + e_{0}$, $I_{t} = I_{0} + \{e_{0}, \ldots, e_{t}\} - \{f_{1}, \ldots, f_{t} \}$
+	Alors pour tout $i$, $I_{i}\in \I$.
+\end{lemme}
+\begin{proof}
+	Par induction sur $i$, $I_{0} \in \I_{2}$ par définition de $X_{2}$.
+	Pour $i > 0$, $I_{j - 1} + f_{j}$ pour $j \geq i$ a le même circuit que $I + f_{j}$ car aucun des circuits dans $I + e_{z}$ pour $z < j$ n'implique d'éléments de $\{f_{1}, \ldots, f_{z - 1}\}$ puisque $P$ est le plus court chemin.
+	En effet, sinon, on aurait un raccourci et une arête d'un certain $f_{k}$ vers $e_{z}$, ce qui permettrait de raccourcir $P$.
+\end{proof}
+
+\begin{lemme}
+	On a $I \oplus P \in \I_{1}$.
+\end{lemme}
+\begin{proof}
+	En inversant les indices dans la preuve précédente.
+\end{proof}
+
+\begin{thm}[Minimax d'Edmonds]
+	On a:
+	\begin{equation*}
+		\max_{I \in \I_{1} \cap \I_{2}} \abs{I} = \min_{A \subseteq U}\gamma_{1}(A) + \gamma_{2}\left(U\setminus A\right)
+	\end{equation*}
+\end{thm}
+\begin{proof}
+	Prouvons d'abord la dualité faible:
+	Par définition du rang*, $I \cap A$ étant indépendant dans $M_{1}$ et $I\cap U\setminus A$ étant indépendant dans $M_{2}$, $\abs{I\cap A} \leq \gamma_{1}(A)$ et $\abs{I\cap U\setminus A} \leq \gamma_{2}(U\setminus A)$.
+	La dualité forte découlera de la correction de l'algorithme d'Edmonds.
+\end{proof}
+
+\begin{proof}[Démonstration de la Correction de l'Algorithme d'Edmonds]
+	Quand l'algorithme s'arrête, il n'y a pas de chemin.
+	Soit $R$ l'ensemble des sommets atteignables depuis $X_{2}$.
+	Alors $R \cap I$ est une base de $R$ dans $M_{1}$.
+	\begin{proof}
+	En effet, $R \setminus I \cap X_{1} = \emptyset$ donc, pour $e \in R\setminus I$, $I + e$ a un circuit $C$.
+	Or, $C$ n'implique que $e$ et $R\cap I$, puisque $G(I)$ est biparti.
+	Ceci prouve bien que $R\cap I$ est de cardinal maximal et donc une base.
+	\end{proof}
+	Par symétrie, $I\setminus R$ est une base de $R^{\complement}$ dans $M_{2}$.
+	Ainsi, $\abs{I} = \abs{R \cap I} + \abs{I\setminus R} = \gamma_{1}\left(R\right) + \gamma_{2}\left(R^{\complement}\right)$.
+	Donc $I$ fait égalité dans la formule d'Edmonds.
+\end{proof}
+
+\begin{thm}
+	L'algorithme demande un temps polynomial.
+\end{thm}
+
+\begin{definition}
+	Étant donné un matroïde $M = \left(U, \I \right)$, on peut définir un autre matroïde appelé \emph{matroïde dual} $M^{*} = \left(U, \I^{*}\right)$ où $\I^{*} = \left\{A \mid U\setminus A \text{ contient une base dans } M \right\}$.
+	\label{def:dualmatroid}
+\end{definition}
+
+Pour le matroïde graphique, c'est l'ensemble des ensembles d'arêtes qu'on peut retirer en gardant chaque composante du graphe connexe.
+Un circuit devient donc une coupe.
+
+\begin{proof}
+	Étant donné $A \subseteq U$, on pose $I$ l'ensemble indépendent maximal dans $A$ considéré dans $M^{*} = \left(U, \I^{*}\right)$.
+	On choisit une base $X$ de $U \setminus A$ dans $M$.
+	Notons $B = X + A \setminus I$.
+	Alors, $B$ est une base de $U$ dans $M$.
+	En effet: CÉPAFINI
+\end{proof}<++>
 
 \end{document}
