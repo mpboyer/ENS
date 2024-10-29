@@ -139,6 +139,15 @@ There is a common set of distinct representatives for $S = \left\{S_{1}, \ldots,
 \end{thm}
 
 \section{Question 3}
+We will first prove that all edges in $M_{1}$ are in $E''$.
+Since by duality we know that one can get a minimum \emph{integral} vertex cover from a maximum \emph{cardinality} matching on a non weighted graph (which is the case of $G'$ since all edges have the same positve non-zero weight), we know that a minimum integral vertex cover on $G'$ will have exactly one vertex per edge of $M_{1}$ and edges for unconnected vertices in $G'$.
+Thus, $E''$ will contain all edges of $M_{1}$ plus the edges of $G$ of weight $2$ that are adjacent to an edge of $M_{1}$ and the edges of $G$ of weight $1$ that are not touched by the vertex cover, that is, edges that are at least one edge away from $M_{1}$.
+
+Let $M$ be a matching in $G$.
+Since $M_{1}$ is of maximum cardinality, $M$ cannot have more than $\abs{M_{1}}$ edges of weight $2$.
+Moreover, when constructing $M_{2}$ by augmenting in $G''$, we maximise the matching size while respecting the vertex cover constraints and thus the matching constraints.
+We have thus a number as large as possible of edges of weight $1$.
+Therefore, $M$ cannot have have more edges than $M_{2}$ and thus $w(M) \leq w(M_{2})$.
 
 \section{Question 4}
 First, we remind the Tutte-Berge's minimax formula on a network $\mathcal{G} = \left(V, E\right)$ in the formulation we will be using:
