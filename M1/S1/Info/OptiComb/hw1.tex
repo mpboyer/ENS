@@ -23,8 +23,10 @@ $\boxed{\text{There are thus at most } 4n^{2} \text{ phases.}}$
 	\item A saturating push creates at most one new active node.\\
 		\boxed{\text{Thus, a saturating push increases $\Phi$ by at most $\frac{n}{K}$.}}
 	\item A nonsaturating push across the edge $(u, v)$ deactivates node $u$ and might activate node $v$.
-		Then we have $\bar{d}(v) \leq \bar{d}(u)$, and hence a nonsaturating push does not increase $\Phi$.\\
+		Then we have $\bar{d}(v) \leq \bar{d}(u)$, and hence a nonsaturating push does not increase $\Phi$.
+
 		\medskip
+
 		During heavy phases, we execute $\rho > K$ nonsaturating pushes.
 		Since $d^{*}$ is constant during the phase, all $\rho$ nonsaturating pushes must be from nodes at level $d^{*}$.\\
 		Indeed, we choose nodes from the highest level, thus $d^{*}$.\\
@@ -32,7 +34,6 @@ $\boxed{\text{There are thus at most } 4n^{2} \text{ phases.}}$
 		Level $d^{*}$ thus contains $\rho > K$ nodes (either active or inactive) throughout the phase.\\
 		Hence, each nonsaturating push decreases $\Phi$ by at least one, since $\bar{d}(v) \leq \bar{d}(u) - 1$ for $(u, v)$ with $\abs{\left\{w\mid d(w) = d(u)\right\}} \geq K$.\\
 		Finally, a heavy phase of non saturating push will decrease $\Phi$ by at least $\rho > K$.\\
-		\smallskip
 
 		For light phases, the bound is easier: the number of nonsaturating pushes is bounded $K$.
 \end{itemize}
@@ -48,7 +49,10 @@ since $4n^{2}$ is the number of phases (and thus more than the number of light p
 
 Finally, since $n = \O(m)$ (the graph being connex $m \geq n - 1$ and $n \leq m + 1$), taking $K = \sqrt{m}$ we get a complexity in $\O(n^{2}\sqrt{m})$.
 
+\medskip
 \hrule
+\hrule
+\medskip
 
 \section{Question 2}
 We will use Ford-Fulkerson's theorem on an appropriate graph to prove this property.
@@ -131,12 +135,14 @@ Then, the equation becomes:
 	\abs{X} + \abs{Y} \leq k + \sum_{I\left(X\right) \cap I\left(Y\right)} 1
 \end{equation*}
 which is exactly the result:
-\begin{thm}
 There is a common set of distinct representatives for $S = \left\{S_{1}, \ldots, S_{k} \right\}$ and $T = \left\{T_{1}, \ldots, T_{k} \right\}$ over a same ground set $U$ if and only if, for every $X, Y \subseteq \onen{k}$ the following inequality is verified:
 \begin{equation*}
 	\abs{X} + \abs{Y} \leq k + \abs{I\left(X\right) \cap I\left(Y\right)}
 \end{equation*}
-\end{thm}
+
+\medskip
+\hrule\hrule
+\medskip
 
 \section{Question 3}
 We will first prove that all edges in $M_{1}$ are in $E''$.
@@ -148,6 +154,10 @@ Since $M_{1}$ is of maximum cardinality, $M$ cannot have more than $\abs{M_{1}}$
 Moreover, when constructing $M_{2}$ by augmenting in $G''$, we maximise the matching size while respecting the vertex cover constraints and thus the matching constraints.
 We have thus a number as large as possible of edges of weight $1$.
 Therefore, $M$ cannot have have more edges than $M_{2}$ and thus $w(M) \leq w(M_{2})$.
+
+\medskip
+\hrule\hrule
+\medskip
 
 \section{Question 4}
 First, we remind the Tutte-Berge's minimax formula on a network $\mathcal{G} = \left(V, E\right)$ in the formulation we will be using:
@@ -183,7 +193,7 @@ we have
 and thus $\oc\left(H \setminus U \right) \leq \abs{U} + 1$.
 However since $\abs{H} = 2n$ is even, $\oc\left(H \setminus T \right)$ has the same parity as $\abs{T}$.
 Thus $k \leq \abs{U}$ or $\oc\left(H \setminus U \right) \leq \abs{U}$ for any $U \subseteq V$.
-\boxed{Finally $H$ has a perfect matching per \ref{eq:tuttecondition} and thus $G$ has a perfect matching.}
+\boxed{\text{Finally, } H \text{ has a perfect matching per \ref{eq:tuttecondition} and thus } G \text{ has a perfect matching.}}
 
 
 
