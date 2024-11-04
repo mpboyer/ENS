@@ -315,7 +315,7 @@ L'idée est, à partir des différents angles au niveau des articulations du rob
 \end{definition}
 
 Pour une liaison pivot, on a par exemple:
-\begin{equation*}
+	\begin{equation*}
 			      K_{i}: q\in \S^{1} \simeq \R \mapsto \begin{bmatrix}
 				      \cos q  & \sin q & 0 & 0 \\
 				      -\sin q & \cos q & 0 & 0 \\
@@ -329,7 +329,13 @@ Pour une liaison pivot, on a par exemple:
 	On peut calculer le placement de l'organe terminal en connaissant la mesure des angles articulaires:
 	\begin{enumerate}
 		\item On calcule la position relative du repère d'une articulation par rapport au repère de l'articulation précédente
+			\begin{equation*}
+				M_{i}^{i - 1}(q_{i}) = P_{i}^{i- 1}K_{i}(q_{i})
+			\end{equation*}
 		\item On récupère en composant la position relative du repère $n$ par rapport au repère de la première base.
+			\begin{equation*}
+				K_{n}^{0} : q = (q_{1}, \ldots, q_{n}) \in Q_{1}^{n} = \times_{i = 1}^{n} Q_{i} \mapsto \times_{i = 1}^{n}P_{i}^{i - 1}K_{i}(q_{i}) \in \mathrm{SE}(3)
+			\end{equation*}
 		\item On peut alors lire l'espace des configurations:
 		      \begin{equation*}
 			      Q = \times_{k = 1}^{N} Q_{i} \simeq \R^{\sum_{k = 1}^{N} n_{i}}
@@ -342,21 +348,32 @@ Pour une liaison pivot, on a par exemple:
 	Le changement de configuration d'une articulation provient de la mise en mouvement de cette articulation:
 	\begin{enumerate}
 		\item Position relative de l'articulation entre les deux repères adjacents:
+			\begin{equation*}
+				K_{i}: q_{i} \in Q_{i} \to M_{i}(q_{i}) \in \mathrm{SE}(3)
+			\end{equation*}
 		\item Vitesse relative engendrée par l'articulation:
+			\begin{equation*}
+				k_{i}: (q_{i}, \dot{q_{i}}) \in T_{q_{i}}Q_{i} \to v_{i}(q_{i}) = S_{i}(q_{i})\dot{q_{i}} \in \mathrm{se(3)}
+			\end{equation*}
 	\end{enumerate}
 	Pour quelques liaisons:
 	\begin{multicols}{2}
 	\begin{itemize}
-		\item Liaison Pivot
+		\item Liaison Pivot:
+			\begin{equation*}
+				S_{i}(q_{i}) = \begin{bmatrix}
+					0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 1
+				\end{bmatrix}\in \R^{6 \times 1}
+			\end{equation*}
 		\item Prismatique \begin{equation*}
 			      S_{i}(q_{i}) = \begin{bmatrix}
 				      0 \\ 0\\ 1\\ 0\\ 0\\ 0
 			      \end{bmatrix}
 		      \end{equation*}
-%		\item[Cylindrique]
-%		\item[Planaire]
-%		\item[Vis]
-%		\item[Sphérique]
+		\item Cylindrique
+		\item Planaire
+		\item Vis
+		\item Sphérique
 	\end{itemize}
 	\end{multicols}{2}
 	\label{def:vitessearticulaire}
@@ -366,6 +383,9 @@ Pour une liaison pivot, on a par exemple:
 	On peut calculer la vitesse de l'organe terminal en connaissant la mesure des angles et des vitesses articulaires:
 	\begin{enumerate}
 		\item On calcule la position relative de l'organe terminal:
+			\begin{equation*}
+				K_{n}^{0} : q = (q_{1}, \ldots, q_{n}) \in Q_{1}^{n} = \times_{i = 1}^{n} Q_{i} \to \times_{i = 1}^{n}P_{i}^{i - 1}K_{i}(q_{i}) \in \mathrm{SE}(3)
+			\end{equation*}
 		\item On calcule la vitesse relative de l'organe terminal:
 		      \begin{equation*}
 			      k_{n}^{0}: (q, \dot{q}) \mapsto \sum_{i = 1}^{n} k_{i}(q_{i}, \dot{q_{i}}
@@ -499,5 +519,90 @@ Par redondance:
 	\forall y_{2} \in \R^{n}, x^{*} = A_{1}^{+}b_{1} + \left(I_{n} - A_{1}^{+}A_{1}\right)y_{2}
 \end{equation*}
 
+
+\section{Planification de Mouvement}
+\subsection{Mathématisation}
+\begin{definition}
+	On appelle espace de travail l'espace ambient $\E^{3}$.
+	Un système physique est alors un ensemble $\{K_{1}, \cdots, K_{N}\} \in \mS \subseteq \mathcal{K}\left(\E^{3}\right)^{N}$ de compacts.
+	L'espace $\mS$ de tous les ensembles possibles est appelé espace d'états.
+	\label{def:motionplanningspace}
+\end{definition}
+
+
+\begin{definition}
+	On va paramétrer l'espace d'états par des transformations $q = \phi_{1}, \ldots, \phi_{M} \in \mC$ de sorte que:
+	\begin{equation*}
+		S_{q} = \underbrace{\phi_{1}(K_{1}^{0}), \ldots, \phi_{M}(K_{M}^{0})}_{\text{Robot}}, \underbrace{K_{M+1}^{0}, \ldots, K_{N}^{0}}_{\text{Obstacles}}
+	\end{equation*}
+	où les $K_{i}^{0}$ sont fixés.
+	On appelle l'ensemble des transformations générant $\mS$ l'espace des configurations $\mC$.
+	En général, $\mC$ est une variété. La dimension de $\mC$ est le degré de liberté du système.
+\end{definition}
+La dimension numérique n'est pas nécessairement la dimension minimale de la représentation.
+Les corps de référence $K_{i}^{0}$ peuvent être représentés ou bien par des triangulations (meshes) ou bien par une décomposition polynomial ($f(x, y) \leq 0$ avec $f$ une fonction polynomiale bien choisie).
+
+\begin{definition}
+Pour gérer les collisions on définit:
+\begin{align*}
+	\mC_{obs} = \{q \in \mS \\
+			\exists i\neq j \in \left(1, M\right)^{2}, \phi_{i}\left(K_{i}^{0}\right)\cap \phi_{j}\left(K_{j}^{0}\right) \neq 0 \\
+			\exists i \in \left(1, M\right), j\in \left(M + 1, N\right), \phi_{i}(K_{i}^{0}) \cap K_{j}^{0} \neq \emptyset\}
+	\end{align*}
+et on pose $\mC_{free} = \mC \setminus\mC_{obs}$.
+Un espace physique $S_{q} = \phi_{1}\left(K_{1}^{0}\right), \ldots, \phi_{M}(K_{M}^{0}), K_{M + 1}^{0}, \ldots, K_{N}$ est possible si et seulement si $q \in \mC_{free}$.
+\end{definition}
+
+Avec l'approche par espace de configurations, l'objectif de la planification de mouvement de trouver un mouvement continu entre des états du système qui ne cause pas de collision devient un problème de trajectoire ponctuelle.
+Étant donnés $q_{i}, q_{g} \in \mC_{free}$, trouver:
+\begin{equation*}
+	\gamma \in \cont^{0}\left(\left[0, 1\right], \cont_{free}\right), \gamma(0) = q_{i}, \gamma(1) = q_{g}
+\end{equation*}
+
+\subsection{Paradigmes et algorithmes}
+Il y a trois paradigmes principaux qui sont en compétition:
+\begin{itemize}
+	\item La planification combinatoire (planification exacte), morale mais peu réaliste.
+	\item L'optimisation de trajectoire (planification locale), moderne mais locale.
+	\item La planification de mouvement basée sur l'échantillonnage (planification probabiliste), peu morale mais répandue.
+\end{itemize}
+
+Les algorithmes de plannification de mouvement peuvent être:
+\begin{itemize}
+	\item Complets: Si une solution existe elle est trouvée, sinon on renvoie une erreur.
+	\item Semi-Complets: Si une solution existe elle est trouvée, sinon, on peut tourner pendant un temps infini.
+	\item Probablement Complets: Si une solution existe, la probabilité de la trouver tend vers $1$ quand le nombre d'itérations tend vers l'infini.
+\end{itemize}
+
+\subsubsection{Planification Combinatoire et Optimisante}
+Pour cet algorithme on construit un nombre fini de routes, des graphes dont les sommets sont des configurations et les arêtes sont des chemins.
+Une route est un graphe topologique de l'espace des configurations accessibles $\mC_{free}$ si elle est accessible depuis $\mC_{free}$ et préserve l'homotopie.
+
+Dans le cas où $\mC_{free}$ est linéaire par morceau, on peut utiliser le principe de balayage du plan pour déterminer l'accessibilité en $\O(n\log(n))$.
+On calcule alors une triangulation de Delaunay et son graphe d'adjacence en $\O(n^{2})$.
+
+Dans le cas général, on utilise des décompositions spécialisées et l'algorithme de Canny, puis la procédure générale de décomposition algébrique en cylindres de Schwartz et Sharir.
+
+Pour l'algorithme d'optimisation, on n'a pas de garanties d'explorer toutes les classes d'homotopie et on a besoin de méthodes de contrôle optimal avec un coût terminal fort.
+
+\subsubsection{Plannification par Échantillonnage}
+Ici, on va commencer par utiliser un détecteur de collision pour séparer la phase de planification de la géométrie initiale.
+Ensuite, on va échantillonner systématiquement pour limiter le non-déterminisme.
+Pour générer des routes approximatives, on va échantillonner des configurations, voir si elles entrent en collision, construire une route de celles qui sont libres et ajouter comme arêtes celles qui sont navigables sans collisions.
+La navigation se fait en utilisant une interpolation linéaires avec la carte exponentielle d'un groupe de Lie.
+Cette méthode génère de nombreux sommets inutiles, ce qui aumgente le temps de calcul quadratiquement.
+On utilise alors le théorème de Chvátal pour la résolution du problème de la gallerie d'art.
+On obtient alors l'algorithme Visibility-PRM, décrit par Laumond en 2000.
+
+\subsection{Contrainte Dynamique}
+On pose $\dot{x} = f(x, u)$.
+On dit qu'un système est non-holonome si
+\begin{equation*}
+	\left\{f(x, u) \in T_{x}\cont, u \in \mathcal{U} \right\}
+\end{equation*}
+ne couvre par l'espace tangent $T_{x}\cont$.
+On dit que le système est localement contrôlable si pour tout intervalle de temps, la région atteignable contient un voisinage de l'état.
+Dans le cas général, on doit travailler dans $T\cont$ pour l'espace position/vitesse.
+Ceci double la dimension et ajoute un grand nombre de contraintes, ce qui limite l'efficacité des méthodes d'échantillonnage.
 
 \end{document}
