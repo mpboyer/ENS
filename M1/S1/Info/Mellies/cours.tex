@@ -20,6 +20,9 @@
 \def\alphaconv{$\alpha$-conversion\ }
 \def\betaredex{$\beta$-redex\ }
 \newcommand{\rrightarrow}{\mathrel{\mathrlap{\rightarrow}\mkern1mu\rightarrow}}
+\DeclareMathOperator{\Redex}{Redex}
+\DeclareMathOperator{\Occ}{Occ}
+
 
 \begin{document}
 \bettertitle
@@ -846,11 +849,11 @@ Une des difficultés de cette explication est l'$\alpha$-conversion, que nous de
 \begin{definition}
 	On définit $VarOcc(M)$ l'ensemble des occurences de variables:
 	\begin{center}
-	\begin{mgrammar}
-		\firstrule{VarOcc(x)}{\{\epsilon\}}{}
-		\firstrule{VarOcc(App(M, N))}{\texttt{fun}.VarOcc(M) + \texttt{arg}.VarOcc(N)}{}
-		\firstrule{VarOcc(\lambda x.M)}{\texttt{arg}.VarOcc(M)}{}
-	\end{mgrammar}
+		\begin{mgrammar}
+			\firstrule{VarOcc(x)}{\{\epsilon\}}{}
+			\firstrule{VarOcc(App(M, N))}{\texttt{fun}.VarOcc(M) + \texttt{arg}.VarOcc(N)}{}
+			\firstrule{VarOcc(\lambda x.M)}{\texttt{arg}.VarOcc(M)}{}
+		\end{mgrammar}
 	\end{center}
 	\label{def:varocc}
 \end{definition}
@@ -863,11 +866,11 @@ Une des difficultés de cette explication est l'$\alpha$-conversion, que nous de
 \begin{definition}
 	On définit $LamOcc(M)$ l'ensemble des occurences d'un lieur $\lambda$ dans $M$.
 	\begin{center}
-	\begin{mgrammar}
-		\firstrule{LamOcc(x)}{\emptyset}{}
-		\firstrule{LamOcc(App(M, N))}{\texttt{fun}.LamOcc(M) + \texttt{arg}.LamOcc(N)}{}
-		\firstrule{LamOcc(\lambda x.M)}{\texttt{body}.LamOcc(M)} + \{\epsilon\}{}
-	\end{mgrammar}
+		\begin{mgrammar}
+			\firstrule{LamOcc(x)}{\emptyset}{}
+			\firstrule{LamOcc(App(M, N))}{\texttt{fun}.LamOcc(M) + \texttt{arg}.LamOcc(N)}{}
+			\firstrule{LamOcc(\lambda x.M)}{\texttt{body}.LamOcc(M)} + \{\epsilon\}{}
+		\end{mgrammar}
 	\end{center}
 	\label{def:lamocc}
 \end{definition}
@@ -881,31 +884,31 @@ Une des difficultés de cette explication est l'$\alpha$-conversion, que nous de
 	\end{equation*}
 	Intuition: $x \models x$ où le premier désigne le contexte de variable et le second est un $\lambda$-terme.
 	\begin{center}
-	\begin{mgrammar}
-		\firstrule{\mathrm{Lieur}(x)}{\epsilon \mapsto x}{}
-		\firstrule{\mathrm{Lieur}\left(App(M, N)\right)}{\applic{VarOcc(App(M, N))}{Occ(App(M, N)) + Var}{fun\cdot occ}{\begin{cases}
-					fun\cdot \mathrm{Lieur}(M)(occ) & \text{si } occ \text{ est liée dans } Occ(App(M, N))\\
-					\mathrm{Lieur}(M)(occ) & \text{sinon}
-		\end{cases}}}{}
-		\grule{\begin{array}{rcl}
-			arg\cdot occ & \mapsto & \begin{cases}
-				arg \cdot \mathrm{Lieur}(N)(occ) & \text{si } \mathrm{Lieur}(N)(occ) \in Occ(N)\\
-				\mathrm{Lieur}(N)(occ) & \text{sinon}
-			\end{cases}
-			\end{array}}{}
-	\firstrule{\mathrm{Lieur}(\lambda x. M)}{\applic{VarOcc\left(\lambda x.M \right)}{Occ(\lambda x.M) + Var}{body\cdot occ}{\begin{cases}
-				\epsilon &\text{si } \mathrm{Lieur}(M)(occ) = x\in Var\\
-				body \cdot \mathrm{Lieur}(M)(occ) &\text{si } \mathrm{Lieur}(M)(occ) \in Occ(M)\\
-				\mathrm{Lieur}(M)(occ) & \text{sinon }
-	\end{cases}}}{}
-	\end{mgrammar}
+		\begin{mgrammar}
+			\firstrule{\mathrm{Lieur}(x)}{\epsilon \mapsto x}{}
+			\firstrule{\mathrm{Lieur}\left(App(M, N)\right)}{\applic{VarOcc(App(M, N))}{Occ(App(M, N)) + Var}{fun\cdot occ}{\begin{cases}
+						fun\cdot \mathrm{Lieur}(M)(occ) & \text{si } occ \text{ est liée dans } Occ(App(M, N)) \\
+						\mathrm{Lieur}(M)(occ)          & \text{sinon}
+					\end{cases}}}{}
+			\grule{\begin{array}{rcl}
+					arg\cdot occ & \mapsto & \begin{cases}
+						                         arg \cdot \mathrm{Lieur}(N)(occ) & \text{si } \mathrm{Lieur}(N)(occ) \in Occ(N) \\
+						                         \mathrm{Lieur}(N)(occ)           & \text{sinon}
+					                         \end{cases}
+				\end{array}}{}
+			\firstrule{\mathrm{Lieur}(\lambda x. M)}{\applic{VarOcc\left(\lambda x.M \right)}{Occ(\lambda x.M) + Var}{body\cdot occ}{\begin{cases}
+						\epsilon                          & \text{si } \mathrm{Lieur}(M)(occ) = x\in Var \\
+						body \cdot \mathrm{Lieur}(M)(occ) & \text{si } \mathrm{Lieur}(M)(occ) \in Occ(M) \\
+						\mathrm{Lieur}(M)(occ)            & \text{sinon }
+					\end{cases}}}{}
+		\end{mgrammar}
 	\end{center}
 \end{definition}
 
 \begin{definition}
 	On dit que deux $\lambda$-termes $M$ et $N$ sont $\alpha$-convertibles lorsque:
 	\begin{align*}
-		Occ(M) = Occ(N)\\
+		Occ(M) = Occ(N) \\
 		\mathrm{Lieur}(M) = \mathrm{Lieur}(N)
 	\end{align*}
 	Dans ce cas, on écrit
@@ -918,29 +921,29 @@ Une des difficultés de cette explication est l'$\alpha$-conversion, que nous de
 \begin{exemple}
 	\begin{description}
 		\item[Identité]	On a:
-	\begin{equation*}
-		\lambda x. x \equiv_{\alpha} \lambda y . y
-	\end{equation*}
-	En effet:
-	\begin{category}
-		\phantom{·}& \phantom{·}\\
-		\lambda x\ar[u, no head]\ar[d, no head, "\texttt{body}"'] & \lambda y\ar[u, no head]\ar[d, no head] \\
-		x\ar[u, bend right] & y\ar[u, bend right]
-	\end{category}
+		      \begin{equation*}
+			      \lambda x. x \equiv_{\alpha} \lambda y . y
+		      \end{equation*}
+		      En effet:
+		      \begin{category}
+			      \phantom{·}& \phantom{·}\\
+			      \lambda x\ar[u, no head]\ar[d, no head, "\texttt{body}"'] & \lambda y\ar[u, no head]\ar[d, no head] \\
+			      x\ar[u, bend right] & y\ar[u, bend right]
+		      \end{category}
 		\item[Je sais pas lol] On a:
-			\begin{category}[]
-				&\lambda x\ar[d, no head] & & & & \lambda y\ar[d, no head] &\\
-				& App\ar[dl, no head]\ar[dr, no head] & & \equiv_{\alpha} & & App\ar[dl, no head]\ar[dr, no head]& \\
-				\lambda x\ar[d, no head] & & x & & \lambda z\ar[d], no head & & y\\
-				x & & & & z & &
-			\end{category}
+		      \begin{category}[]
+			      &\lambda x\ar[d, no head] & & & & \lambda y\ar[d, no head] &\\
+			      & App\ar[dl, no head]\ar[dr, no head] & & \equiv_{\alpha} & & App\ar[dl, no head]\ar[dr, no head]& \\
+			      \lambda x\ar[d, no head] & & x & & \lambda z\ar[d], no head & & y\\
+			      x & & & & z & &
+		      \end{category}
 
 		\item[C'est pareil] On a:
-			\begin{category}
-				\lambda x\ar[d, no head] & & \lambda x\ar[d, no head]\\
-				\lambda x\ar[d, no head] &\equiv_{\alpha}& \lambda y\ar[d, no head]\\
-				x\ar[u, bend left] & & y\ar[u, bend right]
-			\end{category}
+		      \begin{category}
+			      \lambda x\ar[d, no head] & & \lambda x\ar[d, no head]\\
+			      \lambda x\ar[d, no head] &\equiv_{\alpha}& \lambda y\ar[d, no head]\\
+			      x\ar[u, bend left] & & y\ar[u, bend right]
+		      \end{category}
 	\end{description}
 \end{exemple}
 
@@ -951,13 +954,13 @@ Une des difficultés de cette explication est l'$\alpha$-conversion, que nous de
 \begin{definition}
 	On définit le \lambdaterme $M_{\mid o}$ pour $o \in Occ(M)$, par induction sur $M$:
 	\begin{center}
-	\begin{mgrammar}
-		\firstrule{x_{\mid \epsilon}}{x}{}
-		\firstrule{App(M, N)_{\mid \epsilon}}{App(M, N)}{}
-		\firstrule{App(M, N)_{\mid \texttt{fun}\cdot occ}}{M_{\mid occ}}{}
-		\firstrule{App(M, N)_{\mid \texttt{arg}\cdot occ}}{N_{\mid occ}}{}
-		\firstrule{\left(\lambda x. M\right)_{\mid \epsilon}}{\lambda x. M}{}
-		\firstrule{\left(\lambda x. M\right)_{\mid \tbody\cdot occ}}{M_{\mid occ}}{}
+		\begin{mgrammar}
+			\firstrule{x_{\mid \epsilon}}{x}{}
+			\firstrule{App(M, N)_{\mid \epsilon}}{App(M, N)}{}
+			\firstrule{App(M, N)_{\mid \texttt{fun}\cdot occ}}{M_{\mid occ}}{}
+			\firstrule{App(M, N)_{\mid \texttt{arg}\cdot occ}}{N_{\mid occ}}{}
+			\firstrule{\left(\lambda x. M\right)_{\mid \epsilon}}{\lambda x. M}{}
+			\firstrule{\left(\lambda x. M\right)_{\mid \tbody\cdot occ}}{M_{\mid occ}}{}
 		\end{mgrammar}
 	\end{center}
 	\label{def:presubstit}
@@ -966,13 +969,13 @@ Une des difficultés de cette explication est l'$\alpha$-conversion, que nous de
 \begin{definition}
 	Si $M, N$ sont des \lambdatermes et $x \in Var$, on définit $M[x \coloneqq N]$ par induction sur $M$, à $\alpha$-conversion près:
 	\begin{center}
-	\begin{mgrammar}
-		\firstrule{x[x\walrus N]}{N}{}
-		\firstrule{y[x\walrus N]}{y}{si $y \neq x$}
-		\firstrule{App(P, Q)[x\walrus N]}{App(P[x\walrus N], Q[x\walrus N])}{}
-		\firstrule{\sub{\left(\lambda y. M \right)}{x}{N}}{\lambda y.\left(\sub{M}{x}{N} \right)}{si $y \neq x$ et $y$ n'est pas libre dans $N$}
-		\firstrule{\sub{\left(\lambda x. M\right)}{x}{N}}{\lambda z. \sub{M'}{x}{N}}{}
-	\end{mgrammar}
+		\begin{mgrammar}
+			\firstrule{x[x\walrus N]}{N}{}
+			\firstrule{y[x\walrus N]}{y}{si $y \neq x$}
+			\firstrule{App(P, Q)[x\walrus N]}{App(P[x\walrus N], Q[x\walrus N])}{}
+			\firstrule{\sub{\left(\lambda y. M \right)}{x}{N}}{\lambda y.\left(\sub{M}{x}{N} \right)}{si $y \neq x$ et $y$ n'est pas libre dans $N$}
+			\firstrule{\sub{\left(\lambda x. M\right)}{x}{N}}{\lambda z. \sub{M'}{x}{N}}{}
+		\end{mgrammar}
 	\end{center}
 	Dans le dernier cas, on a choisi $\lambda z. M' \equiv_{\alpha} \lambda x. M$ avec $z \neq x$ et $z$ n'est pas libre dans $N$.
 	\label{def:substitution}
@@ -1005,7 +1008,7 @@ Une des difficultés de cette explication est l'$\alpha$-conversion, que nous de
 \begin{definition}
 	La règle de \betared:
 	\begin{equation*}
-		\left(\lambda x.M \right) N \longrightarrow \sub{M}{x}{N} \text{\parbox{.3\textwidth}{sur les classes d'équivalence à $\alpha$-conversion près}}
+		\left(\lambda x.M \right) N \longrightarrow \sub{M}{x}{N} \text{\hspace{1cm} \parbox{.5\textwidth}{sur les classes d'équivalence à $\alpha$-conversion près}}
 	\end{equation*}
 	La règle d'\etaexp:
 	\begin{equation*}
@@ -1043,7 +1046,7 @@ Une des difficultés de cette explication est l'$\alpha$-conversion, que nous de
 
 \begin{remarque}
 	\begin{align*}
-		\lambda x.[x] = \lambda x. x\\ \not\equiv_{\alpha} \lambda y.[x] = \lambda y. x
+		\lambda x.[x] = \lambda x. x \\ \not\equiv_{\alpha} \lambda y.[x] = \lambda y. x
 	\end{align*}
 \end{remarque}
 
@@ -1055,8 +1058,8 @@ Une des difficultés de cette explication est l'$\alpha$-conversion, que nous de
 \begin{remarque}
 	Chaque contexte définit une fonction $\Lambda \to \Lambda$:
 	\begin{align*}
-		\lambda x. [-]: \applic{\Lambda}{\Lambda}{M}{\lambda x. M}\\
-		App(P, [-]): \applic{\Lambda}{\Lambda}{M}{App(P, M)}\\
+		\lambda x. [-]: \applic{\Lambda}{\Lambda}{M}{\lambda x. M} \\
+		App(P, [-]): \applic{\Lambda}{\Lambda}{M}{App(P, M)}       \\
 		[-]: \applic{\Lambda}{\Lambda}{M}{M}
 	\end{align*}
 \end{remarque}
@@ -1080,27 +1083,27 @@ On peut avoir:
 	M\ar[r, bend left, "u"]\ar[r, bend right, "v"'] & N
 \end{category}
 \begin{exemple}
-En prenant par exemple: $\Delta = \lambda x. App(x, x)$. On a notamment $App(\Delta, P) \xrightarrow{\epsilon} App(P, P)$.
-Notamment, si on note:
-\begin{category}
-	\Omega = App(\Delta, \Delta)\ar[loop right, "\epsilon"]
-\end{category}
-on a:
-\begin{category}
-	App\left(\Omega, \Omega \right)\ar[loop left, "\tfun"]\ar[loop right, "\targ"]
-\end{category}
+	En prenant par exemple: $\Delta = \lambda x. App(x, x)$. On a notamment $App(\Delta, P) \xrightarrow{\epsilon} App(P, P)$.
+	Notamment, si on note:
+	\begin{category}
+		\Omega = App(\Delta, \Delta)\ar[loop right, "\epsilon"]
+	\end{category}
+	on a:
+	\begin{category}
+		App\left(\Omega, \Omega \right)\ar[loop left, "\tfun"]\ar[loop right, "\targ"]
+	\end{category}
 \end{exemple}
 \begin{exemple}
 	En posant $I = \lambda x. x$, on a \begin{tikzcd}
 		I(Ia) \ar[r, bend left]\ar[r, bend right] & Ia
 	\end{tikzcd}
 	En effet:
-		\begin{category}[]
-			& App\ar[dl, no head, "\tfun"]\ar[dr, no head, "\targ"] & &\\
-			\lambda x\ar[d, no head] & & App\ar[dl, no head, "\tfun"]\ar[dr, no head, "\targ"] &\\
-			x & \lambda y\ar[d, no head] & & a\\
-			& y & &
-		\end{category}
+	\begin{category}[]
+		& App\ar[dl, no head, "\tfun"]\ar[dr, no head, "\targ"] & &\\
+		\lambda x\ar[d, no head] & & App\ar[dl, no head, "\tfun"]\ar[dr, no head, "\targ"] &\\
+		x & \lambda y\ar[d, no head] & & a\\
+		& y & &
+	\end{category}
 	Peut se réduire par $\epsilon$ et par $\targ$ en:
 	\begin{category}[]
 		& App\ar[dl, no head]\ar[dr, no head] &\\
@@ -1109,16 +1112,251 @@ on a:
 	\end{category}
 \end{exemple}
 
-\begin{thm}[de Church-Resser (confluence)]
+\begin{thm}[de Church-Rosser (confluence)]
 	Si $f: M \rrightarrow P$ et $g: M \rrightarrow Q$ sont deux chemins de \betared alors il existe un \lambdaterme $N$ et deux chemins de \betared: $f': Q \rrightarrow N$ et $g': P\rrightarrow N$:
 	\begin{category}[]
-		& M\ar[dl, "\forall f"']\ar[dr, "\forall G"]\arrow["\tilde{}" description, phantom] &\\
+		& M\ar[dl, "\forall f"']\ar[dr, "\forall G"]\arrow[dd, "\sim" description, phantom] &\\
 		P\ar[dr, "\exists g'"'] & & Q\ar[dl, "\exists f'"]\\
 		& N &
 	\end{category}
 \end{thm}
-On montrera qu'il existe un choix canonique de $N$, $f'$ et $g'$ modulo permutation.
+On va montrer qu'il existe un choix canonique de $N$, $f'$ et $g'$ modulo permutation en introduisant une théorie des résidus.
+L'intuition des résidus c'est le calcul qui n'a pas été fait et est retardé.
 
+\begin{proposition}
+	Chaque occurence $o \in \Occ(M)$ définit une fonction:
+	\begin{equation*}
+		\Redex(M_{\mid o}) \to \Redex(M)
+	\end{equation*}
+	définie par:
+	\begin{equation*}
+		u = (M_{\mid o}, o_{u}) \longmapsto o\cdot u = \left(M, o\cdot o_{u} \right)
+	\end{equation*}
+	Cela fonctionne comme si on effectuait une translation.
+	\label{prop:fonctioninduite}
+\end{proposition}
+
+\begin{definition}
+	Toute \betaredex $r: M \to_{\beta} N$ induit une relation binaire $[r] \subseteq \Redex M \times \Redex N$,
+	qui met en relation toute \betaredex $u \in \Redex M$ à ses résidus $v \in \Redex N$ après la réduction.
+	La relation résiduelle $[r]$ est définie par induction sur les occurrences de $r = (M, o)$:
+	\begin{itemize}
+		\item La \betaredex $r: M = App(\lambda x.P, Q) \to_{\beta} N = \sub{P}{x}{Q}$ se réécrit à l'occurence racine $\varepsilon$.
+		      Dans ce cas, on a $u [r] v$ pour $u = (M, o_{u})$ et $v = (N, o_{v})$ quand on a l'un des deux cas suivants:
+		      \begin{enumerate}
+			      \item Il existe $o \in \Occ(P)$ tel que $o_{u} = \tfun \cdot \tbody \cdot o$ et $o_{v} = o$.
+			      \item Il existe $o \in \Occ(Q)$ et $o_{x} \in \Occ(P)$ d'une variable libre $x$ dans $P$ tels que $o_{u} = \targ \cdot o$ et $o_{v} = o_{x} \cdot o$.
+		      \end{enumerate}
+		\item La \betaredex $r: M = \lambda x. P \to_{\beta} N = \lambda x.Q$ a occurrence $o_{r} = \tbody \cdot o$ et est donc de la forme $r = \tbody \cdot r_{p}$ pour une \betaredex $r_{p} \in \Redex(P)$.
+		      Dans ce cas, on a $u [r] v$ précisément quand $u = \tbody \cdot u_{p}$, $v = \tbody \cdot v_{q}$ et $u_{p} [r_{p}] v_{q}$.
+		\item La \betaredex $r: M = App(P, Q) \to_{\beta} N = App(P', Q)$ a pour occurrence $o_{r} = \tfun \cdot r_{p}$ pour $r_{p} \in \Redex P$.
+		      Dans ce cas on a $u [r] v$ précisément quand:
+		      \begin{enumerate}
+			      \item Et $u$ et $v$ ont la même occurrence.
+			      \item $u = \tfun \cdot u_{p}$, $v = \tfun \cdot v_{p'}$ et $u_{p} [r_{p}] v_{p'}$ pour $u_{p} \in \Redex P$ et $v_{p'} \in \Redex P'$.
+			      \item $u = \targ \cdot w$ et $v = \targ w$ pour $w\in \Redex Q$.
+		      \end{enumerate}
+		\item La \betaredex $r: M = App(P, Q) \to_{\beta} N = App(P, Q')$ a une occurrence de la forme $r = \targ \cdot r_{q}$ pour $r_{q} \in \Redex Q$.
+		      Dans ce cas $u [r] v$ précisément quand:
+		      \begin{enumerate}
+			      \item Et $u$ et $v$ ont la même occurrence.
+			      \item $u = \tfun \cdot w$ et $v = \tfun \cdot w$ pour $w \in \Redex P$.
+			      \item $u = \targ \cdot u_{q}$, $v = \targ \cdot v_{q'}$ et $u_{q} [r_{q}] v_{q'}$ pour $u_{q} \in \Redex Q$ et $v_{q'} \in \Redex Q'$.
+		      \end{enumerate}
+	\end{itemize}
+	\label{def:relationresiduelle}
+\end{definition}
+
+Ceci va nous permettre de \emph{tracer} les \betaredex:
+\begin{proposition}
+	Chaque chemin de réécriture $f: M\rrightarrow N$ induit une relation résiduelle:
+	\begin{equation*}
+		[f] \subseteq \Redex M \times \Redex N
+	\end{equation*}
+	défini par induction sur la longueur de $f$:
+	\begin{enumerate}
+		\item Quand $f$ est le chemin vide $\id_{M}: M \rrightarrow M$:
+		      \begin{equation*}
+			      u[\id_{M}] v \Longleftrightarrow u = v
+		      \end{equation*}
+		\item Quand $f$ se factorise comme $r \cdot g$ pour $r: M \to_{\beta} P$ et $g: P \rrightarrow N$:
+		      \begin{equation*}
+			      u [r\cdot g] v \Longleftrightarrow \exists w \in \Redex P, u [r] w \land w [g] v
+		      \end{equation*}
+	\end{enumerate}
+	\label{prop:residuschemins}
+\end{proposition}
+
+\begin{definition}
+	Un \lambdaterme raffiné est nue paire $(M, U)$ d'un \lambdaterme $M$ et d'un ensemble fini de \betaredex de $M$.
+	\label{def:raffinement.}
+\end{definition}
+\begin{definition}
+	Chaque \betaredex $v: M \to N$ induit une \betaredex de \lambdatermes raffinés $(v, U): (M, U) \to (N, U[v])$ où:
+	\begin{equation*}
+		U[v] = \left\{u'\in \Redex(N) \mid \exists u\in U, u[v]u' \right\}
+	\end{equation*}
+	Le graphe $G_{ref}$ des \lambdatermes raffinés a les \lambdatermes raffinés comme sommets et les \betaredex raffinés comme arêtes.
+	Le graphe des développements $G_{dev}$ est le graphe $G_{ref}$ restreint aux \betaredex de $U$.
+	Un développement de $(M, U)$ est un chemin dans le graphe des développements.
+	\label{def:graphedéveloppement}
+\end{definition}
+
+\begin{proposition}[Lemme des Développements Finis]
+	Il n'y a pas de chemin infini dans $G_{dev}$.
+	\label{prop:cheminfini}
+\end{proposition}
+L'idée est d'associer un ordinal $\omega(M, U)$ a chaque \lambdaterme $(M, U)$ de telle sorte que pour chaque \betaredex raffinée, les ordinaux décroissent strictement.
+Supposons qu'on se donne un poset $(S, \leq)$.
+Deux multiensembles finis $M, N: S \to \N$ sont ordonnés par l'ordre multiset $M >_{mset} N$ quand il existe deux multiensembles finis $X, Y$ tels que:
+\begin{equation*}
+	N = \left(M\setminus X \right)\sqcup Y
+\end{equation*}
+et
+\begin{equation*}
+	\forall y \in Y, \exists x \in X, x >_{S} y
+\end{equation*}
+La difficulté est que le nombre de \betaredex dans $U$ peut augmenter au cours du développement, typiquement quand une \betaredex $u: App(\lambda x. App(x, x), P) \to_{\beta} App(P, P)$ est dans $U$.
+On va introduire les concepts d'emboîtement et d'aggripement pour comprendre la structure des \betaredex.
+\begin{definition}
+	On dit que $u$ emboîte $v$ (noté $u  <_{M} v$) quand $o_{v} = o_{u} \cdot \targ\cdot o$ pour $o \in \Occ(Q)$.
+	De même, on dit que $u$ aggrippe $v$ (noté $u \prec_{M} v$) quand $o_{v} = o_{u} \cdot \tfun \cdot o$ et une occurrence de la variable $x$ liée par la \betaredex $u$ apparaît dans l'argument de la \betaredex $v$.
+	Autrement dit:
+	\begin{itemize}
+		\item $u$ emboîte $v$ quand $v$ apparaît dans l'argument de $u$
+		\item $u$ aggrippe $v$ quand $v$ apparaît dans le corps de $u$ et une occurrence de variable $x$ liée par $u$ apparaît dans l'argument de $v$.
+	\end{itemize}
+\end{definition}
+\begin{lemme}
+	Considérons une \betaredex $r: M \to_{\beta} N$ et des \betaredex $u, v \in \Redex M$ et $u', v' \in \Redex N$ telles que:
+	\begin{equation*}
+		u[r] u' \text{ et } v[r]v'
+	\end{equation*}
+	Si $u' <_{N} v'$ alors ou bien $u <_{M} v$ ou bien $r\prec_{M} u$ et $r <_{M} v$.
+\end{lemme}
+\begin{lemme}
+	Considérons une \betaredex $r: M \to_{\beta} N$ et des \betaredex $u, v \in \Redex M$ et $u', v' \in \Redex N$ telles que:
+	\begin{equation*}
+		u[r] u' \text{ et } v[r]v'
+	\end{equation*}
+	Si $u' \prec_{N} v'$, alors $u\prec_{M} v$ ou $u\prec_{M} r\prec_{M} v$.
+\end{lemme}
+Par ailleurs, la relation d'emboîtement est transitive, et la relation d'aggrippement ne contient pas de boucle.
+\begin{definition}
+	La hauteur d'aggrippement $\abs{u}_{U} \in \N$ d'une \betaredex $u$ dans un \lambdaterme raffiné $(M, U)$ est la longueur $n \in \N$ de la plus grande séquence d'aggrippements $u = u_{1} \prec_{M} \cdots \prec_{M} u_{n}$.
+	\label{def:grippingheight}
+\end{definition}
+\begin{lemme}
+	Pour une \betaredex raffinée $r : (M, U) \to_{\beta} (N, V)$ et toutes \betaredex $u \in U, v\in V$:
+	\begin{equation*}
+		u[r] v \Rightarrow \abs{v}_{V} \leq \abs{u}_{U}
+	\end{equation*}
+\end{lemme}
+\begin{proof}
+
+\end{proof}
+\begin{definition}
+	La profondeur d'emboîtement $\norm{u}_{U}$ d'une \betaredex est le multiensemble:
+	\begin{equation*}
+		\norm{u}_{U} = \scalar{\abs{v_{U}} \mid v <_{M} u}
+	\end{equation*}
+	des hauteurs d'aggrippement des \betaredex $v \in \Redex M$ emboîtant $u$.
+	\label{def:profondeuremboitement}
+\end{definition}
+\begin{lemme}
+	Pour une \betaredex raffinée, pour toutes \betaredex $u \in U, v\in V$:
+	\begin{equation*}
+		u[r] v \Rightarrow \norm{v}_{V} \leq \norm{u}_{U}
+	\end{equation*}
+	L'inégalité est stricte quand $r <_{M} u$.
+\end{lemme}
+\begin{proof}
+
+\end{proof}
+
+\begin{proof}
+	Le multiensemble des profondeurs emboîtées $\omega(U_{i}) = \scalar{\norm{u} \mid u\in U_{i}}$ décroît strictement à chaque étape du développement $M_{1}, U_{1} \xrightarrow{u_{1}} (M_{2}, U_{2}) \xrightarrow{u_{2}} \cdots$.
+	Ceci prouve le théorème.
+\end{proof}
+
+\begin{definition}
+	Un développement est un ensemble fini $U \subseteq \Redex M$ de \betaredex dans $M$ défini comme une chemin $f: (M, U) \rrightarrow (N, \emptyset)$ dans le graphe des raffinements $G_{ref}$.
+	On note ceci $f \propto (M, U)$.
+	\label{def:développement}
+\end{definition}
+
+\begin{proposition}
+	Pour toute paire de \betaredex coinitiale $u, v$, il existe un \lambdaterme $N$ et deux développements $f \propto u[v]$ et $g\propto v[u]$ complétant le diagramme carré:
+	\begin{category}[]
+		& M\ar["u"', dl]\ar[dr, "v"] &\\
+		P\ar[dr, "g"] & & Q\ar[dl, "f"]\\
+		& N &
+	\end{category}
+	et telles que les relations résiduelles sur les deux bords coïncident.
+	\label{prop:tuiledepermutations}
+\end{proposition}
+
+\begin{definition}
+	Une tuile de permutation $u\cdot f \lozenge v \cdot g$:
+	\begin{category}[]
+		& M\ar["u"', dl]\ar[dr, "v"]\ar[dd, "\lozenge", phantom] &\\
+		P\ar[dr, "g", rrightarrow] & & Q\ar[dl, "f", rrightarrow]\\
+		& N &
+	\end{category}
+	est une paire de développement $u\cdot f$ et $v\cdot g$ où $u: M\to_{\beta} P$ et $v: M\to_{\beta} Q$ sont deux \betaredex coinitiales et $f \propto u[v]$ et $g\propto v[u]$ sont des développements des résidus respectifs de $u$ et $v$.
+	\label{def:tuilepermutation}
+\end{definition}
+\begin{exemple}
+	Si on pose $I = \lambda x. x$ et $\Delta = \lambda x. xx$, on a:
+	\begin{category}[]
+		& (Ia)(Ib)\ar["u"', dl]\ar[dr, "v"]\ar[dd, "\lozenge", phantom] &\\
+		a(Ib)\ar[dr, "g", rrightarrow] & & (Ia)b\ar[dl, "f", rrightarrow]\\
+		& ab &
+	\end{category}
+	\begin{category}[]
+		& \Delta(Ia)\ar["u"', dl]\ar[dr, "v"]&\\
+		(Ia)(Ia)\ar[d, "v_{2}", rrightarrow]\ar[r, "v_{1}"] & a(Ia)\ar[d] & \Delta a\ar[dl, rrightarrow]\\
+		(Ia)a\ar[r] & aa &
+	\end{category}
+\end{exemple}
+
+\begin{thm}[Développements Finis]
+	Si $U$ est un ensemble fini de \betaredex de $M$, alors:
+	\begin{enumerate}
+		\item Tous les développements de $U$ terminent.
+		\item Tous deux développements de $(M, U)$ sont coinitiaux et cofinaux et définissent la même relation résiduelle.
+	\end{enumerate}
+\end{thm}
+\begin{proof}
+	On montre par induction ordinale que $f$ et $g$ sont équivalentes à permutation de tuiles près.
+\end{proof}
+
+\begin{definition}
+	On dit que $f \sim^{1} g: M \rrightarrow N$ et ont dit que $f$ et $g$ sont équivalentes à une tuile de permutation près lorsque $f = d\cdot u \cdot h_{v} \cdot e$ et $g = g \cdot v \cdot h_{u} \cdot e$ et:
+	\begin{category}
+		& & R\ar[dr, "h_{v}"] & &\\
+		M\ar[r, "d"] & P\ar[ur, "u"]\ar[dr, "v"]\ar[dd, phantom, "\lozenge"] & & Q\ar[r, "e"] & N\\
+		& & S\ar[ur, "h_{u}"] & &
+	\end{category}
+	où $h_{v} \propto (R, v[u])$ et $h_{u} \propto (S, u[v])$.
+	$f \sim^{1} g$ est la plus petite relation d'équivalence contenant $\sim$.
+	\label{def:equivpermutation}
+\end{definition}
+C'est une forme de relation d'homotopie.
+
+
+
+\begin{proof}[Démonstration de manière moderne du théorème de confluence]
+\end{proof}
+
+\begin{definition}
+	Un \lambdaterme $M$ est en forme $\beta$-normale lorsqu'il n'existe pas de \betaredex $M \xrightarrow{u} N$.
+	\label{def:betanormale}
+\end{definition}
+
+\begin{corollaire}
+	Si $M\rrightarrow P$ et $M \rrightarrow Q$ où $P, Q$ sont des formes $\beta$-normales alors $P = Q$.
+\end{corollaire}
 
 \section{TD 1}
 \subsection{Catégories et Foncteurs}
@@ -1306,101 +1544,101 @@ On montrera qu'il existe un choix canonique de $N$, $f'$ et $g'$ modulo permutat
 \subsection{Catégories Quotients et Catégories Sous-Objets}
 \begin{description}
 	\item[Question 1] It is clear that the arrow $\id_{(X, f)}: (X, f) \to (X, f)$ defined by the morphism $\id_{X} : X\to X$ is an identity in $\cont/A$.
-		Clearly, since the following diagram commutes, the composition is associative:
-		\begin{category}
-			X\ar[dr, "a"']\ar[r, "h_{1}"] & Y\ar[d, "b"]\ar[r, "h_2"]& Z\ar[dl, "c"]\\
-			& A &
-		\end{category}
-		Thus, $\cont/A$ is a category.
+	      Clearly, since the following diagram commutes, the composition is associative:
+	      \begin{category}
+		      X\ar[dr, "a"']\ar[r, "h_{1}"] & Y\ar[d, "b"]\ar[r, "h_2"]& Z\ar[dl, "c"]\\
+		      & A &
+	      \end{category}
+	      Thus, $\cont/A$ is a category.
 	\item[Question 2] We have the above commutative diagram if and only if $g\circ p_{2} = f\circ p_{1}$ i.e. if and only if there exists $u : P\to Z$ such that the following diagram commutes:
-		\begin{category}
-			P\ar["p_2", r]\ar[d, "p_{1}"]\ar[dr, "u"]& Y\ar[d, "g"]\\
-			X\ar[r, "f"] & Z
-		\end{category}
-		This is exactly equivalent to the fact that the two diagrams below commute:
-		\begin{center}
-			\begin{minipage}[]{.4\textwidth}
-				\begin{category}
-				P\ar[dr, "u"]\ar[r, "p_{2}"]& Y \ar[d, "g"] \\
-				& Z
-			\end{category}
-			\end{minipage}
-			\begin{minipage}[]{.4\textwidth}
-				\begin{category}
-				P\ar[dr, "u"]\ar[d, "p_{1}"] &\\
-				X\ar[r, "f"] & Z
-			\end{category}
-			\end{minipage}
-		\end{center}
-		That is, there is a diagram in $\cont/Z$:
-		\begin{category}[]
-			& (P, u)\ar[dl, "p_{1}"]\ar[dr, "p_{2}"] & \\
-			(X, f) &  & (Y, g)
-		\end{category}
-		Moreover, if the first diagram is a pullback, if $O$ is an object in $\cont$ and $q_{1}: O\to X$ and $q_{2}: O\to Y$ make the following diagramm commute:
-		\begin{category}
-			O\ar[bend left, "q_{2}", drr]\ar[bend right, "q_{1}"', ddr]\ar[dashed, dr, "h"] & &\\
-			& P\ar["p_2", r]\ar[d, "p_{1}"]\ar[dr, "u"]& Y\ar[d, "g"]\\
-			& X\ar[r, "f"] & Z
-		\end{category}
-		then in particular, in $\cont/Z$:
-		\begin{category}[]
-			& (O, m)\ar[bend right, ddl, "q_{1}"']\ar[bend left, ddr, "q_{2}"]\ar[dashed, d, "h"] & \\
-			& (P, u)\ar[dl, "p_{1}"]\ar[dr, "p_{2}"] & \\
-			(X, f) &  & (Y, g)
-		\end{category}
-		Thus, the first diagram defines a pullback if and only if the second diagram defines a cartesian product.
-		In particular, pullbacks are defined up to isomorphism, since we can translate the existence of two pullbacks as the existence of two cartesian products and retranslate back the isomorphism.
+	      \begin{category}
+		      P\ar["p_2", r]\ar[d, "p_{1}"]\ar[dr, "u"]& Y\ar[d, "g"]\\
+		      X\ar[r, "f"] & Z
+	      \end{category}
+	      This is exactly equivalent to the fact that the two diagrams below commute:
+	      \begin{center}
+		      \begin{minipage}[]{.4\textwidth}
+			      \begin{category}
+				      P\ar[dr, "u"]\ar[r, "p_{2}"]& Y \ar[d, "g"] \\
+				      & Z
+			      \end{category}
+		      \end{minipage}
+		      \begin{minipage}[]{.4\textwidth}
+			      \begin{category}
+				      P\ar[dr, "u"]\ar[d, "p_{1}"] &\\
+				      X\ar[r, "f"] & Z
+			      \end{category}
+		      \end{minipage}
+	      \end{center}
+	      That is, there is a diagram in $\cont/Z$:
+	      \begin{category}[]
+		      & (P, u)\ar[dl, "p_{1}"]\ar[dr, "p_{2}"] & \\
+		      (X, f) &  & (Y, g)
+	      \end{category}
+	      Moreover, if the first diagram is a pullback, if $O$ is an object in $\cont$ and $q_{1}: O\to X$ and $q_{2}: O\to Y$ make the following diagramm commute:
+	      \begin{category}
+		      O\ar[bend left, "q_{2}", drr]\ar[bend right, "q_{1}"', ddr]\ar[dashed, dr, "h"] & &\\
+		      & P\ar["p_2", r]\ar[d, "p_{1}"]\ar[dr, "u"]& Y\ar[d, "g"]\\
+		      & X\ar[r, "f"] & Z
+	      \end{category}
+	      then in particular, in $\cont/Z$:
+	      \begin{category}[]
+		      & (O, m)\ar[bend right, ddl, "q_{1}"']\ar[bend left, ddr, "q_{2}"]\ar[dashed, d, "h"] & \\
+		      & (P, u)\ar[dl, "p_{1}"]\ar[dr, "p_{2}"] & \\
+		      (X, f) &  & (Y, g)
+	      \end{category}
+	      Thus, the first diagram defines a pullback if and only if the second diagram defines a cartesian product.
+	      In particular, pullbacks are defined up to isomorphism, since we can translate the existence of two pullbacks as the existence of two cartesian products and retranslate back the isomorphism.
 	\item[Question 3] Since $n$ is a mono, if we have:
-		\begin{category}
-			U\ar[rr, "h_{1}", "h_{2}"']\ar[dr, "m"] & & V\ar[dl, "n"]\\
-			& A &
-		\end{category}
-		then $n \circ h_{1} = m = n\circ h_{2}$ and thus $h_{1} = h_{2}$.
+	      \begin{category}
+		      U\ar[rr, "h_{1}", "h_{2}"']\ar[dr, "m"] & & V\ar[dl, "n"]\\
+		      & A &
+	      \end{category}
+	      then $n \circ h_{1} = m = n\circ h_{2}$ and thus $h_{1} = h_{2}$.
 	\item[Question 4] We have a preorder on monos defined as: $i \leq j$ if and only if there exists $k$ such that $i = jk$.
-		Thus, seeing that monos are injective functions, there is an arrow from $U$ to $V$ if and only if $\abs{U} \leq \abs{V}$, thus, up to isomorphism: there is an arrow from $U$ to $V$ if and only if $U \subseteq V$.
+	      Thus, seeing that monos are injective functions, there is an arrow from $U$ to $V$ if and only if $\abs{U} \leq \abs{V}$, thus, up to isomorphism: there is an arrow from $U$ to $V$ if and only if $U \subseteq V$.
 	\item[Question 5] We have, for all $m: U\to A$ in $Sub(A)$:
-		\begin{category}
-			      V\ar[r, "p"]\ar[d, "m'"'] & U\arrow["m", d]\\
+	      \begin{category}
+		      V\ar[r, "p"]\ar[d, "m'"'] & U\arrow["m", d]\\
 		      B\arrow["f"', r] & A
-		\end{category}
-		In Set, this is the fucking direct image.
+	      \end{category}
+	      In Set, this is the fucking direct image.
 \end{description}
 \section{TD 3}
 \subsection{Égaliseurs et Coégaliseurs}
 \begin{description}
 	\item[Question 1] On prend pour $E$ l'ensemble $\left\{s \in X\mid f(s) = g(s) \right\}$. On pose alors $m$ l'injection $E \to X$.
-		On a alors trivialement, si $f\circ n = g\circ n$, $Im(n) \subseteq E$ vu comme partie de $X$.
-		D'où le résultat.
+	      On a alors trivialement, si $f\circ n = g\circ n$, $Im(n) \subseteq E$ vu comme partie de $X$.
+	      D'où le résultat.
 	\item[Question 2] Si on a $n: A \to E$, $m\circ n: A \to X$. Puisque $fmn = gmn$, la factorisation $mn$ est unique par définition d'un égaliseur donc $m$ est un monomorphisme.
 	\item[Question 3] Un co-égaliseur de $f, g$ est une flèche $m : Y \to Q$ telle que $m\circ f = m\circ g$ et pour toute flèche $n: Y \to F$ telle que $n \circ f = n \circ g$, on a une unique factorisation $n = hm$.
-		Autrement dit, un co-égaliseur de $f, g$ est un égaliseur des flèches duales de $f, g$ dans la catégorie duale.
+	      Autrement dit, un co-égaliseur de $f, g$ est un égaliseur des flèches duales de $f, g$ dans la catégorie duale.
 	\item[Question 4] Le co-égaliseur étant le dual d'un égaliseur, c'est le dual d'un mono, et donc un épimorphisme.
 	\item[Question 5] Le co-égaliseur $Q$ de deux fonctions dans $\mathrm{Set}$ est l'ensemble quotient par $m: f(x) \tilde g(x)$ avec $m$ la projection.
-		En effet, si $n \circ f = n\circ g$, alors en particulier, l'image de $x \in E$ est entièrement déterminée par sa classe d'équivalence sous $m$.
+	      En effet, si $n \circ f = n\circ g$, alors en particulier, l'image de $x \in E$ est entièrement déterminée par sa classe d'équivalence sous $m$.
 	\item[Question 6] Toute fonction surjective est la projection sur un ensemble de classe d'équivalences.
-		En prenant pour $f, g$ deux fonctions qui sont égales sur $Y / e$, on a le résultat.
+	      En prenant pour $f, g$ deux fonctions qui sont égales sur $Y / e$, on a le résultat.
 \end{description}
 \subsection{Factorisation Epi-Mono}
 \begin{description}
 	\item[Question 1] On définit un ensemble $U$ par $U = X/f$. Alors $e: X \to U, x \mapsto [f(x)]$ est surjective et $m : [f(x)] \to f(x)$ est injective puisque $\abs{U} = \abs{\Im(f)} = \abs{\Im(m)}$.
 	\item[Question 2] Si $e$ est injective et $m$ est surjective (en particulier $e$ est un epi et $m$ est un mono), et si $u, v$ font commuter le diagramme suivant:
-		\begin{category}
-			A\ar["u", r]\ar[d, "e"] & X\ar[d, "m"] \\
-			B\ar[r, "v"] & Y
-		\end{category}
-		alors, puisque $e$ est surjective, il existe $s$ une section telle que $e \circ s = \id$. En posant $h = us$, on a bien le résultat: si $s'$ est une autre section, $mus = ves = v =  ves' = mus'$.
+	      \begin{category}
+		      A\ar["u", r]\ar[d, "e"] & X\ar[d, "m"] \\
+		      B\ar[r, "v"] & Y
+	      \end{category}
+	      alors, puisque $e$ est surjective, il existe $s$ une section telle que $e \circ s = \id$. En posant $h = us$, on a bien le résultat: si $s'$ est une autre section, $mus = ves = v =  ves' = mus'$.
 	\item[Question 3] Puisque toute composée de fonctions surjectives (resp. injectives) est surjective (resp. injective), $\left(\mathcal{E}, \mathcal{M}\right)$ définit un système de factorisation.
 	\item[Question 4] On considère d'abord $e_{2} \circ u$ et $v\circ m_{1}$:
-		\begin{category}
-			X_{1}\ar[dr, "e_{2} \circ u"']\ar[r, "e_{1}"] & U_{1}\ar[dr, "v\circ m_{1}"] &\\
-			& U_{2}\ar[r, "m_{2}"'] & Y_{2}
-		\end{category}
-		Il existe donc une unique flèche $h: U_{1} \to U_{2}$ qui fait commuter le diagramme:
-		\begin{category}
-			X_{1}\ar[r, "e_{1}"]\ar[d, "u"'] & U_{1}\ar[r, "m_{1}"]\ar[d, dashed, "h" description] &Y_{1}\ar[d, "v"]\\
-			X_{2}\ar[r, "e_{2}"'] & U_{2}\ar[r, "m_{2}"'] & Y_{2}
-		\end{category}
+	      \begin{category}
+		      X_{1}\ar[dr, "e_{2} \circ u"']\ar[r, "e_{1}"] & U_{1}\ar[dr, "v\circ m_{1}"] &\\
+		      & U_{2}\ar[r, "m_{2}"'] & Y_{2}
+	      \end{category}
+	      Il existe donc une unique flèche $h: U_{1} \to U_{2}$ qui fait commuter le diagramme:
+	      \begin{category}
+		      X_{1}\ar[r, "e_{1}"]\ar[d, "u"'] & U_{1}\ar[r, "m_{1}"]\ar[d, dashed, "h" description] &Y_{1}\ar[d, "v"]\\
+		      X_{2}\ar[r, "e_{2}"'] & U_{2}\ar[r, "m_{2}"'] & Y_{2}
+	      \end{category}
 
 \end{description}
 

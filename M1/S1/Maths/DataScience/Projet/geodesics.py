@@ -8,6 +8,11 @@ import itertools
 from functools import cached_property
 from mpmath import cot
 
+# TODO: TOUT PASSER EN SPARSE AVEC scipy.sparse PARCE QUE LA DIMENSION 150000 IL APPRÉCIE PAS :w
+
+
+levelsets = 30
+
 
 def vect_cotan(v1, v2):
     return cot(np.arccos(np.dot(v1, v2)))
@@ -53,6 +58,7 @@ class Manifold:
             raise ValueError("Il n'y a pas le header OFF")
 
         # La deuxième ligne contient (n_points, n_faces)
+        print(data)
         p, f = [int(x) for x in data[1][:2]]
 
         # Les lignes suivantes contiennent les faces et les points
@@ -69,7 +75,7 @@ class Manifold:
         self.points = np.array(points, dtype=float)
         self.faces = np.array(faces)
 
-    def plot(self, ax=None, symbols=None, function=None, show_axis=False):
+    def plot(self, ax=None, symbols=None, function=None, show_axis=False, level_sets=False):
         if symbols is None:
             symbols = {}
         if ax is None:
@@ -96,8 +102,12 @@ class Manifold:
         if function is not None:
             face_colors = []
             for f in self.faces:
-                mean = np.mean([function[e] for e in f])
-                face_colors.append(cmap(mean))
+                if level_sets:
+                    color = np.cos(2 * np.pi * levelsets * np.mean([function[e] for e in f]))
+                    face_colors.append(cmap(color))
+                else:
+                    mean = np.mean([function[e] for e in f])
+                    face_colors.append(cmap(mean))
             edge_colors = None
         else:
             face_colors = '#7D1DD3'
@@ -123,7 +133,7 @@ class Manifold:
                 sym['edges'] = sym['faces']
 
             v = [self.points[f] for f in self.faces]
-            poly = Poly3DCollection(v) # , edgecolor=sym['edges'], facecolor=sym['faces'], linewidth=sym['linewidth'])
+            poly = Poly3DCollection(v, edgecolor=sym['edges'], facecolor=sym['faces'], linewidth=sym['linewidth'])
             ax.add_collection(poly)
             ax.view_init(vertical_axis='y', elev=0, azim=45)
         return ax
@@ -141,7 +151,7 @@ class Manifold:
         return lambda face_vertices: np.cross(face_vertices[1] - face_vertices[0], face_vertices[2] - face_vertices[0])
 
     @cached_property
-    def unnormalized_normals(self):
+    def unnormalized_normals(self):  # TODO: SPARSIFIER
         a0 = self.vertices(0)
         a1 = self.vertices(1)
         a2 = self.vertices(2)
@@ -152,7 +162,7 @@ class Manifold:
         return lambda face_vertices: npl.norm(self.face_unnormalized_normal(face_vertices)) / 2
 
     @cached_property
-    def areas(self):
+    def areas(self):  # TODO: SPARSIFIER
         return np.array(list(map(lambda t: npl.norm(t) / 2, self.unnormalized_normals)))
 
     @cached_property
@@ -160,16 +170,16 @@ class Manifold:
         return lambda point: point / npl.norm(point) if npl.norm(point) else point
 
     @cached_property
-    def normals(self):
+    def normals(self):  # TODO: SPARSIFIER
         return np.array(list(map(self.normalize, self.unnormalized_normals)))
 
     @cached_property
-    def spdiags(self):
+    def spdiags(self):  # TODO: SPARSIFIER
         l = 2 * self.areas
         return np.diag(list(itertools.chain(l, l, l)))
 
     @cached_property
-    def sum_op(self):
+    def sum_op(self):  # TODO: SPARSIFIER
         e = np.zeros((3 * self.m, self.n))
         normals = self.normals
         for j in range(self.m):
@@ -194,10 +204,10 @@ class Manifold:
              )
 
     @cached_property
-    def gradient_op(self):
+    def gradient_op(self):  # TODO: SPARSIFIER
         return np.matmul(self.spdiags, self.sum_op)
 
-    def gradient(self, function: Callable[Iterable[float], float]):
+    def gradient(self, function: Callable[[Iterable[float]], float]):
         res = np.matmul(self.gradient_op, np.array(list(map(function, self.points))))
         return np.array([[res[j], res[j + self.m], res[j + 2 * self.m]] for j in range(self.m)])
 
@@ -206,7 +216,7 @@ class Manifold:
         return np.matmul(self.gradient_op.transpose(), self.spdiags)
 
     @cached_property
-    def laplacian_op(self):
+    def laplacian_op(self):  # TODO: Sparsifier
         g = self.gradient_op
         d = np.matmul(g.transpose(), self.spdiags)
         return np.matmul(d, g)
@@ -219,11 +229,44 @@ class Manifold:
     def colorfunc(self):
         return np.array(list(map(_colorfunc, self.points)))
 
+    def heat_variation_level_sets(self, vertex: int, time_step: int):
+        assert vertex <= self.n
+        delta = np.zeros((self.n, 1))
+        delta[vertex] = 1
+        laplacian = self.laplacian_op
+        mat = np.identity(laplacian.shape[0]) + time_step * laplacian  # TODO: Sparsifier
+        return np.matmul(npl.inv(mat), delta)
+
+    def implicit_time_stepping_heat_equation(self, vertex: int, time_step: float, iterations: Iterable[int]):
+        assert vertex <= self.n
+        u = np.zeros((self.n, 1))
+        u[vertex] = 1
+        laplacian = self.laplacian_op
+        mat = np.identity(laplacian.shape[0]) + time_step * laplacian  # TODO: sparsify
+        mat = npl.inv(mat)
+        for iter in range(max(iterations)):
+            u = mat * u
+            if iter in iterations:
+                pass  # TODO: add animation
+        return None
+
+    def geodesics(self, vertex: int, time_step: int):
+        assert vertex <= self.n
+        delta = np.zeros((self.n, 1))
+        delta[vertex] = 1
+        laplacian = self.laplacian_op
+        mat = np.identity(laplacian.shape[0]) + time_step * laplacian  # TODO: Sparsifier
+        u = npl.inv(mat) * delta
+        g = np.matmul(self.gradient_op, u)
+        h = -self.normalize(g)
+        phi = npl.inv(laplacian).dot(self.divergence_op.dot(h))
+        return phi
+
 
 if __name__ == '__main__':
-    manif = Manifold("toolbox_graph/camel.off")
-    manif.plot(show_axis=True, symbols=dict(shade=True))
-    plt.show()
+    manif = Manifold("Geometry/sphere2.off")
+    # manif.plot(show_axis=True, symbols=dict(shade=True))
     # plt.savefig('avant.png')
-    # manif.plot(show_axis=True, function=manif.laplacian(_colorfunc))
-    # plt.savefig('apres.png')
+    manif.plot(show_axis=True, function=manif.heat_variation_level_sets(vertex=200, time_step=100000))
+    plt.show()
+    # plt.savefig('heat_levels.png')
