@@ -28,12 +28,17 @@ class Manifold:
         self.points = None
         self.faces = None
         self.label = label
+        self.name = path[:-4].split('/')[-1]
         if path is not None:
             self.load_ascii_from_off(path)
 
     @property
     def tikz_dat_file(self):
         return "\n\n".join("\n".join(" ".join(map(str, self.points[i])) for i in f) for f in self.faces)
+
+    @cached_property
+    def colorfunc(self):
+        return np.array(list(map(_colorfunc, self.points)))
 
     @cached_property
     def n(self):
@@ -153,19 +158,11 @@ class Manifold:
         return lambda index: np.array([self.points[p] for p in self.faces[:, index]])
 
     @cached_property
-    def face_unnormalized_normal(self):
-        return lambda face_vertices: np.cross(face_vertices[1] - face_vertices[0], face_vertices[2] - face_vertices[0])
-
-    @cached_property
     def unnormalized_normals(self):
         a0 = self.vertices(0)
         a1 = self.vertices(1)
         a2 = self.vertices(2)
         return np.array(list(map(lambda t: np.cross(*t), zip(map(lambda t: t[1] - t[0], zip(a1, a0)), map(lambda t: t[1] - t[0], zip(a2, a0))))))
-
-    @cached_property
-    def face_area(self):
-        return lambda face_vertices: npl.norm(self.face_unnormalized_normal(face_vertices)) / 2
 
     @cached_property
     def areas(self):
@@ -202,23 +199,11 @@ class Manifold:
                 e[j + 2 * self.m, index] = jeji[2]
         return e
 
-    # grad(f)(j) = 1/2Aj sum_{i= 1}^{3}f_{i}N_{j} ^ e_{i + 1, i + 2}
-    @cached_property
-    def pointwise_gradient(self):
-        # gradient: (V -> \R) -> F -> \R^{3}
-        return lambda function: \
-            (lambda face_vertices:
-             sum(function(f) * np.cross(self.normalize(self.face_unnormalized_normal(face_vertices)), face_vertices[(index + 2) % 3] - face_vertices[(index + 1) % 3])
-                 for (f, index) in enumerate(face_vertices) / (2 * self.face_area(face_vertices)))
-             )
 
     @cached_property
     def gradient_op(self):
         return self.spdiags.dot(self.sum_op)
 
-    def gradient(self, function: Callable[[Iterable[float]], float]):
-        res = self.gradient_op.dot(np.array(list(map(function, self.points))))
-        return sp.csr_matrix([[res[j], res[j + self.m], res[j + 2 * self.m]] for j in range(self.m)])
 
     @cached_property
     def divergence_op(self):
@@ -230,14 +215,6 @@ class Manifold:
         d = g.transpose().dot(self.spdiags)
         res = d.dot(g)
         return res
-
-    def laplacian(self, function):
-        res = self.laplacian_op.dot(np.array(list(map(function, self.points))))
-        return res
-
-    @cached_property
-    def colorfunc(self):
-        return np.array(list(map(_colorfunc, self.points)))
 
     def heat_variation_level_sets(self, vertex: int, time_step: int):
         assert vertex <= self.n
@@ -252,15 +229,19 @@ class Manifold:
         u = np.zeros((self.n, 1))
         u[vertex] = 1
         laplacian = self.laplacian_op
+        with open(f"{self.name}_values.txt", 'w') as f:
+            f.write(f"Vertex: {vertex}, Time Step: {time_step}, Iterations: {iterations}\n\n")
+            f.write(str(laplacian))
+            f.write("\n\n")
         _mat = sp.identity(laplacian.shape[0]) + time_step * laplacian
-        print("Inverting Time Step")
         mat = spl.inv(_mat)
         for i in tqdm.trange(max(iterations) + 1):
             u = mat.dot(u)
             if i in iterations:
-                manif.plot(show_axis=True, function=u)
-                plt.savefig(f'{i}.png')
-        print(u.transpose())
+                self.plot(show_axis=True, function=u)
+                plt.savefig(f'Figures/{self.name}_{i}.png')
+                with open(f"{self.name}_values.txt", 'a') as f:
+                    f.write(f"Itération: {i}\n" + str(u.transpose()) + "\n\n")
         return
 
     def geodesics(self, vertex: int, time_step: int):
@@ -279,13 +260,6 @@ class Manifold:
 
 if __name__ == '__main__':
     file = "toolbox_graph/camel.off"
-    start = time.perf_counter()
     manif = Manifold(file)
-    with open(f"{file[:-3].split('/')[1]}dat", 'w') as f:
-        f.write(manif.tikz_dat_file)
-    # manif.plot(show_axis=True, symbols=dict(shade=True))
-    # plt.savefig('avant.png')
-    # manif.implicit_time_stepping_heat_equation(vertex=100, time_step=100, iterations=[int(1e6)])
-    # plt.show()
-    # plt.show()
-    # plt.savefig('heat_levels.png')
+    manif.implicit_time_stepping_heat_equation(vertex=3, time_step=1000, iterations=[1, 10, 30, 50])
+
