@@ -1,0 +1,95 @@
+\documentclass{cours}
+\title{Ray Tracing\\ \small Cours TalENS n°1}
+\author{Matthieu Boyer & Clément Allard}
+\date{}
+ 
+\renewcommand*{\K}{\mathbb{K}}
+\usepackage{tcolorbox}
+\usepackage{SIunits}
+\tcbuselibrary{theorems}
+\graphicspath{{./Images/}}
+
+\begin{document}
+	\section{Faire briller une vache de mille feux ?}
+	\subsection{Introduction}
+	\subsection{La lumière, kéazko ?}
+	Qu'est ce que la lumière ? Comment se propage-t-elle ? Voilà un débat qui a enflammé les derniers siècles. La conclusion de ces débats fut que la lumière se comporte comme à la fois un ensemble de photons mais également comme un onde (phénomène mis en évidence par Louis De Broglie en 1924) : on appelle ceci la dualité onde-corpuscule. Posons en premier temps la définition d'une onde :
+	\begin{définition}{Onde}{}
+		Une onde est la propagation d'une perturbation de proche en proche avec transfert d'énergie
+	\end{définition}
+	Dans le cadre du modèle de l'optique géométrique, on vient étudier le comportement de la lumière d'un point de vue simplifié, en introduisant la notion de rayon lumineux.
+	\begin{définition}{Rayon Lumineux}{}
+		On définit un rayon lumineux comme une courbe de l'espace selon laquelle se propage l'énergie lumineuse (véhiculée par l'onde).
+	\end{définition}
+	On représentera donc la lumière par des courbes fléchées.
+	\begin{remarque}{}{}
+	D'un point de vue expérimental, la modélisation de la lumière par des rayons lumineux fonctionne bien (dans la limite d'objets assez grands devant la longueur d'onde de l'onde, pour ne pas avoir de diffraction).
+	\end{remarque}{}{}
+	\begin{figure}[H]
+	\centering
+	\includegraphics[scale=.08]{Diffraction.jpeg}
+	\caption{Illustration du phénomène de diffraction}
+	\end{figure}
+	Nous avons à présent un modèle pour la lumière, et nous allons pouvoir étudier son devenir.
+	
+	\section{Comment voit-on la vache ?}
+	\subsection{Propagation de la lumière}
+	Étudions la propagation de la lumière dans certains milieux que nous allons définir ci-dessous.
+	\begin{définition}{MTHI - Milieux Transparents Homogènes Isotropes}{}
+	On s'intéresse à des milieux qui sont :\\
+	- Transparents : l'énergie lumineuse n'est pas absorbée par le milieu;\\
+	- Homogènes : les propriétés du milieu ne dépendent pas du point choisi;\\
+	- Isotropes : les propriétés du milieu ne dépendent pas de la direction du rayon lumineux.
+	\end{définition}
+	\begin{définition}{Dioptre}{}
+	On appelle dioptre l'interface entre deux milieux
+	\end{définition}
+	Cet ensemble de milieux regroupe par exemple le vide, l'air, l'eau ou bien le verre. On peut se demander à quelle vitesse se propagent les rayons lumineux dans notre milieu, ce qui nous amène à introduire la notion d'indice optique :
+	\begin{définition}{Indice optique}{}
+	On définit l'indice optique $n$ de la manière suivante
+	$$n=\frac{c}{v_\varphi}$$
+	où $c =\unit{299~792~458}{\meter\cdot\second^{-1}}$ et $v_\varphi$ est la vitesse de propagation de la lumière dans notre milieu.
+	\end{définition}
+	\begin{example}
+		L'indice optique du vide vaut $1$, celui de l'air $1.0003$, celui de l'eau $1.33$ et le verre autour de $1.5$.
+	\end{example}
+	\begin{théorème}{Propagation de la lumière dans les MTHI}{}
+	- Les rayons lumineux sont des droites;\\
+	- Les rayons lumineux se propagent indépendamment entre eux.
+	\end{théorème}
+	\begin{proof}
+	On prouvera un de ces points ultérieurement. 
+	\end{proof}
+	Un des principes fondamentaux de la propagation de la lumière dans les MTHI est le suivant :
+	\begin{théorème}{Principe du retour inverse de la lumière}{}
+	Le trajet de la lumière ne dépend pas du sens de parcours
+	\end{théorème}
+	\begin{proof}
+	Ceci s'illustre car le milieu est homogène et isotrope.
+	\end{proof}
+	\subsection{Fonctionnement du ray tracing}
+	Considérons une lampe qui éclaire notre vache. Nous nous demandons comment un observateur extérieur peut voir la vache.
+	
+	
+	Une idée naïve serait de prendre notre source lumineuse, de déduire la marche d'un rayon lumineux (à l'aide de lois que nous verrons plus tard).
+	% mettre une figure pour illustrer ceci
+	Le problème ici est qu'on doit tracer la marche d'un grand nombre de rayons pour avoir une image de bonne résolution, sachant que la plupart des rayons n'atteindront jamais l'observateur !
+	% mettre une figure pour illustrer ceci
+	Pour nous sauver, le principe de retour inverse de la lumière vient à notre rescousse ! En effet, il suffit de tracer les rayons dirigés de l'\oe il vers la vache, et ensuite voir si le rayon intercepte notre source lumineuse.
+	% figure !
+	L'avantage : on peut se restreindre à un nombre de rayons plus limité, en ne prenant que ceux qui vont entrer dans le champ de vision de l'observateur et économisant énormément de puissance de calcul (ce qui est nécessaire pour la fluidité d'un jeu vidéo).
+	
+	\section{Implémentation pratique}
+	\subsection{Comment prédire la trajectoire de la lumière ?}
+	Une règle fondamentale permet de prédire la trajectoire de la lumière :
+	\begin{théorème}{Principe de Fermat}{}
+	La lumière se propage en minimisant son temps de parcours
+	\end{théorème}
+	En notant une distance $AB$, on a :
+	$$\Delta t = \frac{AB}{v_\varphi} = \frac{nAB}{c}$$
+	On note $(AB) = nAB$ le chemin optique. Le principe de Fermat s'écrit de manière équivalente en la minimisation du chemin optique.\\
+	Ce principe permet d'intuiter les lois dites de Snell-Descartes :
+	\begin{propositionfr}{Lois de Snell-Descartes}
+		- 
+	\end{propositionfr}
+	\end{document}

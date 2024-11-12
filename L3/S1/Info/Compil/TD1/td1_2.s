@@ -3,7 +3,7 @@
 
 main: 
         mov $1, %rdi
-        test %rdi, %rdi 
+        test %rdi, %rdi
         jz .T0
         and $0, %rdi
 

@@ -7,9 +7,10 @@ from typing import Callable, Iterable
 import itertools
 from functools import cached_property
 from mpmath import cot
-
-# TODO: TOUT PASSER EN SPARSE AVEC scipy.sparse PARCE QUE LA DIMENSION 150000 IL APPRÉCIE PAS :w
-
+import scipy.sparse as sp
+import scipy.sparse.linalg as spl
+import tqdm
+import time
 
 levelsets = 30
 
@@ -29,6 +30,10 @@ class Manifold:
         self.label = label
         if path is not None:
             self.load_ascii_from_off(path)
+
+    @property
+    def tikz_dat_file(self):
+        return "\n\n".join("\n".join(" ".join(map(str, self.points[i])) for i in f) for f in self.faces)
 
     @cached_property
     def n(self):
@@ -50,7 +55,7 @@ class Manifold:
     def load_ascii_from_off(self, path):
         with open(path, 'r') as f:
             data = csv.reader(f, delimiter=' ')
-            data = list(filter(lambda t: t, data))
+            data = list(filter(lambda t: t and t != ' ', data))
         self.load_list(data)
 
     def load_list(self, data):
@@ -58,7 +63,7 @@ class Manifold:
             raise ValueError("Il n'y a pas le header OFF")
 
         # La deuxième ligne contient (n_points, n_faces)
-        print(data)
+        # print(data)
         p, f = [int(x) for x in data[1][:2]]
 
         # Les lignes suivantes contiennent les faces et les points
@@ -78,6 +83,7 @@ class Manifold:
     def plot(self, ax=None, symbols=None, function=None, show_axis=False, level_sets=False):
         if symbols is None:
             symbols = {}
+
         if ax is None:
             mx = self.points.max(axis=0)
             c = 0.5 * (mx + self.points.min(axis=0))
@@ -151,7 +157,7 @@ class Manifold:
         return lambda face_vertices: np.cross(face_vertices[1] - face_vertices[0], face_vertices[2] - face_vertices[0])
 
     @cached_property
-    def unnormalized_normals(self):  # TODO: SPARSIFIER
+    def unnormalized_normals(self):
         a0 = self.vertices(0)
         a1 = self.vertices(1)
         a2 = self.vertices(2)
@@ -162,7 +168,7 @@ class Manifold:
         return lambda face_vertices: npl.norm(self.face_unnormalized_normal(face_vertices)) / 2
 
     @cached_property
-    def areas(self):  # TODO: SPARSIFIER
+    def areas(self):
         return np.array(list(map(lambda t: npl.norm(t) / 2, self.unnormalized_normals)))
 
     @cached_property
@@ -170,27 +176,30 @@ class Manifold:
         return lambda point: point / npl.norm(point) if npl.norm(point) else point
 
     @cached_property
-    def normals(self):  # TODO: SPARSIFIER
-        return np.array(list(map(self.normalize, self.unnormalized_normals)))
+    def normals(self):
+        return sp.csr_matrix(list(map(self.normalize, self.unnormalized_normals)))
 
     @cached_property
-    def spdiags(self):  # TODO: SPARSIFIER
+    def spdiags(self):
         l = 2 * self.areas
-        return np.diag(list(itertools.chain(l, l, l)))
+        return sp.diags(list(itertools.chain(l, l, l)), 0)
 
     @cached_property
-    def sum_op(self):  # TODO: SPARSIFIER
-        e = np.zeros((3 * self.m, self.n))
+    def sum_op(self):
+        e = sp.dok_matrix((3 * self.m, self.n))
         normals = self.normals
+        # print(normals)
         for j in range(self.m):
+            # print(j)
             p = self.get_points(j)
             for i, index in enumerate(self.faces[j]):
-                s = (index + 1) % 3
-                t = (index + 2) % 3
-                JEJI = np.cross(normals[j], p[t] - p[s])
-                e[j, i] = JEJI[0]
-                e[j + self.m, i] = JEJI[1]
-                e[j + 2 * self.m, i] = JEJI[2]
+                s = (i + 1) % 3
+                t = (i + 2) % 3
+                n = normals[j].toarray()
+                jeji = np.cross(n, p[t] - p[s])[0]
+                e[j, index] = jeji[0]
+                e[j + self.m, index] = jeji[1]
+                e[j + 2 * self.m, index] = jeji[2]
         return e
 
     # grad(f)(j) = 1/2Aj sum_{i= 1}^{3}f_{i}N_{j} ^ e_{i + 1, i + 2}
@@ -204,25 +213,26 @@ class Manifold:
              )
 
     @cached_property
-    def gradient_op(self):  # TODO: SPARSIFIER
-        return np.matmul(self.spdiags, self.sum_op)
+    def gradient_op(self):
+        return self.spdiags.dot(self.sum_op)
 
     def gradient(self, function: Callable[[Iterable[float]], float]):
-        res = np.matmul(self.gradient_op, np.array(list(map(function, self.points))))
-        return np.array([[res[j], res[j + self.m], res[j + 2 * self.m]] for j in range(self.m)])
+        res = self.gradient_op.dot(np.array(list(map(function, self.points))))
+        return sp.csr_matrix([[res[j], res[j + self.m], res[j + 2 * self.m]] for j in range(self.m)])
 
     @cached_property
     def divergence_op(self):
-        return np.matmul(self.gradient_op.transpose(), self.spdiags)
+        return self.gradient_op.transpose().dot(self.spdiags)
 
     @cached_property
-    def laplacian_op(self):  # TODO: Sparsifier
+    def laplacian_op(self):
         g = self.gradient_op
-        d = np.matmul(g.transpose(), self.spdiags)
-        return np.matmul(d, g)
+        d = g.transpose().dot(self.spdiags)
+        res = d.dot(g)
+        return res
 
     def laplacian(self, function):
-        res = np.matmul(self.laplacian_op, np.array(list(map(function, self.points))))
+        res = self.laplacian_op.dot(np.array(list(map(function, self.points))))
         return res
 
     @cached_property
@@ -234,39 +244,48 @@ class Manifold:
         delta = np.zeros((self.n, 1))
         delta[vertex] = 1
         laplacian = self.laplacian_op
-        mat = np.identity(laplacian.shape[0]) + time_step * laplacian  # TODO: Sparsifier
-        return np.matmul(npl.inv(mat), delta)
+        mat = sp.identity(laplacian.shape[0]) + time_step * laplacian
+        return mat.inverse().dot(delta)
 
     def implicit_time_stepping_heat_equation(self, vertex: int, time_step: float, iterations: Iterable[int]):
         assert vertex <= self.n
         u = np.zeros((self.n, 1))
         u[vertex] = 1
         laplacian = self.laplacian_op
-        mat = np.identity(laplacian.shape[0]) + time_step * laplacian  # TODO: sparsify
-        mat = npl.inv(mat)
-        for iter in range(max(iterations)):
-            u = mat * u
-            if iter in iterations:
-                pass  # TODO: add animation
-        return None
+        _mat = sp.identity(laplacian.shape[0]) + time_step * laplacian
+        print("Inverting Time Step")
+        mat = spl.inv(_mat)
+        for i in tqdm.trange(max(iterations) + 1):
+            u = mat.dot(u)
+            if i in iterations:
+                manif.plot(show_axis=True, function=u)
+                plt.savefig(f'{i}.png')
+        print(u.transpose())
+        return
 
     def geodesics(self, vertex: int, time_step: int):
         assert vertex <= self.n
         delta = np.zeros((self.n, 1))
         delta[vertex] = 1
         laplacian = self.laplacian_op
-        mat = np.identity(laplacian.shape[0]) + time_step * laplacian  # TODO: Sparsifier
-        u = npl.inv(mat) * delta
-        g = np.matmul(self.gradient_op, u)
+        mat = sp.identity(laplacian.shape[0]) + time_step * laplacian
+        mat = spl.inv(mat)
+        u = mat.dot(delta)
+        g = self.gradient_op.dot(u)
         h = -self.normalize(g)
-        phi = npl.inv(laplacian).dot(self.divergence_op.dot(h))
+        phi = mat.dot(self.divergence_op.dot(h))
         return phi
 
 
 if __name__ == '__main__':
-    manif = Manifold("Geometry/sphere2.off")
+    file = "toolbox_graph/camel.off"
+    start = time.perf_counter()
+    manif = Manifold(file)
+    with open(f"{file[:-3].split('/')[1]}dat", 'w') as f:
+        f.write(manif.tikz_dat_file)
     # manif.plot(show_axis=True, symbols=dict(shade=True))
     # plt.savefig('avant.png')
-    manif.plot(show_axis=True, function=manif.heat_variation_level_sets(vertex=200, time_step=100000))
-    plt.show()
+    # manif.implicit_time_stepping_heat_equation(vertex=100, time_step=100, iterations=[int(1e6)])
+    # plt.show()
+    # plt.show()
     # plt.savefig('heat_levels.png')

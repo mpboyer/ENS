@@ -1,0 +1,420 @@
+\documentclass{classe}
+\title{Imagerie 3D --- Ray Tracing\\ \small Cours TalENS n°1}
+\author{Matthieu Boyer \& Clément Allard}
+\date{16 Novembre 2024}
+
+\usepackage[pdftex,outline]{contour}
+\definecolor{v}{HTML}{00ffff}
+\tikzstyle{verre} = [draw = v, fill = v!30]
+\usetikzlibrary{decorations}
+
+\newcommand{\point}[3]{\draw (#1 -.1, #2 -.1) -- (#1 + .1, #2 + .1);
+\draw (#1 +.1, #2 -.1) -- (#1 - .1, #2 + .1);
+\draw (#1, #2) node[below right]{#3};}
+
+\renewcommand*{\K}{\mathbb{K}}
+\graphicspath{{./Images/}}
+
+\begin{document}
+\section*{Introduction}
+% TODO: TODOOM.
+
+\section{Faire briller un chameau de mille feux ?}
+\subsection{La lumière, kéazko ?}
+Qu'est ce que la lumière ? Comment se propage-t-elle ? Voilà un débat qui a enflammé les derniers siècles. La conclusion de ces débats fut que la lumière se comporte comme à la fois un ensemble de photons mais également comme un onde (phénomène mis en évidence par Louis \textsc{De Broglie} en 1924) : on appelle ceci la dualité onde-corpuscule. Posons en premier temps la définition d'une onde :
+\begin{définition}{Onde}{}
+Une onde est la propagation d'une perturbation de proche en proche avec transfert d'énergie
+\end{définition}
+Dans le cadre du modèle de l'optique géométrique, on vient étudier le comportement de la lumière d'un point de vue simplifié, en introduisant la notion de rayon lumineux.
+\begin{définition}{Rayon Lumineux}{}
+On définit un rayon lumineux comme une courbe de l'espace selon laquelle se propage l'énergie lumineuse (véhiculée par l'onde électromagnétique).
+\end{définition}
+On représentera donc la lumière par des courbes fléchées.
+Notons qu'\textit{a priori}, ce qu'est la lumière ne donne pas d'information sur la forme de ces courbes.
+\begin{remarque}{}{}
+	D'un point de vue expérimental, la modélisation de la lumière par des rayons lumineux fonctionne bien (dans la limite d'objets assez grands devant la longueur d'onde de l'onde, pour ne pas avoir de diffraction).
+	Il n'y a diffraction que dans le cas où la taille de l'objet est de l'ordre de grandeur de la longueur d'onde du rayon lumineux ($<\unit{1}{\micro\meter}$ pour les rayons visibles).
+\end{remarque}
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=.08]{Diffraction.jpeg}
+	\caption{Illustration du phénomène de diffraction}
+\end{figure}
+Nous avons à présent un modèle pour la lumière, et nous allons pouvoir étudier sa propagation.
+
+\subsection{Mille feux et mille couleurs}
+On a déjà vu qu'à la lumière on pouvait associer une onde. Regardons un peu plus en détail une grandeur caractéristique de ce comportement ondulatoire :
+\begin{définition}{Longueur d'onde}{}
+	On appelle longueur d'onde d'une onde sa période spatiale $\lambda$, c'est à dire le plus petit réel non nul qui vérifie
+	\begin{equation*}
+		\forall x, s(x) = s(x+\lambda)
+	\end{equation*}
+\end{définition}
+\begin{remarque}{Couleur}{}
+En pratique, on peut associer à chaque longueur d'onde une couleur, comme le montre le spectre ci-dessous:
+\begin{center}
+	\resizebox{\textwidth}{!}{
+\begin{tikzpicture}[scale=1]
+\shade[left color=white,right color=black] (-13.5,0.1) rectangle (-13,2.9);
+\node[draw,rectangle,fill=black,text=white,minimum width=2cm,minimum height=2.8cm]  at (-12,1.5){$\gamma$};
+\node[rectangle,fill=black,text=white,minimum width=2.58cm,minimum height=2.8cm]  at (-10,1.5){Rayons X};
+\node[rectangle,fill=black,text width=2cm,,text=white,minimum width=2.58cm,minimum height=2.8cm,text centered] at (-7.7,1.5){Ultra Violet};
+\node[rectangle,fill=black,text width=2cm,,text=white,minimum width=3.1cm,minimum height=2.8cm,text centered]  at (-4.56,1.5){Infra Rouge};
+\node[rectangle,fill=black,text width=2cm,,text=white,minimum width=2cm,minimum height=2.8cm,text centered]  at (-2,1.5){Micro ondes};
+\node[rectangle,fill=black,text width=2cm,,text=white,minimum width=2.5cm,minimum height=2.8cm,text centered]  at (0.25,1.5){Ondes Radio (UHF, VHF, HF)};
+\shade[left color=black,right color=white] (1.4,0.1) rectangle (2,2.9);
+\foreach \x in {-11,-9,-3,-1}\draw[shift={(\x,0)},thin,white] (0,3) -- (0,0);
+\draw[->](-13,0)--++(15,0)node[below]{$\lambda$ (m)};
+\draw[->](-13,3)--++(15,0)node[above]{$\nu$ (Hz)};
+\foreach \x in{-12,-11,...,-1}
+	 \draw[shift={(\x,0)}] (0pt,1pt) -- (0pt,-1pt) node[below] {\small $10^{\x}$};
+\foreach \y in {21,20,...,8}
+	\draw[shift={(8.48-\y,3)}] (0pt,1pt) -- (0pt,-1pt) node[above=2pt] {\small $10^{\y}$};
+\foreach \x/\xtext in {1/10,0/1}
+ \draw[shift={(\x,0)}] (0pt,1pt) -- (0pt,-1pt) node[below=0.2em] {\small $\xtext$};
+
+\foreach \x/\y in {-6.42/violet,-6.37/blue,-6.32/cyan,-6.27/green,-6.22/yellow,-6.17/orange,-6.12/red}
+     \draw[shift={(\x,0)},\y,line width=0.5mm] (0,3) -- (0,0);
+\end{tikzpicture}}
+\captionof{figure}{Spectre électromagnétique du visible}
+\end{center}
+\end{remarque}
+
+
+\section{Comment un écran voit-il un chameau ?}
+\subsection{Propagation de la lumière}
+Étudions la propagation de la lumière dans certains milieux que nous allons définir ci-dessous.
+\begin{définition}{MTHI - Milieux Transparents Homogènes Isotropes}{}
+On s'intéresse à des milieux qui sont :\\
+- Transparents : l'énergie lumineuse n'est pas absorbée par le milieu;\\
+- Homogènes : les propriétés du milieu ne dépendent pas du point choisi;\\
+- Isotropes : les propriétés du milieu ne dépendent pas de la direction du rayon lumineux.
+\end{définition}
+\begin{définition}{Dioptre}{}
+On appelle dioptre l'interface entre deux milieux
+\end{définition}
+Cet ensemble de milieux regroupe par exemple le vide, l'air, l'eau ou bien le verre. On peut se demander à quelle vitesse se propagent les rayons lumineux dans notre milieu, ce qui nous amène à introduire la notion d'indice optique :
+\begin{définition}{Indice optique}{}
+On définit l'indice optique $n$ de la manière suivante
+\begin{equation*}
+	n=\frac{c}{v_\varphi}
+\end{equation*}
+où $c =\unit{299~792~458}{\meter\cdot\second^{-1}}$ est la vitesse de la lumière dans le vide et $v_\varphi$ est la vitesse de propagation de la lumière dans notre milieu.
+\end{définition}
+\begin{example}
+	L'indice optique du vide vaut $1$, celui de l'air $1.0003$, celui de l'eau $1.33$ et le verre autour de $1.5$.
+\end{example}
+\begin{remarque}{Lien période - longueur d'onde}{}
+	On a ici
+	\begin{equation*}
+		v_\varphi = \frac{\lambda}{T}
+	\end{equation*}
+	où $T$ est la période temporelle de l'onde
+\end{remarque}
+\begin{théorème}{Propagation de la lumière dans les MTHI}{}
+- Les rayons lumineux sont des droites;\\
+- Les rayons lumineux se propagent indépendamment entre eux.
+\end{théorème}
+\begin{proof}
+	On prouvera un de ces points ultérieurement.
+\end{proof}
+\begin{propositionfr}{Droite Paramétrée}{}
+	Une droite de l'espace euclidien $\R^{n}$ peut être vue comme un vecteur de norme $1$ $v \in \R^{n}$ appelé vecteur directeur associé à un point $p \in \R^{n}$ par lequel elle passe.
+\end{propositionfr}
+Un des principes fondamentaux de la propagation de la lumière dans les MTHI est le suivant :
+\begin{théorème}{Principe du retour inverse de la lumière}{}
+Le trajet de la lumière ne dépend pas du sens de parcours
+\end{théorème}
+\begin{proof}
+	Ceci s'illustre car le milieu est homogène et isotrope.
+\end{proof}
+
+
+\subsection{Principe du Ray Tracing}
+Considérons une lampe qui éclaire notre chameau. On va s'intéresser à la manière dont un observateur extérieur peut voir le chameau.
+Un observateur extérieur ne voit une surface que si celle-ci réfléchit la lumière vers son \oe il.
+
+L'idée naïve est de prendre notre source lumineuse, de déduire la marche d'un rayon lumineux.
+% TODO: mettre une figure pour illustrer ceci
+Le problème ici est qu'on doit tracer la marche d'un grand nombre de rayons pour avoir une image de bonne résolution, sachant que la plupart des rayons n'atteindront jamais l'observateur !
+% TODO: mettre une figure pour illustrer ceci
+Pour nous sauver, le principe de retour inverse de la lumière vient à notre rescousse ! En effet, il suffit de tracer les rayons dirigés de l'\oe il vers le chameau, et ensuite voir si le rayon intercepte notre source lumineuse.
+% TODO: figure !
+L'avantage : on peut se restreindre à un nombre de rayons plus limité, en ne prenant que ceux qui vont entrer dans le champ de vision de l'observateur et économisant énormément de puissance de calcul (ce qui est nécessaire pour la fluidité d'un jeu vidéo par exemple).
+
+Donc, pour calculer la répartition de lumière sur l'écran (et donc la couleur de chaque pixel), il nous reste à:
+\begin{enumerate}
+	\item Trouver comment la trajectoire d'un rayon est modifiée en rencontrant un objet.
+	\item Trouver comment la couleur d'un rayon est modifiée en rencontrant un objet.
+	\item Trouver comment modéliser un objet et calculer son intersection avec des rayons lumineux.
+\end{enumerate}
+
+\section{Implémentation pratique}
+\subsection{Comment prédire la trajectoire de la lumière ?}
+Une règle fondamentale permet de prédire la trajectoire de la lumière :
+\begin{théorème}{Principe de Fermat}{}
+La lumière se propage en minimisant son temps de parcours.
+\end{théorème}
+\begin{remarque}{}{}
+Ce principe n'est pas exclusif à la lumière, et par exemple est aussi vrai pour le son (et généralement tout comportement ondulatoire) : on peut donc faire des équivalents de ray tracing sur du son ou autres.
+\end{remarque}{}{}
+En notant une distance $AB$, on a :
+\begin{equation*}
+	\Delta t = \frac{AB}{v_\varphi} = \frac{nAB}{c}
+\end{equation*}
+On note $(AB) = nAB$ le chemin optique. Le principe de Fermat s'écrit de manière équivalente en la minimisation du chemin optique.\\
+\begin{remarque}{}{}
+	Dans un milieu d'indice constant, la minimisation du chemin optique est équivalente à celle de la distance entre deux points. On sait que le chemin le plus court entre deux points est la ligne droite : on retrouve que dans un MTHI, les rayons lumineux sont des droites.
+\end{remarque}
+Ce principe permet d'intuiter les lois dites de Snell-Descartes :
+\begin{théorème}{Lois de Snell-Descartes}{snelldescartes1}
+À l'interface entre deux milieux d'indice optique $n_1$ et $n_2$, la propagation d'un rayon lumineux en provenance du milieu $1$ se fait selon les lois suivantes :
+\begin{itemize}
+	\item\color{vulm}{Plan d'incidence :}\ \color{black} Il existe un rayon réfléchi (qui reste dans le milieu $1$) et un rayon réfracté (qui se propage dans le milieu $2$) qui sont tous les deux situés dans le plan formé par le rayon incident et la normale au dioptre.
+	\item \color{vulm}{Réfraction :}\ \color{black} L'angle $i_{2}$ de sortie dans le milieu $2$ vérifie \[n_{1}\sin{\left(i_{1}\right)} = n_{2}\sin{\left(i_{2}\right)}\]
+    \item \color{vulm}{Réflexion :}\ \color{black} Son angle $i_{1}'$ de réflexion dans le milieu $1$ est tel que la normale au milieu au point d'incidence est la bissectrice de l'angle $i_{1} + i_{1}'$.
+\end{itemize}
+\end{théorème}
+\begin{tabular}{m{.3\linewidth}m{.6\linewidth}}
+    Loi de la Réfraction :
+    \[
+        n_{1}\sin{\left(i_{1}\right)} = n_{2}\sin{\left(i_{2}\right)}
+    \]
+     &
+    \begin{tikzpicture}[scale=1.25,x={(-0.353cm,-0.353cm)}, y={(1cm,0cm)}, z={(0cm,1cm)},>=stealth]
+        \coordinate (O) at (0, 0, 0);
+        \coordinate (A) at (2,2,0);
+        \coordinate (M) at (3,4,0);
+        \coordinate (B) at (2,2,-2);
+        \draw[verre] (O) -- ++(4, 0, 0) ;
+        \draw[verre] (O) -- +(0, 4, 0) ;
+        \draw[verre](O) --++(4,0,0)--++(0,4,0)--++(-4,0,0)--cycle;
+        \draw[verre](0,4,0) --++(0,0,-2)--++(4,0,0)--++(0,0,2)--cycle;
+        \draw[verre](4,0,0) --++(0,0,-2)--++(0,4,0)--++(0,0,2)--cycle;
+        \draw[vulm](4,2,-2)--++(0,0,4)--++(-4,0,0)--++(0,0,-4)--cycle;
+        \draw[vulm] (4,2,-2) node[rotate=45,below right]{\small \hspace{10pt}Plan d'Incidence};
+        \draw[dashed, vulm] (A) ++(2,0,0)--++(-4, 0, 0) ;
+        \draw[->,thick,postaction={decorate},red] (4,2,1.5)--(A);
+        \draw[->,thick,postaction={decorate},red] (A)--(0.4,2,-2);
+        \draw[dashed, vulm, ->] (B)--++(0,0,4.5)node[below left, fill = none]{\small Normale};%la normale
+        \draw[vulm] (2,2,0.5) to[bend right, vulm] (2.65,2,0.5);
+        \draw (2.55,2,0.8) node[vulm]{$i_{1}$};
+        \draw[vulm] (2,2,-0.5) to[bend right, vulm] (1.5,2,-0.6);
+        \draw (1.55,2,-0.8) node[vulm]{$i_{2}$};
+        \draw (2,0,1) node[vulm]{Indice $n_{1}$};
+        \draw (2,0,-2) node[vulm]{Indice $n_{2}$};
+    \end{tikzpicture}
+\end{tabular}
+
+\begin{tabular}{m{.3\linewidth}m{.6\linewidth}}
+    Loi de la Réflexion:
+    \[
+        i_{1} = -i_{1}'
+    \]
+     &
+    \begin{tikzpicture}[scale=1.25,x={(-0.353cm,-0.353cm)}, y={(1cm,0cm)}, z={(0cm,1cm)},>=stealth]
+        \coordinate (O) at (0, 0, 0);
+        \coordinate (A) at (2,2,0);
+        \coordinate (M) at (3,4,0);
+        \coordinate (B) at (2,2,-2);
+        \draw[verre] (O) -- ++(4, 0, 0) ;
+        \draw[verre] (O) -- +(0, 4, 0) ;
+        \draw[verre](O) --++(4,0,0)--++(0,4,0)--++(-4,0,0)--cycle;
+        \draw[verre](0,4,0) --++(0,0,-0.5)--++(4,0,0)--++(0,0,0.5)--cycle;
+        \draw[verre](4,0,0) --++(0,0,-0.5)--++(0,4,0)--++(0,0,0.5)--cycle;
+        \draw[vulm](4,2,-2)--++(0,0,4)--++(-4,0,0)--++(0,0,-4)--cycle;
+        \draw[vulm] (4,2,-2) node[rotate=45,below right]{\small Plan d'Incidence};
+        \draw[dashed, vulm] (A) ++(2,0,0)--++(-4, 0, 0) ;
+        \draw[->,thick,postaction={decorate},red] (4,2,1.5)--(A);
+        \draw[->,thick,postaction={decorate},red] (A)--(0,2,1.5);
+        \draw[dashed, vulm, ->] (B)--++(0,0,4.5)node[above,fill=none]{\small Normale\hspace{12pt}};%la normale
+        \draw[vulm] (2,2,0.5) to[bend right] (2.65,2,0.5);
+        \draw (2.55,2,0.8) node[vulm]{$i_{1}$};
+        \draw[vulm] (2,2,0.75) to[bend left] (1.25,2,0.6);
+        \draw (1.55,2,0.9) node[vulm]{$i'_{1}$};
+        \draw (2,0,1) node[vulm]{Indice $n_{1}$};
+        \draw (2,0,-1) node[vulm]{Indice $n_{2}$};
+    \end{tikzpicture}
+\end{tabular}
+
+\begin{proof}
+\begin{itemize}
+	\item \color{vulm}{Plan d'incidence :}\ \color{black} Soient deux points dans le plan d'incidence. Pour le cas de la réfraction, le rayon de Snell-Descartes minimise la durée de parcours totale comparé à un rayon qui ne serait pas dans le plan d'incidence. Pour la réflexion, c'est la même chose sauf qu'on a comme contrainte que le rayon passe par le dioptre.
+	\item \color{vulm}{Réflexion :}\ \color{black} On sait que nos rayons sont dans le plan d'incidence. On doit minimiser la distance entre deux points $A$ et $B$ avec comme condition le fait qu'on passe par le dioptre :
+	\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+		\draw[vulm] (-2, -2) -- (-2, 2) -- (2, 2) -- (2, -2) -- cycle;
+		\draw (0, 2) node[above]{Plan d'incidence};
+		\point{-1}{1}{};
+		\node at (-1.2, 1.2) {$A$};
+		\point{1}{1.5}{$B$};
+		\point{-.4}{0}{$D$};
+		\draw[->] (0, .2) -- (-.4, .2);
+		\draw (-.2, .2) node[above]{$x$};
+		\draw[->] (-1, 0)  -- (-1, 1);
+		\draw (-1, .5) node[left]{$d_1$};
+		\draw[->] (1, 0)  -- (1, 1.5);
+		\draw (1, .75) node[right]{$d_2$};
+		\draw[->, red, thick] (-1, 1) -- (-.7, .5);
+		\draw[->, red, thick] (-.7, .5) -- (-.4, 0);
+		\draw[->, red, thick] (-.4, 0) -- (0.3, .75) -- (1, 1.5);
+		\draw[->, red, thick] (0.3, .75) -- (1, 1.5);
+		\draw[<->] (-1, -.5) -- (0, -.5);
+		\draw (-.5, -.5) node[below]{$d_3$};
+		\draw[<->] (1, -.5) -- (0, -.5);
+		\draw (.5, -.5) node[below]{$d_4$};
+		\draw[dashed, vulm] (-2.5, 0) -- (2.5, 0);
+		\draw[dashed, vulm] (0, -2.5) -- (0, 2.5);
+	\end{tikzpicture}
+	\end{figure}
+	\noindent On doit donc minimiser (étant donné que l'indice optique est constant, minimiser le temps revient à minimiser la distance)
+	\begin{equation*}
+	d(x) = \sqrt{d_1^2+(d_3+x)^2} + \sqrt{d_2^2+(d_4-x)^2}
+	\end{equation*}
+	En dérivant et cherchant les extrema (on annule la dérivée), on trouve que $i_1$ = $i'_1$
+	\item \color{vulm}{Réfraction :}\ \color{black} Principe analogue à la réflexion.
+
+\end{itemize}
+\end{proof}
+Nous avons à présent un moyen de prédire la trajectoire des rayons lumineux à l'aide de la connaissance des indices optiques.
+
+\begin{remarque}{}{}
+	Pour un objet suffisamment agréable (donc modélisable par une fonction mathématique simple $z = f(x, y)$), la normale au point $(x, y, z)$ est définie par $(-\frac{\partial{f}}{\partial{x}}, -\frac{\partial{f}}{\partial{y}}, 1)$
+\end{remarque}
+
+On introduit un opérateur simple qui va nous servir à calculer la normale à une surface:
+\begin{définition}{Produit Vectoriel}{}
+	Si $u, v \in \R^{3}$, on définit le produit vectoriel $u \times v$ de $u$ et $v$ comme le vecteur orthogonal à $u$ et $v$, de norme $\norm{u}\cdot\norm{v}\cdot\sin(\hat{u, v})$ et orienté selon la règle de la main droite:
+	\begin{equation*}
+		u \times v = \begin{pmatrix}
+			u_{2}v_{3} - u_{3}v_{2}\\
+			u_{3}v_{1} - u_{1}v_{3}\\
+			u_{1}v_{2} - u_{2}v_{1}
+		\end{pmatrix}
+	\end{equation*}
+\end{définition}
+
+\begin{remarque}{}{}
+	Il est impossible de définir des opérateurs similaires aux produits vectoriels en dimensions supérieures. Sauf en dimension 7.
+\end{remarque}
+
+Dans le cas d'un triangle dont on connaît les trois côtés, on peut aisément trouver la normale en tout point appartenant à la face:
+\begin{propositionfr}{Normale à un Triangle}{}
+	Si $T = (i, j, k)$ est une face d'une triangulation de sommets $x_{i}, x_{j}, x_{k}$, alors la normale à l'objet en tout point de la face $T$ est définie par:
+	\begin{equation*}
+		(x_{j} - x_{i}) \times (x_{k} - x_{i})
+	\end{equation*}
+\end{propositionfr}
+
+Il ne nous reste donc qu'à savoir comment appliquer les lois de Snell-Descartes à un rayon lumineux, et donc, savoir comment représenter un rayon lumineux.
+Cette représentation simple nous amène à la reformulation des lois de Snell-Descartes:
+\begin{propositionfr}{Lois de Snell-Descartes Vectorielles}
+	On se donne $\overrightarrow{l}$ un vecteur directeur de rayon de lumière, $\vec{n}$ la normale à la surface au point où elle est atteinte.
+	On garde les notations de \ref{thm:snelldescartes1}.
+	On a:
+	\begin{description}
+		\item[Réfraction] On a:
+			\begin{equation}
+				\vec{v}_{réfracté} = \frac{n_{1}}{n_{2}}\vec{l} + \left(\frac{n_{1}}{n_{2}}\cos i_{1} - \cos i_{2}\right)
+				\label{snelldescartesrefraction}
+			\end{equation}
+		\item[Réflexion] On a:
+			\begin{equation}
+				\vec{v}_{réfléchi} = \vec{l} + 2\cos i_{1}\vec{n}
+				\label{snelldescartesreflexion}
+			\end{equation}
+	\end{description}
+\end{propositionfr}
+\begin{proof}
+	Par le calcul, on vérifie que les vecteurs $\vec{v}_{réfléchi}$ et $\vec{v}_{réfracté}$ conviennent.
+\end{proof}
+En associant à chaque droite une intensité lumineuse et une couleur, on a une modélisation parfaite d'un rayon lumineux.
+
+\subsection{La pouissance}
+
+Le modèle de l'optique géométrique ne détaille pas comment la puissance véhiculée par les rayons lumineux évolue après passage dans un dioptre. Pour y remédier, on définit deux grandeurs :
+\begin{définition}{Coefficients de puissance}{}
+	\begin{description}
+		\item[\color{vulm} Coefficient en réflexion] \color{black} On définit le coefficient de réflexion en puissance $R$ comme le rapport de la puissance véhiculée par l'onde réfléchie sur celle de l'onde incidente.
+		\item[\color{vulm}{Coefficient en transmission}] \color{black} On définit le coefficient de transmission en puissance $T$ comme le rapport de la puissance véhiculée par l'onde réfractée sur celle de l'onde incidente.
+	\end{description}
+\end{définition}
+\begin{remarque}{Conservation de la puissance ?}{}
+	Un objet opaque a un coefficient de transmission nul.
+	Dans un MTHI, il n'y pas d'absorption de la lumière donc $A = 0$ et $R + T = 1$ (ce qui traduit la conservation de la puissance).
+	Dans le cas contraire, par exemple pour un objet opaque, on a $R + T < 1$.
+\end{remarque}
+
+% Paragraphe sur couleur <-> Puissance absorbée
+En pratique, on peut
+
+Il suffit donc de savoir la direction initiale d'un rayon et les représentations de tous les objets dans l'environnement pour pouvoir calculer la trajectoire complète d'un rayon.
+
+\subsection{Le Chameau et l'Espace}
+On doit faire face à deux contraintes majeures: l'espace et le temps.
+En effet, on doit effectuer les calculs de lumière 60 fois par seconde, dans une limite de 8Go de mémoire vive, pour éviter que le jeu ne crashe.
+Par ailleurs, puisque peu d'objets réels peuvent être définis par une fonction mathématique simple, afin d'effectuer les calculs sans encombre, on va faire une supposition assez violente, celle que toutes les surfaces qu'on va considérer sont suffisamment régulières.
+En particulier, on va supposer qu'on peut aisément les représenter par des triangulations (ou \emph{mesh} en anglais).
+
+\begin{figure}[h]
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[axis equal, scale=2, axis lines = none]
+			% \addplot3 [patch] file {Images/camel.dat}; % TODO: UNCOMMENT
+		\end{axis}
+	\end{tikzpicture}
+	\caption{Triangulation d'un Chameau}
+	\label{fig:camel}
+\end{figure}
+
+\begin{définition}{Triangulation 3D}{}
+	Une triangulation d'un objet est un ensemble $\mathcal{V} = \onen{n}$ de sommets ($x_{i} \in \R^{3}$ pour $i \in \mathcal{V}$), et un ensemble $\mathcal{F} \subseteq \mathcal{V}^{3 * m}$ de triangles appelés faces.
+\end{définition}
+
+Ceci nous permet de définir un objet en ne connaissant qu'un nombre fini de point.
+Ceci ne change rien en réalité puisqu'on reste limité par la précision des calculs sur les nombres flottants (à virgule).
+
+\begin{remarque}{}{}
+	Formellement (plus ou moins), une triangulation est un complexe simplicial (ensemble de triangles) homéomorphe (qui peut être déformé sans créer de trous ni fermer de trous) à la variété (l'objet).
+\end{remarque}
+
+Puisqu'on sait calculer, en tout point d'un objet, la normale et appliquer les lois de Snell-Descartes à notre représentation par vecteur directeur, il ne nous reste plus qu'à savoir calculer quand un rayon va intersecter un objet:
+
+On suppose donné un rayon (paramétré par $t$) $P(t) = O+ t\cdot D$ et on cherche un $t_{i}$ tel que $P(t_{i}) \in F = (P_{0}, P_{1}, P_{2})$.
+On note $N$ la normale du triangle $F$.
+On calcule d'abord le point d'intersection entre le rayon et le plan qui contient le triangle:
+\begin{equation*}
+	t_{intersect} = \frac{\left(d - N\cdot O\right)}{N \cdot D}
+\end{equation*}
+On vérifie alors si le point $I = P(t_{i})$ obtenu appartient au triangle. Pour cela on calcule les coordonnées dites barycentrique $\beta_{i}$ du point (i.e. $I = \beta_{0}P_{0} + \beta_{1}P_{1} + \beta_{2}P_{2}$):
+\begin{equation*}
+	\beta_{i} = \norm{\left(P_{i + 2} - P_{i + 1}\right) \times \left(I - P_{i + 1}\right)}/\norm{N}
+\end{equation*}
+Alors $I$ est dans le triangle si et seulement si les trois $\beta_{i}$ sont entre $0$ et $1$.
+
+Pour finir, on a obtenu un algorithme de Ray Tracing: la couleur en un point est donnée par:
+\begin{algorithm}[H]
+	\caption{Ray Tracing}
+	\begin{algorithmic}
+		\Function{\tt ray\_cast}{r, scène, profondeur}
+			\If {prodondeur $>$ profondeur\_max}
+			\State {couleur $\gets$ noir}
+				\Else
+				\If {intersection(r, scène)}
+					\State {p $\gets$ point\_intersection(r, scène)}
+					\State {u $\gets$ réfléchi(r, p)}
+					\State {v $\gets$ réfracté(r, p)}
+					\State {couleur $\gets \left(\begin{aligned}k_{R} &\times \texttt{ray\_cast}(\text{u, scène, profondeur} + 1) \\
+							&+ k_{T}\times \texttt{ray\_cast}(\text{v, scène, profondeur} + 1)\end{aligned}\right)$}
+				\EndIf
+			\EndIf
+		\EndFunction
+	\end{algorithmic}
+\end{algorithm}
+
+Dans la vraie vie, pour se faciliter la vie, on ne va pas tester tous les points d'intersection: si on en a trouvé un on s'arrête, et on va séparer l'espace en plusieurs parties pour restreindre les objets qui pourraient potentiellement être atteints.
+Toutefois, les algorithmes qui effectuent ces répartitions sont un peu trop complexes pour être détaillés ici.
+Vous pouvez vous renseigner en cherchant les constructions de \emph{BVH} et des \emph{USS, Quadtree/Octree, kd-trees, BSP-trees}.
+
+\end{document}
