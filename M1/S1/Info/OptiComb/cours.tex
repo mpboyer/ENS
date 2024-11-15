@@ -257,20 +257,20 @@ Dans la suite, on note $f_{0}, f_{1},\cdots$ les flots obtenus de sorte que $f_{
 	\begin{itemize}
 		\item[$\Leftarrow$] S'il y a un chemin $M$-augmentant
 		\item[$\Rightarrow$] Supposons qu'il existe un $M^{*}$ avec $\abs{M^{*}} > \abs{M}$ est $M$ n'a pas de chemin augmentant.
-			$M^{*} \otimes M$ est un sous-graphe de $G$ avec degré dans $\{0, 1, 2\}$.
-			On a plusieurs possiblités pour ce graphe ($M^{*}$ est en rouge, $M$ en bleu).
-			\begin{category}
-				\cdot & & \cdot\arrow[color=red, r, no head] & \cdot\arrow[color=blue, d, no head]
-				& & \cdot\arrow[color=red, dr, no head] & & &\cdot\arrow[dr, color=blue, no head]
-				\\
-				\cdot & & \cdot\arrow[color=blue, u, no head] & \cdot\arrow[color=red, l, no head]
-				& & & \cdot\arrow[dl, color=blue, no head] & & & \cdot\arrow[dl, color=red, no head]
-				\\
-				& & \cdot\arrow[dr, color=red, no head] & & & \cdot\arrow[dr, color=red, no head] &  & &\cdot\arrow[dr, color=blue, no head]& \\
-				& & & \cdot & & & \cdot & & &\cdot\\
-			\end{category}
-			Toutefois, le quatrième type de graphe n'est pas possible puisque s'il y a plus de rouges que de bleus, on a un chemin augmentant pour $M$.
-			Alors en suivant le
+		      $M^{*} \otimes M$ est un sous-graphe de $G$ avec degré dans $\{0, 1, 2\}$.
+		      On a plusieurs possiblités pour ce graphe ($M^{*}$ est en rouge, $M$ en bleu).
+		      \begin{category}
+			      \cdot & & \cdot\arrow[color=red, r, no head] & \cdot\arrow[color=blue, d, no head]
+			      & & \cdot\arrow[color=red, dr, no head] & & &\cdot\arrow[dr, color=blue, no head]
+			      \\
+			      \cdot & & \cdot\arrow[color=blue, u, no head] & \cdot\arrow[color=red, l, no head]
+			      & & & \cdot\arrow[dl, color=blue, no head] & & & \cdot\arrow[dl, color=red, no head]
+			      \\
+			      & & \cdot\arrow[dr, color=red, no head] & & & \cdot\arrow[dr, color=red, no head] &  & &\cdot\arrow[dr, color=blue, no head]& \\
+			      & & & \cdot & & & \cdot & & &\cdot\\
+		      \end{category}
+		      Toutefois, le quatrième type de graphe n'est pas possible puisque s'il y a plus de rouges que de bleus, on a un chemin augmentant pour $M$.
+		      Alors en suivant le
 	\end{itemize}
 \end{proof}
 
@@ -376,8 +376,8 @@ La dualité permet de faire les liens entre Max-Flow et Min-Cut ainsi qu'entre M
 	Sinon, si $M$ n'est pas parfait, on définit $\pi'$ comme suit:
 	\begin{equation*}
 		\begin{cases}
-			\forall a \in A_{1} & \pi'(a) = \pi(a) - 1\\
-			\forall b \in B_{1} & \pi'(b) = \pi(b) + 1\\
+			\forall a \in A_{1}               & \pi'(a) = \pi(a) - 1 \\
+			\forall b \in B_{1}               & \pi'(b) = \pi(b) + 1 \\
 			\forall v \notin A_{1} \cup B_{1} & \pi'(v) = \pi(v)
 		\end{cases}
 	\end{equation*}
@@ -388,7 +388,7 @@ La dualité permet de faire les liens entre Max-Flow et Min-Cut ainsi qu'entre M
 	Si $\pi'(a_{0}) = -1$, alors on définit $\pi''$ comme:
 	\begin{equation*}
 		\begin{cases}
-			\pi''(a) = \pi'(a) + 1 & \forall a \in A\\
+			\pi''(a) = \pi'(a) + 1 & \forall a \in A \\
 			\pi''(b) = \pi'(b) - 1 & \forall b \in B
 		\end{cases}
 	\end{equation*}
@@ -408,15 +408,15 @@ La version ci-dessous, appelée méthode hongroise, termine quant à elle sur le
 	\begin{algorithmic}
 		\State $M \gets \emptyset$, $\displaystyle\pi(a) \gets \max_{e \in \delta(a)} w(e)$ et $\pi(b) \gets 0$
 		\While {$M$ n'est pas parfait}
-			\State {Construire $G_{\pi}$.}
-			\State {Trouver le couplage maximal $M$ dans $G_{\pi}$ (par augmentation) et définir $A_{1}, A_{2}, A_{3}, B_{1}, B_{2}, B_{3}$}
-			\State{Poser $\displaystyle\Delta \gets \min_{a\in A_{1}, b\in B_{2} \cup B_{3}} \pi(a) + \pi(b) - w((a, b))$}
-			\State{$\pi(a) \gets \pi(a) - \Delta$ et $\pi(b) \gets \pi(b) + \Delta$}
-			\State{$\delta \gets \min_{a \in A}\pi(a)$.}
-			\If {$\delta < 0$}
-				\State {$\pi(a) \gets \pi(a) - \delta$ et $\pi(b) \gets \pi(b) + \delta$}
-			\EndIf
-		 \EndWhile
+		\State {Construire $G_{\pi}$.}
+		\State {Trouver le couplage maximal $M$ dans $G_{\pi}$ (par augmentation) et définir $A_{1}, A_{2}, A_{3}, B_{1}, B_{2}, B_{3}$}
+		\State{Poser $\displaystyle\Delta \gets \min_{a\in A_{1}, b\in B_{2} \cup B_{3}} \pi(a) + \pi(b) - w((a, b))$}
+		\State{$\pi(a) \gets \pi(a) - \Delta$ et $\pi(b) \gets \pi(b) + \Delta$}
+		\State{$\delta \gets \min_{a \in A}\pi(a)$.}
+		\If {$\delta < 0$}
+		\State {$\pi(a) \gets \pi(a) - \delta$ et $\pi(b) \gets \pi(b) + \delta$}
+		\EndIf
+		\EndWhile
 	\end{algorithmic}
 \end{algorithm}
 
@@ -427,7 +427,7 @@ La version ci-dessous, appelée méthode hongroise, termine quant à elle sur le
 	\begin{itemize}
 		\item La boucle prend un temps $\O(m)$ pour s'effectuer.
 		\item On peut l'effectuer au plus $n$ fois (lorsqu'$\abs{A_{1}}$ augmente) et $n$ fois lorsque $\abs{M}$ augmente.
-			Puisque ces deux effets peuvent se combiner, on a bien le résultat.
+		      Puisque ces deux effets peuvent se combiner, on a bien le résultat.
 	\end{itemize}
 \end{proof}
 
@@ -435,7 +435,7 @@ La version ci-dessous, appelée méthode hongroise, termine quant à elle sur le
 \begin{proposition}[Relaxation]
 	Étant donné un problème de programmation linéaire dual, $X^{*}$ et $Y^{*}$ sont tous les deux optimaux si et seulement si:
 	\begin{align*}
-		X_{i}^{*} \Longrightarrow \left(\transpose{A}Y^{*}\right)_{i} = W_{i}\\
+		X_{i}^{*} \Longrightarrow \left(\transpose{A}Y^{*}\right)_{i} = W_{i} \\
 		Y_{j}^{*} \Longrightarrow \left(AX^{*}\right)_{j} = b_{j}
 	\end{align*}
 	\label{prop:relaxation}
@@ -477,19 +477,19 @@ Ceci nous mène à l'algorithme suivant.
 	\caption{Edmonds Blossom Algorithm}
 	\begin{description}
 		\item[Initialization] (étant donné un couplage initial $M$)\\
-			$A = \emptyset$\\
-			$B = \left\{v \in V\mid \not\exists u, (u, v)\in M \right\}$ (ce seront les racines de la forêt hongroise)\\
+		      $A = \emptyset$\\
+		      $B = \left\{v \in V\mid \not\exists u, (u, v)\in M \right\}$ (ce seront les racines de la forêt hongroise)\\
 		\item[Boucle] Tant qu'il existe $u \in B$ tel que $(u, v)$ n'a pas été probée:
-		\begin{enumerate}
-			\item Ou bien $v \in A$ et on ne fait rien
-			\item Ou bien $v \notin A \cup B$, auquel cas $v$ est couplé à $w$ et on ajoute $(u, v)$ et $(v, w)$ à la forêt, en posant $A = A \cup \{v\}$ et $B = B \cup \{w\}$.
-			\item Ou bien $v \in B$ et:
-				\begin{enumerate}
-					\item ou bien $u$ et $v$ sont dans des arbres différents: on augmente (en utilisant le chemin de la racine de $u$ à la racine de $v$) et on recommence l'algorithme en rouvrant toutes les floraisons
-					\item ou bien on contracte la floraison constituées des chemins de $u$ et $v$ à leur plus petit ancêtre commun (LCA) et $(u, v)$.
-						On traite ensuite cette floraison comme un sommet dans $B$.
-				\end{enumerate}
-		\end{enumerate}
+		      \begin{enumerate}
+			      \item Ou bien $v \in A$ et on ne fait rien
+			      \item Ou bien $v \notin A \cup B$, auquel cas $v$ est couplé à $w$ et on ajoute $(u, v)$ et $(v, w)$ à la forêt, en posant $A = A \cup \{v\}$ et $B = B \cup \{w\}$.
+			      \item Ou bien $v \in B$ et:
+			            \begin{enumerate}
+				            \item ou bien $u$ et $v$ sont dans des arbres différents: on augmente (en utilisant le chemin de la racine de $u$ à la racine de $v$) et on recommence l'algorithme en rouvrant toutes les floraisons
+				            \item ou bien on contracte la floraison constituées des chemins de $u$ et $v$ à leur plus petit ancêtre commun (LCA) et $(u, v)$.
+				                  On traite ensuite cette floraison comme un sommet dans $B$.
+			            \end{enumerate}
+		      \end{enumerate}
 	\end{description}
 \end{algorithm}
 
@@ -506,15 +506,15 @@ Ceci nous mène à l'algorithme suivant.
 	On note $G'$ le graphe formé après la contraction d'une floraison dans $G$.
 	\begin{itemize}
 		\item Considérons un chemin augmentant dans $G'$ qui passe par la contraction. On a deux cas:
-			\begin{enumerate}
-				\item Si la floraison est une des extrémités du chemin, on sait que dans la floraison (qui a $2k + 1$ sommets) il n'y aura qu'un noeud d'attache.
-					Ce sommet n'est pas dans $M$ car il s'agit d'une arête finale d'un chemin augmentant dans $G'$.
-					Ainsi, si le sommet est la base de la floraison, le chemin s'arrête et on renvoit le chemin original.
-					Sinon, on peut étendre notre chemin selon des arêtes alternants jusqu'à avoir atteint le sommet de base.
-				\item Sinon, on définit $v_{L}$ et $v_{R}$ les sommets adjacents à la floraison.
-					On peut toujours prendre un chemin de $v_{L}$ à $v_{R}$ de longueur paire.
-					Ainsi, on trouve un chemin augmentant dans $G$, puisque seulement l'une des deux $v_{L}$ et $v_{R}$ est couplée à la floraison et donc à la base de la floraison.
-			\end{enumerate}
+		      \begin{enumerate}
+			      \item Si la floraison est une des extrémités du chemin, on sait que dans la floraison (qui a $2k + 1$ sommets) il n'y aura qu'un noeud d'attache.
+			            Ce sommet n'est pas dans $M$ car il s'agit d'une arête finale d'un chemin augmentant dans $G'$.
+			            Ainsi, si le sommet est la base de la floraison, le chemin s'arrête et on renvoit le chemin original.
+			            Sinon, on peut étendre notre chemin selon des arêtes alternants jusqu'à avoir atteint le sommet de base.
+			      \item Sinon, on définit $v_{L}$ et $v_{R}$ les sommets adjacents à la floraison.
+			            On peut toujours prendre un chemin de $v_{L}$ à $v_{R}$ de longueur paire.
+			            Ainsi, on trouve un chemin augmentant dans $G$, puisque seulement l'une des deux $v_{L}$ et $v_{R}$ est couplée à la floraison et donc à la base de la floraison.
+		      \end{enumerate}
 		\item Si on a chemin augmentant dans $G$ qui passe par la floraison, on enlève un nombre pair d'arêtes du chemin donc le chemin dans $G'$ reste un chemin augmentant.
 	\end{itemize}
 \end{proof}
@@ -524,7 +524,7 @@ On définit quelques invariants pour l'analyse de l'algorithme:
 	\item Tous les sommets de $A$ sont reliés à des sommets de $B$
 	\item Une floraison est toujours dans $B$
 	\item Si $G'$ est le graphe dérivé d'une suite de contraction de floraisons, alors $G'$ a un chemin augmentant si et seulement si $G$ a un chemin augmentant.
-		Ceci découle trivialement de \ref{prop:blossomcontraction}.
+	      Ceci découle trivialement de \ref{prop:blossomcontraction}.
 	\item Si on trouve un chemin augmentant dans $G'$ alors on peut rouvrir toutes les floraisons pour augmenter la taille de $M$ dans $G$.
 	\item Chaque noeud dans $B$ (resp. $A$) peut revenir à sa racine par un chemin alternant de longueur paire (resp. impaire).
 \end{itemize}
@@ -534,25 +534,25 @@ Soit $U$ l'ensemble des sommets qui ne sont pas dans la forêt hongroise.
 \begin{proof}[Démonstration de \ref{thm:edmondsblossom}]
 	\begin{description}
 		\item[Preuve 1] On montre qu'à la fin de cet algorithme, dans $G'$ (possiblement après beaucoup de contractions), il n'y a pas de chemin augmentant.\\
-				À la fin de l'algorithme d'Edmonds, il n'y a pas d'arêtes dans $B \times \left(B \cup U \right)$ (il peut y avoir des arêtes dans $A \times \left( A\cup U \right)$).
-				Sinon, on aurait un moyen d'ajouter une arête à la forêt hongroise.
-				Il n'y a donc pas de chemin augmentant dans $G'$.
-		 \item[Preuve 2] Par le théorème de Tutte-Berge.
-			 \begin{thm}[Tutte-Berge Minimax]
-				 \begin{equation*}
-				 	\max_{M \ couplage} \abs{M} = \min_{A \subseteq V}\frac{\abs{V} - \left(oc\left(V \setminus A \right) - \abs{A} \right)}{2}
-				\end{equation*}
-				où $oc(V \setminus A)$ est le nombre de composantes connexes de taille impaire de $V \setminus A$
-			 \end{thm}
-			 L'algorithme d'Edmonds trouve un certain $A$ tel que:
-			 \begin{equation*}
-				 \abs{U} = oc\left(V\setminus A \right) - \abs{A}
-			 \end{equation*}
-			 En effet, tout élément de $A$ est matché à un élément de $B$ non racine.
-			 Les éléments non matchés étant les racines d'arbres de la forêt, ils sont dans $B$.
-			 En enlevant les éléments de $A$, on crée une composante connexe de taille impaire par élément de $B$.
-			 Comme par ailleurs, $\abs{B} - \abs{A}$ est exactement l'ensemble des sommets non couplés, on a le résultat.
-			 En a donc bien le résultat.
+		      À la fin de l'algorithme d'Edmonds, il n'y a pas d'arêtes dans $B \times \left(B \cup U \right)$ (il peut y avoir des arêtes dans $A \times \left( A\cup U \right)$).
+		      Sinon, on aurait un moyen d'ajouter une arête à la forêt hongroise.
+		      Il n'y a donc pas de chemin augmentant dans $G'$.
+		\item[Preuve 2] Par le théorème de Tutte-Berge.
+		      \begin{thm}[Tutte-Berge Minimax]
+			      \begin{equation*}
+				      \max_{M \ couplage} \abs{M} = \min_{A \subseteq V}\frac{\abs{V} - \left(oc\left(V \setminus A \right) - \abs{A} \right)}{2}
+			      \end{equation*}
+			      où $oc(V \setminus A)$ est le nombre de composantes connexes de taille impaire de $V \setminus A$
+		      \end{thm}
+		      L'algorithme d'Edmonds trouve un certain $A$ tel que:
+		      \begin{equation*}
+			      \abs{U} = oc\left(V\setminus A \right) - \abs{A}
+		      \end{equation*}
+		      En effet, tout élément de $A$ est matché à un élément de $B$ non racine.
+		      Les éléments non matchés étant les racines d'arbres de la forêt, ils sont dans $B$.
+		      En enlevant les éléments de $A$, on crée une composante connexe de taille impaire par élément de $B$.
+		      Comme par ailleurs, $\abs{B} - \abs{A}$ est exactement l'ensemble des sommets non couplés, on a le résultat.
+		      En a donc bien le résultat.
 	\end{description}
 \end{proof}
 
@@ -584,69 +584,69 @@ On se limite ici à un algorithme qui ne peut stocker que $\O(n\mathrm{polylog}(
 	Il y a un algorithme de streaming qui nécessite $\O\left(\frac{n}{\varepsilon}\log W \right)$ d'espace et renvoie une $\left(\frac{1}{2}-\varepsilon \right)$-approximation.
 \end{thm}
 \begin{proof}
-\begin{algorithm}
-	\caption{Algorithme de Streaming pour les Couplages Maximaux}
-	\begin{description}
-		\item[Initialisation] On pose $\pi(u) = 0$ pour tout $u \in V$
-			On crée une pile $S$ vide.
-		\item[Phase de Streaming]
-			Tant qu'une nouvelle arête $e =(a, b)$ arrive:
-			Si $w(e) > (1 + \epsilon)(\pi(a) + \pi(b))$:
-			\begin{itemize}
-				\item $\Delta = w(e) - (1 + \varepsilon)(\pi(a) + \pi(b))$
-				\item $\pi(a) += \Delta$
-				\item $\pi(b) += \Delta$
-			\end{itemize}
-		\item[Phase Finale] On effectue un algorithme glouton inverse en enlevant les arêtes de $S$ une par une et en les ajoutant dans $M$ si possible.
-	\end{description}
-	\label{alg:streamingmatching}
-\end{algorithm}
+	\begin{algorithm}
+		\caption{Algorithme de Streaming pour les Couplages Maximaux}
+		\begin{description}
+			\item[Initialisation] On pose $\pi(u) = 0$ pour tout $u \in V$
+			      On crée une pile $S$ vide.
+			\item[Phase de Streaming]
+			      Tant qu'une nouvelle arête $e =(a, b)$ arrive:
+			      Si $w(e) > (1 + \epsilon)(\pi(a) + \pi(b))$:
+			      \begin{itemize}
+				      \item $\Delta = w(e) - (1 + \varepsilon)(\pi(a) + \pi(b))$
+				      \item $\pi(a) += \Delta$
+				      \item $\pi(b) += \Delta$
+			      \end{itemize}
+			\item[Phase Finale] On effectue un algorithme glouton inverse en enlevant les arêtes de $S$ une par une et en les ajoutant dans $M$ si possible.
+		\end{description}
+		\label{alg:streamingmatching}
+	\end{algorithm}
 
-\begin{lemme}
-	On a:
-	\begin{equation*}
-		\left(\sum_{v \in V} \pi(v) \right)\left(1 + \varepsilon \right) \geq \max_{M \ couplage} w(M)
-	\end{equation*}
-	\label{lemma:streammatching1}
-\end{lemme}
-\begin{proof}
-	On a le problème de programmation linéaire suivant:
+	\begin{lemme}
+		On a:
+		\begin{equation*}
+			\left(\sum_{v \in V} \pi(v) \right)\left(1 + \varepsilon \right) \geq \max_{M \ couplage} w(M)
+		\end{equation*}
+		\label{lemma:streammatching1}
+	\end{lemme}
+	\begin{proof}
+		On a le problème de programmation linéaire suivant:
+		\begin{align*}
+			\max \sum_{e \in E} w(e)\chi_{e}                       \\
+			\forall v \in V \sum_{e \in \delta(v)} \chi_{e} \geq 1 \\
+			\forall e \in E \chi_{e} \geq 0
+		\end{align*}
+		dont le dual est:
+		\begin{align*}
+			\min \sum_{v \in V}\pi(v)                        \\
+			\pi(a) + \pi(b) \geq w(e) \forall e=(a, b) \in E \\
+			\pi(v) \geq 0 \forall v \in V
+		\end{align*}
+		On a le résultat par dualité faible en vérifiant que $(1 + \epsilon)\pi$ convient.
+	\end{proof}
+
+	\begin{lemme}
+		Le couplage résultat $M$ vérifie l'inégalité:
+		\begin{equation*}
+			w(M) \geq \frac{1}{2}\left(\sum_{v\in V}\pi(v) \right)
+		\end{equation*}
+	\end{lemme}
+	\begin{proof}
+		L'algorithme va créer un pile de poids pour chaque noeuds (les $\Delta$ consécutifs des arêtes mettant en jeu le sommet).
+		En particulier
+	\end{proof}
+
+	On a alors:
 	\begin{align*}
-		\max \sum_{e \in E} w(e)\chi_{e}\\
-		\forall v \in V \sum_{e \in \delta(v)} \chi_{e} \geq 1\\
-		\forall e \in E \chi_{e} \geq 0
+		w(M) \leq \frac{1}{2(1+\varepsilon)}opt \\
+		\geq \left(\frac{1}{2} - 3\varepsilon \right)opt
 	\end{align*}
-	dont le dual est:
-	\begin{align*}
-		\min \sum_{v \in V}\pi(v)\\
-		\pi(a) + \pi(b) \geq w(e) \forall e=(a, b) \in E\\
-		\pi(v) \geq 0 \forall v \in V
-	\end{align*}
-	On a le résultat par dualité faible en vérifiant que $(1 + \epsilon)\pi$ convient.
-\end{proof}
 
-\begin{lemme}
-	Le couplage résultat $M$ vérifie l'inégalité:
-	\begin{equation*}
-		w(M) \geq \frac{1}{2}\left(\sum_{v\in V}\pi(v) \right)
-	\end{equation*}
-\end{lemme}
-\begin{proof}
-	L'algorithme va créer un pile de poids pour chaque noeuds (les $\Delta$ consécutifs des arêtes mettant en jeu le sommet).
-	En particulier
-\end{proof}
+	\medskip
 
-On a alors:
-\begin{align*}
-	w(M) \leq \frac{1}{2(1+\varepsilon)}opt\\
-	\geq \left(\frac{1}{2} - 3\varepsilon \right)opt
-\end{align*}
-
-\medskip
-
-Pour ce qui est l'espace, il y a toujours au plus $\log_{1 + \epsilon}W$ $\Delta$ dans la fonction de poids, et on a $n$ sommets.
-En effet, à chaque fois qu'on ajoute un $\Delta$, la valeur augmente de $1 + \epsilon$ au moins.
-On a le résultat en prenant un développement limité.
+	Pour ce qui est l'espace, il y a toujours au plus $\log_{1 + \epsilon}W$ $\Delta$ dans la fonction de poids, et on a $n$ sommets.
+	En effet, à chaque fois qu'on ajoute un $\Delta$, la valeur augmente de $1 + \epsilon$ au moins.
+	On a le résultat en prenant un développement limité.
 \end{proof}
 
 
@@ -681,8 +681,8 @@ On propose pour cela l'algorithme suivant:
 	\begin{description}
 		\item[Initialisation] Soit $X = \{s\}$.
 		\item[Boucle] Tant que $X \neq V$, on choisit $t \in V\setminus X$ arbitrairement.
-			Soit $S_{\abs{X}}$ le résultat de \textsc{Minimal $X$-$t$-cut}.
-			On augmente $X = X \cup \{t\}$
+		      Soit $S_{\abs{X}}$ le résultat de \textsc{Minimal $X$-$t$-cut}.
+		      On augmente $X = X \cup \{t\}$
 		\item[Renvoi] On renvoie $\displaystyle\argmin_{1 \leq t \leq \abs{X} - 1} S_{t}$.
 	\end{description}
 \end{algorithm}
@@ -723,16 +723,16 @@ On va construire un algorithme se basant sur l'algorithme Preflow Push \ref{alg:
 	\caption{Hao-Ortin --- $X$-preflow-push}
 	\begin{description}
 		\item[Initialisation] On pose $X = \{s\}$, $d(s) = n$, $d(v) = 0, \forall v \neq t$ où $t \in V \setminus\{s\}$,
-			$l = n - 1$, $f(e) = c(e), \forall e \in \delta^{+}(s)$.
+		      $l = n - 1$, $f(e) = c(e), \forall e \in \delta^{+}(s)$.
 		\item[Boucle] Tant que $X \neq V$, on applique l'algorithme preflow-push (ou push-relabel) avec 3 modifications:
-			\begin{enumerate}
-				\item Un sommet $u \neq t$ est actif si et seulement si $d(u) < l$ et $\mathrm{exces}(u) > 0$.
-				\item Si $u$ va être ré-étiqueté et que $\abs{B(d(u))} = 1$, on ne ré-étiquette pas $u$ et on pose $l = d(u)$.
-				\item Si $u$ est ré-étiqueté pour avoir $d(u) > l$, on pose $l = n - 1$.
-			\end{enumerate}
-			On pose $S_{\abs{X}} = \left\{u \mid d(u) \geq l\right\}$, $X = X \cup \{t\}$, $d(t) = n$ et $\forall e \in \delta^{+}(t), f(e) = c(e)$.
-			On choisit pour le nouveau $t$ celui celui avec le minimum de $d(t)$ parmi les sommets de $V \setminus X$.
-			Si $d(t) \geq l$ on pose en plus $l = n - 1$.
+		      \begin{enumerate}
+			      \item Un sommet $u \neq t$ est actif si et seulement si $d(u) < l$ et $\mathrm{exces}(u) > 0$.
+			      \item Si $u$ va être ré-étiqueté et que $\abs{B(d(u))} = 1$, on ne ré-étiquette pas $u$ et on pose $l = d(u)$.
+			      \item Si $u$ est ré-étiqueté pour avoir $d(u) > l$, on pose $l = n - 1$.
+		      \end{enumerate}
+		      On pose $S_{\abs{X}} = \left\{u \mid d(u) \geq l\right\}$, $X = X \cup \{t\}$, $d(t) = n$ et $\forall e \in \delta^{+}(t), f(e) = c(e)$.
+		      On choisit pour le nouveau $t$ celui celui avec le minimum de $d(t)$ parmi les sommets de $V \setminus X$.
+		      Si $d(t) \geq l$ on pose en plus $l = n - 1$.
 		\item[Renvoi] On renvoie $\argmin_{1 \leq \alpha \leq \abs{X} - 1} c\left(\delta^{+}S_{\alpha} \right)$.
 	\end{description}
 	\label{alg:haoortin}
@@ -804,7 +804,7 @@ Le lemme précédent montre que l'algorithme \ref{alg:haoortin} vérifie les inv
 	\begin{itemize}
 		\item Les \emph{vrais} ré-étiquetages (ceux où $d(u)$ croît) demandent un temps $\O(n^{2})$
 		\item Les \emph{faux} ré-étiquetages (ceux où on change la valeur de $l$) demandent un temps $\O(n^{2})$: en effet chaque fois qu'on ré-étiquette un sommet autre que $t$, son étiquette augmente d'au moins 1 et l'augmentation est inférieure à $n - 2$.
-			L'étiquette de $t$ est $n$ à la fin de l'itération et n'augmente pas plus.
+		      L'étiquette de $t$ est $n$ à la fin de l'itération et n'augmente pas plus.
 		\item Les pushs saturants et non-saturants ne voient pas leur complexité changer.
 	\end{itemize}
 \end{proof}
@@ -835,9 +835,9 @@ On présente ici un algorithme qui renvoie une cut correcte avec une bonne proba
 	Par le lemme \ref{lemme:karger1}, la probabilité $p$ vérifie:
 	\begin{equation*}
 		\begin{aligned}
-			p \geq & \left(1 - \frac{2}{n} \right)\left(1 - \frac{2}{n - 1} \right)\cdots \left( 1 - \frac{2}{3} \right)\\
-			=& \frac{n - 2}{n}\frac{n - 3}{n - 1}\frac{n - 4}{n - 2}\cdots\frac{2}{4}\frac{1}{3}\\
-			=& \frac{2}{n(n-1)} = \frac{1}{\binom{n}{2}}
+			p \geq & \left(1 - \frac{2}{n} \right)\left(1 - \frac{2}{n - 1} \right)\cdots \left( 1 - \frac{2}{3} \right) \\
+			=      & \frac{n - 2}{n}\frac{n - 3}{n - 1}\frac{n - 4}{n - 2}\cdots\frac{2}{4}\frac{1}{3}                   \\
+			=      & \frac{2}{n(n-1)} = \frac{1}{\binom{n}{2}}
 		\end{aligned}
 	\end{equation*}
 \end{proof}
@@ -873,7 +873,7 @@ On notera ici $I + x = I\cup \{x\}$ et $I - x = I \setminus \{x\}$.
 	Si de plus, $M$ vérifie l'une des conditions équivalentes suivantes, $M$ est appelé un matroïde:
 	\begin{itemize}
 		\item[$A_{2}$] Pour $\bar{U} \subseteq U$ tous les ensembles indépendants maximaux dans $U$ ont la même taille.
-		\item[$A_{2}'$] Étant donné $I, J \in \I$, si $\abs{I} > \abs{J}$ il existe $x \in J \setminus I$ tel que $I + x \in \I$.
+		\item[$A_{2}'$] Étant donné $I, J \in \I$, si $\abs{I} > \abs{J}$ il existe $x \in I \setminus J$ tel que $J + x \in \I$.
 		\item[$A_{2}'$] Pour $I, J \in I$ tels que $\abs{J\setminus I} = 2$ et $\abs{I\setminus J} = 1$ alors il existe $x \in J \setminus I$ tel que $I + x\in \I$.
 	\end{itemize}
 \end{definition}
@@ -910,7 +910,7 @@ Les matroïdes ont été introduits dans différents domaines de manière indép
 	\begin{algorithmic}
 		\State $I \gets \emptyset$
 		\While {$\exists x \in U \setminus I$ tel que $w(x) > 0$ et $I + x \in \I$}
-			\State {$I = I + e$ où $e = \argmax w(e)$}
+		\State {$I = I + e$ où $e = \argmax w(e)$}
 		\EndWhile
 	\end{algorithmic}
 \end{algorithm}
@@ -1025,9 +1025,9 @@ On note par ailleurs que résoudre l'intersection de 3 matroïdes permet de rés
 	Soit $R$ l'ensemble des sommets atteignables depuis $X_{2}$.
 	Alors $R \cap I$ est une base de $R$ dans $M_{1}$.
 	\begin{proof}
-	En effet, $R \setminus I \cap X_{1} = \emptyset$ donc, pour $e \in R\setminus I$, $I + e$ a un circuit $C$.
-	Or, $C$ n'implique que $e$ et $R\cap I$, puisque $G(I)$ est biparti.
-	Ceci prouve bien que $R\cap I$ est de cardinal maximal et donc une base.
+		En effet, $R \setminus I \cap X_{1} = \emptyset$ donc, pour $e \in R\setminus I$, $I + e$ a un circuit $C$.
+		Or, $C$ n'implique que $e$ et $R\cap I$, puisque $G(I)$ est biparti.
+		Ceci prouve bien que $R\cap I$ est de cardinal maximal et donc une base.
 	\end{proof}
 	Par symétrie, $I\setminus R$ est une base de $R^{\complement}$ dans $M_{2}$.
 	Ainsi, $\abs{I} = \abs{R \cap I} + \abs{I\setminus R} = \gamma_{1}\left(R\right) + \gamma_{2}\left(R^{\complement}\right)$.
@@ -1052,6 +1052,196 @@ Un circuit devient donc une coupe.
 	Notons $B = X + A \setminus I$.
 	Alors, $B$ est une base de $U$ dans $M$.
 	En effet: CÉPAFINI
-\end{proof}<++>
+\end{proof}
+
+\section{Arbres de Gomory-Hu}
+\begin{definition}
+	Étant donné un graphe non-orienté $G = \left(V, E\right)$, pondéré par $u: E\to \R^{+}$, soit $\lambda(u, v)$ la valeur d'une coupe minimum de $u, v$ dans $G$.
+	On définit aussi $\lambda = \min_{(u, v) \in V} \lambda(u, v)$.
+	On appelle $\lambda(u, v)$ la connectivité de $u, v$.
+	\label{def:connectivité}
+\end{definition}
+
+On s'intéresse au problème de calculer toutes les connectivités. Il est clair qu'on peut les calculer en $\binom{2}{\abs{V}}$ calculs de max-flow-min-cut.
+En réalité, $\abs{V} - 1$ suffisent.
+Pour celà, on va construire un arbre $T = (V, F)$ sur le graphe $G = (V, E)$, avec une fonction $l : F \to \R^{+}$ de sorte qu'on conserve toutes les informations de coupe dans l'arbre au sens où la valeur de $\lambda(a, b)$ sera l'étiquette minimale d'une arête du chemin de $a$ à $b$ dans $F$, et que si on retire cette arête, on obtient les deux ensembles de sommets de la coupe.
+
+\begin{definition}[Arbres de Gomory-Hu]
+	Soit $G = (V, E)$, $w : E \to \R^{+}$ notre graphe d'entrée.
+	$T = (V, F), l: F \to \R^{+}$ est un arbre de Gomory-Hu si, étant donnés $a, b \in V$, on pose $e$ l'arête de plus faible $l(e)$ sur le chemin de $a$ à $b$ dans $T$ vérifie $\lambda(a, b) = l(e)$.
+	De plus, en notant $s(e)$ une des composantes de $T - e$, alors $\lambda(a, b) = u(\delta_{G}(s(e)))$.
+	\label{def:gomoryhu}
+\end{definition}
+
+\begin{lemme}
+	$T = (V, F)$ est un arbre de Gomory-Hu si et seulement si:
+	\begin{equation*}
+		\forall(i, j) \in F, \lambda(i, j) = l(i, j) = u(\delta_{G}(s(i, j)))
+	\end{equation*}
+\end{lemme}
+\begin{proof}
+	Soit $P = v_{1},\ldots, v_{k}$ le chemin de $a$ à $b$ dans $T$.
+	On va montrer que $\min_{i \in \onen{k-1}} \lambda(v_{i}, v_{i+1}) \leq \lambda(a, b) \leq \min_{i \in \onen{k - 1}}\lambda(v_{i}, v_{i + 1})$.
+	En effet, toute coupe sur ce chemin sépare $a$ et $b$, et donc montrer cette séquence d'inégalités montre le lemme.
+	Il suffit de montrer la première inégalité, la seconde étant triviale par l'argument précédent.
+	Soit $S^{*}$ la coupe $a-b$ minimale dans $G$. Supposons que $a \in S^{*}$.
+	$S^{*}$ doit séparer le chemin puisqu'elle sépare $a, b$. En particulier, si $v_{i + 1}$ est le premier sommet du chemin qui n'est pas dans $S^{*}$, alors $S^{*}$ est une coupe pour $v_{i} - v_{i + 1}$.
+	Donc en particulier, $\lambda(i, j) \leq u(\delta(S^{*}))$.
+\end{proof}
+
+\begin{definition}[Fonctions Sous-Modulaires]
+	Une fonction $f : 2^{V} \to \R^{+}$ est dite \emph{sous-modulaire} si $f(A) + f(B) \geq f(A \cap B) + f(A \cup B)$ pour toutes parties $A, B$ de $V$.
+	\label{def:submodularfunction}
+\end{definition}
+
+\begin{lemme}
+	La fonction de coupe $u(\delta(\cdot))$ est sous-modulaire.
+\end{lemme}
+\begin{proof}
+	On regarde tous les cas possibles pour une arête dont au moins l'une des extrémités est dans $A$ ou dans $B$.
+\end{proof}
+
+\begin{lemme}
+	Si $f$ est symétrique et sous-modulaire, i.e. $f(S) = f(V\setminus S)$, alors $f(A) + f(B) \geq f(A \setminus B) + f(B\setminus A)$.
+\end{lemme}
+\begin{proof}
+	Débrouille-toi, normalien.
+\end{proof}
+
+\begin{lemme}
+	Si $a, b, c\in V$, $\lambda(a, c) \geq \min \left\{\lambda(a, b), \lambda(b, c)\right\}$
+\end{lemme}
+\begin{proof}
+	On a soit: $\lambda(a, c) \geq \lambda(a, b)$ soit $\lambda(a, c) \geq \lambda(b, c)$.
+\end{proof}
+
+\begin{corollaire}
+	Le minimum de $\left\{\lambda(a, b), \lambda(b, c), \lambda(a, c)\right\}$.
+\end{corollaire}
+\begin{proof}
+	En faisant tourner les valeurs dans le lemme précédent.
+\end{proof}
+
+\begin{lemme}
+	Soit $R$ la coupe $r-s$ minimale, pour $r \in R$, et soit $X$ la coupe $s-t$ minimum pour $s \in X$. On suppose que $t \notin R$.
+	\begin{enumerate}
+		\item Si $r \in X$, alors $R \cap X$ est une coupe $r-s$ minimale et $R \cup X$ est une coupe $s-t$ minimale.
+		\item Si $r \notin X$, alors $R\setminus X$ est une coupe $r-s$ minimale et $X \setminus R$ est une coupe $s-t$ minimale. De plus $\lambda(r, s) = \lambda(r, t)$.
+	\end{enumerate}
+	\label{lemmastar}
+\end{lemme}
+\begin{proof}
+	\begin{enumerate}
+		\item $u(\delta(R)) + u(\delta(X)) \geq u(\delta(R \cup X)) + u(\delta(R \cup X)) + u\left(\delta(R\cap X)\right)$.
+		      La première inégalité vient de la sous-modularité, et la deuxième inégalité découpe du fait que les deux termes du deuxième membre soient des coupes.
+		\item $u(\delta(R)) + u(\delta(X)) \geq u(\delta(R \setminus X)) + u(\delta(X\setminus R)) \geq u(\delta(R)) + u(\delta(X))$.
+	\end{enumerate}
+\end{proof}
+
+\begin{algorithm}
+	\caption{Construction de l'Arbre Gomory-Hu}
+	\begin{algorithmic}
+		\State $\mathbb{V} \gets \{V\}$, soit $z$ un représentant arbitraire de $V$, $T \gets z$.
+		\While {$\exists V_{i} \in \mathbb{V}, \abs{V_{i}}\geq 2$}
+		\State Soit $r_{i}$ le représentant de $V$.
+		\State Soit $t \in V, t \neq r_{i}$
+		\State Trouver la coupe $r_{i} - t$ minimum $X$.
+		\State Diviser $V_{i}$ en $V_{i} \cap X, V_{i} \setminus X$.
+		\State $V_{i}\cap X$ a $r_{i}$ pour représentant, $V_{i} \setminus X$ a $t$ pour représentant.
+		\State Séparer le noeud $r_{i}$ de $T$ en deux noeuds $r_{i}$ et $t$, connectés par $(r_{i}, t)$ avec $l(r_{i}, t) = \lambda(r_{i}, t)$.
+		\State Pour tous $(r_{i}, r_{j}) \in T$, si $(r_{j} \notin X)$, remplacer $(r_{i}, r_{j})$ dans $T$ par $(r_{j}, t)$
+		\EndWhile
+	\end{algorithmic}
+\end{algorithm}
+
+\begin{lemme}
+	À tout moment, $\forall (r_{i}, r_{j}) \in T, \lambda(i, j) = l(r_{i}, r_{j}) = u(\delta(s(r_{i}, r_{j})))$.
+\end{lemme}
+\begin{proof}
+	Par induction, la seule chose qu'il suffit de remarquer c'est que si on sépare $r$ en $r, t$, on ne touche pas aux autres sommets.
+	Sinon, supposons $(r_{i}, r_{j})\in T$ avant la séparation de $r_{i}$.
+	\begin{enumerate}
+		\item Si $r_{j} \notin X$ alors $r_{j}, t$ est une nouvelle arête dans $T$.
+		      Par le cas $2$ de \ref{lemmastar} en posant $r_{i} = s$, $t = t$ et $r_{j} = r$, alors $\lambda(r_{i}, r_{j}) = \lambda(r_{j}, t)$ et la nouvelle arête définit une coupe $r_{j}-t$ minimale.
+		      De plus, $X \setminus R$ est toujours une coupe $r_{j} - t$ minimale.
+		\item Si $r_{j} \in X$, alors $(r_{j}, r_{i})$ est toujours une arête de $T$. En posant à nouveau $r = r_{j}, t=t, s=r_{i}$, par le cas $1$ de \ref{lemmastar}, $X \cup R$ est une coupe $r_{j} - t$ minimale.
+	\end{enumerate}
+\end{proof}
+
+\begin{thm}
+	L'algorithme précédent permet de construire l'arbre de Gomory-Hu d'un graphe en $\abs{V} - 1$ recherches de coupe minimale.
+\end{thm}
+
+\begin{exemple}
+	\begin{itemize}
+		\item Étant donné un multi-graphe $G = (V, E)$ dont tous les sommets sont de degré au moins $k$, il existe $a, b\in V$ tels que $a$ et $b$ sont connectés par au moins $k$ chemins disjoints.
+			Ceci se prouve en prenant l'arbre de Gomory-Hu et en trouvant une arête de poids au moins $k$.
+		\item Étant donné un graphe $G = (V, E)$, $c: E \to \R^{+}$, choisir $F \subseteq E$ de poids minimal de tel sorte que $G\setminus F$ a au moins $k$ composantes.
+			On donne un algorithme de $2$-approximation pour ce problème dans \ref{algo:2approxkcut}
+	\end{itemize}
+\end{exemple}
+\begin{algorithm}
+	\caption{2-Approx pour $k$-Cut}
+	\begin{algorithmic}
+		\State Construire $T$ l'arbre de Gomory-Hu pour $G$.
+		\State Choisir les $k - 1$ arêtes de $T$ d'étiquettes minimales.
+		\State On coupe le graphe original $G$ en se basant sur ces $k - 1$ arêtes.
+	\end{algorithmic}
+	\label{algo:2approxkcut}
+\end{algorithm}
+
+\subsection{k-Couverture}
+Étant donné un univers $U = \{e_{1}, \ldots, e_{m}\}$ et une famille $F \subseteq 2^{U}$, on veut choisir $k$ ensembles $S_{1}, \ldots, S_{k}$ dans $F$ tels que $\abs{\bigcup_{i = 1}^{k} S_{i}}$ est maximale.
+Ce problème est un cas particulier du problème de maximisation sous contrainte d'une fonction sous-modulaire.
+On peut en effet définir une fonction de couverture $g: 2^{F} \to N$ par les éléments couverts par les sommets $S \subseteq F$, cette fonction étant sous-modulaire.
+\begin{algorithm}
+	\caption{Algorithme Glouton}
+	\begin{algorithmic}
+		\State $X_{0} \gets \emptyset$
+		\State $i \gets 1$
+		\While {$i \leq k$}
+		\State $X_{i} = X_{0} + \arg\max \abs{A} \cap U\setminus \cup_{S \in X_{i}} S$
+		\EndWhile
+	\end{algorithmic}
+\end{algorithm}
+\begin{thm}
+	Cet algorithme renvoie une $1 - \frac{1}{e}$-approximation.
+\end{thm}
+\begin{proof}
+On a:
+\begin{equation*}
+	g(X_{1}) - g(X_{0}) \geq \frac{OPT}{k} = \left(1 - \left( 1 - \frac{1}{k} \right) \right)OPT
+\end{equation*}
+puis:
+\begin{equation*}
+	g(X_{2}) - g(X_{1}) \geq \frac{OPT - g(X_{1})}{k}
+\end{equation*}
+et donc:
+\begin{equation*}
+	g(X_{2}) \geq OPT(1 - \left(1 - \frac{1}{k}\right)^{2})
+\end{equation*}
+Par induction:
+\begin{equation*}
+	g(X_{i}i) \geq OPT(1 - \left(1 - \frac{1}{k}\right)^{i})
+\end{equation*}
+D'où:
+\begin{equation*}
+	g(X_{k}) \geq OPT(1 - \left(1 - \frac{1}{k}\right)^{k}) \geq OPT(1 - \frac{1}{e})
+\end{equation*}
+\end{proof}
+
+\begin{thm}[Feige]
+	S'il y avait un algorithme polynômial qui garantissait $\left(1 - \frac{1}{e} + \epsilon\right)$-approximation, alors $P = NP$.
+\end{thm}
+
+\begin{exemple}[Quelques Cas de Fonctions Sous-Modulaires]
+	\begin{itemize}
+		\item Les fonctions linéaires
+		\item La fonction rang d'un matroïde: c'est la formule de Grassmann.
+		\item La fonction d'addition de budget: $f(S) = \min \{B, \sum_{i \in S} a_{i}\}$.
+		\item Étant donné deux matroïdes $M_{1}, M_{2}$, la fonctions $A \mapsto \gamma_{1}(A) + \gamma_{2}(S \setminus A)$
+	\end{itemize}
+	Pour ces fonctions sous-modulaires, le problème de minimization peut être résolu en temps polynomial.
+\end{exemple}
 
 \end{document}
