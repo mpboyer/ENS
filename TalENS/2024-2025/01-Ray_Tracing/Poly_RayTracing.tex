@@ -1,12 +1,39 @@
 \documentclass{classe}
 \title{Imagerie 3D --- Ray Tracing\\ \small Cours TalENS n°1}
-\author{Matthieu Boyer \& Clément Allard}
+\author{Clément Allard \& Matthieu Boyer}
 \date{16 Novembre 2024}
 
 \usepackage[pdftex,outline]{contour}
+
+% Styles for Refraction Figures
 \definecolor{v}{HTML}{00ffff}
 \tikzstyle{verre} = [draw = v, fill = v!30]
-\usetikzlibrary{decorations}
+\usetikzlibrary{decorations, optics}
+\usetikzlibrary{angles, patterns, quotes, calc, decorations.markings, decorations.pathmorphing}
+
+% Styles for Optics Figures in Section 2.2
+% If to reuse, should add a node as argument
+\tikzset{arrow inside/.style = {postaction=decorate,decoration={markings,mark=at position .52 with \arrow{stealth}}}}
+\tikzset{ray/.style={very thick, red, arrow inside}}
+\tikzset{line/.style={thick, black}}
+\tikzset{lined/.style={thick, black, dashed}}
+
+\newcommand{\drawreflector}[3]{\draw[#3] (-{#1*cos(#2)}+4, -{#1*sin(#2)+4}) -- ({#1*cos(#2)+4}, {#1*sin(#2)+4})}
+\newcommand{\redrawreflector}[3]{\draw[#3] (-{#1*cos(#2)}+1.5, -{#1*sin(#2)+1.5}) -- ({#1*cos(#2)+1.5}, {#1*sin(#2)+1.5})}
+\newcommand{\drawscreen}[3]{\draw[#3] (-{#1*cos(#2)}+7.5, -{#1*sin(#2)+1}) -- ({#1*cos(#2)+7.5}, {#1*sin(#2)+1})}
+\newcommand{\cfill}[2]{\fill[pattern = north west lines]
+ (-{#1*cos(#2)}+4, -{#1*sin(#2)+4}) --
+ ({#1*cos(#2)+4}, {#1*sin(#2)+4}) --
+ ({#1*cos(#2)+3.8}, {#1*sin(#2)+3.8}) --
+ (-{#1*cos(#2)+3.8}, -{#1*sin(#2)+3.8}) --
+ (-{#1*cos(#2)+4}, -{#1*sin(#2)+4}) -- cycle}
+\newcommand{\recfill}[2]{\fill[pattern = north east lines]
+ (-{#1*cos(#2)}+1.5, -{#1*sin(#2)+1.5}) --
+ ({#1*cos(#2)+1.5}, {#1*sin(#2)+1.5}) --
+ ({#1*cos(#2)+1.3}, {#1*sin(#2)+1.3}) --
+ (-{#1*cos(#2)+1.3}, -{#1*sin(#2)+1.3}) --
+ (-{#1*cos(#2)+1.5}, -{#1*sin(#2)+1.5}) -- cycle}
+
 
 \newcommand{\point}[3]{\draw (#1 -.1, #2 -.1) -- (#1 + .1, #2 + .1);
 \draw (#1 +.1, #2 -.1) -- (#1 - .1, #2 + .1);
@@ -17,10 +44,12 @@
 
 \begin{document}
 \section*{Introduction}
-% TODO: TODOOM.
+L'imagerie 3D est un processus permettant l'affichage de scènes 3D sur un écran 2D, utilisé par exemple dans le cadre de jeux vidéos. L'intérêt est de transposer un monde en trois dimensions sur un écran. Cependant, ce procédé se doit d'être rapide pour pouvoir être simulé en toute fluidité par le jeu. La puissance de calcul étant limitée, on se doit de ruser pour faire un procédé qui est viable. Le Ray Tracing s'est imposé récemment comme une nouvelle technologie pour pouvoir simuler des jeux vidéos avec un très grand réalisme tout en garantissant une fluidité.
+\\
+Après avoir rediscuté de la lumière dans notre monde, nous allons voir comment on peut en pratique afficher un chameau sur un écran.
 
 \section{Faire briller un chameau de mille feux ?}
-\subsection{La lumière, kéazko ?}
+\subsection{La lumière, kézako ?}
 Qu'est ce que la lumière ? Comment se propage-t-elle ? Voilà un débat qui a enflammé les derniers siècles. La conclusion de ces débats fut que la lumière se comporte comme à la fois un ensemble de photons mais également comme un onde (phénomène mis en évidence par Louis \textsc{De Broglie} en 1924) : on appelle ceci la dualité onde-corpuscule. Posons en premier temps la définition d'une onde :
 \begin{définition}{Onde}{}
 Une onde est la propagation d'une perturbation de proche en proche avec transfert d'énergie
@@ -129,17 +158,107 @@ Le trajet de la lumière ne dépend pas du sens de parcours
 	Ceci s'illustre car le milieu est homogène et isotrope.
 \end{proof}
 
-
 \subsection{Principe du Ray Tracing}
 Considérons une lampe qui éclaire notre chameau. On va s'intéresser à la manière dont un observateur extérieur peut voir le chameau.
 Un observateur extérieur ne voit une surface que si celle-ci réfléchit la lumière vers son \oe il.
 
-L'idée naïve est de prendre notre source lumineuse, de déduire la marche d'un rayon lumineux.
-% TODO: mettre une figure pour illustrer ceci
+L'idée naïve est de choisir un pixel de l'écran, et de déduire la marche des rayons lumineux qui l'atteignent.
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[scale=.8]
+		% Coordinates
+		\coordinate (O) at (4,4);
+		\coordinate (P) at (4,6);
+		\coordinate (P') at (4,1);
+		\coordinate (A) at (7.5,1);
+		\coordinate (D) at (1.5,1.5);
+		\coordinate (G) at ({4+3*cos(120)},{4+3*sin(120)});
+		\coordinate (G') at ({4-3*cos(120)},{4-3*sin(120)});
+		\coordinate (K) at ({4+3*cos(30)},{4+3*sin(30)});
+		\coordinate (K') at ({4-3*cos(30)},{4-3*sin(30)});
+
+		% Rays
+		\draw[ray] (P) -- (O);
+		\draw[ray] (O) -- (A);
+		\draw[ray] (O) -- (D);
+		\draw[ray] (D) -- (A);
+		%% Dashed
+		\draw[lined] (O) -- (P');
+
+		% Reflectors
+		\drawreflector{1.8}{120}{line};
+		\cfill{1.8}{120};
+		\drawreflector{1.8}{30}{lined};
+
+		\redrawreflector{1.5}{120}{line};
+		\recfill{1.5}{120};
+		\redrawreflector{1.5}{30}{lined};
+
+		% Angles
+		\pic[draw, thick, angle radius=14pt, angle eccentricity=1.5pt, "$a$"] {angle=K--O--P};
+				\pic[draw, thick, angle radius=18pt, angle eccentricity=1.4pt, "$b$"] {angle=A--O--K};
+		\pic[draw, thick, angle radius=40pt, angle eccentricity=1.5pt] {angle=P'--O--A};
+		\node at (5,2.7) {$\varepsilon$};
+
+		% Viewing Screen
+		\drawscreen{1}{50}{line, black, double distance = 2pt, double = black!30};
+		\node at (8.2, .8) {Écran};
+	\end{tikzpicture}
+	\caption{Principe du Ray Tracing: trouver les rayons qui atteignent un point précis.}
+\end{figure}
 Le problème ici est qu'on doit tracer la marche d'un grand nombre de rayons pour avoir une image de bonne résolution, sachant que la plupart des rayons n'atteindront jamais l'observateur !
-% TODO: mettre une figure pour illustrer ceci
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+		\coordinate (O) at (0, 0);
+		\coordinate (S) at (1.41, 1.41);
+		\foreach \i in {-60, -45,...,60} { \draw[ray] (O) -- ({2*cos(\i)}, {2*sin(\i)}); }
+		\draw[line, black, double distance = 2pt, double = black!30] (-{1*cos(135)}+1.451, -{1*sin(135)+1.451}) -- ({1*cos(135)+1.451}, {1*sin(135)+1.451});
+	\end{tikzpicture}
+	\caption{Rayons Passant par un Point}
+\end{figure}
 Pour nous sauver, le principe de retour inverse de la lumière vient à notre rescousse ! En effet, il suffit de tracer les rayons dirigés de l'\oe il vers le chameau, et ensuite voir si le rayon intercepte notre source lumineuse.
-% TODO: figure !
+\begin{figure}
+	\centering
+	\begin{tikzpicture}[scale=.8]
+		% Coordinates
+		\coordinate (O) at (4,4);
+		\coordinate (P) at (4,6);
+		\coordinate (P') at (4,1);
+		\coordinate (A) at (7.5,1);
+		\coordinate (D) at (1.5,1.5);
+		\coordinate (K) at ({4+3*cos(30)},{4+3*sin(30)});
+
+		% Rays
+		\draw[ray] (O) -- (P);
+		\draw[ray] (A) -- (O);
+		\draw[ray] (A) -- (D);
+		\draw[ray] (D) -- (O);
+		%% Dashed
+		\draw[lined] (O) -- (P');
+
+		% Reflectors
+		\drawreflector{1.8}{120}{line};
+		\cfill{1.8}{120};
+		\drawreflector{1.8}{30}{lined};
+
+		\redrawreflector{1.5}{120}{line};
+		\recfill{1.5}{120};
+		\redrawreflector{1.5}{30}{lined};
+
+		% Angles
+		\pic[draw, thick, angle radius=14pt, angle eccentricity=1.5pt, "$a$"] {angle=K--O--P};
+				\pic[draw, thick, angle radius=18pt, angle eccentricity=1.4pt, "$b$"] {angle=A--O--K};
+		\pic[draw, thick, angle radius=40pt, angle eccentricity=1.5pt] {angle=P'--O--A};
+		\node at (5,2.7) {$\varepsilon$};
+
+		% Viewing Screen
+		\drawscreen{1}{50}{line, black, double distance = 2pt, double = black!30};
+		\node at (8.2, .8) {Écran};
+		\node at ($(P) + (0, .4)$) {Source Lumineuse};
+	\end{tikzpicture}
+	\caption{PRIL: La source est l'écran, l'écran est la source.}
+\end{figure}
 L'avantage : on peut se restreindre à un nombre de rayons plus limité, en ne prenant que ceux qui vont entrer dans le champ de vision de l'observateur et économisant énormément de puissance de calcul (ce qui est nécessaire pour la fluidité d'un jeu vidéo par exemple).
 
 Donc, pour calculer la répartition de lumière sur l'écran (et donc la couleur de chaque pixel), il nous reste à:
@@ -309,14 +428,14 @@ Dans le cas d'un triangle dont on connaît les trois côtés, on peut aisément 
 
 Il ne nous reste donc qu'à savoir comment appliquer les lois de Snell-Descartes à un rayon lumineux, et donc, savoir comment représenter un rayon lumineux.
 Cette représentation simple nous amène à la reformulation des lois de Snell-Descartes:
-\begin{propositionfr}{Lois de Snell-Descartes Vectorielles}
+\begin{propositionfr}{Lois de Snell-Descartes Vectorielles}{}
 	On se donne $\overrightarrow{l}$ un vecteur directeur de rayon de lumière, $\vec{n}$ la normale à la surface au point où elle est atteinte.
 	On garde les notations de \ref{thm:snelldescartes1}.
 	On a:
 	\begin{description}
 		\item[Réfraction] On a:
 			\begin{equation}
-				\vec{v}_{réfracté} = \frac{n_{1}}{n_{2}}\vec{l} + \left(\frac{n_{1}}{n_{2}}\cos i_{1} - \cos i_{2}\right)
+				\vec{v}_{réfracté} = \frac{n_{1}}{n_{2}}\vec{l} + \left(\frac{n_{1}}{n_{2}}\cos i_{1} - \cos i_{2}\right) \vec{n}
 				\label{snelldescartesrefraction}
 			\end{equation}
 		\item[Réflexion] On a:
@@ -338,6 +457,7 @@ Le modèle de l'optique géométrique ne détaille pas comment la puissance véh
 	\begin{description}
 		\item[\color{vulm} Coefficient en réflexion] \color{black} On définit le coefficient de réflexion en puissance $R$ comme le rapport de la puissance véhiculée par l'onde réfléchie sur celle de l'onde incidente.
 		\item[\color{vulm}{Coefficient en transmission}] \color{black} On définit le coefficient de transmission en puissance $T$ comme le rapport de la puissance véhiculée par l'onde réfractée sur celle de l'onde incidente.
+		\item[\color{vulm} Coefficient en absorption] \color{black} On définit le coefficient d'absorption en puissance $A$ comme le rapport de la puissance véhiculée par l'onde absorbée sur celle de l'onde incidente.
 	\end{description}
 \end{définition}
 \begin{remarque}{Conservation de la puissance ?}{}
@@ -346,8 +466,17 @@ Le modèle de l'optique géométrique ne détaille pas comment la puissance véh
 	Dans le cas contraire, par exemple pour un objet opaque, on a $R + T < 1$.
 \end{remarque}
 
-% Paragraphe sur couleur <-> Puissance absorbée
-En pratique, on peut
+\begin{figure}[H]
+\centering
+\includegraphics[scale=.4]{BilanRadiatif.png}
+\caption{Bilan radiatif}
+\end{figure}
+
+En pratique, on peut relier les coefficients d'absorption et de transmission aux longueurs d'ondes et donc aux couleurs. Dans le cadre d'un dioptre, on a :
+$$\begin{array}{cc}
+R = \left(\frac{n_1-n_2}{n_1+n_2}\right)^2 & T = \frac{4n_1n_2}{(n_1+n_2)^2}
+\end{array}$$
+avec (d'après la loi de Cauchy) $n(\lambda) = A + \frac{B}{\lambda^2}$ : on a donc un lien entre la connaissance des coefficients de réflexion/réfraction et la couleur du rayon : c'est ce procédé qui sera utilisé dans le cadre du Ray Tracing pour trouver la couleur du pixel coloré.
 
 Il suffit donc de savoir la direction initiale d'un rayon et les représentations de tous les objets dans l'environnement pour pouvoir calculer la trajectoire complète d'un rayon.
 
@@ -361,7 +490,7 @@ En particulier, on va supposer qu'on peut aisément les représenter par des tri
 	\centering
 	\begin{tikzpicture}
 		\begin{axis}[axis equal, scale=2, axis lines = none]
-			% \addplot3 [patch] file {Images/camel.dat}; % TODO: UNCOMMENT
+			\addplot3 [patch] file {Images/camel.dat};
 		\end{axis}
 	\end{tikzpicture}
 	\caption{Triangulation d'un Chameau}
