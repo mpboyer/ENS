@@ -1,0 +1,66 @@
+\documentclass[math, info]{cours}
+
+\begin{document}
+\section{Question 1}
+\begin{notationT}
+For $F \subseteq E$ and $v \in A\cup B$, let us define $F(v) = \left\{ v'\in A \mid \exists e \in F, e = (v, v') \lor e = (v', v) \right\}$.
+\end{notationT}
+
+We then define the matroids $\mathbb{A} = (E, \A)$, $\mathbb{B} = (E, \B)$ where:
+\begin{align*}
+	\A = \left\{ I \subseteq E \mid \abs{I(a)} \leq 1 \forall a \in A\right\}\\
+	\B = \left\{ I \subseteq E \mid I(h) \in \mathcal{M}_{b} \forall b \in B\right\}
+\end{align*}
+
+We then see that $M \subseteq E$ is a $A$-perfect matching if and only if $\abs{M} = \abs{A}$ and
+$M$ is an independent set of $\A$ and $\B$.
+Thus, we will call sets in $\A \cap \B$ indenpendent matchings.
+
+Then, since $\abs{A} \geq \max_{I \in \A}{\abs{I}}$, from Edmonds' mini-max formula on matroid intersection, we just need to have $\min_{X\subseteq E} r_{A}(X) + r_{B}(E\setminus X) \geq \abs{A}$ to have the existence of a $A$-perfect matching.
+However, since $r_{B}(X) = \min_{I \subseteq A} s(I) + \abs{A} - \abs{I}$,
+
+We define $s : 2^{A} \to \N$ as:
+\begin{equation}
+	s(A') = \sum_{b \in B} rank_{M_{b}}(N(b) \cap A')
+\end{equation}
+Since the rank function of a matroid is a submodular function we have:
+\begin{align*}
+	rank_{M_{b}}(N(b) \cap X) + rank_{M_{b}}(N(b) \cap Y)\\
+	\geq rank_{M_{b}}((N(b) \cap X) \cup (N(b) \cap Y)) + rank_{M_{b}}((N(b) \cap X) \cap (N(b) \cap Y))\\
+	 = rank_{M_{b}}(N(b) \cap (X \cup Y)) + rank_{M_{b}}(N(b) \cap (X \cap Y))
+\end{align*}
+and $s$ is submodular as a sum of submodular functions.
+Similarly, $s': A' \mapsto s'(A') = \abs{A'} - s(A')$ is submodular.
+
+\section{Question 2}
+Let $F = 2^{I}$ and let us denote by $g: 2^{\mathcal{F}} \to \R^{+}$ the function that to a family of sets gives their combined profit.
+Clearly, $g$ is submodular.
+Furthermore we denote by $X_{0}$ the emptyset, and by $X_{i}$ the set of items taken after $i$ knapsacks were filled by our algorithm.
+Since we apply the FPTAS $k$ times, and since $g$ is submodular, we have:
+\begin{equation}
+	g(X_{i}) - g(X_{i - 1}) \geq \frac{OPT - g(X_{i - 1})}{k}
+	\label{eq:induction}
+\end{equation}
+for each $i$, where $OPT$ is the weight of an optimal solution.
+Then, we have:
+\begin{equation}
+	g(X_{1}) - g(X_{0}) = g(X_{1}) \geq \frac{OPT}{k} = OPT(1 - \left(1 - \frac{1}{k}\right))
+	\label{eq:firststep}
+\end{equation}
+and then:
+\begin{equation*}
+        g(X_{2}) \geq OPT(1 - \left(1 - \frac{1}{k}\right)^{2})
+\end{equation*}
+By induction:
+\begin{equation*}
+        g(X_{i}i) \geq OPT(1 - \left(1 - \frac{1}{k}\right)^{i})
+\end{equation*}
+And thus:
+\begin{equation*}
+        g(X_{k}) \geq OPT(1 - \left(1 - \frac{1}{k}\right)^{k}) \geq OPT(1 - \frac{1}{e})
+\end{equation*}
+
+\section{Question 3}
+
+
+\end{document}

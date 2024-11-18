@@ -10,7 +10,7 @@ from mpmath import cot
 import scipy.sparse as sp
 import scipy.sparse.linalg as spl
 import tqdm
-import time
+# import time
 
 levelsets = 30
 
@@ -87,6 +87,7 @@ class Manifold:
 
     def plot(self, ax=None, symbols=None, function=None, show_axis=False, level_sets=False):
         if symbols is None:
+            # TODO faire un truc
             symbols = {}
 
         if ax is None:
@@ -144,7 +145,8 @@ class Manifold:
                 sym['edges'] = sym['faces']
 
             v = [self.points[f] for f in self.faces]
-            poly = Poly3DCollection(v, edgecolor=sym['edges'], facecolor=sym['faces'], linewidth=sym['linewidth'])
+            poly = Poly3DCollection(v, edgecolor=sym['edges'],
+                                    facecolor=sym['faces'], linewidth=sym['linewidth'])
             ax.add_collection(poly)
             ax.view_init(vertical_axis='y', elev=0, azim=45)
         return ax
@@ -162,11 +164,14 @@ class Manifold:
         a0 = self.vertices(0)
         a1 = self.vertices(1)
         a2 = self.vertices(2)
-        return np.array(list(map(lambda t: np.cross(*t), zip(map(lambda t: t[1] - t[0], zip(a1, a0)), map(lambda t: t[1] - t[0], zip(a2, a0))))))
+        return np.array(list(map(lambda t: np.cross(*t),
+                                 zip(map(lambda t: t[1] - t[0], zip(a1, a0)),
+                                     map(lambda t: t[1] - t[0], zip(a2, a0))))))
 
     @cached_property
     def areas(self):
-        return np.array(list(map(lambda t: npl.norm(t) / 2, self.unnormalized_normals)))
+        return np.array(list(map(lambda t: npl.norm(t) / 2,
+                                 self.unnormalized_normals)))
 
     @cached_property
     def normalize(self):
@@ -178,8 +183,8 @@ class Manifold:
 
     @cached_property
     def spdiags(self):
-        l = 2 * self.areas
-        return sp.diags(list(itertools.chain(l, l, l)), 0)
+        doubareas = 2 * self.areas
+        return sp.diags(list(itertools.chain(doubareas, doubareas, doubareas)), 0)
 
     @cached_property
     def sum_op(self):
@@ -199,11 +204,9 @@ class Manifold:
                 e[j + 2 * self.m, index] = jeji[2]
         return e
 
-
     @cached_property
     def gradient_op(self):
         return self.spdiags.dot(self.sum_op)
-
 
     @cached_property
     def divergence_op(self):
@@ -259,7 +262,6 @@ class Manifold:
 
 
 if __name__ == '__main__':
-    file = "toolbox_graph/camel.off"
+    file = "Geometry/tetrahedron.off"
     manif = Manifold(file)
     manif.implicit_time_stepping_heat_equation(vertex=3, time_step=1000, iterations=[1, 10, 30, 50])
-

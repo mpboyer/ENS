@@ -1,4 +1,4 @@
 main:
 	latexmk -c
-	latexmk -pdf Poly_RayTracing.tex
+	latexmk -pdf Cours_RayTracing.tex
 	latexmk -c
