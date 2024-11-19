@@ -94,7 +94,7 @@ This algorithm takes:
 
 For correctness we just need to show that one of the cuts determined by $T$ is a minimum odd cut in $G$.
 To do so, we just need to see that if $\delta(U)$ is a min odd cut in $G$, then $U$ or $V \setminus U$ is the symmetric difference of the $V_{f}$ for $f \in \delta_{F}(U)$.
-Hence, $\abs{V_{f}}$ must be odd for at least one of the $f\in \delta_{F}(U)$. So $\delta_{G}(V_{f})$ is an odd cut.
+Hence, $\abs{V_{f}}$ must be odd for at least one of the $f\in \delta_{F}(U)$ or $\abs{U}$ would be even. So $\delta_{G}(V_{f})$ is an odd cut.
 If $f = (u, v)$, $\delta_{G}(V_{f})$ is a minimum $u - v$ cut and as $\delta_{G}(U)$ is $u-v$ cut, $\delta_{G}(V_{f})$ is a minimum odd-cut.
 
 \end{document}
