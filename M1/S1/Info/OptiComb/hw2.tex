@@ -5,13 +5,13 @@
 \maketitle
 \section{Question 1}
 \begin{notationT}
-	For $F \subseteq E$ and $b \in B$, we will denote $F(b) = \left\{ a \in A \mid (a, b) \in F \right\}$ and by $F(X) = \left\{ a\in X \mid \exists b\in B, (a, b) \in F \right\}$.
+	For $I \subseteq E$ and $b \in B$, we will denote $I(b) = \left\{ a \in A \mid (a, b) \in I \right\}$ and by $I(X) = \left\{ a\in X \mid \exists b\in B, (a, b) \in I \right\}$.
 \end{notationT}
 
 We then define the matroids $\mathbb{A} = (E, \A)$, $\mathbb{B} = (E, \B)$ where:
 \begin{align*}
 	\A = \left\{ I \subseteq E \mid \abs{I(a)} \leq 1 \forall a \in A\right\}\\
-	\B = \left\{ I \subseteq E \mid I(h) \in \mathcal{M}_{b} \forall b \in B\right\}
+	\B = \left\{ I \subseteq E \mid I(b) \in \mathcal{M}_{b} \forall b \in B\right\}
 \end{align*}
 
 We then see that $M \subseteq E$ is a $A$-perfect matching if and only if $\abs{M} = \abs{A}$ and
@@ -22,7 +22,7 @@ Then, since $\abs{A} \geq \max_{I \in \A}{\abs{I}}$, from Edmonds' mini-max form
 
 We define $s: 2^{E} \to \N$ as:
 \begin{equation}
-	s(I) \sum_{b \in B} rank_{M_{b}}(I(b) \cap N(b))
+  s(I) = \sum_{b \in B} rank_{M_{b}}(I(b) \cap N(b))
 \end{equation}
 
 We see that the rank set in $\B$ can be seen as the ranks on each component (by separating edges on the $b \in \B$ they are connected to).
