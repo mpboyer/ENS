@@ -1,9 +1,11 @@
 \documentclass[math, info]{cours}
-
+\author{Matthieu Boyer}
+\title{Homework 2}
 \begin{document}
+\maketitle
 \section{Question 1}
 \begin{notationT}
-For $F \subseteq E$ and $v \in A\cup B$, let us define $F(v) = \left\{ v'\in A \mid \exists e \in F, e = (v, v') \lor e = (v', v) \right\}$.
+	For $F \subseteq E$ and $b \in B$, we will denote $F(b) = \left\{ a \in A \mid (a, b) \in F \right\}$ and by $F(X) = \left\{ a\in X \mid \exists b\in B, (a, b) \in F \right\}$.
 \end{notationT}
 
 We then define the matroids $\mathbb{A} = (E, \A)$, $\mathbb{B} = (E, \B)$ where:
@@ -14,23 +16,33 @@ We then define the matroids $\mathbb{A} = (E, \A)$, $\mathbb{B} = (E, \B)$ where
 
 We then see that $M \subseteq E$ is a $A$-perfect matching if and only if $\abs{M} = \abs{A}$ and
 $M$ is an independent set of $\A$ and $\B$.
-Thus, we will call sets in $\A \cap \B$ indenpendent matchings.
+Thus, we will call sets in $\A \cap \B$ independent matchings.
 
-Then, since $\abs{A} \geq \max_{I \in \A}{\abs{I}}$, from Edmonds' mini-max formula on matroid intersection, we just need to have $\min_{X\subseteq E} r_{A}(X) + r_{B}(E\setminus X) \geq \abs{A}$ to have the existence of a $A$-perfect matching.
-However, since $r_{B}(X) = \min_{I \subseteq A} s(I) + \abs{A} - \abs{I}$,
+Then, since $\abs{A} \geq \max_{I \in \A}{\abs{I}}$, from Edmonds' mini-max formula on matroid intersection, we just need to have $\min_{I\subseteq E} r_{\A}(I) + r_{\B}(E\setminus I) \geq \abs{A}$ to have the existence of a $A$-perfect matching.
 
-We define $s : 2^{A} \to \N$ as:
+We define $s: 2^{E} \to \N$ as:
 \begin{equation}
-	s(A') = \sum_{b \in B} rank_{M_{b}}(N(b) \cap A')
+	s(I) \sum_{b \in B} rank_{M_{b}}(I(b) \cap N(b))
 \end{equation}
-Since the rank function of a matroid is a submodular function we have:
-\begin{align*}
-	rank_{M_{b}}(N(b) \cap X) + rank_{M_{b}}(N(b) \cap Y)\\
-	\geq rank_{M_{b}}((N(b) \cap X) \cup (N(b) \cap Y)) + rank_{M_{b}}((N(b) \cap X) \cap (N(b) \cap Y))\\
-	 = rank_{M_{b}}(N(b) \cap (X \cup Y)) + rank_{M_{b}}(N(b) \cap (X \cap Y))
-\end{align*}
-and $s$ is submodular as a sum of submodular functions.
-Similarly, $s': A' \mapsto s'(A') = \abs{A'} - s(A')$ is submodular.
+
+We see that the rank set in $\B$ can be seen as the ranks on each component (by separating edges on the $b \in \B$ they are connected to).
+Indeed, since $\B$ can be seen as a union of matroids (the $M_{b}$ seen as matroids on the edges connected to $b$) we have, for $I \subseteq E$:
+\begin{equation*}
+	r_{\B}(I) = \min_{T \subseteq I} \abs{I\setminus T} + s(T) = \min_{T \subseteq I} \abs{I} - \abs{T} + s(T)
+\end{equation*}
+Then plugging this into our main equation:
+\begin{equation*}
+	\begin{aligned}
+		r_{\A}(E\setminus I)  + r_{\B}(I) =& r_{\A}(E\setminus I) + \min_{T} \abs{I} - \abs{T} + s(T)\\
+		\geq & \min_{T} \abs{I} - \abs{T} + s(T)\\
+		= & \min_{T} \abs{A} - \abs{T(A)} + s(T)
+	\end{aligned}
+\end{equation*}
+But since this should be greater than $\abs{A}$ for all $T$ and all $I$, it is equivalent to being true for all possible $A' = T(A)$ (and modifying the \emph{type} of $s$ accordingly, which doesn't change anything) and thus:
+\begin{equation*}
+	\boxed{\max_{I\in \A \cap \B} \abs{I} = \abs{A} \Longleftrightarrow \forall A'\subseteq A, s(A') - \abs{A'} \geq 0}
+\end{equation*}
+which is the wanted result.
 
 \section{Question 2}
 Let $F = 2^{I}$ and let us denote by $g: 2^{\mathcal{F}} \to \R^{+}$ the function that to a family of sets gives their combined profit.
@@ -61,6 +73,28 @@ And thus:
 \end{equation*}
 
 \section{Question 3}
+\subsection{Part 1}
 
+
+\subsection{Part 2}
+\begin{algorithm}
+	\caption{Minimum Odd Size Cut}
+	\begin{itemize}
+		\item First,we build the Gomory-Hu tree of our graph.
+		\item Then, for each edge in the tree we consider both components formed by removing the edge.
+		\item For every odd-sized such component, we retrieve the cut size (the label of the edge in the Gomory-Hu tree), if it's less than one we return True.
+			If none are of cut size $\leq 1$ then we return false.
+	\end{itemize}
+\end{algorithm}
+
+This algorithm takes:
+\begin{equation*}
+	\O\left( \underbrace{(n-1)\times \text{max-flow}}_{\text{Gomory-Hu algorithm}} + \underbrace{n^{2}}_{\text{Check Sizes}} + \underbrace{n}_{\text{Retrieve Cut-size}} \right)
+\end{equation*}
+
+For correctness we just need to show that one of the cuts determined by $T$ is a minimum odd cut in $G$.
+To do so, we just need to see that if $\delta(U)$ is a min odd cut in $G$, then $U$ or $V \setminus U$ is the symmetric difference of the $V_{f}$ for $f \in \delta_{F}(U)$.
+Hence, $\abs{V_{f}}$ must be odd for at least one of the $f\in \delta_{F}(U)$. So $\delta_{G}(V_{f})$ is an odd cut.
+If $f = (u, v)$, $\delta_{G}(V_{f})$ is a minimum $u - v$ cut and as $\delta_{G}(U)$ is $u-v$ cut, $\delta_{G}(V_{f})$ is a minimum odd-cut.
 
 \end{document}

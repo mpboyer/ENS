@@ -3,7 +3,7 @@
 \author{Paul-André Mellies}
 
 \usetikzlibrary{shapes}
-\tikzset{utriangle/.style={regular polygon, regular polygon sides=3,
+\tikzset{utriangle/.style={regular poygon, regular polygon sides=3,
     inner sep=0.5pt}}
 \tikzset{btriangle/.style={regular polygon, regular polygon sides=3,
     shape border rotate=180, inner sep=0.5pt}}
@@ -507,9 +507,9 @@ Ceci permet de définir une transformation, dite d'action à droite:
 	\end{category}
 	On considère alors le diagramme suivant:
 	\begin{category}[]
-		& 1\arrow[rr, bend left, "G_{2}" name=B2] & & b\arrow[r, "g'"] & d\\
+		& 1\arrow[rr, "G_{2}" name=B2] & & b\arrow[r, "g'"] & d\\
 		\mathds{1}\arrow[ur, bend left, "G_{1}" {description, name=B1}]\arrow[dr, bend right, "F_{1}" {description, name=A1}]\uuarrow["\theta_{1}"']{A1}{B1} & & & & \\
-		& 0\arrow[uu, "j"]\arrow[rr, bend right, "F_{2}" {name=A2, swap}]\uuarrow["\theta_{2}"]{A2}{B2} & & a\arrow[uu, "g"]\arrow[r, "f"'] & c\arrow[uu, "f'"']\\
+		& 0\arrow[uu, "j"]\arrow[rr, "F_{2}" {name=A2, swap}]\uuarrow["\theta_{2}"]{A2}{B2} & & a\arrow[uu, "g"]\arrow[r, "f"'] & c\arrow[uu, "f'"']\\
 		\A & \B & & \cont
 	\end{category}
 	On pose:
@@ -695,9 +695,9 @@ Les propriétés et équations des actions définissent une sesquicatégorie des
 	\end{category}
 	est la même chose qu'un foncteur:
 	\begin{category}
-		A \times \mathds{2} \ar[r, "H"] & B
+		A \times 2 \ar[r, "H"] & B
 	\end{category}
-	où $\mathds{2} = \left(0 \to 1\right)$ telle que: $H\left(-, 0 \right) = F$ et $H\left(-, 1 \right) = G$.
+	où $2 = \left(0 \to 1\right)$ telle que: $H\left(-, 0 \right) = F$ et $H\left(-, 1 \right) = G$.
 \end{remarque}
 
 \subsection{Diagrammes de Cordes}
@@ -1112,6 +1112,8 @@ On peut avoir:
 	\end{category}
 \end{exemple}
 
+\subsection{THéorème de Confluence}
+
 \begin{thm}[de Church-Rosser (confluence)]
 	Si $f: M \rrightarrow P$ et $g: M \rrightarrow Q$ sont deux chemins de \betared alors il existe un \lambdaterme $N$ et deux chemins de \betared: $f': Q \rrightarrow N$ et $g': P\rrightarrow N$:
 	\begin{category}[]
@@ -1300,7 +1302,7 @@ Par ailleurs, la relation d'emboîtement est transitive, et la relation d'aggrip
 	Une tuile de permutation $u\cdot f \lozenge v \cdot g$:
 	\begin{category}[]
 		& M\ar["u"', dl]\ar[dr, "v"]\ar[dd, "\lozenge", phantom] &\\
-		P\ar[dr, "g", rrightarrow] & & Q\ar[dl, "f", rrightarrow]\\
+		P\ar[dr, "g", rightarrow] & & Q\ar[dl, "f", rightarrow]\\
 		& N &
 	\end{category}
 	est une paire de développement $u\cdot f$ et $v\cdot g$ où $u: M\to_{\beta} P$ et $v: M\to_{\beta} Q$ sont deux \betaredex coinitiales et $f \propto u[v]$ et $g\propto v[u]$ sont des développements des résidus respectifs de $u$ et $v$.
@@ -1310,12 +1312,12 @@ Par ailleurs, la relation d'emboîtement est transitive, et la relation d'aggrip
 	Si on pose $I = \lambda x. x$ et $\Delta = \lambda x. xx$, on a:
 	\begin{category}[]
 		& (Ia)(Ib)\ar["u"', dl]\ar[dr, "v"]\ar[dd, "\lozenge", phantom] &\\
-		a(Ib)\ar[dr, "g", rrightarrow] & & (Ia)b\ar[dl, "f", rrightarrow]\\
+		a(Ib)\ar[dr, "g", rightarrow] & & (Ia)b\ar[dl, "f", rightarrow]\\
 		& ab &
 	\end{category}
 	\begin{category}[]
 		& \Delta(Ia)\ar["u"', dl]\ar[dr, "v"]&\\
-		(Ia)(Ia)\ar[d, "v_{2}", rrightarrow]\ar[r, "v_{1}"] & a(Ia)\ar[d] & \Delta a\ar[dl, rrightarrow]\\
+		(Ia)(Ia)\ar[d, "v_{2}", rightarrow]\ar[r, "v_{1}"] & a(Ia)\ar[d] & \Delta a\ar[dl, rightarrow]\\
 		(Ia)a\ar[r] & aa &
 	\end{category}
 \end{exemple}
@@ -1333,9 +1335,9 @@ Par ailleurs, la relation d'emboîtement est transitive, et la relation d'aggrip
 
 \begin{definition}
 	On dit que $f \sim^{1} g: M \rrightarrow N$ et ont dit que $f$ et $g$ sont équivalentes à une tuile de permutation près lorsque $f = d\cdot u \cdot h_{v} \cdot e$ et $g = g \cdot v \cdot h_{u} \cdot e$ et:
-	\begin{category}
+	\begin{category}[]
 		& & R\ar[dr, "h_{v}"] & &\\
-		M\ar[r, "d"] & P\ar[ur, "u"]\ar[dr, "v"]\ar[dd, phantom, "\lozenge"] & & Q\ar[r, "e"] & N\\
+		M\ar[r, "d"] & P\ar[ur, "u"]\ar[dr, "v"]\ar[rr, phantom, "\lozenge"] & & Q\ar[r, "e"] & N\\
 		& & S\ar[ur, "h_{u}"] & &
 	\end{category}
 	où $h_{v} \propto (R, v[u])$ et $h_{u} \propto (S, u[v])$.
@@ -1343,8 +1345,6 @@ Par ailleurs, la relation d'emboîtement est transitive, et la relation d'aggrip
 	\label{def:equivpermutation}
 \end{definition}
 C'est une forme de relation d'homotopie.
-
-
 
 \begin{proof}[Démonstration de manière moderne du théorème de confluence]
 \end{proof}
@@ -1357,6 +1357,239 @@ C'est une forme de relation d'homotopie.
 \begin{corollaire}
 	Si $M\rrightarrow P$ et $M \rrightarrow Q$ où $P, Q$ sont des formes $\beta$-normales alors $P = Q$.
 \end{corollaire}
+
+\def\clam{\mC_{\lambda}}
+On va maintenant construire une catégorie $\mC_{\lambda}$ de \lambdatermes et de chemins de réécriture modulo permutations de telle manière que $\mC_{\lambda}$ a les sommes amalgamées.
+
+\begin{definition}
+	La somme amalgamée de deux flèches $B \xleftarrow{f} A \xrightarrow{g} C$ dans une catégorie $\mC$ est la donnée d'un objet $D$ et de deux flèches $B \xrightarrow{g'} D \xleftarrow{f'} C$ telles que
+	\begin{enumerate}
+		\item le diagramme suivant commute:
+			\begin{category}
+				A\ar[r, "f"]\ar[d, "g"']\ar[phantom, "(*)", dr] & B\ar["g'", d]\\
+				C\ar[r, "f'"'] & D
+			\end{category}
+		\item la propriété universelle suivante est satisfaite par $(*)$ pour tout $X$ et pour toute paire de flèches $a, b$ telles que $b \circ f = c \circ g$, il existe une unique flèche $h: D \to X$ telle que le diagramme suivant commute:
+			\begin{category}
+				A \ar[r, "f"]\ar[d, "g"] & B\ar[bend left, ddr, "b"]\ar[d, "g'"] &\\
+				C\ar[drr, "c"', bend right]\ar[r, "f'"] & D\ar[dr, "\exists! h"] &\\
+				&& X
+			\end{category}
+	\end{enumerate}
+	C'est le dual du \textit{pullback} ou \textit{produit fibré}
+	\label{def:pushout}
+\end{definition}
+
+\begin{exemple}
+	\begin{enumerate}
+		\item Dans $Ens$:
+			\begin{category}
+				A\ar[r, "f"]\ar[d, "g"'] & B\ar["g'", d]\\
+				C\ar[r, "f'"'] & D
+			\end{category}
+			où $D = (B + C)/(f = g)_{a}$ la somme disjointe de $B$ et $C$ quotientée par la relation d'équivalence $\sim$ engendrée par $fa \simeq ga$.
+			On peut par exemple écrire $D = \left\{ inlb \mid b \in B \right\} \sqcup \left\{inrc \mid c \in C\right\}/\sim$.
+			$f'$ et $g'$ sont les injections. Alors, dans:
+			\begin{category}
+				A \ar[r, "f"]\ar[d, "g"] & B\ar[bend left, ddr, "g_{b}"]\ar[d, "g'"] &\\
+				C\ar[drr, "f_{c}"', bend right]\ar[r, "f'"] & D\ar[dr, "\exists! h"] &\\
+				&& X
+			\end{category}
+			on définit $h$ par:
+			\begin{equation*}
+				\begin{array}{c@{\longmapsto}c}
+					inlb & g_{B}(b)\\
+					inrc & f_{C}(c)
+				\end{array}
+			\end{equation*}
+		\item Dans $\mT op$ des espaces topologiques et fonctions continues a les sommes amalgamées:
+			si on prend $D$ défini comme précédemment et la topologie naturelle définie sur $D$:
+			\begin{center}
+				$u$ est ouvert dans $D$ si et seulement si $\begin{cases}
+					g'^{-1}(u) \text{ est ouvert dans }B\\
+					f'^{-1}(u) \text{ est ouvert dans }C
+				\end{cases}$
+			\end{center}
+			\begin{center}
+			\begin{tikzcd}[remember picture]
+				|[alias=A]|\phantom{A} \ar[r, "f"]\ar[d, "g"] & |[alias=B]|\phantom{B}\ar[bend left, ddr, "g_{X}"]\ar[d] &\\
+				|[alias=C]|\phantom{C}\ar[drr, bend right, "f_{X}"']\ar[r] & |[alias=D]|\phantom{D}\ar[dr, "\exists! h"] &\\
+				&& |[alias=X]|\phantom{X}
+			\end{tikzcd}
+			\begin{tikzpicture}[overlay, remember picture]
+				\node at (A) {$*$};
+				\draw (C) circle (.1cm) {};
+				\node at ([xshift=-.1cm]C) {$*$};
+				\draw (B) circle (.1cm) {};
+				\node at ([xshift=.1cm]B) {$*$};
+				\draw ([xshift=-.1cm]D) circle (.1cm) {};
+				\draw ([xshift=.1cm]D) circle (.1cm) {};
+				\node at (D) {$*$};
+				\draw[draw=white] ([xshift=-.4cm, yshift=-.4cm]X) rectangle ++(.6cm, .6cm);
+				\draw ([xshift=-.3cm, yshift=-.3cm]X) rectangle ++(.6cm, .6cm);
+				\draw ([xshift=-.1cm]X) circle (.1cm) {};
+				\draw ([xshift=.1cm]X) circle (.1cm) {};
+			\end{tikzpicture}
+			\end{center}
+	\end{enumerate}
+\end{exemple}
+
+On va travailler sur une représentation algébrique des catégories par \textit{générateurs et relations}.
+\begin{definition}
+Supposons donné un graphe $\mathcal{G}$ et un ensemble $\mathcal{E}$ de paires $(f, g)$ de chemins de $\mathcal{G}$ de la forme:  \begin{tikzcd}
+	x\ar[bend left, "f", r]\ar[bend right, "g"', r] & y
+\end{tikzcd}
+La catégorie $\mC = \left[ \mathcal{G}, \mathcal{E} \right]$ engendrée a pour objets les sommets de $\mathcal{G}$ et pour flèches les chemins de $\mathcal{G}$ modulo $\sim_{\mathcal{E}}$ la relation d'équivalence engendrée par $\approx_{\mathcal{E}}$.
+\begin{category}
+	\phantom{}\arrow[r, "d"] & \phantom{}\arrow[r, bend left, "f"]\ar[r, bend right, "g"'] & \phantom{}\ar[r, "e"] & \phantom{}
+\end{category}
+On définit $u \approx_{\mE} v$ lorsque $u$ et $v$ se décomposent en $u = d;f;e$ et $v = d;g;e$ pour $f, g \in \mathcal{E}$.
+\end{definition}
+
+\begin{proposition}
+	La catégorie engendrée $\mathcal{C} = \left[ \mathcal{G}, \mE \right]$ satisfait la propriété universelle suivante:
+	Si $\mathcal{D}$ est une catégorie et $\abs{\mathcal{D}}$ est le graphe associé, tout homomorphisme de graphe $\mathcal{G}\xrightarrow{H} \abs{\mathcal{D}}$ tel que $H(f) = H(g)$ dans $\mathcal{D}$ pour tout $f, g \in \mE$ induit un unique foncteur $\mathcal{F} : [\mathcal{G}, \mE] \to \mathcal{D}$ tel que:
+	\begin{equation*}
+		F(x\xrightarrow{e} y) = H(x\xrightarrow{e}y)
+	\end{equation*}
+	\label{prop:universelgraphefoncteur}
+\end{proposition}
+
+Autrement dit, un foncteur: $\mathcal{F}: \left[ \mathcal{G}, \mE \right] \to \mathcal{D}$ est la donnée d'un homomorphisme de graphe $H:\mathcal{G} \to \abs{\mathcal{D}}$ tel que $H(f) = H(g)$ pour tout $(f, g) \in \mE$.
+
+\begin{exemple}
+	\begin{enumerate}
+		\item La catégorie $[\mG]$ engendrée par un graphe $(\mE = \emptyset)$ est la même chose qu'un homomorphisme $H : \mG \to \abs{\mD}$.
+		\item Toute catégorie $\mC$ peut être présentée par le graphe $\mG = \abs{\mC}$ et les équations:
+			\begin{equation*}
+				\begin{aligned}
+					\mE =& \left\{ \underbrace{x\xrightarrow{f} y \xrightarrow{g} z}_{\text{chemin de longueur 2}} = \underbrace{x \xrightarrow{g\circ f} z}_{\text{arête}}\right\}\\
+					\cup &\left\{ \underbrace{(x)}_{\text{chemin de longueur 0}} = \underbrace{(x\xrightarrow{id_{x}} x)}_{\text{arête}} \right\}
+			\end{aligned}
+			\end{equation*}
+			On a alors $\mC = \left[\mG, \mE \right]$ et un foncteur de $\mC$ dans $\mD$ induit un homomorphisme de $\mG$ dans $\abs{\mD}$.
+	\end{enumerate}
+\end{exemple}
+On va maintenant pouvoir définir la catégorie $\clam$.
+On pose $\mG_{\lambda}$ le graphe des \lambdatermes (modulo \alphaconv) dont les arêtes sont les \betaredex: $M \xrightarrow{u} N$.
+Il reste alors à définir l'ensemble d'équations, i.e. les chemins. Si $M \xrightarrow{u} P$ et $M\xrightarrow{v} Q$ pour $u \neq v$, et si $h_{v}$ est un développement complet de $v[u]$ et $h_{u}$ un développement complet de $u[v]$.
+\begin{equation*}
+	\mE = \left\{ (u;h_{v}, v;h_{u}) \right\}
+\end{equation*}
+Ceci se lit:
+\begin{center}
+	\begin{tikzcd}[remember picture]
+	M\ar[ddd, "v"]\ar[r, "u"] & |[alias=P]|P\ar[d, "v_{1}"]\\
+	& |[alias=N]|\phantom{}\ar[d, "\vdots"]\\
+	& \phantom{}\ar[d, "v_{n}"]\\
+	|[alias=Q]|Q\ar[r, "u' = h_{v}"] & N
+	\end{tikzcd}
+	\begin{tikzpicture}[overlay, remember picture]
+		\node at ([xshift=.5cm, yshift=-.6cm]N) {$=h_{v}$};
+	\node at ([xshift=-.5cm, yshift=-.4cm]Q) {inside out};
+	\node at ([xshift=.5cm, yshift=.4cm]P) {outside in};
+	\end{tikzpicture}
+\end{center}
+
+\begin{proposition}
+	La catégorie $\clam$ peut être représentée par le graphe dont les sommets sont les \lambdatermes et les arêtes sont les multiredexes: $U: M \to N$.
+	Pour $U \subseteq \Redex(M)$, on a $U: M\to N$ lorsque tout développement complet de $U$ réécrit $M$ en $N$:
+	\begin{category}
+		% M\ar[r, "u_{1} \in U"] & M_{1}\ar[r, "u_{2} \in U\{u_{1}\}"] & M_{2}\ar[r] & \cdots\ar[r, "u_{n} \in U\{u_{1},\ldots,u_{n - 1}\}"] & N \ar[loop right, "U\{u_{1},\ldots, u_{n}\} = \emptyset"]
+	\end{category}
+	et dont les équations sont l'équation identité:
+	\begin{equation*}
+		\underbrace{\left( M \xrightarrow{\emptyset} M\right)}_{\text{longueur 1}} = \underbrace{(M)}_{\text{longueur 0}}
+	\end{equation*}
+	et les équations de la forme:
+	\begin{equation*}
+		\underbrace{M\xrightarrow{U} P \xrightarrow{V[U]} N}_{\text{chemin de longueur 2}} = \underbrace{M \xrightarrow{V} Q \xrightarrow{U[V]} N}_{\text{chemin de longueur 2}}
+	\end{equation*}
+	qui représentent:
+	\begin{category}
+		M\ar[r, "U"]\ar[d, "V"] & P\ar[d, "V\{U\}"]\\
+		Q\ar[r, "U\{V\}"] & N
+	\end{category}
+	\label{prop:repr}
+\end{proposition}
+\begin{proof}
+	Soit $\mD_{\lambda} = \left[ \mathcal{U}, \mF \right]$ la représentation qu'on vient de définir. On veut montrer que $\clam \simeq \mD_{\lambda}$.
+	\begin{equation*}
+		\begin{array}{rcl}
+			\clam &\xrightarrow{J_{\lambda}}&\mD_{\lambda}\\
+			M\xrightarrow{u} N & \longmapsto & M \xrightarrow{\{u\}} N\\
+			\begin{tikzcd}
+			M\ar[dd, "v"]\ar[r, "u"] & P\ar[d, "v_{1}"]\\
+	& \phantom{}\ar[d, "v_{2}"]\\
+	Q\ar[r, "u'"] & N
+\end{tikzcd} &\longmapsto & \begin{tikzcd}
+	M\ar[dd, "\{v\}"]\ar[r, "\{u\}"] & P\ar[d, "\{v_{1}\}"]\\
+	& \phantom{}\ar[d, "\{v_{2}\}"]\\
+	Q\ar[r, "\{u'\}"] & N
+\end{tikzcd} =
+\begin{tikzcd}
+	M\ar[dd, "\{v\}"]\ar[r, "\{u\}"]\ar[ddr, "\{u, v\}"] & P\ar[d, "\{v_{1}\}"]\\
+	& \phantom{}\ar[d, "\{v_{2}\}"]\\
+	Q\ar[r, "\{u\}"] & N
+\end{tikzcd}
+		\end{array}
+	\end{equation*}
+	C'est cette égalité qu'il faut montrer.
+	On donne pour cela le lemme suivant.
+	\begin{lemme}
+		\begin{category}
+			M\ar[r, "u"]\ar[d, "\{u\}"]\ar[phantom, dr, "\sim_{\mathcal{F}}"] & N\\
+			P\ar[ur, "U\{u\}"] &
+		\end{category}
+	\end{lemme}
+	En effet:
+	\begin{equation*}
+		M \xrightarrow{U} N \sim_{F} M \xrightarrow{\{u\}} P \xrightarrow{U[u]} N
+	\end{equation*}
+	puisque
+	\begin{equation*}
+		M \xrightarrow{U} N \approx_{\mathcal{F}} M \xrightarrow{u} N \xrightarrow{\emptyset = V[u]} N \approx_{\mathcal{F} M \xrightarrow{\{u\} = V} P \xrightarrow{U[u] = U[V]} N
+	\end{equation*}
+	Ceci nous donne bien un premier foncteur de $\clam$ dans $\mD_{\lambda}$.
+
+	\medskip
+
+	Dans l'autre sens:
+	\begin{equation*}
+		\begin{array}{rcl}
+			\mD_{\lambda} & \xrightarrow{K_{\lambda}}& \clam\\
+			M \xrightarrow{u} N & \longmapsto & \begin{tikzcd}
+				M\ar[r] & \phantom{}\ar[r] & \phantom{}\ar[r, "f"]&\phantom{} \ar[r] & \phantom{}\ar[r] & N
+			\end{tikzcd}
+			\\
+			\begin{tikzcd}
+				M\ar[r, "U"]\ar[d, "V"] & P\ar[d, "V\{U\}"]\\
+				Q \ar[r, "U\{V\}"] & N
+			\end{tikzcd}& \longmapsto & \begin{tikzcd}
+				M\ar[r, "f\propto V"]\ar[r, "g\propto V"]\ar[dr, "fg'\propto (U \cup V)"]\ar[dr, "g'f \propto (U\cup V)"'] & P\ar[d, "g'\propto V\{u\}"]\\
+				Q\ar[r, "f'\propto U\{V\}"'] & N
+			\end{tikzcd}
+		\end{array}
+	\end{equation*}
+	Attention, la longueur n'est pas préservée.
+	Ici, on utilise le lemme des développements finis \ref{prop:chemininfini}:
+	\begin{proposition}
+		Il n'existe pas de développement infini de $U \subseteq \Redex(M)$
+	\end{proposition}
+	\begin{proposition}
+		Si $f, g$ sont des développements complets de $U$ (notation $f \propto U, g\propto U$), alors $f, g$ terminent sur le même \lambdaterme $N$ et $f\sim_{\mE} g$.
+	\end{proposition}
+
+	\medskip
+
+	Il reste juste à vérifier que:
+	\begin{equation*}
+		J_{\lambda} \circ K_{\lambda} = \id_{\mD_{\lambda}} \hskip K_{\lambda} \circ J_{\lambda} = \id_{\clam}
+	\end{equation*}
+	ce qui termine la démonstration.
+\end{proof}
+
+
 
 \section{TD 1}
 \subsection{Catégories et Foncteurs}
