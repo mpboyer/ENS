@@ -47,34 +47,46 @@ which is the wanted result.
 \section{Question 2}
 Let $F = 2^{I}$ and let us denote by $g: 2^{\mathcal{F}} \to \R^{+}$ the function that to a family of sets gives their combined profit.
 Clearly, $g$ is submodular.
-Furthermore we denote by $X_{0}$ the emptyset, and by $X_{i}$ the set of items taken after $i$ knapsacks were filled by our algorithm.
+Furthermore we denote by $X_{0}$ the empty set, and by $X_{i}$ the set of items taken after $i$ knapsacks were filled by our algorithm.
 Since we apply the FPTAS $k$ times, and since $g$ is submodular, we have:
 \begin{equation}
-	g(X_{i}) - g(X_{i - 1}) \geq \frac{OPT - g(X_{i - 1})}{k}
+  g(X_{i}) - g(X_{i - 1}) \geq (1 - \epsilon)\frac{OPT - g(X_{i - 1})}{k}
 	\label{eq:induction}
 \end{equation}
 for each $i$, where $OPT$ is the weight of an optimal solution.
 Then, we have:
 \begin{equation}
-	g(X_{1}) - g(X_{0}) = g(X_{1}) \geq \frac{OPT}{k} = OPT(1 - \left(1 - \frac{1}{k}\right))
+  g(X_{1}) - g(X_{0}) = g(X_{1}) \geq (1 - \epsilon)\frac{OPT}{k} = OPT(1 - \left(1 - \frac{1}{k}\right) - \epsilon) = OPT\left( 1 - \left(1 - \frac{1}{k}\right) - \O(\epsilon) \right)
 	\label{eq:firststep}
 \end{equation}
 and then:
 \begin{equation*}
-        g(X_{2}) \geq OPT(1 - \left(1 - \frac{1}{k}\right)^{2})
+  \begin{aligned}
+    g(X_{2}) \geq (1 - \epsilon)\frac{OPT - g(X_{1})}{k} =& (1-\epsilon)OPT\left(1 - \left(1 - \frac{1}{k}\right) - \epsilon\right)\\
+    =& OPT\left( 1 - \left(1 - \frac{1}{k}\right)^{2} - \epsilon\right) - OPT\times \epsilon\left(1 - \left(1 - \frac{1}{k}\right) - \epsilon\right)\\
+    =& OPT\left(1 - \left(1 - \frac{1}{k}\right)^{2} - \O(\epsilon)\right)
+  \end{aligned}
 \end{equation*}
 By induction:
 \begin{equation*}
-        g(X_{i}i) \geq OPT(1 - \left(1 - \frac{1}{k}\right)^{i})
+  g(X_{i}i) \geq OPT\left(1 - \left(1 - \frac{1}{k}\right)^{i} - \O(\epsilon)\right)
 \end{equation*}
 And thus:
 \begin{equation*}
-        g(X_{k}) \geq OPT(1 - \left(1 - \frac{1}{k}\right)^{k}) \geq OPT(1 - \frac{1}{e})
+  g(X_{k}) \geq OPT\left(1 - \left(1 - \frac{1}{k}\right)^{k} - \O(\epsilon)\right) \geq OPT\left(1 - \frac{1}{e} - \O(\epsilon)\right)
 \end{equation*}
 
 \section{Question 3}
 \subsection{Part 1}
-
+Let us have two edge-cuts $U_{1} = (A, V \setminus A = A^{\complement})$ and $V_{2} = (B, B^{\complement})$.
+Then, $U_{1} \Delta U_{2}$ is an edge-cut:
+\begin{equation*}
+	U_{1} \Delta U_{2} = \left(A \cup B \setminus \left(A\cap B\right), \left(A\cup B\right)^{\complement} \cup \left( A \cap B \right) \right) = \left(A \cup B \setminus \left(A\cap B\right), \left(A \cup B \setminus \left(A\cap B\right) \right)^{\complement} \right) = \left( A\Delta B, \left(A\Delta B \right)^{\complement} \right)
+\end{equation*}
+This, in particular, means that $\Delta_{i \in \onen{t}} V_{f_{i}}$ is a cut set.
+Let us then see that the choice of $V_{f}$ or it's complement $V^{\complement} = V \setminus V_{f}$ does not change the result.
+This is obvious when looking at the edge-cut equivalent to $(V, V^{\complement})$ in $G$ since $V$ and $V^{\complement}$ define the same edge-cut.
+Indeed, since an edge-cut can be seen as both $(A, A^{\complement})$ and $(A^{\complement}, A)$, we know the choice of $V_{f}$ or $V\setminus V_{f}$ does not change anything.
 
 \subsection{Part 2}
 \begin{algorithm}
@@ -93,8 +105,11 @@ This algorithm takes:
 \end{equation*}
 
 For correctness we just need to show that one of the cuts determined by $T$ is a minimum odd cut in $G$.
-To do so, we just need to see that if $\delta(U)$ is a min odd cut in $G$, then $U$ or $V \setminus U$ is the symmetric difference of the $V_{f}$ for $f \in \delta_{F}(U)$.
-Hence, $\abs{V_{f}}$ must be odd for at least one of the $f\in \delta_{F}(U)$ or $\abs{U}$ would be even. So $\delta_{G}(V_{f})$ is an odd cut.
-If $f = (u, v)$, $\delta_{G}(V_{f})$ is a minimum $u - v$ cut and as $\delta_{G}(U)$ is $u-v$ cut, $\delta_{G}(V_{f})$ is a minimum odd-cut.
+To do so, we just need to see that if $\delta(U)$ is a min odd cut in $G$, then one of the $V_{f}$ must be odd.
+Indeed, if there is only one $V_{f}$, then $V_{f} = U$ or $V \setminus V_{f}$ and we have the result. 
+Else, if there are multiple edges in the path from $u$ to $v$, then either $\abs{V_{f_{1}}}$ or $\abs{V \setminus V_{f_{1}}}$  is odd (and we have the result), or $\abs{V_{f_{2}}}$ is odd.
+Indeed, if $f_{1} = (a, b)$ and $f_{2} = (b, c)$, then if $a \in V_{f_{1}}$ and $a \in V_{f_{2}}$, $\abs{V_{f_{2}}} = \abs{V_{f_{1}}} + 1$ since we add $b$ to the part of the cut containing $a$ and remove it from the other part. 
+In the other naming cases, we could verify a similar equality with $-1$ if we lose $b$ and $+1$ if we gain $b$. 
+Finally, if $f \in F$ $\delta_{G}(V_{f})$ is the minimum odd $u - v$ cut, since $\delta_{G}(U)$ is a $u-v$ cut, $\delta_{G}(V_{f})$ is a minimum odd-cut.
 
 \end{document}
