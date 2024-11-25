@@ -49,7 +49,7 @@ Dans ce deuxième cas, Boole montre qu'on peut mettre un ordre partiel sur les f
 \begin{equation*}
 	\phi \leq \Psi \text{ si et seulement si } \phi \Rightarrow \Psi
 \end{equation*}
-Une algèbre de Boole $(A, \leq, \land, \lor, \lnot, \top, \bot)$ est un ensemble ordonnée $A, \leq$ muni de fonctions préservant l'ordre $\land, \lor: A\times A \to A$:
+Une algèbre de Boole $(A, \leq, \land, \lor, \lnot, \top, \bot)$ est un ensemble ordonné $A, \leq$ muni de fonctions préservant l'ordre $\land, \lor: A\times A \to A$:
 \begin{equation*}
 	\phi_{1} \leq \Psi_{1} \land \phi_{2} \leq \Psi_{2} \Longrightarrow \phi_{1} \land \phi_{2} \leq \Psi_{1}\land \Psi_{2}, \phi_{1} \lor \phi_{2} \leq \Psi_{1}\lor \Psi_{2}
 \end{equation*}
@@ -631,7 +631,7 @@ Les propriétés et équations des actions définissent une sesquicatégorie des
 \end{exemple}
 
 
-\section{Diagrammes de Corde pour $2$-Catégories}
+\section{Diagrammes de Corde pour 2-Catégories}
 \subsection{$2$-Catégories}
 \begin{definition}
 	Le produit $\A \times \B$ de deux catégories est la catégorie dont les objets sont les paires d'objets, les flèches sont les paires de flèches et la composition se fait point à point:
@@ -1112,8 +1112,8 @@ On peut avoir:
 	\end{category}
 \end{exemple}
 
-\subsection{THéorème de Confluence}
-
+\section{Réécriture}
+\subsection{Théorème de Confluence, $\lambda$-calculement}
 \begin{thm}[de Church-Rosser (confluence)]
 	Si $f: M \rrightarrow P$ et $g: M \rrightarrow Q$ sont deux chemins de \betared alors il existe un \lambdaterme $N$ et deux chemins de \betared: $f': Q \rrightarrow N$ et $g': P\rrightarrow N$:
 	\begin{category}[]
@@ -1346,9 +1346,7 @@ Par ailleurs, la relation d'emboîtement est transitive, et la relation d'aggrip
 \end{definition}
 C'est une forme de relation d'homotopie.
 
-\begin{proof}[Démonstration de manière moderne du théorème de confluence]
-\end{proof}
-
+\subsection{Démonstration Catégorique}
 \begin{definition}
 	Un \lambdaterme $M$ est en forme $\beta$-normale lorsqu'il n'existe pas de \betaredex $M \xrightarrow{u} N$.
 	\label{def:betanormale}
@@ -1495,7 +1493,7 @@ Ceci se lit:
 	La catégorie $\clam$ peut être représentée par le graphe dont les sommets sont les \lambdatermes et les arêtes sont les multiredexes: $U: M \to N$.
 	Pour $U \subseteq \Redex(M)$, on a $U: M\to N$ lorsque tout développement complet de $U$ réécrit $M$ en $N$:
 	\begin{category}
-		% M\ar[r, "u_{1} \in U"] & M_{1}\ar[r, "u_{2} \in U\{u_{1}\}"] & M_{2}\ar[r] & \cdots\ar[r, "u_{n} \in U\{u_{1},\ldots,u_{n - 1}\}"] & N \ar[loop right, "U\{u_{1},\ldots, u_{n}\} = \emptyset"]
+		M\ar[r, "u_{1} \in U"] & M_{1}\ar[r, "u_{2} \in U\{u_{1}\}"] & M_{2}\ar[r] & \cdots\ar[r, "u_{n} \in U\{u_{1}\ldots u_{n - 1}\}"] & N \ar[loop right, "U\{u_{1}\ldots u_{n}\} = \emptyset"]
 	\end{category}
 	et dont les équations sont l'équation identité:
 	\begin{equation*}
@@ -1528,7 +1526,7 @@ Ceci se lit:
 	Q\ar[r, "\{u'\}"] & N
 \end{tikzcd} =
 \begin{tikzcd}
-	M\ar[dd, "\{v\}"]\ar[r, "\{u\}"]\ar[ddr, "\{u, v\}"] & P\ar[d, "\{v_{1}\}"]\\
+	M\ar[dd, "\{v\}"]\ar[r, "\{u\}"]\ar[ddr, "\{u; v\}"] & P\ar[d, "\{v_{1}\}"]\\
 	& \phantom{}\ar[d, "\{v_{2}\}"]\\
 	Q\ar[r, "\{u\}"] & N
 \end{tikzcd}
@@ -1539,7 +1537,7 @@ Ceci se lit:
 	\begin{lemme}
 		\begin{category}
 			M\ar[r, "u"]\ar[d, "\{u\}"]\ar[phantom, dr, "\sim_{\mathcal{F}}"] & N\\
-			P\ar[ur, "U\{u\}"] &
+			P\ar[ur, "U\{u\}"] & \phantom{}
 		\end{category}
 	\end{lemme}
 	En effet:
@@ -1548,7 +1546,7 @@ Ceci se lit:
 	\end{equation*}
 	puisque
 	\begin{equation*}
-		M \xrightarrow{U} N \approx_{\mathcal{F}} M \xrightarrow{u} N \xrightarrow{\emptyset = V[u]} N \approx_{\mathcal{F} M \xrightarrow{\{u\} = V} P \xrightarrow{U[u] = U[V]} N
+		M \xrightarrow{U} N \approx_{\mathcal{F}} M \xrightarrow{u} N \xrightarrow{\emptyset = V[u]} N \approx_{\mathcal{F}} M \xrightarrow{\{u\} = V} P \xrightarrow{U[u] = U[V]} N
 	\end{equation*}
 	Ceci nous donne bien un premier foncteur de $\clam$ dans $\mD_{\lambda}$.
 
@@ -1572,7 +1570,7 @@ Ceci se lit:
 		\end{array}
 	\end{equation*}
 	Attention, la longueur n'est pas préservée.
-	Ici, on utilise le lemme des développements finis \ref{prop:chemininfini}:
+	Ici, on utilise le lemme des développements finis \ref{prop:cheminfini}:
 	\begin{proposition}
 		Il n'existe pas de développement infini de $U \subseteq \Redex(M)$
 	\end{proposition}
@@ -1584,12 +1582,224 @@ Ceci se lit:
 
 	Il reste juste à vérifier que:
 	\begin{equation*}
-		J_{\lambda} \circ K_{\lambda} = \id_{\mD_{\lambda}} \hskip K_{\lambda} \circ J_{\lambda} = \id_{\clam}
+		J_{\lambda} \circ K_{\lambda} = \id_{\mD_{\lambda}} \hfill K_{\lambda} \circ J_{\lambda} = \id_{\clam}
 	\end{equation*}
 	ce qui termine la démonstration.
 \end{proof}
 
+On a montré que la catégorie $\clam$ des \lambdatermes et chemins de $\beta$-réécriture modulo permutation peut être présentée par le graphe $\mU_{\lambda}$ des \lambdatermes (modulo $\alpha$-conversion) dont les arêtes sont les multi-redexs $(M, U): M\to N$ où $N$ est obtenu comme le \lambdaterme arrivée de tout développement complet de $U$ et les équations:
+\begin{category}[]
+	& P\ar[dr, "v\{u\}"] & \\
+	M\ar[rr, "u\circ v"]\ar[ur, "u"]\ar[dr, "v"'] & & N\\
+	& Q\ar[ur, "u\{v\}"'] &
+\end{category}
+c'est à dire $u\circ v[u] \equiv v\circ u[v]$ et $\id_{M} = (M, \emptyset)$.
 
+Soient $D: M \to P$ et $E: M \to Q$ deux chemins de $\mU_{\lambda}$.
+On définit un chemin $D / E : Q \to N$ par induction sur les longueurs de $D$ et $E$:
+\begin{enumerate}
+	\item $\id_{M} / V = \id_{N}$ pour $V: M \to N$ une multiredex.
+	\item $U \cdot D / V = U[V] \cdot D / V[U]$
+	\item $D / \id_{M} = D$,
+	\item $D / V\cdot E = (D / V) / E$
+\end{enumerate}
+
+\begin{proposition}
+	Soient $D: M \to P$, $E: M \to Q$ deux chemins de $\mU_{\lambda}$.
+	On a :
+	\begin{equation*}
+		D \cdot (E/D) \equiv E\cdot(D/E)
+	\end{equation*}
+	\label{prop:equivresiduschemins}
+\end{proposition}
+\begin{proof}
+	Par induction sur $D$ et $E$.
+\end{proof}
+
+\begin{proposition}
+Si $D \equiv D' : M \to P$ et $E \equiv E': M \to Q$ alors:
+\begin{equation*}
+	D / E \equiv D' / E'
+\end{equation*}
+\end{proposition}
+\begin{proof}
+	On procède en deux étapes:
+	\begin{itemize}
+		\item $D / E \equiv D / E'$ lorsque $E \equiv E'$
+		\item $D / E \equiv D' / E$ lorsque $D \equiv D'$.
+	\end{itemize}
+\end{proof}
+
+Les démonstrations des deux points précédents reposent sur le lemme suivant dit \emph{du cube}
+\begin{lemme}[du Cube]
+	Soient $U, V, W \subseteq \Redex(M)$.
+	Alors:
+	\begin{category}[]
+		& R\ar[dl, "V/W"]\ar[r, "U/V"] & \phantom{}\ar[dl, "v'"]\\
+		\phantom{}\ar[d, "u'"] & M\ar[dl, "V"]\ar[r, "U"]\ar[u, "W"] & P\ar[u, "W/U"]\ar[dl, "U/U"]\\
+		Q\ar[r, "U/V"]\ar[u, "W/V"] & \phantom{}\ar[u, "w'"]
+	\end{category}
+	où $w' = w / (u\cdot v/u) = w / (v \cdot u / v)$.
+	On peut aussi voir cela comme:
+	\begin{category}[]
+		&\phantom{} &\\
+		\phantom{}\ar[ur, "V'"] &\phantom{}\ar[u, "W'"] & \phantom{}\ar[ul, "U'"]\\
+		\phantom{}\ar[u, "W/U"]\ar[ur, "V/U"] & & \phantom{}\ar[u, "W"]\ar[ul, "U/V"]\\
+		& \phantom{}\ar[ur, "V"]\ar[ul, "U"] &
+	\end{category}
+	\begin{category}[]
+		&\phantom{} &\\
+		\phantom{}\ar[ur, "V'"] & & \phantom{}\ar[ul, "U'"]\\
+		\phantom{}\ar[u, "W/U"] & \phantom{}\ar[ul, "U/W"]\ar[ur, "V/W"] & \phantom{}\ar[u, "W"]\\
+		& \phantom{}\ar[ur, "V"]\ar[ul, "U"]\ar[u, "W"] &
+	\end{category}
+
+\end{lemme}
+
+On en déduit une construction $f/g$ pour toute paire de flèches $f: M \to P$, $g: M\to Q$.
+La proposition \ref{prop:equivresiduschemins} montre que:
+\begin{equation*}
+	f \cdot (g/f) = g\cdot (f/g) \text{ dans } \clam
+\end{equation*}
+\begin{proposition}
+	Quelques propriétés de la construction ci-dessus:
+	\begin{enumerate}
+		\item Pour $f: M \to N$, $f / f = \id_{N}$.
+		\item $(g \circ f) / f = g$ dans $\clam$.
+		\item $f / \id_{M} = f$
+		\item $f / (h\circ g) = (f / g) / h$.
+	\end{enumerate}
+	\label{prop:proprieteresidufleche}
+\end{proposition}
+\begin{proof}
+	\begin{enumerate}
+		\item Si $f$ est présentée par $D : M \to N$ de longueur $k$, alors $D / D = \underbrace{(N, \emptyset)\to (N, \emptyset)}_{k \text{ fois}}$
+		\item Conséquence de l'équation:
+			\begin{equation*}
+				(g \circ f) / h = g / (h / f) \circ (f/h)
+			\end{equation*}
+			qui représente le diagramme suivant:
+			\begin{category}
+				M\ar[d, "h"]\ar[r, "f"] & P\ar[d, "h/f"]\ar[r, "g"] & N\ar[d]\\
+				Q\ar[r, "f/h"'] & \phantom{}\ar[r, "g / (h/f)"'] & \phantom{}
+			\end{category}
+			En effet:
+			\begin{equation*}
+				(g \circ f) / f = g / (f / f) \circ (f / f)
+			\end{equation*}
+	\end{enumerate}
+\end{proof}
+
+\begin{thm}[Lévy (1979) --- Church-Rosser Algébrique]
+	La catégorie $\clam$ a les pushouts:
+	pour toute paire $f: M \to P$ et $g: M \to Q$, le carré commutatif:
+	\begin{category}
+		M\ar[r, "f"]\ar[d, "g"'] & P\ar[d, "g/f"]\\
+		Q\ar[r, "f/g"] & N
+	\end{category}
+	satisfait la propriété universelle suivante:
+	pour toute paire $f' : Q \to R, g': P \to S$ telle que:
+	\begin{category}
+		M \ar[d, "g"]\ar["f", r]& P\ar[d, "g'"]\\
+		Q \ar[r, "f'"] & N
+	\end{category}
+	il existe un et un seul morphisme dans $\clam$ $h : N\to R$ tel que le diagramme suivant commute:
+	\begin{category}[]
+		& M\ar[dl, "f"']\ar[dr, "g"] &\\
+		P\ar[dr, "g/f"]\ar[ddr, bend left, "g'"'] & & Q\ar[dl, "f/g"']\ar[ddl, bend right, "f'"]\\
+		& N\ar[d, dashed, "\exists! h"] &\\
+		& R &
+	\end{category}
+	c'est à dire que $h \circ (f / g) = f'$ et $h\circ (g/f) = g'$.
+\end{thm}
+
+Démontrons juste une propriété qui nous sera utile dans la démonstration:
+\begin{proposition}
+	Tout morphisme $f : M \to N$ est un épimorphisme dans $\clam$.
+	\label{prop:morphismeépimorphisme}
+\end{proposition}
+\begin{proof}
+	Si $M \xrightarrow{f} N \xrightarrow[g_{2}]{g_{1}} P$ sont telles que $f; g_{1} = f ; g_{2}$:
+	\begin{equation*}
+		g_{2} = (f; g_{2}) / f = (f ; g_{1}) / f) = g_{1}
+	\end{equation*}
+\end{proof}
+
+\begin{proof}
+	On pose: $h = (f ; g') / (f \cup g) = (g ; f') / f\cup g$ où $f \cup g$ est une notation pour $f ; (g / f) = g ; (f / g)$
+	On a alors que:
+	\begin{equation*}
+		h = f' / (f / g) = g' / (g / f)
+	\end{equation*}
+	et donc on vérifie bien que:
+	\begin{equation*}
+		g' = (f; g') / f = (g; f') / f = (g/f) ; f' / (f/g) = (g / f) ; h
+	\end{equation*}
+	De même, $f' = (f / g); h$.\\
+	L'unicité de $h$ vient de la propriété \ref{prop:morphismeépimorphisme}
+\end{proof}
+
+\section{Adjonctions}
+\subsection{Notion d'Adjonction}
+La notion d'adjonction est une généralisation de la notion de bijection pour les catégories.
+Soient $A$ et $B$ deux ensembles. Soient $l : A \to B$ et $r: B \to A$ des fonctions.
+Les deux propriétés suivantes sont équivalentes:
+\begin{enumerate}
+	\item $l$ et $r$ sont des bijections telles que $l \circ r = \id_{B}$ et $r \circ l = \id_{A}$.
+	\item Pour tout $a \in A$, pour tout $b \in B$, $la = b \leftrightarrow a = rb$.
+\end{enumerate}
+
+\begin{definition}
+	Soient $\A, \B$ deux catégories et $L : \A \to \B$ et $R: \B \to \A$ deux foncteurs.
+	Une \emph{adjoinction} entre $L$ et $R$ (où $L$ est adjoint à gauche et $R$ est adjoint à droite) est la déonnée d'une famille de bijections paramétrées par les objets de $\A$ et de $\B$:
+	\begin{equation*}
+		\phi_{A, B} : \B\left(LA, B \right)\xrightarrow{\simequiv} \A(A, RB)
+	\end{equation*}
+	On demande de plus que la famille $\Phi$ soit naturelle en $A$ et $B$.
+	\label{def:adjonction}
+\end{definition}
+
+\begin{definition}
+	Toute adjonction $L \dashv R$ induit une famille de flèches paramétrées par $A \in \A$:
+	\begin{equation*}
+		\eta_{A}: A \to RLA \text{ l'unité de l'adjonction}
+	\end{equation*}
+	et une famille de flèches paramétrées par $B \in \B$:
+	\begin{equation*}
+		\epsilon_{B} : LRB \to B \text{ la counité de l'adjonction}
+	\end{equation*}
+	En effet:
+	\begin{equation*}
+		\eta_{A} = \phi_{A, LA}\left(\id_{LA} : LA \to LA \right)
+	\end{equation*}
+	et similairement:
+	\begin{equation*}
+		\epsilon_{B} = \phi_{RB, B}^{-1}\left(\id_{RB}: RB \to RB \right)
+	\end{equation*}
+	\label{def:unitécounité}
+\end{definition}
+
+\begin{exemple}
+	Prenons $\A = Ens$ la catégorie des ensembles et fonctions et $\B = Mon$ la catégorie des monoïdes et homomorphismes.
+	On prend $R = Forget$ le foncteur qui a $M = (\abs{M}, \cdot_{M}, e_{M}) \xrightarrow{f} N = (\abs{N}, \cdot_{N}, e_{N})$ renvoie $\abs{M} \xrightarrow{support(f)} \abs{N}$.
+	On prend $L = Free$ le foncteur qui a $A$ associe $A^{*}$ le monoïde des mots finis sur l'alphabet $A$.
+	L'adjonction $L \dashv R$ est donnée par la famille de bijections:
+	\begin{equation*}
+		\phi_{A, M}: Mon(A^{*}, M) \to Ens(A, \abs{M})
+	\end{equation*}
+	telles que
+	$\phi_{A, M}(h : A^{*} \to M): a\in A \mapsto h([a]) \in M$.
+	Alors, $\phi_{A, M}^{-1}: (f: A\to M) \mapsto (f^{\dag}: A^{*} \to M)$ tel que $f^{\dag}([a_{1}, \ldots a_{n}]) = fa_{1}\cdot_{M} \cdots \cdot_{M}fa_{n}$.
+	Ici, on a donc:
+	\begin{equation*}
+		\eta_{A} = \Phi_{A, A^{*}}(\id_{A^{*}}: A^{*} \to A^{*})
+	\end{equation*}
+	et:
+	\begin{equation*}
+		\epsilon_{M}: Free\ Forget\ M \to M, [a_{1}, \ldots, a_{n}] \mapsto a_{1}\cdot_{M} \cdots \cdot_{M}a_{n}
+	\end{equation*}
+	Cette dernière opération s'appelle l'évaluation.
+\end{exemple}
 
 \section{TD 1}
 \subsection{Catégories et Foncteurs}
