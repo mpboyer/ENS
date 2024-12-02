@@ -1,7 +1,199 @@
 \documentclass[math]{cours}
-\title{<+titre+>}
-\author{<+auteur+>}
+\title{Optimisation Convexe}
+\author{Adrien Taylor}
+
+\DeclareMathOperator{\conv}{Conv}
+\DeclareMathOperator{\dom}{dom}
+\def\barR{\overline{\R}}
 
 \begin{document}
+\bettertitle
+
+\begin{notationT}
+	\begin{multicols}{2}
+		\begin{itemize}
+			\item $\S^{n}$ est l'ensemble des matrices symétriques. $\S_{+}^{n}$ est l'ensemble des matrices symétriques positives.
+			\item On ne considère que des fonctions à valeurs dans $\barR = \R \cup \{\pm \infty\}$.
+			      On notera $\dom f = \left\{ x \mid \abs{f(x)} < \infty \right\}$ le domaine de $f$
+		\end{itemize}
+	\end{multicols}
+\end{notationT}
+
+\section{Modélisation}
+\subsection{Ensembles Convexes}
+\begin{definition}
+	Un ensemble $C$ est convexe si et seulement si:
+	\begin{equation*}
+		\forall x, y \in C, \forall \theta \in [0, 1], \theta x + \left( 1 - \theta \right) y \in C
+	\end{equation*}
+	Un ensemble convexe $C$ est dit propre s'il est non vide.
+\end{definition}
+
+\begin{definition}
+	L'enveloppe convexe $\conv S$ d'un ensemble $S$ est le plus petit ensemble convexe qui contient $S$.
+	Les combinaisons convexes de $x_{1}, \ldots, x_{k}$ sont les:
+	\begin{equation*}
+		\sum_{i = 1}^{k} \theta_{i}x_{i}, \sum \theta_{i} = 1
+	\end{equation*}
+\end{definition}
+
+\begin{definition}
+	Un hyperplan est un ensemble de la forme
+	\begin{equation*}
+		\left\{ x \mid \transpose{a}x x = b \right\},  a\neq 0
+	\end{equation*}
+\end{definition}
+
+\begin{proposition}
+	\begin{enumerate}
+		\item Les hyperplans sont affines et convexes, de vecteur normal $a$.
+		\item Les boules euclidiennes de la forme:
+		      \begin{equation*}
+			      B(x_{c}, r) = \left\{ x \mid \norm{x - x_{c}}_{2} \leq r \right\}
+		      \end{equation*}
+		      sont convexes
+		\item Les ellipsoïdes de la forme:
+		      \begin{equation*}
+			      \left\{  \right\}
+		      \end{equation*}
+		      sont convexes.
+	\end{enumerate}
+\end{proposition}
+
+\begin{definition}
+	Un ensemble $K$ est un cône si:
+	\begin{equation*}
+		x \in K \Rightarrow \theta x \in K \forall \theta > 0
+	\end{equation*}
+\end{definition}
+
+\begin{proposition}
+	Les ensembles suivants sont convexes:
+	\begin{itemize}
+		\item $K = \left\{ x \in \R^{n} \mid x \geq 0 \right\}$
+		\item $K = \left\{ (x, t) \in \R^{n + 1} \mid \norm{x} \leq t \right\}$
+		\item $K \left\{ x \in \R^{n + 1}\mid x_{0} + x_{1}t + \ldots + x_{n} t^{n} \geq 0 \right\}$
+		\item $K = \left\{ X \in \S^{n} \mid \right\}$
+	\end{itemize}
+\end{proposition}
+
+\begin{definition}
+	On définit $K^{*}$ le cone dual d'un cone $K$:
+	\begin{equation*}
+		K^{*} = \left\{ y \in \transpose{y}x \geq 0 \forall x \in K \right\}
+	\end{equation*}
+	\label{def:conedual}
+\end{definition}
+
+On va s'intéresser aux opérations qui préservent la convexité.
+
+\begin{proposition}
+	Soient $C, C_{1}, C_{2}$ des ensembles convexes:
+	\begin{itemize}
+		\item $C_{1} \cap C_{2}$ est convexe
+		\item $C_{1} \cup C_{2}$ n'est pas nécessairement convexe.
+		\item Si $L(x) = Ax + b$ est affine, $L(C)$ est convexe. $L^{-1}(C)$ est convexe.
+	\end{itemize}
+\end{proposition}
+
+\begin{definition}
+	On définit les polyèdres:
+	\begin{equation*}
+		S = \left\{ x \in \R^{n} \mid Ax \leq b, C_{x} = d \right\}
+	\end{equation*}
+	Ils sont convexes comme intersection d'ensembles convexes.
+\end{definition}
+
+\begin{thm}
+	Étant donné deux ensembles fermés $C$ et $D$, convexes et non-intersectant, il existe $s$, $r$ tels que:
+	\begin{align*}
+		\transpose{s}x \leq r, x \in C \\
+		\transpose{s}x \geq r, x \in D
+	\end{align*}
+	$\left\{ x \in \transpose{s}x = r \right\}$ est appelé plan de séparation.
+\end{thm}
+
+\begin{thm}
+	Un ensemble convexe est l'intersection de tous les demi-espaces qui le contiennent.
+\end{thm}
+
+\begin{definition}
+	Un hyperplan $H$ supporte l'ensemble convexe $C$ en $x \in \partial C$ si :
+	\begin{equation*}
+		\transpose{s}x = r \land \transpose{s}y \leq r \forall y \in C
+	\end{equation*}
+\end{definition}
+
+\begin{definition}
+	L'opérateur de cone normal d'un ensemble convexe $C$ en $x$ est définit pas:
+	\begin{equation*}
+		N_{C}(x) = \begin{cases}
+			\left\{ g \mid \transpose{g}(y - x) \leq 0 \forall y \in C \right\} & \text{ si } x\in C     \\
+			\emptyset                                                           & \text{ si } x \notin C
+		\end{cases}
+	\end{equation*}
+\end{definition}
+
+C'est l'ensemble des vecteurs qui forment des angles obtus pour tout $y - x$ avec $y \in C$.
+
+\begin{definition}
+	Le cone tangent à $C$ en $x \in \partial C$ est définit par le cône dual négatif:
+	\begin{equation*}
+		T_{C}(x) = N_{C}^{\diamond}(x)
+	\end{equation*}
+\end{definition}
+
+\begin{definition}
+	Une fonction est dite convexe si son épigraphe $\left\{ (x, f(x)) \right\}$ l'est.
+	Cette condition est équivalente à:
+	\begin{equation*}
+		f\left( tx + \left( 1 - t \right)y \right) \leq tf(x) + (1 - t) f(y)
+	\end{equation*}
+	Une fonction est dite concave si et seulement si son opposé est convexe.
+\end{definition}
+
+\begin{definition}
+	Soit $f : \R^{n} \to \overline{\R}$.
+	Son ensemble de sous-niveau de niveau $\alpha$ est:
+	\begin{equation*}
+		S_{\alpha} (f) = \left\{ x \in \R^{n} \mid f(x) \leq \alpha \right\}
+	\end{equation*}
+\end{definition}
+
+\begin{proposition}
+	Une fonction $f : \R^{n} \to \overline{\R}$ dérivable est convexe si et seulement si son domaine est convexe et pour $x, y \in \dom f$, on a:
+	\begin{equation*}
+		f(x) \geq f(y) + \transpose{\nabla f(x)} (x - y)
+	\end{equation*}
+	Un hyperplan de support $(g, -1)$ de $f$ en $(x, f(x))$ correspond à:
+	\begin{equation*}
+		f(y) \geq f(x) + \transpose{g}(x - y)
+	\end{equation*}
+	$g$ est appelé sous-gradient de $f$ en $x$ et appartient à la sous-différentielle de $f$ en $x$ $\partial f(x) = \left\{ g \mid f(y) \geq f(x) + \transpose{g}(x - y)\right\}$.
+	\begin{itemize}
+		\item Si $f$ est différentiable et $\partial f(x) \neq \emptyset$ alors $\partial f(x) = \left\{ \nabla f(x) \right\}$.
+		\item Si $f$ est convexe et $\partial f(x)$ est un singleton alors $\partial f(x) \left\{ \nabla f(x) \right\}$.
+	\end{itemize}
+	Pour les fonctions convexes:
+	\begin{itemize}
+		\item Les sous-gradients existent sur $\circ{\dom f}$.
+		\item Les sous-gradients n'existent pas hors de $\dom f$.
+		\item Les sous-gradients peuvent exister au bord de $\dom f$.
+	\end{itemize}
+\end{proposition}
+
+\begin{thm}
+	Si $f$ est deux fois différentiables, $f$ est convexe si et seulement si $\nabla^{2}f(x) \prec 0$.
+\end{thm}
+
+En pratique, pour vérifier la convexité:
+\begin{itemize}
+	\item On revient à la définition
+	\item On étudie l'existence de sous-gradients
+	\item Si $f$ est deux fois différentiables, on voit si la hessienne est symétrique définie positive.
+	\item On décompose en opérations qui préservent la convexité.
+\end{itemize}<++>
+
+\section{Méthodes}
 
 \end{document}

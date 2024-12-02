@@ -22,7 +22,7 @@
 \newcommand{\rrightarrow}{\mathrel{\mathrlap{\rightarrow}\mkern1mu\rightarrow}}
 \DeclareMathOperator{\Redex}{Redex}
 \DeclareMathOperator{\Occ}{Occ}
-
+\def\clam{\mC_{\lambda}}
 
 \begin{document}
 \bettertitle
@@ -1356,7 +1356,6 @@ C'est une forme de relation d'homotopie.
 	Si $M\rrightarrow P$ et $M \rrightarrow Q$ où $P, Q$ sont des formes $\beta$-normales alors $P = Q$.
 \end{corollaire}
 
-\def\clam{\mC_{\lambda}}
 On va maintenant construire une catégorie $\mC_{\lambda}$ de \lambdatermes et de chemins de réécriture modulo permutations de telle manière que $\mC_{\lambda}$ a les sommes amalgamées.
 
 \begin{definition}
@@ -1753,7 +1752,7 @@ Les deux propriétés suivantes sont équivalentes:
 	Soient $\A, \B$ deux catégories et $L : \A \to \B$ et $R: \B \to \A$ deux foncteurs.
 	Une \emph{adjoinction} entre $L$ et $R$ (où $L$ est adjoint à gauche et $R$ est adjoint à droite) est la déonnée d'une famille de bijections paramétrées par les objets de $\A$ et de $\B$:
 	\begin{equation*}
-		\phi_{A, B} : \B\left(LA, B \right)\xrightarrow{\simequiv} \A(A, RB)
+		\phi_{A, B} : \B\left(LA, B \right)\xrightarrow{\cong} \A(A, RB)
 	\end{equation*}
 	On demande de plus que la famille $\Phi$ soit naturelle en $A$ et $B$.
 	\label{def:adjonction}
@@ -1800,6 +1799,300 @@ Les deux propriétés suivantes sont équivalentes:
 	\end{equation*}
 	Cette dernière opération s'appelle l'évaluation.
 \end{exemple}
+
+Précisons maintenant la notion de naturalité demandée dans la définition \ref{def:adjonction} des adjonctions:
+\begin{proposition}
+	Toute catégorie $\cont$ définit un foncteur $\Hom: \mC^{op}\times\mC \to Ens$ tel que:
+	\begin{equation*}
+		(A, B) \mapsto \Hom(A, B)
+	\end{equation*}
+\end{proposition}
+\begin{proof}
+	Construisons ce foncteur. Aux deux flèches ci-dessous:
+	\begin{category}
+		A\ar[d, "h_{A}"] & B\ar[d, "h_{B}"]\\
+		A' \ar[phantom, loop right, "\in \mC^{op}"] & B\ar[phantom, loop right, "\in \mC"]
+	\end{category}
+	on associe la fonction entre ensembles:
+	\begin{category}
+		\Hom(A, B)\ar[d, "\Hom(h_{A}; h_{B})"]\\
+		\Hom(A', B')
+	\end{category}
+	telleq que:
+	\begin{category}
+		A\ar[r, "f"] & B\ar[d, "h_{B}"]\\
+		A'\ar[u, "h_{A}"]\ar[r, "h_{B} \circ f\circ h_{A}"'] & B'
+	\end{category}
+	c'est à dire:
+	\begin{equation*}
+		\Hom(h_{A}, h_{B}): f \longmapsto h_{B} \circ f \circ h_{A}
+	\end{equation*}
+\end{proof}
+
+De cela découle que les familles:
+\begin{equation*}
+	\B(LA, B) \text{ et } \A(A, RB)
+\end{equation*}
+définissent deux foncteurs:
+\begin{equation*}
+	\A^{op} \times B \xrightarrow[\A(-, R-)]{\B(L-, -)} Ens
+\end{equation*}
+que l'on peut définir de cette manière:
+\begin{category}[]
+	& \B^{op} \times \B \ar[dr, "\Hom_{\B}"]\ar[dd, Rightarrow, "\Phi"]& \\
+	\A^{op}\times \B \ar[ur, "L^{op}\times \id_{\B}"]\ar[dr, "\id_{\A}\times R"'] & & Ens\\
+	& \A^{op}\times\A \ar[ur, "\Hom_{\A}"'] &
+\end{category}
+La condition de naturalité demande que $\Phi$ soit une transformation naturelle entre les deux foncteurs, c'est à dire que le diagramme ci-dessous commuute pour tous $A, B$:
+\begin{category}
+	\B(LA, B)\ar[r, "\B(Lh_{A}; h_{B})"]\ar[d, "\Phi_{A; B}"] & \B(LA', B')\ar[d, "\Phi_{A'; B'}"] \\
+	\A(A, RB)\ar[r, "\A(h_{A}; Rh_{B})"] & \A(A', RB')
+\end{category}
+
+Ceci signifie que si on se donne une flèche de $LA \to B$, alors:
+\begin{equation*}
+	\begin{aligned}
+		\Phi_{A', B'}&\left( h_{B} \circ f \circ Lh_{A} \right)\\
+		=& Rh_{B} \circ \Phi_{A, B}\left( f \right) \circ h_{A}
+	\end{aligned}
+\end{equation*}
+
+\begin{exemple}
+	Si on reprend pour $R$ et $L$ les foncteurs $Forget$ et $Free$:
+	\begin{equation*}
+		\Phi_{A, M}: Mon\left( Free(A) = A^{*}, M \right) \xrightarrow{\cong} Ens\left( A, Forget(M) \right)
+	\end{equation*}
+	Si on prend une fonction $h_{A} : A' \to A$ et un homomorphisme de $M$ dans $M'$:
+	\begin{equation*}
+		\begin{aligned}
+			\Phi_{A', M'} & \left( h_{M} \circ f \circ Free(h_{A})\right)\\
+			=& Forget(h_{M}) \circ \Phi_{A, M}(f) \circ h_{A}
+		\end{aligned}
+	\end{equation*}
+\end{exemple}
+
+\subsection{Adjonctions par Générateurs et Relations}
+Dans la $2$-catégorie $Cat$, la famille de bijections $\left(\Phi_{A, B}\right)_{A \in \Obj\A, B\in\Obj\B}$ décrit une bijection entre $2$-cellules:
+\begin{category}[]
+	& \A \ar[dd, "L"]\\
+	\mathds{1}\ar[ur, bend left, "A"' name=A]\ar[dr, bend right, "B" name=B]\ddarrow["\beta"]{A}{B} & \\
+	& \B
+\end{category}
+\begin{category}[]
+	& \A\\
+	\mathds{1}\ar[ur, bend left, "A"' name=A]\ar[dr, bend right, "B" name=B]\ddarrow["\alpha"]{A}{B} & \\
+	& \B\ar[uu, "R"']
+\end{category}
+La naturalité de $\Phi$ peut aussi s'exprimer dans ce point de vue:
+\begin{category}[]
+	& \A\ar[dd, "L"]\\
+		\mathds{1}\ar[ur, "A"' name=A2, bend left=25]\ar[dr, bend right=25, "B" name=B1]\ar[ur, bend left=135, "A'" name=A1] \ar[dr, bend right=135, "B'" name=B2] \ddarrow["h_{A}"]{A1}{A2} \ddarrow["h_{B}"]{B1}{B2} \ddarrow["\beta"]{A2}{B1} & \\
+	& \B
+\end{category}
+ce qui se transforme par $\Phi_{A, B}$ en:
+\begin{category}[]
+	& \A\\
+	\mathds{1}\ar[ur, "A" name=A2, bend left=15]\ar[dr, bend right=15, "B" name=B1]\ar[ur, bend left=35, "A'" name=A1]\ar[ur, bend right=35, "B'" name=B2]\ddarrow["h_{A}"]{A1}{A2}\ddarrow["h_{B}"]{B1}{B2}\ddarrow["\Phi_{A B}(\beta)"]{A2}{B1} & \\
+	& \B\ar[uu, "R"']
+\end{category}
+ce qui est égal à
+\begin{category}[]
+	& \A\\
+	\mathds{1}\ar[ur, bend left, "A" name=A]\ar[dr, bend right, "B"' name=B]\ddarrow["\Phi_{A'; B'}\left( h_{B}\circ \beta\circ Lh_{A} \right)"]{A}{B} & \\
+	& \B\ar[uu, "R"']
+\end{category}
+
+\begin{thm}
+	On peut remplacer $\mathds{1}$ par n'importe quelle catégorie $X$:
+	\begin{category}[]
+		& \A\ar[dd, "L"]\\
+	X \ar[ur, bend left, "A"' name=A]\ar[dr, bend right, "B" name=B]\ddarrow["\beta"]{A}{B} & \\
+	& \B
+	\end{category}
+	ce qui équivaut à:
+	\begin{category}[]
+		& \A\\
+	X \ar[ur, bend left, "A"' name=A]\ar[dr, bend right, "B" name=B]\ddarrow["\alpha"]{A}{B} & \\
+	& \B\ar[uu, "R"']
+	\end{category}
+	où on construit deux nouvelles familles de bijections paramétrées par $x \in X$:
+	\begin{equation*}
+		\beta_{x} : LA_{x} \to B_{x} \text{ et } \Phi_{Ax, Bx}\left( \beta_{x} \right): Ax \to RB_{x}
+	\end{equation*}
+\end{thm}
+
+Cette famille $\Phi_{A, B}$ est naturelle au sens où:
+\begin{category}[]
+	& & \A\ar[dd, "L"]\\
+	\mC\ar[urr, bend left, "A'"' name=A1]\ar[drr, bend right, "B'" name=B1]\ar[r, "H"] & X\ar[phantom, "" name=X]\ar[ur, bend left, "A"' name=A]\ar[dr, bend right, "B" name=B] \ddarrow["h_{A}"]{A1}{X}\ddarrow["h_{B}"]{X}{B1}\ddarrow["\beta"]{A}{B}& \\
+	& & \B
+\end{category}
+est équivalent à:
+\begin{category}[]
+	& & \A\\
+	\mC\ar[urr, bend left, "A'"' name=A1]\ar[drr, bend right, "B'" name=B1]\ar[r, "H"] & X\ar[phantom, "" name=X]\ar[ur, bend left, "A"' name=A]\ar[dr, bend right, "B" name=B] \ddarrow["h_{A}"]{A1}{X}\ddarrow["h_{B}"]{X}{B1}\ddarrow["\alpha"]{A}{B}& \\
+	& & \B\ar[uu, "R"']
+\end{category}
+avec $\alpha = \Phi_{A, B}(\beta)$:
+\begin{equation*}
+	\begin{aligned}
+		& h_{B}\circ_{vert} \left( \Phi_{A? B}\left( \beta \right)\circ_{horiz} H \right)\circ_{vert} h_{A}\\
+		=& Rh_{B} \circ_{vert} \left( \alpha \circ_{horiz} H \right) \circ_{vert} h_{A}
+	\end{aligned}
+\end{equation*}
+
+\begin{remarque}
+	Ces propriétés définissent la notion d'adjonction dans toute $2$-catégorie.
+\end{remarque}
+En diagrammes de cordes:
+\begin{category}[remember picture]
+	& B\ar[d, no head]& \\
+	\B & |[alias=B]|\beta\ar[dl, no head]\ar[dr, no head] & X \\
+	L & \A & A
+\end{category}
+
+\begin{tikzpicture}[remember picture, overlay]
+	\draw (B) circle (.5cm) {};
+\end{tikzpicture}
+
+C'est à dire $\beta' = $
+\begin{category}[]
+	& \phantom{}  \\
+	& |[alias=hB]|h_{B}\ar[u, no head]\\
+	\B & |[alias=B]|\beta\ar[u, no head, "B"]  \\
+	& |[alias=hA]| h_{A}\ar[u, no head, "X"']\ar[bend right, uu, no head, "H"']  \\
+	L\ar[uur, no head, "\A"'] & A'\ar[u, no head]
+\end{category}
+et $\Phi_{A', B'}(\beta') = $
+\begin{category}[]
+	\phantom{} & & \phantom{}\\
+	& & |[alias=hB]|h_{B}\ar[u, no head]\\
+	& |[alias=A]|\alpha \ar[uul, "R", no head]\ar[uur, "B"', no head] & \\
+	\A & & X\\
+	& & |[alias=hA]|h_{A}\ar[uul, bend left, "A"]\ar[uuu, bend right, no head, "H"']\ar[d, "A'"]\\
+	& & \phantom{}
+\end{category}
+
+On peut alors définir unité et co-unité en diagrammes de cordes:
+\begin{category}[remember picture]
+	R & \phantom{} & L\\
+	\A & |[alias=eta]|\eta \ar[d, "\id_{\A}"] \ar[ur, no head]\ar[ul, no head]\ar[u, phantom, "\B" description] & \A\\
+	& \phantom{} &
+\end{category}
+\begin{tikzpicture}[remember picture, overlay]
+	\draw (eta) circle (.5cm) {};
+\end{tikzpicture}
+et
+\begin{category}[remember picture]  % TODO: circles
+	& \phantom{}\ar[d, "\id_{\B}"] &\\
+	\B & |[alias=eps]|\epsilon\ar[dl, no head]\ar[dr, no head]\ar[d, phantom, "\A" description] & \B\\
+	L & \phantom{} & R
+\end{category}
+\begin{tikzpicture}[remember picture, overlay]
+	\draw (eps) circle (.5cm) {};
+\end{tikzpicture}
+
+La naturalité permet de définir l'image de $\beta$ comme la composée
+\begin{category}[]
+	& \A\ar[dd, "L"]\\
+	X\ar[ur, bend left, "A"' name=A]\ar[dr, bend right, "B" name=B]\ddarrow["\beta"]{A}{B} & \\
+	& \B
+\end{category}
+qui est égal à:
+\begin{category}[]
+	& & \A\ar[dd, "L"]\\
+	X\ar[drr, bend right, "B" name=b]\ar[r, "A"] & \A\ar[phantom, "" name=a]\ar[ur, bend left, "\id_{\A}"' name=A]\ar[dr, bend right, "L" name=B]\ddarrow["\id_{L}"]{A}{B}\ddarrow["\beta"]{a}{b} & \\
+	& & \B
+\end{category}
+comme la composée $\Phi_{A, B}(\beta)$
+\begin{category}[]
+	& & \A\ar[dd, "L"]\\
+	X\ar[drr, bend right, "B" name=b]\ar[r, "A"] & \A\ar[phantom, "" name=a]\ar[ur, bend left, "\id_{\A}"' name=A]\ar[dr, bend right, "L" name=B] \ddarrow["\eta"]{A}{B} \ddarrow["\beta"]{a}{b} & \\
+	& & \B\ar[uu, "R"']
+\end{category}
+en voyant que $\eta = \Phi_{\id_{A}, L}$.
+En diagramme de cordes:
+\begin{category}[]
+	& B &\\
+	& |[alias=B]|\beta& \\
+	L & A
+\end{category}
+se transforme en:
+\begin{category}[remember picture]
+	R\ar[dd, no head, bend left] & B\\
+	& |[alias=b]|\beta\ar[u, no head]\\
+	\eta\ar[ur, bend right, no head] & A\ar[u, no head]
+\end{category}
+c'est à dire:
+\begin{equation*}
+	A \xrightarrow{\eta} R\circ L \circ A \xrightarrow{R \circ \beta} R \circ B
+\end{equation*}
+et de la même manière:
+\begin{category}[remember picture]
+	\epsilon\ar[dd, no head, bend right]\ar[dr, no head, bend left] & B\ar[d, no head]\\
+	& |[alias=alp]|\alpha\ar[d, no head]\\
+	L & A
+\end{category}
+\begin{tikzpicture}[remember picture, overlay]
+	\draw (alp) circle (1cm) {};
+\end{tikzpicture}
+
+De plus, le fait que $\Phi$ et $\Phi^{-1}$ soient inverses assure que:
+\begin{equation*}
+	\begin{tikzcd}
+		\epsilon\ar[dr, bend left, no head, "R"'] & L\\
+		L\ar[u, no head, bend left] & \eta\ar[u, bend right, no head]
+	\end{tikzcd} = \id_{L}
+	\text{ et } \begin{tikzcd}
+		R\ar[d, bend right, no head] & \epsilon\ar[d, no head, bend left]\\
+		\eta\ar[ur, "L", no head, bend left] & R
+	\end{tikzcd} = \id_{R}
+\end{equation*}
+
+Ceci nous donne une définition équivalente d'adjonctions par représentation et générateurs:
+
+\begin{thm}
+	Une adjonction est la même chose qu'une paire de foncteurs $L: \A \to \B$ et $R: \B \to \A$, une paire de transformations naturelles $\eta: \Id_{\A}  \Rightarrow R \circ L$ et $\epsilon: L\circ R \to \Id_{\A}$ qui satisfont les équations triangulaires (ou du zig-zag) $(a)$:
+	\begin{equation*}
+		\begin{tikzcd}
+		\A\ar[r, "\id_{\A}" name=idA]\ar[dr, "L"'] & \A\ar[dr, "L"]\ar[phantom, "" name=A] & \\
+		& \B\ar[u, "R"]\ar[phantom, "" name=B]\ddarrow["\eta"]{idA}{B}\ar[r, "\id_{B}" name=idB]\ddarrow["\epsilon"]{A}{idB} & \B
+	\end{tikzcd}
+	= \begin{tikzcd}
+		\A\ar[r, bend left, "L"' name=L]\ar[r, bend right, "L" name=R]\ddarrow["\id_{L}"]{L}{R}& \B
+	\end{tikzcd}
+	\end{equation*}
+	et $(b)$:
+	\begin{equation*}
+	\begin{tikzcd}
+		& \A\ar[r, "\id_{\A}" name=idA]\ar[d, "L"'] \ar[phantom, "" name=A]& \A\\
+		\B\ar[ur, "R"]\ar[r, "\id_{B}" name=idB]\ddarrow["\epsilon"]{A}{idB} & \B\ar[ur, "R"]\ar[phantom, "" name=B] \ddarrow["\eta"]{idA}{B}
+		&
+	\end{tikzcd}
+	=
+	= \begin{tikzcd}
+	\B\ar[r, bend left, "R"' name=L]\ar[r, bend right, "R" name=R]\ddarrow["\id_{R}"]{L}{R}& \B
+	\end{tikzcd}
+	\end{equation*}
+	Ou, en diagrammes de cordes:
+	\begin{equation*}
+	\begin{tikzcd}
+		\epsilon\ar[dr, bend left, no head, "R"'] & L\\
+		L\ar[u, no head, bend left, "L"] & \eta\ar[u, bend right, no head, "L"']
+	\end{tikzcd} =
+	\begin{tikzcd}
+		L\ar[d, "\id_{L}"]\\
+		L
+	\end{tikzcd}
+	\text{ et } \begin{tikzcd}
+		R\ar[d, bend right, no head, "R"'] & \epsilon\ar[d, no head, bend left, "R"]\\
+		\eta\ar[ur, "L", no head, bend left] & R
+	\end{tikzcd} = \begin{tikzcd}
+		R\ar[d, "\id_{R}"]\\
+		R
+	\end{tikzcd}
+	\end{equation*}
+\end{thm}
 
 \section{TD 1}
 \subsection{Catégories et Foncteurs}
