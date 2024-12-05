@@ -10,6 +10,7 @@ from mpmath import cot
 import scipy.sparse as sp
 import scipy.sparse.linalg as spl
 import tqdm
+
 # import time
 
 levelsets = 30
@@ -34,6 +35,7 @@ class Manifold:
 
     @property
     def tikz_dat_file(self):
+        # Used to export to a format recognized by tikz.
         return "\n\n".join("\n".join(" ".join(map(str, self.points[i])) for i in f) for f in self.faces)
 
     @cached_property
@@ -42,10 +44,16 @@ class Manifold:
 
     @cached_property
     def n(self):
+        """
+        :return: Number of Points
+        """
         return len(self.points)
 
     @cached_property
     def m(self):
+        """
+        :return: Number of Faces
+        """
         return len(self.faces)
 
     def __repr__(self):
@@ -53,17 +61,32 @@ class Manifold:
 
     @classmethod
     def from_data(cls, data, label=None):
+        """
+        Creates an item from a list containing an off file.
+        :param data: List item containing an object in off format
+        :param label: label for the object to create
+        :return: object
+        """
         obj = cls(path=None, label=label)
         obj.load_list(data)
         return obj
 
     def load_ascii_from_off(self, path):
+        """
+        Loads from an off file in ascii format. Calls load_list.
+        :param path: Path to off file in ascii format containing a 3D object.
+        :return: None, adds data into object.
+        """
         with open(path, 'r') as f:
             data = csv.reader(f, delimiter=' ')
             data = list(filter(lambda t: t and t != ' ', data))
         self.load_list(data)
 
     def load_list(self, data):
+        """
+        :param data: Data to load in OFF format.
+        :return: None, is called on already instantiated item.
+        """
         if len(data[0]) != 1 and data[0][0] != 'OFF':
             raise ValueError("Il n'y a pas le header OFF")
 
@@ -86,8 +109,17 @@ class Manifold:
         self.faces = np.array(faces)
 
     def plot(self, ax=None, symbols=None, function=None, show_axis=False, level_sets=False):
+        """
+        Plots the manifold in 3D using a colormap defined by a function.
+        :param ax: Previously defined matplotlib 3D axis
+        :param symbols: Symbols to use for plotting
+        :param function: Function as a vector of its values on the manifold, used to get colours for the faces
+        :param show_axis: Boolean
+        :param level_sets: Boolean indicating whether to plot the function or its levelsets.
+        :return:
+        """
         if symbols is None:
-            # TODO faire un truc
+            # TODO: faire un truc
             symbols = {}
 
         if ax is None:
@@ -110,14 +142,23 @@ class Manifold:
             )
 
         cmap = plt.get_cmap('viridis')
+        # print(cmap)
 
         if function is not None:
             face_colors = []
-            for f in self.faces:
-                if level_sets:
-                    color = np.cos(2 * np.pi * levelsets * np.mean([function[e] for e in f]))
+            max_val = max(function)
+            min_val = min(function)
+            function = (function - min_val) / (max_val - min_val)
+            if level_sets:
+                print("Plotting with level sets")
+                for f in self.faces:
+                    mean_value = np.mean([function[e] for e in f])
+                    print(mean_value)
+                    color = np.cos((2 * np.pi * levelsets * mean_value))
+                    # print(color)
                     face_colors.append(cmap(color))
-                else:
+            else:
+                for f in self.faces:
                     mean = np.mean([function[e] for e in f])
                     face_colors.append(cmap(mean))
             edge_colors = None
@@ -145,8 +186,10 @@ class Manifold:
                 sym['edges'] = sym['faces']
 
             v = [self.points[f] for f in self.faces]
-            poly = Poly3DCollection(v, edgecolor=sym['edges'],
-                                    facecolor=sym['faces'], linewidth=sym['linewidth'])
+            poly = Poly3DCollection(
+                v, edgecolor=sym['edges'],
+                facecolor=sym['faces'], linewidth=sym['linewidth']
+            )
             ax.add_collection(poly)
             ax.view_init(vertical_axis='y', elev=0, azim=45)
         return ax
@@ -164,14 +207,28 @@ class Manifold:
         a0 = self.vertices(0)
         a1 = self.vertices(1)
         a2 = self.vertices(2)
-        return np.array(list(map(lambda t: np.cross(*t),
-                                 zip(map(lambda t: t[1] - t[0], zip(a1, a0)),
-                                     map(lambda t: t[1] - t[0], zip(a2, a0))))))
+        return np.array(
+            list(
+                map(
+                    lambda t: np.cross(*t),
+                    zip(
+                        map(lambda t: t[1] - t[0], zip(a1, a0)),
+                        map(lambda t: t[1] - t[0], zip(a2, a0))
+                    )
+                )
+            )
+        )
 
     @cached_property
     def areas(self):
-        return np.array(list(map(lambda t: npl.norm(t) / 2,
-                                 self.unnormalized_normals)))
+        return np.array(
+            list(
+                map(
+                    lambda t: npl.norm(t) / 2,
+                    self.unnormalized_normals
+                )
+            )
+        )
 
     @cached_property
     def normalize(self):
@@ -182,40 +239,50 @@ class Manifold:
         return sp.csr_matrix(list(map(self.normalize, self.unnormalized_normals)))
 
     @cached_property
-    def spdiags(self):
-        doubareas = 2 * self.areas
+    def diagareas(self):
+        doubareas = 1 / (2 * self.areas)
+        return sp.diags(list(itertools.chain(doubareas, doubareas, doubareas)), 0)
+
+    @cached_property
+    def diagareasf(self):
+        doubareas = (2 * self.areas)
         return sp.diags(list(itertools.chain(doubareas, doubareas, doubareas)), 0)
 
     @cached_property
     def sum_op(self):
+        """
+
+        Pour i < m, e[i, j] = 0 si j \notin face i, sinon
+        :return:
+        """
         e = sp.dok_matrix((3 * self.m, self.n))
         normals = self.normals
-        # print(normals)
         for j in range(self.m):
             # print(j)
             p = self.get_points(j)
             for i, index in enumerate(self.faces[j]):
                 s = (i + 1) % 3
                 t = (i + 2) % 3
-                n = normals[j].toarray()
-                jeji = np.cross(n, p[t] - p[s])[0]
-                e[j, index] = jeji[0]
-                e[j + self.m, index] = jeji[1]
-                e[j + 2 * self.m, index] = jeji[2]
+                n = normals[j].toarray()[0]
+                opp_edge = p[t] - p[s]
+                jeji = np.cross(n, opp_edge)
+                e[j, index] += jeji[0]
+                e[j + self.m, index] += jeji[1]
+                e[j + 2 * self.m, index] += jeji[2]
         return e
 
     @cached_property
     def gradient_op(self):
-        return self.spdiags.dot(self.sum_op)
+        return self.diagareas.dot(self.sum_op)
 
     @cached_property
     def divergence_op(self):
-        return self.gradient_op.transpose().dot(self.spdiags)
+        return self.gradient_op.transpose().dot(self.diagareasf)
 
     @cached_property
     def laplacian_op(self):
         g = self.gradient_op
-        d = g.transpose().dot(self.spdiags)
+        d = self.divergence_op
         res = d.dot(g)
         return res
 
@@ -226,26 +293,6 @@ class Manifold:
         laplacian = self.laplacian_op
         mat = sp.identity(laplacian.shape[0]) + time_step * laplacian
         return mat.inverse().dot(delta)
-
-    def implicit_time_stepping_heat_equation(self, vertex: int, time_step: float, iterations: Iterable[int]):
-        assert vertex <= self.n
-        u = np.zeros((self.n, 1))
-        u[vertex] = 1
-        laplacian = self.laplacian_op
-        with open(f"{self.name}_values.txt", 'w') as f:
-            f.write(f"Vertex: {vertex}, Time Step: {time_step}, Iterations: {iterations}\n\n")
-            f.write(str(laplacian))
-            f.write("\n\n")
-        _mat = sp.identity(laplacian.shape[0]) + time_step * laplacian
-        mat = spl.inv(_mat)
-        for i in tqdm.trange(max(iterations) + 1):
-            u = mat.dot(u)
-            if i in iterations:
-                self.plot(show_axis=True, function=u)
-                plt.savefig(f'Figures/{self.name}_{i}.png')
-                with open(f"{self.name}_values.txt", 'a') as f:
-                    f.write(f"Itération: {i}\n" + str(u.transpose()) + "\n\n")
-        return
 
     def geodesics(self, vertex: int, time_step: int):
         assert vertex <= self.n
@@ -260,8 +307,39 @@ class Manifold:
         phi = mat.dot(self.divergence_op.dot(h))
         return phi
 
+    def implicit_time_stepping_heat_equation(self, vertex: int, time_step: float, iterations: Iterable[int],
+                                             level_sets=False):
+        assert vertex <= self.n
+        u = np.zeros((self.n, 1))
+        u[vertex] = 1
+        laplacian = self.laplacian_op
+        with open(f"{self.name}_values.txt", 'w') as f:
+            f.write(f"Vertex: {vertex}, Time Step: {time_step}, Iterations: {iterations}\n\n")
+            f.write(str(laplacian))
+            f.write("\n\n")
+        _mat = sp.identity(laplacian.shape[0]) + time_step * laplacian
+        mat = spl.inv(_mat)
+        # print(u)
+        for i in tqdm.trange(max(iterations) + 1):
+            u = mat.dot(u)
+            if i in iterations:
+                # print(u)
+                self.plot(show_axis=True, function=u, level_sets=level_sets)
+                # plt.savefig(f'Figures/{self.name}_{i}.png')
+                # with open(f"{self.name}_values.txt", 'a') as f:
+                #     f.write(f"Itération: {i}\n" + str(u.transpose()) + "\n\n")
+        return
+
 
 if __name__ == '__main__':
-    file = "Geometry/tetrahedron.off"
+    file = "toolbox_graph/elephant-50kv.off"
     manif = Manifold(file)
-    manif.implicit_time_stepping_heat_equation(vertex=3, time_step=1000, iterations=[1, 10, 30, 50])
+    # manif.plot()
+    # print(manif.points, manif.faces)
+    # print(manif.laplacian_op.toarray())
+    # manif.implicit_time_stepping_heat_equation(
+    #     vertex=1, time_step=10, iterations=list(filter(lambda t: t % 10 == 0, range(50)))
+    # )
+    phi = manif.geodesics(vertex=1, time_step=100)
+    manif.plot(show_axis=True, function=phi, level_sets=True)
+    plt.show()
