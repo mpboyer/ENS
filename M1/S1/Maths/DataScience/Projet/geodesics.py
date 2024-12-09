@@ -3,7 +3,7 @@ import numpy.linalg as npl
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 import csv
-from typing import Callable, Iterable
+from typing import Iterable
 import itertools
 from functools import cached_property
 from mpmath import cot
@@ -119,7 +119,6 @@ class Manifold:
         :return:
         """
         if symbols is None:
-            # TODO: faire un truc
             symbols = {}
 
         if ax is None:
@@ -257,7 +256,7 @@ class Manifold:
         """
         e = sp.dok_matrix((3 * self.m, self.n))
         normals = self.normals
-        for j in range(self.m):
+        for j in tqdm.trange(self.m):
             # print(j)
             p = self.get_points(j)
             for i, index in enumerate(self.faces[j]):
@@ -298,14 +297,19 @@ class Manifold:
         assert vertex <= self.n
         delta = np.zeros((self.n, 1))
         delta[vertex] = 1
-        laplacian = self.laplacian_op
+        print("Computing Laplacian")
+        grad = self.gradient_op
+        div = grad.transpose().dot(self.diagareasf)
+        laplacian = div.dot(grad)
+        print("Inverting Laplacian")
         mat = sp.identity(laplacian.shape[0]) + time_step * laplacian
         mat = spl.inv(mat)
+        print("Computing Diffusion Step")
         u = mat.dot(delta)
-        g = self.gradient_op.dot(u)
+        g = grad.dot(u)
         h = -self.normalize(g)
-        phi = mat.dot(self.divergence_op.dot(h))
-        return phi
+        ophi = mat.dot(div.dot(h))
+        return ophi
 
     def implicit_time_stepping_heat_equation(self, vertex: int, time_step: float, iterations: Iterable[int],
                                              level_sets=False):
