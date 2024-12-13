@@ -1952,7 +1952,7 @@ En diagrammes de cordes:
 \end{category}
 
 \begin{tikzpicture}[remember picture, overlay]
-	\draw (B) circle (.5cm) {};
+	\draw (B) circle (.25cm) {};
 \end{tikzpicture}
 
 C'est à dire $\beta' = $
@@ -1976,20 +1976,20 @@ et $\Phi_{A', B'}(\beta') = $
 On peut alors définir unité et co-unité en diagrammes de cordes:
 \begin{category}[remember picture]
 	R & \phantom{} & L\\
-	\A & |[alias=eta]|\eta \ar[d, "\id_{\A}"] \ar[ur, no head]\ar[ul, no head]\ar[u, phantom, "\B" description] & \A\\
+	\A & |[alias=eta]|\eta \ar[d, "\id_{\A}", no head] \ar[ur, no head]\ar[ul, no head]\ar[u, phantom, "\B" description] & \A\\
 	& \phantom{} &
 \end{category}
 \begin{tikzpicture}[remember picture, overlay]
-	\draw (eta) circle (.5cm) {};
+	\draw (eta) circle (.25cm) {};
 \end{tikzpicture}
 et
-\begin{category}[remember picture]  % TODO: circles
+\begin{category}[remember picture]
 	& \phantom{}\ar[d, "\id_{\B}"] &\\
 	\B & |[alias=eps]|\epsilon\ar[dl, no head]\ar[dr, no head]\ar[d, phantom, "\A" description] & \B\\
 	L & \phantom{} & R
 \end{category}
 \begin{tikzpicture}[remember picture, overlay]
-	\draw (eps) circle (.5cm) {};
+	\draw (eps) circle (.25cm) {};
 \end{tikzpicture}
 
 La naturalité permet de définir l'image de $\beta$ comme la composée
@@ -2000,29 +2000,35 @@ La naturalité permet de définir l'image de $\beta$ comme la composée
 \end{category}
 qui est égal à:
 \begin{category}[]
-	& & \A\ar[dd, "L"]\\
+	& &[30pt] \A\ar[dd, "L"]\\
 	X\ar[drr, bend right, "B" name=b]\ar[r, "A"] & \A\ar[phantom, "" name=a]\ar[ur, bend left, "\id_{\A}"' name=A]\ar[dr, bend right, "L" name=B]\ddarrow["\id_{L}"]{A}{B}\ddarrow["\beta"]{a}{b} & \\
 	& & \B
 \end{category}
 comme la composée $\Phi_{A, B}(\beta)$
 \begin{category}[]
-	& & \A\ar[dd, "L"]\\
+	& &[30pt] \A\ar[dd, "L"]\\
 	X\ar[drr, bend right, "B" name=b]\ar[r, "A"] & \A\ar[phantom, "" name=a]\ar[ur, bend left, "\id_{\A}"' name=A]\ar[dr, bend right, "L" name=B] \ddarrow["\eta"]{A}{B} \ddarrow["\beta"]{a}{b} & \\
 	& & \B\ar[uu, "R"']
 \end{category}
 en voyant que $\eta = \Phi_{\id_{A}, L}$.
 En diagramme de cordes:
-\begin{category}[]
+\begin{category}[remember picture]
 	& B &\\
 	& |[alias=B]|\beta& \\
 	L & A
 \end{category}
+\begin{tikzpicture}[remember picture, overlay]
+	\draw (B) circle (.25cm) {};
+\end{tikzpicture}
 se transforme en:
 \begin{category}[remember picture]
 	R\ar[dd, no head, bend left] & B\\
 	& |[alias=b]|\beta\ar[u, no head]\\
 	\eta\ar[ur, bend right, no head] & A\ar[u, no head]
 \end{category}
+\begin{tikzpicture}[remember picture, overlay]
+	\draw (b) circle (.25cm) {};
+\end{tikzpicture}
 c'est à dire:
 \begin{equation*}
 	A \xrightarrow{\eta} R\circ L \circ A \xrightarrow{R \circ \beta} R \circ B
@@ -2034,7 +2040,7 @@ et de la même manière:
 	L & A
 \end{category}
 \begin{tikzpicture}[remember picture, overlay]
-	\draw (alp) circle (1cm) {};
+	\draw (alp) circle (.25cm) {};
 \end{tikzpicture}
 
 De plus, le fait que $\Phi$ et $\Phi^{-1}$ soient inverses assure que:
@@ -2055,23 +2061,23 @@ Ceci nous donne une définition équivalente d'adjonctions par représentation e
 	Une adjonction est la même chose qu'une paire de foncteurs $L: \A \to \B$ et $R: \B \to \A$, une paire de transformations naturelles $\eta: \Id_{\A}  \Rightarrow R \circ L$ et $\epsilon: L\circ R \to \Id_{\A}$ qui satisfont les équations triangulaires (ou du zig-zag) $(a)$:
 	\begin{equation*}
 		\begin{tikzcd}
-		\A\ar[r, "\id_{\A}" name=idA]\ar[dr, "L"'] & \A\ar[dr, "L"]\ar[phantom, "" name=A] & \\
+			\A\ar[r, "\id_{\A}" name=idA]\ar[dr, "L"'] &[30pt] \A\ar[dr, "L"]\ar[phantom, "" name=A] &[30pt] \\
 		& \B\ar[u, "R"]\ar[phantom, "" name=B]\ddarrow["\eta"]{idA}{B}\ar[r, "\id_{B}" name=idB]\ddarrow["\epsilon"]{A}{idB} & \B
 	\end{tikzcd}
 	= \begin{tikzcd}
-		\A\ar[r, bend left, "L"' name=L]\ar[r, bend right, "L" name=R]\ddarrow["\id_{L}"]{L}{R}& \B
+		\A\ar[r, bend left=45, "L"' name=L]\ar[r, bend right=45, "L" name=R]\ddarrow["\id_{L}"]{L}{R}& \B
 	\end{tikzcd}
 	\end{equation*}
 	et $(b)$:
 	\begin{equation*}
 	\begin{tikzcd}
-		& \A\ar[r, "\id_{\A}" name=idA]\ar[d, "L"'] \ar[phantom, "" name=A]& \A\\
+		&[30pt] \A\ar[r, "\id_{\A}" name=idA]\ar[d, "L"'] \ar[phantom, "" name=A]&[30pt] \A\\
 		\B\ar[ur, "R"]\ar[r, "\id_{B}" name=idB]\ddarrow["\epsilon"]{A}{idB} & \B\ar[ur, "R"]\ar[phantom, "" name=B] \ddarrow["\eta"]{idA}{B}
 		&
 	\end{tikzcd}
 	=
 	= \begin{tikzcd}
-	\B\ar[r, bend left, "R"' name=L]\ar[r, bend right, "R" name=R]\ddarrow["\id_{R}"]{L}{R}& \B
+	\B\ar[r, bend left=45, "R"' name=L]\ar[r, bend right=45, "R" name=R]\ddarrow["\id_{R}"]{L}{R}& \B
 	\end{tikzcd}
 	\end{equation*}
 	Ou, en diagrammes de cordes:
@@ -2094,6 +2100,305 @@ Ceci nous donne une définition équivalente d'adjonctions par représentation e
 	\end{equation*}
 \end{thm}
 
+\subsection{Monades et Comonades}
+\begin{definition}
+	Une monade $T$ sur une catégorie $\mC$ est la donnée d'un foncteur $T: \mC \to \mC$ et de transformations naturelles $\mu: T \circ T \Rightarrow T$ et $\eta: \Id_{\phi} \Rightarrow T$:
+	\begin{center}
+		\begin{minipage}{.45\linewidth}
+			\begin{category}[]
+				& \phi\ar[dr, "T"' name=A] &\\[15pt]
+				\phi \ar[ur, "T"']\ar[rr, "T" name=B]\ddarrow["\mu"]{A}{B} & & \phi
+			\end{category}
+		\end{minipage}
+		\begin{minipage}{.45\linewidth}
+			\begin{category}
+			\phi\ar[r, bend left=90, "\Id_{\mC}" name=A]\ar[r, bend right=90, "T" name=B]\ddarrow["\eta"]{A}{B} & \phi
+		\end{category}
+		\end{minipage}
+	\end{center}
+	appellées multiplication $\mu$ et unité $\eta$ de la monade et faisant commuter les diagrammes d'associativité:
+	\begin{category}
+		TTTA\ar[r, "T \mu_{A}"]\ar[d, "\mu_{TA}"]\ar[dr, phantom, "1"] & TTA\ar[d, "\mu_{A}"]\\
+		TTA\ar[r, "\mu_{A}"] & TA
+	\end{category}
+	et de neutralité:
+	\begin{center}
+	\begin{tikzcd}[]
+		& TTA\ar[dr, "\mu_{A}"]\ar[d, phantom, "2"] & \\
+		TA\ar[rr, "\id_{TA}"]\ar[ur, "\eta_{TA}"] & \phantom{} & TA
+	\end{tikzcd}
+	\begin{tikzcd}
+		& TTA\ar[dr, "T\eta_{A}"]\ar[d, phantom, "3"] & \\
+		TA\ar[rr, "\id_{TA}"]\ar[ur, "\mu_{A}"] & \phantom{}& TA
+	\end{tikzcd}
+	\end{center}
+\end{definition}
+
+\begin{remarque}
+	La commutativité des 3 diagrammes peut s'écrire de manière équivalente:
+	\begin{equation*}
+		\begin{tikzcd}
+			\mC\ar[r, "T"]\ar[phantom, "" name=A] &[30pt] \mC\ar[d, "T"]\\[30pt]
+			\mC\ar[u, "T"]\ar[ur, bend right, "T" description, "" name=B]\ar[r, "T" name=C]\ddarrow["\mu"]{A}{B}\ddarrow["\mu"]{B}{C} & \mC
+		\end{tikzcd} =
+		\begin{tikzcd}
+			\mC\ar[r, "T"] &[30pt] \mC\ar[d, "T"]\ar[phantom, "" name=A]\\[30pt]
+			\mC\ar[u, "T"]\ar[ur, "T" description, bend left, "" name=B]\ar[r, "T" name=C]\llarrow["\mu"]{A}{B}\ddarrow["\mu"]{B}{C} & \mC
+		\end{tikzcd}
+	\end{equation*}
+	et
+	\begin{equation*}
+		\begin{tikzcd}
+			&[30pt] \mC\ar[dr, bend left=45, "\Id_{\mC}"' name=A]\ar[phantom, "" name=D]\ar[dr, bend right=45, "T" name=B]\ddarrow["\eta"]{A}{B} &[30pt] \\[30pt]
+			\mC\ar[ur, bend left, "T"]\ar[rr, bend right, "T" name=C]\ddarrow["\eta"]{D}{C} & & \mC
+		\end{tikzcd}
+		=
+		\begin{tikzcd}
+			\mC\ar[r, bend left=90, "T" name=A]\ar[r, bend right=90, "T" name=B]\ddarrow["\id_{T}"]{A}{B} & \mC
+		\end{tikzcd}
+	\end{equation*}
+	En diagrammes de cordes:
+	\begin{equation*}
+		\begin{tikzcd}[remember picture]
+			&\phantom{}\ar[d, no head] &\\
+			& |[alias=mu]|\mu & \\
+			& |[alias=mu2]|\mu\ar[u, no head] & \\
+			T\ar[uur, no head, bend left] & T\ar[u, no head] & T\ar[ul, bend right, no head]
+		\end{tikzcd}
+		\begin{tikzpicture}[remember picture, overlay]
+			\draw (mu) circle (.25cm) {};
+			\draw (mu2) circle (.25cm) {};
+		\end{tikzpicture}
+		 =
+		 \begin{tikzcd}[remember picture]
+			&\phantom{}\ar[d, no head] &\\
+			& |[alias=mu]|\mu\ar[d, no head] & \\
+			& |[alias=mu2]|\mu &\\
+			T\ar[ur, no head, bend left] & T\ar[u, no head] & T\ar[uul, no head, bend right]
+		 \end{tikzcd}
+		\begin{tikzpicture}[remember picture, overlay]
+			\draw (mu) circle (.25cm) {};
+			\draw (mu2) circle (.25cm) {};
+		\end{tikzpicture}
+	\end{equation*}
+	et
+	\begin{equation*}
+		\begin{tikzcd}[remember picture]
+			& T \\
+			& |[alias=mu]|\mu\ar[u, no head]\\
+			|[alias=mu2]|\mu\ar[ur, bend left, "T", no head] & T\ar[u, "T"', no head]
+		\end{tikzcd}
+		\begin{tikzpicture}[remember picture, overlay]
+			\draw (mu) circle (.25cm) {};
+			\draw (mu2) circle (.25cm) {};
+		\end{tikzpicture}
+		=
+		\begin{tikzcd}
+			T\\
+			T\ar[u, "\id_{T}"']
+		\end{tikzcd}
+		=
+		\begin{tikzcd}[remember picture]
+			T &\\
+			|[alias=mu]|\mu\ar[u, no head]&\\
+			T\ar[u, no head] & |[alias=mu2]|\mu\ar[ul, bend right, no head]
+		\end{tikzcd}
+		\begin{tikzpicture}[remember picture, overlay]
+			\draw (mu) circle (.25cm) {};
+			\draw (mu2) circle (.25cm) {};
+		\end{tikzpicture}
+	\end{equation*}
+\end{remarque}
+
+\begin{exemple}
+	\begin{enumerate}
+		\item Le foncteur $\Id : \mC \to \mC$ muni de $\mu_{A} : TTA \xrightarrow{\id_{A}} TA$ et $\eta_{A}: A\xrightarrow{\id_{A}} TA$
+		\item La monade dite de partialité:
+			\begin{equation*}
+				T: Set \to Set, 1 = \{\star\}, TA = 1 + A = \{\star\} \sqcup \{\mathrm{in}(a) \mid a \in A\}
+			\end{equation*}
+			munie de:
+			\begin{equation*}
+				\mu_{A}: TTA = 1 + 1 + A = \left\{ \star, \mathrm{in}(\star), \mathrm{in}(\mathrm{in}(a)) \mid a \in A \right\} \to TA = 1 + A
+			\end{equation*}
+			telle que:
+			\begin{equation*}
+				\mu_{A}: \begin{aligned}
+						\star & \mapsto \star\\
+						\mathrm{in}(\star) & \mapsto \star\\
+						\mathrm{in}(\mathrm{in}(a)) &\mapsto \mathrm{in}(a)
+					\end{aligned}
+			\end{equation*}
+			et $\eta_{A}: a\in A \to \mathrm{in}(a) \in TA$.
+			$T$ définit un foncteur: pour $f: A \to B$, $Tf: TA \to TB$, $Tf \star = \star$ et $Tf \mathrm{in}(a) = \mathrm{in}f(a)$.
+		\item $T: Set \to Set, A \mapsto A^{*}$, avec $\mu_{A}$ la concaténation de mots et $\eta_{A}: a\in A \mapsto [a] \in A^{*}$
+	\end{enumerate}
+\end{exemple}
+
+\begin{proposition}
+	Toute adjonction $\begin{tikzcd}
+		\A\ar[r, bend left=90, "L"]\ar[r, phantom, "\bot" description] & \B\ar[l, "R", bend left=90]
+	\end{tikzcd}
+	$
+	induit une monade $T = R \circ L$ sur la catégorie $\A$.
+	L'unité de la monade: $\eta_{A}: A \to RLA$ est l'unité de l'adjonction $\left( \eta_{A} = \Phi_{A, LA}\left( LA \xrightarrow{\id_{LA}} LA \right) \right)$.
+	La multiplication $\mu_{A}: RLRLA \to RLA$ est définie par $\mu_{A} = R\epsilon_{LA}$.
+	En diagrammes de cordes:
+	\begin{equation*}
+		\begin{tikzcd}
+			\phantom{}\ar[d, no head]\\
+			T
+		\end{tikzcd}
+		=
+		\begin{tikzcd}
+			\phantom{} & \phantom{}\ar[d, "\A", no head]\\
+			R \ar[u, "\A", no head] & L
+		\end{tikzcd}
+	\end{equation*}
+	\begin{equation*}
+		\begin{tikzcd}
+			\phantom{}\\
+			|[alias=eta]|\eta\ar[u, "T"]
+		\end{tikzcd}
+		=
+		\begin{tikzcd}
+			\phantom{} & \phantom{}\ar[d, "L", no head]\\
+			\phantom{}\ar[u, "R", no head]\ar["\A", loop left, phantom] & \phantom{}\ar[l, "\eta", bend left=90]\ar["\A", loop right, phantom]
+		\end{tikzcd}
+	\end{equation*}
+	\begin{equation*}
+		\begin{tikzcd}
+			&\phantom{}\\
+			&|[alias=mu]|\mu\ar[u, no head]\\
+			T\ar[ur, no head, bend left=45] & T\ar[u, no head]
+		\end{tikzcd}
+		=
+		\begin{tikzcd}
+			R\ar[d, no head] &[-20pt] & &[-20pt] L\ar[d, no head]\\
+			R & L\ar[r, bend left=90, no head] & R & L
+		\end{tikzcd}
+	\end{equation*}
+\end{proposition}
+\begin{proof}
+	En diagrammes de cordes:
+	\begin{equation*}
+		\begin{tikzcd}[remember picture]
+			&[-10pt]\phantom{}\ar[d, no head] &[-10pt]\\
+			& |[alias=mu]|\mu & \\
+			& |[alias=mu2]|\mu\ar[u, no head] & \\
+			T\ar[uur, no head, bend left] & T\ar[u, no head] & T\ar[ul, bend right, no head]
+		\end{tikzcd}
+		\begin{tikzpicture}[remember picture, overlay]
+			\draw (mu) circle (.25cm) {};
+			\draw (mu2) circle (.25cm) {};
+		\end{tikzpicture}
+		 =
+		 \begin{tikzcd}
+			 R &[-20pt] &[-10pt] &[-20pt] & &[-10pt] L\\
+			 & & & \phantom{}\ar[r, bend left=90, no head, "\epsilon"] & \phantom{} & \\
+			 R\ar[uu, no head] & L\ar[r, bend left=90, no head, "\epsilon"] & R & L\ar[u, no head] & R\ar[u, no head] & L\ar[uu, no head]
+		 \end{tikzcd}
+		 \overset{\text{naturalité de $\epsilon$}}{=}
+		 \begin{tikzcd}
+			 R &[-20pt] &[-10pt] &[-20pt] &[-10pt] &[-20pt] L\\
+			 & \phantom{}\ar[r, bend left=90, no head, "\epsilon"] & \phantom{} & & & \\
+			 R\ar[uu, no head] & L\ar[u, no head] & R\ar[u, no head] &  L\ar[r, bend left=90, "\epsilon", no head] & R & L\ar[uu, no head]
+		 \end{tikzcd}
+		 =
+		 \begin{tikzcd}[remember picture]
+			 &[-10pt]\phantom{}\ar[d, no head] &[-10pt]\\
+			& |[alias=mu]|\mu\ar[d, no head] & \\
+			& |[alias=mu2]|\mu &\\
+			T\ar[ur, no head, bend left] & T\ar[u, no head] & T\ar[uul, no head, bend right]
+		 \end{tikzcd}
+		\begin{tikzpicture}[remember picture, overlay]
+			\draw (mu) circle (.25cm) {};
+			\draw (mu2) circle (.25cm) {};
+		\end{tikzpicture}
+	\end{equation*}
+	Neutralité:
+	\begin{equation*}
+		\begin{tikzcd}
+			&T\\
+			&|[alias=mu]|\mu\ar[u, no head]\\
+			|[alias=mu2]|\mu\ar[ur, "T", no head] & T\ar[u, no head]
+		\end{tikzcd}
+		=
+		\begin{tikzcd}
+			\phantom{} & & &[-20pt] \phantom{}\\
+			R\ar[u, no head]\ar[r, bend right=90, no head, "\mu"'] & L\ar[r, bend left, "\epsilon", no head] & R & L\ar[u, no head]
+		\end{tikzcd}
+		\overset{zigzag}{=}
+		\begin{tikzcd}
+			R & L\\
+			R\ar[u, no head] & L\ar[u, no head]
+		\end{tikzcd}
+		=
+		\begin{tikzcd}
+			R &[-30pt] & & L\\
+			R\ar[u, no head] & L\ar[r, "\epsilon", bend left=90, no head] & R & \phantom{}\ar[u, no head, "L"']\ar[l, bend left=90, "\eta", no head]
+		\end{tikzcd}
+	\end{equation*}
+\end{proof}
+
+\begin{definition}
+	Une comonade est la donnée d'un foncteur $K: \mC \to \mC$ et de deux transformations naturelles:
+	\begin{equation*}
+		\epsilon: K \Rightarrow \Id_{\mC} \text{ et } \delta: K \Rightarrow K\circ K
+	\end{equation*}
+\end{definition}
+\begin{remarque}
+	Une comonade dans $\mC$ est la même chose qu'une monade dans $\mC^{op}$.
+\end{remarque}
+
+\begin{proposition}
+	Toute adjonction $\begin{tikzcd}
+		\A\ar[r, bend left=90, "L"]\ar[r, "\perp" description, phantom] & \B\ar[l, bend left=90, "R"]
+	\end{tikzcd}$
+	définit une comonade sur $\B$ autour de $K = L \circ R$:
+	\begin{equation*}
+		\epsilon: L\circ \Rightarrow\Id_{\mC} \text{ et } \delta: L\circ R \overset{L \circ \eta\circ R}{\Longrightarrow} L\circ R \circ L \circ R
+	\end{equation*}
+\end{proposition}
+
+\begin{exemple}
+	Considérons $\begin{tikzcd}
+		Set\ar[r, bend right] & pSet\ar[l, bend left]\ar[l, "\perp" description, phantom]
+	\end{tikzcd}$
+	où $pSet$ est la catégorie des ensembles et fonctions partielles.
+	Pour $A \xrightarrow{f} B \xrightarrow{g} C$, alors:
+	\begin{equation*}
+		LA = A, L\left( A \xrightarrow{f} B \right) = A \xrightarrow{f} B
+	\end{equation*}
+	où on considère la fonction totale comme fonction partielle.
+	Et $RA = 1 + A$, $R\left( A\xrightarrow{f} B \right) = 1 + A \to 1 + B$ telle que $Rf(\mathrm{in}(a)) = \mathrm{in}f(a)$ si $f(a)$ existe sinon $\star$.
+	On obtient notamment le fait que $Set(A, 1 + B) \cong pSet(A, B)$ par $\Phi_{A, B}$.
+\end{exemple}
+
+\section{Lambda-Calcul Simplement Typé et Catégories Cartésiennes Fermées}
+\subsection{Catégorie Cartésienne Fermée}
+\begin{definition}[Première Version]
+	Une catégorie cartésienne fermée est une catégorie cartésienne $\left( \mC, \times, \mathds{1} \right)$ munie pour toute paire d'objets $A, B$ d'un objet $A \Rightarrow B$ et une flèche $eval_{A, B}: A \times (A\Rightarrow B) \to B$
+	qui satisfait la propriété universelle pour tout $f: A \times X \to B$:
+	\begin{center}
+		Il existe une et une seule flèche
+		\begin{equation*}
+			h: X \longrightarrow A \Rightarrow B
+		\end{equation*}
+		telle que l'équation suivante soit satisfaite:
+		\begin{category}
+			A \times X\ar[r, "f"]\ar[d, "\id_{A} \times h"] & B\\
+			A \times (A\rightarrow B)\ar[ur, "eval_{A, B}"]&
+		\end{category}
+	\end{center}
+\end{definition}
+
+\begin{exemple}
+	\begin{enumerate}
+		\item La catégorie $Set$ des ensembles
+		\item La catégorie $Pos$ des ensembles ordonnées et fonctions croissantes
+	\end{enumerate}
+\end{exemple}
 \section{TD 1}
 \subsection{Catégories et Foncteurs}
 \begin{enumerate}

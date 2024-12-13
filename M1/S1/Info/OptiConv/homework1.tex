@@ -1,0 +1,143 @@
+\documentclass[math, info]{cours}
+\title{Homework 1\\{\small Convex Optimization}}
+\author{Matthieu Boyer}
+
+\begin{document}
+\maketitle
+
+\section{Exercises}
+\subsection*{Convex Sets}
+\begin{itemize}
+	\item Let $\mC = \left\{ x \in \R_{+}^{2} \mid x_{1}x_{2} \geq 1 \right\}$.
+		We can see that $\mC = \left\{ (x_{1}, x_{2}) \in \R_{+*}^{2} \mid x_{1} \geq \frac{1}{x_{2}} \right\}$.
+		Thus, $\mC$ is the epigraph of $x \mapsto \frac{1}{x}$ which is convex since its derivative is $x \mapsto \frac{1}{x^{4}}$.
+		\item In general, this set is not convex. Indeed, for sets in $\R$, take $S = \{-1, 1\}, T = \{0\}$.
+		Then the set of points closer to $S$ than to $T$ is $\{x \in \R \mid x\leq -0.5 \lor x \geq 0.5\}$.
+			\item Let us take $x_{1}, x_{2} \in \left\{ x \mid x + S_{2} \subseteq S_{1} \right\}$.
+		For $x = \lambda x_{1} + \left( 1 - \lambda \right)x_{2}$ consider $x + y$ for $y \in S_{2}$:
+		\begin{equation*}
+			x + y = \lambda x_{1} + \left(1 - \lambda \right)x_{2} + y = \lambda(x_{1} + y) + (1 - \lambda x_{2} + y)
+		\end{equation*}
+		Since $x_{i} + S_{2}\subseteq S_{1}$ for $i = 1, 2$, and since $S_{1}$ is convex, for all $y \in S_{2}$ the above sum is in $S_{1}$ and thus $x + S_{2} \subseteq S_{2}$, and our set is convex.
+	\item Let $x_{1}, x_{2} \in \left\{ x \mid \exists y \in S_{2}, x + y \in S_{1} \right\}$.
+		Then let $y_{1}, y_{2}$ be associated points to $x_{1}, x_{2}$.
+		For $x = \lambda x_{1} + \left( 1 - \lambda \right)x_{2}$ and $y = \lambda y_{1} + (1 - \lambda) y_{2}$.
+		Then, since $S_{2}$ is convex, $y \in S_{2}$.
+		Moreover:
+		\begin{equation*}
+			x + y = \underbrace{\lambda \underbrace{(x_{1} + y_{1})}_{\in S_{1}} + \left( 1 - \lambda \right)\underbrace{(x_{2} + y_{2})}_{\in S_{1}}}_{\in S_{1} \text{ since } S_{1} \text{ is convex}}
+		\end{equation*}
+		Then, our set is convex.
+\end{itemize}
+
+\subsection*{Convex Functions}
+\begin{itemize}
+	\item The hessian of $f$ at $(x,y)$ is the matrix $\begin{pmatrix}
+			0 & 1\\
+			1 & 0
+		\end{pmatrix}$.
+		On $\R^{2}$ this matrix is not positive nor negative and thus the function is neither convex, or concave.
+		However, the upper level sets are convex (from our first example) and thus the function is quasi-concave.
+	\item On $\R_{+*}^{2}$, the hessian of the function is positive semidefinite and thus the function is convex.
+	\item The hessian matrix of $f$ is the matrix$\begin{pmatrix}
+			0 & -\frac{1}{x_{2}^{2}}\\
+			-\frac{1}{x_{2}^{2}} & \frac{2x_{1}}{x_{2}^{3}}
+		\end{pmatrix}$
+		Since its determinant is $<0$ the Hessian is not positive semi-definite and the function is not convex.
+		However, its sublevel sets are defined by the equations $x_{1} \leq \alpha x_{2}$ and are thus convex (since half-planes).
+		Thus, $f$ is quasi-convex.
+	\item Let us define the Löwner order $\preceq$ as the partial order defined by the convex cone of positive semi-definite matrices.
+		We know that:
+		\begin{equation*}
+			A \preceq B \Rightarrow B^{-1} \preceq A^{-1} \forall A, B \in S_{++}^{n}
+		\end{equation*}
+		From this, we know that for all $t \leq 1$:
+		\begin{equation*}
+			\left( \left( 1 - t \right) X + tY \right)^{-1} \preceq \left( 1 - t \right)X^{-1} + tY^{-1}
+		\end{equation*}
+		By linearity of the trace, we can now see that $X \mapsto \Tr(X^{-1})$ is convex.
+\end{itemize}
+
+\subsection*{Fenchel Conjugate}
+\begin{itemize}
+	\item We have:
+		\begin{equation*}
+			f^{*}(y) = \sup_{x}\left( \transpose{x}y -\norm{x} \right) = \begin{cases}
+				0 & \text{if } \norm{y}_{*} \leq 1\\
+				\infty &  \text{otherwise}
+			\end{cases}
+		\end{equation*}
+		To show this, let $y$ such that $\norm{y}_{*} = \sup_{\norm{x} \leq 1} \norm{\transpose{x}y} \leq 1$.
+		Then by Cauchy-Schwarz inequality, we know that $\transpose{x}y \leq \norm{x}\norm{y}_{*}\leq \norm{x}$ and the term in the supremum is always $\leq 0$.
+		If $\norm{y}_{*} > 1$ however, then there exists $z$ such that $\norm{z} \leq 1$ such that $\transpose{z}y > 1$.
+		Taking $x = tz$ in the supremum, we know that $f^{*}(y) \geq t\left( \transpose{z}y -\norm{z} \right)$ which goes to infinity with $t \to \infty$.
+		Thus, the fenchel conjugate of a norm is the convex indicator of the unit ball of the dual norm.
+	\item Let us denote the infimal convolution of $g, h$ by $g \square h$.
+		Then we will show that:
+		\begin{equation*}
+			\left( g \square h \right)^{*} = \left( g^{*} + h^{*} \right)
+		\end{equation*}
+		Note that:
+		\begin{equation*}
+			\begin{aligned}
+				\left( g\square h \right)^{*}(\alpha) =& \sup_{x, y} \left\{ \transpose{x}\alpha - g(y) - h(x - y) \right\}\\
+			=& \sup_{x_{1}, x_{2}} \left\{ \transpose{\left( x_{1} + x_{2} \right)}\alpha - g(x_{1}) - h(x_{2}) \right\}\\
+			=& \sup_{x_{1}, x_{2}} \left\{ \transpose{x_{1}}\alpha - g(x_{1})\right\} + \sup_{x_{2}}\left\{ \transpose{x_{2}}\alpha - h(x_{2}) \right\}\\
+			=& g^{*} + h^{*}
+		\end{aligned}
+		\end{equation*}
+		Given $g = \norm{\cdot}_{1}$ and $h = \frac{1}{2\alpha}\norm{\cdot}_{2}^{2}$.
+		Let $x = u + v$. Then:
+		\begin{equation*}
+			f(x) = \inf_{v} \left\{ g(x - v) + h(v) \right\}
+		\end{equation*}
+		Substituting the expressions, we get:
+		\begin{equation*}
+			\begin{aligned}
+				f(x) =& \inf_{v}\left\{ \norm{x - v}_{1} + \frac{1}{2\alpha}\norm{v}_{2}^{2} \right\}\\
+				=& \sum_{i = 1}^{n} \inf_{v_{i}} \left\{ \abs{x_{i} - v_{i}} + \frac{1}{2\alpha}v_{i}^{2} \right\}
+			\end{aligned}
+		\end{equation*}
+		We will now compute the infima independently. We have two cases:
+		\begin{enumerate}
+			\item $v_{i} \leq x_{i}$: Let $\phi(v_{i}) = x_{i} - v_{i} + \frac{1}{2\alpha}v_{i}^{2}$. We want to find a minimum for $\phi$, which is found at $v_{i} = \alpha$. This solution is valid if $\alpha \leq x_{i}$.
+			\item $v_{i} > x_{i}$: Let $\phi(v_{i} = \frac{1}{2\alpha} + v_{i} - x_{i}$. We want to find a minimum for $\phi$, which is at $v_{i} = -\alpha$. This solution is valid if $\alpha > x_{i}$.
+		\end{enumerate}
+		Then, we have three possible cases for the optimal $v_{i}$:
+		\begin{enumerate}
+			\item If $x_{i} \geq \alpha$, $v_{i} = \alpha$
+			\item If $x_{i} \leq -\alpha$, $v_{i} = -\alpha$
+			\item If $-\alpha < x_{i} < \alpha$, $v_{i} = x_{i}$.
+		\end{enumerate}
+		Plugging this into $f$:
+		\begin{equation*}
+			\boxed{%
+			f(x) = \sum_{i = 1}^{n} \left( \begin{cases}
+					\frac{1}{2\alpha}x_{i}^{2} & \abs{x_{i}}\leq \alpha\\
+					\abs{x_{i} - \alpha} - \frac{\alpha}{2} & \abs{x_{i}} > \alpha
+		\end{cases}\right)}
+		\end{equation*}
+	\item We want to compute:
+		\begin{equation*}
+			\ell^{*}(y) = \sup_{z\in \R}\left\{ yz - \ell(z) \right\} \text{ where } \ell: z\mapsto \log\left( 1 + e^{-z} \right)
+		\end{equation*}
+		We differentiate $\phi(z)$ the function in the supremum:
+		\begin{equation*}
+			\phi'(z) = y - \frac{1}{1 + e^{z}}
+		\end{equation*}
+		Then, we find $z = \log\left( \frac{1 - y}{y} \right)$, which only makes sense for $y \in ]0, 1[$.
+		Finally, we compute:
+		\begin{equation*}
+			\begin{aligned}
+				\ell^{*}(y) =& y\log\left( \frac{1-y}{y} \right) + \log(1- y)\\
+				=& y\log(1 - y) - y\log(y) + \log(1 - y)\\
+				=& \log(1 - y) - y\log(y)
+			\end{aligned}
+		\end{equation*}
+		In the end,
+		\begin{equation*}
+			l^{*}(y)
+		\end{equation*}<++>
+\end{itemize}
+
+\end{document}

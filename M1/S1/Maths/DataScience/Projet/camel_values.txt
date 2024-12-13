@@ -1,4 +1,4 @@
-Vertex: 1, Time Step: 10, Iterations: [0, 10, 20, 30, 40]
+Vertex: 0, Time Step: 10, Iterations: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
 
 <Compressed Sparse Column sparse matrix of dtype 'float64'
 	with 4090 stored elements and shape (586, 586)>
