@@ -797,7 +797,7 @@ Ainsi, la composition verticale (composition dans $\Hom(A, C)$) peut se représe
 	\end{minipage}
 \end{center}
 
-\section[Lambda-Calcul Simplement Typé]{$\lambda$-Calcul Simplement Typé}
+\section[Lambda-Calcul]{$\lambda$-Calcul}
 L'idée du $\lambda$-calcul introduit par Church est de définir un calcul symbolique des fonctions.
 On se donne un ensemble infini $Var$ de variables.
 On définit les termes du \lambdacalcul de manière inductive:
@@ -2377,8 +2377,8 @@ Ceci nous donne une définition équivalente d'adjonctions par représentation e
 
 \section{Lambda-Calcul Simplement Typé et Catégories Cartésiennes Fermées}
 \subsection{Catégorie Cartésienne Fermée}
-\begin{definition}[Première Version]
-	Une catégorie cartésienne fermée est une catégorie cartésienne $\left( \mC, \times, \mathds{1} \right)$ munie pour toute paire d'objets $A, B$ d'un objet $A \Rightarrow B$ et une flèche $eval_{A, B}: A \times (A\Rightarrow B) \to B$
+\begin{definition}[Catégorie Cartésienne Fermée --- 1]
+	Une catégorie cartésienne fermée est une catégorie cartésienne $\left( \mC, \times, \mathds{1} \right)$ munie pour toute paire d'objets $A, B$ d'un objet $A \Rightarrow B$ (parfois noté $B^{A}$) et une flèche $eval_{A, B}: A \times (A\Rightarrow B) \to B$
 	qui satisfait la propriété universelle pour tout $f: A \times X \to B$:
 	\begin{center}
 		Il existe une et une seule flèche
@@ -2387,18 +2387,208 @@ Ceci nous donne une définition équivalente d'adjonctions par représentation e
 		\end{equation*}
 		telle que l'équation suivante soit satisfaite:
 		\begin{category}
-			A \times X\ar[r, "f"]\ar[d, "\id_{A} \times h"] & B\\
-			A \times (A\rightarrow B)\ar[ur, "eval_{A, B}"]&
+			A \times X\ar[r, "f"]\ar[d, "\id_{A} \times h"'] & B\\
+			A \times (A\rightarrow B)\ar[ur, "eval_{A, B}"']&
 		\end{category}
 	\end{center}
 \end{definition}
 
 \begin{exemple}
 	\begin{enumerate}
-		\item La catégorie $Set$ des ensembles
-		\item La catégorie $Pos$ des ensembles ordonnées et fonctions croissantes
+		\item La catégorie $Set$ des ensembles.
+		\item La catégorie $Pos$ des ensembles ordonnées et fonctions croissantes.
 	\end{enumerate}
 \end{exemple}
+
+\begin{definition}[Exponentiation --- Unlimited Power]
+	Dans une catégorie cartésienne, on appelle exponentiation de $A$ un foncteur $A \Rightarrow _: \mC \to \mC$ adjoint à droite du foncteur $A \times _: \mC \to \mC$.
+	Cela signifie qu'on dispose d'une famille de bijections $\Phi_{X, Y}: \Hom_{\mC}\left( A\times X, Y \right) \xrightarrow{\sim}\Hom_{\mC}\left( X, A \Rightarrow Y \right)$
+	qu'on peut appeler bijections de currification.
+\end{definition}
+
+\begin{definition}
+	Une catégorie cartésienne est une catégorie cartésienne $\left( \mC, \times, \mathds{1} \right)$ munie d'une exponentiation $A \times \_ \dashv A \Rightarrow \_$ pour tout objet $A$ de la catégorie.
+\end{definition}
+
+\begin{remarque}
+	Pour l'adjonction $A \times \_ \dashv A \Rightarrow \_$:
+	\begin{itemize}
+		\item La co-unité $\epsilon_{X}: A \times \left( A\Rightarrow X \right) \to X$ est la famille des évaluations de la première définition.
+		\item L'unité $\eta_{X}: X \to A \Rightarrow \left( A \times X \right), x \mapsto \lambda a. (a, x)$
+	\end{itemize}
+\end{remarque}
+\subsection[Le Lambda-Calcul Simplement Typé]{Le $\lambda$-calcul Simplement Typé}
+\begin{definition}[Use the types, Luke]
+On se donne des variables de types $TyVar$. Un type est défini inductivement:
+\begin{center}
+\begin{mgrammar}
+	\firstrule{A, B}{\alpha\in TyVar}{}
+	\grule{A\times B}{}
+	\grule{\mathds{1}}{}
+	\grule{A \Rightarrow B}{}
+\end{mgrammar}
+\end{center}
+Un contexte $M = x_{1}: A_{1}, \ldots, x_{n}: A_{n}$ est une liste de paires $x_{i}: A_{i}$ constituées d'une variable $x_{i}$ et d'un type $A_{i}$.
+On demande que toutes les variables soient différentes.
+\end{definition}
+
+\begin{definition}
+	Un jugement de typage $\Gamma\vdash M: A$ est un triplet constitué d'un contexte $\Gamma$, d'un \lambdaterme $M$ (avec paires) d'un type $A$.
+	On demande que toutes les variables libres de $M$ apparaissent dans $\Gamma$.
+	Un arbre de dérivation de typage est défini de manière inductive par les règles suivantes appelées \emph{règles logiques}:
+	\begin{align*}
+		\frac{}{x:A \vdash x:A}\fracnotate{Var}\\
+		\frac{\Gamma, x:A\vdash M:B}{\Gamma\vdash \lambda x.M:A\Rightarrow B}\fracnotate{Lam}\\
+		\frac{\Gamma\vdash M:A \Rightarrow B \hspace{1cm} \Delta \vdash N:A}{\Gamma, \Delta\vdash App(M, N):B}\fracnotate{App}
+	\end{align*}
+	et les règles suivantes appelées \emph{règles structurelles}:
+	\begin{align*}
+		\frac{\Gamma\vdash M:A}{\Gamma, x:B\vdash M:A}\fracnotate{Weaken}\\
+		\frac{\Gamma, x:A, y:A, \Delta\vdash M:B}{\Gamma, z:A, \Delta\vdash M\left[ x, y := z \right]: B}\fracnotate{Contraction}\\
+		\frac{\Gamma, x:A, y:B, \Delta\vdash M:C}{\Gamma, y:B, x:A, \Delta\vdash M:C}\fracnotate{Swap}
+	\end{align*}
+\end{definition}
+
+\begin{exemple}
+	Prenons $[1]_{CHURCH} = \lambda f. \lambda x. App(f, x)$:
+	\begin{equation*}
+		\cfrac
+		{\cfrac
+			{\cfrac{}{f:\alpha \Rightarrow \beta\vdash f:\alpha\Rightarrow\beta} \hspace{1cm} \cfrac{}{x:\alpha \vdash x \alpha}\fracnotate{Var}}
+			{f: \alpha \Rightarrow \beta, x:\alpha \vdash App(f, x): \beta}
+			\fracnotate{App}}
+		{\vdash \lambda f.\lambda x. App(f,x): \left( \alpha \Rightarrow \beta \right)\Rightarrow\left( \alpha \Rightarrow \beta \right)}\fracnotate{Lam 2 fois}
+	\end{equation*}
+	On peut alors construire un arbre de dérivation:
+	\begin{category}
+		Var\ar[dr, no head] & & Var\ar[dl, no head]\\
+		& App\ar[d, no head] &\\
+		& Lam\ar[d, no head] & \\
+		& Lam\ar[d, no head] & \\
+		& \phantom{} &
+	\end{category}
+	Pour $[0]_{CHURCH} = \lambda f. \lambda x. x$:
+	\begin{equation*}
+		\cfrac
+			{\cfrac
+				{\cfrac
+					{\cfrac
+						{}
+						{x:\alpha\vdash x: \alpha}
+						\fracnotate{Var}
+					}
+					{f: \beta, x:\alpha\vdash x: \alpha}
+					\fracnotate{Aff}
+				}
+				{f: \beta \vdash \lambda x. x:\alpha \Rightarrow \alpha}
+				\fracnotate{Lam}
+			}
+			{\vdash \lambda f.\lambda x. x: \beta\Rightarrow \left( \alpha \Rightarrow \alpha \right)}
+			\fracnotate{Lam}
+	\end{equation*}
+	Ici, on a deux arbres possibles:
+	\begin{category}
+		Var\ar[d, no head]\\
+		Weakening\ar[d, no head]\ar[d, bend right, leftrightarrow]\\
+		Lam\ar[d, no head]\\
+		Lam\ar[d, no head]\\
+		\phantom{}
+	\end{category}
+	Pour $[2]_{CHURCH}$:
+	\begin{equation*}
+		\cfrac{\cfrac{\cfrac{\cfrac{}{g:\alpha\Rightarrow \alpha\vdash g:\alpha\Rightarrow\alpha}\hspace{1cm}\cfrac{\cfrac{}{h:\alpha\Rightarrow \alpha\vdash h:\alpha\Rightarrow \alpha}\hspace{.5cm}\cfrac{}{x:\alpha\vdash x:\alpha}\fracnotate{Var}}{h:\alpha\Rightarrow\alpha, x: \alpha\vdash App\left( h, x \right):\alpha}\fracnotate{App}}{f: \alpha\Rightarrow \alpha, h: \alpha \Rightarrow \alpha, x:\alpha, \vdash App\left( g, App\left( h, x \right) \right):\alpha}\fracnotate{App}}{f: \alpha \Rightarrow \alpha, x: \alpha \vdash App\left(f, App\left(f, x\right)\right):\alpha}\fracnotate{Contract}}{\vdash\lambda f.\lambda x.App\left(f, App\left(f, x\right)\right):\left(\alpha\Rightarrow\alpha\right) \Rightarrow \left(\alpha\Rightarrow\alpha\right)}\fracnotate{Lam deux fois}
+	\end{equation*}
+	ce qui nous donne l'arbre suivant:
+	\begin{category}
+	INSERER ARBRE
+	\end{category}
+\end{exemple}
+
+\begin{definition}
+	On définit le $\lambda$-calcul avec paires par induction:
+	\begin{center}
+		\begin{mgrammar}
+			\firstrule{M}{x\in Var}{}\\
+			\grule{\lambda x. M}{}\\
+			\grule{App(M, N)}{}\\
+			\grule{\scalar{M, N}}{}\\
+			\grule{\pi_{1}M}{}\\
+			\grule{\pi_{2}M}{}\\
+			\grule{\star}{}
+		\end{mgrammar}
+	\end{center}
+	avec les règles de typage suivantes:
+	\begin{align*}
+		\frac{\Gamma\vdash M: A \hspace{1cm} \Gamma\vdash N: B}{\Gamma\vdash \scalar{M, N}:A\times B}\fracnotate{Paire}\\
+		\frac{\Gamma\vdash M:A\times B}{\Gamma\vdash \pi_{1}M:A}\fracnotate{$\pi_{1}$}\\
+		\frac{\Gamma\vdash M:A\times B}{\Gamma\vdash \pi_{2}M:B}\fracnotate{$\pi_{2}$}\\
+		\frac{}{\Gamma\vdash\star:\mathds{1}}
+	\end{align*}
+\end{definition}
+
+\begin{definition}[Typage]
+	On se donne une catégorie cartésienne fermée $\left( \mC, \times, \mathds{1}, \Rightarrow \right)$ ainsi qu'un objet $[\alpha]$ de $\mC$ pour toute variable de type $\alpha \in TyVar$.
+	On définit une interprétation de tout jugement de typage $x_{1}:A_{1}, \ldots, x_{n}:A_{n}\vdash M: B$ comme une flèche $[A_{1}]\times \cdots \times [A_{n}] \xrightarrow{[M]}[B]$ dans $\mC$ où chaque type $A$ est interprété comme un objet $[A]$ défini par induction.
+	\begin{equation*}
+		\begin{array}[]{r@{\longmapsto}l}
+			\alpha & [\alpha]\\
+			A\times B & [A]\times [B]\\
+			A\Rightarrow B & [A]\Rightarrow [B]\\
+			\mathds{1} & [\mathds{1}] = \mathds{1}
+		\end{array}
+	\end{equation*}
+	On définit la flèche par induction.
+	\begin{itemize}
+		\item Pour Var:
+			\begin{equation*}
+				\frac{}{x:A\vdash x: A}\fracnotate{Var} \rightsquigarrow [A]\xrightarrow{id_{[A]}}[A]
+			\end{equation*}
+		\item Pour Lam, on cherche une flèche:
+			\begin{equation*}
+				\frac{\Gamma\vdash x: A\vdash M: B}{\Gamma\vdash \lambda x.M: A\Rightarrow B}\fracnotate{Lam}\rightsquigarrow [\Gamma] = [A_{1}] \times \cdots \times [A_{n}] \xrightarrow{f = [\lambda x. M]} [A\Rightarrow B] = [A]\Rightarrow [B]
+			\end{equation*}
+			Par induction on a une flèche: $[\Gamma]\times [A] \xrightarrow{g = [M]} [B]$ et on définit donc $f = \Phi_{[\Gamma], [B]}(g)$.
+		\item Pour App on cherche une flèche:
+			\begin{equation*}
+				\frac{\frac{\text{Arbre de dérivation}}{\Gamma\vdash M: A\Rightarrow B}\hspace{1cm} \frac{\text{Arbre de dérivation}}{\Delta\vdash N: A}}{\Gamma, \Delta\vdash App(M, N): B} \rightsquigarrow [\Gamma, \Delta] = [\Gamma] \times [\Delta] \xrightarrow{[M] \times [N]} [A\Rightarrow B]\times [A] \xrightarrow{\text{permutation}} [A]\times \over{= [A] \Rightarrow [B]}{[A\Rightarrow B]} \xrightarrow{eval_{[A], [B]}} [B]
+			\end{equation*}
+			On dispose de deux flèches $[\Gamma] \xrightarrow{[M]} [A\Rightarrow B]$ et $[\Delta]\xrightarrow{N}[A]$, ce qui permet de conclure:
+			\begin{remarque}
+				Dans une catégorie cartésienne, il existe pour toute paire d'objets $X, Y$ une flèche $\gamma_{X, Y}: X\times Y \to Y\times X$ définie par:
+				\begin{category}
+					Y & & X\\
+					& Y\times X\ar[ur, "\pi_{2}"']\ar[ul, "\pi_{1}"] & \\
+					& X \times Y\ar[u, "\gamma_{X, Y}"]\ar[uur, bend right, "\pi_{1}"']\ar[uul, bend left, "\pi_{2}"]  &
+				\end{category}
+			\end{remarque}
+		\item Pour l'échange:
+			\begin{equation*}
+				\frac{\Gamma, x:A, y:B, \Delta\vdash M:C}{\Gamma, y:B, x:A, \Delta, \vdash M:C}\rightsquigarrow [\Gamma] \times [A] \times [B] \times [\Delta] \xrightarrow{[\Gamma] \times \left[ \gamma_{[B], [A]} \right]\times [A]} [\Gamma] \times [B]\times [A] \times [\Delta] \xrightarrow{[M]} [C]
+			\end{equation*}
+		\item Pour la contraction:
+			\begin{equation*}
+				\frac{\Gamma, x: A, y: A, \Delta\vdash M: B}{\Gamma, z:A, \Delta, \vdash M[x, y := z]: B}
+				\rightsquigarrow [\Gamma]\times[A]\times[\Delta] \xrightarrow{[\Gamma] \times \Delta_{[A]} \times [\Delta]} [\Gamma] \times [A] \times [A] \times [\Delta] \xrightarrow{[M]} [B]
+			\end{equation*}
+			\begin{remarque}
+				Dans une catégorie cartésienne $\mC$, il existe pour tout objet $X$ une flèche $\Delta_{X}: X \to X\times X$ définie comme l'unique flèche faisant commuter:
+				\begin{category}
+					X & & X\\
+					& X\times X\ar[ul, "\pi_{1}"]\ar[ur, "\pi_{2}"'] & \\
+					& X\ar[u, "\Delta_{X}"]\ar[uur, bend right, "\id_{X}"']\ar[uul, bend left, "\id_{X}"] &
+				\end{category}
+			\end{remarque}
+		\item Pour l'affaiblissement:
+			\begin{equation*}
+				\frac{\Gamma,\Delta\vdash M:B}{\Gamma,x:A,\Delta\vdash M:B}
+				\rightsquigarrow \boxed{\left[\Gamma \right]\times \left[ A \right]\times \left[ \Delta \right]\xrightarrow{\pi_{\left[ \Gamma \right], \left[ \Delta \right]}}\left[ \Gamma \right]\times \left[ \Delta \right]} \xrightarrow{[M]} \left[ B \right]
+			\end{equation*}
+	\end{itemize}
+\end{definition}
+
+\begin{thm}[d'Invariance Sémantique]
+\end{thm}
+
 \section{TD 1}
 \subsection{Catégories et Foncteurs}
 \begin{enumerate}

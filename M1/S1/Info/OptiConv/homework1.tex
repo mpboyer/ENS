@@ -11,14 +11,16 @@
 	\item Let $\mC = \left\{ x \in \R_{+}^{2} \mid x_{1}x_{2} \geq 1 \right\}$.
 		We can see that $\mC = \left\{ (x_{1}, x_{2}) \in \R_{+*}^{2} \mid x_{1} \geq \frac{1}{x_{2}} \right\}$.
 		Thus, $\mC$ is the epigraph of $x \mapsto \frac{1}{x}$ which is convex since its derivative is $x \mapsto \frac{1}{x^{4}}$.
-		\item In general, this set is not convex. Indeed, for sets in $\R$, take $S = \{-1, 1\}, T = \{0\}$.
-		Then the set of points closer to $S$ than to $T$ is $\{x \in \R \mid x\leq -0.5 \lor x \geq 0.5\}$.
+		Thus, $\boxed{\mC \text{ is convex.}}$
+	\item In general, $\boxed{\text{this set is not convex.}}$ Indeed, for sets in $\R$, take $S = \{-1, 1\}, T = \{0\}$.
+		Then the set of points closer to $S$ than to $T$ is $\{x \in \R \mid x\leq -0.5 \lor x \geq 0.5\}$ which is not an interval and thus not convex.
 			\item Let us take $x_{1}, x_{2} \in \left\{ x \mid x + S_{2} \subseteq S_{1} \right\}$.
 		For $x = \lambda x_{1} + \left( 1 - \lambda \right)x_{2}$ consider $x + y$ for $y \in S_{2}$:
 		\begin{equation*}
 			x + y = \lambda x_{1} + \left(1 - \lambda \right)x_{2} + y = \lambda(x_{1} + y) + (1 - \lambda x_{2} + y)
 		\end{equation*}
-		Since $x_{i} + S_{2}\subseteq S_{1}$ for $i = 1, 2$, and since $S_{1}$ is convex, for all $y \in S_{2}$ the above sum is in $S_{1}$ and thus $x + S_{2} \subseteq S_{2}$, and our set is convex.
+		Since $x_{i} + S_{2}\subseteq S_{1}$ for $i = 1, 2$, and since $S_{1}$ is convex, for all $y \in S_{2}$ the above sum is in $S_{1}$ and thus $x + S_{2} \subseteq S_{2}$.
+		Finally, \boxed{\text{our set is convex.}}
 	\item Let $x_{1}, x_{2} \in \left\{ x \mid \exists y \in S_{2}, x + y \in S_{1} \right\}$.
 		Then let $y_{1}, y_{2}$ be associated points to $x_{1}, x_{2}$.
 		For $x = \lambda x_{1} + \left( 1 - \lambda \right)x_{2}$ and $y = \lambda y_{1} + (1 - \lambda) y_{2}$.
@@ -27,7 +29,7 @@
 		\begin{equation*}
 			x + y = \underbrace{\lambda \underbrace{(x_{1} + y_{1})}_{\in S_{1}} + \left( 1 - \lambda \right)\underbrace{(x_{2} + y_{2})}_{\in S_{1}}}_{\in S_{1} \text{ since } S_{1} \text{ is convex}}
 		\end{equation*}
-		Then, our set is convex.
+		Then, \boxed{\text{our set is convex.}}
 \end{itemize}
 
 \subsection*{Convex Functions}
@@ -37,15 +39,15 @@
 			1 & 0
 		\end{pmatrix}$.
 		On $\R^{2}$ this matrix is not positive nor negative and thus the function is neither convex, or concave.
-		However, the upper level sets are convex (from our first example) and thus the function is quasi-concave.
-	\item On $\R_{+*}^{2}$, the hessian of the function is positive semidefinite and thus the function is convex.
+However, the upper level sets are convex (from our first example) and thus $\boxed{\text{the function is quasi-concave.}}$
+	\item On $\R_{+*}^{2}$, the hessian of the function is positive semidefinite and thus $\boxed{\text{the function is convex.}}$
 	\item The hessian matrix of $f$ is the matrix$\begin{pmatrix}
 			0 & -\frac{1}{x_{2}^{2}}\\
 			-\frac{1}{x_{2}^{2}} & \frac{2x_{1}}{x_{2}^{3}}
 		\end{pmatrix}$
 		Since its determinant is $<0$ the Hessian is not positive semi-definite and the function is not convex.
 		However, its sublevel sets are defined by the equations $x_{1} \leq \alpha x_{2}$ and are thus convex (since half-planes).
-		Thus, $f$ is quasi-convex.
+		Thus, $\boxed{f \text{ is quasi-convex}}$.
 	\item Let us define the Löwner order $\preceq$ as the partial order defined by the convex cone of positive semi-definite matrices.
 		We know that:
 		\begin{equation*}
@@ -55,17 +57,18 @@
 		\begin{equation*}
 			\left( \left( 1 - t \right) X + tY \right)^{-1} \preceq \left( 1 - t \right)X^{-1} + tY^{-1}
 		\end{equation*}
-		By linearity of the trace, we can now see that $X \mapsto \Tr(X^{-1})$ is convex.
+		By linearity of the trace, we can now see that $\boxed{X \mapsto \Tr(X^{-1}) \text{ is convex}}$.
 \end{itemize}
 
 \subsection*{Fenchel Conjugate}
 \begin{itemize}
 	\item We have:
 		\begin{equation*}
+			\boxed{%
 			f^{*}(y) = \sup_{x}\left( \transpose{x}y -\norm{x} \right) = \begin{cases}
 				0 & \text{if } \norm{y}_{*} \leq 1\\
 				\infty &  \text{otherwise}
-			\end{cases}
+			\end{cases}}
 		\end{equation*}
 		To show this, let $y$ such that $\norm{y}_{*} = \sup_{\norm{x} \leq 1} \norm{\transpose{x}y} \leq 1$.
 		Then by Cauchy-Schwarz inequality, we know that $\transpose{x}y \leq \norm{x}\norm{y}_{*}\leq \norm{x}$ and the term in the supremum is always $\leq 0$.
@@ -75,7 +78,8 @@
 	\item Let us denote the infimal convolution of $g, h$ by $g \square h$.
 		Then we will show that:
 		\begin{equation*}
-			\left( g \square h \right)^{*} = \left( g^{*} + h^{*} \right)
+			\boxed{%
+			\left( g \square h \right)^{*} = \left( g^{*} + h^{*} \right)}
 		\end{equation*}
 		Note that:
 		\begin{equation*}
@@ -136,8 +140,76 @@
 		\end{equation*}
 		In the end,
 		\begin{equation*}
-			l^{*}(y)
-		\end{equation*}<++>
+			\boxed{l^{*}(y) = \log\left( 1 - y \right) - y\log\left( y \right)}
+		\end{equation*}
 \end{itemize}
+
+\subsection*{Duality}
+\begin{itemize}
+	\item The Lagrangian of the problem associated with $Ax = b$ is:
+		\begin{equation*}
+			\mL(x, \lambda) = \frac{1}{2}\norm{Ax - b}_{2}^{2} + \alpha\norm{x}_{1} - \transpose{\lambda}\left( A x - b \right) = \frac{1}{2}\norm{Ax -b}_{2}^{2} + \alpha\norm{x}_{1} - \transpose{\lambda}Ax + \transpose{\lambda}b
+		\end{equation*}
+		Then, by separating terms involving $x$:
+		\begin{equation*}
+			\mL(x, \lambda) = \frac{1}{2}\norm{b}_{2}^{2} - \frac{1}{2}\norm{\lambda - b}^{2}_{2} + \transpose{\lambda}b + \alpha\norm{x}_{1} - \left( \transpose{\lambda}A \right)x
+		\end{equation*}
+		In solving $\displaystyle\max_{\lambda} \min_{x}\mL(x, \lambda)$, the inner minimization on $x$ only depends on $\norm{x}_{1}$ and $\left( \transpose{\lambda}A \right)x$.
+		Minimizing it results in $\norm{\transpose{A}\lambda}_{\infty} \leq \alpha$.
+		Finally, we get that:
+		\begin{equation*}
+			\boxed{\max_{\lambda \in \R^{m}} -\frac{1}{2}\norm{\lambda - b}_{2}^{2} + \frac{1}{2}\norm{b}_{2}^{2} - \inf_{\left\{ \norm{\cdot}_{\infty} \leq 1 \right\}}\left( \frac{\transpose{A}\lambda}{\alpha} \right) \text{ is a dual problem for the LASSO}}
+		\end{equation*}
+	\item We start with:
+		\begin{equation*}
+			\min_{w, w_{1}, \ldots, w_{m}\in\R^{n}} \left\{ \frac{1}{n}\sum_{i = 1}^{m}h_{i}\left( w_{i} \right) + \frac{\lambda}{2}\norm{w}_{2}^{2}\ \middle|\ w_{i} = w, \forall i \in \onen{m} \right\}
+		\end{equation*}
+		Its Lagrangian is:
+		\begin{equation*}
+			\mL\left( w, w_{1}, \ldots, w_{m}, v_{1}, \ldots, v_{m} \right) = \frac{1}{n}\sum_{i = 1}^{m} h_{i}\left( w_{i} \right) + \frac{\lambda}{2}\norm{w}_{2}^{2} + \sum_{i = 1}^{m}\transpose{v_{i}}\left( w - w_{i} \right) = \frac{\lambda}{2}\norm{w}_{2}^{2} + \sum_{i = 1}^{m}\transpose{v_{i}}w + \sum_{i = 1}^{m}\frac{1}{n}h_{i}\left( w_{i} \right) - \transpose{v_{i}}w_{i}
+		\end{equation*}
+		For the minimization step, we minimize for each of the $w_{i}$ and for $w$.
+		Let $g_{i}\left( v_{i} \right)$ be the minimized value of $\frac{1}{n}h_{i}\left( w_{i} \right) - \transpose{v_{i}}w_{i}$.
+		For $w$, we want to minimize $\frac{\lambda}{2}\norm{w}_{2}^{2} + \sum_{i = 1}^{m}\transpose{v_{i}}w$,
+		which is quadratic in $w$.
+		Computing its minimum we find $\frac{-1}{2\lambda}\norm{\sum_{i = 1}^{m}v_{i}}_{2}^{2}$.
+		Finally, the dual problem is:
+		\begin{equation*}
+			\boxed{\max_{v_{1},\ldots, v_{m}}\sum_{i = 1}^{m}g_{i}(v_{i}) - \frac{1}{2\lambda}\norm{\sum_{i = 1}^{m}v_{i}}_{2}^{2}}
+		\end{equation*}
+		For logistic regression, we have:
+		\begin{equation*}
+			h_{i}: w\mapsto \log\left( 1 + \exp \left( -y_{i}\transpose{x_{i}}w \right) \right)
+		\end{equation*}
+		Then we have:
+		\begin{equation*}
+			g_{i}\left( v_{i} \right) = \min_{w_{i}} \left\{ \frac{1}{n}\log\left( 1 + \exp\left( -y_{i}\transpose{x_{i}}w_{i} \right) \right) - \transpose{v_{i}}w_{i} \right\}
+		\end{equation*}
+		Since $h_{i}$ is differentiable, we can compute its gradient:
+		\begin{equation*}
+			\nabla h_{i}\left( w_{i} \right) = \frac{1}{n}\cdot \frac{-y_{i}x_{i}}{1 + \exp\left( y_{i}\transpose{x_{i}}w_{i} \right)}
+		\end{equation*}
+		which gives us a minimality condition:
+		\begin{equation*}
+			\frac{-y_{i}x_{i}}{1 + \exp\left( y_{i}\transpose{x_{i}}w_{i} \right)} = nv_{i}
+		\end{equation*}
+		which rearranges to:
+		\begin{equation*}
+		w_{i} = \frac{
+			\log\left(
+				\frac{-\transpose{v_{i}}y_{i}x_{i} - n\norm{v_{i}}_{2}^{2}}
+				     {n\norm{v_{i}}_{2}^{2}}
+	     		\right)}
+		{
+			\norm{x_{i}}_{2}^{2}
+		}x_{i} = \frac{t}{\norm{x_{i}}_{2}^{2}}x_{i}
+		\end{equation*}
+		Inputing this into $y_{i}\transpose{x_{i}}w_{i}$:
+		\begin{equation*}
+			y_{i}\transpose{x_{i}}w_{i} = y_{i}t\transpose{x_{i}}\frac{x_{i}}{\norm{x_{i}}_{2}^{2}} = y_{i}t
+		\end{equation*}
+
+
+\end{itemize}<++>
 
 \end{document}
