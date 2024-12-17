@@ -10,7 +10,7 @@
 \begin{itemize}
 	\item Let $\mC = \left\{ x \in \R_{+}^{2} \mid x_{1}x_{2} \geq 1 \right\}$.
 		We can see that $\mC = \left\{ (x_{1}, x_{2}) \in \R_{+*}^{2} \mid x_{1} \geq \frac{1}{x_{2}} \right\}$.
-		Thus, $\mC$ is the epigraph of $x \mapsto \frac{1}{x}$ which is convex since its derivative is $x \mapsto \frac{1}{x^{4}}$.
+		Thus, $\mC$ is the epigraph of $x \mapsto \frac{1}{x}$ which is convex since its second derivative is $x \mapsto \frac{2x}{x^{4}}$.
 		Thus, $\boxed{\mC \text{ is convex.}}$
 	\item In general, $\boxed{\text{this set is not convex.}}$ Indeed, for sets in $\R$, take $S = \{-1, 1\}, T = \{0\}$.
 		Then the set of points closer to $S$ than to $T$ is $\{x \in \R \mid x\leq -0.5 \lor x \geq 0.5\}$ which is not an interval and thus not convex.
@@ -51,7 +51,7 @@ However, the upper level sets are convex (from our first example) and thus $\box
 	\item Let us define the Löwner order $\preceq$ as the partial order defined by the convex cone of positive semi-definite matrices.
 		We know that:
 		\begin{equation*}
-			A \preceq B \Rightarrow B^{-1} \preceq A^{-1} \forall A, B \in S_{++}^{n}
+			A \preceq B \Rightarrow B^{-1} \preceq A^{-1}, \forall A, B \in S_{++}^{n}
 		\end{equation*}
 		From this, we know that for all $t \leq 1$:
 		\begin{equation*}
@@ -196,20 +196,43 @@ However, the upper level sets are convex (from our first example) and thus $\box
 		which rearranges to:
 		\begin{equation*}
 		w_{i} = \frac{
-			\log\left(
-				\frac{-\transpose{v_{i}}y_{i}x_{i} - n\norm{v_{i}}_{2}^{2}}
+			-y_{i}\log\left(
+				\frac{-y_{i}\transpose{v_{i}}x_{i} - n\norm{v_{i}}_{2}^{2}}
 				     {n\norm{v_{i}}_{2}^{2}}
 	     		\right)}
 		{
 			\norm{x_{i}}_{2}^{2}
-		}x_{i} = \frac{t}{\norm{x_{i}}_{2}^{2}}x_{i}
+		}x_{i} = \frac{-y_{i}t}{\norm{x_{i}}_{2}^{2}}x_{i}
 		\end{equation*}
 		Inputing this into $y_{i}\transpose{x_{i}}w_{i}$:
 		\begin{equation*}
-			y_{i}\transpose{x_{i}}w_{i} = y_{i}t\transpose{x_{i}}\frac{x_{i}}{\norm{x_{i}}_{2}^{2}} = y_{i}t
+			y_{i}\transpose{x_{i}}w_{i} = +\underbrace{y_{i}^{2}}_{=1} \overbrace{\frac{\transpose{x_{i}}x_{i}}{\norm{x_{i}}_{2}^{2}}}^{=1} t = t
 		\end{equation*}
-
-
-\end{itemize}<++>
+		Thus:
+		\begin{equation*}
+			g_{i}(w_{i}) = \frac{1}{n} \log\left( -\frac{y_{i}\transpose{v_{i}}x_{i}}{\norm{v_{i}}_{2}^{2}} \right)- \frac{y_{i}\transpose{v_{i}}w_{i}}{\norm{x_{i}}_{2}^{2}}\log\left( -1 - \frac{y_{i}\transpose{v_{i}}x_{i}}{\norm{v_{i}}_{2}^{2}} \right)
+		\end{equation*}
+		Finally our dual problem is:
+		\begin{equation*}
+			\boxed{\max_{v_{1}, \ldots, v_{m}}\sum_{i = 1}^{m}\frac{1}{n} \log\left( -\frac{y_{i}\transpose{v_{i}}x_{i}}{\norm{v_{i}}_{2}^{2}} \right)- \frac{y_{i}\transpose{v_{i}}w_{i}}{\norm{x_{i}}_{2}^{2}}\log\left( -1 - \frac{y_{i}\transpose{v_{i}}x_{i}}{\norm{v_{i}}_{2}^{2}} \right) - \frac{1}{2\lambda} \norm{\sum_{i = 1}^{m}v_{i}}_{2}^{2}}
+		\end{equation*}
+		and I will not be trying to find a closer form manually.
+	\item We consider the problem:
+		\begin{equation*}
+			\min_{X\in \S^{n}} \left\{ \Tr\left( A_{0}X \right)\ \middle|\ X \succeq 0, \Tr\left( A_{1}X \right) = b_{1}, \ldots, \Tr\left( A_{m}X \right) = b_{m} \right\}
+		\end{equation*}
+		Its Lagrangian is (for $\lambda_{i} > 0, S \in \S_{++}^{n}$):
+		\begin{equation*}
+			\mL\left( X, \lambda_{1}, \ldots, \lambda_{m}, S\right) = \Tr\left( A_{0}X \right) + \sum_{i = 1}^{m}\lambda_{i}\left( \Tr\left( A_{i}X \right) - b_{i} \right) + \Tr\left( \transpose{S}X\transpose{X} \right)
+		\end{equation*}
+		Minimizing everything in $X$ can be done since everything is differentiable in $X$:
+		\begin{equation*}
+			\nabla \mL = \transpose{A_{0}} + \sum_{i = 1}^{m}\lambda_{i}\transpose{A_{i}} + 2 SX = A_{0} + \sum_{i = 1}^{m}\lambda_{i}A_{i} + 2 SX
+		\end{equation*}
+		which is $0$ when:
+		\begin{equation*}
+			X = -\frac{1}{2}S^{-1}\left( A_{0} + \sum_{i = 1}^{m} \lambda_{i}A_{i}\right)
+		\end{equation*}
+\end{itemize}
 
 \end{document}
