@@ -270,5 +270,49 @@ However, the upper level sets for $\alpha$ are convex if and only if $\alpha \ge
 \end{itemize}
 
 \section{Problem}
+We consider the following problem:
+\begin{equation}
+	\min_{w \in \R^{n}} \frac{1}{2}\norm{w}_{2}^{2} + \alpha\sum_{i = 1}^{m} \max\left\{ 0, 1 - \transpose{w}x_{i}y_{i} \right\}
+	\label{SVM}
+\end{equation}
+\subsection{Dual problem.}
+Considering the constraints, we have:
+\begin{equation*}
+	s_{i} \geq 1 - y_{i}\transpose{w}x_{i} \land s_{i} \geq 0
+\end{equation*}
+and thus, minimizing in $s$, for $w$ fixed gives:
+\begin{equation*}
+	s_{i} = \max \left\{ 0, 1 - y_{i}\transpose{w}x_{i} \right\}
+\end{equation*}
+which proves the equivalent reformulation:
+\begin{equation*}
+	\begin{aligned}
+	\min_{w\in \R^{n}, s\in \R^{m}} \frac{1}{2}\norm{w}_{2}^{2} + \alpha\sum_{i = 1}^{m} s_{i}&\\
+	\text{s. t. } \transpose{w}x_{i}y_{i} \geq 1 - s_{i}&\\
+	s_{i}\geq 0&
+	\end{aligned}
+\end{equation*}
+
+Computing the dual problem needs two constraints:
+\begin{equation*}
+	\lambda_{i} \geq 0 \text{ for } \transpose{w}X_{i}\geq 1 - s_{i} \text{ and } \mu_{i} \geq 0 \text{ for } s_{i} \geq 0
+\end{equation*}
+The Lagrangian is thus:
+\begin{equation*}
+	\mL\left( w, s, \lambda, \mu \right) = \frac{1}{2}\norm{w}_{2}^{2} + \alpha\sum_{i = 1}^{m}s_{i} - \sum_{i = 1}^{m}\lambda_{i}\left( \transpose{w}X_{i} - 1 + s_{i} \right) - \sum_{i = 1}^{m}\mu_{i}s_{i}
+\end{equation*}
+Then:
+\begin{align*}
+	\frac{\partial \mL}{\partial w} = w - \sum_{i = 1}^{m}\lambda_{i}X_{i} = 0 \Rightarrow w = X\lambda\\
+	\frac{\partial \mL}{\partial s_{i}} = \alpha - \lambda_{i} - \mu_{i} = 0 \Rightarrow \lambda_{i} \leq \alpha
+\end{align*}
+Finally, subtituting, the dual problem is:
+\begin{equation*}
+	\max_{0 \leq \lambda \leq \alpha} \mD\left( \lambda \right) = -\frac{1}{2}\transpose{\lambda}\transpose{X}X\lambda + \sum_{i = 1}^{m}\lambda_{i}
+\end{equation*}
+\subsection{Algorithms}
+\begin{itemize}
+	\item
+\end{itemize}<++>
 
 \end{document}
