@@ -372,9 +372,17 @@ def randomized_coordinate_ascent(dataset, alpha, iterations):
         lam[i] = proj(olam + (1 - (yi := dataset[i][1]) * (xi := dataset[i][0]).T.dot(w))/(npl.norm(xi)**2))
         w = w + yi * xi.dot(lam[i] - olam)
     return w
-
-
 \end{code}
+Let us prove the algorithm leads to optimization, by optimizing on one dimension at a time.
+At each iteration, only one dimension $\lambda_{i_{k}}$ is modified, and the rest remain the same. Since the part of $D\left( \lambda \right)$ dependent on $\lambda_{i_{k}}$ is
+\begin{equation*}
+	-\frac{1}{2}\norm{x_{i_{k}}}^{2}\lambda_{i_{k}}^{2} + \left( 1 - y_{i_{k}}\transpose{x_{i_{k}}}w \right)\lambda_{i_{k}}
+\end{equation*}
+then taking
+\begin{equation*}
+	\lambda_{i_{k}}^{(k + 1)} = \lambda_{i_{k}}^{(k)} + \frac{\left( 1 - y_{i_{k}}\transpose{x_{i_{k}}}w \right)}{\norm{x_{i_{k}}}_{2}^{2}}
+\end{equation*}
+maximizes the above quadratic term and the projection ensures the solution is feasible, leading to an exact maximization along $\lambda_{i_{k}}$ by the properties of quadratic forms.
 \end{itemize}
 
 \end{document}
