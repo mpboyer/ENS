@@ -1,5 +1,5 @@
 \documentclass[math, info]{cours}
-\title{Homework 1\\{\small Convex Optimization}}
+\title{Homework 1\\[-5pt] {\small Convex Optimization}}
 \author{Matthieu Boyer}
 
 \begin{document}
@@ -221,18 +221,31 @@ However, the upper level sets are convex (from our first example) and thus $\box
 		\begin{equation*}
 			\min_{X\in \S^{n}} \left\{ \Tr\left( A_{0}X \right)\ \middle|\ X \succeq 0, \Tr\left( A_{1}X \right) = b_{1}, \ldots, \Tr\left( A_{m}X \right) = b_{m} \right\}
 		\end{equation*}
-		Its Lagrangian is (for $\lambda_{i} > 0, S \in \S_{++}^{n}$):
+		Its Lagrangian is (for $\lambda_{i} > 0, S \succeq 0$):
 		\begin{equation*}
-			\mL\left( X, \lambda_{1}, \ldots, \lambda_{m}, S\right) = \Tr\left( A_{0}X \right) + \sum_{i = 1}^{m}\lambda_{i}\left( \Tr\left( A_{i}X \right) - b_{i} \right) + \Tr\left( \transpose{S}X\transpose{X} \right)
+			\mL\left( X, \lambda_{1}, \ldots, \lambda_{m}, S\right) = \Tr\left( A_{0}X \right) + \sum_{i = 1}^{m}\lambda_{i}\left( \Tr\left( A_{i}X \right) - b_{i} \right) + \Tr\left( \transpose{S}X \right) = \Tr\left( \left( A_{0} + \sum_{i = 1}^{m} \lambda_{i}A_{i} + S \right)X \right) - \sum_{i = 1}^{m}\lambda_{i}b_{i}
 		\end{equation*}
 		Minimizing everything in $X$ can be done since everything is differentiable in $X$:
 		\begin{equation*}
-			\nabla \mL = \transpose{A_{0}} + \sum_{i = 1}^{m}\lambda_{i}\transpose{A_{i}} + 2 SX = A_{0} + \sum_{i = 1}^{m}\lambda_{i}A_{i} + 2 SX
+			\nabla \mL = \transpose{A_{0}} + \sum_{i = 1}^{m}\lambda_{i}\transpose{A_{i}} + 2 SX = A_{0} + \sum_{i = 1}^{m}\lambda_{i}A_{i} + S
 		\end{equation*}
 		which is $0$ when:
 		\begin{equation*}
-			X = -\frac{1}{2}S^{-1}\left( A_{0} + \sum_{i = 1}^{m} \lambda_{i}A_{i}\right)
+			S = -\left( A_{0} + \sum_{i = 1}^{m} \lambda_{i}A_{i}\right)
+		\end{equation*}
+		Finally we get the dual problem:
+		\begin{equation*}
+			\boxed{\max_{\lambda_{1},\ldots, \lambda_{m}, S} \left\{ -\sum_{i = 1}^{m}\lambda_{i}b_{i}\ \middle| \ S \succeq 0, S = -A_{0} - \sum_{i = 1}^{m}\lambda_{i}A_{i} \right\}}
+		\end{equation*}
+		Strong duality holds if, and only if, the Karush-Kuhn-Tucker conditions are satisfied.
+		Since $\Tr\left( S_{*}X_{*} \right)$ is a rewriting of complementary slackness, clearly strong duality implies $\Tr\left(  S_{*}X_{*} \right) = 0$.
+		If we have $\Tr\left( S_{*}X_{*} \right) = 0$ for the optimal solutions, in particular, both the primal and dual problems are attained, the gradient computed earlier vanishes and thus the KKT conditions are satisfied.
+		Finally:
+		\begin{equation*}
+			\boxed{\text{Strong Duality holds if and only if} \Tr\left( X_{*}S_{*} \right) = 0}
 		\end{equation*}
 \end{itemize}
+
+\section{Problem}
 
 \end{document}
