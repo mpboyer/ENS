@@ -39,7 +39,7 @@
 			1 & 0
 		\end{pmatrix}$.
 		On $\R^{2}$ this matrix is not positive nor negative and thus the function is neither convex, or concave.
-However, the upper level sets are convex (from our first example) and thus $\boxed{\text{the function is quasi-concave.}}$
+However, the upper level sets for $\alpha$ are convex if and only if $\alpha \geq 0$ (from our first example) and thus $\boxed{\text{the function is neither quasi-concave nor quasi-convex.}}$
 	\item On $\R_{+*}^{2}$, the hessian of the function is positive semidefinite and thus $\boxed{\text{the function is convex.}}$
 	\item The hessian matrix of $f$ is the matrix$\begin{pmatrix}
 			0 & -\frac{1}{x_{2}^{2}}\\
@@ -121,9 +121,32 @@ However, the upper level sets are convex (from our first example) and thus $\box
 					\abs{x_{i} - \alpha} - \frac{\alpha}{2} & \abs{x_{i}} > \alpha
 		\end{cases}\right)}
 		\end{equation*}
+		Now, clearly, $f = g\square h$ is a convex function (as the infimum of two convex functions (if $\alpha > 0$)).
+		Moreover, $f$ is clearly lower semi-continuous from its expression.
+		Now, we have $\boxed{f^{**} = f}$ from the Fenchel-Moreau theorem (proved below):
+		\begin{thm}
+			The biconjugate of $f$ is the largest lower semi-continuous convex function below than $f$.
+		\end{thm}
+		\begin{proof}
+			Let $x \in \R^{n}$. For all $y$, the directional derivative:
+			\begin{equation*}
+				\partial_{y}f(x) = \lim_{\d t \to 0} \frac{f\left( x + \d t y \right) - f(x)}{\d t}
+			\end{equation*}
+			is a sublinear as a function of $y$.
+			From the Hahn-Banach theorem, there exists $\tilde{\partial f} \in \left(\R^{n}\right)^{*} = \R^{n}$ such that:
+			\begin{equation*}
+				\scalar{\tilde{\partial f},\cdot }\leq \partial_{y}f(x) \leq f\left( x + y \right) - f(x), \forall y \in \R^{n}
+			\end{equation*}
+			Then:
+			\begin{equation*}
+				f(x) + f^{*}\left( \tilde{\partial f} \right) = \scalar{\tilde{\partial f}, x}
+			\end{equation*}
+			which completes our proof that $f^{**} = f$.
+		\end{proof}
+
 	\item We want to compute:
 		\begin{equation*}
-			\ell^{*}(y) = \sup_{z\in \R}\left\{ yz - \ell(z) \right\} \text{ where } \ell: z\mapsto \log\left( 1 + e^{-z} \right)
+			\ell^{*}(y) = \sup_{z\in \R}\left\{ yz - \ell(z) \right\} \text{ where } \ell: z\mapsto \log\left( 1 + e^{z} \right)
 		\end{equation*}
 		We differentiate $\phi(z)$ the function in the supremum:
 		\begin{equation*}
@@ -133,14 +156,14 @@ However, the upper level sets are convex (from our first example) and thus $\box
 		Finally, we compute:
 		\begin{equation*}
 			\begin{aligned}
-				\ell^{*}(y) =& y\log\left( \frac{1-y}{y} \right) + \log(1- y)\\
-				=& y\log(1 - y) - y\log(y) + \log(1 - y)\\
-				=& \log(1 - y) - y\log(y)
+				\ell^{*}(y) =& y\log\left( \frac{1-y}{y} \right) + \log(y)\\
+				=& y\log(1 - y) - y\log(y) + \log(y)\\
+				=& y\log\left( 1 - y \right) + \left( 1 - y \right)\log(y)
 			\end{aligned}
 		\end{equation*}
 		In the end,
 		\begin{equation*}
-			\boxed{l^{*}(y) = \log\left( 1 - y \right) - y\log\left( y \right)}
+			\boxed{y\log\left( 1 - y \right) + \left( 1 - y \right)\log\left( y \right)}
 		\end{equation*}
 \end{itemize}
 
