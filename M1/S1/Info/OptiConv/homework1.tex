@@ -150,20 +150,20 @@ However, the upper level sets for $\alpha$ are convex if and only if $\alpha \ge
 		\end{equation*}
 		We differentiate $\phi(z)$ the function in the supremum:
 		\begin{equation*}
-			\phi'(z) = y - \frac{1}{1 + e^{z}}
+			\phi'(z) = y - \frac{1}{1 + e^{-z}}
 		\end{equation*}
-		Then, we find $z = \log\left( \frac{1 - y}{y} \right)$, which only makes sense for $y \in ]0, 1[$.
+		Then, we find $z = -\log\left( \frac{1 - y}{y} \right)$, which only makes sense for $y \in ]0, 1[$.
 		Finally, we compute:
 		\begin{equation*}
 			\begin{aligned}
-				\ell^{*}(y) =& y\log\left( \frac{1-y}{y} \right) + \log(y)\\
-				=& y\log(1 - y) - y\log(y) + \log(y)\\
-				=& y\log\left( 1 - y \right) + \left( 1 - y \right)\log(y)
+				\ell^{*}(y) =& -y\log\left( \frac{1-y}{y} \right) - \log(y)\\
+				=& -y\log(1 - y) + y\log(y) - \log(y)\\
+				=& -y\log\left( 1 - y \right) + \left( y - 1 \right)\log(y)
 			\end{aligned}
 		\end{equation*}
 		In the end,
 		\begin{equation*}
-			\boxed{y\log\left( 1 - y \right) + \left( 1 - y \right)\log\left( y \right)}
+			\boxed{-y\log\left( 1 - y \right) + \left( y - 1 \right)\log\left( y \right)}
 		\end{equation*}
 \end{itemize}
 
