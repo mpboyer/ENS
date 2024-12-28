@@ -152,18 +152,18 @@ However, the upper level sets for $\alpha$ are convex if and only if $\alpha \ge
 		\begin{equation*}
 			\phi'(z) = y - \frac{1}{1 + e^{-z}}
 		\end{equation*}
-		Then, we find $z = -\log\left( \frac{1 - y}{y} \right)$, which only makes sense for $y \in ]0, 1[$.
+		Then, we find $z = \log\left( \frac{y}{1-y} \right)$, which only makes sense for $y \in ]0, 1[$.
 		Finally, we compute:
 		\begin{equation*}
 			\begin{aligned}
-				\ell^{*}(y) =& -y\log\left( \frac{1-y}{y} \right) - \log(y)\\
-				=& -y\log(1 - y) + y\log(y) - \log(y)\\
-				=& -y\log\left( 1 - y \right) + \left( y - 1 \right)\log(y)
+				\ell^{*}(y) =& y\log\left( \frac{y}{1-y} \right) + \log(1 - y)\\
+				=& -y\log(1 - y) + y\log(y) + \log(1 - y)\\
+				=& \left( 1 - y \right)\log\left( 1 - y \right) + \left( y \right)\log(y)
 			\end{aligned}
 		\end{equation*}
 		In the end,
 		\begin{equation*}
-			\boxed{-y\log\left( 1 - y \right) + \left( y - 1 \right)\log\left( y \right)}
+			\boxed{\left( 1 - y \right)\log\left( 1 - y \right) + \left( y \right)\log\left( y \right)}
 		\end{equation*}
 \end{itemize}
 
@@ -260,9 +260,9 @@ However, the upper level sets for $\alpha$ are convex if and only if $\alpha \ge
 		\begin{equation*}
 			\boxed{\max_{\lambda_{1},\ldots, \lambda_{m}, S} \left\{ -\sum_{i = 1}^{m}\lambda_{i}b_{i}\ \middle| \ S \succeq 0, S = -A_{0} - \sum_{i = 1}^{m}\lambda_{i}A_{i} \right\}}
 		\end{equation*}
-		Strong duality holds if, and only if, the Karush-Kuhn-Tucker conditions are satisfied.
+		Strong duality holds only if the Karush-Kuhn-Tucker conditions are satisfied.
 		Since $\Tr\left( S_{*}X_{*} \right)$ is a rewriting of complementary slackness, clearly strong duality implies $\Tr\left(  S_{*}X_{*} \right) = 0$.
-		If we have $\Tr\left( S_{*}X_{*} \right) = 0$ for the optimal solutions, in particular, both the primal and dual problems are attained, the gradient computed earlier vanishes and thus the KKT conditions are satisfied.
+		If we have $\Tr\left( S_{*}X_{*} \right) = 0$ for the optimal solutions, in particular, both the primal and dual problems are attained and the relaxation term vanishes.
 		Finally:
 		\begin{equation*}
 			\boxed{\text{Strong Duality holds if and only if} \Tr\left( X_{*}S_{*} \right) = 0}
