@@ -39,15 +39,17 @@
 			1 & 0
 		\end{pmatrix}$.
 		On $\R^{2}$ this matrix is not positive nor negative and thus the function is neither convex, or concave.
-However, the upper level sets for $\alpha$ are convex if and only if $\alpha \geq 0$ (from our first example) and thus $\boxed{\text{the function is neither quasi-concave nor quasi-convex.}}$
+However, the sub-level sets for $\alpha$ are convex if and only if $\alpha \geq 0$ (from our first example) and thus $\boxed{\text{the function is neither quasi-concave nor quasi-convex.}}$
 	\item On $\R_{+*}^{2}$, the hessian of the function is positive semidefinite and thus $\boxed{\text{the function is convex.}}$
 	\item The hessian matrix of $f$ is the matrix$\begin{pmatrix}
 			0 & -\frac{1}{x_{2}^{2}}\\
 			-\frac{1}{x_{2}^{2}} & \frac{2x_{1}}{x_{2}^{3}}
 		\end{pmatrix}$
 		Since its determinant is $<0$ the Hessian is not positive semi-definite and the function is not convex.
+		Moreover, since its determinant is $<0$ and the hessian is symmetric real, it must have a strictly positive eigenvalue, and thus it is not concave.
 		However, its sublevel sets are defined by the equations $x_{1} \leq \alpha x_{2}$ and are thus convex (since half-planes).
-		Thus, $\boxed{f \text{ is quasi-convex}}$.
+		Similarly the sub-level sets are concave.
+		Thus, $\boxed{f \text{ is quasi-convex and quasi-concave}}$.
 	\item Let us define the Löwner order $\preceq$ as the partial order defined by the convex cone of positive semi-definite matrices.
 		We know that:
 		\begin{equation*}

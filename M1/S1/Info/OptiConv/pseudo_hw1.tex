@@ -1,0 +1,132 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{fp}
+\usepackage{pgffor}
+\usepackage{xstring} % For string operations (parsing matrices)
+
+% Helper macro for projecting a scalar to [0, alpha]
+\newcommand{\ProjectScalar}[2]{%
+    \FPiflt{#1}{0}%
+        \FPset\projection{0}%
+    \else%
+        \FPifgt{#1}{#2}%
+            \FPset\projection{#2}%
+        \else%
+            \FPset\projection{#1}%
+        \fi%
+    \fi%
+}
+
+% Matrix-vector multiplication: Computes X * lambda
+\newcommand{\MatrixVectorMultiply}[2]{%
+    \renewcommand{\result}{}
+    \foreach \row in #1 {%
+        \FPset\rowSum{0}
+        \foreach \xi \lambdaElem in \row #2 {%
+            \FPmul\product{\xi}{\lambdaElem}
+            \FPadd\rowSum{\rowSum}{\product}
+        }
+        \xdef\result{\result\rowSum\space}
+    }
+}
+
+% Dual Projected Gradient Ascent
+\newcommand{\DualProjectedGradientAscent}[4]{%
+    % Inputs:
+    % #1: Data matrix X (comma-separated rows with elements separated by spaces)
+    % #2: y vector (space-separated)
+    % #3: alpha (regularization parameter)
+    % #4: max_iterations (number of iterations)
+
+    \def\matrixX{#1}
+    \def\yVector{#2}
+    \FPset\alpha{#3}
+    \FPset\maxIter{#4}
+
+    % Compute the maximum eigenvalue of X^T X (placeholder)
+    \FPset\maxEigenvalue{10}
+    \FPmul\unh{\alpha}{\maxEigenvalue}
+    \FPdiv\hInitial{1}{\unh} % h_initial = 1 / (alpha * maxEigenvalue)
+
+    % Extract dimensions of the matrix
+    \def\rowCount{0}
+    \def\colCount{0}
+    \StrCount{\matrixX}{,}[\rowCount]
+    \FPadd\rowCount{\rowCount}{1}
+    \StrCount{\matrixX}{ }[\colCount]
+    \FPdiv\colCount{\colCount}{\rowCount}
+
+    % Initialize lambda vector and variables
+    \newcommand{\lambdaVector}{} % Replace with zeros matching \colCount
+    \foreach \col in {1,...,\colCount}{%
+	    \xdef\lambdaVector{\lambdaVector0\space}
+    }
+    \newcommand{\gradientVector}{}
+    \newcommand{\objective}{0}
+    \FPset\h{\hInitial}
+    \FPset\iter{0}
+
+    \loop
+        \ifnum\iter<\maxIter
+            \MatrixVectorMultiply{\matrixX}{\lambdaVector}
+            \renewcommand{\gradientVector}{}
+            \foreach \row in \matrixX {%
+                \FPset\rowSum{0}
+                \foreach \xi in \row {%
+                    \FPmul\product{\xi}{\row} % Compute xi * xi
+                    \FPadd\rowSum{\rowSum}{\product}
+                }
+                \xdef\gradientVector{\gradientVector\rowSum\space}
+            }
+            % Add y vector to complete gradient
+            \renewcommand{\updatedGradient}{} % Reset
+            \foreach \gradElem \yElem in \gradientVector \yVector {%
+                \FPadd\sumValue{\gradElem}{\yElem}
+                \xdef\updatedGradient{\updatedGradient\sumValue\space}
+            }
+
+            % Save the previous lambda and objective
+            \renewcommand{\prevLambda}{\lambdaVector}
+            \FPset\prevObjective{\objective}
+
+            % Step 3: Update lambda with projection
+            \renewcommand{\lambdaVector}{} % Reset
+            \foreach \lambdaElem \gradElem in \prevLambda \updatedGradient {%
+                \FPmul\stepUpdate{\h}{\gradElem}
+                \FPadd\newValue{\lambdaElem}{\stepUpdate}
+                \ProjectScalar{\newValue}{\alpha}
+                \xdef\lambdaVector{\lambdaVector\projection\space}
+            }
+
+            % Compute objective function D(lambda) = -1/2 * lambda^T X^T X lambda + y^T lambda
+            \MatrixVectorMultiply{\matrixX}{\lambdaVector} % Compute X^T lambda
+            \renewcommand{\objective}{0} % Reset
+            \foreach \lambdaElem \resultElem in \lambdaVector \result {%
+                \FPmul\product{\lambdaElem}{\resultElem}
+                \FPadd\objective{\objective}{\product}
+            }
+            \FPmul\objective{-0.5}{\objective}
+            \foreach \lambdaElem \yElem in \lambdaVector \yVector {%
+                \FPmul\product{\lambdaElem}{\yElem}
+                \FPadd\objective{\objective}{\product}
+            }
+
+            % Step 6: Check backtracking line search condition
+            \FPiflt{\objective}{\prevObjective}
+                \FPdiv\h{\h}{2}
+                \renewcommand{\lambdaVector}{\prevLambda}
+            \else
+                \FPadd\iter{\iter}{1}
+            \fi
+    \repeat
+
+    \MatrixVectorMultiply{\matrixX}{\lambdaVector}
+    \textbf{Final weights:} \result
+}
+
+\begin{document}
+
+% Matrix X: "1 2, 3 4" (2x2 matrix), y vector = "1 1", alpha = 1, 10 iterations
+\DualProjectedGradientAscent{1 2, 3 4}{1 1}{1}{10}
+
+\end{document}

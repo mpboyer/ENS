@@ -2375,6 +2375,114 @@ Ceci nous donne une définition équivalente d'adjonctions par représentation e
 	On obtient notamment le fait que $Set(A, 1 + B) \cong pSet(A, B)$ par $\Phi_{A, B}$.
 \end{exemple}
 
+\subsection{Catégorie des Algèbres d'une Monade}
+En partant de la monade $T: Ens \to Ens$ définie par $T(A) = A^{*}$ l'ensemble des mots finis, on peut reconstruire la catégorie $Mon$ des monoïdes et homomorphismes.
+En notaint $A^{*} = \bigsqcup_{n \in \N} A^{n}$, on va définir un monoïde comme une fonction: $alh: \underbrace{TA}_{1 + A + \cdots} \to A$ qu'on peut voir comme une famille de fonctions $alg_{n}: A^{n} \to A$, i.e. une famille d'opérations $n$-aires.
+En particulier, $1 \to A$ est l'élément neutre et $A^{2} \to A$ est le produit du monoïde.
+
+\begin{definition}
+	Une algèbre de Eilenberg-Moore ou algèbre d'une monade $T: \A \to \A$ ou $T$-algèbre $(A, alg)$ est une paire constituée d'un objet $A$ de $\A$ et d'un morphisme $alg: TA \to A$ qui fait commuter:
+	\begin{category}[]
+		& TA\ar[dr, "alg"]\ar[d, phantom, "1" description] & \\
+		A\ar[rr, "\id_{A}"']\ar[ur, "\mu_{A}"] & \phantom{}&A
+	\end{category}
+	et
+	\begin{category}
+		TTA\ar["\mu_{A}", r]\ar[d, "Talg"'] \ar[dr, "2" description, phantom]& TA\ar[d, "alg"]\\
+		TA\ar[r,"alg"'] & A
+	\end{category}
+	\label{def:algebreeilenbergmoore}
+\end{definition}
+Dans le cas de la monade $T: Ens \to Ens, TA = A^{*}$, le fait que le diagramme $1$ commute signifie que $alg_{1}: A \to A, [a] \mapsto a$.
+Le fait que $2$ commute signifie que
+\begin{equation*}
+	alg_{k_{1} + \cdots + k_{n}} = alg_{n} \circ \left( alg_{k_{1}}, \cdots, alg_{k_{n}} \right)
+\end{equation*}
+On note $\cdot_{n} = alg_{n}$.
+On veut montrer que $\cdot_{2}\left( \cdot_{2}(a, b), c \right) = \cdot_{2}\left( a, \cdot_{2}\left( b, c \right) \right)$.
+En utilisant la dernière équation, on voit que ces deux termes sont égaux à $\cdot_{3}\left( a, b, c \right)$, et on a donc prouvé l'associativité de nos monoïdes.
+À tout monoïde $M$ on associe l'algèbre de Eilenberg-Moore $A^{n} \xrightarrow{\cdot_{n}} A$ où $[a_{1},\ldots, a_{n}] \mapsto a_{1}\cdot a_{2} \cdots \cdot a_{n}$.
+Réciproquement, pour toute $T$-algèbre, on montre par induction qu'on crée le monoïde $\left( A, \cdot_{2}, \cdot_{0} \right)$.
+
+\subsubsection{Homomorphismes entre $T$-algèbres}
+\begin{definition}
+	Soient $A, alg_{A}$ et $(B, alg_{B})$ deux $T$-algèbres. Un homomorphisme $h: (A, alg_{A}) \to (B, alg_{B})$ est une flèche qui fait commuter le diagramme suivant:
+	\begin{category}
+		TA\ar[r, "Th"]\ar[d, "alg_{A}"'] & TB\ar[d, "alg_{B}"]\\
+		A\ar[r, "h"'] & B
+	\end{category}
+	\label{def:homomorphismealgebre}
+\end{definition}
+Dans le cas de $TA = A^{*}$, on retrouve $h\left( \cdot_{n}\left( a_{1}, \ldots, a_{n} \right) \right) = \cdot_{n} \left( ha_{1}, \ldots, ha_{n} \right)$.
+
+\begin{definition}
+	Soit $(T, \mu, \eta): \A \to \A$ une monade. La catégorie $Alg_{T}$ des algèbres de Eilenberg-Moore a pour objets les $T$-algèbres et pour flèches les $T$-homomorphismes.
+	\label{def:algT}
+\end{definition}
+\begin{exemple}
+	\begin{enumerate}
+		\item La catégorie $Alg_{T}$ coïncide avec la catégorie $Mon$ des monoïdes et homomorphismes dans le cas $T: Ens \to Ens$ la monade $TA = A^{*}$ la monade des listes.
+		\item Pour $TA = A + 1$, la monade $T: Ens \to Ens$ de partialité une $T$-algèbre est une fonction $A+ 1 \xrightarrow{alg} A$ telle que $alg(a) = a$ car le triangle $1$ commute et telle que:
+			\begin{category}
+				A + 1 + 1 \ar[r, "\mu_{A}"]\ar[d, "alg + 1"'] & A + 1\ar[d, "alg"]\\
+				A + 1 \ar[r, "alg"'] & A
+			\end{category}
+			autrement dit un ensemble pointé $(A, \star_{A})$. $Alg_{T}$ est donc la catégorie des ensembles pointés.
+		\item Pour la monade du magma libre $T: A \mapsto \{\text{arbre binaires dont les feuilles sont étiquetées par un élément de } A\}$ (donc $TA \simeq A + TA\times TA$), $Alg_{T}$ est la catégorie des magmas et des homomorphismes entre magmas.
+		\item Plus généralement, toute théorie algébrique définit une monade (finitaire, voir Théorie de Lawrence) $T: Ens \to Ens$.
+	\end{enumerate}
+\end{exemple}
+
+\subsubsection{L'adjonction de Eilenberg-Moore}
+À toute monade $T: \A\to \A$ on associe un foncteur $oubli: Alg_{T} \to \A, (A, alg) \mapsto A$.
+\begin{proposition}
+	Ce foncteur a un adjoint à gauche !
+	\label{prop:partisocialiste}
+\end{proposition}
+\begin{proof}
+	L'adjoint à gauche est le foncteur $Free: \A \to Alg_{T}, A \mapsto \left( TA, \mu_{A} \right)$.
+	Cette construction repose sur le fait que $\left( TA, \mu: TTA \to TA \right)$ est une algèbre de Eilenberg-Moore.
+	En effet, par définition d'une monade:
+	\begin{category}
+		TA\ar[dr, "\eta_{TA}"]\ar[r, "\id_{TA}"] & TA\\
+		& TTA\ar[u, "\mu_{A}"]
+	\end{category}
+	et
+	\begin{category}
+		TTA\ar[r, "\mu_{TA}"]\ar[d, "T\mu_{A}=Talg"] & TTA \ar[d, "\mu_{A} = alg"]\\
+		TTA\ar[r, "\mu_{A}"] & TA
+	\end{category}
+	commutent.
+	Comme $Free$ définit bien un foncteur par naturalité de $\eta$:
+	\begin{equation*}
+		\begin{tikzcd}
+			A\ar[d, "f"]\\
+			B
+		\end{tikzcd}\longmapsto
+		\begin{tikzcd}
+			TA\ar[d, "Tf"] & T^{2}A\ar[l,"\mu_{A}"]\ar[d, "T^{2}f"]\\
+			TB & T^{2}B\ar[l, "\mu_{B}"]
+		\end{tikzcd}
+	\end{equation*}
+	Il suffit de démontrer la propriété d'adjonction.
+	Si $\left( M, alg) \right)$ est une $T$-algèbre, on a une bijection:
+	\begin{equation*}
+		\Phi_{A, M}: Alg_{T}\left( \left( TA, \mu_{A} \right), \left( M, alg \right) \right) \xrightarrow{\cong} \A\left( A, M \right)
+	\end{equation*}
+	puisque:
+	\begin{category}
+		\left( TA, \mu_{A} \right)\ar[r, "\exists! f^{+}"] & \left( M, alg \right)\\
+		A\in \A\ar[u, "\eta"]\ar[ur, "f"'] &
+	\end{category}
+	À toute flèche $TA \xrightarrow{h} M$ de $Alg_{T}$ on associe $\Phi_{A, M}(h): A \xrightarrow{\eta} TA \xrightarrow{h} M$.
+	$\Phi_{A, M}^{-1}$ est définie comme suit: à toute flèche $f: A \to M$ on associe l'homomorphisme $alg \circ Tf$:
+	\begin{category}
+		TA\ar[r, "Tf"] & TM\ar[r, "alg"] & M\\
+		T^{2}A\ar[u, "\mu_{A}"]\ar[r, "T^{2}f"] & T^{2}M\ar[u, "\mu_{M}"]\ar[r, "Talg"] & TM\ar[u, "\mu_{M}"]
+	\end{category}
+\end{proof}
+
+
 \section{Lambda-Calcul Simplement Typé et Catégories Cartésiennes Fermées}
 \subsection{Catégorie Cartésienne Fermée}
 \begin{definition}[Catégorie Cartésienne Fermée --- 1]

@@ -1,0 +1,28 @@
+\documentclass[math, info]{cours}
+\title{Category Theory in Linguistics \\ {\small Functors for Natural Language Composition}}
+\author{Matthieu Boyer\\ {\small Based on work by Dylan Bumford and Simon Charlow}}
+
+\begin{document}
+\bettertitle
+\section*{Introduction in Semantics}
+In linguistics, semantics are the study of the meaning of sentences, in a mathematical and formal way.
+A common way to interpret words as mathematical objects is to assign them a simply-typed $\lambda$-term, and more often only a type.
+The main issue that arise is then to understand how to build the meaning of a complex expression from the knowledge of its parts.
+This approach is called type-driven compositional semantics and is built from a three main elements:
+\begin{itemize}
+	\item A \emph{lexicon} giving the meaning of individual expressions;
+	\item A \emph{syntax} detailing the possible arrangements of these expressions;
+	\item A theory of \emph{composition} describing how the meanings of complex expressions.
+\end{itemize}
+Here, we will only focus on the third of these elements. To do so, we need a base ground for our composition, simple types:
+\begin{definition}
+	A simple type is either a base type from a set $\mathbb{T}$, corresponding to some fundamental category (an entity $e$, a value $v$, a boolean $t$\ldots), or is constructed from two other types with an arrow $\tau_{1} \to \tau_{2}$, corresponding to a function.
+	\label{def:simpletype}
+\end{definition}
+Then, for such a theory to function as representing the meaning of expressions, we need a one to one between an expression's type and its denotations.
+An expression of type $e \to t$ must denote a function whose domain is the set of entities and co-domain is the set $\{\bot, \top\}$ of boolean values.
+And conversely, an expression with such properties, must have type $e \to t$.
+In this sense, the semantics is said to be \emph{strongly typed}.
+
+
+\end{document}

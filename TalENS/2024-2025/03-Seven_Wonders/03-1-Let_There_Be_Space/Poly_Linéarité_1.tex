@@ -1,0 +1,173 @@
+\documentclass{classe}
+\title{Let there be space\\ \small Cours TalENS n°3}
+\author{Clément Allard - Matthieu Boyer}
+\date{11 janvier 2025}
+
+\usepackage[pdftex,outline]{contour}
+
+\newcommand{\point}[3]{\draw (#1 -.1, #2 -.1) -- (#1 + .1, #2 + .1);
+\draw (#1 +.1, #2 -.1) -- (#1 - .1, #2 + .1);
+\draw (#1, #2) node[below right]{#3};}
+
+\renewcommand*{\K}{\mathbb{K}}
+\graphicspath{{./Images/}}
+\tikzset { domaine/.style 2 args={domain=#1:#2} }
+
+\begin{document}
+
+\section{Découvrons la linéarité}
+
+\subsection{Ce qui marche déjà bien}
+
+Commençons avec un exemple simple : la géométrie dans le plan. Mais on va le voir d'un point de vue différent. On va se donner une origine $O$ et on va repérer chaque point par un vecteur : à un point $M$ on associera le vecteur $\overrightarrow{OM}$. Bon dans notre plan qu'est ce qu'on a le droit de faire (par exemple) :
+
+\begin{itemize}
+	\item On a le droit d'ajouter deux vecteurs $\vec{u}$ et $\vec{v}$, on obtient un troisième vecteur qui est toujours dans le plan, et on a $\vec{u} + \vec{v} = \vec{v} + \vec{u}$;
+	\item Il existe un vecteur qui traduit le non déplacement $\vec{0}$;
+	\item À chaque vecteur $\vec{u}$, on peut associer un autre vecteur $\overrightarrow{-u}$ tel que $\vec{u} + \overrightarrow{-u} = \vec{0}$ : on parle d'opposé;
+	\item On a le droit de multiplier un vecteur par un nombre (on parle de multiplication par un scalaire);
+	\item On a $(\lambda + \mu)\vec{u} = \lambda\vec{u} + \mu\vec{u}$ (distributivité scalaire) et $\lambda(\vec{u}+\vec{v}) = \lambda\vec{u}+\lambda\vec{v}$ (distributivité vectorielle).
+\end{itemize}
+
+On peut décomposer les vecteurs sur des vecteurs dits de base, et on peut leur appliquer différentes opérations, comme une projection orthogonale ou bien une rotation selon un axe. Ce formalisme fonctionne très bien pour la géométrie dans le plan, et on peut l'étendre à plein d'autres concepts mathématiques.
+
+\subsection{Explorons l'inexploré !}
+
+\begin{théorème}{$\mathbb{R}$ existe}{}
+	Il existe un corps des réels noté $\mathbb{R}$ muni d'une addition $+$ et d'une multiplication $\times$.
+\end{théorème}
+
+\begin{remarque}{Keskecé un Corps ?}{}
+	Il y a deux versions :
+	\begin{enumerate}
+		\item La version pragmatique : c'est un ensemble qui nous permet de faire des additions, soustractions, des multiplications et des divisions (sauf par $0$, où $0$ est défini comme $x+0 = 0+x = x$ pour $x$ un élément du corps)
+		\item La version vraie mais plus longue : voir Wikipedia
+	\end{enumerate}
+\end{remarque}
+
+\begin{définition}{$\mathbb{R}$-Espace Vectoriel}{}
+	Soit $E$ un ensemble. Il existe une addition $+$ et un produit extérieur $\cdot$ tels que
+	\begin{itemize}
+		\item On peut faire des additions sur $E$, avec existence d'un élément neutre $0_E$ et d'un opposé (que l'on note $-u$) : on a $u+v = v+u$, $u+(v+w) = (u+v)+w$, $u+0=u$ et $u + (-u) = 0$ pour $u$, $v$ et $w$ trois éléments de $E$.
+		\item On peut multiplier des vecteurs par des scalaires avec le produit extérieur : $\lambda\cdot x$ est encore un élément de $E$ pour $\lambda \in \mathbb{R}$.
+		\item La multiplication se comporte bien avec l'addition : on peut distribuer des scalaires et des vecteurs, multiplier par $1$ un vecteur ne le change pas : on a $(\lambda + \mu)\cdot u = \lambda\cdot u + \mu\cdot u$ (distributivité scalaire) et $\lambda\cdot (u+v) = \lambda \cdot u+\lambda\cdot v$ (distributivité vectorielle), $1\cdot u = u$, $(\lambda\times\mu)\cdot u = \lambda\cdot (\mu\cdot u)$ pour $u$, et $v$ éléments de $E$ et $\lambda$ et $\mu$ des réels.
+	\end{itemize}
+	Alors $E$ est un $\mathbb{R}$-espace vectoriel.
+\end{définition}
+
+\begin{définition}{Vecteurs et scalaires}{}
+	Les éléments de $E$ sont appelés vecteurs et ceux de $\mathbb{R}$ des scalaires.
+\end{définition}
+
+\begin{définition}{$\mathbb{R}$-Espace Vectoriel : ce qu'il faut en retenir}{}
+	Soit $E$ un ensemble. Il existe une addition $+$ et un produit extérieur $\cdot$ tels que
+	\begin{itemize}
+		\item On peut faire des additions sur $E$, avec existence d'un élément neutre $0_E$ tel que $x + 0_E = 0_E + x = x$ pour $x$ dans $E$, et d'un opposé.
+		\item On peut multiplier des vecteurs par des scalaires avec le produit extérieur : $\lambda\cdot x$ est encore un élément de $E$ pour $\lambda \in \mathbb{R}$.
+		\item La multiplication se comporte bien avec l'addition : on peut distribuer des scalaires et des vecteurs, multiplier par $1$ un vecteur ne le change pas.
+	\end{itemize}
+	Alors $E$ est un $\mathbb{R}$-espace vectoriel.
+\end{définition}
+
+\subsection{Revenons sur $\mathbb{R}^2$}
+
+Essayons de montrer que $\mathbb{R}^2$ (appelé précédemment "Géométrie dans le plan") est un $\mathbb{R}$-espace vectoriel. On note les éléments de $\mathbb{R}^2$ sous la forme suivante : $(x, y)$ où $x\in\mathbb{R}$ et $y\in\mathbb{R}$.
+
+\begin{enumerate}
+	\item En revenant à l'intuition géométrique du début (les points sont assimilés à des vecteurs par rapport à l'origine), quelles seraient les opérations d'addition et de produit extérieur que l'on pourrait prendre ?
+	\item Vérifions que ces opérations sont compatibles pour montrer que $\mathbb{R}^2$ avec ces opérations est un espace vectoriel.
+\end{enumerate}
+
+\subsection{Autres exemples d'espaces vectoriels}
+
+\subsubsection{$\mathbb{R}^n$}
+
+\begin{définition}{Espace/Espace-Temps}{}
+On peut définir de même ce qu'on appelle "espace" en géométrie : $\mathbb{R}^3$ dont les vecteurs s'écrivent sous la forme $(x, y, z)$, et aller plus loin avec par exemple l'espace-temps $\mathbb{R}^4$ de vecteurs $(x, y, z, t)$ etc. On garde les mêmes lois que pour $\mathbb{R}^2$ : on a $(x, y, z) + (x', y', z') = (x+x', y+y', z+z')$ et $\lambda(x, y, z) = (\lambda x, \lambda y, \lambda z)$
+\end{définition}
+
+\subsubsection{Les fonctions réelles}
+
+\begin{définition}{Fonction réelle à valeurs réelles}{}
+On appelle fonction réelle à valeurs réelles toute fonction qui a un réel associe un autre réel.
+\end{définition}
+
+\begin{théorème}{Espace vectoriel des fonctions réelles à valeurs réelles}{}
+On définit $f+g$ pour $f$ et $g$ des fonctions à valeurs réelles par la relation $(f+g)(x) = f(x)+g(x)$ et $\lambda f$ par $(\lambda f)(x) = \lambda f(x)$. On obtient que l'ensemble des fonctions réelles muni des deux opérations est un $\mathbb{R}$-espace vectoriel.
+\end{théorème}
+
+\subsection{Sous-espace vectoriel}
+
+\begin{définition}{Sous-espace vectoriel}{}
+	On dit que $F$ est un sous-espace vectoriel de $E$ si $F\subset E$ (c'est à dire que tout élément de $F$ appartient à $E$), que $F$ est stable par addition et produit externe (c'est à dire que l'addition et la multiplication par un scalaire d'éléments de $F$ donne un élément de $F$), et que $F$ se comporte comme un espace vectoriel avec l'addition et la multiplication externe de $E$.
+\end{définition}
+
+\begin{example}{}
+	Par exemple, une droite passant par l'origine est un sous-espace vectoriel de $\mathbb{R}^2$.
+\end{example}
+
+\begin{théorème}{Caractérisation}{}
+	De manière équivalente, $F$ est un sous-espace vectoriel de $E$ si et seulement si $0_E$ appartient à $F$ et que $F$ est stable par toute combinaison linéaire : pour tous $\lambda$, $\mu \in \mathbb{R}$ et $x$, $y\in F$, $\lambda x + \mu y \in F$.
+\end{théorème}
+
+\section{Liberté, bases et dimension}
+
+\begin{définition}{Famille}{}
+On appelle famille $(x_i)$ un ensemble ordonné d'éléments : on se donne $I$ un ensemble et pour tout élément de $i$ de $I$, on associe un élément $x_i$.
+\end{définition}
+
+\begin{définition}{Famille libre, génératrice, base}{}
+\begin{itemize}
+\item Une famille est dite libre si, pour toute famille de scalaires $(\lambda_i)$ indexée par $I$, la condition $\sum_{i\in I} \lambda_i x_i = 0$ donne que tous les $\lambda_i$ sont nuls;
+\item Une famille est dite génératrice si, pour tout élément de $E$, on peut associer une écriture sous la forme $\sum_{i\in I} \lambda_i x_i$;
+\item Une famille est une base si elle est libre et génératrice. Ceci est équivalent au fait qu'il existe, pour chaque élément de $E$ une unique écriture sous la forme $\sum_{i\in I} \lambda_i x_i$.
+\end{itemize}
+\end{définition}
+
+\begin{example}
+Dans $\mathbb{R}^2$, $((1, 0),(0, 1))$ forme une base de $\mathbb{R}^2$ : en effet, tout vecteur $(a, b)$ peut s'écrire sous la forme $a(1, 0) + b(0, 1)$ et si $(0, 0) = a(1, 0) + b(0, 1) = (a, b)$, alors on a nécessairement $a=b=0$
+\end{example}
+
+\begin{remarque}{Comment retenir "avec les mains"}{}
+A chaque vecteur de la famille, on associe un "axe" qui est l'ensemble des déplacements que l'on peut faire selon cet "axe" (en allant dans la direction du vecteur).
+\begin{itemize}
+	\item La liberté s'illustre comme le fait que le seul moyen d'atteindre le vecteur nul en faisant une série de déplacements selon nos vecteurs est de ne pas bouger;
+	\item Le caractère générateur s'illustre comme le fait qu'on puisse atteindre un point en se déplaceant selon nos axes;
+	\item Si notre famille est une base, alors on a, pour tout point, une seule combinaison de vecteurs permettant d'atteindre ce point.
+\end{itemize}
+\end{remarque}
+
+%TODO : écrire le paragraphe dimension
+
+\section{Applications linéaires et matrices}
+
+Maintenant que nous avons introduit les notions de vecteurs et de bases, essayons de voir comment modéliser des transformations : une dilatation, projection orthogonale ou bien rotation selon un axe. Le formalisme pertinent est celui d'application linéaire.
+
+\begin{définition}{Application linéaire}{}
+On considère deux espaces vectoriels $E$ et $F$. On appelle application linéaire une fonction $f$ qui à un élément de $E$ associe un élément de $F$, et qui vérifie les propriétés suivantes :
+\begin{itemize}
+	\item Pour tous vecteurs $x$ et $y$ de $E$, $f(x+y) = f(x)+f(y)$
+	\item Pour tout vecteur $x$ de E et tout scalaire $\lambda$, $f(\lambda x) = \lambda f(x)$
+\end{itemize}
+\end{définition}
+
+\begin{propositionfr}{Opérations avec des applications linéaires}{}
+On a, pour toute famille $(\lambda_i)_{i\in I}$ de scalaires qui est nulle à partir d'un certain rang et toute famille $(x_i)_{i\in I}$ de vecteurs
+$$f\left(\sum_{i\in I}\lambda_i x_i\right) = \sum_{i\in I}\lambda_i f(x_i)$$
+\end{propositionfr}
+
+\begin{théorème}{Identification d'applications linéaires}{}
+Soient $E$ et $F$ deux espaces vectoriels, $(e_i)_{i\in I}$ une base de $E$ et $(y_i)_{i\in I}$ une famille de vecteurs de $F$. Il existe une unique application linéaire telle que, pour tout indice $i$, $f(e_i) = y_i$.
+\end{théorème}
+
+
+
+\begin{remarque}{Utilité}{}
+Ce théorème est essentiel car il permet de comprendre les applications linéaires en s'intéressant uniquement à l'image d'une base, car par linéarité on peut trouver la valeur de \textbf{n'importe quel} vecteur.
+\end{remarque}
+
+Donnons nous un exemple pour visualiser ceci : on considère $\mathbb{R}^3$ comme espace vectoriel de départ et d'arrivée : on prend $E = F = \mathbb{R}^3$. Comment peut-on décrire la rotation d'un d'angle $\pi$ autour de l'axe $z$ ? On utilise notre théorème précédent : on sait que $f(x) = -x$, $f(y) = -y$ ainsi que $f(z) = z$. Ensuite, on utilise notre théorème précédent : pour tout vecteur $u$, on a l'existence de scalaires tels que $u = \alpha x + \beta y + \gamma z$, et donc $f(u) = \alpha f(x) + \beta f(y) + \gamma f(z)$ ce qui donne donc $f(u) = -\alpha x - \beta y + \gamma z$
+
+%TODO : figure sympa pour illustrer la rotation
+
+\end{document}
