@@ -57,7 +57,7 @@
     \FPdiv\colCount{\colCount}{\rowCount}
 
     % Initialize lambda vector and variables
-    \newcommand{\lambdaVector}{} % Replace with zeros matching \colCount
+    \newcommand{\lambdaVector}{}
     \foreach \col in {1,...,\colCount}{%
 	    \xdef\lambdaVector{\lambdaVector0\space}
     }
@@ -79,7 +79,7 @@
                 \xdef\gradientVector{\gradientVector\rowSum\space}
             }
             % Add y vector to complete gradient
-            \renewcommand{\updatedGradient}{} % Reset
+            \renewcommand{\updatedGradient}{}
             \foreach \gradElem \yElem in \gradientVector \yVector {%
                 \FPadd\sumValue{\gradElem}{\yElem}
                 \xdef\updatedGradient{\updatedGradient\sumValue\space}
@@ -90,7 +90,7 @@
             \FPset\prevObjective{\objective}
 
             % Step 3: Update lambda with projection
-            \renewcommand{\lambdaVector}{} % Reset
+            \renewcommand{\lambdaVector}{}
             \foreach \lambdaElem \gradElem in \prevLambda \updatedGradient {%
                 \FPmul\stepUpdate{\h}{\gradElem}
                 \FPadd\newValue{\lambdaElem}{\stepUpdate}
@@ -100,7 +100,7 @@
 
             % Compute objective function D(lambda) = -1/2 * lambda^T X^T X lambda + y^T lambda
             \MatrixVectorMultiply{\matrixX}{\lambdaVector} % Compute X^T lambda
-            \renewcommand{\objective}{0} % Reset
+            \renewcommand{\objective}{0}
             \foreach \lambdaElem \resultElem in \lambdaVector \result {%
                 \FPmul\product{\lambdaElem}{\resultElem}
                 \FPadd\objective{\objective}{\product}

@@ -378,19 +378,24 @@ class Manifold:
                 self.plot(show_axis=True, function=u, level_sets=level_sets)
                 name_file=f"{self.name}_t={time_step}_i={i}_{level_sets}.png"
                 plt.savefig(f'Figures/{name_file}')
-                plt.show()
                 # with open(f"{self.name}_values.txt", 'a') as f:
                 #     f.write(f"Itération: {i}\n" + str(u.transpose()) + "\n\n")
+        plt.show()
         return
 
 
+def sphere_comparator():
+    # TODO: Compare on number of points
+    return
+
+
 if __name__ == '__main__':
-    file = "toolbox_graph/elephant-50kv.off"
+    file = "toolbox_graph/camel.off"
     manif = Manifold(file)
     # manif.plot()
     # print(manif.points, manif.faces)
     # print(manif.laplacian_op.toarray())
     manif.implicit_time_stepping_heat_equation(
-        vertex=0, time_step=10, iterations=list(filter(lambda t: t % 10 == 0, range(101))), level_sets=True,
+        vertex=0, time_step=10, iterations=list(filter(lambda t: t % 10 == 0, range(101))), level_sets=False,
     )
     # plt.show()
