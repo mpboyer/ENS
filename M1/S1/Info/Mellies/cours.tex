@@ -2274,7 +2274,7 @@ Ceci nous donne une définition équivalente d'adjonctions par représentation e
 		\end{tikzcd}
 		=
 		\begin{tikzcd}
-			R\ar[d, no head] &[-20pt] & &[-20pt] L\ar[d, no head]\\
+			R\ar[d, no head] &[-15pt] & &[-15pt] L\ar[d, no head]\\
 			R & L\ar[r, bend left=90, no head] & R & L
 		\end{tikzcd}
 	\end{equation*}
@@ -2294,13 +2294,13 @@ Ceci nous donne une définition équivalente d'adjonctions par représentation e
 		\end{tikzpicture}
 		 =
 		 \begin{tikzcd}
-			 R &[-20pt] &[-10pt] &[-20pt] & &[-10pt] L\\
+			 R &[-15pt] &[-10pt] &[-15pt] & &[-10pt] L\\
 			 & & & \phantom{}\ar[r, bend left=90, no head, "\epsilon"] & \phantom{} & \\
 			 R\ar[uu, no head] & L\ar[r, bend left=90, no head, "\epsilon"] & R & L\ar[u, no head] & R\ar[u, no head] & L\ar[uu, no head]
 		 \end{tikzcd}
 		 \overset{\text{naturalité de $\epsilon$}}{=}
 		 \begin{tikzcd}
-			 R &[-20pt] &[-10pt] &[-20pt] &[-10pt] &[-20pt] L\\
+			 R &[-15pt] &[-10pt] &[-15pt] &[-10pt] &[-15pt] L\\
 			 & \phantom{}\ar[r, bend left=90, no head, "\epsilon"] & \phantom{} & & & \\
 			 R\ar[uu, no head] & L\ar[u, no head] & R\ar[u, no head] &  L\ar[r, bend left=90, "\epsilon", no head] & R & L\ar[uu, no head]
 		 \end{tikzcd}
@@ -2325,7 +2325,7 @@ Ceci nous donne une définition équivalente d'adjonctions par représentation e
 		\end{tikzcd}
 		=
 		\begin{tikzcd}
-			\phantom{} & & &[-20pt] \phantom{}\\
+			\phantom{} & & &[-15pt] \phantom{}\\
 			R\ar[u, no head]\ar[r, bend right=90, no head, "\mu"'] & L\ar[r, bend left, "\epsilon", no head] & R & L\ar[u, no head]
 		\end{tikzcd}
 		\overset{zigzag}{=}
@@ -2375,7 +2375,7 @@ Ceci nous donne une définition équivalente d'adjonctions par représentation e
 	On obtient notamment le fait que $Set(A, 1 + B) \cong pSet(A, B)$ par $\Phi_{A, B}$.
 \end{exemple}
 
-\subsection{Catégorie des Algèbres d'une Monade}
+\subsection{Catégorie des Algèbres d'Eilenberg-Moore d'une Monade}
 En partant de la monade $T: Ens \to Ens$ définie par $T(A) = A^{*}$ l'ensemble des mots finis, on peut reconstruire la catégorie $Mon$ des monoïdes et homomorphismes.
 En notaint $A^{*} = \bigsqcup_{n \in \N} A^{n}$, on va définir un monoïde comme une fonction: $alh: \underbrace{TA}_{1 + A + \cdots} \to A$ qu'on peut voir comme une famille de fonctions $alg_{n}: A^{n} \to A$, i.e. une famille d'opérations $n$-aires.
 En particulier, $1 \to A$ est l'élément neutre et $A^{2} \to A$ est le produit du monoïde.
@@ -2482,6 +2482,111 @@ Dans le cas de $TA = A^{*}$, on retrouve $h\left( \cdot_{n}\left( a_{1}, \ldots,
 	\end{category}
 \end{proof}
 
+
+\subsection{Catégorie de Kleisli et Sémantique des Effets}
+Nous avons étudié une factorisation de toute monade $T: \A \to \A$ en une adjonction $L \vdash R$ telle que $T = \begin{tikzcd}
+	A\ar[r, bend left, "L"] & B\ar[l, bend left, "R"]\ar[l, phantom, "\rotatebox{90}{$\vdash$}"]
+\end{tikzcd}$ où $\B = Alg(T)$.
+
+Nous allons maintenant nous intéresser à la factorisation donnée par la catégorie $Kl(T)$ dite de Kleisli associée à la monade $T: \A \to \A$.
+La catégorie $Kl(T)$ a pour objets ceux de la catégorie $\A$ et pour morphismes $f: A \to B$ les morphismes $f:A\to TB$ de la catégorie $\A$.
+La loi de composition de $Kl(T)$ est alors $g \circ_{Kl} f = \mu_{C} \circ Tg \circ f$, la seconde composition étant entendue dans $A$:
+\begin{category}[]
+		& & T^{2}C\ar[d, "\mu_{C}"]\\
+	 	& TB\ar[ur, "Tg"] & TC\\
+	  A\ar[ur, "f"] & B\ar[ur, "g"]&
+\end{category}
+L'identité dans $Kl(T)$ est alors décrite par $\id_{A}^{Kl(T)}: A\xrightarrow{\eta_{A}} TA$.
+
+Pour l'associativité, le diagramme ci-dessous commute:
+\begin{category}[]
+	& & & T^{3}D\ar[d, "T\mu_{D}"]\ar[dr, "\mu_{TD}"] & \\
+	& & T^{2}C\ar[d, "\mu_{C}"]\ar[ur, "T^{2}h"] & T^{2}D\ar[d, "\mu_{D}"] & T^{2}D\ar[dl, "\mu_{D}"]\\
+	& TB\ar[ur, "Tg"] & TC\ar[ur, "Th"] & TD & \\
+	A\ar[ur, "f"] & B\ar[ur, "g"] & C\ar[ur, "h"] & &
+\end{category}
+puisqu'en effet le diagramme ci-dessous commute:
+\begin{category}
+	T^{2}C\ar[r, "T^{2}h"]\ar[d, "\mu_{C}"] & T^{3}D\ar[d, "\mu_{TD}"]\\
+	TC\ar[r, "Th"] & T^{2}D
+\end{category}
+Par ailleurs, pour vérifier les propriétés de l'identité, on obtient le diagramme suivant, qui commute par naturalité de la monade:
+\begin{category}
+	TB\ar[rr, "\eta_{TB}"] & & T^{2}B\ar[d, "\mu_{B}"]\\
+	& TA\ar[ur, "Tf"] & TB\\
+	A\ar[ur, "\mu_{A}"]\ar[uu, "f"] & A\ar[ur, "f"]
+\end{category}
+
+En diagrammes de cordes, un objet de $\A$ ou de $Kl(T)$ peut être vu comme un foncteur $\mathds{1} \to \A$ où $\mathds{1}$ est la catégorie à un seul objet.
+Le diagramme de corde
+\begin{tikzcd}[remember picture]
+	& B &\\
+	\A & |[alias=f]| f\ar[u, no head]& \mathds{1}\\
+	& A\ar[u, no head] &
+\end{tikzcd}
+\begin{tikzpicture}[overlay, remember picture]
+	\draw[anchor=south west] (f.south west) rectangle +(15pt, 15pt);
+\end{tikzpicture}
+décrit un morphisme $A \xrightarrow{f} B$ de la catégorie $\A$.
+Par définition, une flèche $A \not\to B$ de $Kl(T)$ est une flèche $A \to TB$ de $\A$:
+\begin{equation*}
+	\begin{tikzcd}[remember picture]
+		& B &\\
+		\A & |[alias=f]| f\ar[u, no head]& \mathds{1}\\
+		& A\ar[u, no head] &
+	\end{tikzcd}
+	\begin{tikzpicture}[overlay, remember picture]
+		%
+		\draw[anchor=south west] (f.south west) rectangle +(15pt, 15pt);
+	\end{tikzpicture}
+	=
+	\begin{tikzcd}[remember picture]
+		\overset{\text{monade}}{T} & \overset{\text{objet}}{B}\\
+		& |[alias=f]|f\ar[bend left, ul, "\A", no head]\ar[u, "\A", no head]\\
+		& \underset{\text{objet}}{A}\ar[u, no head]
+	\end{tikzcd}
+	\begin{tikzpicture}[overlay, remember picture]
+		%
+		\draw[anchor=south west] (f.south west) rectangle +(15pt, 15pt);
+	\end{tikzpicture}
+\end{equation*}
+
+Sémantiquement, $f$ interprète un programme typé $a: A \vdash f: B$ en produisant un \emph{effet}, décrit/transporté par la monade vue comme un signal ou une particule:
+\begin{category}[remember picture]
+	\phantom{} & \phantom{} &[.5cm] TC\\
+	|[alias=mu]|\mu\ar[u, no head, "T"] & \phantom{}\ar[u, no head, "C"'] & T^{2}C\ar[u, "\mu_{C}"]\\
+	\phantom{}\ar[u, no head, "T"]& |[alias=g]|g\ar[u, "C"', no head]\ar[ul, no head, "T"] & \\
+	& |[alias=f]|f\ar[bend left, "T", no head, ul]\ar[u, no head, "B"'] & TB\ar[uu, "Tg"']\\
+	& A\ar[u, no head] & A\ar[u, "f"']
+\end{category}
+\begin{exemple}
+	\begin{enumerate}
+		\item Pour $T: Ens \to Ens, A \mapsto 1 + A$, $Kl(T)$ est la catégorie des ensembles et des fonctions partielles.
+		\item Pour $\mP: Ens \to Ens, A \mapsto \mP\left( A \right)$ l'ensemble des sous-ensembles de $A$, une fonction $f: A\not\to B$ se basant sur $f: A\to \mP\left( B \right)$ une relation binaire entre $A$ et $B$, ce qu'on voit en notant $R_{f} = \left\{ (a, b) \mid b \in f(a) \right\}$.
+			La composition de $f: A \not\to B$ et $g: B \not\to C$ est la composition relationnelle, c'est-à-dire que:
+			\begin{equation*}
+				R_{g\circ_{Kl} f} = R_{g} \circ_{Rel} R_{f} = \left\{ \left( a, c \right) \in A\times C \ \middle|\ \exists b \in B, \left( a, b \right)\in R_{f} \land \left( b, c \right) \in R_{g} \right\}
+			\end{equation*}
+			Ici, on a: $\eta_{A}: a \in A\mapsto \{a\} \in \mP A$ et $\mu_{A}: V \subseteq \mP A \mapsto \bigcup_{v\in V} v$.
+		\item Les noyaux probabilitstes $A \not\to B$ entre espaces mesurables. Pour $T$ la monade de Giry où $TA$ est l'espace mesurable des mesures de probabilité sur $\B$.
+	\end{enumerate}
+\end{exemple}
+
+\begin{proposition}
+	Il existe un foncteur: $F: Kl_{T} \to Alg_{T}$, $A \mapsto TA$ $A\not\xrightarrow{f} B \mapsto \begin{tikzcd}
+		& T^{2}B\ar[d, "\mu_{B}"]\\
+		TA\ar[ur, "Tf"]\ar[r, "Ff"] & TB\\
+		A\ar[ur, ""] &
+	\end{tikzcd}$
+	où $Ff$ définit un homomorphismes entre algèbre libre.
+	Ce foncteur est plein et fidèle, c'est-à-dire que $Kl_{T}\left( A, B \right) \to Alg_{T}\left( TA, TB \right)$ est une bijection (plein = surjection, fidèle = injection).
+\end{proposition}
+
+La catégorie $Kl_{T}$ peut donc être vue comme une catégorie d'algèbres libres \emph{présentées}.
+Par exemple, pour $T: Ens \to Ens, A\mapsto k^{A} = \left\{ \lambda: A \to k \mid \text{ à support fini} \right\}$.
+Le foncteur $F$ n'est pas injectif ni surjectif sur les objets en général.
+
+On pourrait généraliser en regardant la catégorie des factorisations d'une monade. Celle-ci contient un objet initial (la catégorie de Kleisli) et un objet terminal (la catégorie d'Eilenberg-Moore).
 
 \section{Lambda-Calcul Simplement Typé et Catégories Cartésiennes Fermées}
 \subsection{Catégorie Cartésienne Fermée}
@@ -2694,8 +2799,8 @@ On demande que toutes les variables soient différentes.
 	\end{itemize}
 \end{definition}
 
-\begin{thm}[d'Invariance Sémantique]
-\end{thm}
+\subsection{Lambda-Calcul avec Effets}
+Voir Slides, j'aurai pas le temps de noter.
 
 \section{TD 1}
 \subsection{Catégories et Foncteurs}
