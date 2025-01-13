@@ -110,6 +110,7 @@
 \DeclareMathOperator{\sh}{sh}
 \DeclareMathOperator{\sgn}{sgn}
 \DeclareMathOperator{\Vect}{Vect}
+\DeclareMathOperator{\Mat}{Mat}
 \renewcommand{\th}{\mathop{\rm th}}
 \makeatletter
 \renewcommand{\ALG@name}{Algorithme}
