@@ -384,6 +384,30 @@ class Manifold:
         return
 
 
+def plane_square_manifold(epsilon):
+    even = np.arange(0, 1, epsilon)  # Evenly spaced by epsilon points
+    points = []
+    for x in even:
+        for y in even:
+            points.append((x, y, 0))
+    n = len(even)
+    faces = []
+    for i in range(len(points)):
+        if i % n < n - 1 and i + n < len(points) :
+            faces.append((i, i + 1, i + n))
+
+
+    return
+
+
+def plane_comparator():
+    # Here we will only look at [0, 1]^{2} as the plane
+
+
+
+    return
+
+
 def sphere_comparator():
     # TODO: Compare on number of points
     return

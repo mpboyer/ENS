@@ -1,0 +1,48 @@
+PREMIER COURS
+
+Le fil rouge : comment la linéarité permet de rendre les problèmes bien plus simples à résoudre, et comment on peut on peut reconstruire une solution à un pblm plus compliqué à partir de solutions linéaires
+
+Exhiber un problème : 
+
+Partie 1 : Structure d'espace vectoriel (avec les mains)
+- "définition" --> ça marche bien avec les mains, parallèle avec la géométrie
+- famille libre/génératrice avec les mains, bases
+- sous espace vectoriel ? (avec le critère sympa non vide et stable par combinaison linéaire)
+- dimension ?
+- (espace affine ?, en vrai je pense que c'est cool mais je comprends si c'est trop)
+
+Partie 2 : Et avec des exemples, ça donne quoi ?
+- ceci généralise les espaces R^2 et R^3, donc on en parle et on montre que c'est compatible
+- polynômes de degré inf à n
+- les fonctions ! (juste fonctions, ou bien des trucs C^k, l'idée étant de montrer ce qu'est "la dimension infinie")
+
+Partie 3 : Les applications linéaires et matrices
+- définir une AL
+- UNE AL EST DEFINIE PAR L'IMAGE D'UNE BASE J'AI LA TRIK
+(exemple du RSF ?)
+- l'image d'une AL est équivalente à une matrice (en DF)
+- noyau/image et théorème noyau/image
+
+FIN DU PREMIER COURS
+
+DEBUT DU SECOND COURS
+
+Partie 4 : Interpolation de Lagrange
+- un bon exemple pour moi, "assez simple" et peut utiliser des trucs montrés avant
+- offrir un point de vue "calculatoire" avec les polynômes interpolateurs de Lagrange
+- ensuite un autre PDV avec le thm noyau image (et en quoi la linéarité c'est cool)
+
+Partie 5 : Equa diff (se restreindre à l'ordre 1, p-ê 2 pour le fun à la fin ?)
+- on définit les ED
+- on montre que les solutions c'est une droite affine trop génial uah (Théorème de Cauchy ?)
+- étendre ça vite fait à des dimensions plus hautes
+
+FIN SECOND COURS ?
+
+SUITES RECURRENTES
+
+Trucs potentiellement cools mais pour moi too much :
+- sommes directes, projo et symétries (avantage : on peut se baser sur la géométrie déjà ish vue, inconvénient : pour quoi ? (feur))
+- rang ? (pour quoi ? feur)
+- on développe le calcul matriciel pour décrire l'impact d'une composée/somme ?
+- matrices de passage WAY TOO MUCH

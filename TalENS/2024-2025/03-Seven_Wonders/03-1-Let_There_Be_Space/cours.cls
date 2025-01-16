@@ -112,7 +112,7 @@
 \makeatletter
 \renewcommand{\ALG@name}{Algorithme}
 \newcommand{\algorithmautorefname}{Algorithme}
-\makeatother
+\makeatother 
 
 \algblock{Input}{EndInput}
 \algnotext{EndInput}

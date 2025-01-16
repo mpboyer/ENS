@@ -526,4 +526,93 @@ En fait, notre raisonnement est très général:
 Si on a une équation différentielle linéaire d'ordre $n$, donc de la forme $y^{(n)} + \sum_{i = 0}^{n - 1} a_{i}(x)y^{(i)} = 0$, l'espace des solutions est un espace de vectoriel de dimension $n$.
 Encore plus généralement, si $b \neq 0$ l'espace des solutions est un espace affine, c'est-à-dire que toute solution est de la forme $y_{0} + S$ où $S$ est l'espace des solutions pour $b = 0$ et $y_{0}$ est une solution particulière.
 
+\section{Orthogonalité et produits scalaires}
+
+Notre définition d'espace vectoriel fonctionne assez bien mais il nous manque quelque chose pour définir la distance entre deux points, ainsi que le concept d'angle.
+
+\subsection{Produit scalaire, norme et distance}
+
+\begin{définition}{Produit scalaire}{}
+On considère $E$ un $\mathbb{R}$-espace vectoriel. On dit que $\phi : E\times E \rightarrow \mathbb{R}$ est un produit scalaire si :
+\begin{itemize}
+\item $\phi(\lambda x + \mu y, z) = \lambda\phi(x, z) + \mu\phi(y, z)$ (linéarité à gauche)
+\item $\phi(x, \lambda y +\mu z) = \lambda\phi(x, y) + \mu\phi(x, z)$ (linéarité à droite)
+\item $\phi(x, y) = \phi(y, x)$ (symétrie)
+\item $\phi(x, x) \geq 0$ (positivité)
+\item $\phi(x, x) = 0 \iff x = 0$
+\end{itemize}
+On dit que $(E, \phi)$ est un espace préhilbertien.
+\end{définition}
+
+\begin{propositionfr}{Produit scalaire sur $\mathbb{R}^n$}{}
+On définit $\phi(x, y)$ pour $x=(x_1, \cdots, x_n)$ et $y= (y_1, \cdots, y_n)$
+\begin{equation*}
+\phi(x, y) = x_1y_1 + \cdots x_ny_n
+\end{equation*}
+$\phi$ est un produit scalaire sur $\mathbb{R}^n$
+\end{propositionfr}
+
+%TODO : Preuve
+
+Et maintenant, comment on définit la taille d'un vecteur ?
+
+\begin{définition}{Norme euclidienne}{}
+On appelle norme euclidienne sur $(E, \phi)$ l'application définie par
+\begin{equation*}
+\|x\| = \sqrt{\phi(x, x)}
+\end{equation*}
+\end{définition}
+
+\begin{remarque}{Norme}{}
+Il existe une définition plus générale de norme dont la norme euclidienne est un exemple particulier.
+\end{remarque}
+
+\begin{théorème}{Inégalité de Cauchy Schwarz}{}
+On a pour deux vecteurs $x$ et $y$
+\begin{equation*}
+|\phi(x, y)| \leq \|x\|\| y\|
+\end{equation*}
+\end{théorème}
+
+%TODO : Preuve
+
+La notion de norme et l'inégalité de Cauchy Schwarz permet de définir celle d'angle (et d'aboutir sur la définition usuelle du produit scalaire)
+\begin{définition}{Angle entre deux vecteurs}{}
+On définit l'angle $\theta \in [0, \pi]$ entre deux vecteurs par la relation suivante
+\begin{equation*}
+\phi(x, y) = \|x\|\|y\|\cos(\theta)
+\end{equation*}
+\end{définition}
+
+On a ainsi une définition pour la taille d'un vecteur, et pour une distance on définit la distance euclidienne :
+
+\begin{définition}{Distance euclidienne}{}
+On appelle distance entre deux points sur $(E, \phi)$ l'application définie par
+\begin{equation*}
+d(x, y) = \|x-y\|
+\end{equation*}
+\end{définition}
+
+\subsection{Orthogonalité}
+
+\begin{définition}{Orthogonalité et orthonormalité}{}
+On dit que deux famille de vecteurs $(x_i)_{i\in I}$ et $(y_i)_{i\in I}$ sont orthogonales si
+\begin{equation*}
+	\forall (i, j) \in I^2, i\neq j \Rightarrow \phi(x_i, y_j) = 0
+\end{equation*}
+Elle est dite orthonormale si elle est orthogonale et que $\forall i \in I, \phi(x_i, x_i) = 1$
+\end{définition}
+
+\begin{remarque}{Angle, le retour !}{}
+	On retrouve que deux vecteurs non nuls du plan (en géométrie euclidienne) sont orthogonaux si l'angle les séparant vaut $90$°.
+\end{remarque}
+
+Pourquoi l'orthogonalité c'est cool ?
+
+\begin{théorème}{Orthogonalité et liberté}{}
+	Toute famille orthogonale de vecteurs non nuls est libre.
+\end{théorème}
+
+%TODO : preuve
+
 \end{document}
