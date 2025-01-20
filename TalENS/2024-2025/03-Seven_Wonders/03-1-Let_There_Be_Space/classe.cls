@@ -87,6 +87,7 @@
 \newcommand{\B}{\mathcal{B}}
 \newcommand{\ml}{\mathcal{l}}
 \newcommand{\mP}{\mathcal{P}}
+\newcommand{\mF}{\mathcal{F}}
 
 \renewcommand{\P}{\mathbb{P}}
 \renewcommand{\d}{{\rm \, d}}

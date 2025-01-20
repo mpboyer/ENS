@@ -533,63 +533,76 @@ Notre définition d'espace vectoriel fonctionne assez bien mais il nous manque q
 \subsection{Produit scalaire, norme et distance}
 
 \begin{définition}{Produit scalaire}{}
-On considère $E$ un $\mathbb{R}$-espace vectoriel. On dit que $\phi : E\times E \rightarrow \mathbb{R}$ est un produit scalaire si :
+	On considère $E$ un $\mathbb{R}$-espace vectoriel. On dit que $\scalar{\cdot, \cdot} : E\times E \rightarrow \mathbb{R}$ est un produit scalaire si :
 \begin{itemize}
-\item $\phi(\lambda x + \mu y, z) = \lambda\phi(x, z) + \mu\phi(y, z)$ (linéarité à gauche)
-\item $\phi(x, \lambda y +\mu z) = \lambda\phi(x, y) + \mu\phi(x, z)$ (linéarité à droite)
-\item $\phi(x, y) = \phi(y, x)$ (symétrie)
-\item $\phi(x, x) \geq 0$ (positivité)
-\item $\phi(x, x) = 0 \iff x = 0$
+	\item $\scalar{\lambda x + \mu y, z} = \lambda\scalar{x, z} + \mu\scalar{y, z}$ (linéarité à gauche)
+	\item $\scalar{x, \lambda y +\mu z} = \lambda\phi(x, y) + \mu\phi(x, z)$ (linéarité à droite)
+	\item $\scalar{x, y} = \scalar{x, y}$ (symétrie)
+	\item $\scalar{x, x} \geq 0$ (positivité)
+	\item $\scalar{x, x} = 0 \iff x = 0$
 \end{itemize}
-On dit que $(E, \phi)$ est un espace préhilbertien.
+	On dit que $(E, \scalar{\cdot, \cdot})$ est un espace préhilbertien.
 \end{définition}
 
 \begin{propositionfr}{Produit scalaire sur $\mathbb{R}^n$}{}
-On définit $\phi(x, y)$ pour $x=(x_1, \cdots, x_n)$ et $y= (y_1, \cdots, y_n)$
-\begin{equation*}
-\phi(x, y) = x_1y_1 + \cdots x_ny_n
-\end{equation*}
-$\phi$ est un produit scalaire sur $\mathbb{R}^n$
+	On définit $\scalar{x, y}$ pour $x=(x_1, \cdots, x_n)$ et $y= (y_1, \cdots, y_n)$
+	\begin{equation*}
+		\scalar{x, y} = x_1y_1 + \cdots x_ny_n = \sum_{i = 1}^{n} x_{i}y_{i} = y\transpose{x}
+	\end{equation*}
+	$\scalar{\cdot, \cdot}$ est un produit scalaire sur $\mathbb{R}^n$
 \end{propositionfr}
-
-%TODO : Preuve
-
 Et maintenant, comment on définit la taille d'un vecteur ?
 
 \begin{définition}{Norme euclidienne}{}
-On appelle norme euclidienne sur $(E, \phi)$ l'application définie par
+	On appelle norme euclidienne sur $(E, \scalar{\cdot, \cdot})$ l'application définie par
 \begin{equation*}
-\|x\| = \sqrt{\phi(x, x)}
+	\norm{x} = \sqrt{\scalar{x, x}}
 \end{equation*}
 \end{définition}
 
 \begin{remarque}{Norme}{}
-Il existe une définition plus générale de norme dont la norme euclidienne est un exemple particulier.
+	Il existe une définition plus générale de norme dont la norme euclidienne est un exemple particulier.
+	Il s'agit d'une application: $\norm{\cdot}: x \in E \longmapsto \norm{x} \in \R^{+}$ telle que:
+	\begin{equation*}
+		\norm{\lambda x} = \abs{\lambda}\norm{x}, \norm{x + y}\leq \norm{x}\norm{y}, \norm{x} = 0 \Rightarrow x = 0_{E}
+	\end{equation*}
 \end{remarque}
 
 \begin{théorème}{Inégalité de Cauchy Schwarz}{}
 On a pour deux vecteurs $x$ et $y$
 \begin{equation*}
-|\phi(x, y)| \leq \|x\|\| y\|
+	\abs{\scalar{x, y}} \leq \norm{x}\norm{y}
 \end{equation*}
+et il y a égalité si $x$ et $y$ sont colinéaires, c'est-à-dire quand $x = \lambda y$.
 \end{théorème}
-
-%TODO : Preuve
+\begin{proof}
+	On pose $P(t) = \norm{x + ty}^{2} = \scalar{x + ty, x + ty}$. En évaluant en $t_{0} = \frac{-\scalar{x, y}}{\norm{y}^{2}}$ on obtient alors que:
+	\begin{equation*}
+		0 \leq P\left( t_{0} \right) = \norm{x}^{2} - \abs{\scalar{x, y}}^{2}/\norm{y}^{2}
+	\end{equation*}
+	c'est-à-dire
+	\begin{equation*}
+		\scalar{x, y}^{2} \leq \norm{x}^{2}\norm{y}^{2}
+	\end{equation*}
+	ce qui donne le résultat en passant à la racine.
+	Pour le cas d'égalité on vérifie qu'on a bien égalité dans le cas de colinéarité. Sinon, si l'on a égalité, on trouve que $P(t_{0}) = 0$ ce qui signifie que $x = -t_{0}y$ et donc le résultat.
+\end{proof}
 
 La notion de norme et l'inégalité de Cauchy Schwarz permet de définir celle d'angle (et d'aboutir sur la définition usuelle du produit scalaire)
 \begin{définition}{Angle entre deux vecteurs}{}
 On définit l'angle $\theta \in [0, \pi]$ entre deux vecteurs par la relation suivante
 \begin{equation*}
-\phi(x, y) = \|x\|\|y\|\cos(\theta)
+	\scalar{x, y} = \|x\|\|y\|\cos(\theta)
 \end{equation*}
 \end{définition}
+Ceci découle de l'expression du produit scalaire canonique sur $\R^{n}$ et de la vision de l'angle entre deux droites dans $\R^{2}$.
 
 On a ainsi une définition pour la taille d'un vecteur, et pour une distance on définit la distance euclidienne :
 
 \begin{définition}{Distance euclidienne}{}
-On appelle distance entre deux points sur $(E, \phi)$ l'application définie par
+	On appelle distance entre deux points sur $(E, \scalar{\cdot, \cdot})$ l'application définie par
 \begin{equation*}
-d(x, y) = \|x-y\|
+	d(x, y) = \norm{x - y}
 \end{equation*}
 \end{définition}
 
@@ -598,9 +611,9 @@ d(x, y) = \|x-y\|
 \begin{définition}{Orthogonalité et orthonormalité}{}
 On dit que deux famille de vecteurs $(x_i)_{i\in I}$ et $(y_i)_{i\in I}$ sont orthogonales si
 \begin{equation*}
-	\forall (i, j) \in I^2, i\neq j \Rightarrow \phi(x_i, y_j) = 0
+	\forall (i, j) \in I^2, i\neq j \Rightarrow \scalar{x_i, y_j} = 0
 \end{equation*}
-Elle est dite orthonormale si elle est orthogonale et que $\forall i \in I, \phi(x_i, x_i) = 1$
+Elle est dite orthonormale si elle est orthogonale et que $\forall i \in I, \scalar{x_i, x_i} = 1$
 \end{définition}
 
 \begin{remarque}{Angle, le retour !}{}
@@ -610,9 +623,100 @@ Elle est dite orthonormale si elle est orthogonale et que $\forall i \in I, \phi
 Pourquoi l'orthogonalité c'est cool ?
 
 \begin{théorème}{Orthogonalité et liberté}{}
-	Toute famille orthogonale de vecteurs non nuls est libre.
+Toute famille orthogonale de vecteurs non nuls est libre
 \end{théorème}
+\begin{proof}
+	Pour cela, on considère:
+	\begin{equation*}
+		\sum_{i\in I}\lambda_{i}v_{i} = 0
+	\end{equation*}
+	Pour tout $k$ de $I$ on a:
+	\begin{equation*}
+		0 = \scalar{v_{k}, \sum_{i \in I}\lambda_{i}v_{i}} = \sum_{i \in I}\lambda_{i}\scalar{v_{k}, v_{i} = \lambda_{k}\norm{v_{k}}^{2}}
+	\end{equation*}
+	Or, $v_{k} \neq 0 \Rightarrow \norm{v_{k}} \neq 0$.
+	Donc $\lambda_{k} = 0$.
+\end{proof}
 
-%TODO : preuve
+Flashbacks de cours de quatrième :
+
+\begin{théorème}{Théorème de Pythagore}{}
+Soient deux vecteurs $x$ et $y$. On a l'équivalence
+\begin{equation*}
+	\norm{x + y}^{2} = \norm{x}^{2} + \norm{y}^{2} \iff \scalar{x, y} = 0
+\end{equation*}
+Par ailleurs, si on dispose d'une famille $\left(u_{i}\right)_{i\in I}$ orthogonale, alors:
+\begin{equation*}
+	\norm{\sum_{i \in I}u_{i}}^{2} = \sum_{i\in I}\norm{u_{i}}^{2}
+\end{equation*}
+Attention, ici la réciproque est fausse dès que $\abs{I} \geq 3$.
+\end{théorème}
+\begin{proof}
+	\begin{itemize}
+		\item Cas de $2$ vecteurs:
+			\begin{equation*}
+				\norm{u + v}^{2} = \scalar{u + v, u + v} = \norm{u^{2}} + \norm{v}^{2} + 2\scalar{u, v}
+			\end{equation*}
+			Donc on a égalité si et seulement si $\scalar{u, v} = 0$.
+		\item Cas général:
+			\begin{equation*}
+				\norm{\sum_{i = 1}^{n} u_{i}}^{2} = \sum_{i = 1}^{n}\norm{u_{i}}^{2} + \sum_{i \neq j \in I}\scalar{u_{i}, u_{j}}
+			\end{equation*}
+			D'où le résultat pour une famille orthogonale.
+			Dans le cas de $3$ vecteurs, on peut prendre $u = \left( 1, 2 \right), v=\left( 0, 2 \right)$ et $w = \left( 0, -1 \right)$ pour se convaincre que la réciproque est fausse.
+	\end{itemize}
+\end{proof}
+
+Enfin, finissons par un dernier gros théorème, qui justifie la fin de ce cours:
+\begin{théorème}{Base de Gram-Schmidt}{}
+	Tout espace vectoriel possède une base orthonormale.
+\end{théorème}
+Pour démontrer ce théorème on va s'appuyer sur le lemme suivant:
+\begin{lemme}{Orthogonalisation}{}
+	Soit $\mF = \left( u_{i} \right)_{i\in I}$ une famille orthonormale de $E$. Quel que soit le vecteur $v$ de $E$, $v' = v - \sum_{i = 1}^{n}\scalar{u_{i}, v}u_{i}$ est orthogonal à tout vecteur de $\Vect \mF$.
+\end{lemme}
+\begin{proof}
+	Soit $w \in \Vect \mF$.
+	Par linéarité:
+	\begin{equation*}
+		\scalar{v', w} = \scalar{v, w} - \sum_{i \in I}\scalar{u_{i}, v}\scalar{u_{i}, w}
+	\end{equation*}
+	Donc
+	\begin{equation*}
+		\scalar{v', w} = \scalar{v, w - \sum_{i = 1}^{n}\scalar{u_{i}, w}u_{i}}
+	\end{equation*}
+	Mais $w = \sum_{i = 1}^{n}\lambda_{i}u_{i}$ et donc:
+	\begin{equation*}
+		\forall j, \scalar{w, u_{j}} = \sum_{i \in I}\lambda_{i}\scalar{u_{i}, u_{j}} = \lambda_{j}
+	\end{equation*}
+	par orthonormalité de la famille.
+	Donc $w' = w - \sum_{i = 1}^{n}\scalar{u_{i}, w}u_{i} = 0_{E}$.
+	Ceci prouve que $\scalar{v', w} = 0$ et donc que $v' \perp \Vect \mF$.
+\end{proof}
+
+\begin{remarque}
+	Le vecteur $\sum_{i \in I}\scalar{u_{i}, v}u_{i}$ est le projeté orthogonal de $v$ sur $\mF$.
+\end{remarque}
+
+On peut donc en revenir à l'existence d'une base orthonormée. Pour cela, on introduit la procédé de Gram-Schmidt.
+\begin{proof}
+	À partir d'une famille $\mF$ libre de vecteurs non nuls de $E$, on peut construire une famille $\mF'$ orthonoramle.
+	Pour cela, on utilise l'algorithme suivant:
+	\begin{itemize}
+		\item On pose $v_{1} = \frac{u_{1}}{\norm{u_{1}}}$. $v_{1}$ forme une famille orthonormale.
+		\item Pour $i$ allant de $2$ à $\abs{I}$, on suppose que la famille $\mF'_{i - 1} = \left( v_{k} \right)_{k \in \onen{i - 1}}$ est orthonormale.
+			On calcule alors $u_{i}' = u_{i} - \sum_{k = 1}^{i - 1}\scalar{v_{k}, u_{i}}v_{k}$.
+			Il est orthogonal à tout vecteur $\mF'_{i - 1}$ et non nul car $\mF$ est libre.
+		Le vecteur $v_{i} = \frac{u_{i}'}{\norm{u_{i}'}}$ est donc unitaire et orthogonal à tout vecteur $\mF'_{i - 1}$
+	\end{itemize}
+	À l'arrêt de l'algorithme, la famille $\mF' = \left( v_{i} \right)_{i \in I}$ est orthonormale.
+\end{proof}
+
+\begin{corollaire}{Coordonées Cartésiennes}{}
+	Si $\mF$ est une base orthonormale, et que $u \in \Vect \mF$, alors:
+	\begin{equation*}
+		u = \sum_{v\in \mF}\scalar{u, v}v
+	\end{equation*}
+\end{corollaire}
 
 \end{document}
