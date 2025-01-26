@@ -8,13 +8,19 @@
 \begin{document}
 \bettertitle
 
-\emph{Acknowledgement: I have reused a lot of the structure of \cite{heatgeodesics} as I find their article well thought and clear.}
+\begin{center}
+	\begin{minipage}{.5\linewidth}
+\emph{Acknowledgement: I have reused a lot of the structure of \cite{heatgeodesics} as I find their article well thought and clear.
+	I have spent way too much time in a few days trying to polish this report and add results just to be more confused by them every time.
+	As such, this report does not contain much results, but mostly covers the theoretical aspects of the project, to protect my sanity.}
+	\end{minipage}
+\end{center}
 
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=\textwidth]{Figures/camel_t=10_i=100_False.png}
-	\caption{An application of our method: a dromedary stepping on a hot rock}
-\end{figure}
+
+\begin{abstract}
+	In this note we go over the Varadhan formula linking the heat kernel to the geodesic metric and derive a method to compute the geodesic metric using time and space discretization.
+	We then look at the theoretical and actual complexity and accuracy of our method by benchmarking on a mesh of the euclidean $2$-dimensional space.
+\end{abstract}
 
 \section{Introduction}
 Let us all remember our beloved heat equation:
@@ -28,7 +34,13 @@ We can explicitely derive the heat kernel on $\R^{n}$ to be:
 \end{equation}
 which leads to a particular setting of the Varadhan's formula, linking geodesics to the heat kernel.
 Indeed, in the euclidean space $\R^{n}$, the geodesic metric $d_{\R^{n}}\left( x, y \right)$ is defined by $\norm{x - y}$ for the euclidean norm.
-The geodesic metric between $x$ and $y$ is the length of the shortest path (the geodesic) between $x$ and $y$ on our manifold.
+The geodesic metric between $x$ and $y$ is the length of the shortest path (the geodesic) between $x$ and $y$ on our manifold as can be seen in Figure \ref{camel}.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{Figures/camel_geodesics.png}
+	\caption{An application of our method: a dromedary stepping on a hot rock}
+	\label{camel}
+\end{figure}
 In 1967, Varadhan showed the following:
 \begin{thm}[\cite{varadhan}]
 	If $(M, g)$ is a complete Riemannian manifold, and $k_{t, x}(y)$ is the associated heat kernel, converging to $\delta_{x}(y)$ at small times, then:
