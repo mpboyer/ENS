@@ -441,6 +441,7 @@ def plane_square_manifold(epsilon):
 def plane_comparator(batches):
     # Here we will only look at [0, 1]^{2} as the plane
     errors = []
+    fake_errors = []
     times = []
     for i in tqdm.trange(1, batches, desc="Comparing for the plane.", leave=True):
         t1 = time.time()
@@ -450,26 +451,26 @@ def plane_comparator(batches):
             f.write(m)
         manif = Manifold(f"plane_manifold_{i}.off")
         true_g = np.array([np.sqrt(epsilon) * npl.norm(np.array([k % (i + 1), k // (i + 1) ])) for k in range(manif.n)])
+        graph_g = np.array([np.sqrt(epsilon) * sum(np.array([k % (i + 1), k // (i + 1) ])) for k in range(manif.n)])
         g = manif.geodesics(0, 1e-5)
-        # if i % 10 == 0:
-            # manif.plot(function=g)
-            # plt.title(f'Figures/plane_compar_err_{i}.pdf')
-            # plt.show()
-            # plt.savefig(f'Figures/plane_compar_err_{i}.pdf')
-            # manif.plot(function=true_g)
-            # plt.title(f'Figures/plane_compar_true_{i}.pdf')
-            # plt.show()
-            # plt.savefig(f'Figures/plane_compar_true_{i}.pdf')
+        if i % 10 == 0:
+            ax = manif.plot(function=g)
+            ax.set_title(f'Figures/plane_compar_err_{i}.pdf')
+            plt.savefig(f'Figures/plane_compar_err_{i}.pdf')
+            ax = manif.plot(function=true_g)
+            ax.set_title(f'Figures/plane_compar_true_{i}.pdf')
+            plt.savefig(f'Figures/plane_compar_true_{i}.pdf')
         c = np.mean(abs(true_g - g))
         t2 = time.time()
         errors.append(c)
+        fake_errors.append(abs(true_g - graph_g))
         times.append(t2 - t1)
         try:
             os.remove(f"plane_manifold_{i}.off")
         except FileNotFoundError:
             pass
         # print(c)
-    return errors, times
+    return errors, fake_errors
 
 
 def sphere_comparator():
@@ -478,18 +479,24 @@ def sphere_comparator():
 
 
 if __name__ == '__main__':
-    err, tim = plane_comparator(100)
-    with open("plane_log.txt", "w") as f:
-        f.write(str(err))
+    err, fake_err = plane_comparator(100)
+    with open("fake_plane.txt", "w") as f:
+        f.write(str(fake_err))
         f.write("\n")
-        f.write(str(tim))
-    fig, ax = plt.subplots(1, 1)
-    ax.plot(err, c="#7d1dd3")
-    ax.title(r"$\ell^2$ error for rectangular plane subdivision")
-    plt.savefig("Figures/err_comp_planes_i<=100.pdf")
-    ax.plot(tim, c="#7d1dd3")
-    ax.title(r"$Time for rectangular plane subdivision geodesics computation")
-    plt.savefig("Figures/err_comp_planes_i<=100.pdf")
+        f.write(str(err))
+    # tim = np.array([0.013149023056030273, 0.020489931106567383, 0.03502511978149414, 0.05764174461364746,
+    #            0.09006428718566895,
+    # 0.11829209327697754, 0.15219831466674805, 0.19966363906860352, 0.24759960174560547, 0.3016645908355713, 0.36319780349731445, 0.43642115592956543, 0.5085740089416504, 0.588261604309082, 0.6055846214294434, 0.5321588516235352, 0.5333161354064941, 0.5925807952880859, 0.665614128112793, 0.7518506050109863, 0.8330981731414795, 0.9165232181549072, 1.068143606185913, 1.1483819484710693, 1.2146315574645996, 1.347912311553955, 1.4571983814239502, 1.6533777713775635, 1.7653348445892334, 1.8603324890136719, 2.0015053749084473, 2.160510301589966, 2.304192543029785, 2.516556978225708, 2.659261465072632, 2.808661937713623, 3.004868507385254, 3.275782823562622, 3.4321444034576416, 3.656442880630493, 3.9170353412628174, 4.202671766281128, 4.357384443283081, 4.7114574909210205, 4.971206903457642, 5.432301759719849, 5.646081924438477, 5.932646036148071, 6.220357894897461, 6.641796588897705, 6.983593225479126, 7.317787170410156, 7.8660500049591064, 8.602615356445312, 8.889338254928589, 9.128491640090942, 9.521665811538696, 9.917006492614746, 10.42499566078186, 10.813038110733032, 12.094079732894897, 13.044790506362915, 12.898698329925537, 13.446001529693604, 14.203690528869629, 14.943839311599731, 15.875797033309937, 16.614152193069458, 16.892996549606323, 18.298852682113647, 18.427256107330322, 19.281900644302368, 19.80189609527588, 20.651122570037842, 21.602256298065186, 22.77059841156006, 23.715381622314453, 24.505598306655884, 25.375815391540527, 26.976271152496338, 28.28458595275879, 29.85113501548767, 30.105552196502686, 30.820223093032837, 32.393033027648926, 33.69677686691284, 34.32210874557495, 35.16563868522644, 36.882479190826416, 37.398133277893066, 39.01607298851013, 40.273043155670166, 42.13457107543945, 44.42324090003967, 45.13938760757446, 46.633127212524414, 49.642672061920166, 51.82348918914795, 52.44626760482788])
+    # fig, ax = plt.subplots(1, 1)
+    # ax.plot(err, c="#7d1dd3")
+    # ax.set_title(r"$\ell^2$ error for rectangular plane subdivision")
+    # plt.savefig("Figures/err_comp_planes_i<=100.pdf")
+    # plt.clf()
+    # fig, ax = plt.subplots(1, 1)
+    # ax.plot(tim, c="#7d1dd3")
+    # ax.set_title(r"Time for rectangular plane subdivision geodesics computation")
+    # plt.savefig("Figures/tim_comp_planes_i<=100.pdf")
+
     # file = "toolbox_graph/camel.off"
     # manif = Manifold(file)
     # # manif.plot()
