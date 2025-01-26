@@ -1,21 +1,24 @@
-import numpy as np
-import numpy.linalg as npl
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 import csv
 from typing import Iterable
 import itertools
 from functools import cached_property
+import os
+import time
+
+import numpy as np
+import numpy.linalg as npl
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 from mpmath import cot
 import scipy.sparse as sp
 import scipy.sparse.linalg as spl
 import tqdm
+from matplotlib.colors import LinearSegmentedColormap
 
 # import time
 
 levelsets = 10
 
-from matplotlib.colors import LinearSegmentedColormap
 
 cm_data = [[0.2081, 0.1663, 0.5292], [0.2116238095, 0.1897809524, 0.5776761905],
  [0.212252381, 0.2137714286, 0.6269714286], [0.2081, 0.2386, 0.6770857143],
@@ -75,8 +78,8 @@ class Manifold:
         self.points = None
         self.faces = None
         self.label = label
-        self.name = path[:-4].split('/')[-1]
         if path is not None:
+            self.name = path[:-4].split('/')[-1]
             self.load_ascii_from_off(path)
 
     @property
@@ -126,6 +129,11 @@ class Manifold:
         with open(path, 'r') as f:
             data = csv.reader(f, delimiter=' ')
             data = list(filter(lambda t: t and t != ' ', data))
+        self.load_list(data)
+
+    def load_from_str(self, off):
+        data = csv.reader(off, delimiter=' ')
+        data = list(filter(lambda t: t and t != ' ', data))
         self.load_list(data)
 
     def load_list(self, data):
@@ -277,6 +285,24 @@ class Manifold:
         )
 
     @cached_property
+    def areamatrix(self):
+        areas = self.areas
+        area_diag = [0. for _ in self.points]
+        for i, f in enumerate(self.faces):
+            print(f)
+            for v in f:
+                area_diag[v] += 1 / 3 * areas[i]
+        return sp.diags(area_diag, 0)
+
+    @cached_property
+    def laplacian_sum_op(self):
+        s = np.array(0., like=(self.n, self.n))
+        for f in self.faces:
+            j1, j2, j3 = f
+
+        return
+
+    @cached_property
     def normalize(self):
         return lambda point: point / npl.norm(point) if npl.norm(point) else point
 
@@ -299,11 +325,12 @@ class Manifold:
         """
 
         Pour i < m, e[i, j] = 0 si j \notin face i, sinon
+        https://computergraphics.stackexchange.com/questions/8835/calculating-the-gradient-of-a-triangular-mesh
         :return:
         """
         e = sp.dok_matrix((3 * self.m, self.n))
         normals = self.normals
-        for j in tqdm.trange(self.m):
+        for j in range(self.m):  # tqdm.trange(self.m, leave=False):
             # print(j)
             p = self.get_points(j)
             for i, index in enumerate(self.faces[j]):
@@ -323,7 +350,7 @@ class Manifold:
 
     @cached_property
     def divergence_op(self):
-        return self.gradient_op.transpose().dot(self.diagareasf)
+        return self.gradient_op.T.dot(self.diagareasf)
 
     @cached_property
     def laplacian_op(self):
@@ -343,19 +370,24 @@ class Manifold:
     def geodesics(self, vertex: int, time_step: int):
         assert vertex <= self.n
         delta = np.zeros((self.n, 1))
-        delta[vertex] = 1000
-        print("Computing Laplacian")
+        delta[vertex] = 1
+        # print("Computing Laplacian")
         grad = self.gradient_op
-        div = grad.transpose().dot(self.diagareasf)
+        div = grad.T.dot(self.diagareasf)
         laplacian = div.dot(grad)
-        print("Inverting Laplacian")
-        mat = sp.identity(laplacian.shape[0]) + time_step * laplacian
+        # print(laplacian)
+        # print("Inverting Laplacian")
+        mat = sp.eye(self.n) + time_step * laplacian
         mat = spl.inv(mat)
-        print("Computing Diffusion Step")
+        # print("Computing Diffusion Step")
         u = mat.dot(delta)
         g = grad.dot(u)
-        h = -self.normalize(g)
-        ophi = mat.dot(div.dot(h))
+        h = -g
+        laplacian_inv = spl.inv(laplacian)
+        ophi = laplacian_inv.dot(div.dot(h)).T
+        ophi = np.reshape(ophi, (self.n,))
+        ophi = ophi - min(ophi)
+        # print(ophi)
         return ophi
 
     def implicit_time_stepping_heat_equation(self, vertex: int, time_step: float, iterations: Iterable[int],
@@ -371,12 +403,12 @@ class Manifold:
         _mat = sp.identity(laplacian.shape[0]) + time_step * laplacian
         mat = spl.inv(_mat)
         # print(u)
-        for i in tqdm.trange(max(iterations) + 1):
+        for i in range(max(iterations) + 1):  # tqdm.trange(max(iterations) + 1, leave=False):
             u = mat.dot(u)
             if i in iterations:
                 # print(u)
                 self.plot(show_axis=True, function=u, level_sets=level_sets)
-                name_file=f"{self.name}_t={time_step}_i={i}_{level_sets}.png"
+                name_file = f"{self.name}_t={time_step}_i={i}_{level_sets}.png"
                 plt.savefig(f'Figures/{name_file}')
                 # with open(f"{self.name}_values.txt", 'a') as f:
                 #     f.write(f"Itération: {i}\n" + str(u.transpose()) + "\n\n")
@@ -385,27 +417,59 @@ class Manifold:
 
 
 def plane_square_manifold(epsilon):
-    even = np.arange(0, 1, epsilon)  # Evenly spaced by epsilon points
+    even = np.arange(0, 1 + epsilon/2, epsilon)  # Evenly spaced by epsilon points
     points = []
     for x in even:
         for y in even:
             points.append((x, y, 0))
     n = len(even)
+    # print(dict(enumerate(points)))
     faces = []
     for i in range(len(points)):
         if i % n < n - 1 and i + n < len(points) :
-            faces.append((i, i + 1, i + n))
+            faces.append((3, i, i + 1, i + n))
+        if i % n > 0 and i + n < len(points):
+            faces.append((3, i, i + n, i + n - 1))
+    # print(faces)
+    manifold = "OFF\n"
+    manifold += f"{len(points)} {len(faces)}\n"
+    manifold += "\n".join(map(lambda p: " ".join(map(str, p)), points)) + "\n"
+    manifold += "\n".join(map(lambda p: " ".join(map(str, p)), faces))
+    return manifold
 
 
-    return
-
-
-def plane_comparator():
+def plane_comparator(batches):
     # Here we will only look at [0, 1]^{2} as the plane
-
-
-
-    return
+    errors = []
+    times = []
+    for i in tqdm.trange(1, batches, desc="Comparing for the plane.", leave=True):
+        t1 = time.time()
+        epsilon = 1 / i
+        m = plane_square_manifold(epsilon)
+        with open(f"plane_manifold_{i}.off", "w") as f:
+            f.write(m)
+        manif = Manifold(f"plane_manifold_{i}.off")
+        true_g = np.array([np.sqrt(epsilon) * npl.norm(np.array([k % (i + 1), k // (i + 1) ])) for k in range(manif.n)])
+        g = manif.geodesics(0, 1e-5)
+        # if i % 10 == 0:
+            # manif.plot(function=g)
+            # plt.title(f'Figures/plane_compar_err_{i}.pdf')
+            # plt.show()
+            # plt.savefig(f'Figures/plane_compar_err_{i}.pdf')
+            # manif.plot(function=true_g)
+            # plt.title(f'Figures/plane_compar_true_{i}.pdf')
+            # plt.show()
+            # plt.savefig(f'Figures/plane_compar_true_{i}.pdf')
+        c = np.mean(abs(true_g - g))
+        t2 = time.time()
+        errors.append(c)
+        times.append(t2 - t1)
+        try:
+            os.remove(f"plane_manifold_{i}.off")
+        except FileNotFoundError:
+            pass
+        # print(c)
+    return errors, times
 
 
 def sphere_comparator():
@@ -414,12 +478,24 @@ def sphere_comparator():
 
 
 if __name__ == '__main__':
-    file = "toolbox_graph/camel.off"
-    manif = Manifold(file)
-    # manif.plot()
-    # print(manif.points, manif.faces)
-    # print(manif.laplacian_op.toarray())
-    manif.implicit_time_stepping_heat_equation(
-        vertex=0, time_step=10, iterations=list(filter(lambda t: t % 10 == 0, range(101))), level_sets=False,
-    )
+    err, tim = plane_comparator(100)
+    with open("plane_log.txt", "w") as f:
+        f.write(str(err))
+        f.write("\n")
+        f.write(str(tim))
+    fig, ax = plt.subplots(1, 1)
+    ax.plot(err, c="#7d1dd3")
+    ax.title(r"$\ell^2$ error for rectangular plane subdivision")
+    plt.savefig("Figures/err_comp_planes_i<=100.pdf")
+    ax.plot(tim, c="#7d1dd3")
+    ax.title(r"$Time for rectangular plane subdivision geodesics computation")
+    plt.savefig("Figures/err_comp_planes_i<=100.pdf")
+    # file = "toolbox_graph/camel.off"
+    # manif = Manifold(file)
+    # # manif.plot()
+    # # print(manif.points, manif.faces)
+    # # print(manif.laplacian_op.toarray())
+    # manif.implicit_time_stepping_heat_equation(
+    #     vertex=0, time_step=10, iterations=list(filter(lambda t: t % 10 == 0, range(101))), level_sets=False,
+    # )
     # plt.show()

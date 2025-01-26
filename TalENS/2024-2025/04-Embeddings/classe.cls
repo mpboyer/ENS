@@ -87,7 +87,6 @@
 \newcommand{\B}{\mathcal{B}}
 \newcommand{\ml}{\mathcal{l}}
 \newcommand{\mP}{\mathcal{P}}
-\newcommand{\mF}{\mathcal{F}}
 
 \renewcommand{\P}{\mathbb{P}}
 \renewcommand{\d}{{\rm \, d}}
@@ -111,7 +110,6 @@
 \DeclareMathOperator{\sh}{sh}
 \DeclareMathOperator{\sgn}{sgn}
 \DeclareMathOperator{\Vect}{Vect}
-\DeclareMathOperator{\Mat}{Mat}
 \renewcommand{\th}{\mathop{\rm th}}
 \makeatletter
 \renewcommand{\ALG@name}{Algorithme}
