@@ -1,8 +1,4 @@
 \documentclass[math, info, english]{cours}
-\geometry{
-	inner=4cm,
-	outer=4cm,
-}
 
 \title{Deriving Geodesics on a 3D Mesh from the Heat Equation}
 \author{Matthieu Boyer}
@@ -227,7 +223,7 @@ Each operation needed to compute the gradient is done in $\O(m)$, as there are a
 Then, while the complexity of our matrix product has not been increased, the use of a sparse matrix representation allows for the operations of our $3\abs{\mF} \times \abs{\mV}$ matrices to be multiplied in $\O\left( \abs{mF}^{\omega} \right)$ as $\abs{\mF} = \Theta\left( \abs{\mV} \right)$ and especially allows our space complexity to stay in $\O\left( \abs{\mF}\abs{\mV} \right)$.
 Indeed, some of our meshes have up to $50\times 10^{3}$ vertices, leading to $150000 \times 150000$ matrices of floats using a good precision to occupy over $22.5$ GB if not sparsified, which goes to $7.5$ GB when considering three full matrices and about $2.5$ GB when sparsified.
 
-While the asymptotic complexity of our algorithm is simply in $\O\left( \abs{\mF}^{\omega} \right)$ using $\O\left( \abs{\mF}\abs{\mV} \right)$ space, the difficulties encountered are taken into account when factoring the precision
+While the asymptotic complexity of our algorithm is simply in $\O\left( \abs{\mF}^{2} \right)$ using $\O\left( \abs{\mF}\abs{\mV} \right)$ space, the difficulties encountered are taken into account when factoring the precision
 needed on the mesh for accuracy: the distance obtained by the heat method is approximately the combinatorial weighted distance for smaller values of $t$.
 Thus, having a fine mesh is a necessity for our method to be precise, which leads to larger and larger computation times.
 
@@ -253,7 +249,14 @@ and thus $t = 1.3\epsilon^{2}$.
 	\label{computationtime}
 \end{figure}
 
-In the above figure we can see that on iteration $i$, the number of vertices is in $i^{2}$ and the complexity seems to fit in $i^{6}$.
+In the above figure we can see that on iteration $i$, the number of faces is in $\O(i)$ and the complexity seems to fit in $i^{2}$.
+Indeed, when computing a least squares polynomial fit, our first good fit is attained for a degree of $2$ and subsequent fits do not improve the error much as can be seen on figure \ref{polyfiterrors}.
+\begin{figure}[h]
+	\centering
+	\includegraphics{Figures/polyfiterrors}
+	\caption{Errors of fit for polynomials of degree up to $10$}
+	\label{polyfiterrors}
+\end{figure}
 
 \subsubsection{Accuracy}
 Let us take our plane mesh defined by $\epsilon$. The geodesic distance to $0$ can be directly computed:
@@ -261,9 +264,9 @@ Let us take our plane mesh defined by $\epsilon$. The geodesic distance to $0$ c
 d\left( x \right) = \norm{x} \text{ and on indices } d_{\epsilon}\left( i \right) = \epsilon\sqrt{\left( i \mod \frac{1}{\epsilon} \right)^{2} + \left( i // \frac{1}{\epsilon} \right)^{2}}
 \end{equation*}
 where $//$ and $\mod$ denote the dividend and the rest respectively in the euclidean division.
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering
-	\includegraphics{Figures/plane_compar_true_70}
+	\resizebox{.5\textwidth}{.5\textwidth}{\includegraphics{Figures/plane_geodesics}}
 	\caption{Illustration of the geodesic distance from $0$ on the evenly spaced mesh of step $1/70$ on the plane}
 \end{figure}
 
@@ -280,15 +283,19 @@ Section \ref{sectime} and Theorem \ref{thmcombi} tell us that our difference sho
 	\end{aligned}
 \end{equation*}
 
-From figure \ref{planediff}, we get that:
-\begin{figure}[h]
+In figure \ref{planediff} we have represented the theoretical expected accuracy and actual accuracy of our method.
+\begin{figure}[H]
 	\centering
-	\includegraphics{Figures/err_comp_planes_i<=100}
-	\caption{Accuracy of the heat methods for regular meshes for the plane of step $1/i$}
+	\includegraphics{Figures/compare_err_comp_planes_i<=100}
+	\caption{Theoretical bound on accuracy of the heat methods for regular meshes for the plane of step $1/i$}
 	\label{planediff}
 \end{figure}
+We can then see than, up to a constant, the plotted accuracy is the same as our theoretical bound.
+The increase in the accuracy that happens at $i = 56$ could not be explained.
+Why the accuracy increase in the mesh does not decrease has also not been explained.
 
 \appendix
+\newpage
 \bibliography{report}
 \bibliographystyle{alpha}
 \end{document}
