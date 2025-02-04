@@ -19,7 +19,6 @@ from matplotlib.colors import LinearSegmentedColormap
 
 levelsets = 10
 
-
 cm_data = [[0.2081, 0.1663, 0.5292], [0.2116238095, 0.1897809524, 0.5776761905],
  [0.212252381, 0.2137714286, 0.6269714286], [0.2081, 0.2386, 0.6770857143],
  [0.1959047619, 0.2644571429, 0.7279], [0.1707285714, 0.2919380952,
@@ -84,7 +83,6 @@ class Manifold:
 
     @property
     def tikz_dat_file(self):
-        # Used to export to a format recognized by tikz.
         return "\n\n".join("\n".join(" ".join(map(str, self.points[i])) for i in f) for f in self.faces)
 
     @cached_property
@@ -145,7 +143,6 @@ class Manifold:
             raise ValueError("Il n'y a pas le header OFF")
 
         # La deuxième ligne contient (n_points, n_faces)
-        # print(data)
         p, f = [int(x) for x in data[1][:2]]
 
         # Les lignes suivantes contiennent les faces et les points
@@ -195,8 +192,6 @@ class Manifold:
             )
 
         cmap = parula_map
-        # cmap = plt.get_cmap('seismic')
-        # print(cmap)
 
         if function is not None:
             face_colors = []
@@ -204,12 +199,9 @@ class Manifold:
             min_val = min(function)
             function = (function - min_val) / (max_val - min_val)
             if level_sets:
-                # print("Plotting with level sets")
                 for f in self.faces:
                     mean_value = np.mean([function[e] for e in f])
-                    # print(mean_value)
                     color = np.cos((2 * np.pi * levelsets * mean_value))
-                    # print(color)
                     face_colors.append(cmap(color))
             else:
                 for f in self.faces:
@@ -289,18 +281,9 @@ class Manifold:
         areas = self.areas
         area_diag = [0. for _ in self.points]
         for i, f in enumerate(self.faces):
-            print(f)
             for v in f:
                 area_diag[v] += 1 / 3 * areas[i]
         return sp.diags(area_diag, 0)
-
-    @cached_property
-    def laplacian_sum_op(self):
-        s = np.array(0., like=(self.n, self.n))
-        for f in self.faces:
-            j1, j2, j3 = f
-
-        return
 
     @cached_property
     def normalize(self):
@@ -330,8 +313,7 @@ class Manifold:
         """
         e = sp.dok_matrix((3 * self.m, self.n))
         normals = self.normals
-        for j in range(self.m):  # tqdm.trange(self.m, leave=False):
-            # print(j)
+        for j in range(self.m):
             p = self.get_points(j)
             for i, index in enumerate(self.faces[j]):
                 s = (i + 1) % 3
@@ -371,15 +353,11 @@ class Manifold:
         assert vertex <= self.n
         delta = np.zeros((self.n, 1))
         delta[vertex] = 1
-        # print("Computing Laplacian")
         grad = self.gradient_op
         div = grad.T.dot(self.diagareasf)
         laplacian = div.dot(grad)
-        # print(laplacian)
-        # print("Inverting Laplacian")
         mat = sp.eye(self.n) + time_step * laplacian
         mat = spl.inv(mat)
-        # print("Computing Diffusion Step")
         u = mat.dot(delta)
         g = grad.dot(u)
         h = -g
@@ -387,7 +365,6 @@ class Manifold:
         ophi = laplacian_inv.dot(div.dot(h)).T
         ophi = np.reshape(ophi, (self.n,))
         ophi = ophi - min(ophi)
-        # print(ophi)
         return ophi
 
     def implicit_time_stepping_heat_equation(self, vertex: int, time_step: float, iterations: Iterable[int],
@@ -402,16 +379,12 @@ class Manifold:
             f.write("\n\n")
         _mat = sp.identity(laplacian.shape[0]) + time_step * laplacian
         mat = spl.inv(_mat)
-        # print(u)
-        for i in range(max(iterations) + 1):  # tqdm.trange(max(iterations) + 1, leave=False):
+        for i in range(max(iterations) + 1):
             u = mat.dot(u)
             if i in iterations:
-                # print(u)
                 self.plot(show_axis=True, function=u, level_sets=level_sets)
                 name_file = f"{self.name}_t={time_step}_i={i}_{level_sets}.png"
                 plt.savefig(f'Figures/{name_file}')
-                # with open(f"{self.name}_values.txt", 'a') as f:
-                #     f.write(f"Itération: {i}\n" + str(u.transpose()) + "\n\n")
         plt.show()
         return
 
@@ -441,7 +414,6 @@ def plane_square_manifold(epsilon):
 def plane_comparator(batches):
     # Here we will only look at [0, 1]^{2} as the plane
     errors = []
-    fake_errors = []
     times = []
     for i in tqdm.trange(1, batches, desc="Comparing for the plane.", leave=True):
         t1 = time.time()
@@ -451,8 +423,7 @@ def plane_comparator(batches):
             f.write(m)
         manif = Manifold(f"plane_manifold_{i}.off")
         true_g = np.array([np.sqrt(epsilon) * npl.norm(np.array([k % (i + 1), k // (i + 1) ])) for k in range(manif.n)])
-        graph_g = np.array([np.sqrt(epsilon) * sum(np.array([k % (i + 1), k // (i + 1) ])) for k in range(manif.n)])
-        g = manif.geodesics(0, 1e-5)
+        g = manif.geodesics(0, (1 / i)**2)
         if i % 10 == 0:
             ax = manif.plot(function=g)
             ax.set_title(f'Figures/plane_compar_err_{i}.pdf')
@@ -463,51 +434,10 @@ def plane_comparator(batches):
         c = np.mean(abs(true_g - g))
         t2 = time.time()
         errors.append(c)
-        fake_errors.append(np.mean(abs(true_g - graph_g)))
         times.append(t2 - t1)
         try:
             os.remove(f"plane_manifold_{i}.off")
         except FileNotFoundError:
             pass
         # print(c)
-    return errors, fake_errors
-
-
-def sphere_comparator():
-    # TODO: Compare on number of points
-    return
-
-
-if __name__ == '__main__':
-    # err, fake_err = plane_comparator(100)
-    # with open("fake_plane.txt", "w") as f:
-    #     f.write(str(fake_err))
-    #     f.write("\n")
-    #     f.write(str(err))
-
-    # tim = np.array([0.013149023056030273, 0.020489931106567383, 0.03502511978149414, 0.05764174461364746,
-    #            0.09006428718566895,
-    # 0.11829209327697754, 0.15219831466674805, 0.19966363906860352, 0.24759960174560547, 0.3016645908355713, 0.36319780349731445, 0.43642115592956543, 0.5085740089416504, 0.588261604309082, 0.6055846214294434, 0.5321588516235352, 0.5333161354064941, 0.5925807952880859, 0.665614128112793, 0.7518506050109863, 0.8330981731414795, 0.9165232181549072, 1.068143606185913, 1.1483819484710693, 1.2146315574645996, 1.347912311553955, 1.4571983814239502, 1.6533777713775635, 1.7653348445892334, 1.8603324890136719, 2.0015053749084473, 2.160510301589966, 2.304192543029785, 2.516556978225708, 2.659261465072632, 2.808661937713623, 3.004868507385254, 3.275782823562622, 3.4321444034576416, 3.656442880630493, 3.9170353412628174, 4.202671766281128, 4.357384443283081, 4.7114574909210205, 4.971206903457642, 5.432301759719849, 5.646081924438477, 5.932646036148071, 6.220357894897461, 6.641796588897705, 6.983593225479126, 7.317787170410156, 7.8660500049591064, 8.602615356445312, 8.889338254928589, 9.128491640090942, 9.521665811538696, 9.917006492614746, 10.42499566078186, 10.813038110733032, 12.094079732894897, 13.044790506362915, 12.898698329925537, 13.446001529693604, 14.203690528869629, 14.943839311599731, 15.875797033309937, 16.614152193069458, 16.892996549606323, 18.298852682113647, 18.427256107330322, 19.281900644302368, 19.80189609527588, 20.651122570037842, 21.602256298065186, 22.77059841156006, 23.715381622314453, 24.505598306655884, 25.375815391540527, 26.976271152496338, 28.28458595275879, 29.85113501548767, 30.105552196502686, 30.820223093032837, 32.393033027648926, 33.69677686691284, 34.32210874557495, 35.16563868522644, 36.882479190826416, 37.398133277893066, 39.01607298851013, 40.273043155670166, 42.13457107543945, 44.42324090003967, 45.13938760757446, 46.633127212524414, 49.642672061920166, 51.82348918914795, 52.44626760482788])
-    fake_err = [np.float64(0.1464466094067262), np.float64(0.2581115237855768), np.float64(0.34305159950969916), np.float64(0.413191747775405), np.float64(0.4739470139200022), np.float64(0.5281647211152665), np.float64(0.5775256857797603), np.float64(0.6231088948217861), np.float64(0.665651458904677), np.float64(0.7056814867106909), np.float64(0.7435917765816608), np.float64(0.7796834185519701), np.float64(0.8141929802554383), np.float64(0.8473102049238446), np.float64(0.879189956539994), np.float64(0.9099605330350837), np.float64(0.9397296060510764), np.float64(0.9685885628266329), np.float64(0.996615744063643), np.float64(1.023878901400225), np.float64(1.0504370919973065), np.float64(1.0763421597477536), np.float64(1.1016399079637833), np.float64(1.1263710384233738), np.float64(1.1505719111316883), np.float64(1.1742751648449101), np.float64(1.1975102282643098), np.float64(1.2203037445148786), np.float64(1.2426799262041355), np.float64(1.264660854428797), np.float64(1.286266732162167), np.float64(1.3075161002384266), np.float64(1.328426022458894), np.float64(1.349012245043027), np.float64(1.3692893346352708), np.float64(1.3892707982865151), np.float64(1.4089691882035895), np.float64(1.4283961935631277), np.float64(1.4475627212882916), np.float64(1.4664789673663976), np.float64(1.485154480025827), np.float64(1.5035982158789718), np.float64(1.5218185899645702), np.float64(1.5398235204799788), np.float64(1.557620468875713), np.float64(1.5752164758863294), np.float64(1.5926181939896347), np.float64(1.6098319167173687), np.float64(1.626863605182552), np.float64(1.643718912139687), np.float64(1.660403203852428), np.float64(1.67692158000796), np.float64(1.6932788918870718), np.float64(1.7094797589730164), np.float64(1.7255285841599604), np.float64(1.7414295677026317), np.float64(1.7571867200321551), np.float64(1.772803873548668), np.float64(1.7882846934887873), np.float64(1.8036326879550795), np.float64(1.8188512171851634), np.float64(1.8339435021296966), np.float64(1.8489126324011926), np.float64(1.8637615736491462), np.float64(1.8784931744112503), np.float64(1.8931101724854862), np.float64(1.9076152008633873), np.float64(1.9220107932608577), np.float64(1.9362993892793963), np.float64(1.950483339227467), np.float64(1.9645649086289638), np.float64(1.9785462824432354), np.float64(1.9924295690188962), np.float64(2.006216803801669), np.float64(2.0199099528146918), np.float64(2.033510915928132), np.float64(2.0470215299334846), np.float64(2.0604435714366147), np.float64(2.07377875958245), np.float64(2.087028758623133), np.float64(2.100195180340481), np.float64(2.1132795863327387), np.float64(2.12628349017479), np.float64(2.1392083594602838), np.float64(2.152055617733474), np.float64(2.1648266463179544), np.float64(2.177522786048946), np.float64(2.190145338915272), np.float64(2.20269556961671), np.float64(2.2151747070419985), np.float64(2.227583945672369), np.float64(2.239924446915153), np.float64(2.25219734037166), np.float64(2.2644037250432594), np.float64(2.2765446704792924), np.float64(2.2886212178702108), np.float64(2.300634381089113), np.float64(2.3125851476846027), np.float64(2.324474479827748)]
-    err = [np.float64(0.47854957589600816), np.float64(0.3331178092072416), np.float64(0.7676095222024307), np.float64(0.7552459849007055), np.float64(0.8036210036369048), np.float64(0.9981417406936368), np.float64(1.1795555577142007), np.float64(1.2876234933315323), np.float64(1.419846210624426), np.float64(1.509433773079624), np.float64(1.567868052419781), np.float64(1.7698459552629835), np.float64(1.7866071737469527), np.float64(1.9317202365323718), np.float64(1.9849542253185977), np.float64(2.123193403222161), np.float64(2.2219455958764787), np.float64(2.3180228049842175), np.float64(2.39674626570144), np.float64(2.482141490342916), np.float64(2.5692208028500447), np.float64(2.6393341669027452), np.float64(2.725786370783511), np.float64(2.856938660419562), np.float64(2.866570524288031), np.float64(2.9579865908034164), np.float64(3.0217734997302648), np.float64(3.0918593482297334), np.float64(3.1693476026246046), np.float64(3.2414304783944514), np.float64(3.302824521362246), np.float64(3.369578319681982), np.float64(3.4400115273460155), np.float64(3.499638220124812), np.float64(3.556227821912326), np.float64(3.644186487012385), np.float64(3.6981062715039696), np.float64(3.7501994068368028), np.float64(3.809630291564401), np.float64(3.8699841808753686), np.float64(3.9335852937043576), np.float64(3.9873011026672978), np.float64(4.053631909663748), np.float64(4.103071768490018), np.float64(4.164402048565011), np.float64(4.2219279619003665), np.float64(4.275765011590856), np.float64(4.3344859679927605), np.float64(4.381935798858256), np.float64(4.441032793741062), np.float64(4.493155158430741), np.float64(4.554417682044583), np.float64(4.59742036999634), np.float64(4.651938059051716), np.float64(4.703527038293598), np.float64(4.752825551367579), np.float64(2.2053865877193783), np.float64(4.8637793788860835), np.float64(4.906607507309652), np.float64(4.963469463859358), np.float64(5.001730535068715), np.float64(5.049993576512656), np.float64(5.102826317202104), np.float64(5.146386368541422), np.float64(5.193236998159585), np.float64(5.240091126973547), np.float64(5.287086672024641), np.float64(5.330987009099841), np.float64(5.380916196486229), np.float64(5.424539897104953), np.float64(5.4704032511690155), np.float64(5.514943567085832), np.float64(5.559986364973512), np.float64(5.605050586036641), np.float64(5.6490299510672415), np.float64(5.695103866247409), np.float64(5.736073491424627), np.float64(5.779279285735278), np.float64(5.8223533551847035), np.float64(5.865651011283237), np.float64(5.907572781224347), np.float64(5.949567948763174), np.float64(5.9916896473196894), np.float64(6.03318674351393), np.float64(6.073844390350174), np.float64(6.115652659912414), np.float64(6.156739470909129), np.float64(6.198084139450606), np.float64(6.238209985312597), np.float64(6.283971095689327), np.float64(6.317466999381283), np.float64(6.358282472610332), np.float64(6.398040893745537), np.float64(6.43864979198441), np.float64(6.476545890384705), np.float64(6.504448053340971), np.float64(6.552339751297614), np.float64(6.5822759022266055), np.float64(6.630861163554649)]
-    fig, ax = plt.subplots(1, 1)
-    ax.plot(err, c="#7d1dd3", label="Actual computed accuracy")
-    ax.plot(fake_err, c="#ffe500", label="Theoretical bound on accuracy")
-    ax.legend()
-    ax.set_title(r"$\ell^2$ error for rectangular plane subdivision")
-    plt.savefig("Figures/compare_err_comp_planes_i<=100.pdf")
-    # plt.clf()
-    # fig, ax = plt.subplots(1, 1)
-    # ax.plot(tim, c="#7d1dd3")
-    # ax.set_title(r"Time for rectangular plane subdivision geodesics computation")
-    # plt.savefig("Figures/tim_comp_planes_i<=100.pdf")
-
-    # file = "toolbox_graph/camel.off"
-    # manif = Manifold(file)
-    # # manif.plot()
-    # # print(manif.points, manif.faces)
-    # # print(manif.laplacian_op.toarray())
-    # manif.implicit_time_stepping_heat_equation(
-    #     vertex=0, time_step=10, iterations=list(filter(lambda t: t % 10 == 0, range(101))), level_sets=False,
-    # )
-    # plt.show()
+    return errors, times

@@ -1,5 +1,5 @@
 main:
-	lmake report.tex
+	lmake slides.tex
 
 run:
 	python3.12 geodesics.py
