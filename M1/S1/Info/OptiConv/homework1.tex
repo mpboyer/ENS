@@ -77,6 +77,20 @@ However, the sub-level sets for $\alpha$ are convex if and only if $\alpha \geq 
 		If $\norm{y}_{*} > 1$ however, then there exists $z$ such that $\norm{z} \leq 1$ such that $\transpose{z}y > 1$.
 		Taking $x = tz$ in the supremum, we know that $f^{*}(y) \geq t\left( \transpose{z}y -\norm{z} \right)$ which goes to infinity with $t \to \infty$.
 		Thus, the fenchel conjugate of a norm is the convex indicator of the unit ball of the dual norm.
+		\medskip
+
+		For the case of the square of the $\ell^{2}$ norm, we want to compute:
+		\begin{equation*}
+			f^{*}(y) = \sup_{x} \transpose{y}x - \transpose{x}x = \transpose{\left( s - x  \right)}x
+		\end{equation*}
+		Fenchel-Young's theorem gives us:
+		\begin{equation*}
+			f^{*}\left( y \right) = \transpose{y}x - f(x) \Leftrightarrow y\in \partial f(x) \Leftrightarrow y = 2x
+		\end{equation*}
+		Thus:
+		\begin{equation*}
+			\boxed{f^{*}\left( y \right) = \frac{1}{4}\transpose{y}y}
+		\end{equation*}
 	\item Let us denote the infimal convolution of $g, h$ by $g \square h$.
 		Then we will show that:
 		\begin{equation*}
@@ -171,7 +185,7 @@ However, the sub-level sets for $\alpha$ are convex if and only if $\alpha \geq 
 
 \subsection*{Duality}
 \begin{itemize}
-	\item The Lagrangian of the problem associated with $Ax = b$ is:
+	\item The Lagrangian of the problem is:
 		\begin{equation*}
 			\mL(x, \lambda) = \frac{1}{2}\norm{Ax - b}_{2}^{2} + \alpha\norm{x}_{1} - \transpose{\lambda}\left( A x - b \right) = \frac{1}{2}\norm{Ax -b}_{2}^{2} + \alpha\norm{x}_{1} - \transpose{\lambda}Ax + \transpose{\lambda}b
 		\end{equation*}
