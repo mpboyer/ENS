@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="../scripts/style.css">
+    <link href='https://fonts.googleapis.com/css?family=Inria Serif' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Inria Sans' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu Mono' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/highlight.min.js"></script>
+    <script>
+    // first, find all the div.code blocks
+    document.addEventListener('DOMContentLoaded', (event) => {
+      document.querySelectorAll("div.c").forEach(block => {
+      // then highlight each
+        hljs.highlightBlock(block);
+      });
+    });
+    </script>
+    <title>TITLE</title>
+</head>
+<body>

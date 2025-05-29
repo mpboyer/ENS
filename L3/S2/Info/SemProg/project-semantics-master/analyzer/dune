@@ -1,0 +1,5 @@
+(executable
+  (name analyzer)
+  (public_name analyzer)
+  (libraries frontend zarith iterator domains)
+  (flags (:standard -warn-error -A)))

@@ -1,0 +1,1523 @@
+file: TOK_INT TOK_SEMICOLON TOK_int
+##
+## Ends in an error in state: 170.
+##
+## list(toplevel) -> toplevel . list(toplevel) [ TOK_EOF ]
+##
+## The known suffix of the stack is as follows:
+## toplevel
+##
+
+Expected declaration.
+
+file: TOK_INT TOK_id TOK_COMMA TOK_id TOK_int
+##
+## Ends in an error in state: 135.
+##
+## init_declarator -> TOK_id . [ TOK_SEMICOLON TOK_COMMA ]
+## init_declarator -> TOK_id . TOK_EQUAL int_expr [ TOK_SEMICOLON TOK_COMMA ]
+##
+## The known suffix of the stack is as follows:
+## TOK_id
+##
+
+Expected ',', ';' or '='.
+
+file: TOK_INT TOK_id TOK_COMMA TOK_int
+##
+## Ends in an error in state: 142.
+##
+## separated_nonempty_list(TOK_COMMA,init_declarator) -> init_declarator TOK_COMMA . separated_nonempty_list(TOK_COMMA,init_declarator) [ TOK_SEMICOLON ]
+##
+## The known suffix of the stack is as follows:
+## init_declarator TOK_COMMA
+##
+
+Expected identifier.
+
+file: TOK_INT TOK_id TOK_EQUAL TOK_LPAREN TOK_WHILE
+##
+## Ends in an error in state: 32.
+##
+## int_expr -> TOK_LPAREN . int_expr TOK_RPAREN [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+##
+## The known suffix of the stack is as follows:
+## TOK_LPAREN
+##
+
+Expected expression.
+
+file: TOK_INT TOK_id TOK_EQUAL TOK_LPAREN TOK_int TOK_int
+##
+## Ends in an error in state: 33.
+##
+## int_expr -> TOK_LPAREN int_expr . TOK_RPAREN [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_STAR int_expr [ TOK_STAR TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE ]
+## int_expr -> int_expr . TOK_DIVIDE int_expr [ TOK_STAR TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE ]
+## int_expr -> int_expr . TOK_PERCENT int_expr [ TOK_STAR TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE ]
+## int_expr -> int_expr . TOK_PLUS int_expr [ TOK_STAR TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE ]
+## int_expr -> int_expr . TOK_MINUS int_expr [ TOK_STAR TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE ]
+##
+## The known suffix of the stack is as follows:
+## TOK_LPAREN int_expr
+##
+
+Expected operator.
+
+file: TOK_INT TOK_id TOK_EQUAL TOK_MINUS TOK_WHILE
+##
+## Ends in an error in state: 31.
+##
+## int_expr -> TOK_MINUS . int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+##
+## The known suffix of the stack is as follows:
+## TOK_MINUS
+##
+
+Expected expression.
+
+file: TOK_INT TOK_id TOK_EQUAL TOK_MINUS TOK_int TOK_int
+##
+## Ends in an error in state: 45.
+##
+## int_expr -> TOK_MINUS int_expr . [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_STAR int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_DIVIDE int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_PERCENT int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_PLUS int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_MINUS int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+##
+## The known suffix of the stack is as follows:
+## TOK_MINUS int_expr
+##
+
+Expected operator.
+
+file: TOK_INT TOK_id TOK_EQUAL TOK_PLUS TOK_WHILE
+##
+## Ends in an error in state: 30.
+##
+## int_expr -> TOK_PLUS . int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+##
+## The known suffix of the stack is as follows:
+## TOK_PLUS
+##
+
+Expected expression.
+
+file: TOK_INT TOK_id TOK_EQUAL TOK_PLUS TOK_int TOK_int
+##
+## Ends in an error in state: 46.
+##
+## int_expr -> TOK_PLUS int_expr . [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_STAR int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_DIVIDE int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_PERCENT int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_PLUS int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_MINUS int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+##
+## The known suffix of the stack is as follows:
+## TOK_PLUS int_expr
+##
+
+Expected operator.
+
+file: TOK_INT TOK_id TOK_EQUAL TOK_RAND TOK_LPAREN TOK_MINUS TOK_id
+##
+## Ends in an error in state: 24.
+##
+## sign_int_literal -> TOK_MINUS . TOK_int [ TOK_RPAREN TOK_COMMA ]
+##
+## The known suffix of the stack is as follows:
+## TOK_MINUS
+##
+
+Expected integer.
+
+file: TOK_INT TOK_id TOK_EQUAL TOK_RAND TOK_LPAREN TOK_PLUS TOK_id
+##
+## Ends in an error in state: 22.
+##
+## sign_int_literal -> TOK_PLUS . TOK_int [ TOK_RPAREN TOK_COMMA ]
+##
+## The known suffix of the stack is as follows:
+## TOK_PLUS
+##
+
+Expected integer.
+
+file: TOK_INT TOK_id TOK_EQUAL TOK_RAND TOK_LPAREN TOK_id
+##
+## Ends in an error in state: 20.
+##
+## int_expr -> TOK_RAND TOK_LPAREN . sign_int_literal TOK_COMMA sign_int_literal TOK_RPAREN [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+##
+## The known suffix of the stack is as follows:
+## TOK_RAND TOK_LPAREN
+##
+
+Expected integer.
+
+file: TOK_INT TOK_id TOK_EQUAL TOK_RAND TOK_LPAREN TOK_int TOK_COMMA TOK_id
+##
+## Ends in an error in state: 27.
+##
+## int_expr -> TOK_RAND TOK_LPAREN sign_int_literal TOK_COMMA . sign_int_literal TOK_RPAREN [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+##
+## The known suffix of the stack is as follows:
+## TOK_RAND TOK_LPAREN sign_int_literal TOK_COMMA
+##
+
+Expected integer.
+
+file: TOK_INT TOK_id TOK_EQUAL TOK_RAND TOK_LPAREN TOK_int TOK_COMMA TOK_int TOK_int
+##
+## Ends in an error in state: 28.
+##
+## int_expr -> TOK_RAND TOK_LPAREN sign_int_literal TOK_COMMA sign_int_literal . TOK_RPAREN [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+##
+## The known suffix of the stack is as follows:
+## TOK_RAND TOK_LPAREN sign_int_literal TOK_COMMA sign_int_literal
+##
+
+Expected ')'.
+
+file: TOK_INT TOK_id TOK_EQUAL TOK_RAND TOK_LPAREN TOK_int TOK_int
+##
+## Ends in an error in state: 26.
+##
+## int_expr -> TOK_RAND TOK_LPAREN sign_int_literal . TOK_COMMA sign_int_literal TOK_RPAREN [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+##
+## The known suffix of the stack is as follows:
+## TOK_RAND TOK_LPAREN sign_int_literal
+##
+
+Expected ','.
+
+file: TOK_INT TOK_id TOK_EQUAL TOK_RAND TOK_int
+##
+## Ends in an error in state: 19.
+##
+## int_expr -> TOK_RAND . TOK_LPAREN sign_int_literal TOK_COMMA sign_int_literal TOK_RPAREN [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+##
+## The known suffix of the stack is as follows:
+## TOK_RAND
+##
+
+Expected '('.
+
+file: TOK_INT TOK_id TOK_EQUAL TOK_WHILE
+##
+## Ends in an error in state: 136.
+##
+## init_declarator -> TOK_id TOK_EQUAL . int_expr [ TOK_SEMICOLON TOK_COMMA ]
+##
+## The known suffix of the stack is as follows:
+## TOK_id TOK_EQUAL
+##
+
+Expected expression.
+
+file: TOK_INT TOK_id TOK_EQUAL TOK_id TOK_LPAREN TOK_WHILE
+##
+## Ends in an error in state: 18.
+##
+## int_expr -> TOK_id TOK_LPAREN . int_expr_list TOK_RPAREN [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+##
+## The known suffix of the stack is as follows:
+## TOK_id TOK_LPAREN
+##
+
+Expected expression.
+
+file: TOK_INT TOK_id TOK_EQUAL TOK_id TOK_LPAREN TOK_int TOK_COMMA TOK_WHILE
+##
+## Ends in an error in state: 52.
+##
+## separated_nonempty_list(TOK_COMMA,ext(int_expr)) -> int_expr TOK_COMMA . separated_nonempty_list(TOK_COMMA,ext(int_expr)) [ TOK_RPAREN ]
+##
+## The known suffix of the stack is as follows:
+## int_expr TOK_COMMA
+##
+
+Expected expression.
+
+file: TOK_INT TOK_id TOK_EQUAL TOK_id TOK_LPAREN TOK_int TOK_int
+##
+## Ends in an error in state: 51.
+##
+## int_expr -> int_expr . TOK_STAR int_expr [ TOK_STAR TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_COMMA ]
+## int_expr -> int_expr . TOK_DIVIDE int_expr [ TOK_STAR TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_COMMA ]
+## int_expr -> int_expr . TOK_PERCENT int_expr [ TOK_STAR TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_COMMA ]
+## int_expr -> int_expr . TOK_PLUS int_expr [ TOK_STAR TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_COMMA ]
+## int_expr -> int_expr . TOK_MINUS int_expr [ TOK_STAR TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_COMMA ]
+## separated_nonempty_list(TOK_COMMA,ext(int_expr)) -> int_expr . [ TOK_RPAREN ]
+## separated_nonempty_list(TOK_COMMA,ext(int_expr)) -> int_expr . TOK_COMMA separated_nonempty_list(TOK_COMMA,ext(int_expr)) [ TOK_RPAREN ]
+##
+## The known suffix of the stack is as follows:
+## int_expr
+##
+
+Expected ','.
+
+file: TOK_INT TOK_id TOK_EQUAL TOK_id TOK_int
+##
+## Ends in an error in state: 17.
+##
+## int_expr -> TOK_id . [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> TOK_id . TOK_LPAREN int_expr_list TOK_RPAREN [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+##
+## The known suffix of the stack is as follows:
+## TOK_id
+##
+
+Expected function call or operator.
+
+file: TOK_INT TOK_id TOK_EQUAL TOK_int TOK_DIVIDE TOK_WHILE
+##
+## Ends in an error in state: 41.
+##
+## int_expr -> int_expr TOK_DIVIDE . int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+##
+## The known suffix of the stack is as follows:
+## int_expr TOK_DIVIDE
+##
+
+Expected expression.
+
+file: TOK_INT TOK_id TOK_EQUAL TOK_int TOK_MINUS TOK_WHILE
+##
+## Ends in an error in state: 43.
+##
+## int_expr -> int_expr TOK_MINUS . int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+##
+## The known suffix of the stack is as follows:
+## int_expr TOK_MINUS
+##
+
+Expected expression.
+
+file: TOK_INT TOK_id TOK_EQUAL TOK_int TOK_MINUS TOK_int TOK_int
+##
+## Ends in an error in state: 44.
+##
+## int_expr -> int_expr . TOK_STAR int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_DIVIDE int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_PERCENT int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_PLUS int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_MINUS int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr TOK_MINUS int_expr . [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+##
+## The known suffix of the stack is as follows:
+## int_expr TOK_MINUS int_expr
+##
+
+Expected operator.
+
+file: TOK_INT TOK_id TOK_EQUAL TOK_int TOK_PERCENT TOK_WHILE
+##
+## Ends in an error in state: 39.
+##
+## int_expr -> int_expr TOK_PERCENT . int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+##
+## The known suffix of the stack is as follows:
+## int_expr TOK_PERCENT
+##
+
+Expected expression.
+
+file: TOK_INT TOK_id TOK_EQUAL TOK_int TOK_PLUS TOK_WHILE
+##
+## Ends in an error in state: 37.
+##
+## int_expr -> int_expr TOK_PLUS . int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+##
+## The known suffix of the stack is as follows:
+## int_expr TOK_PLUS
+##
+
+Expected expression.
+
+file: TOK_INT TOK_id TOK_EQUAL TOK_int TOK_PLUS TOK_int TOK_int
+##
+## Ends in an error in state: 38.
+##
+## int_expr -> int_expr . TOK_STAR int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_DIVIDE int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_PERCENT int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_PLUS int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr TOK_PLUS int_expr . [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_MINUS int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+##
+## The known suffix of the stack is as follows:
+## int_expr TOK_PLUS int_expr
+##
+
+Expected operator.
+
+file: TOK_INT TOK_id TOK_EQUAL TOK_int TOK_STAR TOK_WHILE
+##
+## Ends in an error in state: 34.
+##
+## int_expr -> int_expr TOK_STAR . int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE TOK_COMMA TOK_BAR_BAR TOK_AND_AND ]
+##
+## The known suffix of the stack is as follows:
+## int_expr TOK_STAR
+##
+
+Expected expression.
+
+file: TOK_INT TOK_id TOK_EQUAL TOK_int TOK_int
+##
+## Ends in an error in state: 137.
+##
+## init_declarator -> TOK_id TOK_EQUAL int_expr . [ TOK_SEMICOLON TOK_COMMA ]
+## int_expr -> int_expr . TOK_STAR int_expr [ TOK_STAR TOK_SEMICOLON TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_COMMA ]
+## int_expr -> int_expr . TOK_DIVIDE int_expr [ TOK_STAR TOK_SEMICOLON TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_COMMA ]
+## int_expr -> int_expr . TOK_PERCENT int_expr [ TOK_STAR TOK_SEMICOLON TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_COMMA ]
+## int_expr -> int_expr . TOK_PLUS int_expr [ TOK_STAR TOK_SEMICOLON TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_COMMA ]
+## int_expr -> int_expr . TOK_MINUS int_expr [ TOK_STAR TOK_SEMICOLON TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_COMMA ]
+##
+## The known suffix of the stack is as follows:
+## TOK_id TOK_EQUAL int_expr
+##
+
+Expected operator.
+
+file: TOK_INT TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_int
+##
+## Ends in an error in state: 167.
+##
+## fun_decl -> typ TOK_id TOK_LPAREN loption(separated_nonempty_list(TOK_COMMA,param_decl)) TOK_RPAREN TOK_LCURLY . list(ext(stat)) TOK_RCURLY [ TOK_VOID TOK_INT TOK_EOF ]
+##
+## The known suffix of the stack is as follows:
+## typ TOK_id TOK_LPAREN loption(separated_nonempty_list(TOK_COMMA,param_decl)) TOK_RPAREN TOK_LCURLY
+##
+
+Expected statement.
+
+file: TOK_INT TOK_id TOK_LPAREN TOK_RPAREN TOK_int
+##
+## Ends in an error in state: 166.
+##
+## fun_decl -> typ TOK_id TOK_LPAREN loption(separated_nonempty_list(TOK_COMMA,param_decl)) TOK_RPAREN . TOK_LCURLY list(ext(stat)) TOK_RCURLY [ TOK_VOID TOK_INT TOK_EOF ]
+##
+## The known suffix of the stack is as follows:
+## typ TOK_id TOK_LPAREN loption(separated_nonempty_list(TOK_COMMA,param_decl)) TOK_RPAREN
+##
+
+Expected statement.
+
+file: TOK_INT TOK_id TOK_LPAREN TOK_int
+##
+## Ends in an error in state: 164.
+##
+## fun_decl -> typ TOK_id TOK_LPAREN . loption(separated_nonempty_list(TOK_COMMA,param_decl)) TOK_RPAREN TOK_LCURLY list(ext(stat)) TOK_RCURLY [ TOK_VOID TOK_INT TOK_EOF ]
+##
+## The known suffix of the stack is as follows:
+## typ TOK_id TOK_LPAREN
+##
+
+Expected parameter list.
+
+file: TOK_INT TOK_id TOK_int
+##
+## Ends in an error in state: 163.
+##
+## fun_decl -> typ TOK_id . TOK_LPAREN loption(separated_nonempty_list(TOK_COMMA,param_decl)) TOK_RPAREN TOK_LCURLY list(ext(stat)) TOK_RCURLY [ TOK_VOID TOK_INT TOK_EOF ]
+## init_declarator -> TOK_id . [ TOK_SEMICOLON TOK_COMMA ]
+## init_declarator -> TOK_id . TOK_EQUAL int_expr [ TOK_SEMICOLON TOK_COMMA ]
+##
+## The known suffix of the stack is as follows:
+## typ TOK_id
+##
+
+Expected '(', ';' or '='.
+
+file: TOK_INT TOK_int
+##
+## Ends in an error in state: 162.
+##
+## fun_decl -> typ . TOK_id TOK_LPAREN loption(separated_nonempty_list(TOK_COMMA,param_decl)) TOK_RPAREN TOK_LCURLY list(ext(stat)) TOK_RCURLY [ TOK_VOID TOK_INT TOK_EOF ]
+## var_decl -> typ . loption(separated_nonempty_list(TOK_COMMA,init_declarator)) TOK_SEMICOLON [ TOK_VOID TOK_INT TOK_EOF ]
+##
+## The known suffix of the stack is as follows:
+## typ
+##
+
+Expected identifier.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_INT TOK_id TOK_COMMA TOK_int
+##
+## Ends in an error in state: 9.
+##
+## separated_nonempty_list(TOK_COMMA,param_decl) -> param_decl TOK_COMMA . separated_nonempty_list(TOK_COMMA,param_decl) [ TOK_RPAREN ]
+##
+## The known suffix of the stack is as follows:
+## param_decl TOK_COMMA
+##
+
+Expected identifier.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_INT TOK_id TOK_int
+##
+## Ends in an error in state: 8.
+##
+## separated_nonempty_list(TOK_COMMA,param_decl) -> param_decl . [ TOK_RPAREN ]
+## separated_nonempty_list(TOK_COMMA,param_decl) -> param_decl . TOK_COMMA separated_nonempty_list(TOK_COMMA,param_decl) [ TOK_RPAREN ]
+##
+## The known suffix of the stack is as follows:
+## param_decl
+##
+
+Expected initializer, ';' or ','.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_INT TOK_int
+##
+## Ends in an error in state: 5.
+##
+## param_decl -> typ . TOK_id [ TOK_RPAREN TOK_COMMA ]
+##
+## The known suffix of the stack is as follows:
+## typ
+##
+
+Expected identifier.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_ASSERT TOK_LPAREN TOK_TRUE TOK_RPAREN TOK_int
+##
+## Ends in an error in state: 131.
+##
+## stat -> TOK_ASSERT TOK_LPAREN bool_expr TOK_RPAREN . TOK_SEMICOLON [ TOK_id TOK_WHILE TOK_SEMICOLON TOK_RETURN TOK_RCURLY TOK_LCURLY TOK_INT TOK_IF TOK_GOTO TOK_FOR TOK_ELSE TOK_BREAK TOK_ASSERT ]
+##
+## The known suffix of the stack is as follows:
+## TOK_ASSERT TOK_LPAREN bool_expr TOK_RPAREN
+##
+
+Expected ';'.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_ASSERT TOK_LPAREN TOK_TRUE TOK_int
+##
+## Ends in an error in state: 130.
+##
+## bool_expr -> bool_expr . TOK_AND_AND bool_expr [ TOK_RPAREN TOK_BAR_BAR TOK_AND_AND ]
+## bool_expr -> bool_expr . TOK_BAR_BAR bool_expr [ TOK_RPAREN TOK_BAR_BAR TOK_AND_AND ]
+## stat -> TOK_ASSERT TOK_LPAREN bool_expr . TOK_RPAREN TOK_SEMICOLON [ TOK_id TOK_WHILE TOK_SEMICOLON TOK_RETURN TOK_RCURLY TOK_LCURLY TOK_INT TOK_IF TOK_GOTO TOK_FOR TOK_ELSE TOK_BREAK TOK_ASSERT ]
+##
+## The known suffix of the stack is as follows:
+## TOK_ASSERT TOK_LPAREN bool_expr
+##
+
+Expected operator.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_ASSERT TOK_LPAREN TOK_WHILE
+##
+## Ends in an error in state: 129.
+##
+## stat -> TOK_ASSERT TOK_LPAREN . bool_expr TOK_RPAREN TOK_SEMICOLON [ TOK_id TOK_WHILE TOK_SEMICOLON TOK_RETURN TOK_RCURLY TOK_LCURLY TOK_INT TOK_IF TOK_GOTO TOK_FOR TOK_ELSE TOK_BREAK TOK_ASSERT ]
+##
+## The known suffix of the stack is as follows:
+## TOK_ASSERT TOK_LPAREN
+##
+
+Expected expression.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_ASSERT TOK_int
+##
+## Ends in an error in state: 128.
+##
+## stat -> TOK_ASSERT . TOK_LPAREN bool_expr TOK_RPAREN TOK_SEMICOLON [ TOK_id TOK_WHILE TOK_SEMICOLON TOK_RETURN TOK_RCURLY TOK_LCURLY TOK_INT TOK_IF TOK_GOTO TOK_FOR TOK_ELSE TOK_BREAK TOK_ASSERT ]
+##
+## The known suffix of the stack is as follows:
+## TOK_ASSERT
+##
+
+Expected '('.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_BREAK TOK_int
+##
+## Ends in an error in state: 126.
+##
+## stat -> TOK_BREAK . TOK_SEMICOLON [ TOK_id TOK_WHILE TOK_SEMICOLON TOK_RETURN TOK_RCURLY TOK_LCURLY TOK_INT TOK_IF TOK_GOTO TOK_FOR TOK_ELSE TOK_BREAK TOK_ASSERT ]
+##
+## The known suffix of the stack is as follows:
+## TOK_BREAK
+##
+
+Expected ';'.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_FOR TOK_LPAREN TOK_SEMICOLON TOK_SEMICOLON TOK_RPAREN TOK_int
+##
+## Ends in an error in state: 125.
+##
+## stat -> TOK_FOR TOK_LPAREN assign_list TOK_SEMICOLON option(ext(bool_expr)) TOK_SEMICOLON assign_list TOK_RPAREN . stat [ TOK_id TOK_WHILE TOK_SEMICOLON TOK_RETURN TOK_RCURLY TOK_LCURLY TOK_INT TOK_IF TOK_GOTO TOK_FOR TOK_ELSE TOK_BREAK TOK_ASSERT ]
+##
+## The known suffix of the stack is as follows:
+## TOK_FOR TOK_LPAREN assign_list TOK_SEMICOLON option(ext(bool_expr)) TOK_SEMICOLON assign_list TOK_RPAREN
+##
+
+Expected statement.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_FOR TOK_LPAREN TOK_SEMICOLON TOK_SEMICOLON TOK_id TOK_MINUS_MINUS TOK_SEMICOLON
+##
+## Ends in an error in state: 124.
+##
+## stat -> TOK_FOR TOK_LPAREN assign_list TOK_SEMICOLON option(ext(bool_expr)) TOK_SEMICOLON assign_list . TOK_RPAREN stat [ TOK_id TOK_WHILE TOK_SEMICOLON TOK_RETURN TOK_RCURLY TOK_LCURLY TOK_INT TOK_IF TOK_GOTO TOK_FOR TOK_ELSE TOK_BREAK TOK_ASSERT ]
+##
+## The known suffix of the stack is as follows:
+## TOK_FOR TOK_LPAREN assign_list TOK_SEMICOLON option(ext(bool_expr)) TOK_SEMICOLON assign_list
+##
+## WARNING: This example involves spurious reductions.
+## This implies that, although the LR(1) items shown above provide an
+## accurate view of the past (what has been recognized so far), they
+## may provide an INCOMPLETE view of the future (what was expected next).
+## In state 147, spurious reduction of production separated_nonempty_list(TOK_COMMA,ext(assign)) -> assign
+## In state 118, spurious reduction of production loption(separated_nonempty_list(TOK_COMMA,ext(assign))) -> separated_nonempty_list(TOK_COMMA,ext(assign))
+## In state 119, spurious reduction of production assign_list -> loption(separated_nonempty_list(TOK_COMMA,ext(assign)))
+##
+
+Expected ')'.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_FOR TOK_LPAREN TOK_SEMICOLON TOK_SEMICOLON TOK_int
+##
+## Ends in an error in state: 123.
+##
+## stat -> TOK_FOR TOK_LPAREN assign_list TOK_SEMICOLON option(ext(bool_expr)) TOK_SEMICOLON . assign_list TOK_RPAREN stat [ TOK_id TOK_WHILE TOK_SEMICOLON TOK_RETURN TOK_RCURLY TOK_LCURLY TOK_INT TOK_IF TOK_GOTO TOK_FOR TOK_ELSE TOK_BREAK TOK_ASSERT ]
+##
+## The known suffix of the stack is as follows:
+## TOK_FOR TOK_LPAREN assign_list TOK_SEMICOLON option(ext(bool_expr)) TOK_SEMICOLON
+##
+
+Expected assignment.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_FOR TOK_LPAREN TOK_SEMICOLON TOK_TRUE TOK_int
+##
+## Ends in an error in state: 150.
+##
+## bool_expr -> bool_expr . TOK_AND_AND bool_expr [ TOK_SEMICOLON TOK_BAR_BAR TOK_AND_AND ]
+## bool_expr -> bool_expr . TOK_BAR_BAR bool_expr [ TOK_SEMICOLON TOK_BAR_BAR TOK_AND_AND ]
+## option(ext(bool_expr)) -> bool_expr . [ TOK_SEMICOLON ]
+##
+## The known suffix of the stack is as follows:
+## bool_expr
+##
+
+Expected operator.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_FOR TOK_LPAREN TOK_SEMICOLON TOK_WHILE
+##
+## Ends in an error in state: 121.
+##
+## stat -> TOK_FOR TOK_LPAREN assign_list TOK_SEMICOLON . option(ext(bool_expr)) TOK_SEMICOLON assign_list TOK_RPAREN stat [ TOK_id TOK_WHILE TOK_SEMICOLON TOK_RETURN TOK_RCURLY TOK_LCURLY TOK_INT TOK_IF TOK_GOTO TOK_FOR TOK_ELSE TOK_BREAK TOK_ASSERT ]
+##
+## The known suffix of the stack is as follows:
+## TOK_FOR TOK_LPAREN assign_list TOK_SEMICOLON
+##
+
+Expected expression.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_FOR TOK_LPAREN TOK_id TOK_MINUS_MINUS TOK_COMMA TOK_int
+##
+## Ends in an error in state: 148.
+##
+## separated_nonempty_list(TOK_COMMA,ext(assign)) -> assign TOK_COMMA . separated_nonempty_list(TOK_COMMA,ext(assign)) [ TOK_SEMICOLON TOK_RPAREN ]
+##
+## The known suffix of the stack is as follows:
+## assign TOK_COMMA
+##
+
+Expected assignment.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_FOR TOK_LPAREN TOK_id TOK_MINUS_MINUS TOK_RPAREN
+##
+## Ends in an error in state: 120.
+##
+## stat -> TOK_FOR TOK_LPAREN assign_list . TOK_SEMICOLON option(ext(bool_expr)) TOK_SEMICOLON assign_list TOK_RPAREN stat [ TOK_id TOK_WHILE TOK_SEMICOLON TOK_RETURN TOK_RCURLY TOK_LCURLY TOK_INT TOK_IF TOK_GOTO TOK_FOR TOK_ELSE TOK_BREAK TOK_ASSERT ]
+##
+## The known suffix of the stack is as follows:
+## TOK_FOR TOK_LPAREN assign_list
+##
+## WARNING: This example involves spurious reductions.
+## This implies that, although the LR(1) items shown above provide an
+## accurate view of the past (what has been recognized so far), they
+## may provide an INCOMPLETE view of the future (what was expected next).
+## In state 147, spurious reduction of production separated_nonempty_list(TOK_COMMA,ext(assign)) -> assign
+## In state 118, spurious reduction of production loption(separated_nonempty_list(TOK_COMMA,ext(assign))) -> separated_nonempty_list(TOK_COMMA,ext(assign))
+## In state 119, spurious reduction of production assign_list -> loption(separated_nonempty_list(TOK_COMMA,ext(assign)))
+##
+
+Expected ';'.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_FOR TOK_LPAREN TOK_id TOK_MINUS_MINUS TOK_int
+##
+## Ends in an error in state: 147.
+##
+## separated_nonempty_list(TOK_COMMA,ext(assign)) -> assign . [ TOK_SEMICOLON TOK_RPAREN ]
+## separated_nonempty_list(TOK_COMMA,ext(assign)) -> assign . TOK_COMMA separated_nonempty_list(TOK_COMMA,ext(assign)) [ TOK_SEMICOLON TOK_RPAREN ]
+##
+## The known suffix of the stack is as follows:
+## assign
+##
+
+Expected ',' or ';'.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_FOR TOK_LPAREN TOK_id TOK_int
+##
+## Ends in an error in state: 117.
+##
+## assign -> TOK_id . TOK_EQUAL int_expr [ TOK_SEMICOLON TOK_RPAREN TOK_COMMA ]
+## assign -> TOK_id . TOK_STAR_EQUAL int_expr [ TOK_SEMICOLON TOK_RPAREN TOK_COMMA ]
+## assign -> TOK_id . TOK_DIVIDE_EQUAL int_expr [ TOK_SEMICOLON TOK_RPAREN TOK_COMMA ]
+## assign -> TOK_id . TOK_PERCENT_EQUAL int_expr [ TOK_SEMICOLON TOK_RPAREN TOK_COMMA ]
+## assign -> TOK_id . TOK_PLUS_EQUAL int_expr [ TOK_SEMICOLON TOK_RPAREN TOK_COMMA ]
+## assign -> TOK_id . TOK_MINUS_EQUAL int_expr [ TOK_SEMICOLON TOK_RPAREN TOK_COMMA ]
+## assign -> TOK_id . TOK_PLUS_PLUS [ TOK_SEMICOLON TOK_RPAREN TOK_COMMA ]
+## assign -> TOK_id . TOK_MINUS_MINUS [ TOK_SEMICOLON TOK_RPAREN TOK_COMMA ]
+##
+## The known suffix of the stack is as follows:
+## TOK_id
+##
+
+Expected operator.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_FOR TOK_LPAREN TOK_int
+##
+## Ends in an error in state: 116.
+##
+## stat -> TOK_FOR TOK_LPAREN . assign_list TOK_SEMICOLON option(ext(bool_expr)) TOK_SEMICOLON assign_list TOK_RPAREN stat [ TOK_id TOK_WHILE TOK_SEMICOLON TOK_RETURN TOK_RCURLY TOK_LCURLY TOK_INT TOK_IF TOK_GOTO TOK_FOR TOK_ELSE TOK_BREAK TOK_ASSERT ]
+##
+## The known suffix of the stack is as follows:
+## TOK_FOR TOK_LPAREN
+##
+
+Expected assignment.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_FOR TOK_int
+##
+## Ends in an error in state: 115.
+##
+## stat -> TOK_FOR . TOK_LPAREN assign_list TOK_SEMICOLON option(ext(bool_expr)) TOK_SEMICOLON assign_list TOK_RPAREN stat [ TOK_id TOK_WHILE TOK_SEMICOLON TOK_RETURN TOK_RCURLY TOK_LCURLY TOK_INT TOK_IF TOK_GOTO TOK_FOR TOK_ELSE TOK_BREAK TOK_ASSERT ]
+##
+## The known suffix of the stack is as follows:
+## TOK_FOR
+##
+
+Expected '('.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_GOTO TOK_id TOK_int
+##
+## Ends in an error in state: 113.
+##
+## stat -> TOK_GOTO TOK_id . TOK_SEMICOLON [ TOK_id TOK_WHILE TOK_SEMICOLON TOK_RETURN TOK_RCURLY TOK_LCURLY TOK_INT TOK_IF TOK_GOTO TOK_FOR TOK_ELSE TOK_BREAK TOK_ASSERT ]
+##
+## The known suffix of the stack is as follows:
+## TOK_GOTO TOK_id
+##
+
+Expected ';'.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_GOTO TOK_int
+##
+## Ends in an error in state: 112.
+##
+## stat -> TOK_GOTO . TOK_id TOK_SEMICOLON [ TOK_id TOK_WHILE TOK_SEMICOLON TOK_RETURN TOK_RCURLY TOK_LCURLY TOK_INT TOK_IF TOK_GOTO TOK_FOR TOK_ELSE TOK_BREAK TOK_ASSERT ]
+##
+## The known suffix of the stack is as follows:
+## TOK_GOTO
+##
+
+Expected label.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_IF TOK_LPAREN TOK_TRUE TOK_RPAREN TOK_SEMICOLON TOK_ELSE TOK_int
+##
+## Ends in an error in state: 152.
+##
+## stat -> TOK_IF TOK_LPAREN bool_expr TOK_RPAREN stat TOK_ELSE . stat [ TOK_id TOK_WHILE TOK_SEMICOLON TOK_RETURN TOK_RCURLY TOK_LCURLY TOK_INT TOK_IF TOK_GOTO TOK_FOR TOK_ELSE TOK_BREAK TOK_ASSERT ]
+##
+## The known suffix of the stack is as follows:
+## TOK_IF TOK_LPAREN bool_expr TOK_RPAREN stat TOK_ELSE
+##
+
+Expected statement.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_IF TOK_LPAREN TOK_TRUE TOK_RPAREN TOK_SEMICOLON TOK_int
+##
+## Ends in an error in state: 151.
+##
+## stat -> TOK_IF TOK_LPAREN bool_expr TOK_RPAREN stat . [ TOK_id TOK_WHILE TOK_SEMICOLON TOK_RETURN TOK_RCURLY TOK_LCURLY TOK_INT TOK_IF TOK_GOTO TOK_FOR TOK_ELSE TOK_BREAK TOK_ASSERT ]
+## stat -> TOK_IF TOK_LPAREN bool_expr TOK_RPAREN stat . TOK_ELSE stat [ TOK_id TOK_WHILE TOK_SEMICOLON TOK_RETURN TOK_RCURLY TOK_LCURLY TOK_INT TOK_IF TOK_GOTO TOK_FOR TOK_ELSE TOK_BREAK TOK_ASSERT ]
+##
+## The known suffix of the stack is as follows:
+## TOK_IF TOK_LPAREN bool_expr TOK_RPAREN stat
+##
+
+Expected statement.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_IF TOK_LPAREN TOK_TRUE TOK_RPAREN TOK_int
+##
+## Ends in an error in state: 111.
+##
+## stat -> TOK_IF TOK_LPAREN bool_expr TOK_RPAREN . stat [ TOK_id TOK_WHILE TOK_SEMICOLON TOK_RETURN TOK_RCURLY TOK_LCURLY TOK_INT TOK_IF TOK_GOTO TOK_FOR TOK_ELSE TOK_BREAK TOK_ASSERT ]
+## stat -> TOK_IF TOK_LPAREN bool_expr TOK_RPAREN . stat TOK_ELSE stat [ TOK_id TOK_WHILE TOK_SEMICOLON TOK_RETURN TOK_RCURLY TOK_LCURLY TOK_INT TOK_IF TOK_GOTO TOK_FOR TOK_ELSE TOK_BREAK TOK_ASSERT ]
+##
+## The known suffix of the stack is as follows:
+## TOK_IF TOK_LPAREN bool_expr TOK_RPAREN
+##
+
+Expected statement.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_IF TOK_LPAREN TOK_TRUE TOK_int
+##
+## Ends in an error in state: 110.
+##
+## bool_expr -> bool_expr . TOK_AND_AND bool_expr [ TOK_RPAREN TOK_BAR_BAR TOK_AND_AND ]
+## bool_expr -> bool_expr . TOK_BAR_BAR bool_expr [ TOK_RPAREN TOK_BAR_BAR TOK_AND_AND ]
+## stat -> TOK_IF TOK_LPAREN bool_expr . TOK_RPAREN stat [ TOK_id TOK_WHILE TOK_SEMICOLON TOK_RETURN TOK_RCURLY TOK_LCURLY TOK_INT TOK_IF TOK_GOTO TOK_FOR TOK_ELSE TOK_BREAK TOK_ASSERT ]
+## stat -> TOK_IF TOK_LPAREN bool_expr . TOK_RPAREN stat TOK_ELSE stat [ TOK_id TOK_WHILE TOK_SEMICOLON TOK_RETURN TOK_RCURLY TOK_LCURLY TOK_INT TOK_IF TOK_GOTO TOK_FOR TOK_ELSE TOK_BREAK TOK_ASSERT ]
+##
+## The known suffix of the stack is as follows:
+## TOK_IF TOK_LPAREN bool_expr
+##
+
+Expected operator.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_IF TOK_LPAREN TOK_WHILE
+##
+## Ends in an error in state: 109.
+##
+## stat -> TOK_IF TOK_LPAREN . bool_expr TOK_RPAREN stat [ TOK_id TOK_WHILE TOK_SEMICOLON TOK_RETURN TOK_RCURLY TOK_LCURLY TOK_INT TOK_IF TOK_GOTO TOK_FOR TOK_ELSE TOK_BREAK TOK_ASSERT ]
+## stat -> TOK_IF TOK_LPAREN . bool_expr TOK_RPAREN stat TOK_ELSE stat [ TOK_id TOK_WHILE TOK_SEMICOLON TOK_RETURN TOK_RCURLY TOK_LCURLY TOK_INT TOK_IF TOK_GOTO TOK_FOR TOK_ELSE TOK_BREAK TOK_ASSERT ]
+##
+## The known suffix of the stack is as follows:
+## TOK_IF TOK_LPAREN
+##
+
+Expected expression.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_IF TOK_int
+##
+## Ends in an error in state: 108.
+##
+## stat -> TOK_IF . TOK_LPAREN bool_expr TOK_RPAREN stat [ TOK_id TOK_WHILE TOK_SEMICOLON TOK_RETURN TOK_RCURLY TOK_LCURLY TOK_INT TOK_IF TOK_GOTO TOK_FOR TOK_ELSE TOK_BREAK TOK_ASSERT ]
+## stat -> TOK_IF . TOK_LPAREN bool_expr TOK_RPAREN stat TOK_ELSE stat [ TOK_id TOK_WHILE TOK_SEMICOLON TOK_RETURN TOK_RCURLY TOK_LCURLY TOK_INT TOK_IF TOK_GOTO TOK_FOR TOK_ELSE TOK_BREAK TOK_ASSERT ]
+##
+## The known suffix of the stack is as follows:
+## TOK_IF
+##
+
+Expected '('.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_INT TOK_int
+##
+## Ends in an error in state: 134.
+##
+## var_decl -> typ . loption(separated_nonempty_list(TOK_COMMA,init_declarator)) TOK_SEMICOLON [ TOK_id TOK_WHILE TOK_SEMICOLON TOK_RETURN TOK_RCURLY TOK_LCURLY TOK_INT TOK_IF TOK_GOTO TOK_FOR TOK_ELSE TOK_BREAK TOK_ASSERT ]
+##
+## The known suffix of the stack is as follows:
+## typ
+##
+
+Expected identifier.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_LCURLY TOK_int
+##
+## Ends in an error in state: 107.
+##
+## stat -> TOK_LCURLY . list(ext(stat)) TOK_RCURLY [ TOK_id TOK_WHILE TOK_SEMICOLON TOK_RETURN TOK_RCURLY TOK_LCURLY TOK_INT TOK_IF TOK_GOTO TOK_FOR TOK_ELSE TOK_BREAK TOK_ASSERT ]
+##
+## The known suffix of the stack is as follows:
+## TOK_LCURLY
+##
+
+Expected statement.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_RETURN TOK_WHILE
+##
+## Ends in an error in state: 103.
+##
+## stat -> TOK_RETURN . option(ext(int_expr)) TOK_SEMICOLON [ TOK_id TOK_WHILE TOK_SEMICOLON TOK_RETURN TOK_RCURLY TOK_LCURLY TOK_INT TOK_IF TOK_GOTO TOK_FOR TOK_ELSE TOK_BREAK TOK_ASSERT ]
+##
+## The known suffix of the stack is as follows:
+## TOK_RETURN
+##
+
+Expected expression.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_RETURN TOK_int TOK_int
+##
+## Ends in an error in state: 106.
+##
+## int_expr -> int_expr . TOK_STAR int_expr [ TOK_STAR TOK_SEMICOLON TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE ]
+## int_expr -> int_expr . TOK_DIVIDE int_expr [ TOK_STAR TOK_SEMICOLON TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE ]
+## int_expr -> int_expr . TOK_PERCENT int_expr [ TOK_STAR TOK_SEMICOLON TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE ]
+## int_expr -> int_expr . TOK_PLUS int_expr [ TOK_STAR TOK_SEMICOLON TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE ]
+## int_expr -> int_expr . TOK_MINUS int_expr [ TOK_STAR TOK_SEMICOLON TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE ]
+## option(ext(int_expr)) -> int_expr . [ TOK_SEMICOLON ]
+##
+## The known suffix of the stack is as follows:
+## int_expr
+##
+
+Expected operator.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_SEMICOLON TOK_int
+##
+## Ends in an error in state: 154.
+##
+## list(ext(stat)) -> stat . list(ext(stat)) [ TOK_RCURLY ]
+##
+## The known suffix of the stack is as follows:
+## stat
+##
+
+Expected statement.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_WHILE TOK_LPAREN TOK_EXCLAIM TOK_WHILE
+##
+## Ends in an error in state: 77.
+##
+## bool_expr -> TOK_EXCLAIM . bool_expr [ TOK_SEMICOLON TOK_RPAREN TOK_BAR_BAR TOK_AND_AND ]
+##
+## The known suffix of the stack is as follows:
+## TOK_EXCLAIM
+##
+
+Expected expression.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_WHILE TOK_LPAREN TOK_LPAREN TOK_TRUE TOK_int
+##
+## Ends in an error in state: 94.
+##
+## bool_expr -> TOK_LPAREN bool_expr . TOK_RPAREN [ TOK_SEMICOLON TOK_RPAREN TOK_BAR_BAR TOK_AND_AND ]
+## bool_expr -> bool_expr . TOK_AND_AND bool_expr [ TOK_RPAREN TOK_BAR_BAR TOK_AND_AND ]
+## bool_expr -> bool_expr . TOK_BAR_BAR bool_expr [ TOK_RPAREN TOK_BAR_BAR TOK_AND_AND ]
+##
+## The known suffix of the stack is as follows:
+## TOK_LPAREN bool_expr
+##
+
+Expected operator or ')'.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_WHILE TOK_LPAREN TOK_LPAREN TOK_WHILE
+##
+## Ends in an error in state: 75.
+##
+## bool_expr -> TOK_LPAREN . bool_expr TOK_RPAREN [ TOK_SEMICOLON TOK_RPAREN TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> TOK_LPAREN . int_expr TOK_RPAREN [ TOK_STAR TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE ]
+##
+## The known suffix of the stack is as follows:
+## TOK_LPAREN
+##
+
+Expected expression.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_WHILE TOK_LPAREN TOK_LPAREN TOK_int TOK_int
+##
+## Ends in an error in state: 93.
+##
+## bool_expr -> int_expr . TOK_LESS int_expr [ TOK_RPAREN TOK_BAR_BAR TOK_AND_AND ]
+## bool_expr -> int_expr . TOK_GREATER int_expr [ TOK_RPAREN TOK_BAR_BAR TOK_AND_AND ]
+## bool_expr -> int_expr . TOK_LESS_EQUAL int_expr [ TOK_RPAREN TOK_BAR_BAR TOK_AND_AND ]
+## bool_expr -> int_expr . TOK_GREATER_EQUAL int_expr [ TOK_RPAREN TOK_BAR_BAR TOK_AND_AND ]
+## bool_expr -> int_expr . TOK_EQUAL_EQUAL int_expr [ TOK_RPAREN TOK_BAR_BAR TOK_AND_AND ]
+## bool_expr -> int_expr . TOK_NOT_EQUAL int_expr [ TOK_RPAREN TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> TOK_LPAREN int_expr . TOK_RPAREN [ TOK_STAR TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE ]
+## int_expr -> int_expr . TOK_STAR int_expr [ TOK_STAR TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE ]
+## int_expr -> int_expr . TOK_DIVIDE int_expr [ TOK_STAR TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE ]
+## int_expr -> int_expr . TOK_PERCENT int_expr [ TOK_STAR TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE ]
+## int_expr -> int_expr . TOK_PLUS int_expr [ TOK_STAR TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE ]
+## int_expr -> int_expr . TOK_MINUS int_expr [ TOK_STAR TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE ]
+##
+## The known suffix of the stack is as follows:
+## TOK_LPAREN int_expr
+##
+
+Expected operator.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_WHILE TOK_LPAREN TOK_TRUE TOK_AND_AND TOK_WHILE
+##
+## Ends in an error in state: 98.
+##
+## bool_expr -> bool_expr TOK_AND_AND . bool_expr [ TOK_SEMICOLON TOK_RPAREN TOK_BAR_BAR TOK_AND_AND ]
+##
+## The known suffix of the stack is as follows:
+## bool_expr TOK_AND_AND
+##
+
+Expected expression.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_WHILE TOK_LPAREN TOK_TRUE TOK_BAR_BAR TOK_TRUE TOK_int
+##
+## Ends in an error in state: 97.
+##
+## bool_expr -> bool_expr . TOK_AND_AND bool_expr [ TOK_SEMICOLON TOK_RPAREN TOK_BAR_BAR TOK_AND_AND ]
+## bool_expr -> bool_expr . TOK_BAR_BAR bool_expr [ TOK_SEMICOLON TOK_RPAREN TOK_BAR_BAR TOK_AND_AND ]
+## bool_expr -> bool_expr TOK_BAR_BAR bool_expr . [ TOK_SEMICOLON TOK_RPAREN TOK_BAR_BAR TOK_AND_AND ]
+##
+## The known suffix of the stack is as follows:
+## bool_expr TOK_BAR_BAR bool_expr
+##
+
+Expected operator.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_WHILE TOK_LPAREN TOK_TRUE TOK_BAR_BAR TOK_WHILE
+##
+## Ends in an error in state: 96.
+##
+## bool_expr -> bool_expr TOK_BAR_BAR . bool_expr [ TOK_SEMICOLON TOK_RPAREN TOK_BAR_BAR TOK_AND_AND ]
+##
+## The known suffix of the stack is as follows:
+## bool_expr TOK_BAR_BAR
+##
+
+Expected expression.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_WHILE TOK_LPAREN TOK_TRUE TOK_RPAREN TOK_int
+##
+## Ends in an error in state: 101.
+##
+## stat -> TOK_WHILE TOK_LPAREN bool_expr TOK_RPAREN . stat [ TOK_id TOK_WHILE TOK_SEMICOLON TOK_RETURN TOK_RCURLY TOK_LCURLY TOK_INT TOK_IF TOK_GOTO TOK_FOR TOK_ELSE TOK_BREAK TOK_ASSERT ]
+##
+## The known suffix of the stack is as follows:
+## TOK_WHILE TOK_LPAREN bool_expr TOK_RPAREN
+##
+
+Expected statement.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_WHILE TOK_LPAREN TOK_TRUE TOK_int
+##
+## Ends in an error in state: 100.
+##
+## bool_expr -> bool_expr . TOK_AND_AND bool_expr [ TOK_RPAREN TOK_BAR_BAR TOK_AND_AND ]
+## bool_expr -> bool_expr . TOK_BAR_BAR bool_expr [ TOK_RPAREN TOK_BAR_BAR TOK_AND_AND ]
+## stat -> TOK_WHILE TOK_LPAREN bool_expr . TOK_RPAREN stat [ TOK_id TOK_WHILE TOK_SEMICOLON TOK_RETURN TOK_RCURLY TOK_LCURLY TOK_INT TOK_IF TOK_GOTO TOK_FOR TOK_ELSE TOK_BREAK TOK_ASSERT ]
+##
+## The known suffix of the stack is as follows:
+## TOK_WHILE TOK_LPAREN bool_expr
+##
+
+Expected expression or ')'.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_WHILE TOK_LPAREN TOK_WHILE
+##
+## Ends in an error in state: 73.
+##
+## stat -> TOK_WHILE TOK_LPAREN . bool_expr TOK_RPAREN stat [ TOK_id TOK_WHILE TOK_SEMICOLON TOK_RETURN TOK_RCURLY TOK_LCURLY TOK_INT TOK_IF TOK_GOTO TOK_FOR TOK_ELSE TOK_BREAK TOK_ASSERT ]
+##
+## The known suffix of the stack is as follows:
+## TOK_WHILE TOK_LPAREN
+##
+
+Expected expression.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_WHILE TOK_LPAREN TOK_int TOK_EQUAL_EQUAL TOK_WHILE
+##
+## Ends in an error in state: 90.
+##
+## bool_expr -> int_expr TOK_EQUAL_EQUAL . int_expr [ TOK_SEMICOLON TOK_RPAREN TOK_BAR_BAR TOK_AND_AND ]
+##
+## The known suffix of the stack is as follows:
+## int_expr TOK_EQUAL_EQUAL
+##
+
+Expected expression.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_WHILE TOK_LPAREN TOK_int TOK_EQUAL_EQUAL TOK_int TOK_int
+##
+## Ends in an error in state: 91.
+##
+## bool_expr -> int_expr TOK_EQUAL_EQUAL int_expr . [ TOK_SEMICOLON TOK_RPAREN TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_STAR int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_DIVIDE int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_PERCENT int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_PLUS int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_MINUS int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_BAR_BAR TOK_AND_AND ]
+##
+## The known suffix of the stack is as follows:
+## int_expr TOK_EQUAL_EQUAL int_expr
+##
+
+Expected operator.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_WHILE TOK_LPAREN TOK_int TOK_GREATER TOK_WHILE
+##
+## Ends in an error in state: 88.
+##
+## bool_expr -> int_expr TOK_GREATER . int_expr [ TOK_SEMICOLON TOK_RPAREN TOK_BAR_BAR TOK_AND_AND ]
+##
+## The known suffix of the stack is as follows:
+## int_expr TOK_GREATER
+##
+
+Expected expression.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_WHILE TOK_LPAREN TOK_int TOK_GREATER TOK_int TOK_int
+##
+## Ends in an error in state: 89.
+##
+## bool_expr -> int_expr TOK_GREATER int_expr . [ TOK_SEMICOLON TOK_RPAREN TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_STAR int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_DIVIDE int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_PERCENT int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_PLUS int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_MINUS int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_BAR_BAR TOK_AND_AND ]
+##
+## The known suffix of the stack is as follows:
+## int_expr TOK_GREATER int_expr
+##
+
+Expected operator.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_WHILE TOK_LPAREN TOK_int TOK_GREATER_EQUAL TOK_WHILE
+##
+## Ends in an error in state: 86.
+##
+## bool_expr -> int_expr TOK_GREATER_EQUAL . int_expr [ TOK_SEMICOLON TOK_RPAREN TOK_BAR_BAR TOK_AND_AND ]
+##
+## The known suffix of the stack is as follows:
+## int_expr TOK_GREATER_EQUAL
+##
+
+Expected expression.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_WHILE TOK_LPAREN TOK_int TOK_GREATER_EQUAL TOK_int TOK_int
+##
+## Ends in an error in state: 87.
+##
+## bool_expr -> int_expr TOK_GREATER_EQUAL int_expr . [ TOK_SEMICOLON TOK_RPAREN TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_STAR int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_DIVIDE int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_PERCENT int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_PLUS int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_MINUS int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_BAR_BAR TOK_AND_AND ]
+##
+## The known suffix of the stack is as follows:
+## int_expr TOK_GREATER_EQUAL int_expr
+##
+
+Expected operator.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_WHILE TOK_LPAREN TOK_int TOK_LESS TOK_WHILE
+##
+## Ends in an error in state: 84.
+##
+## bool_expr -> int_expr TOK_LESS . int_expr [ TOK_SEMICOLON TOK_RPAREN TOK_BAR_BAR TOK_AND_AND ]
+##
+## The known suffix of the stack is as follows:
+## int_expr TOK_LESS
+##
+
+Expected expression.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_WHILE TOK_LPAREN TOK_int TOK_LESS TOK_int TOK_int
+##
+## Ends in an error in state: 85.
+##
+## bool_expr -> int_expr TOK_LESS int_expr . [ TOK_SEMICOLON TOK_RPAREN TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_STAR int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_DIVIDE int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_PERCENT int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_PLUS int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_MINUS int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_BAR_BAR TOK_AND_AND ]
+##
+## The known suffix of the stack is as follows:
+## int_expr TOK_LESS int_expr
+##
+
+Expected operator.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_WHILE TOK_LPAREN TOK_int TOK_LESS_EQUAL TOK_WHILE
+##
+## Ends in an error in state: 82.
+##
+## bool_expr -> int_expr TOK_LESS_EQUAL . int_expr [ TOK_SEMICOLON TOK_RPAREN TOK_BAR_BAR TOK_AND_AND ]
+##
+## The known suffix of the stack is as follows:
+## int_expr TOK_LESS_EQUAL
+##
+
+Expected expression.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_WHILE TOK_LPAREN TOK_int TOK_LESS_EQUAL TOK_int TOK_int
+##
+## Ends in an error in state: 83.
+##
+## bool_expr -> int_expr TOK_LESS_EQUAL int_expr . [ TOK_SEMICOLON TOK_RPAREN TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_STAR int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_DIVIDE int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_PERCENT int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_PLUS int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_MINUS int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_BAR_BAR TOK_AND_AND ]
+##
+## The known suffix of the stack is as follows:
+## int_expr TOK_LESS_EQUAL int_expr
+##
+
+Expected operator.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_WHILE TOK_LPAREN TOK_int TOK_NOT_EQUAL TOK_WHILE
+##
+## Ends in an error in state: 80.
+##
+## bool_expr -> int_expr TOK_NOT_EQUAL . int_expr [ TOK_SEMICOLON TOK_RPAREN TOK_BAR_BAR TOK_AND_AND ]
+##
+## The known suffix of the stack is as follows:
+## int_expr TOK_NOT_EQUAL
+##
+
+Expected expression.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_WHILE TOK_LPAREN TOK_int TOK_NOT_EQUAL TOK_int TOK_int
+##
+## Ends in an error in state: 81.
+##
+## bool_expr -> int_expr TOK_NOT_EQUAL int_expr . [ TOK_SEMICOLON TOK_RPAREN TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_STAR int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_DIVIDE int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_PERCENT int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_PLUS int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_MINUS int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_BAR_BAR TOK_AND_AND ]
+##
+## The known suffix of the stack is as follows:
+## int_expr TOK_NOT_EQUAL int_expr
+##
+
+Expected operator.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_WHILE TOK_LPAREN TOK_int TOK_int
+##
+## Ends in an error in state: 79.
+##
+## bool_expr -> int_expr . TOK_LESS int_expr [ TOK_SEMICOLON TOK_RPAREN TOK_BAR_BAR TOK_AND_AND ]
+## bool_expr -> int_expr . TOK_GREATER int_expr [ TOK_SEMICOLON TOK_RPAREN TOK_BAR_BAR TOK_AND_AND ]
+## bool_expr -> int_expr . TOK_LESS_EQUAL int_expr [ TOK_SEMICOLON TOK_RPAREN TOK_BAR_BAR TOK_AND_AND ]
+## bool_expr -> int_expr . TOK_GREATER_EQUAL int_expr [ TOK_SEMICOLON TOK_RPAREN TOK_BAR_BAR TOK_AND_AND ]
+## bool_expr -> int_expr . TOK_EQUAL_EQUAL int_expr [ TOK_SEMICOLON TOK_RPAREN TOK_BAR_BAR TOK_AND_AND ]
+## bool_expr -> int_expr . TOK_NOT_EQUAL int_expr [ TOK_SEMICOLON TOK_RPAREN TOK_BAR_BAR TOK_AND_AND ]
+## int_expr -> int_expr . TOK_STAR int_expr [ TOK_STAR TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE ]
+## int_expr -> int_expr . TOK_DIVIDE int_expr [ TOK_STAR TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE ]
+## int_expr -> int_expr . TOK_PERCENT int_expr [ TOK_STAR TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE ]
+## int_expr -> int_expr . TOK_PLUS int_expr [ TOK_STAR TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE ]
+## int_expr -> int_expr . TOK_MINUS int_expr [ TOK_STAR TOK_PLUS TOK_PERCENT TOK_NOT_EQUAL TOK_MINUS TOK_LESS_EQUAL TOK_LESS TOK_GREATER_EQUAL TOK_GREATER TOK_EQUAL_EQUAL TOK_DIVIDE ]
+##
+## The known suffix of the stack is as follows:
+## int_expr
+##
+
+Expected operator.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_WHILE TOK_int
+##
+## Ends in an error in state: 72.
+##
+## stat -> TOK_WHILE . TOK_LPAREN bool_expr TOK_RPAREN stat [ TOK_id TOK_WHILE TOK_SEMICOLON TOK_RETURN TOK_RCURLY TOK_LCURLY TOK_INT TOK_IF TOK_GOTO TOK_FOR TOK_ELSE TOK_BREAK TOK_ASSERT ]
+##
+## The known suffix of the stack is as follows:
+## TOK_WHILE
+##
+
+Expected '('.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_id TOK_DIVIDE_EQUAL TOK_WHILE
+##
+## Ends in an error in state: 69.
+##
+## assign -> TOK_id TOK_DIVIDE_EQUAL . int_expr [ TOK_SEMICOLON TOK_RPAREN TOK_COMMA ]
+##
+## The known suffix of the stack is as follows:
+## TOK_id TOK_DIVIDE_EQUAL
+##
+
+Expected expression.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_id TOK_DIVIDE_EQUAL TOK_int TOK_int
+##
+## Ends in an error in state: 70.
+##
+## assign -> TOK_id TOK_DIVIDE_EQUAL int_expr . [ TOK_SEMICOLON TOK_RPAREN TOK_COMMA ]
+## int_expr -> int_expr . TOK_STAR int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_COMMA ]
+## int_expr -> int_expr . TOK_DIVIDE int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_COMMA ]
+## int_expr -> int_expr . TOK_PERCENT int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_COMMA ]
+## int_expr -> int_expr . TOK_PLUS int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_COMMA ]
+## int_expr -> int_expr . TOK_MINUS int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_COMMA ]
+##
+## The known suffix of the stack is as follows:
+## TOK_id TOK_DIVIDE_EQUAL int_expr
+##
+
+Expected operator.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_id TOK_EQUAL TOK_WHILE
+##
+## Ends in an error in state: 67.
+##
+## assign -> TOK_id TOK_EQUAL . int_expr [ TOK_SEMICOLON TOK_RPAREN TOK_COMMA ]
+##
+## The known suffix of the stack is as follows:
+## TOK_id TOK_EQUAL
+##
+
+Expected expression.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_id TOK_EQUAL TOK_int TOK_int
+##
+## Ends in an error in state: 68.
+##
+## assign -> TOK_id TOK_EQUAL int_expr . [ TOK_SEMICOLON TOK_RPAREN TOK_COMMA ]
+## int_expr -> int_expr . TOK_STAR int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_COMMA ]
+## int_expr -> int_expr . TOK_DIVIDE int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_COMMA ]
+## int_expr -> int_expr . TOK_PERCENT int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_COMMA ]
+## int_expr -> int_expr . TOK_PLUS int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_COMMA ]
+## int_expr -> int_expr . TOK_MINUS int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_COMMA ]
+##
+## The known suffix of the stack is as follows:
+## TOK_id TOK_EQUAL int_expr
+##
+
+Expected operator.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_id TOK_LPAREN TOK_RPAREN TOK_int
+##
+## Ends in an error in state: 65.
+##
+## stat -> TOK_id TOK_LPAREN int_expr_list TOK_RPAREN . TOK_SEMICOLON [ TOK_id TOK_WHILE TOK_SEMICOLON TOK_RETURN TOK_RCURLY TOK_LCURLY TOK_INT TOK_IF TOK_GOTO TOK_FOR TOK_ELSE TOK_BREAK TOK_ASSERT ]
+##
+## The known suffix of the stack is as follows:
+## TOK_id TOK_LPAREN int_expr_list TOK_RPAREN
+##
+
+Expected ';'.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_id TOK_LPAREN TOK_WHILE
+##
+## Ends in an error in state: 63.
+##
+## stat -> TOK_id TOK_LPAREN . int_expr_list TOK_RPAREN TOK_SEMICOLON [ TOK_id TOK_WHILE TOK_SEMICOLON TOK_RETURN TOK_RCURLY TOK_LCURLY TOK_INT TOK_IF TOK_GOTO TOK_FOR TOK_ELSE TOK_BREAK TOK_ASSERT ]
+##
+## The known suffix of the stack is as follows:
+## TOK_id TOK_LPAREN
+##
+
+Expected expression.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_id TOK_MINUS_EQUAL TOK_WHILE
+##
+## Ends in an error in state: 61.
+##
+## assign -> TOK_id TOK_MINUS_EQUAL . int_expr [ TOK_SEMICOLON TOK_RPAREN TOK_COMMA ]
+##
+## The known suffix of the stack is as follows:
+## TOK_id TOK_MINUS_EQUAL
+##
+
+Expected expression.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_id TOK_MINUS_EQUAL TOK_int TOK_int
+##
+## Ends in an error in state: 62.
+##
+## assign -> TOK_id TOK_MINUS_EQUAL int_expr . [ TOK_SEMICOLON TOK_RPAREN TOK_COMMA ]
+## int_expr -> int_expr . TOK_STAR int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_COMMA ]
+## int_expr -> int_expr . TOK_DIVIDE int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_COMMA ]
+## int_expr -> int_expr . TOK_PERCENT int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_COMMA ]
+## int_expr -> int_expr . TOK_PLUS int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_COMMA ]
+## int_expr -> int_expr . TOK_MINUS int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_COMMA ]
+##
+## The known suffix of the stack is as follows:
+## TOK_id TOK_MINUS_EQUAL int_expr
+##
+
+Expected expression
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_id TOK_MINUS_MINUS TOK_int
+##
+## Ends in an error in state: 145.
+##
+## stat -> assign . TOK_SEMICOLON [ TOK_id TOK_WHILE TOK_SEMICOLON TOK_RETURN TOK_RCURLY TOK_LCURLY TOK_INT TOK_IF TOK_GOTO TOK_FOR TOK_ELSE TOK_BREAK TOK_ASSERT ]
+##
+## The known suffix of the stack is as follows:
+## assign
+##
+
+Expected ';'
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_id TOK_PERCENT_EQUAL TOK_WHILE
+##
+## Ends in an error in state: 58.
+##
+## assign -> TOK_id TOK_PERCENT_EQUAL . int_expr [ TOK_SEMICOLON TOK_RPAREN TOK_COMMA ]
+##
+## The known suffix of the stack is as follows:
+## TOK_id TOK_PERCENT_EQUAL
+##
+
+Expected expression.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_id TOK_PERCENT_EQUAL TOK_int TOK_int
+##
+## Ends in an error in state: 59.
+##
+## assign -> TOK_id TOK_PERCENT_EQUAL int_expr . [ TOK_SEMICOLON TOK_RPAREN TOK_COMMA ]
+## int_expr -> int_expr . TOK_STAR int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_COMMA ]
+## int_expr -> int_expr . TOK_DIVIDE int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_COMMA ]
+## int_expr -> int_expr . TOK_PERCENT int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_COMMA ]
+## int_expr -> int_expr . TOK_PLUS int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_COMMA ]
+## int_expr -> int_expr . TOK_MINUS int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_COMMA ]
+##
+## The known suffix of the stack is as follows:
+## TOK_id TOK_PERCENT_EQUAL int_expr
+##
+
+Expected operator.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_id TOK_PLUS_EQUAL TOK_WHILE
+##
+## Ends in an error in state: 56.
+##
+## assign -> TOK_id TOK_PLUS_EQUAL . int_expr [ TOK_SEMICOLON TOK_RPAREN TOK_COMMA ]
+##
+## The known suffix of the stack is as follows:
+## TOK_id TOK_PLUS_EQUAL
+##
+
+Expected expression.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_id TOK_PLUS_EQUAL TOK_int TOK_int
+##
+## Ends in an error in state: 57.
+##
+## assign -> TOK_id TOK_PLUS_EQUAL int_expr . [ TOK_SEMICOLON TOK_RPAREN TOK_COMMA ]
+## int_expr -> int_expr . TOK_STAR int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_COMMA ]
+## int_expr -> int_expr . TOK_DIVIDE int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_COMMA ]
+## int_expr -> int_expr . TOK_PERCENT int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_COMMA ]
+## int_expr -> int_expr . TOK_PLUS int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_COMMA ]
+## int_expr -> int_expr . TOK_MINUS int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_COMMA ]
+##
+## The known suffix of the stack is as follows:
+## TOK_id TOK_PLUS_EQUAL int_expr
+##
+
+Expected operator.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_id TOK_STAR_EQUAL TOK_WHILE
+##
+## Ends in an error in state: 15.
+##
+## assign -> TOK_id TOK_STAR_EQUAL . int_expr [ TOK_SEMICOLON TOK_RPAREN TOK_COMMA ]
+##
+## The known suffix of the stack is as follows:
+## TOK_id TOK_STAR_EQUAL
+##
+
+Expected expression.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_id TOK_STAR_EQUAL TOK_int TOK_int
+##
+## Ends in an error in state: 54.
+##
+## assign -> TOK_id TOK_STAR_EQUAL int_expr . [ TOK_SEMICOLON TOK_RPAREN TOK_COMMA ]
+## int_expr -> int_expr . TOK_STAR int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_COMMA ]
+## int_expr -> int_expr . TOK_DIVIDE int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_COMMA ]
+## int_expr -> int_expr . TOK_PERCENT int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_COMMA ]
+## int_expr -> int_expr . TOK_PLUS int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_COMMA ]
+## int_expr -> int_expr . TOK_MINUS int_expr [ TOK_STAR TOK_SEMICOLON TOK_RPAREN TOK_PLUS TOK_PERCENT TOK_MINUS TOK_DIVIDE TOK_COMMA ]
+##
+## The known suffix of the stack is as follows:
+## TOK_id TOK_STAR_EQUAL int_expr
+##
+
+Expected operator.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_id TOK_int
+##
+## Ends in an error in state: 14.
+##
+## assign -> TOK_id . TOK_EQUAL int_expr [ TOK_SEMICOLON ]
+## assign -> TOK_id . TOK_STAR_EQUAL int_expr [ TOK_SEMICOLON ]
+## assign -> TOK_id . TOK_DIVIDE_EQUAL int_expr [ TOK_SEMICOLON ]
+## assign -> TOK_id . TOK_PERCENT_EQUAL int_expr [ TOK_SEMICOLON ]
+## assign -> TOK_id . TOK_PLUS_EQUAL int_expr [ TOK_SEMICOLON ]
+## assign -> TOK_id . TOK_MINUS_EQUAL int_expr [ TOK_SEMICOLON ]
+## assign -> TOK_id . TOK_PLUS_PLUS [ TOK_SEMICOLON ]
+## assign -> TOK_id . TOK_MINUS_MINUS [ TOK_SEMICOLON ]
+## stat -> TOK_id . TOK_LPAREN int_expr_list TOK_RPAREN TOK_SEMICOLON [ TOK_id TOK_WHILE TOK_SEMICOLON TOK_RETURN TOK_RCURLY TOK_LCURLY TOK_INT TOK_IF TOK_GOTO TOK_FOR TOK_ELSE TOK_BREAK TOK_ASSERT ]
+## stat -> TOK_id . TOK_COLON [ TOK_id TOK_WHILE TOK_SEMICOLON TOK_RETURN TOK_RCURLY TOK_LCURLY TOK_INT TOK_IF TOK_GOTO TOK_FOR TOK_ELSE TOK_BREAK TOK_ASSERT ]
+##
+## The known suffix of the stack is as follows:
+## TOK_id
+##
+
+Expected assignment operator, function call or label definition.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_LCURLY TOK_int
+##
+## Ends in an error in state: 13.
+##
+## fun_decl -> TOK_VOID TOK_id TOK_LPAREN loption(separated_nonempty_list(TOK_COMMA,param_decl)) TOK_RPAREN TOK_LCURLY . list(ext(stat)) TOK_RCURLY [ TOK_VOID TOK_INT TOK_EOF ]
+##
+## The known suffix of the stack is as follows:
+## TOK_VOID TOK_id TOK_LPAREN loption(separated_nonempty_list(TOK_COMMA,param_decl)) TOK_RPAREN TOK_LCURLY
+##
+
+Expected statement.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_RPAREN TOK_int
+##
+## Ends in an error in state: 12.
+##
+## fun_decl -> TOK_VOID TOK_id TOK_LPAREN loption(separated_nonempty_list(TOK_COMMA,param_decl)) TOK_RPAREN . TOK_LCURLY list(ext(stat)) TOK_RCURLY [ TOK_VOID TOK_INT TOK_EOF ]
+##
+## The known suffix of the stack is as follows:
+## TOK_VOID TOK_id TOK_LPAREN loption(separated_nonempty_list(TOK_COMMA,param_decl)) TOK_RPAREN
+##
+
+Expected '{'.
+
+file: TOK_VOID TOK_id TOK_LPAREN TOK_int
+##
+## Ends in an error in state: 3.
+##
+## fun_decl -> TOK_VOID TOK_id TOK_LPAREN . loption(separated_nonempty_list(TOK_COMMA,param_decl)) TOK_RPAREN TOK_LCURLY list(ext(stat)) TOK_RCURLY [ TOK_VOID TOK_INT TOK_EOF ]
+##
+## The known suffix of the stack is as follows:
+## TOK_VOID TOK_id TOK_LPAREN
+##
+
+Expected parameter or ')'.
+
+file: TOK_VOID TOK_id TOK_int
+##
+## Ends in an error in state: 2.
+##
+## fun_decl -> TOK_VOID TOK_id . TOK_LPAREN loption(separated_nonempty_list(TOK_COMMA,param_decl)) TOK_RPAREN TOK_LCURLY list(ext(stat)) TOK_RCURLY [ TOK_VOID TOK_INT TOK_EOF ]
+##
+## The known suffix of the stack is as follows:
+## TOK_VOID TOK_id
+##
+
+Expected '('.
+
+file: TOK_VOID TOK_int
+##
+## Ends in an error in state: 1.
+##
+## fun_decl -> TOK_VOID . TOK_id TOK_LPAREN loption(separated_nonempty_list(TOK_COMMA,param_decl)) TOK_RPAREN TOK_LCURLY list(ext(stat)) TOK_RCURLY [ TOK_VOID TOK_INT TOK_EOF ]
+##
+## The known suffix of the stack is as follows:
+## TOK_VOID
+##
+
+Expected function name.
+
+file: TOK_int
+##
+## Ends in an error in state: 0.
+##
+## file' -> . file [ # ]
+##
+## The known suffix of the stack is as follows:
+##
+##
+
+Expected declaration.
+

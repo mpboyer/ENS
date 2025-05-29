@@ -1,0 +1,95 @@
+
+
+h1, h2, h3, h4, h5, h6, div.h7, div.h8, div.h9 {
+	font-style: monospace;
+  /*font-family: 'Inria Serif';*/
+  font-size: 2.5rem;
+  border: 1px solid #000;
+  margin-top: 20px;
+  margin-bottom: 2px;
+  text-align: center;
+  padding: 8px;
+  font-weight: normal;
+}
+h1 {
+  /* font-family: 'Inria Serif'; */
+  font-size: 4rem;
+  padding: 10px;
+	background-color: #90FDFF;
+	width: 100%;
+}
+
+h2 { background-color: #90BDFF; }
+h3 { background-color: #90DDFF; }
+h4 { background-color: #90EDFF; }
+h5 { background-color: #90FDFF; }
+h6 { background-color: #90BDFF; }
+div.h7 { background-color: #90DDFF; }
+div.h8 { background-color: #F0FFFF; }
+div.h9 { background-color: #FFFFFF; }
+
+body {
+	font-family: 'Inria Sans';
+  background-color : #f7f7f7;
+  font-size: 20px;
+	max-width: 80%;
+	margin: auto;
+  padding-bottom: 4em;
+	/* white-space: pre-wrap; */
+}
+
+td, th {
+  border: 1px solid black;
+  padding: 3px 25px;
+}
+
+th.bench {
+  padding: 10px 25px;
+  background-color: #ccc;
+}
+
+
+table {
+  border: 1px solid black;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+div.c {
+  font-size: 1.5rem;
+	font-family: 'Ubuntu Mono';
+	max-width: 130rem;
+	white-space: pre-wrap;
+	font-style: monospace;
+}
+
+pre {
+  margin: 0px;
+  background-color: #e9e9e9;
+}
+
+a {
+  text-decoration: none;
+  color: #000;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+footer {
+  background-color: #bbbbbb;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  size: 10pt;
+  text-align: center;
+  left: 0;
+  bottom: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+footer a {
+  color: #4659ff;
+}
