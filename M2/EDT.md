@@ -5,11 +5,12 @@
 - 3D Vision: Mardi 13h - 15h45 Jussieu
 - Transport: Mercredi 9h - 12h15 Estrapade
 - Probabilistic Graphical Models: Jeudi 9h - 12h K-Chan
-- Apprentissage Série Temporelle: Jeudi 14h - 17h K-Chan
+- Apprentissage Série Temporelle: Jeudi 14h - 17h K-Chan (Choisir un projet en lien avec TDA, dispo sur slides)
 - Computational Statistics: Vendredi 9h-12h30 Cordeliers
 - GDA: Vendredi 14h - 17h Cordeliers
 
 - Altegrad en visio ce serait bien
+- Geometry Processing en visio ce serait bien
 
 
 ## Période 2
