@@ -1,0 +1,722 @@
+\documentclass{classe}
+\title{Les Sept Merveilles de la Linéarité\\ \small Cours TalENS n°3-4}
+\author{Clément Allard --- Matthieu Boyer}
+\date{11 janvier 2025}
+
+\usepackage[pdftex,outline]{contour}
+
+\newcommand{\point}[3]{\draw (#1 -.1, #2 -.1) -- (#1 + .1, #2 + .1);
+\draw (#1 +.1, #2 -.1) -- (#1 - .1, #2 + .1);
+\draw (#1, #2) node[below right]{#3};}
+
+\renewcommand*{\K}{\mathbb{K}}
+\graphicspath{{./Images/}}
+\tikzset{domaine/.style 2 args={domain=#1:#2}}
+
+\begin{document}
+
+\section{Découvrons la linéarité}
+
+\subsection{Ce qui marche déjà bien}
+
+Commençons avec un exemple simple, la géométrie euclidienne dans le plan, et essayons de le formaliser de manière un peu abstraite. On va se donner une origine $O$ et on va repérer chaque point par un vecteur: à un point $M$ on associera le vecteur $\overrightarrow{OM}$. Que peut-on faire dans le plan ? Voici quelques réponses:
+
+\begin{itemize}
+	\item On a le droit d'ajouter deux vecteurs $\overrightarrow{u}$ et $\overrightarrow{v}$, on obtient un troisième vecteur qui est toujours dans le plan, et on a $\overrightarrow{u} + \overrightarrow{v} = \overrightarrow{v} + \overrightarrow{u}$, ce qui revient à les mettre bout à bout;
+	\item Il existe un vecteur qui traduit le non déplacement $\overrightarrow{0}$ appelé \emph{vecteur nul};
+	\item À chaque vecteur $\overrightarrow{u}$, on peut associer un autre vecteur $\overrightarrow{-u}$ tel que $\overrightarrow{u} + \overrightarrow{-u} = \overrightarrow{0}$: on parle d'opposé, et cela revient à aller dans la direction opposé au vecteur de départ;
+	\item On a le droit de multiplier un vecteur par un nombre (on parle de multiplication par un scalaire), ce qui revient à l'agrandir;
+	\item On a $(\lambda + \mu)\overrightarrow{u} = \lambda\overrightarrow{u} + \mu\overrightarrow{u}$ (distributivité scalaire) et $\lambda(\overrightarrow{u}+\overrightarrow{v}) = \lambda\overrightarrow{u}+\lambda\overrightarrow{v}$ (distributivité vectorielle).
+\end{itemize}
+
+On peut décomposer les vecteurs sur des vecteurs dits de base, et on peut leur appliquer différentes opérations, comme une projection orthogonale ou bien une rotation selon un axe. Ce formalisme fonctionne très bien pour la géométrie dans le plan, et on peut l'étendre à plein d'autres concepts mathématiques.
+L'idée de ce cours est donc d'étudier un peu le concept d'espace vectoriel décrit ci-dessus, et de voir quelques une de ses plus belles applications.
+
+\subsection{Explorons l'inexploré !}
+
+Pour formaliser vraiment notre concept, il nous faut un petit outil abstrait, qui formalise la notion de nombre: la notion de \emph{corps}.
+
+Un corps est un ensemble qui nous permet de faire des additions, soustractions, des multiplications et des divisions (sauf par $0$, où $0$ est défini comme $x+0 = 0+x = x$ pour $x$ un élément du corps).
+
+\begin{définition}{Notion de Corps}{}
+	Un ensemble $\K$ muni de deux lois de produit interne $+, \times$ (c'est à dire qui prennent deux éléments du corps et renvoient un élément du corps), est un corps si, et seulement si:
+	\begin{itemize}
+		\item L'addition est commutative: $\forall \lambda, \mu \in \K, \lambda + \mu = \mu + \lambda$
+		\item Il existe un nombre $0_{\K}$ (appelé neutre additif, ou simplement zéro) tel que $\forall \lambda, \lambda + 0_{\K}$, et $\forall \lambda, \exists -\lambda, \lambda + -\lambda = 0_{\K}$. On dit que $\left(\K, +\right)$ est un groupe et qu'il est de plus abélien.
+		\item Il existe un nombre $1_{\K}$ (appelé neutre multiplicatif, ou simplement zéro) tel que $\forall \lambda, \lambda \times 1_{\K} = \lambda = 1_{\K} \times \lambda$ et de plus, $\forall \lambda \in \K\setminus 0_{\K}, \exists \lambda^{-1}, \lambda^{-1} \times \lambda = \lambda \times \lambda^{-1} = 1_{\K}$. On dit que $\left(\K, \times\right)$ est un groupe.
+		\item On a toujours: $\lambda \times \left( a + b \right) = \lambda \times a + \lambda \times b$ et $\left( a + b\right)\times \lambda = a\times \lambda + b\times \lambda$.
+	\end{itemize}
+\end{définition}
+
+\begin{example}
+	L'ensemble $\left( \N, +, 0 \right)$ n'est même pas un groupe, $\left( \Z, +, 0, \times, 1 \right)$ est un groupe abélien, et même un anneau, mais n'est pas un corps. $\left( \Q, +, \times, 0, 1 \right)$ est un corps (c'est le plus petit qui contient les entiers). $\R$ et $\C$ sont aussi des corps.
+\end{example}
+
+On appelle morphisme de groupe une fonction entre deux groupes qui transporte la loi et envoie le neutre sur le neutre. Un morphisme de corps préserve les deux lois, et envoie le neutre.
+
+\begin{remarque}{Corps Commutatif}{}
+	Dans la tradition mathématique française, on ne demande pas qu'un corps $\left( \K, +, \times \right)$ soit commutatif, c'est-à-dire qu'on n'a pas nécessairement une multiplication commutative.
+	Un exemple de corps non commutatif est celui noté $\H$ des quaternions. On ne détaillera pas sa construction ici.
+\end{remarque}
+
+\begin{théorème}{$\R$ existe}{}
+	Il existe un corps des réels noté $\R$ muni d'une addition $+$ et d'une multiplication $\times$.
+\end{théorème}
+\begin{proof}
+	Si vous ne connaissez pas les opérations qui définisse $\R$ il est temps de s'inquiéter. Cependant, si vous cherchez à vérifier que $\R$ existe, il vaut mieux chercher des informations sur la construction de l'ensemble $\R$ comme complété de l'ensemble des suites sur $\Q$.
+\end{proof}
+
+Nous pouvons donc enfin formaliser la notion de $\R$-espace vectoriel dont nous avons parlé en introduction.
+
+\begin{définition}{$\R$-Espace Vectoriel}{}
+	Soit $E$ un ensemble. Il existe une addition $+$ et un produit extérieur $\cdot$ tels que
+	\begin{itemize}
+		\item On peut faire des additions sur $E$, avec existence d'un élément neutre $0_E$ et d'un opposé (que l'on note $-u$): on a $u+v = v+u$, $u+(v+w) = (u+v)+w$, $u+0=u$ et $u + (-u) = 0$ pour $u$, $v$ et $w$ trois éléments de $E$.
+		\item On peut multiplier des vecteurs par des scalaires avec le produit extérieur: $\lambda\cdot x$ est encore un élément de $E$ pour $\lambda \in \R$.
+		\item La multiplication se comporte bien avec l'addition: on peut distribuer des scalaires et des vecteurs, multiplier par $1$ un vecteur ne le change pas: on a $(\lambda + \mu)\cdot u = \lambda\cdot u + \mu\cdot u$ (distributivité scalaire) et $\lambda\cdot (u+v) = \lambda \cdot u+\lambda\cdot v$ (distributivité vectorielle), $1\cdot u = u$, $(\lambda\times\mu)\cdot u = \lambda\cdot (\mu\cdot u)$ pour $u$, et $v$ éléments de $E$ et $\lambda$ et $\mu$ des réels.
+	\end{itemize}
+	Alors $E$ est un $\R$-espace vectoriel.
+\end{définition}
+
+Il est bien évidemment possible de remplacer $\R$ par un corps quelconque $\K$ pour obtenir une notion de $\K$-espace vectoriel.
+Vous verrez par exemple en mathématiques expertes l'ensemble $\C$ des nombres complexes, qu'on peut également munir d'une structure de corps, ce qui permet de définir des $\C$-espaces vectoriels.
+Quand le corps est évident (dans la suite on ne travaillera que sur des $\R$-espaces, par exemple), ou alors qu'il n'est pas vraiment utilisé, on parle juste d'espace vectoriel.
+
+\begin{définition}{Vecteurs et scalaires}{}
+	Les éléments de $E$ sont appelés vecteurs et ceux de $\R$ des scalaires.
+\end{définition}
+
+Finalement, si on veut résumer la notion de $\R$-espace vectoriel, on en arrive simplement à:
+Soit $E$ un ensemble. Il existe une addition $+$ et un produit extérieur $\cdot$ telsque
+\begin{itemize}
+		\item On peut faire des additions sur $E$, avec existence d'un élément neutre $0_E$ tel que $x + 0_E = 0_E + x = x$ pour $x$ dans $E$, et d'un opposé.
+		\item On peut multiplier des vecteurs par des scalaires avec le produit extérieur: $\lambda\cdot x$ est encore un élément de $E$ pour $\lambda \in \R$.
+		\item La multiplication se comporte bien avec l'addition: on peut distribuer des scalaires et des vecteurs, multiplier par $1$ un vecteur ne le change pas.
+\end{itemize}
+Alors $E$ est un $\R$-espace vectoriel.
+
+\subsection{Revenons sur $\R^2$}
+
+Essayons de montrer que $\R^2$ ("l'espace vectoriel de la géométrie euclidienne dans le plan") est un $\R$-espace vectoriel. On note les éléments de $\R^2$ sous la forme suivante: $(x, y)$ où $x\in\R$ et $y\in\R$.
+
+%\begin{enumerate}
+%	\item En revenant à l'intuition géométrique du début (les points sont assimilés à des vecteurs par rapport à l'origine), quelles seraient les opérations d'addition et de produit extérieur que l'on pourrait prendre ?
+%	\item Vérifions que ces opérations sont compatibles pour montrer que $\R^2$ avec ces opérations est un espace vectoriel.
+%\end{enumerate}
+
+Si on prend pour l'opération d'addition sur $\R^{2}$ la fonction $+: \left( x_{1}, y_{1} \right), \left( x_{2}, y_{2} \right) \in \left(\R^{2}\right)^{2} \mapsto \left( x_{1} + x_{2}, y_{1} + y_{2} \right)$, et pour le produit extérieur $\cdot: \lambda, (x, y) \in \R\times \R^{2} \mapsto \left( \lambda x, \lambda y \right)$, on munit bien $\R^{2}$ d'une structure d'espace vectoriel.
+On vérifie aisément les propriétés demandées, mais surtout, on vérifie que c'est bien la même que celle décrite en introduction, en prenant $O = \left( 0, 0 \right)$.
+
+\begin{remarque}{Affinité de $\R^{2}$}{}
+	Le type d'espace obtenu en reprenant la construction de l'introduction mais sans spécifier de point particulier "origine" est appelé \emph{espace affine}.
+	La construction définie ci-dessus est alors le vectorialisé en $\left(0, 0\right)$ d'un espace affine sur l'ensemble $\R^{2}$.
+	Cette notion est toutefois bien plus compliquée à formaliser et demande plus de pratique de la notion de groupe.
+\end{remarque}
+
+\subsection{Autres exemples d'espaces vectoriels}
+
+\subsubsection{Les espaces euclidiens réels de dimension finie $\R^n$}
+
+On peut définir de même ce qu'on appelle "espace 3D" en géométrie euclidienne: $\R^3$ dont les vecteurs s'écrivent sous la forme $(x, y, z)$, et aller plus loin avec par exemple l'espace-temps $\R^4$ de vecteurs $(x, y, z, t)$ etc. On garde les mêmes lois que pour $\R^2$: on a $(x, y, z) + (x', y', z') = (x+x', y+y', z+z')$ et $\lambda(x, y, z) = (\lambda x, \lambda y, \lambda z)$.
+En fait, on ne fait simplement qu'additionner point à point.
+
+\begin{définition}{Espace Euclidiens Réels de Dimension Finie}{}
+	Plus généralement, si $n \in \N^{*}$, on définit une structure d'espace vectoriel sur $\R^{n}$ de la même manière que précédemment:
+	\begin{itemize}
+		\item $\left( x_{1}, \ldots, x_{n} \right) + \left( y_{1}, \ldots, y_{n} \right) = \left( x_{1} + y_{1}, \ldots, x_{n} + y_{n} \right)$.
+		\item $\lambda \cdot \left( x_{1}, \ldots, x_{n} \right) = \left( \lambda \cdot x_{1}, \ldots, \lambda \cdot x_{n} \right)$.
+	\end{itemize}
+\end{définition}
+
+Vous remarquerez que rien dans notre définition n'est spécifique à $\R$, et qu'on peut définir de même les $\K^{n}$ pour $\K$ un autre corps.
+
+\subsubsection{Les fonctions réelles}
+
+\begin{définition}{Fonction réelle à valeurs réelles}{}
+On appelle fonction réelle à valeurs réelles toute fonction qui a un réel associe un autre réel.
+\end{définition}
+
+\begin{théorème}{Espace vectoriel des fonctions réelles à valeurs réelles}{}
+	On définit $f+g$ pour $f$ et $g$ des fonctions à valeurs réelles par la relation $(f+g)(x) = f(x)+g(x)$ et $\lambda f$ par $(\lambda f)(x) = \lambda f(x)$, autrement dit l'addition et la multiplication point à point.
+	On obtient que l'ensemble des fonctions réelles muni des deux opérations est un $\R$-espace vectoriel.
+\end{théorème}
+
+Notre définition d'espace vectoriel sur les fonctions ne dépend que de la structure de $\R$ comme espace vectoriel.
+On peut donc définir de même les $\K$-espaces vectoriels des applications de $X$ dans $E$ dès que $X$ est un ensemble et $E$ un $\K$-espace vectoriel.
+Notamment, on peut regarder $\R^{\N}$ (l'ensemble des suites à valeurs réelles), ou même $\R^{n}$ comme des espaces de fonctions, et nos définitions sont cohérentes.
+
+\subsection{Sous-espace vectoriel}
+
+On va s'intéresser aux parties de $E$ qui profitent des propriétés géométriques des espaces vectoriels. Intuitivement, ce sont les parties de $E$ qu'on peut considérer comme des espaces vectoriels.
+
+\begin{example}{}
+	Par exemple, une droite passant par l'origine est un sous-espace vectoriel de $\R^2$.
+\end{example}
+
+\begin{définition}{Sous-Espace Vectoriel}{}
+	$F \subseteq E$ est un sous-espace vectoriel de $E$ si et seulement si $0_E$ appartient à $F$ et que $F$ est stable par toute combinaison linéaire: pour tous $\lambda$, $\mu \in \K$ et $x$, $y\in F$, $\lambda x + \mu y \in F$.
+\end{définition}
+
+\begin{propositionfr}{(Sous-)Espace Vectoriel}{}
+	Un sous-espace vectoriel $F$ de $\left( E, +, \cdot \right)$, est un espace vectoriel pour $+_{\mid F}, \cdot_{\mid F}$.
+\end{propositionfr}
+
+Un sous-espace vectoriel, c'est donc un espace vectoriel dans un espace vectoriel.
+
+\begin{example}
+	\begin{enumerate}
+		\item Dans $\R^{2}$ les sous-espaces vectoriels sont soit:
+			\begin{itemize}
+				\item $\R^{2}$ tout entier;
+				\item $\{0\}$ l'origine du repère;
+				\item Les droites passant par $O$.
+			\end{itemize}
+		\item Dans $\R^{3}$, les sous-espaces vectoriels sont où:
+			\begin{itemize}
+				\item $\R^{3}$ tout entier;
+				\item Les plans contenant $O$;
+				\item Les droites passant par $O$;
+				\item $\{0\}$ l'origine du repère.
+			\end{itemize}
+	\end{enumerate}
+\end{example}
+
+\section{Liberté, bases et dimension}
+\subsection{Espace Engendré}
+\begin{définition}{Famille}{}
+	Une famille d'éléments indicée par un ensemble $I$ est un ensemble ordonné d'éléments $\left( x_{i} \right)_{i \in I}$.
+	On dira que la famille est finie si et seulement si $I$ est fini.
+\end{définition}
+
+Ceci nous permet de définir la portée/l'espace engendré d'une famille de vecteurs. C'est l'espace dans lequel on voudra faire de la géométrie, en sachant qu'on pourra profiter de la famille.
+
+\begin{définition}{Espace Vectoriel Engendré}{}
+	L'espace vectoriel engendré $\Vect_{\K}\left( x_{i} \right)$ par une famille $\left( x_{i}\right)_{i\in I}$ est le plus petit espace vectoriel qui contient tous les $x_{i}$.
+\end{définition}
+
+\begin{example}
+	On dit qu'une fonction $P: \R \to \R$ est un polynôme s'il existe des $\alpha_{i}$ et des $n_{i}$ pour $i \in \onen{k}$ tels que:
+	\begin{equation*}
+		P(x) = \alpha_{1}x^{n_{1}} + \cdots + \alpha_{k}x^{n_{k}}
+	\end{equation*}
+	On remarque (par exemple en considérant les limites des quotients $P(x)/x^{N}$ en $x \to +\infty$) que si tous les $n_{i}$ sont inférieurs à $N$ (on dit que $P$ est de degré au plus $N$), que deux tels polynômes $P$ et $Q$ ont leur somme de degré au plus $N$.
+	En particulier, l'espace des polynômes de degré au plus $n$ $\R_{n}[X]$ est un espace vectoriel, et notre définition équivaut à:
+	\begin{equation*}
+		\R_{n}[X] = \Vect_{\R}\left( 1, x, \ldots, x^{n} \right)
+	\end{equation*}
+	et on peut même étendre l'espace à tous les polynômes en écrivant:
+	\begin{equation*}
+		\R[X] = \Vect_{\R}\left( 1, x, \ldots, x^{n}, \ldots \right)
+	\end{equation*}
+\end{example}
+
+\begin{propositionfr}{Caractérisation des Espaces Engendrés}{}
+	Soit $\mathcal{V}\left( x_{i} \right)_{i\in I}$ l'ensemble des sous-espaces vectoriels de $E$ qui contiennent la famille $\left(x_{i}\right)_{i\in I}$.
+	Alors, on a:
+	\begin{equation*}
+		\Vect_{\K}\left( x_{i} \right) = \bigcap_{F \in \mathcal{V}\left( x_{i} \right)} F = \left\{ \sum_{i\in I}\lambda_{i}x_{i}\ \middle| \ \left(\lambda_{i}\right)_{i\in I} \in \K^{I}\right\}
+	\end{equation*}
+	Autrement dit, $\Vect_{\K}\left( x_{i} \right)$
+\end{propositionfr}
+\begin{proof}
+	La première égalité se déduit du fait que si $F_{1}, F_{2}$ sont deux sous-espaces vectoriels de $E$, alors, $F_{1} \cap F_{2}$ est un espace vectoriel.
+	La seconde se déduit du fait que l'ensemble de droite est un sous-espace vectoriel de $E$ qui contient les $\left( x_{i} \right)$
+\end{proof}
+
+\begin{example}
+	On peut vérifier aisément que:
+	\begin{equation*}
+		\Vect_{\R}\left( \begin{pmatrix}
+			1\\0\\0
+		\end{pmatrix}, \begin{pmatrix}
+		0\\1\\0
+\end{pmatrix}\right) = \left\{ \lambda\begin{pmatrix}
+	1\\0\\0
+\end{pmatrix} + \mu\begin{pmatrix}
+0 \\ 1\\0
+\end{pmatrix} = \begin{pmatrix}
+\lambda \\ \mu \\0
+\end{pmatrix} \ \middle| \ \lambda, \mu \in \R\right\}
+	\end{equation*}
+\end{example}
+
+\subsection{Base et Dimension}
+\begin{définition}{Famille libre, génératrice, base}{}
+\begin{itemize}
+\item Une famille est dite libre si, pour toute famille de scalaires $(\lambda_i)$ indexée par $I$, la condition $\sum_{i\in I} \lambda_i x_i = 0$ donne que tous les $\lambda_i$ sont nuls;
+\item Une famille est dite génératrice si, pour tout élément de $E$, on peut associer une écriture sous la forme $\sum_{i\in I} \lambda_i x_i$, c'est-à-dire si $\Vect\left( x_{i} \right) = E$;
+\item Une famille est une base si elle est libre et génératrice. Ceci est équivalent au fait qu'il existe, pour chaque élément de $E$ une unique écriture sous la forme $\sum_{i\in I} \lambda_i x_i$.
+\end{itemize}
+\end{définition}
+
+\begin{example}
+Dans $\mathbb{R}^2$, $((1, 0),(0, 1))$ forme une base de $\mathbb{R}^2$: en effet, tout vecteur $(a, b)$ peut s'écrire sous la forme $a(1, 0) + b(0, 1)$ et si $(0, 0) = a(1, 0) + b(0, 1) = (a, b)$, alors on a nécessairement $a=b=0$.
+On appelle cette base la base canonique de $\R^{2}$.
+\end{example}
+
+En substance, à chaque vecteur de la famille, on associe un "axe" qui est l'ensemble des déplacements que l'on peut faire selon cet "axe" (en allant dans la direction du vecteur).
+\begin{itemize}
+	\item La liberté s'illustre comme le fait que chacun de nos axes est utile: un déplacement selon cet axe ne pourrait être substitué en se déplaceant selon d'autre axes;
+	\item Le caractère générateur s'illustre comme le fait qu'on puisse atteindre un point en se déplaceant selon nos axes;
+	\item Si notre famille est une base, alors on a, pour tout point, une seule combinaison de vecteurs permettant d'atteindre ce point.
+\end{itemize}
+
+\begin{définition}{Dimension}{}
+	En se donnant une base d'un espace vectoriel, on appelle dimension la taille de la base: ceci correspond au nombre d'indices. La dimension ne dépend pas de la base choisie.
+\end{définition}
+\begin{proof}
+	On vérifie d'abord que si $w_{1}, \ldots, w_{n}$ engendre $V$, et que si $v_{1}, \ldots, v_{m}$ est une famille libre de $V$, alors $v_{1}, \ldots, v_{m}, w_{m + 1}, \ldots, w_{n}$ engendre $V$.
+	En effet, puisque $v_{1} \in V$, on peut écrire:
+	\begin{equation*}
+		v_{1} = \sum_{k = 1}^{n} \lambda_{k}w_{k} \text{ et donc } w_{1} = \lambda_{1}^{-1}v_{1} - \sum_{k = 2}^{n} \lambda_{1}^{-1}\lambda_{k}w_{k}
+	\end{equation*}
+	Donc $v_{1}, w_{2}, \ldots, w_{n}$ engendre encore $V$.
+	On recommence l'opération pour chaque $v_{i}$:
+	\begin{equation*}
+		v_{i} = \sum_{k = 1}^{i - 1}\mu_{k}v_{k} + \sum_{k = i}^{n}\mu_{k}w_{k}
+	\end{equation*}
+	et donc:
+	\begin{equation*}
+		w_{i} = \mu_{i}^{-1}v_{i} - \sum_{k = 1}^{i - 1}\mu_{i}^{-1}\mu_{k}v_{k} - \sum_{k = i + 1}^{n}\mu_{i}^{-1}\mu_{k}w_{k}
+	\end{equation*}
+	Soit $L$ une famille libre et $G$ une famille génératrice de $E$, on va montrer que $\abs{L} \leq \abs{G}$.
+	On va supposer d'abord que $G$ est finie de taille $n$. Le résultat précédent nous affirme que pour toute partie finie de $L$ de cardinal $m$, on a $m \leq n$.
+	Par conséquent, $L$ est finie et de cardinal inférieur ou égal à $n$.
+	Le fait que si $x_{k} \notin \Vect\left( x_{1}, \ldots, x_{k - 1} \right)$ ou $x_{1}, \ldots, x_{k - 1}$ est une famille libre, alors $\Vect\left( x_{1}, \ldots, x_{k} \right)$ a pour base $x_{1}, \ldots, x_{k}$ permet de terminer la preuve.
+\end{proof}
+
+Le premier résultat démontré dans la preuve est appelé Lemme de Steinitz, et le dernier résultat est appelé théorème de la base incomplète.
+
+Le résultat dans le cas infini demande l'utilisation de l'axiome du choix (ou du lemme des ultrafiltres), et dépasse donc très fortement le cadre de ce cours.
+
+\section{Applications linéaires et matrices}
+\subsection{Applications Linéaires}
+Maintenant que nous avons introduit les notions de vecteurs et de bases, essayons de voir comment modéliser des transformations qui ont un sens géométrique: une dilatation, projection orthogonale ou bien rotation selon un axe.
+Le formalisme pertinent est celui d'application linéaire, des sortes de morphismes d'espaces vectoriels.
+
+\begin{définition}{Application linéaire}{}
+On considère deux espaces vectoriels $E$ et $F$ sur le même corps $\K$.
+On appelle application linéaire une fonction $u$ qui à un élément de $E$ associe un élément de $F$, et qui vérifie les propriétés suivantes:
+\begin{itemize}
+	\item Pour tous vecteurs $x$ et $y$ de $E$, $u(x+y) = u(x)+u(y)$
+	\item Pour tout vecteur $x$ de E et tout scalaire $\lambda$, $u(\lambda x) = \lambda u(x)$
+\end{itemize}
+On note $L\left( E:F \right)$ l'ensemble des applications linéaires de $E$ dans $F$.
+\end{définition}
+
+Une application linéaire est un morphisme de groupe notés additivement qui préserve le produit externe, d'où la dénomination de morphisme d'espace vectoriel.
+
+\begin{remarque}{Application Semi-Linéaire}{}
+Les applications linéaires n'ont de sens que si $E$ et $F$ sont deux $\K$-espaces vectoriels.
+Le formalisme adapté est sinon celui d'application semi-linéaire: on introduit un isomorphisme de corps $\sigma$ entre $\K$ et $\K'$ et on demande que:
+\begin{equation*}
+	u\left( \lambda x + \mu y \right) = \sigma\left( \lambda \right)u(x) + \sigma\left( \mu \right)u(y), \forall \lambda, \mu \in \K, x, y \in E
+\end{equation*}
+L'étude des applications semi-linéaires (enfin plutôt de leur équivalent affine, c'est à dire à une translation (ou une constante) près) permet de classifier l'ensemble des bijections d'espaces affines préservant l'alignement, en considérant des automorphismes de corps (voir dans la définition \ref{def:morphismes}).
+Plus précisément, si $f: X \to X'$ est une bijection d'espaces affines, alors elle préserve les points si et seulement si elle est semi-linéaire, résultat parfois appelé théorème fondamental de la géométrie affine.\\
+Le seul automorphisme de $\R$ est l'identité. Les deux seuls de $\C$ sont l'identité et la conjugaison complexe.
+\end{remarque}
+
+\begin{propositionfr}{Opérations avec des applications linéaires}{}
+	On a
+	\begin{equation*}
+		u(\lambda_1 x_1 + \cdots + \lambda_n x_n) = \lambda_1 u(x_1) + \cdots + \lambda_n u(x_n)
+	\end{equation*}
+	où $\lambda_1 \cdots \lambda_n$ sont des scalaires et $x_1 \cdots x_n$ des vecteurs.
+\end{propositionfr}
+\begin{proof}
+	On a:
+	\begin{equation*}
+		u\left( \lambda_{1}x_{1} + \sum_{i = 2}^{n} \lambda_{i}x_{i}\right) = u\left( \lambda_{1}x_{1} \right) + u\left( \sum_{i = 2}^{n} \lambda_{i}x_{i} \right) = \lambda_{1}u\left( x_{1} \right) + u\left( \sum_{i = 2}^{n} \lambda_{i}x_{i} \right)
+	\end{equation*}
+	et donc par récurrence on a le résultat.
+\end{proof}
+
+\begin{example}
+Donnons nous un exemple pour visualiser ceci: on considère $\mathbb{R}^3$ comme espace vectoriel de départ et d'arrivée, c'est-à-dire $E = F = \mathbb{R}^3$.
+Comment peut-on décrire la rotation d'un d'angle $\pi$ autour de l'axe $z$?
+On utilise notre théorème précédent: on sait que $f(x) = -x$, $f(y) = -y$ ainsi que $f(z) = z$.
+Ensuite, on utilise notre théorème précédent: pour tout vecteur $u$, on a l'existence de scalaires tels que $u = \alpha x + \beta y + \gamma z$, et donc $f(u) = \alpha f(x) + \beta f(y) + \gamma f(z)$ ce qui donne donc $f(u) = -\alpha x - \beta y + \gamma z$
+\end{example}
+
+\begin{propositionfr}{Opérations sur les Applications Linéaires}{}
+	Si $u, v$ sont deux applications linéaires, $\lambda, \mu \in \K$, alors, $\lambda u + \lambda v$, définie point à point, est une application linéaire.
+\end{propositionfr}
+\begin{proof}
+	On vérifie très facilement les axiomes.
+\end{proof}
+
+\begin{example}
+	Regardons ensemble quelques exemples d'applications linéaires:
+	\begin{enumerate}
+		\item Les homothéties, fonctions de la forme $h_{\lambda}: x \in E \mapsto \lambda x \in E$.
+		\item Comme nous venons de le voir, les rotations $s$ de l'espace (dont la définition demandent quelques notions supplémentaires d'orthogonalité, nous y reviendrons) sont des applications linéaires.
+		\item L'opérateur de dérivation $\Delta: f \in \mathcal{D}^{1} \mapsto f'$ est linéaire, comme vous l'avez vu en cours.
+		\item L'opérateur d'évaluation en $a \in X$, $\mathrm{eval}_{a}\left( f \right) = f(a)$ où $f: X \to E$ est linéaire.
+	\end{enumerate}
+\end{example}
+
+\begin{définition}{$*$morphisme}{morphismes}
+	Une application linéaire $u$ est appelée épimorphisme si elle est surjective, monomorphisme si elle est injective et isomorphisme si elle est bijective.
+	Elle est de plus appelée automorphisme si de plus elle va de $E$ dans $E$.
+	On dit que deux espaces sont isomorphes si et seulement si il y a un isomorphisme entre les deux.
+\end{définition}
+
+
+\subsection{Matrices}
+Commençons déjà par un théorème fondamental qui explique, qu'en fait, une application linéaire peut se résumer par quelques nombres.
+
+\begin{théorème}{Identification d'applications linéaires}{isomorphisme}
+	Soient $E$ et $F$ deux espaces vectoriels, $(e_i)_{i\in I}$ une base de $E$ et $(f_i)_{i\in I}$ une famille de vecteurs de $F$. Il existe une unique application linéaire $u$ telle que, pour tout indice $i$, $u(e_{i}) = f_{i}$.
+\end{théorème}
+\begin{proof}
+	On définit les $e_{i}$ et $f_{i}$.
+	Supposons qu'on ait $u, v$ deux applications linéaires telles que pour tout $i$, $u\left( e_{i} \right) = v\left( e_{i} \right) = f_{i}$.
+	Soit $e = \sum_{i \in I} \lambda_{i} \in E$. On a alors:
+	\begin{equation*}
+		u(e) = u\left(\sum_{i \in I}\lambda_{i}e_{i}\right) = \sum_{i \in I}\lambda_{i}u\left( e_{i} \right) = \sum_{i \in I}\lambda_{i}f_{i} = \sum_{i \in I} \lambda_{i}v\left( e_{i} \right) = v\left( \sum_{i \in I}\lambda_{i}e_{i} \right) = v\left( e \right)
+	\end{equation*}
+	Donc $u = v$.
+\end{proof}
+
+Ce théorème est essentiel car il permet de comprendre les applications linéaires en s'intéressant uniquement à l'image d'une base, car par linéarité on peut trouver la valeur de \textbf{n'importe quel} vecteur.
+
+Ce théorème a un corollaire essentiel:
+\begin{théorème}{Isomorphisme et Dimension}{}
+	On reprend les notations du théorème précédent. Alors:
+	\begin{enumerate}
+		\item $u$ est injective si et seulement si les $f_{i}$ forment une famille libre de $F$;
+		\item $u$ est surjective si et seulement si les $f_{i}$ forment une famille génératrice de $F$;
+		\item $u$ est bijective si et seulement si les $f_{i}$ forment une base de $F$.
+	\end{enumerate}
+	En particulier, deux espaces sont isomorphes si, et seulement si leurs bases sont en bijection, c'est-à-dire si, et seulement si, ils ont même dimension (qui peut être infinie).
+\end{théorème}
+\begin{proof}
+	Le cas $3$ découle des deux premiers.
+	Le cas $2$ découle de l'existence d'une décomposition: si $f = \sum_{i\in I}\mu_{i}f_{i}$ alors $e = \sum_{i\in I}\mu_{i}e_{i}$ a $f$ pour image par $u$.
+	Pour le cas $1$, puisque les $f_{i}$ forment une famille libre, on ne peut avoir $\sum_{i \in I}\lambda_{i}f_{i} = \sum_{i\in I}\mu_{i}f_{i}$ que si $\lambda = \mu$.
+	Donc en particulier, si $u(x) = u(y)$, $x = y$.
+\end{proof}
+
+\begin{remarque}{Noyau et Image}{}
+Deux notions intéressantes sont celles de noyau et d'image d'une application linéaire. Le noyau est l'image réciproque de $0$ et l'image est l'ensemble des valeurs prises par l'application.
+Ce sont des espaces vectoriels.
+Le théorème précédent se reformule en: $u$ est injective si et seulement si $\ker u = 0$, $u$ est surjective si et seulement si $\dim \mathrm{Im} u = \dim F$.
+\end{remarque}
+
+Dans la suite, on ne considèrera que des espaces de dimension finie.
+
+\begin{définition}{Matrice d'une Application Linéaire}{}
+	Soit $u$ est une application linéaire de $E$ dans $F$, dont les familles $\B = \left(e_{j}\right)_{j\leq n}$ et $\B' = \left(f_{i}\right)_{i\leq m}$ sont des bases.
+
+	On note, pour $j \leq n$, $u\left( e_{j} \right) = \sum_{j = 1}^{m}u_{i, j}f_{i}$ la décomposition de $u(e_{j})$ dans la base $\B'$.
+
+	On appelle matrice de $u$ entre les bases $\B$ et $\B'$ la suite double $\left( u_{i, j} \right)_{i \leq m, j\leq n}$ qu'on représente par:
+	\begin{equation*}
+		\Mat_{\B, \B'}\left( u \right) = \begin{pmatrix}
+			u_{1, 1} & u_{1, 2} & \cdots & u_{1, n}\\
+			u_{2, 1} & u_{2, 2} & \cdots & u_{2, n}\\
+			\vdots & \vdots & \ddots & \vdots \\
+			u_{m, 1} & u_{m, 2} & \cdots & u_{m, n}
+		\end{pmatrix}
+	\end{equation*}
+	La matrice $\Mat_{\B, \B'}(u)$ a $m$ lignes et $n$ colonnes. On note $\M_{m, n}\left( \K \right)$ l'ensemble des matrices à $m$ lignes et $n$ colonnes à coefficients dans $\K$.
+\end{définition}
+
+\begin{example}
+	Par exemple, on peut montrer que si $u_{\alpha}$ est la rotation autour de l'axe $z$ dans le plan, sa matrice dans la base canonique de $\R^{2}$ est:
+	\begin{equation*}
+		\Mat_{\B, \B}\left( u_{\alpha} \right) = \begin{pmatrix}
+			\cos \alpha & -\sin \alpha\\
+			\sin \alpha & \cos \alpha
+		\end{pmatrix}
+	\end{equation*}
+	Dans la base canonique de $\R^{3}$ c'est:
+	\begin{equation*}
+		\Mat_{\B, \B}\left( u_{\alpha} \right) = \begin{pmatrix}
+			\cos \alpha & - \sin \alpha & 0\\
+			\sin \alpha & \cos \alpha & 0\\
+			0 & 0 & J
+		\end{pmatrix}
+	\end{equation*}
+\end{example}
+
+Le théorème \ref{thm:isomorphisme} décrit un isomorphisme entre les applications linéaires de $E$ dans $F$ et les familles de $m$ vecteurs appartenant à $F$.
+Ceci a pour corollaire immédiat le résultat suivant:
+\begin{théorème}{Isomorphisme Matrice Application}{}
+	Si $\B$, $\B'$ sont des bases de $E$ et $F$ respectivement, alors $\Mat_{\B, \B'}\left( L\left( E:F \right) \right)$ est un espace vectoriel et $\Mat_{\B, \B'}$ est un isomorphisme.
+\end{théorème}
+
+En regardant ce que l'isomorphisme du théorème donne, on voit rapidement que les opérations sur les matrices coïncident avec les opérations sur les applications linéaires.
+La colonne $j$ de la matrice de l'application linéaire $u$ entre $\B$ et $\B'$ étant le vecteur des coordonnées de l'image par $u$ de $e_{j}$ dans $\B'$, on voit bien que la colonne $j$ de la matrice de $u + v$ est le vecteur des coordonnées de $\left( u + v \right)(e_{j})$ et donc c'est la somme des colonnes des matrices de $u$ et de $v$.
+Ainsi:
+\begin{equation*}
+	A + B = \begin{pmatrix}
+		A_{1, 1} & \cdots & A_{1, n}\\
+		\vdots & \ddots & \vdots\\
+		A_{m, 1} & \cdots & A_{m, n}
+	\end{pmatrix}
+	 +
+	 \begin{pmatrix}
+		 B_{1, 1} & \cdots & B_{1, n}\\
+		 \vdots & \ddots & \vdots\\
+		 B_{m, 1} & \cdots & B_{m, n}
+	 \end{pmatrix}
+	 =
+	 \begin{pmatrix}
+		 A_{1, 1} + B_{1, 1} & \cdots & A_{1, n} + B_{1, n}\\
+		 \vdots & \ddots & \vdots\\
+		 A_{m, 1} + B_{m, 1} & \cdots & A_{m, n} + B_{m, n}
+	 \end{pmatrix}
+\end{equation*}
+Par le même raisonnement sur les colonnes (qui sont en fait la \textit{vraie} représentation des images), on vérifie que:
+\begin{equation*}
+	\lambda A = \lambda \cdot \begin{pmatrix}
+		A_{1, 1} & \cdots & A_{1, n}\\
+		\vdots & \ddots & \vdots\\
+		A_{m, 1} & \cdots & A_{m, n}
+	\end{pmatrix}
+	= \begin{pmatrix}
+		\lambda A_{1, 1} & \cdots & \lambda A_{1, n}\\
+		\vdots & \ddots & \vdots \\
+		\lambda A_{m, 1} & \cdots & \lambda A_{m, n}
+	\end{pmatrix}
+\end{equation*}
+Ici la matrice $0_{m, n}$ est celle sont la suite double de description est constante égale à $0$, c'est à dire:
+\begin{equation*}
+	0_{m, n} = \begin{pmatrix}
+		0 & \cdots & 0\\
+		\vdots & \ddots & \vdots\\
+		0 & \cdots & 0
+	\end{pmatrix}
+\end{equation*}
+
+\section{Exemple des équations différentielles linéaires}
+\subsection{Ordre 1}
+
+\begin{définition}{Équation différentielle linéaire d'ordre 1}{}
+On appelle une équation linéaire d'ordre 1 toute équation de la forme
+$$y' + a(x)y = b(x)$$
+où l'inconnue $y$ est une fonction dérivable sur $I$ ($I$ un intervalle), $a$ et $b$ sont des fonctions continues sur $I$.
+\end{définition}
+
+Ce type d'équations est très présent que ce soit en physique ou bien dans d'autres domaines des sciences.
+Mais on peut se demander: comment les résoudre?
+On va se placer à présent dans le cas où $b=0$.
+On cherche donc à résoudre
+\begin{equation*}
+y' + a(x)y = 0
+\end{equation*}
+On peut remarquer quelque chose: l'ensemble des solutions $S$ est un sous espace vectoriel de l'ensemble des fonctions réelles à valeurs réelles!
+En effet, l'application de dérivation $\Delta$ est linéaire, et l'application $f \mapsto \Delta\left( f \right) + a \times f$ l'est donc aussi et en particulier son noyau est un espace vectoriel.
+
+Mais donc comment trouver une solution?
+On considère une fonction $f$ sous la forme $f(x) = g(x)\mathrm{e}^{h(x)}$. On a $f$ dérivable avec $f'(x) = g'(x)\mathrm{e}^{h(x)} + g(x)h'(x)\mathrm{e}^{h(x)} = (g'(x) + g(x)h'(x))\mathrm{e}^{h(x)}$.
+
+Ici on peut voir que notre équation différentielle y ressemble en prenant $y = g$ et $h' = a$. On observe donc que
+$$f'(x) = (y'(x) + a(x)y(x))\mathrm{e}^{h(x)} = 0$$
+d'où
+$$f(x) = \lambda$$
+où $\lambda$ est une constante: on a donc $y(x) = \lambda\mathrm{e}^{-h(x)}$
+\\\\
+On obtient donc que $S = \mathrm{Vect}(\mathrm{e}^{-h(x)})$ et que donc $S$ est de dimension 1: c'est une droite !
+
+\subsection{Cas Général}
+En fait, notre raisonnement est très général:
+Si on a une équation différentielle linéaire d'ordre $n$, donc de la forme $y^{(n)} + \sum_{i = 0}^{n - 1} a_{i}(x)y^{(i)} = 0$, l'espace des solutions est un espace de vectoriel de dimension $n$.
+Encore plus généralement, si $b \neq 0$ l'espace des solutions est un espace affine, c'est-à-dire que toute solution est de la forme $y_{0} + S$ où $S$ est l'espace des solutions pour $b = 0$ et $y_{0}$ est une solution particulière.
+
+\section{Orthogonalité et produits scalaires}
+
+Notre définition d'espace vectoriel fonctionne assez bien mais il nous manque quelque chose pour définir la distance entre deux points, ainsi que le concept d'angle.
+
+\subsection{Produit scalaire, norme et distance}
+
+\begin{définition}{Produit scalaire}{}
+	On considère $E$ un $\mathbb{R}$-espace vectoriel. On dit que $\scalar{\cdot, \cdot} : E\times E \rightarrow \mathbb{R}$ est un produit scalaire si :
+\begin{itemize}
+	\item $\scalar{\lambda x + \mu y, z} = \lambda\scalar{x, z} + \mu\scalar{y, z}$ (linéarité à gauche)
+	\item $\scalar{x, \lambda y +\mu z} = \lambda\phi(x, y) + \mu\phi(x, z)$ (linéarité à droite)
+	\item $\scalar{x, y} = \scalar{x, y}$ (symétrie)
+	\item $\scalar{x, x} \geq 0$ (positivité)
+	\item $\scalar{x, x} = 0 \iff x = 0$
+\end{itemize}
+	On dit que $(E, \scalar{\cdot, \cdot})$ est un espace préhilbertien.
+\end{définition}
+
+\begin{propositionfr}{Produit scalaire sur $\mathbb{R}^n$}{}
+	On définit $\scalar{x, y}$ pour $x=(x_1, \cdots, x_n)$ et $y= (y_1, \cdots, y_n)$
+	\begin{equation*}
+		\scalar{x, y} = x_1y_1 + \cdots x_ny_n = \sum_{i = 1}^{n} x_{i}y_{i} = y\transpose{x}
+	\end{equation*}
+	$\scalar{\cdot, \cdot}$ est un produit scalaire sur $\mathbb{R}^n$
+\end{propositionfr}
+Et maintenant, comment on définit la taille d'un vecteur ?
+
+\begin{définition}{Norme euclidienne}{}
+	On appelle norme euclidienne sur $(E, \scalar{\cdot, \cdot})$ l'application définie par
+\begin{equation*}
+	\norm{x} = \sqrt{\scalar{x, x}}
+\end{equation*}
+\end{définition}
+
+\begin{remarque}{Norme}{}
+	Il existe une définition plus générale de norme dont la norme euclidienne est un exemple particulier.
+	Il s'agit d'une application: $\norm{\cdot}: x \in E \longmapsto \norm{x} \in \R^{+}$ telle que:
+	\begin{equation*}
+		\norm{\lambda x} = \abs{\lambda}\norm{x}, \norm{x + y}\leq \norm{x}\norm{y}, \norm{x} = 0 \Rightarrow x = 0_{E}
+	\end{equation*}
+\end{remarque}
+
+\begin{théorème}{Inégalité de Cauchy Schwarz}{}
+On a pour deux vecteurs $x$ et $y$
+\begin{equation*}
+	\abs{\scalar{x, y}} \leq \norm{x}\norm{y}
+\end{equation*}
+et il y a égalité si $x$ et $y$ sont colinéaires, c'est-à-dire quand $x = \lambda y$.
+\end{théorème}
+\begin{proof}
+	On pose $P(t) = \norm{x + ty}^{2} = \scalar{x + ty, x + ty}$. En évaluant en $t_{0} = \frac{-\scalar{x, y}}{\norm{y}^{2}}$ on obtient alors que:
+	\begin{equation*}
+		0 \leq P\left( t_{0} \right) = \norm{x}^{2} - \abs{\scalar{x, y}}^{2}/\norm{y}^{2}
+	\end{equation*}
+	c'est-à-dire
+	\begin{equation*}
+		\scalar{x, y}^{2} \leq \norm{x}^{2}\norm{y}^{2}
+	\end{equation*}
+	ce qui donne le résultat en passant à la racine.
+	Pour le cas d'égalité on vérifie qu'on a bien égalité dans le cas de colinéarité. Sinon, si l'on a égalité, on trouve que $P(t_{0}) = 0$ ce qui signifie que $x = -t_{0}y$ et donc le résultat.
+\end{proof}
+
+La notion de norme et l'inégalité de Cauchy Schwarz permet de définir celle d'angle (et d'aboutir sur la définition usuelle du produit scalaire)
+\begin{définition}{Angle entre deux vecteurs}{}
+On définit l'angle $\theta \in [0, \pi]$ entre deux vecteurs par la relation suivante
+\begin{equation*}
+	\scalar{x, y} = \|x\|\|y\|\cos(\theta)
+\end{equation*}
+\end{définition}
+Ceci découle de l'expression du produit scalaire canonique sur $\R^{n}$ et de la vision de l'angle entre deux droites dans $\R^{2}$.
+
+On a ainsi une définition pour la taille d'un vecteur, et pour une distance on définit la distance euclidienne :
+
+\begin{définition}{Distance euclidienne}{}
+	On appelle distance entre deux points sur $(E, \scalar{\cdot, \cdot})$ l'application définie par
+\begin{equation*}
+	d(x, y) = \norm{x - y}
+\end{equation*}
+\end{définition}
+
+\subsection{Orthogonalité}
+
+\begin{définition}{Orthogonalité et orthonormalité}{}
+On dit que deux famille de vecteurs $(x_i)_{i\in I}$ et $(y_i)_{i\in I}$ sont orthogonales si
+\begin{equation*}
+	\forall (i, j) \in I^2, i\neq j \Rightarrow \scalar{x_i, y_j} = 0
+\end{equation*}
+Elle est dite orthonormale si elle est orthogonale et que $\forall i \in I, \scalar{x_i, x_i} = 1$
+\end{définition}
+
+\begin{remarque}{Angle, le retour !}{}
+	On retrouve que deux vecteurs non nuls du plan (en géométrie euclidienne) sont orthogonaux si l'angle les séparant vaut $90$°.
+\end{remarque}
+
+Pourquoi l'orthogonalité c'est cool ?
+
+\begin{théorème}{Orthogonalité et liberté}{}
+Toute famille orthogonale de vecteurs non nuls est libre
+\end{théorème}
+\begin{proof}
+	Pour cela, on considère:
+	\begin{equation*}
+		\sum_{i\in I}\lambda_{i}v_{i} = 0
+	\end{equation*}
+	Pour tout $k$ de $I$ on a:
+	\begin{equation*}
+		0 = \scalar{v_{k}, \sum_{i \in I}\lambda_{i}v_{i}} = \sum_{i \in I}\lambda_{i}\scalar{v_{k}, v_{i} = \lambda_{k}\norm{v_{k}}^{2}}
+	\end{equation*}
+	Or, $v_{k} \neq 0 \Rightarrow \norm{v_{k}} \neq 0$.
+	Donc $\lambda_{k} = 0$.
+\end{proof}
+
+Flashbacks de cours de quatrième :
+
+\begin{théorème}{Théorème de Pythagore}{}
+Soient deux vecteurs $x$ et $y$. On a l'équivalence
+\begin{equation*}
+	\norm{x + y}^{2} = \norm{x}^{2} + \norm{y}^{2} \iff \scalar{x, y} = 0
+\end{equation*}
+Par ailleurs, si on dispose d'une famille $\left(u_{i}\right)_{i\in I}$ orthogonale, alors:
+\begin{equation*}
+	\norm{\sum_{i \in I}u_{i}}^{2} = \sum_{i\in I}\norm{u_{i}}^{2}
+\end{equation*}
+Attention, ici la réciproque est fausse dès que $\abs{I} \geq 3$.
+\end{théorème}
+\begin{proof}
+	\begin{itemize}
+		\item Cas de $2$ vecteurs:
+			\begin{equation*}
+				\norm{u + v}^{2} = \scalar{u + v, u + v} = \norm{u^{2}} + \norm{v}^{2} + 2\scalar{u, v}
+			\end{equation*}
+			Donc on a égalité si et seulement si $\scalar{u, v} = 0$.
+		\item Cas général:
+			\begin{equation*}
+				\norm{\sum_{i = 1}^{n} u_{i}}^{2} = \sum_{i = 1}^{n}\norm{u_{i}}^{2} + \sum_{i \neq j \in I}\scalar{u_{i}, u_{j}}
+			\end{equation*}
+			D'où le résultat pour une famille orthogonale.
+			Dans le cas de $3$ vecteurs, on peut prendre $u = \left( 1, 2 \right), v=\left( 0, 2 \right)$ et $w = \left( 0, -1 \right)$ pour se convaincre que la réciproque est fausse.
+	\end{itemize}
+\end{proof}
+
+Enfin, finissons par un dernier gros théorème, qui justifie la fin de ce cours:
+\begin{théorème}{Base de Gram-Schmidt}{}
+	Tout espace vectoriel possède une base orthonormale.
+\end{théorème}
+Pour démontrer ce théorème on va s'appuyer sur le lemme suivant:
+\begin{lemme}{Orthogonalisation}{}
+	Soit $\mF = \left( u_{i} \right)_{i\in I}$ une famille orthonormale de $E$. Quel que soit le vecteur $v$ de $E$, $v' = v - \sum_{i = 1}^{n}\scalar{u_{i}, v}u_{i}$ est orthogonal à tout vecteur de $\Vect \mF$.
+\end{lemme}
+\begin{proof}
+	Soit $w \in \Vect \mF$.
+	Par linéarité:
+	\begin{equation*}
+		\scalar{v', w} = \scalar{v, w} - \sum_{i \in I}\scalar{u_{i}, v}\scalar{u_{i}, w}
+	\end{equation*}
+	Donc
+	\begin{equation*}
+		\scalar{v', w} = \scalar{v, w - \sum_{i = 1}^{n}\scalar{u_{i}, w}u_{i}}
+	\end{equation*}
+	Mais $w = \sum_{i = 1}^{n}\lambda_{i}u_{i}$ et donc:
+	\begin{equation*}
+		\forall j, \scalar{w, u_{j}} = \sum_{i \in I}\lambda_{i}\scalar{u_{i}, u_{j}} = \lambda_{j}
+	\end{equation*}
+	par orthonormalité de la famille.
+	Donc $w' = w - \sum_{i = 1}^{n}\scalar{u_{i}, w}u_{i} = 0_{E}$.
+	Ceci prouve que $\scalar{v', w} = 0$ et donc que $v' \perp \Vect \mF$.
+\end{proof}
+
+\begin{remarque}
+	Le vecteur $\sum_{i \in I}\scalar{u_{i}, v}u_{i}$ est le projeté orthogonal de $v$ sur $\mF$.
+\end{remarque}
+
+On peut donc en revenir à l'existence d'une base orthonormée. Pour cela, on introduit la procédé de Gram-Schmidt.
+\begin{proof}
+	À partir d'une famille $\mF$ libre de vecteurs non nuls de $E$, on peut construire une famille $\mF'$ orthonoramle.
+	Pour cela, on utilise l'algorithme suivant:
+	\begin{itemize}
+		\item On pose $v_{1} = \frac{u_{1}}{\norm{u_{1}}}$. $v_{1}$ forme une famille orthonormale.
+		\item Pour $i$ allant de $2$ à $\abs{I}$, on suppose que la famille $\mF'_{i - 1} = \left( v_{k} \right)_{k \in \onen{i - 1}}$ est orthonormale.
+			On calcule alors $u_{i}' = u_{i} - \sum_{k = 1}^{i - 1}\scalar{v_{k}, u_{i}}v_{k}$.
+			Il est orthogonal à tout vecteur $\mF'_{i - 1}$ et non nul car $\mF$ est libre.
+		Le vecteur $v_{i} = \frac{u_{i}'}{\norm{u_{i}'}}$ est donc unitaire et orthogonal à tout vecteur $\mF'_{i - 1}$
+	\end{itemize}
+	À l'arrêt de l'algorithme, la famille $\mF' = \left( v_{i} \right)_{i \in I}$ est orthonormale.
+\end{proof}
+
+\begin{corollaire}{Coordonées Cartésiennes}{}
+	Si $\mF$ est une base orthonormale, et que $u \in \Vect \mF$, alors:
+	\begin{equation*}
+		u = \sum_{v\in \mF}\scalar{u, v}v
+	\end{equation*}
+\end{corollaire}
+
+\end{document}
