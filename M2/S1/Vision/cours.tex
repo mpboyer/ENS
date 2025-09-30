@@ -1,0 +1,195 @@
+\documentclass[info, math]{mpb-cours}
+
+\title{Vision Artificielle 3D}
+\author{D'après Pascal Monasse, Loic Landrieu, Aslan Artykov}
+
+\begin{document}
+\bettertitle
+\url{mailto:pascal.monasse@enpc.fr}, \url{mailto:loic.landrieu@enpc.fr}, \url{mailto:arslan.artykov@enpc.fr}
+
+\section*{Introduction}
+\noindent Le but principal de la classe est de démontrer et d'expliquer l'équation suivante:
+\begin{equation*}
+	\arg \min_{\{R_{i}\}, \{T_{i}\}, \{X_{j}\}} \sum_{i, j} \epsilon_{i, j}d\left(x_{i, j}, \Pi_{i}(R_{i}X_{j} + T_{i})\right)^{2}
+\end{equation*}
+où, pour le $j$-ème point 3D, observé dans la $i$-ème image:
+\begin{itemize}
+	\item $\epsilon_{i, j} \in \{0, 1\}$ est la visibilité;
+	\item $x_{i, j}$ est le point 2D dans l'image;
+	\item $X_{i, j}$ est le point 3D;
+	\item $\Pi_{i}$ est la fonction de projection de l'image $i$;
+	\item $R_{i}$ est la rotation de caméra de l'image $i$;
+	\item $T_{i}$ est la translation de caméra de l'image $i$.
+\end{itemize}
+
+\section{Géométrie Projective}
+\subsection{Géométrie Projective}
+On s'adaptera au modèle de caméra dit \emph{sténopé}.
+On suppose ainsi que la caméra est un objectif idéal modélisé par un point.
+Ceci ne permet pas de prendre en compte le flou ni la distortion géométrique de la lentille.
+
+Dans ce modèle, les rayons qui viennent du point $m$ sur l'image sont les mêmes que ceux qui viennent du point réel $M$: $\vec{Cm} = \lambda\vec{CM}$.
+Dans le repère de coordonnées de la caméra CXYZ:
+\begin{equation*}
+	\begin{pmatrix} x\\ y \\f\end{pmatrix} = \lambda \begin{pmatrix} X \\ Y \\ Z \end{pmatrix}
+\end{equation*}
+où $f$ est la distance focale de la caméra.
+On a $\lambda = f / Z$ et donc:
+\begin{equation*}
+	\begin{pmatrix} x \\ y\end{pmatrix} = f\begin{pmatrix} X / Z \\ Y / Z\end{pmatrix}
+\end{equation*}
+En coordonnées de pixels:
+\begin{equation*}
+	\begin{pmatrix}u \\ v\end{pmatrix} = \begin{pmatrix} \alpha x + c_{x}  \\ \alpha y + c_{y}\end{pmatrix}
+\end{equation*}
+$\alpha f$ est la distance focale en pixel et $c_{x}, c_{y}$ est la position du point principal en pixel.
+
+\begin{definition}
+	L'espace projectif $\mathbb{P}^{2}$ est défini comme le quotient de $\R^{3} \setminus 0$ par la relation de colinéarité.
+\end{definition}
+C'est donc l'ensemble des rayons passant par l'origine.
+
+Il y a deux types de points dans $\P^{2}$:
+\begin{itemize}
+	\item Ceux de la forme $\begin{pmatrix} x & y & 1\end{pmatrix}$
+	\item Ceux de la forme $\begin{pmatrix} x & y & 0\end{pmatrix}$ (qui sont les points à l'infini dans la direction de pente $y / x$).
+\end{itemize}
+
+Le plan de $\R^{3}$ contenant $0$ d'équation $aX + bY + cZ$ correspond à une ligne de $\P^{2}$ défini en coordonnées homogènes par $(a, b, c)$ d'équation:
+\begin{equation*}
+	\begin{pmatrix} a & b & c\end{pmatrix} \cdot \begin{pmatrix} X & Y & Z\end{pmatrix} = 0
+\end{equation*}
+
+On peut alors aussi trouver des équations pour:
+\begin{itemize}
+	\item la droite entre deux points $x_{1}$ et $x_{2}$: $l = x_{1} \times x_{2}$;
+	\item l'intersection de deux droites $l_{1}, l_{2}$: $x = l_{1} \times l_{2}$;
+	\item la droite à l'infini: $\ell_{\infty} = \begin{pmatrix} 0 \\ 0 \\ 1 \end{pmatrix}$;
+	\item l'intersection de deux droites "parallèles":
+	      \begin{equation*}
+		      \begin{pmatrix}
+			      a \\ b \\c_{1}
+		      \end{pmatrix} \times
+		      \begin{pmatrix}
+			      a \\ b \\c_{2}
+		      \end{pmatrix} = (c_{2} - c_{1})
+		      \begin{pmatrix}
+			      b \\ -a \\ 0
+		      \end{pmatrix} \in \ell_{\infty}
+	      \end{equation*}
+\end{itemize}
+
+L'équation de projection devient alors:
+\begin{equation*}
+	\begin{pmatrix}
+		u \\ v
+	\end{pmatrix} = \frac{1}{Z}
+	\begin{pmatrix}
+		fX + c_{x}Z \\ fY + c_{y}Z
+	\end{pmatrix}
+\end{equation*}
+Et donc:
+\begin{equation*}
+	Z \begin{pmatrix}
+		u \\ v \\ 1
+	\end{pmatrix} = x =
+	\begin{pmatrix}
+		f & 0 & c_{x} \\ 0 & f & c_{y}\\ 0 & 0 & 1
+	\end{pmatrix}
+	\begin{pmatrix}
+		X \\ Y \\ Z
+	\end{pmatrix}
+\end{equation*}
+Le point 3D étant exprimé dans un autre système orthonormal de coordonnées:
+\begin{equation*}
+	x =	\begin{pmatrix}
+		f & 0 & c_{x} \\ 0 & f & c_{y}\\ 0 & 0 & 1
+	\end{pmatrix}
+	\begin{pmatrix}
+		R & T
+	\end{pmatrix}
+	\begin{pmatrix}
+		X \\ Y \\ Z\\ 1
+	\end{pmatrix}
+\end{equation*}
+
+On définit la matrice de calibration interne:
+\begin{equation*}
+	K = \begin{pmatrix}
+		f & 0 & c_{x} \\ 0 & f & c_{y}\\ 0 & 0 & 1
+	\end{pmatrix}
+\end{equation*}
+et la matrice de projection $P = K \left(R \ T\right)$.
+Ici, la matrice de calibration interne utilise la distance focale $f$ exprimée en pixels.
+
+Dans le cas où les pixels sont des trapézoïdes, on peut généraliser $K$ par:
+\begin{equation*}
+	\begin{pmatrix}
+		f_{x} & s & c_{x} \\ 0 & f_{y} & c_{y}\\ 0 & 0 & 1
+	\end{pmatrix}
+\end{equation*}
+où $s = -f_{x} \cotan \theta$ et $\theta$ est l'angle du parallélograme.
+
+\begin{thm}
+	Si $P \in \M_{3, 4}(\R)$ dont la sous-matrice $3\times 3$ gauche est inversible, elle se
+	factorise de manière unique en $P = K (R \ T)$ où $K$ est inversible, $R$ est une matrice
+	de rotation et $T$ une matrice $3 \times 4$ de translation.
+\end{thm}
+\begin{proof}
+	On décompose la sous-matrice de gauche de $P$ via le procédé de Gram-Schmidt. L'unicité décolue de l'unicité de la décomposition QR.
+\end{proof}
+
+Des lignes parallèles dans l'espace se projètent dans un faisceau (ensemble de lignes parallèles ou concourrentes).
+Si on se donne un vecteur $d$ de direction:
+\begin{equation*}
+	\begin{aligned}
+		K(X + \lambda d)                 & = KX + \lambda Kd        \\
+		l_{x}                            & = (KX) \times (Kd)       \\
+		\forall X, \transpose{\ell_{X}}v & = 0, \text{ for } v = Kd
+	\end{aligned}
+\end{equation*}
+On dit que $v$ est le point de fuite des droites de direction $d$.
+Si $v_{1} = Kd_{1}$ et $v_{2} = Kd_{2}$ sont des points de fuites de droites "horizontales", un autre ensemble
+de droites horizontales a direction $\alpha d_{1} + \beta d_{2}$ et donc son point de fuite est $\alpha v_{1} + \beta v_{2}$
+qui appartient à la droite d'horizon $v_{1} \times v_{2}$.
+
+\subsection{Homographies}
+Si on étudie deux images différentes, la matrice pour passer de la première image à la seconde est une homographie $3 \times 3$, i.e. une matrice inversible.
+\begin{proposition}
+	Une homographie préserve l'alignement.
+\end{proposition}
+\begin{proof}
+	En effet, on a:
+	\begin{equation*}
+		\abs{
+			\begin{matrix}
+				Hx_{1} & Hx_{2} & Hx_{3}
+			\end{matrix}
+		} = \abs{H} \abs{\begin{matrix} x_{1}x_{2}x_{3}\end{matrix}}
+	\end{equation*}
+\end{proof}
+
+Dans le cadre de transformation simples, on a des formes plus simples pour les homographies:
+\begin{center}
+	\begin{tabular}{cccp{.2\textwidth}}
+		Type         & Matrice                                      & Condition              & Invariants      \\
+		Rigide       & $\begin{pmatrix}
+				                c & -s & t_{x} \\ s & c & t_{y} \\ 0 & 0 & 1
+			                \end{pmatrix}$ & $c^{2} + s^{2} = 1$    & Distances
+		Similaritude & $ \begin{pmatrix}
+				                 c & -s & t_{x} \\ s & c & t_{y} \\ 0 & 0 & 1
+			                 \end{pmatrix}$ & $c^{2} + s^{2} \neq 0$ & $\abs{\text{Angles}}$, ratio des distances.
+		$
+	\end{tabular}
+\end{center}
+
+
+\subsection{Algorithmes et Calibration}
+
+\section{Matrices Fondamentales et Essentielles}
+
+
+
+
+\end{document}
+
