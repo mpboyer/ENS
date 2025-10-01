@@ -171,55 +171,65 @@ Si on étudie deux images différentes, la matrice pour passer de la première i
 
 Dans le cadre de transformation simples, on a des formes plus simples pour les homographies:
 \begin{center}
-  \begin{tabular}{cccc}
-		Type         & Matrice                                      & Condition              & Invariants      \\
+	\begin{tabular}{cccc}
+		Type         & Matrice                                      & Condition              & Invariants            \\
 		Rigide       & $\begin{pmatrix}
 				                c & -s & t_{x} \\ s & c & t_{y} \\ 0 & 0 & 1
-			                \end{pmatrix}$ & $c^{2} + s^{2} = 1$    & Distances\\
+			                \end{pmatrix}$ & $c^{2} + s^{2} = 1$    & Distances                                          \\
 		Similaritude & $ \begin{pmatrix}
 				                 c & -s & t_{x} \\ s & c & t_{y} \\ 0 & 0 & 1
-			                 \end{pmatrix}$ & $c^{2} + s^{2} \neq 0$ & $\abs{\text{Angles}}$, ratio des distances.\\
-      Homographie & H inversible & $\abs{H} \neq 0$ & Birapport de 4 points
+			                 \end{pmatrix}$ & $c^{2} + s^{2} \neq 0$ & $\abs{\text{Angles}}$, ratio des distances.       \\
+		Homographie  & H inversible                                 & $\abs{H} \neq 0$       & Birapport de 4 points
 	\end{tabular}
 \end{center}
 
 \begin{thm}
-  Soient $e_{1}, \ldots, e_{d + 1}, f_{1}, \ldots, f_{d + 1} \in \R^{d}$ de sorte que tous $d$ vecteurs $e_{i}$ et $f_{i}$ soient linéairement indépendants.
-  Alors, il existe (à facteur près), un unique isomorphisme $H$ et un unique ensemble de scalaires $\lambda_{i} \neq 0$ tels que pour tout $i$, $He_{i} = \lambda_{i} f_{i}$. 
+	Soient $e_{1}, \ldots, e_{d + 1}, f_{1}, \ldots, f_{d + 1} \in \R^{d}$ de sorte que tous $d$ vecteurs $e_{i}$ et $f_{i}$ soient linéairement indépendants.
+	Alors, il existe (à facteur près), un unique isomorphisme $H$ et un unique ensemble de scalaires $\lambda_{i} \neq 0$ tels que pour tout $i$, $He_{i} = \lambda_{i} f_{i}$.
 \end{thm}
 \begin{proof}
-  On écrit $e_{d + 1} = \sum_{i \leq d} \mu_{i} e_{i}$ et $f_{d + 1} = \sum_{i \leq d} \nu_{i}f_{i}$, o vérifie que:
-  $\lambda_{i} = \frac{\nu_{i}}{\mu_{i}}\lambda_{d + 1}$.
-  Réciproquement, en fixant $\lambda_{d + 1} = 1$, on trouve bien l'existence d'un unique isomorphisme $H$.
+	On écrit $e_{d + 1} = \sum_{i \leq d} \mu_{i} e_{i}$ et $f_{d + 1} = \sum_{i \leq d} \nu_{i}f_{i}$, o vérifie que:
+	$\lambda_{i} = \frac{\nu_{i}}{\mu_{i}}\lambda_{d + 1}$.
+	Réciproquement, en fixant $\lambda_{d + 1} = 1$, on trouve bien l'existence d'un unique isomorphisme $H$.
 \end{proof}
 
 En particulier, ce théorème montre que pour $n + 2$ paires dans $\P^{n}$, on a une unique homographie les transportant.
 Ceci va nous permettre de regrouper des images en corrigeant des homographies.
 On utilise l'estimation $\lambda x' = Hx \Rightarrow x' \times (Hx) = 0$ ce qui nous donne deux équations linéairement indépendantes par paire de points correspondants.
-4 correspondances suffisent pour estimer $H$, mais si l'on en a plus on minimise une erreur: 
+4 correspondances suffisent pour estimer $H$, mais si l'on en a plus on minimise une erreur:
 
 \begin{itemize}
-  \item L'erreur algébrique:
-  \begin{equation*}
-    \epsilon = \sum_{i} \norm{x_{i}' \times (Hx_{i})}^{2}
-  \end{equation*}
-\item L'erreur de transfert (ou sa symétrisée):
-  \begin{equation*}
-    d^{2} = d(x', Hx)^{2}, d^{2} + d'^{2} = d(x, H^{-1}x')^{2} + d(x', Hx)^{2}
-  \end{equation*}
+	\item L'erreur algébrique:
+	      \begin{equation*}
+		      \epsilon = \sum_{i} \norm{x_{i}' \times (Hx_{i})}^{2}
+	      \end{equation*}
+	\item L'erreur de transfert (ou sa symétrisée):
+	      \begin{equation*}
+		      d^{2} = d(x', Hx)^{2}, d^{2} + d'^{2} = d(x, H^{-1}x')^{2} + d(x', Hx)^{2}
+	      \end{equation*}
 \end{itemize}
 
 En considérant $x, x'$ comme des observateurs bruités de $\hat{x}$ et $\hat{x}' = H\hat{x}$, on considère plutôt $\epsilon(H, \hat{x}) = d(x, \hat{x})^{2} + d(x', H\hat{x}')$.
 Puisque cette méthode a beaucoup de paramètres, on considère plutôt l'erreur de Sampson:
 \begin{equation*}
-  \epsilon(H, \hat{x}) = \epsilon(H, x) + J(\hat{x} - x), J = \frac{\partial \epsilon}{\partial x}(H, x)
+	\epsilon(H, \hat{x}) = \epsilon(H, x) + J(\hat{x} - x), J = \frac{\partial \epsilon}{\partial x}(H, x)
 \end{equation*}
 On adapte ici en résolvant pour $\hat{x}$ minimisant $\norm{x - \hat{x}}^{2}$ sous la contrainte $J(x - \hat{x}) = \epsilon$.
 On obtient un bon estimateur de l'erreur algébrique, mais avec un produit scalaire adapté.
 
 On peut ensuite appliquer l'homographie à l'image en poussant les pixels sur l'image transformée et arrondissant au pixel le plus proche, ou en tirant les pixels de l'image originelle par interpolation.
 
+
 \subsection{Algorithmes et Calibration}
+On a deux méthodes principales pour calibrer les paramètres internes de la caméra $K$:
+\begin{enumerate}
+  \item Par resection, on calcule des points dont on connaît les coordonnées en 3D: on a un système linéaire qu'on peut résoudre avec 6 points, s'il ne sont pas dans un plan.
+  \item Par planarité: on utilise une surface dont on connaît la position réelle et on calcule l'homographie entre la position et la vision par la caméra.
+    Une fois ceci fait, on peut, avec 3 vues, avoir 6 équations pour 5 paramètres.
+\end{enumerate}
+
+Cependant, à petite distance focale, on ne peut pas ignorer la distortion géométrique liée à la courbure de la lentille.
+On peut la modéliser par un modèle radial polynomial, ou en minimisant par des méthodes itératives.
 
 \section{Matrices Fondamentales et Essentielles}
 

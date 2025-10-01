@@ -5,6 +5,7 @@
 
 #include <Imagine/Graphics.h>
 #include <Imagine/Graphics/Events.h>
+#include <Imagine/Graphics/Types.h>
 #include <Imagine/Images.h>
 #include <Imagine/LinAlg.h>
 #include <sstream>
@@ -15,7 +16,27 @@ using namespace std;
 // Record clicks in two images, until right button click
 void getClicks(Window w1, Window w2, vector<IntPoint2> &pts1,
                vector<IntPoint2> &pts2) {
-  int button = getMouse(int &x, int &y);
+  Window win;
+  int subWin;
+  int button;
+  IntPoint2 p;
+
+  while (true) {
+    button = Imagine::anyGetMouse(&p, &win, &subWin);
+    cout << "Button clicked" << button << endl;
+    if (button == 3) { // Break on right click
+      break;
+    }
+
+    // Points should be clicked in the same order for both windows as
+    // the order of clicks will be used for computations.
+    if (win == w1) {
+      pts1.push_back(p); // Add point based on clicked window
+    }
+    if (win == w2) {
+      pts2.push_back(p); // Add point based on clicked window
+    }
+  }
 }
 
 // Return homography compatible with point matches

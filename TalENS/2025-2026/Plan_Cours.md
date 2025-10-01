@@ -33,13 +33,10 @@ Séance 4: **Géométrie Affine pour le Zoom**
 - Algorithme pour maintenir le zoom et la translation sur une carte
 - Relation avec la notion d'atlas en géométrie différentielle
 
-Séance 5: **Géodésiques pour la Robotique**
+Séance 5: **Topologie pour la Géopolitique**
 ----------------------------------------------------------
 - Notion de variété (Plongée dans un espace euclidien ? Plus générale ?)
-- Notion de variété riemannienne (Rapidement, explication de la notion de géodésique via le problème d'optimisation)
-- Notion d'homologie rapidement (lacets et trous)
-- Notion d'exponentielle et de logarithme sur SO(3)
-- Cinématique Directe et Inverse
+- Notion de fonction continue
 
 Séance 6: **CFG et Lambda-Termes pour la Sémantique**
 ----------------------------------------------------------
@@ -47,7 +44,6 @@ Séance 6: **CFG et Lambda-Termes pour la Sémantique**
 - Notion de grammaire et de parsing (CFG, arbre de syntaxe, langages de Dyck)
 - Notion de lambda-terme (comme modèle pour les fonctions)
 - Notion de sémantique compositionnelle (propager le sens sur un arbre de syntaxe)
-
 
 Séance 7: **Entropie et Mesure pour la TIC**
 ----------------------------------------------------------
