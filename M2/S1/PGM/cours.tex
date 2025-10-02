@@ -1,0 +1,324 @@
+\documentclass[info, math, french]{mpb-cours}
+
+\title{Probabilistic Graphical Models and Deep Generative Models}
+\author{D'après Pierre Latouche et Pierre-Alexandre Mattei}
+
+\usepackage{xspace}
+\usetikzlibrary{fit}
+
+\def\model#1#2{p\left(#1\suchthat#2\right)}
+\def\tstar{\theta^{*}}
+\def\tzero{\theta_{0}}
+\def\that{\hat{\theta}}
+\def\V{\mathbb{V}}
+\def\Lpri#1{L_{#1}^{'}}
+\def\Lsec#1{L_{#1}^{''}}
+\def\lpri#1{l_{#1}^{'}}
+\def\lsec#1{l_{#1}^{''}}
+\def\EVM{\ref{eq:evm}\xspace}
+\def\define#1{\emph{\textcolor{vulm}{#1}}}
+\def\eqanot#1{\makebox[0pt]{\mbox{\color{vulm} \normalfont #1}}}
+\DeclareMathOperator{\mode}{mode}
+
+
+\pgfdeclarelayer{bg}   
+\pgfsetlayers{bg,main}
+% Here #1 is the most topleft point, #2 is the most bottom right point and #3 is the label
+% We put the label at the bottom right of the plate, so x_right label > x_right #3 and
+% y_bot label < y_bot #3
+\def\plate#1#2#3{%
+%\node [rectangle, rounded corners, draw, fit=(#1) (#2)] {#3};
+    \node[anchor=north east, yshift=-.1cm] (text) at (#2.south east) {#3};
+  \begin{pgfonlayer}{bg}
+    \draw[rounded corners, draw, fill=gray!1] let 
+      \p1 = (text.south west),
+      \p2 = (#2.south west),
+      \p3 = (#1.north west),
+      \p4 = (#1.north east),
+      \p5 = (text.south east) in
+      ({min(\x1, \x2, \x3, (\x4 - 1.3 * (width("#3"))))}, \y1) rectangle ({max(\x4, \x5) - 1pt}, \y4);
+  \end{pgfonlayer}
+}
+
+\makeatletter
+\newcommand{\gmnode}[1]{%
+    |[#1]|
+}
+\makeatother
+
+\newenvironment{gmodel}[1]{
+  \begin{category}[/tikz/execute at end picture={#1}]
+}{
+\end{category}
+}
+
+\tikzset{%
+  obs/.style={circle, fill=yulm!10, draw=black},
+  lat/.style={circle, fill=none, draw=black},
+  param/.style={},
+}
+
+\begin{document}
+\bettertitle
+\begin{abstract}
+	\url{mailto:pierre.latouche@uca.fr}
+	Page du cours sur \url{https://lmbp.uca.fr/~latouche/mva/IntroductiontoProbabilisticGraphicalModelsMVA.html}
+\end{abstract}
+
+\section{Notion de Modèle Graphique Orienté}
+\subsection{Modèle Statistique}
+\begin{definition}
+	Un \define{échantillon} aléatoire $(X_{1}, \ldots, X_{n})$ de taille $n$ est un vecteur de $n$ variables aléatoires indépendantes et identiquement distribuées suivant la même loi qu'une variable aléatoire $X_{0}$.
+\end{definition}
+
+\begin{definition}
+	Un \define{modèle statistique} est une famille de lois de probabilités sur un espace $\chi$.
+	Le modèle est dénoté par:
+	\begin{equation*}
+		\M = \{\model{\cdot}{\theta}, \theta \in \Theta\}
+	\end{equation*}
+	\begin{itemize}
+		\item Si $\Theta \subseteq \R^{d}$, le modèle est dit \define{paramétrique}.
+		\item Sinon, on dira que le modèle est \define{non paramétrique}.
+	\end{itemize}
+\end{definition}
+Pour une variable aléatoire discrète $X$, on notera $p(x \mid \theta) = \P_{\theta}(X = x)$.
+Pour une variable aléatoire continue $X$, on notera $p(x \mid \theta) = f_{\theta}(x)$ où $f_{\theta}$ est une densité de probabilité.
+Dans la suite, on dira que $X$ est aléatoire et que $x$ est une réalisation ou observation de $X$ (même chose pour $X_{i}$ et $x_{i}$).
+Le modèle $\{\model{x}{\theta}\}$ est l'unique lien entre $\theta$ et l'observation $x$.
+
+\begin{definition}
+	La \define{vraisemblance} (likelihood) de $\theta$ de l'observation $x$ est la fonction:
+	\begin{equation*}
+		l_{x}(\theta) = \model{x}{\theta}
+	\end{equation*}
+	La \define{log-vraisemblance} est la fonction:
+	\begin{equation*}
+		L_{x}(\theta) = \log l_{x}(\theta)
+	\end{equation*}
+\end{definition}
+
+Dans la suite, on va chercher à maximiser la vraisemblance par rapport au paramètre $\theta$ étant donné un échantillon et un modèle statistique.
+Puisqu'on a une hypothèse d'indépendance:
+\begin{equation*}
+	l_{(x_{1}, \ldots, x_{n})}(\theta) = \prod_{i = 1}^{n}\model{x_{i}}{\theta}
+\end{equation*}
+et on a:
+\begin{equation*}
+	L_{(x_{1}, \ldots, x_{n})}(\theta) = \sum_{i = 1}^{n}\log\model{x_{i}}{\theta}
+\end{equation*}
+La log-vraisemblance d'un échantillon est la somme des log-vraisemblances des variables partielles d'observation.
+C'est une fonction aléatoire (définissant une variable aléatoire) en $\theta$.
+
+Il y a trois versions principales du paramètre $\theta$ qui vont être utilisées:
+\begin{enumerate}
+	\item $\theta^{*}$, une constante inconnue qui est le véritable paramètre du modèle;
+	\item $\theta_{0}$, une constante connue qui est un candidat pour le paramètre $\theta$ et sert à tester
+	      une hypothèse sur la valeur de $\theta$;
+	\item $\hat{\theta}$, une variable aléatoire fonction de l'échantillon aléatoire, et qui sert à estimer $\theta$.
+\end{enumerate}
+
+\subsection{Statistiques et Information}
+\begin{definition}
+	Une \define{statistique} $T$ est une fonction de l'échantillon aléatoire $(X_{1}, \ldots, X_{n})$.
+\end{definition}
+
+Par la suite, on supposera que les lois $\model{x}{\theta}$ dans le modèle ont même support et sont deux
+fois dérivables en $\theta$,
+de sorte que les opérateurs de dérivation par rapport à $\theta$ et d'intégration par rapport à $x$ commutent.
+
+\begin{definition}
+	Le \define{score} d'un échantillon est défini par:
+	\begin{equation*}
+		L_{(X_{1}, \ldots, X_{n})}^{'}(\theta) = \sum_{i = 1}^{n} L_{X_{i}}'(\theta)
+	\end{equation*}
+	C'est une fonction aléatoire de $\theta$.
+\end{definition}
+
+\begin{thm}
+	En $\tstar$, l'espérance du score est nulle:
+	\begin{equation*}
+		\E^{*}[L_{(X_{1}, \ldots, X_{n})}^{'}(\tstar)] = 0
+	\end{equation*}
+\end{thm}
+Ici, $\E^{*}$ désigne l'espérance par rapport à la loi $\model{\cdot}{\tstar}$, l'espérance par rapport à la vraie distribution.
+Dans la suite, sauf précisé autrement, c'est toujours par rapport à cette distribution qu'on calculera l'espérance.
+\begin{proof}
+	Par définition d'une mesure de probabilité, on a:
+	\begin{equation*}
+		\int l_{x}(\theta) \d x = \int \model{x}{\theta}  \d x = 1
+	\end{equation*}
+	En dérivant sous le signe intégral:
+	\begin{equation*}
+		\int \lpri{x}(\theta) \d x = \int l_{x}(\theta)\Lpri{x}(\theta) \d x = 0
+	\end{equation*}
+	Par définition de $l_{x}(\theta)$ et par définition de l'espérance:
+	\begin{equation*}
+		\E^{*}[\Lpri{x}(\tstar)] = \int \Lpri{x}(\tstar) \model{x}{\tstar}\d x = 0
+	\end{equation*}
+\end{proof}
+
+
+\begin{thm}
+	L'information de Fisher de $X$ en $\tstar$ est:
+	\begin{equation*}
+		I_{X}(\tstar) = \E^{*}[-L_{X}^{''}(\tstar)] = \V^{*}(L_{X}^{'}(\tstar))
+	\end{equation*}
+\end{thm}
+De même que précédemment, $\V^{*}$ désigne la variance calculée par rapport à la distribution $\tstar$.
+\begin{proof}
+	Par définition:
+	\begin{equation*}
+		\Lsec{X}(\theta) = \frac{\lsec{X}(\theta)l_{X}(\theta) - \lpri{X}(\theta)}{l_{X}(\theta)^{2}} = \frac{\lsec{X}(\theta)}{l_{X}(\theta)} - \left(\frac{\lpri{X}(\theta)}{l_{X}(\theta)}\right)^{2}
+	\end{equation*}
+	Donc, en $\theta = \tstar$, et en passant à l'espérance:
+	\begin{equation*}
+		I_{X}(\tstar) = - 0 + \E\left[\left(\frac{\lpri{X}(\tstar)}{l_{X}(\tstar)}\right)^{2}\right] = \E\left[\Lpri{X}(\tstar)^{2}\right] = \V\left(\Lpri{X}(\tstar)\right)
+	\end{equation*}
+\end{proof}
+
+\begin{proposition}
+	L'information de Fisher en $\tstar$ pour un échantillon $(X_{1}, \ldots, X_{n})$ est $I_{n}(\theta) n \times I_{X_{i}}(\theta), \forall i$.
+\end{proposition}
+On notera $I_{X_{i}}(\theta) = I(\theta)$.
+
+\begin{remarque}
+	On a $\E^{*}[L_{X}^{''}(\tstar)] < 0$, en supposant la fonction deux fois continuement dérivable sur un voisinage de $\tstar$, elle y est concave et donc $\tstar$ est le lieu d'un maximum.
+\end{remarque}
+
+\subsection{Estimation Fréquentistes}
+\begin{definition}
+	Un \define{estimateur} $\that(X_{1}, \ldots, X_{n})$ est une statistique.
+	On définit le \define{biais} d'un estimateur par:
+	\begin{equation*}
+		b_{\tstar}(\that) = \E[\that(X_{1}, \ldots, X_{n})] - \tstar
+	\end{equation*}
+	Un estimateur est \define{non biaisé} si son biais est nul.
+\end{definition}
+
+\begin{definition}
+	Un estimateur $\that$ est dit \define{asymptotiquement non-biaisé} si pour tout $\tstar$:
+	\begin{equation*}
+		\E^{*}[\that(X_{1}, \ldots, X_{n})] \xrightarrow[n \to \infty]{} \tstar
+	\end{equation*}
+\end{definition}
+
+\begin{definition}
+	La \define{déviation carrée moyenne} d'un estimateur $\that$ est:
+	\begin{equation*}
+		Q = \E^{*}[\left(\that\left(X_{1}, \ldots, X_{n}\right) - \tstar\right)^{2}]
+	\end{equation*}
+\end{definition}
+
+\begin{proposition}
+	On a:
+	\begin{equation*}
+		Q = b_{\tstar}\left(\that\right)^{2} + \V^{*}\left(\that\right)
+	\end{equation*}
+\end{proposition}
+\begin{proof}
+	C'est la formule de König-Huygens pour des variables i.i.d.
+\end{proof}
+Dans la suite, on va s'intéresser à des estimateurs dont le comportement est asymptotiquement bon quand $n\to \infty$.
+On notera $\that\left(X_{1}, \ldots, X_{n}\right) = \that_{n}$
+
+\begin{definition}
+	Une suite d'estimateurs $\that_{n}$ est dite \define{consistente} quand $\that_{n} \xrightarrow[n \to \infty]{C} \tstar$, pour une propriété de convergence $C$ à préciser.
+\end{definition}
+\begin{itemize}
+	\item On parle de \define{consistence forte} quand $C$ est la convergence presque sûre;
+	\item On parle de \define{consistence en moyenne carrée} quand $Q(\that_{n}) \xrightarrow[n \to \infty]{} 0$;
+	\item On parle de \define{consistence en probabilité} quand:
+	      \begin{equation*}
+		      \forall \epsilon > 0, \P\left(\tstar - \epsilon < \that_{n} < \tstar + \epsilon\right) \xrightarrow[n \to \infty]{} 1
+	      \end{equation*}
+\end{itemize}
+
+En pratique, on utilise majoritairement la consistence en moyenne carrée, puisque faire tendre $Q$ vers $0$ revient à trouver un estimateur non-biaisé dont la variance tend vers $0$, asymptotiquement.
+
+\begin{definition}
+	L'\define{estimateur de vraisemblance maximale} (EVM, ou MLE (\textit{maximum likelihood estimator})) pour le modèle statistique $\M = \left\{\model{\cdot}{\theta}\suchthat \theta\in \Theta\right\}$ est:
+	\begin{equation*}
+		\that = \arg\max_{\theta \in \Theta} L_{\left(X_{1}, \ldots, X_{n}\right)}\left(\theta\right) \tag{EVM}\label{eq:evm}
+	\end{equation*}
+\end{definition}
+
+\begin{remarque}
+	Si $\that$ est un \EVM de $\tstar$ pour le modèle statistique $\M$, et $\psi$ est une bijection, alors $\psi(\that)$ est un \EVM de $\psi(\tstar)$.
+\end{remarque}
+Rien ne présuppose en général qu'un \EVM existe ou est unique.
+On va donc souvent avoir besoin d'optimiser numériquement, sans garantie (en général) de trouver un maximum global.
+Par concavité de la vraisemblance dans un petit voisinage de $\tstar$, on sait que l'\EVM y est unique.
+
+
+\subsection{Approche Bayésienne}
+Dans l'approche bayésienne, au lieu d'introduire des estimateurs, on introduit un loi $p(\theta)$ avant d'observer les données, puis on calcule la loi postérieure $\model{\theta}{x_{1}, \ldots, x_{n}}$.
+Par la formule de Bayes:
+\begin{equation}
+	\overbrace{\model{\theta}{x_{1}, \ldots, x_{n}}}^{\eqanot{Postérieur}} = \frac{\overbrace{\model{x_{1}, \ldots, x_{n}}{\theta}}^{\eqanot{Vraisemblance}}\overbrace{p(\theta)}^{\eqanot{prior}}}{\underbrace{p\left(x_{1}, \ldots, x_{n}\right)}_{\eqanot{marginalisation}}}
+\end{equation}
+Cette formule s'applique notamment dans le cas de l'apprentissage supervisé.
+
+\paragraph{Bernoulli et Beta}
+Faisons un petit exemple. On prend $\mathrm{support}(X_{i}) = \{0, 1\}$, $\model{x}{\mu} = \mu^{x}(1 - \mu)^{1 - x}$.
+On considère \emph{a priori} $p(\mu) = Beta(\mu, a_{0}, b_{0}) = \frac{1}{B(a, b)}\mu^{a -1}(1 - \mu)^{b - 1}\forall \mu \in [0, 1]$.
+On a $\E[\mu] = \frac{a}{a + b}$, $\V(\mu) = \frac{ab}{(a + b)^{2}(a + b + 1)}$ et $\mode(\mu) = \frac{a - 1}{a + b - 2}$.
+
+\begin{proposition}
+	La distribution posétrieure de $\mu$ dans le modèle de Bernoulli est donnée par:
+	\begin{equation*}
+		\model{\mu}{x_{1}, \ldots, x_{n}} = Beta(\mu, a_{n}, b_{n})
+	\end{equation*}
+	avec $a_{n} = a_{0} + \sum_{i = 1}^{n}x_{i}$ et $b_{n} = b_{0} + n - \sum_{i}^{n}x_{i}$.
+\end{proposition}
+
+\begin{definition}
+	La distribution Beta est appelée la \define{distribution conjuguée a priori} de la loi de Bernoulli puisque la distribution postérieure est aussi une distribution Beta.
+\end{definition}
+
+Dans le modèle Bayésien, l'estimateur a posteriori maximum est défini par:
+\begin{equation*}
+	\hat{\mu}_{\rm MAP} = \frac{a_{0} + \sum_{i = 1}^{n}x_{i} - 1}{a_{0} + b_{0} + n - 2}
+\end{equation*}
+L'estimateur basé sur la distribution prédictive est:
+\begin{equation*}
+	\hat{\mu} = \frac{a_{0} + \sum_{i = 1}^{n}x_{i}}{a_{0} + b_{0} + n}
+\end{equation*}
+
+\begin{proposition}
+	On a: $\hat{\mu}_{\rm MAP} \to \hat{\mu}_{\rm ML}$ et $\hat{\mu} \to \hat{\mu}_{\rm ML}$ quand $n \to \infty$.
+\end{proposition}
+\begin{proof}
+
+\end{proof}
+
+\subsection{Modèles Graphiques}
+On cherche à donner des propriétés probabilistes sur les données, et particulièrement les modéliser par des distributions conditionnelles.
+Les modèles graphiques sont un formalisme permettant l'analyse de distributions conditionnelles grâce à de la théorie des graphes.
+On ne fera pas de rappels des notions de théorie des graphes dans ce polycopié, sauf pour introduire des notations. En général on considèrera des graphes orientés acycliques (GAO, ou DAG en anglais).
+
+\begin{definition}
+	Un \define{modèle graphique} est une famille de distribution de probabilités factorisables d'une manière définie par un GAO donné.
+	Chaque sommet du graphe va correspondre à une variable aléatoire, les arêtes correspondent à des dépendances entre variables.
+\end{definition}
+Les modèles graphiques orientés correspondent aux modèles statistiques les plus communément utilisés.
+
+On va s'intéresser à la notion de factorisation dans un DAO:
+\begin{definition}
+	Une distribution de probabilité $p$ \define{se factorise dans} $G$ lorsque pour tout $x$:
+	\begin{equation*}
+		p(x) \prod_{i = 1}^{d}\model{x_{i}}{x_{pa_{i}}}
+	\end{equation*}
+	où les $pa_{i}$ parcourent l'ensemble des parents du sommet $i$.
+\end{definition}
+
+Par exemple, le graphe suivant exprime la régression linéaire fréquentiste:
+\begin{gmodel}{\plate{y}{x}{$\forall i \leq n$}}
+	\gmnode{obs, alias=y}y_{i} & |[param]|\beta\ar[l]\\
+	|[alias=x, obs]|x_{i} \ar[u] &  |[param]|\sigma^{2} \ar[ul]
+\end{gmodel}
+avec:
+\begin{equation*}
+	\model{y_{i}}{x_{i}, \beta, \sigma^{2}} = \mN\left(y_{i}; \transpose{x_{i}}\beta, \sigma^{2}\right)
+\end{equation*}
+\end{document}
