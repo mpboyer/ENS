@@ -1,0 +1,118 @@
+\documentclass[info, math, french]{mpb-cours}
+
+\title{Statistiques Computationnelles}
+\author{D'après Stéphanie Allassonière}
+
+\def\model#1#2{p\left(#1\suchthat#2\right)}
+\def\tstar{\theta^{*}}
+\def\tzero{\theta_{0}}
+\def\that{\hat{\theta}}
+\def\V{\mathbb{V}}
+\def\Es{\E^{*}}
+\def\Vs{\V^{*}}
+\def\Lpri#1{L_{#1}^{'}}
+\def\Lsec#1{L_{#1}^{''}}
+\def\lpri#1{l_{#1}^{'}}
+\def\lsec#1{l_{#1}^{''}}
+\def\rhat{\hat{R}}
+\def\define#1{\emph{\textcolor{vulm}{#1}}}
+\def\eqanot#1{\makebox[0pt]{\mbox{\color{vulm} \normalfont #1}}}
+\DeclareMathOperator{\mode}{mode}
+
+\begin{document}
+\bettertitle
+\begin{abstract}
+	\url{mailto:compstats@gmail.com}
+	Notes de cours sur \url{https://sites.google.com/site/stephanieallassonniere/enseignements/methodes-mcmc-et-applications?authuser=0}.
+	Dans ces notes de cours, il n'y aura aucun rappel de théorie de la mesure et des probabilités,
+	hors des nouvelles notations et propositions qui seront définies.
+	Dans ce cours on va présenter des outils génériques pour les statistiques.
+\end{abstract}
+
+\section{Méthodes d'Estimation et Décision}
+\subsection{Méthodes d'Estimation}
+On présente d'abord quelques méthodes pour calculer des estimateurs:
+\begin{description}
+	\item[Méthode~des~moments] Pour estimer $g\left(\theta\right) \in \R^{d}$ sur un modèle statistique $\left\{ \P_{\theta} \right\}$, on choisit $d$ fonctions $T_{j}: \Y \to \R$, de sorte que leurs premiers moments soient finis.
+	      En posant $e_{j}(\theta)$ ce moment (relativement à $\P_{\theta}$), et en l'estimant empiriquement sur $n$ observations,
+	      et en résolvant $\hat{e_{j}}\left(\theta\right) = \sum_{i} T_{j}\left(y_{i}\right)$ si $e_{j}$ a une forme fermée, on a une méthode pour itérer des estimateurs.
+	      On a convergence par la loi des grands nombres et le théorème central limite.
+	\item[Vraisemblance maximale (MLE)] On prend $\that$ tel que:
+	      \begin{equation*}
+		      L_{n, \hat{y}}\left(\that_{n}\right) \gammaeq \max_{\theta} L_{n, \hat{y}}\left(\theta\right)
+	      \end{equation*}
+	      Attention, il peut ne pas exister, ne pas être unique et il n'y a pas de garanti de convergence.
+	\item[Bayésien] On utilise l'estimateur avec la meilleure valeur a posteriori:
+	      \begin{equation*}
+		      \argmax \model{\theta}{y_{i}} = \argmax \model{y_{i}}{\theta}\pi(\theta)
+	      \end{equation*}
+\end{description}
+
+\subsection{Risque et Perte}
+Notre application de la théorie de la décision s'intéresse à la manière de choisir la meilleure méthode pour calculer
+un estimateur.
+Pour cela, on va définir une valeur de \define{perte} $L(\tstar, \that)$ qui quantifie la différence entre $\tstar$
+la valeur réelle du paramètre et la valeur $\that$ de l'estimateur.
+La fonction $L$ devrait être \emph{positive}, \emph{séparée}, \emph{définie}.
+En général, on demandera aussi qu'elle soit \emph{symmétrique}, \emph{différentiable}, et vérifie l'inégalité triangulaire.
+
+\begin{remarque}
+	Les $\that(y)$ sont des variables aléatoires pour $y$ des observations, il faut donc toujours penser à la perte en moyenne.
+\end{remarque}
+
+\begin{definition}
+	Le risque d'un estimateur $\delta$ est défini par:
+	\begin{equation*}
+		R\left(\theta, \delta\right) = \E_{y\sim \P_{\theta}}\left[L(\theta, \delta(y))\right].
+	\end{equation*}
+\end{definition}
+
+Par exemple, le risque $L^{2}$ d'un estimateur $\delta$ de $g\left(\theta\right)$ est $\V\left(\delta\right) + b_{g\left(\theta\right)}\left(\delta\right)^{2}$.
+
+Si on estime $Y \sim \mathrm{Bin}(100, \theta)$ par $\delta_{0} = \frac{Y}{100}$, $\delta_{1} = \frac{Y + 3}{100}$ et $\delta_{2} = \frac{Y + 3}{106}$, en calculant les risques on trouve
+$R_{0} = \frac{\theta(1 - \theta)}{\theta}, R_{1} = \frac{9 + 100\theta(1 - \theta)}{100^{2}}, R_{2} = \frac{(9 - 8\theta)(1 + 8\theta)}{106^{2}}$.
+Ici, pour décider entre $\delta_{1}$ et $\delta_{2}$ ($R_{1} > R_{0}$ en tout $\theta$), il nous faudra une information sur $\theta^{*}$:
+Si on a une distribution antérieure $\pi$ pour $\theta$, on prend $\delta^{*}$ l'argument minimum de $\E_{\pi(\theta)}[R_{i}]$
+ou $R_{i}$ a la plus faible aire sous la courbe pondérée par $\pi$.
+La meilleure option $R$ est appelée risque bayésien.
+
+\begin{definition}
+	Le \define{risque bayésien} $\rhat(L)$ est défini par:
+	\begin{equation*}
+		\begin{aligned}
+			\rhat(L) = & \E_{\pi(\theta)}\left[\E_{Y \sim \P_{\theta}}\left[L\left(\theta, \delta(Y)\right)\right]\right] \\
+			=          & \iint L\left(\theta, \delta(Y)\right)\P_{\theta}(Y)\pi(\theta)\d Y\d \theta
+		\end{aligned}
+	\end{equation*}
+	Il ne dépend pas de $\theta$!
+\end{definition}
+
+Si on prend $L(\tstar, \that) = \mathds{1}_{\tstar \neq \theta}$, avec $\abs{\Y}, \abs{\Theta} < +\infty$, on a:
+\begin{equation*}
+	R(L) = \sum_{\theta \in \Theta} \sum_{Y \in \Y} L\left(\theta, \that\left(Y\right)\right)\overbrace{\model{Y}{\theta}\pi\left(\theta\right)}^{$= \P\left(\theta, Y\right)$}
+\end{equation*}
+On minimise les termes de la somme à $Y$ fixé:
+$\that\left(Y\right) \in \argmin R_{0} \Leftrightarrow \that\left(Y\right) \in \argmax \P\left(\that(Y), Y\right)$.
+C'est l'estimateur maximal a postériori!
+
+Pour la perte continue de la norme $L^{2}$, $\min R_{L}$ est attein quand $\that(Y) = \E\left[\theta \suchthat Y\right]$.
+
+On montre aussi que l'estimateur maximal a postérori vérifie $\that^{MAP} \in \argmax \P(Y(\theta))\pi(\theta)$.
+
+\subsection{Exemple Général}
+Soit $y = (y_{1}, \ldots, y_{n}) \in \Y^{n}$ un échantillon et $\M = \left\{\P_{\theta}\suchthat \theta \in \Theta\right\}$ être un modèle statistique.
+On support qu'il existe des variables latentes $z \in \mathcal{Z}$, avec $\mathcal{Z}$ de plus petite dimension de $\Y$, telles que:
+\begin{equation*}
+	\P_{\theta}(y) = \int \P_{\theta}\left(y \suchthat z\right)\pi\left(z\right)\d z
+\end{equation*}
+On a un modèle hiérarchique: $y \sim \P_{\theta}\left(y \suchthat z\right)$ et $z \sim \pi\left(z\right)$.
+On cherche ici à estimer $\theta$.
+
+Ce genre de modèle intervient dans un modèle encodeur-décodeur, on encode des observations vers les variables latentes, puis on les décode.
+
+\section{Optimisation}
+
+\section{Échantillonnage}
+
+
+\end{document}
