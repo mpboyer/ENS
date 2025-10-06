@@ -170,9 +170,11 @@ void panorama(const Image<Color, 2> &I1, const Image<Color, 2> &I2,
       // Assign color based on which image(s) contain this pixel
       if (inI1 && inI2) {
         // Overlap region: blend or average the two images
-        Color c1 = I1.interpolate(x1, y1);
-        Color c2 = I2.interpolate(x2, y2);
-        I(x, y) = (c1 + c2) / 2;
+        Color c_1 = I1.interpolate(x1, y1);
+        Color c_2 = I2.interpolate(x2, y2);
+        RGB<int> c1 = c_1;
+        RGB<int> c2 = c_2;
+        I(x, y) = (c1 / 2) + (c2 / 2);
       } else if (inI1) {
         I(x, y) = I1.interpolate(x1, y1);
       } else if (inI2) {
