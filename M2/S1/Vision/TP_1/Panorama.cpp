@@ -22,6 +22,8 @@ void getClicks(Window w1, Window w2, vector<IntPoint2> &pts1,
   IntPoint2 p;
 
   while (true) {
+    // When any window gets an input, record the type of input in button, the
+    // window clickec in win and the position of the input in o
     button = anyGetMouse(p, win, subWin);
     cout << "Button " << button << "clicked on Window " << win << " at " << p
          << endl;
@@ -29,8 +31,10 @@ void getClicks(Window w1, Window w2, vector<IntPoint2> &pts1,
       break;
     }
 
-    // Points should be clicked in the same order for both windows as
+    // Points should be clicked in the same order in each windows as
     // the order of clicks will be used for computations.
+    // One can click in any window at all times, but associated points should
+    // at the same rank in the sequence of clicks in each window.
     if (win == w1) {
       pts1.push_back(p); // Add point based on clicked window
     }
@@ -48,9 +52,13 @@ Matrix<float> getHomography(const vector<IntPoint2> &pts1,
     cout << "Not enough correspondences: " << n << endl;
     return Matrix<float>::Identity(3);
   }
+
+  // We will reesolve Ax = B, where A and B have two rows for each pair of
+  // inputs (see below)
   Matrix<double> A(2 * n, 8);
   Vector<double> B(2 * n);
 
+  // For each pair of points we have two equations:
   for (size_t i = 0; i < n; i++) {
     double x1 = pts1[i].x();
     double y1 = pts1[i].y();
@@ -80,6 +88,7 @@ Matrix<float> getHomography(const vector<IntPoint2> &pts1,
     B[2 * i + 1] = y2;
   }
 
+  // Regroup values in matrix H
   B = linSolve(A, B);
   Matrix<float> H(3, 3);
   H(0, 0) = B[0];
@@ -119,6 +128,29 @@ void growTo(float &x0, float &y0, float &x1, float &y1, float x, float y) {
     y1 = y;
 }
 
+float reprojectionError(const Matrix<float> &H, const vector<IntPoint2> &pts1,
+                        const vector<IntPoint2> &pts2) {
+  float totalError = 0;
+  size_t n = min(pts1.size(), pts2.size());
+
+  for (size_t i = 0; i < n; i++) {
+    // Transform point from image 1 to image 2
+    float v[] = {(float)pts1[i].x(), (float)pts1[i].y(), 1.0f};
+    Vector<float> p1(v, 3);
+    Vector<float> p2_proj = H * p1;
+    p2_proj /= p2_proj[2]; // Normalize by homogeneous coordinate
+
+    // Calculate Euclidean distance to actual point in image 2
+    float dx = p2_proj[0] - pts2[i].x();
+    float dy = p2_proj[1] - pts2[i].y();
+    float error = sqrt(dx * dx + dy * dy);
+
+    totalError += error;
+  }
+
+  return totalError / n; // Average error in pixels
+}
+
 // Panorama construction
 void panorama(const Image<Color, 2> &I1, const Image<Color, 2> &I2,
               Matrix<float> H) {
@@ -152,7 +184,7 @@ void panorama(const Image<Color, 2> &I1, const Image<Color, 2> &I2,
       float x2 = x + x0;
       float y2 = y + y0;
 
-      // Check if this pixel is within I2's bounds
+      // Check if the pixel is within I2's bounds
       bool inI2 = (x2 >= 0 && x2 < I2.width() && y2 >= 0 && y2 < I2.height());
 
       // Pull back to I1 coordinates using inverse homography
@@ -164,7 +196,7 @@ void panorama(const Image<Color, 2> &I1, const Image<Color, 2> &I2,
       float x1 = v[0];
       float y1 = v[1];
 
-      // Check if this pixel is within I1's bounds
+      // Check if this pulled back pixel is within I1's bounds
       bool inI1 = (x1 >= 0 && x1 < I1.width() && y1 >= 0 && y1 < I1.height());
 
       // Assign color based on which image(s) contain this pixel
@@ -172,12 +204,16 @@ void panorama(const Image<Color, 2> &I1, const Image<Color, 2> &I2,
         // Overlap region: blend or average the two images
         Color c_1 = I1.interpolate(x1, y1);
         Color c_2 = I2.interpolate(x2, y2);
+        // We use RGB<int> to remove bright colour artifacts which happen when
+        // using RGB<octet> as Color is normally defined
         RGB<int> c1 = c_1;
         RGB<int> c2 = c_2;
-        I(x, y) = (c1 / 2) + (c2 / 2);
+        I(x, y) = (c1 + c2) / 2;
       } else if (inI1) {
+        // I1 region: copy I1
         I(x, y) = I1.interpolate(x1, y1);
       } else if (inI2) {
+        // I2 region: copy I2
         I(x, y) = I2.interpolate(x2, y2);
       }
     }
