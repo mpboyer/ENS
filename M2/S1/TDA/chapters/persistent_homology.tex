@@ -1,0 +1,305 @@
+\section{Homologie Persistente}
+\subsection{Invariance Topologique et Filtrations}
+\subsubsection{Homologie Singulière}
+On a le résultat important suivant, qui va nous permettre de simplifier la manière de définir l'homologie,
+notamment dans la représentation des simplexes:
+\begin{thm}
+	Si $K$ et $K'$ sont des complexes simpliciaux de supports homéomorphes, leurs groupes d'homologie sont
+	isomorphes et leurs nombres de Betti sont égaux.
+\end{thm}
+\begin{proof}
+	\og Débrouille-toi, normalien.\fg
+\end{proof}
+
+On va donc définir l'homologie singulière, sur tout espace topologique, en considérant à homotopie près. On note $\Delta_{k}$ le $k$-simplexe standard dans $\R^{k}$.
+\begin{definition}
+	Un $k$-simplexe singulier dans un espace topologique $X$ est une fonction continue $\sigma: \Delta_{k}\to X$.
+\end{definition}
+
+On reprends les constructions de l'homologie simpliciale pour les complexes singuliers: c'est la définition de l'homologie singulière.
+
+\begin{proposition}
+	L'homologie singulière est définie pour tout espace $X$. Si $X$ est homotopiquement équivalent au support
+	d'un complexe simpliciel, les homologies singulières et simpliciales coïncident.
+\end{proposition}
+
+\begin{proposition}
+	Si $f: X \to Y$ est continue, et $\sigma: \Delta_{k} \to X$ est un simplexe dans $X$, alors $f\circ \sigma$ est un simplexe dans $Y$, et $f$ définit donc une application linéaire entre les groupes d'homologie:
+	\begin{equation*}
+		f_{\sharp}: H_{k}(X) \to H_{k}(Y)
+	\end{equation*}
+	Si $f$ est un homéomorphisme ou une équivalence d'homotopie, alors $f_{\sharp}$ est un isomorphisme.
+\end{proposition}
+
+\begin{remarque}
+	En particulier, si $X \subset Y$, l'application d'inclusion induit une application linéaire d'homologie.
+\end{remarque}
+
+\subsubsection{Filtrations}
+\begin{definition}
+	Un complexe simplicial filtré (ou une filtration) $\K$ construit sur un ensemble $X$ est une famille
+	$\left\{K_{a} \suchthat a \in T\right\}$, où $T \subseteq \R$, de sous-complexes d'un
+	certain complexe simplicial fixé $K$ avec ensemble de sommets $X$ de sorte que $K_{a} \subseteq K_{b}$
+	pour tout $a \leq b$.
+\end{definition}
+
+L'homologie persistente d'un complexe simplical filtré encode l'évolution de l'homologie des sous-complexes.
+
+\begin{definition}
+	Une filtration d'un complexe simplicial fini $K$ est une séquence de sous-complexes telle que:
+	\begin{enumerate}
+		\item $\emptyset = K^{0} \subset K^{1} \subset \cdots \subset K^{m} = K$
+		\item $K^{i + 1} = K^{i} \cup \sigma^{i + 1}$ où $\sigma^{i + 1}$ est un simplexe de $K$.
+	\end{enumerate}
+\end{definition}
+La famille des ensembles de sous-niveau pour une fonction est un exemple de filtration.
+On verra plus bas comment définir de telles filtrations dans plus de cas.
+On a toutefois un algorithme pour calculer itérativement l'homologie simpliciale d'un complexe étant donné
+une filtration de celui-ci:
+\begin{algorithm}
+	\caption{Calcul d'homologie (simpliciale)}
+	\label{alg:betti_nop}
+	\begin{algorithmic}
+		\Input{Une filtration $\left(K^{i}\right)_{i \leq m}$ d'un complexe simplical $K$ en dimension $d$}
+		\EndInput
+		\State {$\beta_{i} \gets 0$}
+		\For{$i \in \left\{1, \ldots, m\right\}$}
+		\State {$k \gets \dim \sigma^{i} - 1$}
+		\If{$\sigma^{i}$ est dans un $\left(k + 1\right)$-cycle de $K^{i}$}
+		\State{$\beta_{k + 1} \gets \beta_{k + 1} + 1$}
+		\Else
+		\State{$\beta_{k} \gets \beta_{k} - 1$}
+		\EndIf
+		\EndFor
+		\Return{$\left(\beta_{0}, \ldots, \beta_{d}\right)$}
+	\end{algorithmic}
+\end{algorithm}
+
+\begin{definition}
+	Un $(k + 1)$-simplexe $\sigma^{i}$ est dit \emph{positif} s'il est contenu dans un $(k + 1)$-cycle de $K^{i}$.
+	Il est dit \emph{négatif} sinon.
+\end{definition}
+Un $(k + 1)$-simplexe positif crée un $(k + 1)$-cycle dans $K^{i}$.
+Un $(k + 1)$-simplexe négatif détruit un $k$-cycle dans $K^{i}$.
+
+On veut donc vérifier:
+\begin{equation*}
+	\beta_{k}(K) = \abs{\text{$k$-simplexes positifs}} - \abs{\text{$(k - 1)$-simplexes négatifs}}
+\end{equation*}
+
+On a:
+\begin{lemme}
+	\label{lem:filter_cycle}
+	Si $\sigma^{i}$ est un $k$-simplexe positif, il existe un unique $k$-cycle $c_{\sigma}$ tel que:
+	\begin{enumerate}
+		\item $c_{\sigma}$ n'est pas une bordure dans $K^{i}$
+		\item $c_{\sigma}$ contient $\sigma^{i}$ mais pas d'autre $k$-simplexe positif.
+	\end{enumerate}
+\end{lemme}
+\begin{proof}
+	Par induction sur l'ordre d'apparition des simplexes dans la filtration.
+\end{proof}
+
+\begin{proof}[Preuve de correction de l'algorithme \ref{alg:betti_nop}]
+	Si $\sigma^{i}$ est contenu dans un $(k + 1)$-cycle $c$ de $K^{i}$, alors ce cycle n'est pas une bordure dans $K^{i}$.
+	De plus, $c$ ne peut pas être homologue à un cycle dans $K^{i - 1}$, et donc $\beta_{k + 1}\left(K^{i}\right) \geq \beta_{k + 1}(K^{i - 1}) + 1$.
+	Si $\sigma^{i}$ n'est contenu dans aucun $(k + 1)$-cycle $c$ de $K^{i}$, alors $\partial\sigma^{i}$ n'est pas une bordure dans $K^{i - 1}$ et donc $\beta_{k}(K^{i}) \leq \beta_{k}\left(K^{i - 1}\right) - 1$.
+\end{proof}
+
+Cela pose quelques questions, qui vont nous conduire à introduire l'homologie persistente.
+
+\subsection{Homologie Persistente}
+\subsubsection{Sur les fonctions}
+Pour définir les diagrammes de persistence pour une fonction $f: X \to \R$, on étudie ses
+ensembles de sous-niveau.
+On représente, pour chaque dimension $d$ d'homologie, la "durée de vie" d'une propriété topologique de dimension $d$.
+Ces propriétés topologiques sont, entre autres, observées par la variation du $d$-ème nombre de Betti.
+On représente alors sur un graphe $2$-D, en abscisse, la valeur $x$ pour laquelle une propriété apparaît, et en ordonnée la valeur $x'$ pour laquelle la propriété disparaît.
+On a nécessairement $x' > x$.
+On notera $D_{f, d}$ le diagramme défini ci-dessus, comme son ensemble de points du plan $\R_{+}^{2}$.
+
+On définit alors une distance sur deux tels diagrammes:
+\begin{definition}
+	La distance infinie de Wasserstein, ou distance du goulot entre deux diagrammes $D_{1}$ et $D_{2}$ est définie par:
+	\begin{equation*}
+		d_{B}\left(D_{1}, D_{2}\right) = \inf_{\gamma \in \Gamma}\sup_{p \in D_{1}} \ninf{p - \gamma(p)}
+	\end{equation*}
+	où $\Gamma$ est l'ensemble des bijections entre $D_{1}$ et $D_{2}$.
+\end{definition}
+\begin{remarque}
+	Pour pouvoir obtenir des bijections, on doit souvent \emph{augmenter} les diagrammes, en projetant les points de l'un sur la diagonale de l'autre et réciproquement.
+\end{remarque}
+
+On aura alors un théorème important de stabilité:
+\begin{thm}
+	Pour toutes fonctions \emph{calmes} $f, g: \mathbb{X}\to \R$, $d_{B}(D_{f}, D_{g}) \leq \ninf{f - g}$.
+\end{thm}
+
+Cette définition, avec les mains, va être précisée et étendue plus bas.
+
+\subsubsection{Sur les filtrations}
+On va maintenant étendre la notion de diagrammes de persistences aux filtrations de complexes simpliciaux.
+On a une relation fondamentale:
+\begin{proposition}
+	Si $t \leq t'$, $f^{-1}\left(\left]-\infty, t\right]\right) \subseteq f^{-1}\left(\left]-\infty, t'\right]\right)$.
+	Si $f$ est définie sur les sommets d'un complexe simplicial $K$, et étendue de sorte que
+	\begin{equation*}
+		f\left(\sigma = \left[v_{0}, \ldots, v_{k}\right]\right) = \max f\left(v_{i}\right),
+	\end{equation*}
+	alors les ensembles de sous-niveau de $f$ définissent une filtration du complexe simplcial $K$.
+\end{proposition}
+
+Il suffit maintenant d'adapter l'algorithme \ref{alg:betti_nop} ci-dessus pour maintenir une base d'homologie et les paires naissance-mort d'une propriété.
+On notera $H_{k}^{i} = H_{k}\left(K^{i}\right)$, et on va construire des bases par récurrence (les $H_{k}$ sont des $\mathbb{F}_{2}$-espaces vectoriels).
+
+La base de $H_{k}^{0}$ est vide, puisque l'ensemble est vide.
+Si on a construit une base de $H_{k}^{i - 1}$, on a deux cas:
+\begin{enumerate}
+	\item Si $\sigma^{i}$ est un $k$-simplexe positif, alors on ajoute la classe d'homologie du cycle
+	      $c^{i}$ associé à $\sigma^{i}$ par le Lemme \ref{lem:filter_cycle} à la base de
+	      $H_{k}^{i - 1}$ pour obtenir une base de $H_{k}^{i}$.
+	\item Si $\sigma^{i}$ est un $(k + 1)$-simplexe négatif:
+	      \begin{itemize}
+		      \item On dénote $c^{j_{1}}, \ldots, c^{j_{p}}$ les cycles associés aux simplexes
+		            positifs $\sigma^{j_{1}}, \ldots, \sigma^{j_{p}}$ de la base de $H_{k}^{i - 1}$.
+		      \item On pose $d = \partial \sigma^{j} = \sum_{k = 1}^{p}\epsilon_{k}c^{j_{k}} + b$
+		      \item On pose $l(i) = \max \left\{j_{k} \suchthat \epsilon_{k} = 1\right\}$
+		      \item On enlève la classe d'homologie de $c^{l(i)}$ pour obtenir une base de $H_{k}^{i}$.
+	      \end{itemize}
+\end{enumerate}
+
+Ceci explique comment modifier l'algorithme \ref{alg:betti_nop} pour calculer les diagrammes de persistence.
+Cependant, avant de réécrire l'algorithme, on va s'intéresser à un test algorithmique pour vérifier que $\sigma^{j}$ est positif ou négatif.
+Pour ce faire, on introduit la matrice de l'opérateur de bordure. On rappelle qu'on se donne une filtration:
+d'un complexe simplicial fini $d$-dimensionnel
+$\emptyset = K^{0} \subset K^{1} \subset \cdots \subset K^{m} = K$ telle que
+$K^{i + 1} = K^{i} \cup \sigma^{i + 1}$ où $\sigma^{i + 1}$ est un simplexe de $K$.
+
+\begin{definition}
+	On pose $M = \left(m_{i, j}\right)_{1\leq i, j \leq m}$ telle que $m_{i, j} = 1 \text{ si, et seulement si } \sigma^{i} \text{ est une face de } \sigma^{j}$ et vaut $0$ sinon.
+\end{definition}
+Pour toute colonne $C_{j}$, on définit donc $l(j)$ par:
+\begin{equation*}
+	(i = l(j)) \Leftrightarrow (m_{i, j} = 1 \land m_{i', j} = 0, \forall i' > i)
+\end{equation*}
+
+On obtient une version matricielle de l'algorithme de persistence:
+\begin{algorithm}
+	\caption{Algorithme de Persistence, version Matricielle}
+	\label{alg:persistence_mat}
+	\begin{algorithmic}
+		\Input{Une filtration $\emptyset = K^{0} \subseteq \cdots \subseteq K^{m} = K$ d'un complexe simplical $d$-dimensionnel de sorte que $K^{i + 1} = K^{i} \cup \sigma^{i + 1}$ où $\sigma^{i + 1}$ est un simplexe de $K$}
+		\EndInput
+		\State{Calculer la matrice $M$ de l'opérateur de bordure.}
+		\For{$j \in \left\{0, \ldots, m\right\}$}
+		\While{$\exists j' < j, l(j') = l(j)$}
+		\State{$C_{j} \gets C_{j} + C_{j'} \mod 2$}
+		\EndWhile
+		\EndFor
+		\Return{Paires $\left(l(j), j\right)$}
+	\end{algorithmic}
+\end{algorithm}
+
+Dans le pire des cas, on a un algorithme en $\O(m^{3})$.
+
+\begin{proof}
+	À chaque étape de l'algorithme, la colonne $C_{j}$ représente une chaîne de la forme:
+	\begin{equation*}
+		\partial \left(\sigma^{j} + \sum_{i < j} \epsilon_{i}\sigma^{i}\right), \epsilon_{i}\in \{0, 1\}
+	\end{equation*}
+	À la fin de l'algorithme, si $j$ est tel que $l(j)$ est défini, alors $\sigma^{l(j)}$ est un simplexe positif.
+	Donc si à la fin de l'algorithme, $C_{j}$ est nulle alors $\sigma^{j}$ est positif.
+	Donc, si $C_{j}$ n'est pas nulle, alors $(\sigma^{l(j)}, \sigma^{j})$ est une paire de persistence.
+\end{proof}
+
+\begin{definition}
+	On représente sur un diagramme de persistence les paires $\left(\sigma^{l(j)}, \sigma^{j}\right)$ par $\left(l\left(j\right), j\right)$ ou $\left(f\left(\sigma^{l(j)}\right), f\left(\sigma^{j}\right)\right)$.
+	On ajoute au diagramme la diagonale $\{y = x\}$ et, pour chaque simplexe positif qui n'est pas dans une paire $\sigma^{i}$, le point $(i, + \infty)$.
+\end{definition}
+
+\begin{definition}
+	Si $D_{1}, D_{2}$ sont deux diagrammes (potentiellement augmentés pour avoir le même cardinal):
+	\begin{description}
+		\item[La Distance du Goulot] est définie par:
+		      \begin{equation*}
+			      d_{B}^{\infty}(D_{1}, D_{2}) = \inf_{\gamma \in \Gamma} \sup_{p \in D_{1}} \ninf{p - \gamma(p)}
+		      \end{equation*}
+		\item[La Distance $p$-Wasserstein] est définie, pour $p \geq 1$ par:
+		      \begin{equation*}
+			      W_{p}(D_{1}, D_{2}) = \inf_{\gamma \in \Gamma} (\sum_{\rho \in D_{1}} \norm{\rho - \gamma(\rho)}_{p}^{p})^{\frac{1}{p}}
+		      \end{equation*}
+	\end{description}
+	Dans les deux cas, $\Gamma$ est l'ensemble des bijections entre $D_{1}$ et $D_{2}$.
+\end{definition}
+
+\begin{remarque}
+	Ces deux définitions peuvent être vues comme le coût du transport optimal pour la norme infinie et la norme $p$.
+\end{remarque}
+
+\begin{thm}
+	Si $f, g : X \to \R$ sont \emph{dociles}, on a:
+	\begin{equation*}
+		d_{B}^{\infty}(D_{f}, D_{g}) \leq \ninf{f - g}
+	\end{equation*}
+	où $D_{\phi}$ est le diagramme de persistence de la filtration associée aux ensembles de sous-niveau de $\phi$ sur $X$.
+\end{thm}
+On reviendra plus tard sur la notion de docilité.
+
+\subsection{Calcul de filtrations}
+\subsubsection{Complexes de Čech, de Vietoris-Rips, et autres}
+\begin{definition}
+	On considère un recouvrement $\mU$ par des ouverts d'un espace topologique $X$.
+	Le complexe de de Čech $C\left(\mU\right)$ associé au recouvrement $\mU$ vérifie:
+	\begin{itemize}
+		\item L'ensemble de sommets de $C\left(\mU\right)$ est l'ensemble $\mU$.
+		\item $\left[U_{0}, \ldots, U_{k}\right]$ est un $k$-simplexe dans $C\left(\mU\right)$ si et seulement si $\cap U_{j} \neq \emptyset$.
+	\end{itemize}
+\end{definition}
+
+\begin{thm}[Nerveux (Leray)]
+	Si toutes les intersections entre les ouverts de $\mU$ sont soit vides soit contractibles, alors $C(\mU)$ et $X$ sont homotopiquement équivalents.
+\end{thm}
+
+On se donne un nuage de point $V$ dans un espace métrique $(X, d)$ et un réel $\alpha$.
+
+\begin{definition}
+	Le complexe de Čech $\cech\left(V, \alpha\right)$ est le complexe simplicial
+	filtré indexé par $\R$ dont l'ensemblde sommets est $V$ et tel que:
+	\begin{equation*}
+		\sigma = \left[p_{0}, \ldots, p_{k}\right] \in \cech\left(V, \alpha\right) \Leftrightarrow \bigcap_{i = 0}^{k} B(p_{i}, \alpha) \neq \emptyset
+	\end{equation*}
+\end{definition}
+
+\begin{definition}
+	Le complexe de Vietoris-Rips $\rips(V)$ est le complexe simplicial filtré indexé par $\R$ dont l'ensemble de sommets est $V$
+	et est défini par:
+	\begin{equation*}
+		\sigma = \left[p_{0}, \ldots, p_{k}\right] \in \cech\left(V, \alpha\right) \Leftrightarrow \forall i, j \in \left\{0, \ldots, k\right\}, d\left(p_{i}, p_{j}\right) \leq \alpha
+	\end{equation*}
+\end{definition}
+
+\begin{proposition}
+	On a, pour tout $\alpha > 0$:
+	\begin{equation*}
+		\cech\left(L, \frac{\alpha}{2}\right) \subseteq \rips\left(L, \alpha\right) \subseteq \cech\left(L, \alpha\right)
+	\end{equation*}
+\end{proposition}
+
+\begin{definition}
+	Si $V = \{p_{1}, \ldots, p_{n}\} \subseteq \R^{d}$.
+\end{definition}
+
+\subsubsection{Stabilité}
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,43 @@
+\section*{Introduction}
+Méthodes algorithmiques d'analyse topologique de données, particulièrement en science et en ingénierie.
+
+Le but est de partir de données, sous forme de maillages et maillables, et de retrouver des
+structures au sein de jeux de données.
+Partant d'une carte (considérée comme jeu de données brutes), avec des features intéressantes,
+pour pouvoir raisonner sur l'espace, on passe à une représentation abstraite, par exemple
+comme un graphe, et c'est sur cette structure de données sous-jacente qu'on va raisonner.
+Ici, on peut ajouter des filtres pour redéfinir le maillage et donc redéfinir le résultat
+du raisonnement.
+Plus généralement, on veut construire une carte à partir d'un jeu de données.
+En astrophysique, par exemple, on modélise la croissance de l'univers à une grande échelle, on
+la simule par une grille de voxel, on estime la densité de matière noire sur chaque voxel,
+et on découvre une sorte de géométrie ressemblant à des neurones lorsqu'on trouve aussi des groupes
+de galaxies, formant une "toile cosmique".
+On peut calculer les connexions avec des complexes simpliciaux dits de Morse-Smale, dont on peut extraire
+une structure de graphes.
+
+Ainsi, on extrait de la structure d'un ensemble de données, de manière robuste et indépendante de l'échelle, par comparaison et extraction de propriétés.
+Sous le capot, on fait:
+\begin{itemize}
+	\item Homologie Simpliciale
+	\item Théorie de Morse
+	\item Homologie Persistente
+\end{itemize}
+
+Pour des données numériques, étant données un échantillon de points dans un espace euclidien, par exemple, on peut les représenter et objectiver des représentations géométriques apparaissant.
+On a des manières de mailler l'ensemble (triangulation de Delaunay, par exemple) qui amènent à des
+indicateurs qui nous expliquent où sont répartis les données, par exemple avec des noyaux pour estimer la
+densité.
+Avec une fonction scalaire sur un maillage, on définit une filtration, et on regarde les propriétés de la fonction, comme les optima locaux et on en extrait une structure algébrique (complexe de Morse-Smale) qui nous donne une structure algébrique.
+On obtient des générateurs, et des composantes "connexes".
+
+On a ce genre de densité de pixels, par exemple la hauteur de surface de la mer qui permet
+de remarquer les vortexs, en chimie quantique ou des spectrogrammes d'enregistrement vocaux.
+On part d'un domaine géométrique et d'un signal sur ce domaine, signal qui exhibe des patternes géométriques
+qu'on souhaite quantifier.
+Ceci permet l'extraction de propriétés, la segmentation, la réduction de dimension et autres.
+Dans le cas de points en grande dimension, on a une unique théorie qui s'applique très généralement.
+
+En terme de logiciels, on a le TTK (ParaView >= 5.10) et Gudhi (bibliothèque python).
+
+
