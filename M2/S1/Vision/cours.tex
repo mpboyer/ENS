@@ -5,7 +5,9 @@
 
 \begin{document}
 \bettertitle
-\url{mailto:pascal.monasse@enpc.fr}, \url{mailto:loic.landrieu@enpc.fr}, \url{mailto:arslan.artykov@enpc.fr}
+\begin{abstract}
+	\url{mailto:pascal.monasse@enpc.fr}, \url{mailto:loic.landrieu@enpc.fr}, \url{mailto:arslan.artykov@enpc.fr}
+\end{abstract}
 
 \section*{Introduction}
 \noindent Le but principal de la classe est de démontrer et d'expliquer l'équation suivante:
@@ -223,18 +225,70 @@ On peut ensuite appliquer l'homographie à l'image en poussant les pixels sur l'
 \subsection{Algorithmes et Calibration}
 On a deux méthodes principales pour calibrer les paramètres internes de la caméra $K$:
 \begin{enumerate}
-  \item Par resection, on calcule des points dont on connaît les coordonnées en 3D: on a un système linéaire qu'on peut résoudre avec 6 points, s'il ne sont pas dans un plan.
-  \item Par planarité: on utilise une surface dont on connaît la position réelle et on calcule l'homographie entre la position et la vision par la caméra.
-    Une fois ceci fait, on peut, avec 3 vues, avoir 6 équations pour 5 paramètres.
+	\item Par resection, on calcule des points dont on connaît les coordonnées en 3D: on a un système linéaire qu'on peut résoudre avec 6 points, s'il ne sont pas dans un plan.
+	\item Par planarité: on utilise une surface dont on connaît la position réelle et on calcule l'homographie entre la position et la vision par la caméra.
+	      Une fois ceci fait, on peut, avec 3 vues, avoir 6 équations pour 5 paramètres.
 \end{enumerate}
 
 Cependant, à petite distance focale, on ne peut pas ignorer la distortion géométrique liée à la courbure de la lentille.
 On peut la modéliser par un modèle radial polynomial, ou en minimisant par des méthodes itératives.
 
 \section{Matrices Fondamentales et Essentielles}
+\subsection{Définition}
+On va chercher, étant données deux images rectifiées (avec un plan d'image commun et des mouvements de caméra parallèles), des correspondances de point et le calcule de leur décalage apparant, à calculer la profondeur relative de la salle.
 
+Les contraintes épipolaires, décrivent le fait qu'il est suffisant de chercher $x$ sur sa ligne épipolaire:
+Les vecteurs $\vec{Cx}, \vec{C'x'}$ et $T$ sont complanaires: $\abs{x \ T \ Rx'} = 0$, ce qu'on peut réécrire $\transpose{x}(T \times Rx') = 0$.
+On note $[T]_{\times} x = T \times x$ et on obtient: $\transpose{x}Ex' = 0$ où $E = [T]_{\times}R$.
 
+\begin{definition}
+	La matrice $E$ est appelée matrice essentielle des contraintes.
+\end{definition}
 
+La conversion en coordonnées de pixel se fait en mulitpliant par l'inverse de la matrice de calibration $K$.
+On peut réécrire la contrainte épipolaire en:
+\begin{equation*}
+	\transpose{x}Fx' = 0 \text{ où } F = \transpose{K^{-1}}EK'^{-1} = \transpose{K}^{-1}[T]_{\times}RK'^{-1}
+\end{equation*}
+
+\begin{definition}
+	La matrice $F$ est appelée matrice fondamentale des contraintes épipolaires.
+\end{definition}
+
+\begin{definition}
+	\begin{itemize}
+		\item $e = KT$ vérifie $\transpose{e}F = 0$, c'est l'épipole gauche.
+		\item $e' = K'R^{-1}T$ vérifie $Fe' = 0$, c'est l'épipole droit.
+		\item $Fx'$ est la ligne épipolaire associée à $x'$ dans l'image de gauche.
+		\item $\transpose{F}x$ est la ligne épipolaire associée à $x'$ dans l'image de gauche.
+	\end{itemize}
+\end{definition}
+
+\subsection{Calcul}
+\subsubsection{Matrice Fondamentale}
+La méthode des $8$ points est la plus simple car elle est linéaire. On impose $\norm{f} = 1$ dans:
+\begin{equation*}
+	\min_{f} \norm{Af}^{2} \text{ tel que } \norm{f} = 1
+\end{equation*}
+avec $A = (\transpose{A_{i}})$ telle que $\transpose{x_{i}}Fx_{i}' = 0$ si et seulement si $\transpose{A_{i}} f =0$.
+Autrement dit, $f$ est une valeur propre de $\transpose{A}A$. Pour forcer que $F$ soit de rang $2$, on calcul sa SVD et on fixe sa troisième valeur propre à $0$.
+
+Toutefois, forcer $\det F = 0$ après optimisation n'est pas optimal. La méthode des $7$ points force ceci.
+On a un système linéiare $Af = 0$ de taille $7\times 9$.
+On se donne $f_{1}, f_{2}$ deux vecteurs linéairement indépendants de $\ker A$.
+On cherche une solution $f_{1} + xf_{2}$ avec $\det F = 0$.
+L'intérêt principal n'est pas de calculer $f$ avec moins de points (puisqu'on perd en précision) mais de ne pas sélectionner de fausses correspondances.
+Pour s'assurer qu'on n'incorpore pas de mauvaises correspondances, puisque les coefficients de $F$ sont de taille si différentes,
+on normalize les points pour que leurs coordonnées soient d'ordre $1$.
+
+\subsubsection{Matrice Essentielle}
+Une matrice est essentielle si et seulement si ses valeurs singulières sont $0$ et deux valeurs positives égales:
+\begin{equation*}
+	2E\transpose{E}E - \Tr(E\transpose{E})E = 0 \land \det E = 0
+\end{equation*}
+L'algorithme des 5 points (Nistér) cherche a résoudre $Ae = 0$ où $A$ est de taille $5 \times 9$ avec une solution de la forme $xX + yY + zZ + W$ où $X, Y, Z, W$ est une base du noyau de $A$.
+Les contraintes donnent $10$ équations polynomiales de degré $3$ en $x, y, z$.
+On applique le pivot de Gauss pour éliminer les termes de degré $\geq 2$ en $x, y$ puis on obtient $B(z)(x \ y \ 1)^{\top} = 0$, c'est à dire $\det B(z) = 0$ une équation polynomiale de degré $10$.
 
 \end{document}
 

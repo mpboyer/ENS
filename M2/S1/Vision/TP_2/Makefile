@@ -1,7 +1,7 @@
 all:
 	cmake -S . -B build
 	cd build && make
-	./build/Panorama
+	./build/Fundamental
 
 clean: 
 	\rm -rf build
