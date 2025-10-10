@@ -320,4 +320,107 @@ avec:
 \begin{equation*}
 	\model{y_{i}}{x_{i}, \beta, \sigma^{2}} = \mN\left(y_{i}; \transpose{x_{i}}\beta, \sigma^{2}\right)
 \end{equation*}
+\section{Modèles de Mixtures Gaussiennes}
+\subsection{Mixtures Gaussiennes}
+\begin{definition}
+	Une \define{mixture gaussienne} à $K$ composante est définie par la densité:
+	\begin{equation*}
+		\model{x}{\pi, \theta} = \sum_{k = 1}^{K}\pi_{k}\mN\left(x; \mu_k, \Sigma_{k}\right),
+	\end{equation*}
+	où $\theta = \left(\mu_{k}, \Sigma_{k}\right)_{k}$ et $\pi = \transpose{\left(\pi_{1}, \ldots, \pi_{K}\right)} \in \Delta_{K}$ est le vecteur des poids.
+\end{definition}
+
+En modèle graphique:
+\begin{gmodel}{\plate{y}{y}{$\forall i \leq n$}}
+	& \pi\ar[dl] \\
+	\gmnode{obs, alias=y}x_{i} & \theta\ar[l]
+\end{gmodel}
+
+\begin{proposition}
+	La log-vraisemblance d'une mixture Gaussienne est donnée par:
+	\begin{equation*}
+		\begin{aligned}
+			L_{x_{1}, \ldots, x_{n}}\left(\pi, \theta\right) = & \sum_{i = 1}\log\model{x_{i}}{\pi, \theta}                                                   \\
+			=                                                  & \sum_{i=1}^{n}\log \left(\sum_{k=1} \pi_{k}\mN\left(x_{i}; \mu_{k}, \Sigma_{k}\right)\right)
+		\end{aligned}
+	\end{equation*}
+\end{proposition}
+
+Optimiser ceci n'est pas trivial, puisqu'on n'a pas d'expression analytique pour les estimateurs de $\pi$ et $\theta$.
+
+En écrivant $Z_{i} \sim \M(1, \pi)$ et $X_{i}\mid Z_{ik} = 1 \sim \mathcal{N}(\mu_{k}, \Sigma_{k})$, on a le modèle suivant:
+\begin{gmodel}{\plate{z}{x}{$\forall i \leq n$}}
+	\gmnode{lat, alias=z}z_{i}\ar[d] & \pi\ar[l]\\
+	\gmnode{obs, alias=x}x_{i} & \theta\ar[l]
+\end{gmodel}
+
+\subsection{Algorithme EM}
+\begin{definition}
+	En considérant l'échantillon dit complet des couples $\left(X_{i}, Z_{i}\right)$, la log-vraisemblance \define{à données complètes} est donnée par:
+	\begin{equation*}
+		\begin{aligned}
+			L_{\left(x_{i}, z_{i}\right)_{i}}\left(\pi, \theta\right) = & \log \model{\left(x_{i}, z_{i}\right)_{i}}{\pi, \theta}                                                 \\
+			=                                                           & \sum_{i=1}^{n}\sum_{k = 1}^{K}z_{ik}\log\left(\pi_{k}\mN\left(x_{i}; \mu_{k}, \Sigma_{k}\right)\right).
+		\end{aligned}
+	\end{equation*}
+\end{definition}
+
+\begin{proposition}
+	Les estimateurs de $\pi$ et $\theta$ maximisant la log-vraisemblance à données complètes sont:
+	\begin{itemize}
+		\item $\hat{\pi_{k}} = (1/n)\sum z_{ik}$
+		\item $\hat{\mu_{k}} = (1/n_{k})\sum z_{ik}x_{i}$
+		\item $\hat{\Sigma_{k}} = (1/n_{k})\sum z_{ik}(x_{i} - \hat{\mu_{k}})(x_{i} - \hat{\mu_{k}})^{T}$
+	\end{itemize}
+\end{proposition}
+
+Puisqu'on ne connaît pas les $z_{i}$ et donc l'information de groupement qu'on cherche, on utilise l'algorithme EM (expectation maximisation), qui est une variante pondérée de l'algorithme des $k$-moyennes.
+
+L'algorithme se fonde sur deux propriétés:
+\begin{lemme}
+	Étant données les observations et les paramètres, les $Z_{i}$ sont indépendants.
+\end{lemme}
+\begin{lemme}
+	Les probabilités $\model{z_{i}}{x_{i}, \pi, \theta} = \M(z_{i}, 1, \tau_{i})$ où:
+	\begin{equation*}
+		\tau_{ik} = \frac{\pi_{k}\mathcal{N}(x_{i}, \mu_{k}, \Sigma_{k})}{\sum_{l = 1}^{K}\pi_{l}\mathcal{N}(x_{i}, \mu_{l}, \Sigma_{l})}
+	\end{equation*}
+\end{lemme}
+$\tau_{ik}$ est la probabilité que l'observation $i$ soit dans le groupe $k$.
+
+On peut donc calculer la log-vraisemblance par rapport aux $Z_{i}$ considérés comme variables aléatoires:
+\begin{proposition}
+	\begin{equation*}
+		\E_{\left(Z_{i}\right)_{i}}\left[L_{\left(x_{i}, Z_{i}\right)_{i}}\left(\pi, \theta\right)\right] = \sum_{i=1}^{n}\sum_{k = 1}^{K}\tau_{ik}\log\left(\pi_{k}\mathcal{N}\left(x_{i}, \mu_{k}, \Sigma_{k}\right)\right)
+	\end{equation*}
+\end{proposition}
+
+\begin{proposition}
+	Les estimateurs de $\pi$ et $\theta$ maximisant la log-vraisemblance à données complètes sont:
+	\begin{itemize}
+		\item $\hat{\pi_{k}} = (1/n)\sum \tau0_{ik}$
+		\item $\hat{\mu_{k}} = (1/n_{k})\sum \tau_{ik}x_{i}$
+		\item $\hat{\Sigma_{k}} = (1/n_{k})\sum \tau_{ik}(x_{i} - \hat{\mu_{k}})(x_{i} - \hat{\mu_{k}})^{T}$
+	\end{itemize}
+\end{proposition}
+
+On a alors l'algorithme suivant:
+\begin{algorithm}
+	\caption{EM}
+	\label{alg:em}
+	On initialise les groupes, par exemple avec $k$-moyennes. Ensuite, tant que la log-vraisemblance change:
+	\begin{enumerate}
+		\item[M] Calculer $\hat{\pi}$ et $\that$ par rapport aux $\tau_{i}$
+		\item[E] Calculer les $\tau_{i}$ par rapport à $\pi$ et $\theta$.
+	\end{enumerate}
+\end{algorithm}
+
+On vérifie aisément qu'une itération d'EM augmente la log-vraisemblance, mais on n'a pas de garantie, en général, de converger vers un maximum global.
+
+Pour estimer le nombre $K$ de groupes à partir des données, on applique l'algorithme pour différentes valeurs de $K$ et on choisit un critère, basé sur $M_{K}$ le nombre de paramètre libres:
+\begin{itemize}
+	\item Le critère d'information bayésienne: $L_{x_{i}}(\hat{\pi}, \that) - (M_{K} / 2)\log n$
+	\item Le critère d'information d'Akaike: $L_{x_{i}}(\hat{\pi}, \that) - M_{K}$.
+\end{itemize}
+
 \end{document}
