@@ -4,21 +4,21 @@ On supposera qu'on aura une donnée d'entrée linéaire par morceau sur un compl
 
 \subsection{Complexe Simpliciaux}
 \begin{definition}
-	Un $d$-simplexe est l'enveloppe convexe $\sigma$ de $d + 1$ points affinement indépendants dans l'espace euclidien $\R^{n}$ avec $0 \leq d \leq n$.
-	On dit que $d$ est la dimension du simplexe.
+	Un \define{$d$-simplexe} est l'enveloppe convexe $\sigma$ de $d + 1$ points affinement indépendants dans l'espace euclidien $\R^{n}$ avec $0 \leq d \leq n$.
+	On dit que $d$ est la \define{dimension} du simplexe.
 \end{definition}
 
 Une ligne est un $1$-simplexe, un triangle un $2$-simplexe et un tétrahèdre un $3$-simplexe.
 
 \begin{definition}
-	Une face $\tau$ d'un simplexe $\sigma$ est un simplexe construit par un ensemble non vide des $d + 1$ poits définissant $\sigma$.
+	Une \define{face} $\tau$ d'un simplexe $\sigma$ est un simplexe construit par un ensemble non vide des $d + 1$ poits définissant $\sigma$.
 	On note $\tau \leq \sigma$ et $\tau_{i}$ une face de dimension $i$.
-	On dit aussi que $\sigma$ est une coface de $\tau$.
+	On dit aussi que $\sigma$ est une \define{coface} de $\tau$.
 \end{definition}
 Selon la définition, on a $\sigma \leq \sigma$.
 
 \begin{definition}
-	Un complexe simplicial $\mathcal{K}$ est une collection finie non-vide de simplexes $\{\sigma_{i}\}$, telle que:
+	Un \define{complexe simplicial} $\mathcal{K}$ est une collection finie non-vide de simplexes $\{\sigma_{i}\}$, telle que:
 	\begin{enumerate}
 		\item $\tau \leq \sigma \Rightarrow \tau \in \mathcal{K}$;
 		\item $\sigma_{i} \cap \sigma_{j}$ est soit une face, soit vide.
@@ -26,7 +26,7 @@ Selon la définition, on a $\sigma \leq \sigma$.
 \end{definition}
 
 \begin{definition}
-	L'étoile d'un simplexe $\sigma \in \mathcal{K}$ est l'ensemble des simplexes de $\mathcal{K}$ qui contiennent $\sigma$:
+	\define{L'étoile} d'un simplexe $\sigma \in \mathcal{K}$ est l'ensemble des simplexes de $\mathcal{K}$ qui contiennent $\sigma$:
 	\begin{equation*}
 		\mathrm{St}(\sigma) = \left\{\tau \in \mathcal{K} \middle| \sigma \leq \tau \right\}
 	\end{equation*}
@@ -35,11 +35,11 @@ Selon la définition, on a $\sigma \leq \sigma$.
 C'est l'ensemble des cofaces de $\sigma$ dans $\mK$. C'est le plus petit voisinage combinatoire autour d'un simplexe.
 
 \begin{definition}
-	Le lien d'un simplexe $\sigma$ est l'ensemble des faces de $\St(\sigma)$ disjointes de $\sigma$:
+	Le \define{lien} d'un simplexe $\sigma$ est l'ensemble des faces de $\St(\sigma)$ disjointes de $\sigma$:
 	\begin{equation*}
 		\Lk(\sigma) = \left\{\tau \leq \sigma' \suchthat \sigma' \in \St(\sigma) \land \tau \cap \sigma = \emptyset \right\}
 	\end{equation*}
-	On définit de même le $d$-lien $\Lk_{d}(\sigma)$ en remplaçant $\St$ par $\St_{d}$ dans la définition
+	On définit de même le \define{$d$-lien} $\Lk_{d}(\sigma)$ en remplaçant $\St$ par $\St_{d}$ dans la définition
 \end{definition}
 C'est en quelque sorte la bordure du voisinage combinatoire de lui-même.
 
@@ -57,21 +57,21 @@ Un exemple de complexe simplicial abstrait est le complexe de Rips ou complexe d
 Le complexe de Rips est une généralisation de la notion de graphe de voisinage.
 
 \begin{definition}
-	L'espace sous-jacent à un complexe simplicial est l'union des simplexes du complexe.
+	\define{L'espace sous-jacent} à un complexe simplicial est l'union des simplexes du complexe.
 \end{definition}
 
 \begin{definition}
-	La triangulation $\mathcal{T}$ d'un espace topologique $X$ est un complexe simplicial $\mK$ dont l'espace sous-jacent $\abs{\mK}$ est homéomorphe à $X$.
+	La \define{triangulation} $\mathcal{T}$ d'un espace topologique $X$ est un complexe simplicial $\mK$ dont l'espace sous-jacent $\abs{\mK}$ est homéomorphe à $X$.
 \end{definition}
 Une triangulation d'un espace est donc un complexe simplicial abstrait.
 
 
 \begin{definition}
-	Une $d$-variété $M$ est un espace topologique dans lequel tout élément $m$ a un voisinage ouvert homéomorphe à une $d$-boule euclidienne.
+	Une \define{$d$-variété} $M$ est un espace topologique dans lequel tout élément $m$ a un voisinage ouvert homéomorphe à une $d$-boule euclidienne.
 \end{definition}
 
 \begin{definition}
-	La triangulation d'une $d$-variété est appelée $d$-variété linéaire par morceaux.
+	La triangulation d'une $d$-variété est appelée \define{$d$-variété linéaire par morceaux}.
 \end{definition}
 
 Représenter en mémoire un complexe simplicial est très couteux: il faut, pour chaque dimension, une liste des hyperarêtes (ou $d$-simplexes) en les représentant par un indice de sommet.
@@ -79,26 +79,26 @@ Représenter en mémoire un complexe simplicial est très couteux: il faut, pour
 \subsection{Homologie simpliciale}
 \subsubsection{Rappels d'homotopie}
 \begin{definition}
-	Un chemin $p$ dans $C$ est un homéomorphisme d'un intervalle réel vers l'objet $C$.
-	On dit que $C$ est connexe (par arcs) si pour tous deux points il existe un chemin dans $C$ les reliant.
+	Un \define{chemin} $p$ dans $C$ est un homéomorphisme d'un intervalle réel vers l'objet $C$.
+	On dit que $C$ est \define{connexe (par arcs)} si pour tous deux points il existe un chemin dans $C$ les reliant.
 \end{definition}
 
 \begin{definition}
-	Une composante connexe d'un objet est un sous-ensemble connexe (par arcs) maximal de l'objet.
+	Une \define{composante connexe} d'un objet est un sous-ensemble connexe (par arcs) maximal de l'objet.
 \end{definition}
 
 \begin{definition}
-	Une homotopie entre deux fonctions continues $f$ et $g$ de $X$ vers $Y$ est une fonction continue $H: X \to  [0, 1] \to Y$ du produit d'un espace topologique $X$ par l'intervalle unité vers un espace topologique $Y$ de sorte que $H(x, 0) = f(x)$ et $H(x, 1) = g(x)$ pour tout $x \in X$.
-	S'il existe une homotopie entre $f$ et $g$ on dit que $f$ et $g$ sont homotopes.
+	Une \define{homotopie} entre deux fonctions continues $f$ et $g$ de $X$ vers $Y$ est une fonction continue $H: X \to  [0, 1] \to Y$ du produit d'un espace topologique $X$ par l'intervalle unité vers un espace topologique $Y$ de sorte que $H(x, 0) = f(x)$ et $H(x, 1) = g(x)$ pour tout $x \in X$.
+	S'il existe une homotopie entre $f$ et $g$ on dit que $f$ et $g$ sont \define{homotopes}.
 \end{definition}
 
 \begin{definition}
-	Si dans un espace $X$, tous les chemins entre tous deux points sont homotopes, on dit que $X$ est simplement connexe.
+	Si dans un espace $X$, tous les chemins entre tous deux points sont homotopes, on dit que $X$ est \define{simplement connexe}.
 \end{definition}
 Le disque est simplement connexe, mais pas le disque privé de $0$.
 
 \begin{definition}
-	La caractéristique d'Euler d'une triangulation $T$ d'un espace topologique est la somme alternée des nombres des $i$-simplexes:
+	La \define{caractéristique d'Euler} d'une triangulation $T$ d'un espace topologique est la somme alternée des nombres des $i$-simplexes:
 	\begin{equation*}
 		\chi(T) = \sum_{i=0}^{d} (-1)^{i}\abs{\sigma_{i}}
 	\end{equation*}
@@ -110,20 +110,22 @@ Le disque est simplement connexe, mais pas le disque privé de $0$.
 
 \subsubsection{Groupes d'homologie}
 \begin{definition}
-	Une $p$-chaine est une somme (formelle) de $p$-simplexes. On suppose que l'opérateur somme est défini modulo $2$.
+	Une \define{$p$-chaine} est une somme (formelle) de $p$-simplexes. On suppose que l'opérateur somme est défini modulo $2$.
 \end{definition}
 Ici, la somme est réellement la différence symmétrique (ou la disjonction exclusive) sur $\mathbb{F}_{2}^{\abs{\sigma_{p}}}$, et définit le groupe $C_{p}$ des $p$-chaînes.
 Le rang de $C_{p}$ est $\abs{\sigma_{p}}$ et son ordre est $2^{\abs{\sigma_{p}}}$
 
 
 On peut généraliser à des coefficients plus généraux.
-Informatiquement, il faut voir la notion de chaîne comme un masque binaire sur l'ensemble des $p$-simplexes.
+Informatiquement, il faut voir la notion de chaîne comme un masque binaire sur l'ensemble des $p$-simplexes, et l'addition comme la disjonction exclusive.
 
 \begin{definition}
-	L'opérateur de bordure $\partial$ d'un $p$-simplexe renvoie la $(p-1)$-chaîne des $(p-1)$-faces du simplexe.
+	\define{L'opérateur de bordure} $\partial$ d'un $p$-simplexe renvoie la $(p-1)$-chaîne des $(p-1)$-faces du simplexe.
 	On l'étend aux $p$-chaînes comme un morphisme de $C_{p} \to C_{p - 1}$.
 \end{definition}
+
 Pour un triangle, c'est l'ensemble de ses arêtes. Pour une arête, c'est l'ensemble des extrémités.
+
 \begin{proposition}
 	L'opérateur de bordure définit une suite exacte appelée le complexe de chaîne associé au complexe $K$ de dimension $d$:
 	\begin{equation*}
@@ -139,12 +141,12 @@ Pour un triangle, c'est l'ensemble de ses arêtes. Pour une arête, c'est l'ense
 \end{proposition}
 
 \begin{definition}
-	Un $p$-cycle est une $p$-chaîne dont la bordure est vide.
-	On définit $Z_{p}$ le groupe des $p$-cycles comme sous-groupe de $C_{p}$.
+	Un \define{$p$-cycle} est une $p$-chaîne dont la bordure est vide.
+	On définit \define{$Z_{p}$} le groupe des $p$-cycles comme sous-groupe de $C_{p}$.
 \end{definition}
 
 \begin{definition}
-	Le groupe $B_{p}$ des $p$-bordures est l'image de $C_{(p + 1)}$ par $\partial$.
+	Le groupe \define{$B_{p}$} des $p$-bordures est l'image de $C_{(p + 1)}$ par $\partial$.
 \end{definition}
 
 \begin{lemme}
@@ -163,7 +165,7 @@ Si on a trois $1$-simplexes $e_{1}, e_{2}, e_{3}$ mais pas leur coface commune $
 Ceci nous amène à définir la notion de trou, en isolant les cycles:
 
 \begin{definition}
-	Le $p$-ème groupe d'homologie $H_{p}$ est le quotient de $Z_{p}$ par $B_{p}$.
+	Le \define{$p$-ème groupe d'homologie $H_{p}$} est le quotient de $Z_{p}$ par $B_{p}$.
 \end{definition}
 \begin{proof}
 	$B_{p}$ étant un sous-groupe de $Z_{p}$, $H_{p}$ est bien défini.
@@ -175,7 +177,7 @@ Une classe d'homologie est un élément de $H_{p}$, ou plutôt sa classe d'équi
 Pour calculer $\abs{H_{p}}$, on énumère $C_{p}$, on élimine les chaînes de bordure non-vide pour calculer $Z_{p}$, et on peut ensuite énumérer les classes d'homologie.
 
 \begin{definition}
-	On définit le $p$-ème nombre de Betti $\beta_{p}$ comme le rang du groupe $H_{p}$. Ici, c'est $\log_{2}\abs{H_{p}}$.
+	On définit le \define{$p$-ème nombre de Betti $\beta_{p}$} comme le rang du groupe $H_{p}$. Ici, c'est $\log_{2}\abs{H_{p}}$.
 \end{definition}
 La formule logarithmique pour $\beta_{p}$ vient du calcul modulo $2$ dans notre opération de groupe.
 

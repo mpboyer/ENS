@@ -13,7 +13,7 @@ notamment dans la représentation des simplexes:
 
 On va donc définir l'homologie singulière, sur tout espace topologique, en considérant à homotopie près. On note $\Delta_{k}$ le $k$-simplexe standard dans $\R^{k}$.
 \begin{definition}
-	Un $k$-simplexe singulier dans un espace topologique $X$ est une fonction continue $\sigma: \Delta_{k}\to X$.
+	Un \define{$k$-simplexe singulier} dans un espace topologique $X$ est une fonction continue $\sigma: \Delta_{k}\to X$.
 \end{definition}
 
 On reprends les constructions de l'homologie simpliciale pour les complexes singuliers: c'est la définition de l'homologie singulière.
@@ -37,7 +37,7 @@ On reprends les constructions de l'homologie simpliciale pour les complexes sing
 
 \subsubsection{Filtrations}
 \begin{definition}
-	Un complexe simplicial filtré (ou une filtration) $\K$ construit sur un ensemble $X$ est une famille
+	Un \define{complexe simplicial filtré (ou une filtration)} $\K$ construit sur un ensemble $X$ est une famille
 	$\left\{K_{a} \suchthat a \in T\right\}$, où $T \subseteq \R$, de sous-complexes d'un
 	certain complexe simplicial fixé $K$ avec ensemble de sommets $X$ de sorte que $K_{a} \subseteq K_{b}$
 	pour tout $a \leq b$.
@@ -46,7 +46,7 @@ On reprends les constructions de l'homologie simpliciale pour les complexes sing
 L'homologie persistente d'un complexe simplical filtré encode l'évolution de l'homologie des sous-complexes.
 
 \begin{definition}
-	Une filtration d'un complexe simplicial fini $K$ est une séquence de sous-complexes telle que:
+	Une \define{filtration d'un complexe simplicial fini} $K$ est une séquence de sous-complexes telle que:
 	\begin{enumerate}
 		\item $\emptyset = K^{0} \subset K^{1} \subset \cdots \subset K^{m} = K$
 		\item $K^{i + 1} = K^{i} \cup \sigma^{i + 1}$ où $\sigma^{i + 1}$ est un simplexe de $K$.
@@ -76,8 +76,8 @@ une filtration de celui-ci:
 \end{algorithm}
 
 \begin{definition}
-	Un $(k + 1)$-simplexe $\sigma^{i}$ est dit \emph{positif} s'il est contenu dans un $(k + 1)$-cycle de $K^{i}$.
-	Il est dit \emph{négatif} sinon.
+	Un $(k + 1)$-simplexe $\sigma^{i}$ est dit \define{positif} s'il est contenu dans un $(k + 1)$-cycle de $K^{i}$.
+	Il est dit \define{négatif} sinon.
 \end{definition}
 Un $(k + 1)$-simplexe positif crée un $(k + 1)$-cycle dans $K^{i}$.
 Un $(k + 1)$-simplexe négatif détruit un $k$-cycle dans $K^{i}$.
@@ -120,20 +120,23 @@ On notera $D_{f, d}$ le diagramme défini ci-dessus, comme son ensemble de point
 
 On définit alors une distance sur deux tels diagrammes:
 \begin{definition}
-	La distance infinie de Wasserstein, ou distance du goulot entre deux diagrammes $D_{1}$ et $D_{2}$ est définie par:
+	La \define{distance infinie de Wasserstein, ou distance du goulot} entre deux diagrammes $D_{1}$ et $D_{2}$ est définie par:
 	\begin{equation*}
 		d_{B}\left(D_{1}, D_{2}\right) = \inf_{\gamma \in \Gamma}\sup_{p \in D_{1}} \ninf{p - \gamma(p)}
 	\end{equation*}
 	où $\Gamma$ est l'ensemble des bijections entre $D_{1}$ et $D_{2}$.
 \end{definition}
+On note que, les normes étant équivalentes sur $\R^{2}$, la distance de Wasserstein $2$ est, à un facteur près, la distance infinie.
+
 \begin{remarque}
 	Pour pouvoir obtenir des bijections, on doit souvent \emph{augmenter} les diagrammes, en projetant les points de l'un sur la diagonale de l'autre et réciproquement.
 \end{remarque}
 
 On aura alors un théorème important de stabilité:
 \begin{thm}
-	Pour toutes fonctions \emph{calmes} $f, g: \mathbb{X}\to \R$, $d_{B}(D_{f}, D_{g}) \leq \ninf{f - g}$.
+	Pour toutes fonctions \emph{dociles} $f, g: \mathbb{X}\to \R$, $d_{B}(D_{f}, D_{g}) \leq \ninf{f - g}$.
 \end{thm}
+
 
 Cette définition, avec les mains, va être précisée et étendue plus bas.
 
@@ -177,6 +180,7 @@ $K^{i + 1} = K^{i} \cup \sigma^{i + 1}$ où $\sigma^{i + 1}$ est un simplexe de 
 
 \begin{definition}
 	On pose $M = \left(m_{i, j}\right)_{1\leq i, j \leq m}$ telle que $m_{i, j} = 1 \text{ si, et seulement si } \sigma^{i} \text{ est une face de } \sigma^{j}$ et vaut $0$ sinon.
+	C'est la \define{matrice de l'opérateur d'inclusion.}
 \end{definition}
 Pour toute colonne $C_{j}$, on définit donc $l(j)$ par:
 \begin{equation*}
@@ -213,7 +217,7 @@ Dans le pire des cas, on a un algorithme en $\O(m^{3})$.
 \end{proof}
 
 \begin{definition}
-	On représente sur un diagramme de persistence les paires $\left(\sigma^{l(j)}, \sigma^{j}\right)$ par $\left(l\left(j\right), j\right)$ ou $\left(f\left(\sigma^{l(j)}\right), f\left(\sigma^{j}\right)\right)$.
+	On représente sur un \define{diagramme de persistence} les \define{paires de persistence} $\left(\sigma^{l(j)}, \sigma^{j}\right)$ par $\left(l\left(j\right), j\right)$ ou $\left(f\left(\sigma^{l(j)}\right), f\left(\sigma^{j}\right)\right)$.
 	On ajoute au diagramme la diagonale $\{y = x\}$ et, pour chaque simplexe positif qui n'est pas dans une paire $\sigma^{i}$, le point $(i, + \infty)$.
 \end{definition}
 
@@ -234,6 +238,7 @@ Dans le pire des cas, on a un algorithme en $\O(m^{3})$.
 
 \begin{remarque}
 	Ces deux définitions peuvent être vues comme le coût du transport optimal pour la norme infinie et la norme $p$.
+	Ces deux définitions sont par ailleurs équivalentes à un facteur près, ce qui est important pour les théorèmes de stabilité.
 \end{remarque}
 
 \begin{thm}
@@ -249,7 +254,7 @@ On reviendra plus tard sur la notion de docilité.
 \subsubsection{Complexes de Čech, de Vietoris-Rips, et autres}
 \begin{definition}
 	On considère un recouvrement $\mU$ par des ouverts d'un espace topologique $X$.
-	Le complexe de de Čech $C\left(\mU\right)$ associé au recouvrement $\mU$ vérifie:
+	Le \define{complexe de Čech} $C\left(\mU\right)$ associé au recouvrement $\mU$ vérifie:
 	\begin{itemize}
 		\item L'ensemble de sommets de $C\left(\mU\right)$ est l'ensemble $\mU$.
 		\item $\left[U_{0}, \ldots, U_{k}\right]$ est un $k$-simplexe dans $C\left(\mU\right)$ si et seulement si $\cap U_{j} \neq \emptyset$.
@@ -260,10 +265,9 @@ On reviendra plus tard sur la notion de docilité.
 	Si toutes les intersections entre les ouverts de $\mU$ sont soit vides soit contractibles, alors $C(\mU)$ et $X$ sont homotopiquement équivalents.
 \end{thm}
 
-On se donne un nuage de point $V$ dans un espace métrique $(X, d)$ et un réel $\alpha$.
-
+Si on se donne plutôt un nuage de point $V$ dans un espace métrique $(X, d)$ et un réel $\alpha$.
 \begin{definition}
-	Le complexe de Čech $\cech\left(V, \alpha\right)$ est le complexe simplicial
+	Le \define{complexe de Čech} $\cech\left(V, \alpha\right)$ est le complexe simplicial
 	filtré indexé par $\R$ dont l'ensemblde sommets est $V$ et tel que:
 	\begin{equation*}
 		\sigma = \left[p_{0}, \ldots, p_{k}\right] \in \cech\left(V, \alpha\right) \Leftrightarrow \bigcap_{i = 0}^{k} B(p_{i}, \alpha) \neq \emptyset
@@ -271,7 +275,7 @@ On se donne un nuage de point $V$ dans un espace métrique $(X, d)$ et un réel 
 \end{definition}
 
 \begin{definition}
-	Le complexe de Vietoris-Rips $\rips(V)$ est le complexe simplicial filtré indexé par $\R$ dont l'ensemble de sommets est $V$
+	Le \define{complexe de Vietoris-Rips} $\rips(V)$ est le complexe simplicial filtré indexé par $\R$ dont l'ensemble de sommets est $V$
 	et est défini par:
 	\begin{equation*}
 		\sigma = \left[p_{0}, \ldots, p_{k}\right] \in \cech\left(V, \alpha\right) \Leftrightarrow \forall i, j \in \left\{0, \ldots, k\right\}, d\left(p_{i}, p_{j}\right) \leq \alpha
@@ -286,20 +290,304 @@ On se donne un nuage de point $V$ dans un espace métrique $(X, d)$ et un réel 
 \end{proposition}
 
 \begin{definition}
-	Si $V = \{p_{1}, \ldots, p_{n}\} \subseteq \R^{d}$.
+	Si $V = \{p_{1}, \ldots, p_{n}\} \subseteq \R^{d}$, on définit la \define{cellule de Voronoï} associée à $p_{i}$ par:
+	\begin{equation*}
+		\mathcal{Vor}(p_{i}) = \left\{x \in \R^{d}\suchthat \forall j, \norm{x - p_{i}} \leq \norm{x - p_{j}}\right\}
+	\end{equation*}
+	Le \define{complexe de Delaunay} $\mathcal{D}(P)$ est le nerf de la couverture faite par les cellules de Voronoï.
+	\define{L'alpha complexe} $\A(P, \alpha)$, pour $\alpha \geq 0$ est le nerf de la famille:
+	\begin{equation*}
+		(\mathrm{Vor}(p_{i}) \cap B(p_{i}, \sqrt{\alpha}))_{i = 1, \ldots, n}
+	\end{equation*}
 \end{definition}
+
+\begin{thm}
+	$\A(P, \alpha)$ est homotopie équivalent à $\bigcup_{i = 1}^{n} B(p_{i}, \sqrt{\alpha})$.
+\end{thm}
 
 \subsubsection{Stabilité}
 
+On va utiliser ci-dessous la distance de Hausdorff:
+\begin{equation*}
+	d_{H}(A, B) = \max \left\{\sup_{b\in B} d(b, A), \sup_{a \in A} d(a, B)\right\}
+\end{equation*}
+et la distance de Gromov-Hausdorff:
+\begin{equation*}
+	d_{GH}(\X, \Y) = \inf_{\Z, \gamma_{1}, \gamma_{2}}(\X, \Y)
+\end{equation*}
+l'infimum étant pris pour $\Z$ un espace métrique, et $\gamma_{1}, \gamma_{2}$ des immersions isométriques de $\X, \Y$ dans $\Z$.
 
 
+\begin{thm}
+	Si $\mathbb{X}$ et $\mathbb{Y}$ sont des espaces métriques pré-compacts:
+	\begin{equation*}
+		d_{\infty}(\rips(\X), \rips(\Y)) \leq d_{GH}(\X, \Y)
+	\end{equation*}
+\end{thm}
+
+Ceci est notamment utile lorsqu'on considère la classification de formes non-rigides, puisqu'alors celles
+ci sont presque isométriques, mais que calculer leur distance de Gromov-Hausdorff est très coûteux.
+On va désormais essayer de démontrer ces résultats de stabilité:
+\begin{definition}
+	Un \define{module de persistence} $\V$ est une famille d'espaces vectoriels $\left(V_{a}\right)_{a\in \R}$ et une famille $v_{a}^{b}: V_{a} \to V_{b}, a \leq b$ qui se compose bien et de sorte que $v_{a}^{a}$ soit l'identité.
+\end{definition}
+\begin{itemize}
+	\item Si $\S$ est un complexe simplicial filtré, les familles $V_{a} = H(\S_{a})$ et $v_{a}^{b}: H(\S_{a}) \to H(\S_{b})$ l'application linéaire induites par l'inclusion $\S_{a} \hookrightarrow \S_{b}$ forment un module de persistence.
+	\item Étant donné un espace métrique $\X$, $H(\rips(\X))$ est un module de persistence.
+	\item La filtration par les sous-niveaux de $f$ induit un module de persistence au niveau de l'homologie.
+\end{itemize}
 
 
+\begin{definition}
+	On dit qu'un module de persistence est dit \define{$q$-docile} si pour tout $a < b$, $v_{a}^{b}$ est de rang fini.
+\end{definition}
+Si $\X$ est pré-compact métrique, alors $H(\rips(\X))$ et $H(\cech(\X))$ sont $q$-dociles.
+
+Cette condition apporte de forts théorèmes:
+\begin{thm}\label{thm:docile-defini}
+	Les modules de persistence $q$-dociles ont des diagrammes de persistence bien définis.
+\end{thm}
+Il faut ici entendre la notion de diagrammes de persistence comme définis par les bases des espaces.
+
+\begin{definition}
+	Un \define{homomorphisme de degré $\epsilon$} entre deux modules de persistence est une collection $\Phi$ d'application linéaire vérifiant:
+	\begin{category}
+		U_{a}\ar[r, "u_{a}^{b}"]\ar[dr, "\phi_{a}"']& U_{b}\ar[dr, "\phi_{b}"]&\\
+		& V_{a + \epsilon}\ar[r, "v_{a + \epsilon}^{b+\epsilon}"'] & V_{b + \epsilon}
+	\end{category}
+	Un \define{$\epsilon$-intercalaire} entre $\mathbb{U}$ et $\mathbb{V}$ est défini par deux homomorphismes de degré $\epsilon$ $\Phi: \U \to \V$ et $\Psi: \V \to \U$ de vérifiant:
+	\begin{category}
+		\cdots\ar[r]&  U_{a}\ar[dr, "\phi_{a}"]\ar[rr, "u_{a}^{a + 2\epsilon}"] & & U_{a + 2\epsilon}\ar[dr, "\phi_{a + 2\epsilon}"]\ar[r] & \cdots\\
+		\cdots\ar[ur]\ar[rr] & & V_{a + \epsilon}\ar[ur, "\psi_{a + \epsilon}"]\ar[rr, "v_{a + \epsilon}^{a + 3\epsilon}"'] & & V_{a + 3\epsilon}
+	\end{category}
+\end{definition}
+
+\begin{thm}\label{thm:docile-distance}
+	Si $\U$ et $\V$ sont $q$-dociles et $\epsilon$-intercalés pour un certain $\epsilon \geq 0$, alors:
+	\begin{equation*}
+		d_{\infty}(\diag(\U), \diag(\V)) \leq \epsilon
+	\end{equation*}
+\end{thm}
+
+On va donc chercher à construire des filtrations qui induisent par leurs groupes d'homologie des modules de persistence $q$-dociles,
+et qui sont $\epsilon$-intercalés quand les espaces/fonctions considérées sont $O(\epsilon)$-proches.
+Plus particulièrement, on va démontrer la docilité des complexes de Rips et de Čech.
 
 
+\subsubsection{Théorèmes de Stabilité}
+\begin{definition}
+	Une \define{application multivaluée} $C$ de $\X$ dans $\Y$ est une partie de $\X \times \Y$ qui se projette surjectivement sur $\X$ par la projection $\pi_{\X}$ définissant le produit.
+	\define{L'image} $C(\sigma)$ de $\sigma \subseteq \X$ est la projection canonique sur $\Y$ de la préimage de $\sigma$ par $\pi_{\X}$.
+	La \define{transposée} $\transpose{C}$ de $C$ est l'image de $C$ par la symétrie $\X \times \Y \to \Y \times \X$.
+	Si $\transpose{C}$ est aussi une application multivaluée, on dit que $C$ est une \define{correspondance.}
+\end{definition}
 
+\begin{definition}
+	Si $(\X, \rho_{\X}$ et $(\Y, \rho_{\Y})$ sont des espaces métriques compacts, une correspondance $C$ de $\X$ dans $\Y$ est une \define{$\epsilon$-correspondance} si:
+	\begin{equation*}
+		\forall (x, y), (x', y') \in C, \abs{\rho_{X}(x, x') - \rho_{\Y}(y, y')} \leq \epsilon
+	\end{equation*}
+\end{definition}
 
+\begin{proposition}
+	Avec les hypothèses de la définition ci-dessus:
+	\begin{equation*}
+		d_{GH}(\X, \Y) = \frac{1}{2}\inf \left\{\epsilon \geq 0\suchthat \exists C, C \text{ est une $\epsilon$-correspondance}\right\}
+	\end{equation*}
+\end{proposition}
 
+\begin{definition}
+	Si $\S$, $\T$ sont des complexes simpliciaux filtrés avec des ensembles de sommets $\X$ et $\Y$ respectivement, une application multivaluée $C$ de $\X$ dans $\Y$ est dite \define{$\epsilon$-simpliciale}
+	de $\S$ dans $\T$ si pour tout $a \in \R$ et tout simplexe $\sigma \in \S_{a}$, chaque partie finie de $C(\sigma)$ est un simplexe de $\T_{a + \epsilon}$.
+\end{definition}
 
+\begin{proposition}\label{prop:intercalaire-correspondance}
+	Si $C$ est une correspondance telle que $C$ et $\transpose{C}$ sont $\epsilon$-simplicales de $\S$ dans $\T$, elle permette de construire un $\epsilon$-intercalaire entre $H(\S)$ et $H(\T)$.
+\end{proposition}
+\begin{proof}
+	Il suffit pour ça de voir qu'une fonction $\epsilon$-simpliciale définit immédiatement un homomorphisme de degré $\epsilon$ sur les modules de persistence définis par les filtrations considérées, par continuation linéaire.
+\end{proof}
 
+\begin{proposition}
+	Si $\X, \Y$ sont des espaces métriques, pour tout $\epsilon > 2\d_{GH}\left(\X, \Y\right)$, alors $H\left(\rips\left(\X\right)\right)$ et $H\left(\rips\left(\Y\right)\right)$ sont $\epsilon$-intercalés.
+\end{proposition}
+\begin{proof}
+	Si $C$ est une correspondance de $\X$ dans $\Y$ avec une distortion d'au plus $\epsilon$.
+	Si $\sigma \in \rips\left(\X, a\right)$ alors $\rho_{\X}\left(x, x'\right) \leq a$ pour tout $x, x'\in \sigma$.
+	Soit $\tau \subseteq C\left(\sigma\right)$ fini. Pour tout $y, y' \in \tau$, il existe $x, x'\in \sigma$ tels que:
+	$y \in C\left(x\right)$ et $y'\in C\left(x'\right)$ donc:
+	\begin{equation*}
+		\rho_{\Y}\left(y, y'\right) \leq \rho_{\X}\left(x, x'\right) + \epsilon \leq a + \epsilon
+	\end{equation*}
+	Ainsi, $\tau \in \rips\left(\Y, a + \epsilon\right)$.
+	De même $\transpose{C}$ est $\epsilon$-simpliciale de $\rips\left(\Y\right)$ dans $\rips\left(\Y\right)$.
+	On conclut par la Proposition \ref{prop:intercalaire-correspondance}.
+\end{proof}
 
+\begin{proposition}
+	Si $\X, \Y$ sont des espaces métriques, pour tout $\epsilon \geq 2\d_{GH}\left(\X, \Y\right)$, alors $H\left(\cech\left(\X\right)\right)$ et $H\left(\cech\left(\Y\right)\right)$ sont $\epsilon$-intercalés.
+\end{proposition}
+La preuve est similaire à celle d'avant.
+
+\begin{thm}
+	Soit $\X$ un espace métrique compact. Les modules de persistence associés à l'homologie des complexes $\rips(\X)$ et $\cech(\X)$ sont $q$-dociles.
+\end{thm}
+\begin{proof}
+	On veut montrer que $I_{a}^{b}: H\left(\rips\left(\X, a\right)\right) \to H\left(\rips\left(\X, b\right)\right)$ sont de rang finis quand $a < b$.
+	On pose $\epsilon = (b - a) / 2$ et $F \subseteq \X$ un ensemble fini tel que $d_{H}(\X, F) \leq \epsilon / 2$.
+	Alors:
+	\begin{equation*}
+		C = \left\{\left(x, f\right) \in X \times F \suchthat d\left(x, f\right) \leq \frac{\epsilon}{2}\right\}
+	\end{equation*}
+	définit une $\epsilon$-correspondance.
+	Utilisant l'application d'intercalage de $X$ et $F$, $I_{a}^{b}$ se factorise en:
+	\begin{equation*}
+		H(\rips(X, a))\longrightarrow \underset{\textcolor{vulm}{\text{de dimension finie}}}{H(\rips(F, a + \epsilon))}\rightarrow H(\rips(X, a + 2\epsilon)) = H(\rips(X, b))
+	\end{equation*}
+\end{proof}
+
+\begin{thm}
+	Si $\X$, $\Y$ sont des espaces métriques compacts, alors:
+	\begin{align*}
+		\dinf\left(\diag\left(H\left(\cech\left(\X\right)\right)\right), \diag\left(H\left(\cech\left(Y\right)\right)\right)\right) \leq & 2d_{GH}\left(\X, \Y\right) \\
+		\dinf\left(\diag\left(H\left(\rips\left(\X\right)\right)\right), \diag\left(H\left(\rips\left(Y\right)\right)\right)\right) \leq & 2d_{GH}\left(\X, \Y\right) \\
+	\end{align*}
+\end{thm}
+La preuve des deux derniers théorèmes n'utilise pas l'inégalité triangulaire on pourrait donc étendre les résultats précédents à des espaces munies d'une similarité.
+
+\medskip
+
+Cependant, on a des problèmes avec la dimension de nos espaces: pour tout $0 < \alpha \leq \beta \in \R$, il existe un
+espace métrique compact $X$ (immersible dans $\R^{4}$) tel que pour tout $a \in [\alpha, \beta]$, $H_{k}(\rips(X, a))$ est de dimension indénombrable.
+Toutefois:
+\begin{itemize}
+	\item Si $X$ est compact, $\dim H_{1}(\cech(X, a)) < + \infty$
+	\item Si $X$ est géodésique, $\dim H_{1}(\rips(X, a)) < + \infty$ pour $a > 0$ et $\diag(H_{1}(\rips(X)))$ est contenu dans la ligne $x = 0$
+	\item Si $X$ est un espace géodésique $\delta$-hyperbolique, $\diag(H_{2}(\rips(X)))$ est contenu dans une bande verticale de largeur $\O(\delta)$.
+\end{itemize}
+
+\subsection{Calculabilité et Bruit}
+Le complexe de Vietoris-Rips et ses filtrations se calculent en $\O\left(\abs{\X}^{d}\right)$, ce qui rend le calcul de persistence quasi impossible en pratique.
+Par ailleurs, les filtrations et la distance de Gromov-Hausdorff sont très sensibles au bruit et aux anomalies.
+
+\subsubsection{Calcul statistique}
+On va s'intéresser à un espace métrique $(\mathbb{M}, \rho)$ et à une mesure de probabilité $\mu$ à support compact $X_{\mu}$ dans $\mathbb{M}$.
+On échantillonne $m$ points selon $\mu$, ce qui nous donne un nuage de point $\hatx{m}$, et une filtration
+$\filt{\hatx{m}}$.
+On a alors:
+\begin{proposition}
+	Si $\epsilon > 0$:
+	\begin{equation*}
+		\P\left(\dinf\left(\diag\left(\filt\left(\X_{\mu}\right)\right), \diag\left(\filt\left(\hatx{m}\right)\right)\right) > \epsilon\right) \leq \P\left(d_{GH}\left(\X_{\mu}, \hatx{m}\right) > \frac{\epsilon}{2}\right)
+	\end{equation*}
+\end{proposition}
+\begin{proof}
+	Conséquence directe du Théorème \ref{thm:docile-distance} de stabilité.
+\end{proof}
+
+On obtient quasi immédiatement des inégalités de déviation:
+\begin{definition}
+	Pour $a, b > 0$, on dit que $\mu$ vérifie \define{la supposition $(a, b)$-standard} si pour $x \in \X_{\mu}$ et $r > 0$, on a:
+	\begin{equation*}
+		\mu(B(x, r)) \geq \min(ar^{b}, 1)
+	\end{equation*}
+	On note $\mP(a, b, \mathbb{M})$ \define{l'ensemble des distributions de probabilité $(a, b)$-standard} sur $\M$.
+\end{definition}
+\begin{thm}
+	Si $\mu$ vérifie la supposition $(a, b)$-standard, pour tout $\epsilon > 0$:
+	\begin{equation*}
+		\P\left(\dinf\left(\diag\left(\filt\left(\X_{\mu}\right)\right), \diag\left(\filt\left(\hatx{m}\right)\right)\right) > \epsilon\right) \leq \min \left(\frac{8^{b}}{a\epsilon^{b}}\exp{\left(-ma\epsilon^{b}\right)}, 1\right)
+	\end{equation*}
+	De plus:
+	\begin{equation*}
+		\P\left(\dinf\left(\diag\left(\filt\left(\X_{\mu}\right)\right), \diag\left(\filt\left(\hatx{m}\right)\right)\right) \geq C_{1} \left(\frac{\log{m}}{m}\right)^{1 / b}\right) \xrightarrow[m \to \infty]{} 1
+	\end{equation*}
+	où $C_{1}$ est une constante qui ne dépend que de $a$ et $b$.
+\end{thm}
+\begin{proof}
+	On commence par majorer $\P\left(\d_{GH}\left(\X_{\mu}, \hatx{m}\right) > \frac{\epsilon}{2}\right)$ puis,
+	on obtient par la supposition $(a, b)$-standard une borne supérieure explicite pour la couverture de $\X_{\mu}$ par des boules de rayon $\epsilon / 2$.
+	On peut alors conclure en prenant l'union des bornes.
+\end{proof}
+
+\begin{thm}
+	On a:
+	\begin{equation*}
+		\sup_{\mu \in \mP(a, b, \mathbb{M})} \E[\dinf(\diag(\filt(\X_{\mu})), \diag(\filt(\hatx{m})))] \leq C(\frac{\ln m}{m})^{1 / b}
+	\end{equation*}
+	où $C$ ne dépend que de $a$ et $b$.
+	Si de plus il y a un point non isolé $x$ dans $\mathbb{M}$, et si $x_{m} \in \mathbb{M} \setminus \{x\}$,
+	telle que $\rho(x, x_{m}) \leq (am)^{-1/b}$, pour tout estimateur $\hat{\diag}_{m}$ de $\diag(\filt(\X_{\mu}))$:
+	\begin{equation*}
+		\liminf_{m \to \infty}\rho(x, x_{m})^{-1}\sup_{\mu \in \mP(a, b, \mathbb{M})}\E[\dinf(\diag(\filt(\X_{\mu})), \hat{\diag}_{m})] \geq C'
+	\end{equation*}
+	où $C'$ est une constante absolue.
+\end{thm}
+
+\subsubsection{Paysages de persistence}
+\begin{definition}
+	Si on a un diagramme de persistence $(b_{i}, d_{i})$, son \define{paysage de persistence} est obtenu en y ajoutant à chaque point les deux projections orthogonales sur la diagonale par rapport aux axes, puis en plaçant à l'horizontale sa diagonale.
+	Formellement, c'est l'union pour $p = (\frac{b + d}{2}, \frac{d - b}{2})$ des graphes:
+	\begin{equation*}
+		\Lambda_{p}(t) = \begin{cases}
+			t - b & t \in [b, \frac{b + d}{2}] \\
+			d - t & t \in [\frac{b + d}{2}, d] \\
+			0     & \text{sinon}
+		\end{cases}
+	\end{equation*}
+\end{definition}
+
+C'est un encodage de la persistence comme un élément d'un espace fonctionnel, comme fait ci-dessous:
+\begin{definition}
+	On définit le \define{$k$-ème paysage} d'un diagramme $D$ par:
+	\begin{equation*}
+		\lambda_{D}(k, t) = \underset{p \in D}{\mathrm{kmax}} \Lambda_{p}(t), t \in \R, k \in \N
+	\end{equation*}
+	où $\mathrm{kmax}$ désigne le $k$-ème plus grand élément d'un ensemble.
+\end{definition}
+
+\begin{proposition}
+	\begin{itemize}
+		\item Pour $t \in \R$ et $k \in \N$, $0 \leq \lambda_{D}(k, t) \leq \lambda_{D}(k + 1, t)$
+		\item Pour $t \in \R$, et $k \in \N$, $\abs{\lambda_{D}(k, t) - \lambda_{D'}(k, t)} \leq \dinf(D, D')$
+	\end{itemize}
+\end{proposition}
+
+Dans la suite, on note $\mL_{T}$ les paysages dont le support est dans $[0, T]$, on prend $P$ une distribution de probabilité
+sur $\mL_{T}$ et $\lambda_{1}, \ldots, \lambda_{n} \sim P$ i.i.d.
+On note $\mu(t) = \E[\lambda_{i}(t)]$ le paysage moyen et on l'estime par la moyenne échantillonnée:
+\begin{equation*}
+	\bar{\lambda}_{n}(t) = \frac{1}{n}\sum \lambda_{i}(t)
+\end{equation*}
+$\bar{\lambda}_{n}$ est un estimateur point à point non biaisé de $\mu$, qui converge point à point.
+
+\begin{definition}
+	Soit $\mF$ la famille des applications d'évaluation $f_{t} : \mL_{T} \to \R$.
+	Le \define{processus empirique} indexé par les $f_{t}$ est défini par:
+	\begin{equation*}
+		\mathbb{G}_{n}(t) = \sqrt{n}(\bar{\lambda}_{n}(t) - \mu_{t}) = \sqrt{n}(P_{n} - P)(f_{t})
+	\end{equation*}
+\end{definition}
+
+\begin{thm}
+	Soit $\mathbb{G}$ un pont Brownien avec fonction de covariance:
+	\begin{equation*}
+		\kappa(s, t) = \int f_{t}(\lambda)f_{s}(\lambda)\d P(\lambda) - \int f_{t}(\lambda)\d P(\lambda)\int f_{s}(\lambda)\d P(\lambda).
+	\end{equation*}
+	On a alors:
+	\begin{equation*}
+		\mathbb{G}_{n} \to \mathbb{G}
+	\end{equation*}
+	pour la convergence faible.
+\end{thm}
+
+Si de plus on note $\sigma(t)$ l'écart-type de $\sqrt{n}\bar{\lambda}_{n}(t)$:
+\begin{thm}
+	Si $\sigma(t) > c > 0$ sur un intervalle $I = [t_{*}, t^{*}] \subseteq [0, T]$ pour une constance $c$, avec
+	$W = \sup_{t \in I} \abs{\mathbb{G}(f_{t})}$ on a:
+	\begin{equation*}
+		\sup_{z \in \R}\abs{\P\left(\sup_{t \in [t_{*}, t^{*}]}\abs{\mathbb{G}_{n}\left(t\right)} \leq z\right) - \P\left(W \leq z\right)} = \O\left(\frac{\left(\log n\right)^{7 / 8}}{n^{1 / 8}}\right)
+	\end{equation*}
+\end{thm}
+
+\subsubsection{Bruit et échantillonnage}
