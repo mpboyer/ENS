@@ -1,0 +1,220 @@
+
+\section{Problème de Monge}
+\subsection{Formulation de Monge}
+Le problème est a été défini pour le but militaire de construire des murs avec des sacs de sables déplacés
+par des soldats, par Gaspard \textsc{Monge}, dans un papier à l'académie des sciences.
+
+Commençons par un exemple: si on part d'un ensemble de $3$ points $x_{1}, \ldots, x_{3}$ et qu'on veut atteindre $y_{1}, \ldots, y_{3}$, quelle est la manière optimale de donner une bijection dont le coût du
+déplacement est minimal ?
+On cherche $T: x_{i} \to y_{\sigma(i)}$ pour $\sigma \in \mathfrak{S}_{3}$.
+
+\begin{definition}
+	Le problème de Monge est le problème d'optimisation suivant:
+	\begin{equation}
+		M = \min_{\sigma \in \mathfrak{S}_{n}}\sum_{i = 1}^{n} C_{i, \sigma(i)} \tag{Monge}\label{eq:M}
+	\end{equation}
+	où $C \in \R^{n \times n}$. On dit que $M$ est l'assignation optimale.
+\end{definition}
+
+En général, on définit $C_{i, j} = c(x_{i}, y_{j})$, et $c$ sera généralement la distance géodésique sur une variété, ou une puissance de la norme $p$ sur $\R^{d}$.
+Il n'y a pas besoin de supposer que $x$ et $y$ appartiennent aux mêmes espaces $\X$ et $\Y$.
+
+Il est clair que le problème de Monge est combinatoirement complexe, puisque $\abs{\mathfrak{S}_{n}} = n!$.
+Monge, historiquement, a proposé des liens avec l'optique. L'académie des sciences a proposé un prix a
+celui qui réussirait a proposer une solution (entendre de nos jours, algorithme polynomial pour la réponse).
+Aujourd'hui, nous avons un algorithme en $\O(n^{3})$, qui est optimal dans le pire cas.
+
+\subsubsection{Zoologie de Sous-Problèmes}
+Dans cette section, on va s'intéresser à quelques sous-problèmes spécifiques, dont le résultat est calculable.
+
+\begin{description}
+	\item[Cas $1$-D]
+	      Ici, on suppose que $\X = \Y = \R$, et que $c(x, y) = h(x - y)$ pour $h$ convexe.
+	      En général, on aura $c(x, y) = \abs{x - y}^{p}$ avec $p \geq 1$.
+	      Monge avait étudié le cas $p = 1$ qui est de loin le plus difficile.
+
+	      Dans ce cas, la solution est l'arrangement croissant: l'application $T$ définit ci-dessus est croissante.
+	      On trie les points de gauche à droite et on assigne le plus petit $x_{i}$ au plus petit $y_{i}$ et ainsi de suite:
+	      \begin{thm}
+		      Dans le cas $1$-D, si $M$ vérifie:
+		      \begin{equation*}
+			      x_{i} < x_{j} \Rightarrow y_{M(i)} < y_{M(j)}
+		      \end{equation*}
+		      alors $M$ est une solution de \eqref{eq:M}.
+	      \end{thm}
+	      \begin{proof}
+		      Si la propriété n'est pas vérifiée, alors il existe $(i, i')$ tels que $(x_{i} - x_{i'})(y_{\sigma(i)} - y_{\sigma(i')}) < 0$ et en composant $\sigma$ par la transposition $\tau_{i, i'}$ on obtient:
+		      \begin{equation*}
+			      h(x_{i} - y_{\tau(\sigma(i))}) + h(x_{i'} - y_{\tau(\sigma(i'))}) < h(x_{i} - y_{(\sigma(i)}) + h(x_{i'} - y_{\sigma(i')})
+		      \end{equation*}
+		      par convexité de $h$.
+	      \end{proof}
+	      \begin{corollaire}
+		      Dans ce cas, on a une complexité en $\O(n \log n)$, en utilisant un algorithme de tri.
+	      \end{corollaire}
+	      \begin{remarque}
+		      Dans le cas où $h$ est strictement convexe, tous les arrangements optimaux sont croissants, et donc on a l'unicité de la solution $M$ dans le cas où tous les points sont distincts.
+	      \end{remarque}
+	      Ce cas intervient notamment dans le cas ou par exemple on veut comparer deux groupes de niveaux,
+	      ou l'égalisation en niveaux de gris de deux histogrammes de luminance (balance des blancs).
+
+	      L'algorithme ne se généralise pas en deux dimensions, puisque les trajectoires ne
+	      peuvent pas se recouper pour un arrangement optimal (par l'inégalité du parallélogramme)
+	      mais que cette propriété n'implique pas l'optimalité de la solution.
+	      Pire, il peut exister un nombre exponentiel de solution non-optimales dans ce cas.
+
+	\item[Couplage] Dans le cas où on peut modéliser le problème par un problème de couplage
+	      de graphes, on peut utiliser l'algorithme hongrois pour obtenir une solution en $\O(n^{3})$.
+\end{description}
+
+\subsection{Formulation de Monge Continue}
+Ici, on va s'intéresser à des mesures boréliennes $\alpha \in \M(\X), \beta \in \M(\Y)$,
+pour $\X, \Y$ des espaces métriques.
+Pour des questions de facilité, on supposera $\X, \Y$ compacts, et pour l'optimisation on les supposera
+de plus complets, généralement des parties de $\R^{d}$.
+Lorsqu'on aura besoin de retirer l'hypothèse de compacité, on ne demandera de $\X$ et $\Y$
+que d'être des espaces polonais.
+On suppose de plus que $\alpha$ et $\beta$ sont des mesures de probabilité (positives et de somme $1$).
+On notera l'espace de mesures de probabilité $\M_{+}^{1}(\X) = \mP(\X)$.
+\begin{thm}[Riesz-Markov]
+	Si $\X$ est un espace polonais, et $\mC_{c}(\X)$ est l'ensemble des fonctions continues à support compact sur $\X$ muni de la norme $\norm{\cdot}_{\infty}$:
+	\begin{equation*}
+		\M(\X) = \left(\mC_{c}(\X)\right)^{\circ}
+	\end{equation*}
+\end{thm}
+\begin{proof}
+	On utilise pour identification le produit scalaire: $\scalar{f, \alpha} = \int f \d\alpha$.
+\end{proof}
+C'est une généralisation du Théorème de Riesz sur un espace de Hilbert.
+Quelques exemples:
+\begin{description}
+	\item[Discrète] $\alpha = \sum a_{i}\delta_{x_{i}}$ où $a \in \Delta_{n}$.
+	      On appellera souvent le vecteur $a$ l'histogramme, et le vecteur $(\delta)$ le nuage de points.
+	      Par linéarité, on a:
+	      \begin{equation*}
+		      \int f\d\left[\sum a_{i}\delta_{x_{i}}\right] = \sum a_{i}f(x_{i})
+	      \end{equation*}
+	\item[Continue/À densité] Si $\alpha = \rho_{\alpha}\beta$ a densité $\rho_{\alpha}$ par rapport à $\beta$:
+	      \begin{equation*}
+		      \int f(x)\d\alpha(x) = \int f(x) \rho_{\alpha}(x)\d\beta(x)
+	      \end{equation*}
+	      C'est-à-dire: $\scalar{\cdot, \alpha} = \scalar{\cdot \times \rho_{\alpha}, \beta}$. On notera ceci $\alpha << \beta$.
+\end{description}
+
+Le produit scalaire défini ci-dessus induit une norme duale dite norme de variation totale:
+\begin{equation*}
+	\norm{\alpha}_{\star} = \norm{\alpha}_{TV} = \sup_{\ninf{f} \leq 1}\scalar{f, \alpha}
+\end{equation*}
+
+\begin{proposition}
+	Pour $\alpha, \beta \in \M(\X)$:
+	\begin{equation*}
+		\norm{\alpha - \beta}_{TV} = \abs{\alpha - \beta}(\X) = \int_{\X} d(\abs{\alpha -\beta})(x)
+	\end{equation*}
+\end{proposition}
+Quelques exemples:
+\begin{description}
+	\item[Discrète] Si $\alpha = \sum a_{i}\delta_{x_{i}}$ et $\beta = \sum b_{i}\delta_{x_{i}}$ où $a, b \in \Delta_{n}$ (ici, on suppose que les nuages de points sont égaux, mais pas que les $a_{i}, b_{i}$ sont non nuls):
+	      \begin{equation*}
+		      \norm{\alpha - \beta}_{TV} = \sum_{i} \abs{x_{i} - y_{i}}
+	      \end{equation*}
+	\item[Continue/Denses] Si $\alpha = \rho_{\alpha}\mL$ et $\beta = \rho_{\beta}\mL$:
+	      \begin{equation*}
+		      \norm{\alpha - \beta}_{TV} = \int \abs{\rho_{\alpha} - \rho_{\beta}}\d\mL
+	      \end{equation*}
+	\item[Mesures Singulières] Si $\alpha = 0$ quand $\beta \neq 0$ et réciproquement, $\norm{\alpha - \beta}_{TV} = 2$
+\end{description}
+
+\begin{definition}[Push-Forward]
+	Si on a une application de transport $T: \X \to \Y$, on peut définir une application $T_{\sharp}: \P(\X) \to \P(\Y)$ définie par:
+	\begin{enumerate}
+		\item $T_{\sharp}\delta_{x} = \delta_{T(x)}$;
+		\item $T_{\sharp}$ est linéaire.
+	\end{enumerate}
+	De manière équivalente: $\beta = T_{\sharp}\alpha$ qui vérifie $\beta(B) = \alpha(T^{-1}(B))$.
+\end{definition}
+
+\begin{proposition}
+	Si $\beta = T_{\sharp}\alpha$, on a:
+	\begin{equation*}
+		\int g\d\beta = \int g \circ T \d\alpha, \text{i.e. } \E(g(Y)) = \E(g(T(X)))
+	\end{equation*}
+	pour $Y = T(X)\tilde \beta$ un vecteur aléatoire.
+\end{proposition}
+
+
+On peut alors réécrire le problème de Monge dans le cas continu:
+\begin{definition}
+	Si $\alpha \in \P(\X), \beta \in \P(\Y)$, et $c$ est une fonction de coût:
+	\begin{equation}
+		M = \inf_{T : \X \to \Y} \left\{\int c(x, T(x)) \d\alpha(x)\suchthat T_{\sharp}\alpha = \beta\right\}  \tag{Monge}\label{eq:Mc}
+	\end{equation}
+\end{definition}
+
+\begin{proposition}
+	Dans le cas discret: $T_{\sharp}\alpha = \beta \Leftrightarrow \exists \sigma \in \mathfrak{S}_{n}, T(x_{i}) = y_{\sigma(i)}$.
+\end{proposition}
+
+\begin{thm}
+	Si $\alpha$ a une densité par rapport à $\beta$, alors il existe $T$ telle que $T_{\sharp}\alpha = \beta$.
+\end{thm}
+\begin{remarque}
+	Dans le cas discret, cela revient à dire que $\abs{supp(\alpha)} \geq \abs{supp(\beta)}$.
+	Attention, cette application $T$ n'est pas unique~!
+\end{remarque}
+
+\begin{thm}[Brenier, 1991]
+	Si $\X = \Y = \R^{d}$ et $c(x, y) = \norm{x - y}^{2}$
+	(généralisé à une distance géodésique mis à la puissance $1 < p < +\infty$)
+	et si $\alpha$ a une densité par rapport à la mesure de Lebesgue
+	(ou au moins ne donne pas de mesure aux espaces de dimension $< d$) alors il y a un unique
+	transport optimal $T$ solution de \eqref{eq:Mc} et $T$ est caractérisé par $T = \nabla \phi$
+	où $\phi$ est convexe (et $\nabla$ est le gradient riemannien).
+	Il y a un unique $\nabla \phi$ où $\phi$ est convexe et $(\nabla \phi)_{\sharp}\alpha = \beta$, c'est
+	le transport optimal.
+\end{thm}
+\begin{corollaire}
+	Les gradients des fonctions convexes $\mathcal{G}$ sont des transports optimaux.
+\end{corollaire}
+
+\begin{proposition}
+	Pour $T \in \mathcal{G}$, $\scalar{Tx - Ty, x - y} \geq 0$, les gradients de fonctions convexes sont dans l'ensemble $\mathcal{H}$ des fonctions croissantes.
+\end{proposition}
+
+Dans le cas $\X = \Y = \R$, on a même $\mathcal{G} = \mathcal{H}$.
+En plus grande dimension, $T(x) = Rx$ où $R$ est une petite rotation n'est pas un gradient mais est croissante.
+Il est possible que $\phi$ ne soit pas différentiable, mais on peut montrer que $\phi$ va être différentiable presque partout, et donc nos équations sont à entendre comme des égalités à ensemble de mesure nulle près.
+\begin{proposition}
+	$T(x) = Ax$ est un gradient si et seulement si $A$ est symétrique. $T \in \mathcal{G}$ si et seulement si $A$ est définie positive.
+\end{proposition}
+
+
+\begin{definition}
+	La $2$-distance de Wasserstein est définie par:
+	\begin{equation*}
+		W_{2}(\alpha, \beta) = \inf_{T_{\sharp}\alpha = \beta} \int \norm{x - Tx}^{2}\d\alpha(x)
+	\end{equation*}
+\end{definition}
+
+Quelques exemples avec les gaussiennes:
+\begin{description}
+	\item[Cas 1D] Ici, on suppose $\alpha = \mN(m_{\alpha}, \sigma_{\alpha}^{2})$, $\beta = \mN(m_{\beta}, \sigma_{\beta}^{2})$.
+	      En prenant $T(x) = \frac{\sigma_{\beta}}{\sigma_{\alpha}}(x - m_{\alpha}) + m_{\beta}$, on vérifie bien que $T_{\sharp}\alpha = \beta$ et en primitivant $T$, on vérifie bien que c'est le gradient (la dérivée) d'une fonction convexe et c'est donc bien un transport optimal.
+	      Le coût du transport est:
+	      \begin{equation*}
+		      W_{2}^{2}(\alpha, \beta) = \norm{m_{\alpha} - m_{\beta}}^{2} + \norm{\sigma_{\alpha} - \sigma_{\beta}}
+	      \end{equation*}
+	\item[Cas $d$-Dimensionnel] Ici, $\alpha = \mN(m_{\alpha}, \Sigma_{\alpha})$ et $\beta = \mN(m_{\beta}, \Sigma_{\beta})$ où $\Sigma_{\alpha} = \E((X- m_{\alpha})\transpose{(X-m_{\alpha})})$ est une matrice définie positive.
+	      On suppose que $\Sigma_{\alpha} > 0$.
+	      On prend alors $T(x) = A(x - m_{\alpha}) + m_{\beta}$ où $A\Sigma_{\alpha}\transpose{A} = \Sigma_{\beta}$ pour trouver le transport optimal.
+	      Cette équation (dite de Ricatti) a une solution symétrique définie positive.
+	      On a de plus:
+	      \begin{equation*}
+		      W_{2}^{2}(\alpha, \beta) = \norm{m_{\alpha} - m_{\beta}}^{2} + \B^{2}(\Sigma_{\alpha}, \Sigma_{\beta})
+	      \end{equation*}
+	      où $\B$ est la distance de Bures définie par:
+	      \begin{equation*}
+		      \B(A, B) = \Tr(A + B - 2(A^{1/2}BA^{1/2})^{1/2})
+	      \end{equation*}
+\end{description}
+

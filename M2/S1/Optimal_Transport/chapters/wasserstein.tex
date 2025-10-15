@@ -1,0 +1,163 @@
+\section{Métrique de Wasserstein}
+\subsection{Formulation continue de Kantorovitch}
+On se place ici dans le cadre continu, où $\alpha$ et $\beta$ sont des mesures de probabilité arbitraires sur $\X$, $\Y$.
+On notera $P_{1}$ et $P_{2}$ les projections
+\begin{definition}
+	Un \emph{couplage} entre $\alpha$ et $\beta$ est une mesure de probabilité $\pi \in \M_{+}^{1}(\X \times \Y)$ telle que $P_{1} \sharp \pi = \alpha$ et $P_{2} \sharp \pi = \beta$.
+	On note $\mU(\alpha, \beta)$ l'ensemble des couplages entre $\alpha$ et $\beta$.
+\end{definition}
+En prenant $\alpha$ et $\beta$ discrètes, on vérifie bien qu'on retrouve la forumlation de l'Equation \ref{eq:Kd}.
+\begin{remarque}
+	Dans le cas où $\mU(\alpha, \beta)$ est non vide, le produit tensoriel $\alpha \otimes \beta$ est un couplage, dit \emph{indépendant}.
+\end{remarque}
+
+\begin{definition}
+	La formulation de Kantorovitch est le problème d'optimisation suivant:
+	\begin{equation*}
+		\mL_{c}(\alpha, \beta) = \inf_{\pi \in \mU(\alpha, \beta)} \int_{\X \times \Y}c(x, y)\d \pi(x, y) = \inf_{(X, y) \sim (\alpha, \beta)}\E[c(X, Y)] \tag{Kantorovitch}\label{eq:K}
+	\end{equation*}
+	où $c: (\X \times \Y) \to \R^{+}$ est la fonction de coût.
+\end{definition}
+
+\begin{proposition}
+	On se place dans le cas $\X = \Y = \R^{d}$, $c(x, y) = \norm{x - y}^{2}$.
+	Si $\alpha$ a densité par rapport à la mesure de Lebesgue, avec $T = \nabla \phi$ l'application
+	optimale pour \ref{eq:Mc}, $\pi = (\Id, T) \sharp \alpha$ est l'application optimale pour le problème
+	de \ref{eq:K}.
+\end{proposition}
+
+\subsection{Propriété Métriques du Transport}
+Ici, on se place dans le cas $\X = \Y$ et on se donne une métrique $d$ sur $\X$.
+On supposera $c = d^{p}$ pour un certain $p \geq 1$.
+
+\begin{definition}
+	Pour $\alpha, \beta \in \mP_{p}(\X)$, on définit la distance $p$-Wasserstein comme:
+	\begin{equation*}
+		\Wass_{p}(\alpha, \beta) = \left(\mL_{d^{p}}(\alpha, \beta)\right)^{1 / p} = \left(\inf_{\pi \in \mU(\alpha, \beta)}\int d^{p}(x, y)\d \pi(x, y)\right)^{\frac{1}{p}}
+	\end{equation*}
+\end{definition}
+
+\begin{remarque}
+	On a une version définie à partir du problème de Monge:
+	\begin{equation*}
+		\inf_{T\sharp \alpha = \beta}\int d^{2}(x, T(x))\d \alpha(x)
+	\end{equation*}
+	mais c'est seulement une pseudo-distance.
+\end{remarque}
+
+\begin{proof}
+	Il reste à prouver que $\Wass_{p}$ définit bien une distance.
+	Pour ça, on a simplement besoin de la séparation et de l'inégalité triangulaire.
+	\begin{description}
+		\item[Séparation] On a: $\Wass_{p}(\alpha, \beta) = 0 \Rightarrow \int d (x, y)\d \pi^{*}(x, y) = 0 \Rightarrow d(x, y) = 0, \pi^{*}$ presque surement.
+		      Ceci implique que $\pi^{*}$ est supporté sur la diagonale de $\X^{2}$, c'est-à-dire $P_{1}\sharp \pi^{*} = \lambda = P_2 \sharp \pi^{*}$ et donc $\alpha = \beta$.
+		\item[Inégalité Triangulaire] On ne donne la preuve que dans le cas discret, $\alpha = \sum_{i} a_{i}\delta_{x_{i}}$, $\beta=\sum_{j} b_{j} \delta_{y_{j}}$, $\gamma = \sum_{k} c_{k}\delta_{z_{k}}$.
+		      En prenant $\pi_{\alpha\beta}$ et $\pi_{\beta\gamma}$ des plans optimaux, on pose:
+		      \begin{equation*}
+			      S_{ijk} = \frac{\pi_{\alpha\beta}(i, j)\pi_{\beta\gamma}(j, k)}{b_{j}}
+		      \end{equation*}
+		      si $b_{j} \neq 0$, $0$ sinon.
+		      On a alors $\sum_{i} S_{ijk} = \pi_{\beta\gamma}(j, k)$ et $\sum_{k} S_{ijk} = \pi_{\alpha\beta}(i, j)$.
+		      Les trois marginales de $S$ sont $(\alpha, \beta, \gamma)$.
+		      On définit alors:
+		      \begin{equation*}
+			      \pi_{\alpha\gamma} = \sum_{i, k} \underbrace{(\sum_{j} S_{ijk})}_{\pi_{\alpha\gamma}(i, k)}\delta_{x_{i}, z_{k}}
+		      \end{equation*}
+		      On vérifie aisément que c'est bien un couplage entre $\alpha$ et $\gamma$.
+		      On a alors:
+		      \begin{align*}
+			      W_{p}(\alpha, \gamma) \leq & \left(\sum_{i, k}\pi_{\alpha\gamma}(i, k)d\left(x_{i}, z_{k}\right)^{p}\right)^{1/p}                                                                                  \\
+			      =                          & \left(\sum_{i, j, k}S_{ijk}d\left(x_{i}, z_{k}\right)^{p}\right)^{1/p}                                                                                                \\
+			      \leq                       & \left(\sum_{i, j, k}S_{ijk}\left(d\left(x_{i}, y_{j}\right) + d\left(y_{j}, z_{k}\right)\right)^{p}\right)^{1/p}                                                      \\
+			      \leq                       & \left(\sum_{i,j,k}S_{ijk}d\left(x_{i}, y_{j}\right)^{p}\right)^{1/p} + \left(\sum_{i,j,k}S_{ijk}d\left(y_{j},z_{k}\right)^{p}\right)^{1/p}                            \\
+			      =                          & \left(\sum_{ij}\pi_{\alpha\beta}(i, j)d\left(x_{i}, y_{j}\right)^{p}\right)^{1/p} + \left(\sum_{jk}\pi_{\beta\gamma}(j, k)d\left(y_{j}, z_{k}\right)^{p}\right)^{1/p} \\
+			      =                          & W_{p}(\alpha, \beta) + W_{p}(\beta, \gamma)
+		      \end{align*}
+		      Pour étendre la preuve à des mesures générales, on utilise le lemme de recollage.
+	\end{description}
+\end{proof}
+
+Cette structure permet de munir l'espace $\mP_{p}(\X)$ d'une structure d'espace métrique.
+Dans la suite, on va supposer que $\X$ est compact, mais les définitions peuvent être étendues à $\R^{d}$ par exemple.
+
+\begin{proposition}
+	Si $\X$ est borné, pour $1\leq p \leq q$, on a:
+	\begin{equation*}
+		\Wass_{p}(\alpha, \beta) \leq \Wass_{q}(\alpha, \beta)\leq (\mathrm{diam } \X)^{\frac{q -p}{q}}\Wass_{p}(\alpha, \beta)^{p/q}
+	\end{equation*}
+\end{proposition}
+\begin{proof}
+	En posant $\phi(s) = s^{q/p}$ (qui est convexe), par l'inégalité de Jensen:
+	\begin{equation*}
+		\Wass_{p}(\alpha, \beta)^{q} \leq (\int d(x, y)^{p}\d \pi(x, y))^{q / p} \leq \int d(x, y)^{q}\d \pi(x, y)
+	\end{equation*}
+	Donc:
+	\begin{equation*}
+		\Wass_{p}(\alpha, \beta) \leq \inf (\int d(x, y)^{q}\d\pi(x, y))^{1/q} = \Wass_{q}
+	\end{equation*}
+	La preuve est la même pour l'autre inégalité, en utilisant $d^{q} \leq (\mathrm{diam }\X)^{q - p}d^{p}$.
+\end{proof}
+
+\begin{remarque}
+	La propriété précédente montre que sur un compact, toutes les distances $p$-Wasserstein définissent la même topologie.
+\end{remarque}
+
+\begin{definition}
+	Une suite $(\alpha_{n})$ converge $\star$-faiblement vers $\alpha$, noté $\alpha_{n}\xrightarrow{\star}\alpha$ dans $\M_{1}^{+}(\X)$ si pour tout $f$:
+	\begin{equation*}
+		\int f\d\alpha_{n} \to \int f \d\alpha
+	\end{equation*}
+\end{definition}
+
+\begin{remarque}
+	\begin{itemize}
+		\item Dans le cas où $\alpha_{n} = \delta_{x_{n}}$, on a convergence vers $\alpha = \delta_x$ si et seuleement $x_{n} \to x$.
+		\item La convergence $\star$-faible est la convergence en loi pour les variables aléatoires.
+	\end{itemize}
+\end{remarque}
+
+\begin{definition}
+	La topologie forte sur $\M_{+}^{1}(\X)$ est celle définie par la distance de variation totale.
+\end{definition}
+
+\begin{proposition}
+	Si on prend $d$ la distance $0$-$1$, alors $\Wass_{p}^{p}(\alpha, \beta) = \frac{1}{2}\norm{\alpha -\beta}_{TV}$.
+\end{proposition}
+
+\begin{proposition}
+	Si $\X$ est compact, alors $\alpha_{n}$ converge $\star$-faiblement si et seulement si $W_{p}(\alpha_{n}, \alpha) \xrightarrow[n \to +\infty]{} 0$.
+	$W_{p}$ métrise donc la convergence $\star$-faible.
+	Si $\X$ n'est pas compact, la convergence pour $W_{p}$ équivaut à la convergence $\star$-faible et à la convergence des $p$-ème moments.
+\end{proposition}
+
+La convergence des sommes de Riemann est équivalente à la convergence $\star$-faible de $\frac{1}{n}\sum_{k} \delta{k/n} \to \mU_{[0, 1]}$.
+
+\subsection{Interpolation de McCann}
+On considère deux mesures de probabilité $\alpha, \beta$ sur $\X = \R^{d}$.
+
+\begin{definition}
+	Pour $\pi$ un plan optimal entre $\alpha$ et $\beta$, et pour $t \in [0, 1]$, on définit:
+	\begin{equation*}
+		\pi_{t} = P_{t}\sharp \pi \text{ où } P_{t}(x, y) = (1-t)x + ty
+	\end{equation*}
+	C'est une homotopie, qu'on appelle \emph{Interpolation de McKann} ou \emph{Interpolation de Déplacement}.
+\end{definition}
+
+\begin{proposition}
+	L'interpolation de McCann vérifie:
+	\begin{equation*}
+		\alpha_{t}\in \argmin_{\rho} (1 - t)\Wass_{2}^{2}(\alpha, \rho) + t\Wass_{2}^{2}(\beta, \rho)
+	\end{equation*}
+\end{proposition}
+
+\begin{proposition}
+	L'espace $(\mP_{2}(\R^{d}), \Wass_{2})$ est un espace géodésique.
+\end{proposition}
+\begin{proof}
+	Si $T$ est l'application optimale de Monge pour $\alpha, \beta$:
+	\begin{align*}
+		\Wass_{2}^{2}(\alpha_{t}, \alpha_{s}) = & \int \norm{(1-t)x + tT(x) - (1-s)x - sT(x)}^{2}\d \alpha(x) \\
+		=                                       & \int\norm{(t - s)(T(x) - x)}^{2}\d\alpha(x)                 \\
+		=                                       & \abs{t - s}^{2}W_{2}(\alpha, \beta)
+	\end{align*}
+\end{proof}

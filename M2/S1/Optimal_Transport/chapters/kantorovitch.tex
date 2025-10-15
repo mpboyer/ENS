@@ -1,0 +1,149 @@
+\section{Formulation de Kantorovitch}
+\subsection{Définition Discrète}
+La formulation de Kantorovitch est une relaxation convexe de la formulation de Monge.
+Il a obtenu un prix Nobel d'économie pour ceci.
+Ici, on se limite au cas discret $\alpha = \sum_{n} \alpha_{i}\delta_{x_{i}}$ et $\beta = \sum_{m} b_{j}\delta_{y_{j}}$.
+
+\begin{definition}
+	Un \emph{couplage} ou un \emph{plan} est une matrice $M \in \R_{+}^{n \times m}$ qui représente le coût de transport de $x_{i}$ à $y_{j}$ et telle que:
+	\begin{equation*}
+		\sum_{j} P_{i, j} = a_{i} \land \sum_{i}P_{i, j} = b_{j}
+	\end{equation*}
+\end{definition}
+\begin{remarque}
+	C'est la même notion que celle de couplage en probabilité: un vecteur aléatoire sur l'espace produit.
+\end{remarque}
+
+On remarquera que les équations définissant un plan peuvent se mettre sous la forme:
+\begin{equation*}
+	P\mathds{1}_{m} = a \text{ et } \transpose{P}\mathds{1}_{n} = b
+\end{equation*}
+
+On autorise ainsi la division de masse, les problèmes de Kantorovitch devenant des problèmes sur des graphes bipartis.
+
+\begin{definition}
+	Le polytope des couplages entre $\alpha$ et $\beta$ est l'ensemble des plans entre $\alpha$ et $\beta$:
+	\begin{equation*}
+		\mathrm{Couplages}(\alpha, \beta) = \left\{P \in \R_{+}^{n \times m} \suchthat P_{i, j} \geq 0, P\mathds{1}_{m} = a \text{ et } \transpose{P}\mathds{1}_{n} = b\right\}
+	\end{equation*}
+\end{definition}
+
+Kantorovitch avait fait l'hypothèse très forte que l'économie est linéaire.
+
+\begin{definition}
+	Le \emph{problème de Kantorovitch} est le problème d'optimisation suivant:
+	\begin{equation}
+		P = \argmin_{P} \left\{\scalar{C, P} \suchthat P \in \mathrm{Couplages}(\alpha, \beta)\right\} \tag{Kantorovitch}\label{eq:Kd}
+	\end{equation}
+	où $C \in \R^{n \times m}$ est une matrice de coût. On dit que $P$ est le plan optimal.
+\end{definition}
+
+C'est un problème de programmation linéaire.
+En général la méthode du simplexe n'est pas polynomial, mais il existe un type de simplexes pour lequel elle l'est, et est en $\O\left(\left(n^{3}m + m^{3}n\right)\log\left(mn\right)\right)$
+
+\begin{proposition}
+	Il existe toujours une solution, et il existe toujours une solution dite \emph{éparse}, telle que:
+	\begin{equation*}
+		\abs{\left\{(i, j) \suchthat P_{i, j}\neq 0\right\}} \leq n + m - 1
+	\end{equation*}
+\end{proposition}
+\begin{proof}
+	La preuve d'existence vient du fait que l'ensemble des couplages est un compact non vide (car $P = a\transpose{b}$ est un couplage dit \emph{indépendant}).
+\end{proof}
+Le cas générique est de plus unique, c'est-à-dire que si $C, \alpha, \beta$ n'a pas une unique solution, en ajoutant du bruit on retrouve une solution optimale.
+
+\subsection{Équivalence à Monge}
+
+On s'intéresse ensuite aux matrices de permutation $P_{n}$, dans le cas $n = m$.
+On cherche à résoudre le problème non-convexe $\displaystyle\min_{P\in P_{n}} \scalar{C, P}$.
+Clairement, si $\B_{n}$ est l'ensemble convexe des matrices bistochastiques (l'ensemble des couplages~!):
+\begin{equation*}
+	\min_{P \in \B_{n}} \scalar{C, P} \leq \min_{P \in P_{n}}\scalar{C, P}
+\end{equation*}
+
+\begin{definition}
+	L'ensemble des points extrême d'un convexe $C$ est:
+	\begin{equation*}
+		\mathrm{Extr}(C) = \left\{P \suchthat \forall \left(Q, R\right) \in C^{2}, P = \frac{Q + R}{2} \Rightarrow Q = R\right\}
+	\end{equation*}
+\end{definition}
+
+\begin{thm}
+	Si $C$ est compact, $\mathrm{Extr}(C) \neq \emptyset$.
+\end{thm}
+
+\begin{thm}[Krain-Millman]
+	Si $C$ est un compact convexe, alors $C = \mathrm{Hull}\left(\mathrm{Extr}\left(C\right)\right)$.
+\end{thm}
+
+\begin{proposition}
+	Si $C$ est compact:
+	\begin{equation*}
+		\mathrm{Extr}(C) \cap \left(\argmin_{p\in C} \scalar{C, P}\right) \neq \emptyset
+	\end{equation*}
+\end{proposition}
+\begin{proof}
+	En notant que l'ensemble de droite est convexe et compact, on trouve $\mathrm{Extr}(S) \neq \emptyset$ et que
+	$\mathrm{Extr}(S) \subseteq \mathrm{Extr}(C)$.
+\end{proof}
+
+\begin{thm}[Birkhoff - von Neumann]
+	On a $\mathrm{Extr}(\B_{n}) = P_{n}$
+\end{thm}
+\begin{proof}
+	On montre d'abord $P_n \subset \mathrm{Extr}(\B_n)$.
+	Cela découle de $\text{Extr}([0,1]) = \{0,1\}$.
+	Si $P \in P_n$, est telle que $P=(Q+R)/2$ avec $Q_{i,j},R_{i,j} \in [0,1]$, puisque $P_{i,j} \in \{0,1\}$ alors nécessairement $Q_{i,j}=R_{i,j} \in \{0,1\}$.
+
+	Montrons maintenant $\text{Extr}(\B_n) \subset P_n$ en montrant que
+	$P_n^c \subset \text{Extr}(\B_n)^c$ avec le complémentaire considéré dans $\B_n$.
+	Choisir $P \in \B_n \setminus P_n$ revient à choisir $\P = (Q+R)/2$ où $Q,R$ sont des matrices
+	bistochastiques distinctes.
+	$P$ définit un graphe biparti de taille $2n$.
+	Le graphe est composé d'arêtes isolées quand $P_{i,j}=1$ et d'arêtes connectées quand $0 < P_{i,j} <1$.
+	Si $i$ est un tel sommet à gauche ($j$ à droite), puisque $\sum_j P_{i,j}=1$, il y a deux arêtes $(i,j_1)$ et $(i,j_2)$ en sortant (de même, $(i_1,j)$ et $(i_2,j)$ entrant en $j$).
+	On peut donc toujours extraire un cycle par récurrence de la forme:
+	\begin{equation*}
+		\left(i_1,j_1,i_2,j_2,\ldots,i_p,j_p\right),
+		\quad \text{i.e.}\quad i_{p+1}=i_1.
+	\end{equation*}
+	On suppose que ce cycle est le plus court de l'ensemble fini de cycle. On a toujours:
+	\begin{equation*}
+		0 < P_{i_s,j_s}, P_{i_{s+1},j_s} < 1.
+	\end{equation*}
+	Les $(i_s)_s$ et $(j_s)_s$ sont distincts puisque le cycle est le plus court. On pose:
+	\begin{equation*}
+		\epsilon = \min_{0 \leq s \leq p} \left\{ P_{i_s,j_s}, P_{j_s,i_{s+1}}, 1-P_{i_s,j_s}, 1-P_{j_s,i_{s+1}} \right\}
+	\end{equation*}
+	c'est-à-dire $0 < \epsilon < 1$.
+	En séparant le graphe en deux ensembles d'arêtes:
+	\begin{equation*}
+		\A = \left\{(i_s,j_s)\right\}_{s=1}^p
+		\quad \text{ et } \quad
+		\B = \left\{(j_s,i_{s+1})\right\}_{s=1}^p.
+	\end{equation*}
+	On pose $Q$ et $R$ telle que:
+	\begin{equation*}
+		Q_{i,j} =
+		\begin{cases}
+			P_{i,j}            & \text{si } (i,j) \notin \A \cup \B, \\
+			P_{i,j}+\epsilon/2 & \text{si } (i,j) \in \A,            \\
+			P_{i,j}-\epsilon/2 & \text{si } (i,j) \in \B,
+		\end{cases}
+		\quad \text{ et }\quad
+		R_{i,j} =
+		\begin{cases}
+			P_{i,j}            & \text{si } (i,j) \notin \A \cup \B, \\
+			P_{i,j}-\epsilon/2 & \text{si } (i,j) \in \A,            \\
+			P_{i,j}+\epsilon/2 & \text{si } (i,j) \in \B,
+		\end{cases}.
+	\end{equation*}
+	Par définition d'$\epsilon$, on a $0 \leq Q_{i,j}, R_{i,j} \leq 1$.
+	Puisque chaque arête gauche de $\A$ a une arête droite dans $\B$, (et réciproquement) la
+	contrainte de somme sur les lignes (et sur les colonnes) est maintenue, donc $Q,R \in \B_n$. Finalement, on trouve: $P=(Q+R)/2$.
+\end{proof}
+
+\begin{corollaire}
+	Pour $m = n$ et $a = b = \mathds{1}_{n}$, il existe une solution optimale pour le problème \ref{eq:Kd}, qui est une matrice de permutation associée à une permutation optimale pour le problème \ref{eq:M}.
+\end{corollaire}
+
