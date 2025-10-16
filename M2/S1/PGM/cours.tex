@@ -26,8 +26,9 @@
 % Here #1 is the most topleft point, #2 is the most bottom right point and #3 is the label
 % We put the label at the bottom right of the plate, so x_right label > x_right #3 and
 % y_bot label < y_bot #3
+\newdimen\platepadding
+\platepadding=6pt
 \def\plate#1#2#3{%
-%\node [rectangle, rounded corners, draw, fit=(#1) (#2)] {#3};
     \node[anchor=north east, yshift=-.1cm] (text) at (#2.south east) {#3};
   \begin{pgfonlayer}{bg}
     \draw[rounded corners, draw, fill=gray!1] let 
@@ -36,7 +37,7 @@
       \p3 = (#1.north west),
       \p4 = (#1.north east),
       \p5 = (text.south east) in
-      ({min(\x1, \x2, \x3, (\x4 - 1.3 * (width("#3"))))}, \y1) rectangle ({max(\x4, \x5) - 1pt}, \y4);
+      ({min(\x1, \x2, \x3, (\x4 - 1.3 * (width("#3")))) - \platepadding}, \y1) rectangle ({max(\x4, \x5) + \platepadding}, \y4 + \platepadding);
   \end{pgfonlayer}
 }
 
@@ -422,5 +423,149 @@ Pour estimer le nombre $K$ de groupes à partir des données, on applique l'algo
 	\item Le critère d'information bayésienne: $L_{x_{i}}(\hat{\pi}, \that) - (M_{K} / 2)\log n$
 	\item Le critère d'information d'Akaike: $L_{x_{i}}(\hat{\pi}, \that) - M_{K}$.
 \end{itemize}
+
+\section{Régression Linéaire et Choix de Modèle}
+\subsection{Régression Linéaire Bayésienne}
+\begin{definition}
+	Le \define{modèle de régression linéaire} est donné par $Y = X\beta + \epsilon$ où:
+	\begin{itemize}
+		\item $Y \in \R^{n}$ est un vecteur d'élément $y_i$;
+		\item $X \in \M_{n, p}(\R)$ est une matrice dont la $i$-ème ligne est $\transpose{x_{i}}$;
+		\item $\epsilon \sim \mathcal{N}(0, \sigma^{2}I_{n})$
+	\end{itemize}
+\end{definition}
+
+On peut alors introduire une distribution \emph{a priori} pour le vecteur de régression $\beta$:
+\begin{equation*}
+	p(\beta) = \mN(\beta; 0, \frac{I_{p}}{\alpha})
+\end{equation*}
+avec $\alpha > 0$ fixé.
+
+L'estimateur de vraisemblance maximale pour le vecteur de poids $\beta$ est donc:
+\begin{equation*}
+	\hat{\beta} = (\transpose{X}X)^{-1}\transpose{X}Y
+\end{equation*}
+qui n'est calculable que si $\transpose{X}X$ est de rang plein.
+
+\begin{proposition}
+	Dans l'approche bayésienne, chercher un estimateur a posteriori maximal $\hat{\beta}_{\rm MAP}$ est
+	équivalent à calculer l'estimateur de crête:
+	\begin{align*}
+		\hat{\beta}_{\rm MAP} = & \argmax_{\beta}\log \model{\beta}{X, Y, \sigma^{2}}                             \\
+		=                       & \argmin_{\beta} \left\{\norm{Y - X\beta}^{2} + \lambda \norm{\beta}^{2}\right\}
+	\end{align*}
+	avec $\lambda = \alpha\sigma^{2}$.
+	On obtient alors, si $\lambda = \alpha\sigma^{2}$ est suffisamment grand, une expression calculable pour $\hat{\beta}_{\rm MAP}$ en grande dimension.
+	\begin{equation*}
+		\hat{\beta}_{\rm MAP} = (\transpose{X}X + \alpha\sigma^{2}I_{p})^{-1}\transpose{X}Y
+	\end{equation*}
+\end{proposition}
+
+\begin{proposition}
+	Dans l'approche bayésienne, la distribution postérieure du vecteur de régression est donc:
+	\begin{equation*}
+		\model{\beta}{X, Y, \sigma^{2}} = \mN(\beta, m_{n}, S_{n})
+	\end{equation*}
+	avec:
+	\begin{equation*}
+		m_{n} = (\transpose{X}X + \alpha\sigma^{2}I_{p})^{-1}\transpose{X}Y
+	\end{equation*}
+	et:
+	\begin{equation*}
+		S_{n} = \left(\frac{\transpose{X}X}{\sigma^{2}} + \alpha I_{p}\right)^{-1}
+	\end{equation*}
+\end{proposition}
+
+\subsection{EM Revisité}
+On veut maintenant estimer $\alpha$ en tant qu'(hyper)paramètre à partir de l'ensemble d'entraînement.
+On remplace donc la distribution a priori par $\model{\beta}{\alpha} = \mN\left(\beta, 0, \frac{I_{p}}{\alpha}\right)$.
+
+Ceci nous amène à l'algorithme suivant:
+\begin{algorithm}
+	\caption{Procédure d'Évidence}
+	\begin{algorithmic}
+		\Procedure{E}{$\alpha, \sigma^{2}$}
+		\State{$S_{n} \gets \left(\frac{\transpose{X}X}{\sigma^{2}} + \alpha I_{p}\right)^{-1}$}
+		\State{$m_{n} \gets (\transpose{X}X + \alpha\sigma^{2}I_{p})^{-1}\transpose{X}Y$}
+		\EndProcedure
+		\Statex
+		\Procedure{M}{$S_{n}, m_{n}$}
+		\State{$\alpha \gets p / \left(\Tr\left(S_{n}\right) + m_{n}\transpose{m_{n}}\right)$}
+		\State{$\sigma^{2}\gets \frac{1}{n}\left\{\norm{Y - Xm_{n}}^{2} +  \Tr(\transpose{X}XS_{n})\right\}$}
+		\EndProcedure
+		\Statex
+		\Statex
+		\Procedure{EM}{}
+		\State{Initialiser $\alpha, \sigma^{2}$}
+		\While{$L(\beta)$ change}
+		\State{$E(\alpha, \sigma^{2})$}
+		\State{$M(S_{n}, m_{n})$}
+		\EndWhile
+		\Return{$(\alpha, \sigma^{2})$}
+		\EndProcedure{}
+	\end{algorithmic}
+\end{algorithm}
+
+\subsection{Processus Gaussiens}
+On a:
+\begin{itemize}
+	\item $Y \mid X, \beta, \sigma^{2} \sim \mN(X\beta, \sigma^{2}I_{n})$
+	\item $\beta \mid \alpha \sim \mN(0, \frac{I_{p}}{\alpha})$
+\end{itemize}
+Ici $\beta$ est une variable aléatoire latente et les hyperparamètres sont $\alpha$ et $\sigma^{2}$.
+
+\begin{proposition}
+	On a alors, par composition de gaussiennes:
+	\begin{equation*}
+		Y \mid X, \sigma^{2}, \alpha \sim \mN(0, \frac{X\transpose{X}}{\alpha} + \sigma^{2}I_{n})
+	\end{equation*}
+\end{proposition}
+On peut directement optimiser pour trouver la vraisemblance maximale ci-dessus, mais cela demande $\O(n^{3})$ opérations.
+
+
+\begin{definition}
+	Un \define{processus gaussien} peut se construire comme:
+	\begin{equation*}
+		Y\mid X, \sigma^{2}, \theta \sim \mN(0, C_{n})
+	\end{equation*}
+	avec $C_{n} = \left(k\left(x_{i}, x_{j}\right)\right)_{i, j} + \sigma^{2}I_{n}$ pour un certain \define{noyau} $k$.
+\end{definition}
+
+\begin{definition}
+	Le \define{noyau exponentiel quadratique} est donné par:
+	\begin{equation*}
+		k(x_{i}, x_{j}) = \theta_{0}\exp(-\frac{\theta_{1}}{2}\norm{x_{i} - x_{j}}^{2}) + \theta_{2} + \theta_{3} \transpose{x_{i}}x_{j}
+	\end{equation*}
+\end{definition}
+
+\begin{proposition}
+	Le problème d'optimisation ci-dessus donné pour les processus gaussiens s'écrit:
+	\begin{equation*}
+		(\that, \hat{\sigma}^{2}) = \argmax_{\theta, \sigma^{2}}\log \mN(Y, 0, C_{n})
+	\end{equation*}
+\end{proposition}
+Ici, on a une complexité en $\O(n^{3})$ pour la résolution.
+
+Toutefois, ce modèle a un grand avantage: si on considère $(X, Y)$ notre ensemble d'entraînement à $n$ éléments,
+et on considère une nouvelle observation $x_{n + 1}$, on peut écrire $X_{n + 1}$ en ajoutant $x_{n + 1}$ à $X$ et $Y_{n + 1}$ ajoutant une ligne $y_{n + 1}$ à $Y$, qui va vérifier:
+
+\begin{equation*}
+	Y_{n + 1} \mid X_{n + 1}, \theta, \sigma^{2} \sim \mN(0, C_{n + 1})
+\end{equation*}
+avec:
+\begin{equation*}
+	C_{n + 1} =
+	\begin{pmatrix}
+		C_{n}         & k \\
+		\transpose{k} & c
+	\end{pmatrix}
+\end{equation*}
+où $k_{i} = k(x_{n + 1}, x_{i}) = k(x_{i}, x_{n + 1})$ et $c = k(x_{n + 1}, x_{n + 1}) + \sigma^{2}$.
+\begin{proposition}
+	On obtient alors, par la propriété gaussienne:
+	\begin{equation*}
+		y_{n + 1} \mid X_{n + 1}, \theta, \sigma^{2} \sim \mN(\bar{m}, \bar{\sigma}^{2})
+	\end{equation*}
+\end{proposition}
 
 \end{document}
