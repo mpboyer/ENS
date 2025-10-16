@@ -251,10 +251,10 @@ Dans le pire des cas, on a un algorithme en $\O(m^{3})$.
 On reviendra plus tard sur la notion de docilité.
 
 \subsection{Calcul de filtrations}
-\subsubsection{Complexes de Čech, de Vietoris-Rips, et autres}
+\subsubsection{Complexes de \v{C}ech, de Vietoris-Rips, et autres}
 \begin{definition}
 	On considère un recouvrement $\mU$ par des ouverts d'un espace topologique $X$.
-	Le \define{complexe de Čech} $C\left(\mU\right)$ associé au recouvrement $\mU$ vérifie:
+	Le \define{complexe de \v{C}ech} $C\left(\mU\right)$ associé au recouvrement $\mU$ vérifie:
 	\begin{itemize}
 		\item L'ensemble de sommets de $C\left(\mU\right)$ est l'ensemble $\mU$.
 		\item $\left[U_{0}, \ldots, U_{k}\right]$ est un $k$-simplexe dans $C\left(\mU\right)$ si et seulement si $\cap U_{j} \neq \emptyset$.
@@ -267,7 +267,7 @@ On reviendra plus tard sur la notion de docilité.
 
 Si on se donne plutôt un nuage de point $V$ dans un espace métrique $(X, d)$ et un réel $\alpha$.
 \begin{definition}
-	Le \define{complexe de Čech} $\cech\left(V, \alpha\right)$ est le complexe simplicial
+	Le \define{complexe de \v{C}Čech} $\cech\left(V, \alpha\right)$ est le complexe simplicial
 	filtré indexé par $\R$ dont l'ensemblde sommets est $V$ et tel que:
 	\begin{equation*}
 		\sigma = \left[p_{0}, \ldots, p_{k}\right] \in \cech\left(V, \alpha\right) \Leftrightarrow \bigcap_{i = 0}^{k} B(p_{i}, \alpha) \neq \emptyset
@@ -336,7 +336,10 @@ On va désormais essayer de démontrer ces résultats de stabilité:
 	\item Étant donné un espace métrique $\X$, $H(\rips(\X))$ est un module de persistence.
 	\item La filtration par les sous-niveaux de $f$ induit un module de persistence au niveau de l'homologie.
 \end{itemize}
-
+\begin{remarque}
+	Il faut voir un module de persistence comme un foncteur de la (petite) catégorie associée au poset d'indexation, vers la catégorie des modules sur un anneau $A$.
+	Ici, c'est donc un foncteur de $\R$ vers $\mathrm{Vect}_{\F_{2}}$, puisqu'on considère notre homologie dans $\F_{2}$.
+\end{remarque}
 
 \begin{definition}
 	On dit qu'un module de persistence est dit \define{$q$-docile} si pour tout $a < b$, $v_{a}^{b}$ est de rang fini.
@@ -371,7 +374,7 @@ Il faut ici entendre la notion de diagrammes de persistence comme définis par l
 
 On va donc chercher à construire des filtrations qui induisent par leurs groupes d'homologie des modules de persistence $q$-dociles,
 et qui sont $\epsilon$-intercalés quand les espaces/fonctions considérées sont $O(\epsilon)$-proches.
-Plus particulièrement, on va démontrer la docilité des complexes de Rips et de Čech.
+Plus particulièrement, on va démontrer la docilité des complexes de Rips et de \v{C}ech.
 
 
 \subsubsection{Théorèmes de Stabilité}
