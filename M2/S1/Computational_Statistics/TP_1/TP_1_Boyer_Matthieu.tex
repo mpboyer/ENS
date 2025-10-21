@@ -11,7 +11,7 @@
 
 \section{Exercice 1}
 \subsection{Question 1}
-Par définition de l'espérance:
+Par définition de l'espérance, on a:
 \begin{equation*}
 	\begin{aligned}
 		\E_{\theta}(X_{1}) = & \int_{\R}xp_{\theta}(x)\d x                               \\
@@ -29,7 +29,7 @@ En se donnant une seule (puisqu'on n'a qu'un seul paramètre) fonction $T$ mesur
 \end{equation*}
 En considérant par exemple, $T = \id$, qui vérifie bien nos hypothèses, puisqu'alors $e(\theta) = \E_{\theta}(X_{i}) = \frac{\theta}{2}$ pour tout $i$ est bien fini et ne dépend bien que de $\theta$:
 \begin{equation*}
-	\that_{1} = \frac{2}{n}\sum_{i = 1}^{n}X_{i}
+	\boxed{\that_{1} = \frac{2}{n}\sum_{i = 1}^{n}X_{i}}
 \end{equation*}
 
 \subsection{Question 2}
@@ -38,11 +38,15 @@ Le risque quadratique peut s'écrire:
 	\E_{\theta}[(\that_{1} - \theta)^{2}] = \V_{\theta}(\that_{1}) + \B(\that_{1})^{2}
 \end{equation*}
 où $\V$ désigne la variance et $\B$ désigne le biais.
-Ici, les variables $X_{i}$ étant indépendantes: $\V_{\that_{1}} = \frac{2}{n}\sum \V[X_{i}] = \frac{\theta^{2}}{6n}$ et de plus:
+Ici, les variables $X_{i}$ étant indépendantes:
+\begin{equation*}
+	\V_{\that_{1}} = \frac{2}{n}\sum \V[X_{i}] = \frac{2}{n }\frac{\theta^{2}}{6} = \frac{\theta^{2}}{3n}
+\end{equation*}
+Comme de plus:
 \begin{equation*}
 	\B(\that_{1}) = \frac{2}{n}\sum \E[X_{i}] - \theta = 0
 \end{equation*}
-Donc le risque quadratique vaut $\frac{\theta^{2}}{3n}$.
+$\boxed{\text{Le risque quadratique vaut $R\left(\that_{1}\right)= \frac{\theta^{2}}{3n}$.}}$
 
 \subsection{Question 3}
 On veut calculer:
@@ -52,7 +56,7 @@ On veut calculer:
 puisque les variables $X_{i}$ sont supposées indépendantes.
 En maximisant ci-dessus, puisque $x \mapsto \frac{1}{x^{n}}$ est strictement décroissante, on trouve:
 \begin{equation*}
-	\that_{2} = \max_{i} X_{i}
+	\boxed{\that_{2} = \max_{i} X_{i}}
 \end{equation*}
 En effet, un paramètre plus petit rendrait le produit ci-dessus nul.
 
@@ -68,12 +72,12 @@ En calculant le biais:
 \end{equation*}
 On trouve donc:
 \begin{equation*}
-	R(\that_{2}) = \V(\that_{2}) + \B(\that_{2}) = \frac{2\theta^{2}}{(n + 1)(n + 2)}
+	\boxed{R(\that_{2}) = \V(\that_{2}) + \B(\that_{2}) = \frac{2\theta^{2}}{(n + 1)(n + 2)}}
 \end{equation*}
 
 \subsection{Question 5}
 On compare les risques quadratiques quand $n \to \infty$. On a $R(\that_{1}) \sim \frac{\theta^{2}}{n}$ et $R(\that_{2}) \sim \frac{\theta^{2}}{n^{2}}$, et donc $R(\that_{2}) = o(R(\that_{1}))$.
-Pour cette mesure de risque, il vaut donc mieux utiliser l'estimateur $\that_{2} = \max X_{i}$ puisqu'il a un risque significativement plus petit.
+\fbox{Pour cette mesure de risque, il vaut donc mieux utiliser l'estimateur $\that_{2} = \max X_{i}$} puisqu'il a un risque significativement plus petit (quand le nombre d'échantillon grandit).
 
 \section{Exercice 2}
 \subsection{Question 1}
@@ -100,29 +104,33 @@ On calcule alors:
 \begin{equation*}
 	f_{X, Y} = \frac{r\exp(-r^{2}/2)}{2\pi} \times \frac{1}{r} = \frac{\exp(-(x^{2} + y^{2})/ 2)}{2\pi} = \frac{1}{\sqrt{2\pi}}\exp(-x^{2}/2)\times \frac{1}{\sqrt{2\pi}}\exp(-y^{2}/2)
 \end{equation*}
-Ainsi, on vérifie bien que $X \bot Y$ et que les deux variables suivent des lois normales de paramètres $0$, $1$.
+\boxed{\text{Ainsi, on vérifie bien que $X \bot Y$ et que les deux variables suivent des lois normales de paramètres $0$, $1$.}}
 
 \subsection{Question 2}
 On suppose qu'on est capables d'échantillonner des lois uniformes de manière indépendante.
+On utilise l'algorithme naïf suivant:
+
 \begin{algorithm}
+	\caption{Algorithme Naïf}
 	\begin{enumerate}
 		\item On échantillonne $U_{1}, U_{2} \sim \mathcal{U}([0, 1])$ de manière indépendante.
 		\item On pose $R = \sqrt{-2 \log(U_{1})}$ et $\Theta = 2\pi U_{2}$.
 		\item On renvoie $(X, Y) = (R\cos(\Theta), Y\sin(\Theta))$.
 	\end{enumerate}
 \end{algorithm}
+
 La formule de la distribution de Rayleigh montre que $R$ suit bien une distribution de Rayleigh et $\Theta$ suit bien une loi uniforme sur $[0, 2\pi]$.
-Par la question $1$, $X$ et $Y$ sont bien des lois normales de paramètres $0$, $1$ indépendantes.
+Par la question $1$, \fbox{$X$ et $Y$ sont bien des lois normales de paramètres $0$, $1$ indépendantes.}
 
 \subsection{Question 3}
 \subsubsection{a)}
 À chaque itération, $V_{1}$ et $V_{2}$ suivent une loi uniforme sur $[-1, 1]$ (par translation et dilatation des $U_{i}$).
-La boucle continuant tant que $V_{1}^{2} + V_{2}^{2} > 1$, c'est à dire tant que le point est hors du disque unité, à la fin de la boucle, $(V_{1}, V_{2})$ est uniformément distribué sur le disque unité.
+La boucle continuant tant que $V_{1}^{2} + V_{2}^{2} > 1$, c'est à dire tant que le point est hors du disque unité, à la fin de la boucle, \boxed{\text{$(V_{1}, V_{2})$ est uniformément distribué sur le disque unité.}}
 
 \subsubsection{b)}
 La probabilité que $V_{1}, V_{2}$ soit dans le disque unité est le rapport des aires du disque unité et du carré $[-1, 1]^{2}$, puisque la distribution est uniforme pour la mesure de Lebesgue sur $\R^{2}$, c'est-à-dire $\pi / 4$.
 
-Le nombre d'itérations suit donc une loi géométrique avec probabilité de succès $p = \frac{\pi}{4}$, le nombre d'étapes est donc $\frac{4}{\pi}$.
+Le nombre d'itérations suit donc une loi géométrique avec probabilité de succès $p = \frac{\pi}{4}$, \fbox{le nombre d'étapes est donc $\frac{4}{\pi}$.}
 
 \subsubsection{c)}
 On fait un passage en coordonnées polaires: $(V_{1}, V_{2}) = (\sqrt{V}\cos(\theta), \sqrt{V}\sin(\theta))$.
@@ -139,11 +147,12 @@ Puisque de plus:
 \begin{equation*}
 	T_{1} = \frac{V_{1}}{\sqrt{V_{1}^{2} + V_{2}^{2}}} = \frac{\sqrt{V}\cos(\Theta)}{\sqrt{V}} = \cos(\Theta)
 \end{equation*}
-On vérifie bien que $T_{1}$ et $V$ sont indépendantes ($T_{1}$ ne dépendant que d'une variable aléatoire indépendante de $V$) et que $T_{1}$ a la même distribution que $\cos(\Theta) \sim \mU([0, 2\pi])$.
+\fbox{On vérifie bien que $T_{1}$ et $V$ sont indépendantes} ($T_{1}$ ne dépendant que d'une variable aléatoire indépendante de $V$) et que \fbox{$T_{1}$ a la même distribution que $\cos(\Theta) \sim \mU([0, 2\pi])$.}
 
 \subsubsection{d)}
 On a: $S = \sqrt{- 2\log V}$ qui a une distribution de Rayleigh de paramètre $1$.
-Puisque qu'on définit $X = S\cdot T_{1}$ et $Y = S\cdot T_{1}$ comme dans la question 1, $(X, Y)$ sont des variables aléatoires qui suivent une loi gaussienne de paramètres $0$, $1$.
+Puisque qu'on définit $X = S\cdot T_{1}$ et $Y = S\cdot T_{1}$ comme dans la question 1:
+\fbox{$(X, Y)$ sont des variables aléatoires qui suivent une loi gaussienne de paramètres $0$, $1$.}
 
 \section{Exercice 3}
 Voir notebook
