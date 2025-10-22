@@ -1,0 +1,223 @@
+\section{Gaussiennes et Transport Optimal, Dualité}
+
+\subsection{Dualité pour les mesures discrètes}
+
+\begin{proposition}
+	Si $\alpha = \sum a_{i}\delta_{x_{i}}$ et $\beta = \sum b_{j}\delta_{y_{j}}$, et $C$ est une matrice $n \times m$ de coût, en notant $U(\alpha, \beta)$ l'ensemble des couplages entre $\alpha$ et $\beta$:
+	\begin{equation*}
+		L_{c}(\alpha, \beta) = \max_{(u, v) \in R\left(\alpha, \beta\right)} \scalar{u, \alpha} + \scalar{v, \beta}
+	\end{equation*}
+	où $R(\alpha, \beta) = \left\{(u, v) \in \R^{n} \times \R^{m} \suchthat u \oplus v \leq C\right\}$.
+\end{proposition}
+\begin{proof}
+	On a $L_{c}(\alpha, \beta) = \min_{\pi \in U(\alpha, \beta)} \scalar{c, \pi}$.
+	On introduit donc:
+	\begin{equation*}
+		\max_{(u, v) \in \R^{n} \times \R^{m}} \scalar{u, a - \pi\mathds{1}_{m}} + \scalar{v + b-\transpose{\pi}\mathds{1}_{n}} =
+		\begin{cases}
+			0        & \text{si } \pi \in U(\alpha, \beta) \\
+			+ \infty & \text{sinon}
+		\end{cases}
+	\end{equation*}
+	On a donc:
+	\begin{equation*}
+		L_{c}(\alpha, \beta) = \min_{\pi \geq 0}\max_{(u, v) \in \R^{n} \times \R^{m}} L(\pi, u, v)
+	\end{equation*}
+	avec:
+	\begin{equation*}
+		\underset{\rm Lagrangien}{L(\pi, u, v)} ) \scalar{c, \pi} + \scalar{u, \alpha - \pi\mathds{1}_{m}} + \scalar{v + \beta-\transpose{\pi}\mathds{1}_{n}}
+	\end{equation*}
+	Puisque dans le cadre de la programmation linéaire, avoir des solutions suffit pour avoir la dualité forte:
+	\begin{align*}
+		L_{c}(\alpha, \beta) = & \max_{u, v} \min_{\pi\geq 0}L(\pi, u, v)                               \\
+		=                      & \max_{u, v} \left(\scalar{u, \alpha} + \scalar{v, \beta} + \underset{=
+			\begin{cases}
+				0       & \text{si } u \oplus v \leq C \\
+				-\infty & \text{sinon }
+			\end{cases}%
+		}{\min_{\pi \geq 0} \scalar{c, \pi} - \scalar{u, \pi\mathds{1}_{m}} - \scalar{v, \transpose{\pi}\mathds{1}_{n}}}\right)
+	\end{align*}
+	Finalement:
+	\begin{equation*}
+		\boxed{L_{c}(\alpha, \beta) = \max_{(u, v) \in R(\alpha, \beta)} \scalar{u, \alpha} + \scalar{v, \beta}}
+	\end{equation*}
+	ce qui conclut la preuve.
+\end{proof}
+
+\begin{remarque}
+	\begin{itemize}
+		\item Si $\pi$ est optimal, son support est inclus dans $\left\{(i, j)\suchthat u_{i} + v_{j} = C_{i, j}\right\}$
+		\item $L_{c}(\alpha, \beta)$ est convexe en $\alpha, \beta$ (dual) mais est concave en $C$.
+	\end{itemize}
+\end{remarque}
+
+\subsection{Dualité pour des mesures quelconques}
+\begin{proposition}
+	Si $\X, \Y$ sont compacts, alors:
+	\begin{equation*}
+		L_{C}(\alpha, \beta) = \sup_{(f, g) \in R(C)} \int_{\X}f\d \alpha + \int_{\Y}g\d\beta
+	\end{equation*}
+	où:
+	\begin{equation*}
+		R(C) = \left\{(f, g) \in \mC(\X) \times \mC(\Y)\suchthat \forall (x, y), f(x) + g(y) \leq C(x, y)\right\}
+	\end{equation*}
+	On dit que $f, g$ sont des \emph{potentiels de Kantorovitch}.
+\end{proposition}
+Dans le cas où $\X$ n'est pas compact, on remplace $\mC$ par $\mC_{b}$ et le résultat tient.
+\begin{remarque}
+	\begin{itemize}
+		\item Si $\pi$ est optimal, de même, son support est tel que les potentiels sont égaux au coût.
+		\item Dans le cas où $\alpha$ et $\beta$ on retrouve le résultat discret.
+	\end{itemize}
+\end{remarque}
+
+\subsection{$c$-transformations}
+On cherche à résoudre:
+\begin{equation*}
+	\max_{f \oplus g\leq c} \int g\d\beta, \quad f \text{ fixée}
+\end{equation*}
+On veut donc prendre $g$ aussi grande que possible en ayant:
+\begin{align*}
+	g(y) \leq & c(x, y) - f(x)                \\
+	\leq      & \inf_{x\in \X} c(x, y) - f(x)
+\end{align*}
+
+\begin{definition}
+	Étant donnée $f: \X \to \bar{\R}$, sa \emph{$c$-transformée} est:
+	\begin{equation*}
+		f^{c}: \applic{\Y}{\bar{\R}}{f^{c}(y)}{\inf_{x\in \X} c(x, y) - f(x)}
+	\end{equation*}
+	La \emph{$\bar{c}$-transformée} de $g: \Y\to \bar{R}$ est:
+	\begin{equation*}
+		g^{\bar{c}}(x) = \inf_{y\in \Y} c(x, y) - g(y)
+	\end{equation*}
+\end{definition}
+Si $c$ est symmétrique, alors $f^{c} = f^{\bar{c}}$.
+\begin{remarque}
+	La transformation $(f, g) \to (f, f^{c})$ remplace les potentiels duaux par de meilleurs.
+	De même pour $(f, g) \to (g^{\bar{c}}, g)$ et $(f, g) \to (g^{\bar{c}}, f^{c})$.
+\end{remarque}
+
+\begin{proposition}
+	Si $c$ est $L$-lipschitzienne en $y$, alors $f^{c}$ est lipschitzienne.
+\end{proposition}
+\begin{proof}
+	Exercice.
+\end{proof}
+
+À ce stade, on aurait envie d'itérer à partir de potentiels de base puis d'utiliser les $c$-transformées
+pour obtenir un meilleur résultat.
+La proposition ci-dessous montre que malheureusement ceci ne fonctionnera pas.
+
+\begin{proposition}
+	Si on note $f^{c\bar{c}} = \left(f^{c}\right)^{\bar{c}}$ alors:
+	\begin{enumerate}
+		\item $f \leq \phi \Rightarrow f^{c} \geq \phi^{c}$;
+		\item $f^{c\bar{c}} \geq f$;
+		\item $g^{\bar{c}c} \geq g$;
+		\item $f^{c\bar{c}c} = f^{c}$.
+	\end{enumerate}
+\end{proposition}
+\begin{proof}
+	\begin{enumerate}
+		\item Par définition.
+		\item On a:
+		      \begin{align*}
+			      f^{c\bar{c}} = & \inf_{y \in \Y} \left(c(x, y) \underbrace{- \underbrace{\inf_{x' \in \X} \left(c(x', y) - f\left(x'\right)\right)}_{\leq c(x, y) - f(x)}}_{\geq -\left(c(x, y) - f(x)\right)}\right) \\
+			      \geq           & \inf_{y \in \Y} \left(c(x, y) - c(x, y) + f(x)\right)
+		      \end{align*}
+		\item De même.
+		\item On a $f^{c\bar{c}} \geq f \Rightarrow f^{c\bar{c}c} \leq f^{c}$. Avec $g = f^{c}$, on a $f^{c\bar{c}c}\geq f^{c}$.
+	\end{enumerate}
+\end{proof}
+
+
+\subsection{Quelques Cas particuliers}
+\subsubsection{Cas Euclidien Quadratique}
+On veut ici calculer:
+\begin{equation*}
+	\min_{X \sim \alpha, Y \sim \beta} \E\left(\norm{X - Y}^{2}\right) = K - 2 \max_{X \sim \alpha, Y \sim \beta} \E\left(\scalar{X, Y}\right)
+\end{equation*}
+où $K$ est une constante ne dépendant que de $\alpha$ et $\beta$.
+On va donc vérifier qu'écrire $\phi$ sous la forme $(\alpha, \nabla\phi\sharp\alpha)$ fonctionne, c'est-à-dire redémontrer le théorème de Brenier:
+
+\begin{proof}[Preuve du théorème de Brenier]
+	On prend ici $c(x, y) = -\scalar{x, y}$, qui est symmétrique, on obtient que:
+	\begin{equation*}
+		f^{c}(y) = -\sup_{x} \scalar{x, y} + f(x) = -(-f)^{*}(y)
+	\end{equation*}
+	pour $\cdot^{*}$ la transformation de Legendre-Fenchel.
+	Puisqu'on sait que $(-f)^{*}$ est convexe, $f^{c}$ est concave.
+
+	Si $\pi$ est optimal pour $L_{c}$ et $f$ est optimal pour le dual, alors:
+	\begin{equation*}
+		\mathrm{supp}(\pi) \subseteq \left\{(x, y) \suchthat f^{cc}(x) + f^{c}(y) = -\scalar{x, y}\right\}
+	\end{equation*}
+	En notant $\phi = -f^{cc}$, $\phi$ est convexe et donc:
+	\begin{equation*}
+		\phi^{*}(y) = \sup_{x} \scalar{x, y} - \phi(x) = -f^{c}(y)
+	\end{equation*}
+	On a donc:
+	\begin{equation*}
+		\mathrm{supp}(\pi) \subseteq \underbrace{\left\{(x, y) \suchthat \phi(x) + \phi^{*}(y) = \scalar{x, y}\right\}}_{\text{Sous-différentielle } \partial\phi(x)}
+	\end{equation*}
+	Si $\phi$ est différentiable:
+	\begin{equation*}
+		\mathrm{supp}(\pi) \subseteq \{(x, \nabla\phi(x))\}
+	\end{equation*}
+	Puisque $\phi$ est convexe, $\phi$ est différentiable presque partout pour la mesure de Lebesgue,
+	donc si $\alpha$ est absolument continue par rapport à la mesure de Lebesgue, $\phi$ est aussi différentiable presque partout pour $\alpha$.
+\end{proof}
+
+\subsubsection{Cas Semi-discret}
+On suppose ici $\alpha$ absolument continue et $\beta = \sum_{j = 1}^{m} b_{j} \delta_{y_{j}}$.
+On a:
+\begin{align*}
+	L_{c}(\alpha, \beta) = & \max_{f, g \in \mC(\X) \times \mC(\Y), f\oplus g \leq c} \int f \d\alpha + \int g \d\beta \\
+	=                      & \max_{f \oplus g \leq c} \int f\d \alpha + \sum_{j = 1}^{m}b_{j}g(y_{j})
+\end{align*}
+Avec $\phi_{v}(x) = \min_{j} c(x, y_{j}) - v_{j}$, on peut montrer que:
+\begin{align*}
+	L_{c}(\alpha, \beta) = & \max_{v \in (\R^{d})^{m}} \int \phi_{v} \d\alpha + \sum_{j= 1}^{m}b_{j}v_{j}                            \\
+	=                      & \max_{v} \int \min_{j} \left(c\left(x, y_{j}\right)-v_{j}\right) \d \alpha + \sum_{j = 1}^{m}b_{j}v_{j}
+\end{align*}
+Si on considère les cellules de Laguerre:
+\begin{equation*}
+	L_{j}(v) = \left\{x \in \X \suchthat \forall j'\neq j, c(x, y_{j}) -v_{j} \leq c(x, y_{j'}) - v_{j'}\right\}
+\end{equation*}
+On obtient:
+\begin{equation*}
+	L_{c}(\alpha, \beta) = \max_{v} \sum_{j} \int_{L_{j}(v)} \left(c(x, y_{j}) - v_{j}\right) \d\alpha + \scalar{b, v}
+\end{equation*}
+
+\subsubsection{Distance $1$-Wasserstein}
+On se place dans le cas $c(x, y) = d(x, y)$ sur $\X = \Y$.
+
+\begin{proposition}
+	\begin{enumerate}
+		\item $f$ est $c$- concave si et seulement si $f$ est $\delta$-lipschitzienne pour $\delta \leq 1$.
+		\item Is $\mathrm{Lip}(f) \leq 1$, alors $f^{c} = -f0$
+	\end{enumerate}
+\end{proposition}
+
+\begin{proposition}
+	Sous les hypothèses ci-dessus:
+	\begin{equation*}
+		\Wass_{1}(\alpha, \beta) = \max_{\phi, \mathrm{Lip}(\phi) \leq 1} \int \phi\d(\alpha - \beta)
+	\end{equation*}
+\end{proposition}
+
+\begin{remarque}
+	Dans le cas discret, $\alpha - \beta = \sum m_{k}\delta_{z_{k}}$ avec $\sum m_{k} = 0$.
+	On a donc:
+	\begin{equation*}
+		\Wass_{1}(\alpha, \beta) = \max_{u_{k}} \left\{\sum_{k} u_{k}m_{k} \suchthat \forall k, l, \abs{u_{k} - u_{l}} \leq d(z_{k}, z_{l})\right\}
+	\end{equation*}
+\end{remarque}
+
+\begin{remarque}
+	Si on est aussi dans le cas euclidien, la condition lipschitzienne globale peut se remplacer par:
+	\begin{equation*}
+		\ninf{\nabla \phi} \leq 1
+	\end{equation*}
+\end{remarque}
