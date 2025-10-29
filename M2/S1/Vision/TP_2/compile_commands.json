@@ -1,0 +1,38 @@
+[
+{
+  "directory": "/home/matthieu/Documents/ETUDES/ENS/M2/S1/Vision/TP_2",
+  "command": "/nix/store/x8mydcgbry214s802nzvy7fdljx404ym-gcc-wrapper-14.3.0/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DSRCDIR=/home/matthieu/Documents/ETUDES/ENS/M2/S1/Vision/TP_2 -isystem /nix/store/g6jcv3pvibriam4khx7jx1zgz7kpmzck-imaginepp-6.0.0/include -isystem /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/include/QtOpenGLWidgets -isystem /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/include/QtOpenGL -isystem /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/include/QtCore -isystem /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/mkspecs/linux-g++ -isystem /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/include/QtGui -isystem /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/include/QtWidgets -fPIC -o CMakeFiles/Fundamental.dir/Fundamental.cpp.o -c /home/matthieu/Documents/ETUDES/ENS/M2/S1/Vision/TP_2/Fundamental.cpp",
+  "file": "/home/matthieu/Documents/ETUDES/ENS/M2/S1/Vision/TP_2/Fundamental.cpp",
+  "output": "CMakeFiles/Fundamental.dir/Fundamental.cpp.o"
+},
+{
+  "directory": "/home/matthieu/Documents/ETUDES/ENS/M2/S1/Vision/TP_2",
+  "command": "/nix/store/x8mydcgbry214s802nzvy7fdljx404ym-gcc-wrapper-14.3.0/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DSRCDIR=/home/matthieu/Documents/ETUDES/ENS/M2/S1/Vision/TP_2 -isystem /nix/store/g6jcv3pvibriam4khx7jx1zgz7kpmzck-imaginepp-6.0.0/include -isystem /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/include/QtOpenGLWidgets -isystem /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/include/QtOpenGL -isystem /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/include/QtCore -isystem /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/mkspecs/linux-g++ -isystem /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/include/QtGui -isystem /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/include/QtWidgets -fPIC -o CMakeFiles/Fundamental.dir/Imagine/SIFT_VL.cpp.o -c /home/matthieu/Documents/ETUDES/ENS/M2/S1/Vision/TP_2/Imagine/SIFT_VL.cpp",
+  "file": "/home/matthieu/Documents/ETUDES/ENS/M2/S1/Vision/TP_2/Imagine/SIFT_VL.cpp",
+  "output": "CMakeFiles/Fundamental.dir/Imagine/SIFT_VL.cpp.o"
+},
+{
+  "directory": "/home/matthieu/Documents/ETUDES/ENS/M2/S1/Vision/TP_2",
+  "command": "/nix/store/x8mydcgbry214s802nzvy7fdljx404ym-gcc-wrapper-14.3.0/bin/gcc -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DSRCDIR=/home/matthieu/Documents/ETUDES/ENS/M2/S1/Vision/TP_2 -isystem /nix/store/g6jcv3pvibriam4khx7jx1zgz7kpmzck-imaginepp-6.0.0/include -isystem /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/include/QtOpenGLWidgets -isystem /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/include/QtOpenGL -isystem /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/include/QtCore -isystem /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/mkspecs/linux-g++ -isystem /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/include/QtGui -isystem /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/include/QtWidgets -fPIC -o CMakeFiles/Fundamental.dir/Imagine/vl/generic.c.o -c /home/matthieu/Documents/ETUDES/ENS/M2/S1/Vision/TP_2/Imagine/vl/generic.c",
+  "file": "/home/matthieu/Documents/ETUDES/ENS/M2/S1/Vision/TP_2/Imagine/vl/generic.c",
+  "output": "CMakeFiles/Fundamental.dir/Imagine/vl/generic.c.o"
+},
+{
+  "directory": "/home/matthieu/Documents/ETUDES/ENS/M2/S1/Vision/TP_2",
+  "command": "/nix/store/x8mydcgbry214s802nzvy7fdljx404ym-gcc-wrapper-14.3.0/bin/gcc -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DSRCDIR=/home/matthieu/Documents/ETUDES/ENS/M2/S1/Vision/TP_2 -isystem /nix/store/g6jcv3pvibriam4khx7jx1zgz7kpmzck-imaginepp-6.0.0/include -isystem /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/include/QtOpenGLWidgets -isystem /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/include/QtOpenGL -isystem /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/include/QtCore -isystem /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/mkspecs/linux-g++ -isystem /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/include/QtGui -isystem /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/include/QtWidgets -fPIC -o CMakeFiles/Fundamental.dir/Imagine/vl/host.c.o -c /home/matthieu/Documents/ETUDES/ENS/M2/S1/Vision/TP_2/Imagine/vl/host.c",
+  "file": "/home/matthieu/Documents/ETUDES/ENS/M2/S1/Vision/TP_2/Imagine/vl/host.c",
+  "output": "CMakeFiles/Fundamental.dir/Imagine/vl/host.c.o"
+},
+{
+  "directory": "/home/matthieu/Documents/ETUDES/ENS/M2/S1/Vision/TP_2",
+  "command": "/nix/store/x8mydcgbry214s802nzvy7fdljx404ym-gcc-wrapper-14.3.0/bin/gcc -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DSRCDIR=/home/matthieu/Documents/ETUDES/ENS/M2/S1/Vision/TP_2 -isystem /nix/store/g6jcv3pvibriam4khx7jx1zgz7kpmzck-imaginepp-6.0.0/include -isystem /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/include/QtOpenGLWidgets -isystem /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/include/QtOpenGL -isystem /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/include/QtCore -isystem /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/mkspecs/linux-g++ -isystem /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/include/QtGui -isystem /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/include/QtWidgets -fPIC -o CMakeFiles/Fundamental.dir/Imagine/vl/imop.c.o -c /home/matthieu/Documents/ETUDES/ENS/M2/S1/Vision/TP_2/Imagine/vl/imop.c",
+  "file": "/home/matthieu/Documents/ETUDES/ENS/M2/S1/Vision/TP_2/Imagine/vl/imop.c",
+  "output": "CMakeFiles/Fundamental.dir/Imagine/vl/imop.c.o"
+},
+{
+  "directory": "/home/matthieu/Documents/ETUDES/ENS/M2/S1/Vision/TP_2",
+  "command": "/nix/store/x8mydcgbry214s802nzvy7fdljx404ym-gcc-wrapper-14.3.0/bin/gcc -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DSRCDIR=/home/matthieu/Documents/ETUDES/ENS/M2/S1/Vision/TP_2 -isystem /nix/store/g6jcv3pvibriam4khx7jx1zgz7kpmzck-imaginepp-6.0.0/include -isystem /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/include/QtOpenGLWidgets -isystem /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/include/QtOpenGL -isystem /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/include/QtCore -isystem /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/mkspecs/linux-g++ -isystem /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/include/QtGui -isystem /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/include/QtWidgets -fPIC -o CMakeFiles/Fundamental.dir/Imagine/vl/sift.c.o -c /home/matthieu/Documents/ETUDES/ENS/M2/S1/Vision/TP_2/Imagine/vl/sift.c",
+  "file": "/home/matthieu/Documents/ETUDES/ENS/M2/S1/Vision/TP_2/Imagine/vl/sift.c",
+  "output": "CMakeFiles/Fundamental.dir/Imagine/vl/sift.c.o"
+}
+]

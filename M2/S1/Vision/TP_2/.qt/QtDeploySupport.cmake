@@ -35,7 +35,7 @@ set(__QT_DEPLOY_SYSTEM_NAME "Linux")
 set(__QT_DEPLOY_SHARED_LIBRARY_SUFFIX ".so")
 set(__QT_DEPLOY_IS_SHARED_LIBS_BUILD "ON")
 set(__QT_DEPLOY_TOOL "GRD")
-set(__QT_DEPLOY_IMPL_DIR "/home/matthieu/Documents/ETUDES/ENS/M2/S1/Vision/TP_1/.qt")
+set(__QT_DEPLOY_IMPL_DIR "/home/matthieu/Documents/ETUDES/ENS/M2/S1/Vision/TP_2/.qt")
 set(__QT_DEPLOY_VERBOSE "")
 set(__QT_CMAKE_EXPORT_NAMESPACE "Qt6")
 set(__QT_LIBINFIX "")
@@ -60,7 +60,7 @@ set(__QT_DEPLOY_QT_DEBUG_POSTFIX "")
 
 # Define the CMake commands to be made available during deployment.
 set(__qt_deploy_support_files
-    "/home/matthieu/Documents/ETUDES/ENS/M2/S1/Vision/TP_1/.qt/QtDeployTargets.cmake"
+    "/home/matthieu/Documents/ETUDES/ENS/M2/S1/Vision/TP_2/.qt/QtDeployTargets.cmake"
     "/nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/lib/cmake/Qt6Core/Qt6CoreDeploySupport.cmake"
 )
 foreach(__qt_deploy_support_file IN LISTS __qt_deploy_support_files)
