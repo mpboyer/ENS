@@ -1,0 +1,43 @@
+\section{Transport Optimal Tranché}
+
+\subsection{Définition et propriétés}
+
+\begin{definition}
+	Given $u \in \R^{d}$, l'opérateur de tranchage (ou \textit{slicing}) basé sur $u$ est défini par:
+	\begin{equation*}
+		p_{u}: x \in \R^{d} = \scalar{x, u}
+	\end{equation*}
+\end{definition}
+
+On va généraliser cette opération sur les mesures grâce à l'opérateur de poussage $\sharp$:
+Si $X \sim \mu$, alors $\scalar{u, X} \sim p_{u}\sharp \mu$.
+
+Dans la suite on note $P_{u}$ l'application de projection orthogonale sur $u$.
+
+\begin{definition}
+	La distance de Wasserstein tranchée par $c$ $W_{c}$ entre $\mu$ et $\nu$ est la distance $1$-dimensionnelle de Wasserstein basée sur $c :\R \times \R \to \R_{+}$ continue est:
+	\begin{equation*}
+		S\Wass_{p}(\mu, \nu) = \E_{\theta \sim \mU_{\S^{d - 1}}}[\Wass(p_{\theta}\sharp \mu, p_{\theta}\sharp\nu)]
+	\end{equation*}
+\end{definition}
+\begin{proof}
+	C'est bien une distance, tkt.
+\end{proof}
+
+\begin{proposition}
+	Pour toutes deux distributions $\mu, \nu$ sur $\R^{d}$:
+	\begin{equation*}
+		S\Wass_{p}^{p}(\mu, \nu) \leq C_{d, p}\Wass_{p}^{p}(\mu, \nu)
+	\end{equation*}
+	où:
+	\begin{equation*}
+		C_{d, p} = \frac{1}{d}\int_{\S^{d - 1}}\norm{\theta}_{p}^{p}\d\mU_{\S^{d - 1}}(\theta)
+	\end{equation*}
+\end{proposition}
+
+\subsection{En pratique}
+On a l'approximation de Monte-Carlo suivante (puisque l'espérance sur la sphère n'est pas calculable en général):
+\begin{equation*}
+	S\Wass_{p}^{p}(\mu, \nu) \simeq \frac{1}{K}\sum_{j = 1}^{K} W_{p}(p_{\theta_{j}}\sharp\mu, p_{\theta_{j}}\sharp\nu)^{p}
+\end{equation*}
+
