@@ -1,0 +1,121 @@
+\section{Modèles de Flot et Diffusion}
+Dans cette section, on s'intéresse à l'espace $\mathbb{W}_{p}$ des mesures de probabilités sur $\R^{d}$ muni de la distance de $p$-Wasserstein.
+
+\subsection{Transport optimal dynamique}
+Dans la suite, $c(x, y) = \norm{x - y}^{2}$.
+On s'intéresse d'abord aux géodésiques sur cet espaces, et à ce qu'elles nous apprennent en apprentissage.
+
+Si on se donne $\alpha, \beta$ deux mesures de probabilités avec $\alpha$ à densité, et $T$ une application optimale entre $\alpha$ et $\beta$, on définit $\mu_{t}$ la distribution de $X_{t} = (1 - t) X_{0} + tT(X_{0})$ avec $X_{0}\sim \alpha$.
+L'application $t \mapsto \mu_{t}$ est donc une géodésique dans $\WW_{2}$.
+\begin{definition}
+	On définit $v_{t}(x) = (T - \Id)\circ T_{t}^{-1}(x)$, de sorte que $v_{t} \circ T_{t}(x) = T(x) - x$ est une constante.
+	C'est le champ de vitesse constant sur les chemins de $x$ à $T(x)$.
+\end{definition}
+
+On a alors:
+\begin{equation*}
+	\int_{0}^{1}\int \norm{v_{t}(x)}^{2}\d\mu_{t}\d t = \int_{0}^{1}\int \norm{v_{t}\circ T_{t}(x)}^{2}\d\alpha\d t = \int_{0}^{1}\int \norm{T(x) - x}^{2}\d\alpha \d t = \int \norm{T(x) - x}^{2} \d\alpha = \Wass_{2}(\alpha, \beta)
+\end{equation*}
+
+\begin{definition}
+	L'ensemble des chemins avec vitesses entre $\alpha$ et $\beta$ deux mesures de probabilités est:
+	\begin{equation*}
+		V(\alpha, \beta) = \left\{\left(\mu_{t}, v_{t}\right) \suchthat \mu_{0} = \alpha, \mu_{1} = \beta\right\}
+	\end{equation*}
+	où, pour tout $t$, $\mu_{t} \in \mP(\R^{d})$ et où $v: [0, 1] \times \R^{d} \to \R^{d}$ est un champ de vitesses et où la paire $(\mu_{t}, v_{t})$ vérifie l'équation de continuité \eqref{eq:CE}.
+\end{definition}
+
+\begin{proposition}
+	Si $T = \nabla \phi$ avec $\phi$ convexe, alors $T$ est monotone et pour tout $t$, $T_{t}$ est injective.
+\end{proposition}
+
+\begin{definition}
+	La paire $(\mu_{t}, v_{t})$ satisfie l'équation de continuité si:
+	\begin{equation}
+		\frac{\d\mu_{t}}{\d t} + \div (\mu_{t}v_{t}) = 0
+		\tag{CE}\label{eq:CE}
+	\end{equation}
+	où l'égalité est entendue au sens des distributions.
+\end{definition}
+
+Il reste donc à vérifier que $\mu_{t} = T_{t}\sharp \alpha$ et $v_{t} = (T - \Id) \circ T_{t}^{-1}(x)$ vérifient l'équation de continuité.
+On se donne $\psi$ a support compact sur $]0, 1[\times \R^{d}$ et on a:
+\begin{align*}
+	\int_{0}^{1}\int \frac{\d\psi}{\d t}\d\mu_{t}\d t =                       & \int_{0}^{1}\int \frac{\d \psi_{t}}{\d t}(T_{t}(x))\d\alpha\d t                       \\
+	\int_{0}^{1}\int_{\R^{d}}\scalar{\nabla_{x}\psi, v_{t}(x)}\d\mu_{t}\d t = & \int_{0}^{1}\int_{\R^{d}}\scalar{\nabla_{x}\psi \circ T_{t}(x), T(x) - x}\d\alpha\d t
+\end{align*}
+Ainsi:
+\begin{equation*}
+	\int_{0}^{1}\int_{\R^{d}}\left(\frac{\d\psi_{t}}{\d t} \circ T_{t}(x) + \scalar{\nabla_{x}\psi, v_{t}(x) }\right)\d\mu_{t}\d t =
+	\int_{0}^{1}\int_{\R^{d}} \underbrace{\left(\frac{\d\psi_{t}}{\d t} \circ T_{t}(x) + \scalar{\nabla_{x}\psi \circ T_{t}(x), T(x) - x}\right)}_{=\frac{\d}{\d t}(\psi(t, T(t, x)))}\d\alpha \d t
+\end{equation*}
+Finalement:
+\begin{equation*}
+	\int_{0}^{1}\int_{\R^{d}}\left(\frac{\d\psi_{t}}{\d t} \circ T_{t}(x) + \scalar{\nabla_{x}\psi, v_{t}(x) }\right)\d\mu_{t}\d t =
+	\int_{\R^{d}} \underbrace{\left(\psi(1, T(1, x)) - \psi(0, T(0, x))\right)}_{= 0}\d\alpha
+\end{equation*}
+
+On vérifie donc bien que:
+\begin{proposition}
+	\label{prop:geodesicswass}
+	\begin{equation*}
+		W_{2}^{2}(\alpha, \beta) \geq \inf_{V(\alpha, \beta)} \int_{0}^{1}\int \norm{v_{t}(x)}^{2}\d\mu_{t}\d t
+	\end{equation*}
+\end{proposition}
+
+On rappelle que le flot $\phi$ de $v$ est défini par $\frac{\d\phi_{t}(x)}{\d t} = v(t, \phi_{t}(x))$ et $\phi_{0}(x) = x$.
+
+Avec la définition de $v_{t}$ ci-dessus, on voit que $T_{t}$ est le flot de $v_{t}$.
+
+\begin{thm}
+	\label{thm:flot}
+	Si $v_{t}$ est uniformément borné et Lipschitz en $x$ (uniformément en $t$),
+	si $\phi_{t}$ est son flot et si de plus $\alpha$ est absoluement continue par rapport à la
+	mesure de Lebesgue, alors, $\rho_{t} = \phi_{t} \sharp \alpha$ est l'unique solution
+	de \eqref{eq:CE} avec la confition initiale $\rho_{0} = \alpha$.
+\end{thm}
+
+On obtient donc le Théorème suivant:
+\begin{thm}[Bénamou-Brenier]
+	On a:
+	\begin{equation*}
+		W_{2}^{2}(\alpha, \beta) = \min_{V(\alpha, \beta)} \int_{0}^{1}\int \norm{v_{t}}^{2}\d\mu_{t}\d t
+	\end{equation*}
+	la solution étant unique et donnée par l'interpolation de McCann et sa vitesse correspondante $v_{t}$.
+\end{thm}
+\begin{proof}
+	Utilisant l'équation de la Proposition \ref{prop:geodesicswass} on a déjà une inégalité.
+	En utilisant le Théorème \ref{thm:flot} ci-dessus, on obtient:
+	\begin{align*}
+		\int_{0}^{1}\int_{\R^{d}}\norm{v_{t}(x)}^{2}\d\mu_{t}\d t
+		=                                             & \int_{0}^{1}\int_{\R^{d}}\norm{v_{t}\circ \phi_{t}(x)}^{2} \d\alpha \d t                                        \\
+		\overset{Fubini}{=}                           & \int_{\R^{d}}\int_{0}^{1}\norm{v_{t}\circ \phi_{t}(x)}^{2} \d t \d \alpha                                       \\
+		\overset{Jensen}{\geq}                        & \int_{\R^{d}}\norm{\int_{0}^{1}\underbrace{v_{t}\circ\phi_{t}(x)}_{\frac{\d\phi_{t}}{\d t}(x)}\d t}^{2}\d\alpha \\
+		=                                             & \int_{\R^{d}} \norm{\phi(1, x) - x}^{2}\d\alpha                                                                 \\
+		\overset{\phi_{1}\sharp \alpha = \beta}{\geq} & W_{2}^{2}(\alpha, \beta)
+	\end{align*}
+	Pour l'unicité de la solution, on se donne deux solutions et on introduit leur moyenne, l'inégalité de Cauchy-Schwarz (et son cas d'égalité) nous permet de conclure la preuve.
+\end{proof}
+
+\subsection{Couplage par flot}
+On va appliquer le Théorème \ref{thm:flot} et construire une paire $(\mu_{t}, v_{t}) \sim \eqref{eq:CE}$ telle que $\mu_{0} = \alpha$, $\mu_{1} = \beta$.
+Le couplage par flot est une manière de construire un poussé en avant entre $\alpha$ et $\beta$, mais celui ci ne sera pas nécessairement optimal.
+
+C'est une méthode applicable à la modélisation générative:
+\begin{enumerate}
+	\item On échantillonne $\alpha = \mN(0, \Id)$.
+	\item On calcule un champ $v_{\theta}$ tel que $\mu_{t}, v_{\theta} \sim \eqref{eq:CE}$ où $\mu_{t}$ est un chemin de $\alpha$ à $\beta$.
+	\item On intègre $v_{\theta}$ pour optenir $\phi^{\theta}$.
+	\item On échantillone $\beta$ en échantillonnant $\alpha$ puis en considérant l'image par $\phi_{1}^{\theta}$.
+\end{enumerate}
+
+Pour définir $\mu_{t}, v_{t}$ de manière efficace on a l'algorithme suivant:
+\begin{enumerate}
+	\item On part d'un couplage $X_{0}, X_{1} \sim \Pi \in \mU(\alpha, \beta)$.
+	\item On définit $X_{t} = tX_{1} + (1 - t)X_{0}$ et $\mu_{t}$ la loi de $X_{t}$.
+	\item On calcule ensuite $v_{t}$ comme l'espérance de $X_{1} - X_{0}$ sachant $X_{t} = x$.
+\end{enumerate}
+
+\begin{proposition}
+	La paire $(\mu_{t}, v_{t})$ définie ci-dessus vérifie \eqref{eq:CE}, et donc $(\mu_{t}, v_{t}) \in V(\alpha, \beta)$.
+\end{proposition}

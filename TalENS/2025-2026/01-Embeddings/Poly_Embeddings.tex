@@ -1,29 +1,127 @@
-\documentclass[info, math]{cours}
+\documentclass[info, math]{mpb-cours}
 
 \title{Modélisation de Données Complexes}
+\author{Matthieu Boyer}
+\date{Cours TalENS 1 2025-2026}
 
 \begin{document}
-\section{Espaces vectoriels euclidiens}
-\subsection{Le plan}
+\bettertitle
 
-\subsection{Plus de paramètres}
+Ce polycopié ne doit pas être vu comme un remplacement au cours, mais simplement comme un résumé du contenu qui permet d'être sûr de ne rien manquer.
+On ne parlera ici des espaces vectoriels que dans un cadre très restreint adapté à ce qu'on va vouloir en
+faire.
+En particulier, on ne fera pas d'algèbre linéaire, on ne parlera pas de base quelconque ni d'isomorphismes.
+Je vous renvoie au cours donné avec Clément Allard l'an dernier pour plus de détails et des preuves.
 
-\section{Distance entre deux vecteurs}
-\subsection{Norme euclidienne}
+\section{Calcul vectoriel}
+\subsection{Espaces euclidiens}
+Autour de 300 avant notre ère, Euclide, mathématicien grec écrit les \ul{Éléments}, un traité de géométrie
+qui construit le monde autour de 5 axiomes (postulats indémontrables par les autres),
+sous forme de constructions géométriques réalisables:
+\begin{enumerate}
+	\item On peut tracer une ligne droite de tout point à tout autre point;
+	\item On peut étendre une ligne droite finie continuement en une ligne droite;
+	\item On peut décrire un cercle de tout centre avec tout rayon;
+	\item On suppose que tous les angles droits sont égaux;
+	\item On suppose qu'étant donnée une droite et un point n'appartenant pas à la droite, il y a exactement une droite qui passe par ce point et qui ne croise pas la droite de départ.
+\end{enumerate}
+
+Les espaces vectoriels euclidiens sont une manière algébrique de décrire un espace vérifiant les axiomes
+d'Euclide.
+\begin{definition}
+	Un espace vectoriel (réel) est un ensemble $E$ de points (appelés vecteurs) munis d'une addition interne associative commutative unitale et d'une multiplication externe distributive sur l'addition.
+\end{definition}
+Autrement dit, dans l'espace $E$:
+\begin{itemize}
+	\item Il existe un vecteur origine ou vecteur nul, dénoté $0_{E}$ ou simplement $0$;
+	\item L'addition de deux vecteurs se fait par la relation de Chasles\footnote{Qui est un théorème de géométrie affine et non vectorielle.};
+	\item La multiplication par $\lambda \in \R$ d'un vecteur $x$ est l'agrandissement/le rétrécissement de $x$ par un facteur $\lambda$.
+\end{itemize}
+Il n'y a pas de "points" dans $E$, mais on peut les construire en voyant un point $P$ comme le vecteur partant de $0$ et allant jusqu'à $P$.
+
+\begin{remarque}
+	Il est important de noter que cette définition ne présume rien sur le nombre de vecteurs,
+	ni sur ce qu'ils représentent: pour tout ensemble $X$, l'ensemble des fonctions de $X$ dans $\R$
+	est un espace vectoriel (muni de l'addition point à point et de la multiplication du résultat).
+	On va beaucoup, dans la suite, faire appel à l'intuition géométrique des espaces vectoriels,
+	mais il nous est utile d'avoir une définition très générale.
+\end{remarque}
+
+\begin{definition}
+	Une base d'un espace vectoriel $E$ est une famille $(e_{i})_{i\in I}$ d'éléments de $E$ telle que tout
+	vecteur $x$ de $E$ s'écrit de manière unique comme une somme finie de $e_{i}$.
+	On dit que $E$ est de dimension finie si $E$ possède une base finie.
+\end{definition}
+
+Tous les espaces vectoriels possèdent une base, si l'on accepte l'axiome du choix (ou plutôt le
+lemme de Zorn, équivalent).
+Tous les espaces vectoriels ne possèdent pas de base finie, comme c'est par exemple le cas de l'espace des fonctions.
+Toutes les bases d'un espace vectoriel ont même cardinal, appelé dimension de l'espace.
+
+\begin{definition}
+	L'espace engendré par une famille $(e_{i})$ est l'ensemble $\Vect(e_{i})$ des combinaisons linéaires des $(e_{i})$.
+\end{definition}
+\begin{remarque}
+	Être une base, ce n'est pas juste engendrer $E$ (dans ce cas, la famille est génératrice), c'est engendrer $E$ sans avoir de degré de liberté superflu.
+	Cela revient à dire qu'il n'existe pas d'indice $k \in I$ tel que $e_{k} \in \Vect(e_{i})_{i \in I \setminus \{k\}}$, et dans ce cas là, on dit que la famille est libre.
+	Dans la suite, on ne considèrera que des familles libres (sauf mention contraire).
+\end{remarque}
+
+L'espace engendré par un vecteur est une droite, celui engendré par 2 vecteurs est un plan et celui engendré
+par $n - 1$ vecteurs dans un espace de dimension $n$ est appelé un hyperplan.
+
+\begin{definition}
+	Une application $\phi: E \to F$ est dite linéaire si pour tout $x, y \in E$, pour tout $\lambda \in \R$: $\phi(\lambda x + y) = \lambda \phi(x) + \phi(y)$.
+	Une application $\psi: E \times F \to G$ est dite bilinéaire si pour tout $x \in E$ sa restriction à $F$ est linéaire (et de même pour tout $y \in F$).
+\end{definition}
+
+\begin{definition}
+	Un produit scalaire sur $E$ est une application bilinéaire symmétrique définie positive de $E \times E$ dans $\R$.
+	Sa norme engendrée est l'application $\norm{\cdot}: x \mapsto \sqrt{\scalar{x, x}}$
+\end{definition}
+Symmétrique signifie que $\scalar{x, y} = \scalar{y, x}$, positive signifie que $\scalar{x, x} \geq 0$ et
+définie signifie que $\scalar{x, x} = 0 \Rightarrow x = 0$.
+
+\begin{definition}
+	Deux vecteurs sont orthogonaux si leur produit scalaire est nul.
+	Une base est orthonormale si tous ses vecteurs sont orthogonaux deux à deux et sont de norme 1.
+\end{definition}
+
+Tout espace vectoriel admet une base orthonormale.
+
+\begin{proposition}
+	Dans le cas où $E$ admet une base orthonormée $(e_{i})$, si $x = \sum x_{i}e_{i}$ et $y = \sum y_{i} e_{i}$ alors:
+	\begin{equation*}
+		\scalar{x, y} = \sum x_{i}y_{i}
+	\end{equation*}
+\end{proposition}
+
+Toutes les définitions ci-dessus sont une extension simple de ce qui a été vu en cours pour le produit
+scalaire en dimension $2$ et $3$.
+
+\begin{thm}[Pythagore]
+	Si la famille des $u_{i}$ est orthogonale:
+	\begin{equation*}
+		\norm{\sum u_{i}}^{2} = \sum \norm{u_{i}}^{2}
+	\end{equation*}
+\end{thm}
+
+\subsection{Applications sur les espaces euclidiens}
+
+\section{Immersions euclidiennes}
+\subsection{Immersion}
 
 \subsection{Métrique angulaire}
 
 \subsection{Métriques adaptées}
 
-\section{Immersions euclidiennes}
-\subsection{Immersion}
 
 
 \section{Algorithmes sur les immersions}
 \subsection{PCA}
+% Projection
 
 \subsection{t-SNE}
 
-\subsection{Homologie persistente}
 
 \end{document}
