@@ -1,0 +1,104 @@
+\documentclass[math, info, french]{mpb-cours}
+\usepackage{subcaption}
+\usepackage{pgf}
+
+\def\colval{}
+\newcommand{\HeatCell}[3]{%
+  \begingroup
+  \pgfmathsetmacro{\percent}{((#1 - #2)/(#3 - #2))*100}%
+  \edef\temp{\noexpand\cellcolor{red!\percent!white} #1}%
+  \temp
+  \endgroup
+}
+
+\title{Rapport sur le TP 4\\ {\small Cours de Vision 3D Artificielle -- Master MVA}}
+\author{Matthieu Boyer}
+\date{04 Novembre 2025}
+
+\begin{document}
+\maketitle
+
+\section*{Présentation du Rapport}
+Ce rapport est en deux parties principales.
+Nous commencerons par une rapide présentation du code et de l'implémentation, puis étudierons quelques expériences qui ont été faites.
+
+\section{Implémentation}
+L'intégralité du code est disponible dans le fichier \texttt{GCDisparity.cpp} joint à ce rapport dans l'archive.
+Une fois compilé avec le fichier CMake, il possède deux modes principaux:
+\begin{itemize}
+	\item Le mode normal, qui permet d'afficher la reconstruction 3D à partir des cartes de disparité générée par la méthode des coupes sur graphe (ci-après notée Graph Cuts ou GC);
+	\item Le mode \texttt{test}, qui permet de générer les expériences ci-dessous.
+\end{itemize}
+
+Ces deux modes font principalement appel aux fonctions \texttt{build\_graph} et \texttt{decode\_graph}:
+\begin{description}
+	\item[\tt build\_graph] construit, à partir de la table des valeurs de NCC (co-corrélation normalisée) et d'un paramètre $\lambda$ de régularisation, un graphe présentant un problème de flot adapté.
+	      Plus précisément, le coût depuis la source/vers le puits est la vraisemblance d'une valeur de disparité pour un pixel donné,
+	      et entre deux pixels, on met des arêtes selon les valeurs de NCC et le long du gradient de disparité.
+	\item[\tt decode\_graph] applique sur un graphe donné un algorithme permettant de résoudre le problème de
+	      flot minimum et permet donc de retrouver, au niveau de la cut trouvée dans le graphe, la séparation entre
+	      les sous-images ou la diparité est retenue et celles ou la disparité est rejetée.
+\end{description}
+
+\section{Expériences}
+Dans les tableaux de la Table \ref{tab:disparity_results} ci-dessous on regroupe, pour différentes valeurs du paramètre
+$\lambda$ de régularisation et de la taille du voisinage utilisé pour
+l'algorithme NCC, plusieurs métriques permettant de mesurer la qualité des
+approximations obtenues en calculant par coupes maximales sur un graphe (méthode GC/Graph Cuts), par
+rapport à la méthode RG des régions grandissantes.
+
+\input{disparity_tables.tex}
+
+Ici, les métriques utilisées sont les suivantes:
+\begin{itemize}
+	\item Le temps de calcul pour chaque méthode;
+	\item La moyenne des normes des gradients de variation;
+	\item L'erreur moyenne absolue, calculée entre les deux puisque la RG est prédit mieux les disparités.
+\end{itemize}
+
+Plus généralement, on trouve que la méthode GC donne des résultats légèrement moins précis que la méthode RG,
+et prend légèrement plus de temps, mais ceci vient en offrant des résultats bien plus lisses, ce qui permet
+une reconstruction visuellement plus réaliste.
+En moyenne on a les rapports de performance présentés dans la Table \ref{tab:rapports}
+
+\begin{table}
+	\centering
+	\caption{Rapports des valeurs de différentes métriques pour les deux méthodes. De gauche à droite:
+		rapport des temps de calcul entre GC et RG (GC est $x$ fois plus lent que RG);
+		rapport (en \% de la norme moyenne de GC) de la norme moyenne des gradients (GC produit des cartes $x \%$ plus lisses que RG);
+		rapport des pourcentage d'exactitude (RG ayant toujours 100\% d'exactitude, cela revient au pourcentage d'exactitude de GC).
+	}
+	\label{tab:rapports}
+	\hfill
+	\begin{NiceTabular}{c|cccc}[hvlines]
+		\multicolumn{5}{c}{\textbf{Calc Time}}                                                                                                     \\
+		$r \backslash \lambda$ & 0.05                       & 0.1                        & 0.2                        & 0.5                        \\
+		\hline
+		1                      & \HeatCell{5.43}{1.76}{6.5} & \HeatCell{6.05}{1.76}{6.5} & \HeatCell{6.50}{1.76}{6.5} & \HeatCell{5.27}{1.76}{6.5} \\
+		2                      & \HeatCell{2.98}{1.76}{6.5} & \HeatCell{3.23}{1.76}{6.5} & \HeatCell{3.36}{1.76}{6.5} & \HeatCell{2.92}{1.76}{6.5} \\
+		3                      & \HeatCell{2.13}{1.76}{6.5} & \HeatCell{2.25}{1.76}{6.5} & \HeatCell{2.43}{1.76}{6.5} & \HeatCell{2.16}{1.76}{6.5} \\
+		4                      & \HeatCell{1.76}{1.76}{6.5} & \HeatCell{1.87}{1.76}{6.5} & \HeatCell{1.98}{1.76}{6.5} & \HeatCell{1.82}{1.76}{6.5} \\
+	\end{NiceTabular}
+	\hfill
+	\begin{NiceTabular}{c|cccc}[hvlines]
+		\multicolumn{5}{c}{\textbf{Smoothness}}                                                                                        \\
+		$r \backslash \lambda$ & 0.05                    & 0.1                     & 0.2                     & 0.5                     \\
+		\hline
+		1                      & \HeatCell{0}{0}{100}    & \HeatCell{31.7}{0}{100} & \HeatCell{86.4}{0}{100} & \HeatCell{100}{0}{100}  \\
+		2                      & \HeatCell{13.7}{0}{100} & \HeatCell{45.3}{0}{100} & \HeatCell{85.2}{0}{100} & \HeatCell{99.6}{0}{100} \\
+		3                      & \HeatCell{23.2}{0}{100} & \HeatCell{49.5}{0}{100} & \HeatCell{82.3}{0}{100} & \HeatCell{99.4}{0}{100} \\
+		4                      & \HeatCell{29.2}{0}{100} & \HeatCell{52.7}{0}{100} & \HeatCell{80.1}{0}{100} & \HeatCell{99}{0}{100}   \\
+	\end{NiceTabular}
+	\hfill
+	\begin{NiceTabular}{c|cccc}[hvlines]
+		\multicolumn{5}{c}{\textbf{Accuracy}}                                                                                                          \\
+		$r \backslash \lambda$ & 0.05                        & 0.1                         & 0.2                         & 0.5                         \\
+		\hline
+		1                      & \HeatCell{92.7}{92.6}{96.1} & \HeatCell{93.8}{92.6}{96.1} & \HeatCell{95.7}{92.6}{96.1} & \HeatCell{96.1}{92.6}{96.1} \\
+		2                      & \HeatCell{92.6}{92.6}{96.1} & \HeatCell{94.1}{92.6}{96.1} & \HeatCell{95.7}{92.6}{96.1} & \HeatCell{96.1}{92.6}{96.1} \\
+		3                      & \HeatCell{92.8}{92.6}{96.1} & \HeatCell{94.2}{92.6}{96.1} & \HeatCell{95.8}{92.6}{96.1} & \HeatCell{96}{92.6}{96.1}   \\
+		4                      & \HeatCell{92.8}{92.6}{96.1} & \HeatCell{94.3}{92.6}{96.1} & \HeatCell{95.8}{92.6}{96.1} & \HeatCell{96}{92.6}{96.1}   \\
+	\end{NiceTabular}
+	\hfill
+\end{table}
+\end{document}

@@ -106,22 +106,180 @@ scalaire en dimension $2$ et $3$.
 	\end{equation*}
 \end{thm}
 
+Lorsque notre espace vectoriel euclidien est de dimension finie, on a le résultat suivant:
+\begin{definition}
+	Si $E$ est un espace euclidien de dimension $d$, alors $E$ est isomorphe à $\R^{d}$.
+	Autrement dit, tout calcul fait dans $E$ est équivalent à un calcul fait dans $\R^{d}$.
+\end{definition}
+Ce résutlat est important car dans la suite, nous ne travaillerons que sur des espaces dont
+nous pouvons connaître la structure: ou bien ils ont des propriétés particulières (espaces de fonctions,
+de suites, etc...) ou bien ils sont $\R^{d}$ pour un certain $d$.
+Nous pouvons donc nous limiter à définir ce que nous voulons sur $\R^{d}$, en offrant possiblement un sens
+dérivé de l'espace de départ à nos applications sur $\R^{d}$.
+
+Il existe une base dite canonique de $\R^{d}$, notée $e_{1}, \ldots, e_{d}$ et orthonormale.
+
 \subsection{Applications sur les espaces euclidiens}
+Dans la suite, toutes les fonctions sur lesquelles nous travaillerons seront en dimension finie.
+On va chercher à généraliser rapidement la définition de dérivée:
+\begin{definition}
+	La dérivée directionnelle de $f: \R^{n} \to \R$ selon $v \in \R^{n}$ en $x \in \R^{n}$ est donnée par:
+	\begin{equation*}
+		D_{v}(f)(x) = \lim_{t \to 0} \frac{f(x + tv) - f(x)}{t} \in \R
+	\end{equation*}
+\end{definition}
+\begin{definition}
+	Le gradient de $f$ en $x$ est le vecteur $\nabla(f)(x)$ des dérivées directionnelles de $f$ en $x$ selon
+	chacun des $e_{i}$:
+	\begin{equation*}
+		\nabla(f)(x) =
+		\begin{pmatrix}
+			D_{e_{1}}(f)(x) \\
+			\vdots          \\
+			D_{e_{d}}(f)(x)
+		\end{pmatrix} =
+		\begin{pmatrix}
+			\frac{\partial f}{\partial x_{1}}(x) \\
+			\vdots                               \\
+			\frac{\partial f}{\partial x_{d}}(x)
+		\end{pmatrix}
+	\end{equation*}
+	C'est un vecteur de $\R^{d}$.
+\end{definition}
 
-\section{Immersions euclidiennes}
-\subsection{Immersion}
+Le gradient est le vecteur qui indique la direction de plus forte progression de la fonction.
 
-\subsection{Métrique angulaire}
+\begin{proposition}
+	L'opérateur $\nabla(\cdot) (x)$ est linéaire.
+\end{proposition}
 
-\subsection{Métriques adaptées}
+Cette proposition indique qu'en effet, l'opérateur $\nabla$ désigne bien une sorte de dérivée.
+D'ailleurs, lorsque $d = 1$, c'est exactement la dérivée dont vous avez l'habitude.
+Voici juste un exemple utile:
+\begin{equation*}
+	\nabla\left(\norm{\cdot}^{2}\right)(x) = 2x \quad \nabla(\norm{\cdot})(x) = \nabla\left(\norm{\cdot}\right)(x) \times \frac{1}{2\norm{x}} = \frac{x}{\norm{x}}
+\end{equation*}
+Attention, le gradient n'existe pas toujours, comme le montre l'exemple ci-dessus, qui n'a pas de gradient
+en $0$.
+L'expression pour le gradient de la norme découle de la règle de la chaîne: $\frac{\partial f\circ g}{\partial x} = \frac{\partial g}{\partial x} \times f'(g(x))$ où $f: \R \to \R$ et $g: \R^{d} \to \R$.
+Il y a une forme plus générale de la règle, mais elle n'est pas nécessaire pour comprendre la suite.
+
+\begin{definition}
+	La Hessienne de $f$ en $x$ est en quelque sorte la dérivée seconde de $f$, c'est la matrice (vecteur $2$-dimensionnel ou tableau):
+	\begin{equation*}
+		H(f)(x) =
+		\begin{pmatrix}
+			\frac{\partial f}{\partial x_{1}\partial x_{1}}(x) & \cdots & \frac{\partial{f}}{\partial x_{d}\partial x_{1}}(x)  \\
+			\vdots                                             & \ddots & \vdots                                               \\
+			\frac{\partial f}{\partial x_{1}\partial x_{d}}(x) & \cdots & \frac{\partial{f}}{\partial{x_{d}}\partial x_{d}}(x) \\
+		\end{pmatrix}
+		= \left(\frac{\partial f}{\partial x_{i}\partial x_{j}} (x)\right)_{i, j}
+	\end{equation*}
+	où $\frac{\partial f}{\partial x_{i}\partial x_{j}}$ désigne la dérivée selon $x_{j}$ de la fonction dérivée selon $x_{i}$ de $f$.
+\end{definition}
+
+\begin{thm}
+	Comme sur $\R$, un point $x$ est un extremum local de $f$ si $\nabla(f)(x) = 0$.
+	De même, un point $x$ est un minimum local si $H(f)(x)$ est définie positve.
+\end{thm}
 
 
+\section{Plongements euclidiens}
+On s'intéresse maintenant au problème de la construction d'ensembles de données sur lesquelles travailler.
+
+\subsection{Plongements}
+Il n'y a pas de définition formelle de plongement qui n'est pas spécifiique à un type de plongement.
+En général cependant, un plongement d'une structure $A$ dans une structure $B$ est une forme de morphisme
+injectif (ou monomorphisme).
+
+\begin{definition}
+	Un plongement $\iota$ de $X$ dans un espace euclidien $\R^{F}$ dit espace de représentation ou
+	espace de caractéristiques (feature space), est une application injective qui vérifie
+	l'heuristique suivante:
+	Étant donnés deux objets $a, b$ de $X$, les deux vecteurs $\iota(a), \iota(b)$ de l'espace euclidien
+	vérifient, pour toute fonction qu'on souhaite étudier:
+	\begin{equation*}
+		f(\iota(a), \iota(b)) = \Theta(f(a, b))
+	\end{equation*}
+	où $\Theta$ désigne la notation de Landau pour l'encadrement à constante près ($Cf(a, b) \leq f(\iota(a), \iota(b)) \leq C'f(a, b)$)
+\end{definition}
+
+\begin{remarque}
+	C'est une forme d'application continue injective pour la topologie engendrée par tiré en arrière des métriques que nous allons étudier sur l'espace de représentation.
+	Si cette phrase ne veut rien dire pour vous, c'est normal pour l'instant,
+	nous reviendrons sur ça lors d'un cours ultérieur.
+\end{remarque}
+
+L'acte de plonger ses données de départ dans un espace euclidien n'est pas à prendre à la légère,
+c'est lui qui engendre la plupart des propriétés que nous pouvons étudier:
+D'une part on va chercher à reduire au maximum la dimension $F$ de l'espace de caractéristiques pour
+limiter les besoins en mémoire et en temps des calculs;
+D'autre part, si le plongement n'est pas fidèle aux données de départ, et n'est pas réellement injectif (par exemple si on réduit trop la dimension en ne se basant que sur
+un échantillon fini d'un ensemble réellement infini de données).
+
+\subsection{Zoologie de métriques}
+Dans cette partie on va regarder rapidement quelques métriques intéressantes sur des ensembles de points
+dans un espace vectoriel $E$.
+Il faut toujours se souvenir que définir une métrique sur un espace vectoriel doit se faire en ayant en tête
+l'ensemble qui a été plongé dans l'espace vectoriel et ce que la métrique peut nous apprendre sur l'espace.
+
+\subsubsection{Similarité angulaire}
+On va chercher à mesurer l'angle entre deux droites engendrées par $u$ et $v$.
+\begin{proposition}[Inégalité de Cauchy-Schwarz]
+	Si $u, v$ sont des éléments d'un espace euclidien alors:
+	\begin{equation*}
+		\abs{\scalar{u, v}} \leq \norm{u}\norm{v}
+	\end{equation*}
+	avec égalité si et seulement si $u = \lambda v$ avec $\lambda \geq 0$.
+\end{proposition}
+
+En particulier cela signifie que
+\begin{equation*}
+	\frac{\scalar{u, v}}{\norm{u}\norm{v}} \in [-1, 1]
+\end{equation*}
+et donc que $\arccos\left(\frac{\scalar{u, v}}{\norm{u}\norm{v}}\right)$ est bien une mesure d'angle entre les deux droites.
+
+\subsubsection{Norme L-p}
+\begin{definition}
+	Si $p \geq 1$ et $x \in E$.
+	\begin{equation*}
+		\norm{x}_{p} = \sqrt[p]{\sum x_{i}^{p}}
+	\end{equation*}
+\end{definition}
+
+Pour tout $p$, on obtient une distance entre nos points, par $d_{p}(x, y) = \norm{x - y}_{p}$.
+Pour $p = \infty$ on pose $\ninf{x} = \max{\abs{x_{i}}}$.
+
+\subsubsection{Représentation fréquentielle}
+En divisant $x$ par la somme des $x_{i}$, on construit une distribution de probabilité à partir de $x$.
+Ceci nous permet d'utiliser tout un tas de métriques sur l'ensemble des distributions de probabilité,
+notamment les distances de Wasserstein, la divergence de Kullback-Leibler ou la métrique de Fisher-Rao.
 
 \section{Algorithmes sur les immersions}
 \subsection{PCA}
+Le but de l'algorithme PCA est de trouver une meilleure base de l'espace pour représenter nos données.
+Pour ce faire on va construire une base dont chacune des composantes augmente le plus possible l'espace
+précédent.
+Ceci nous permet d'ailleurs de construire un espace de plongement de plus faible dimension, au coût de la
+signification des caractéristiques.
 % Projection
+\begin{algorithmic}
+	\Procedure{PCA}{n, X}
+	\For{$i = 1 \to n$}
+	\State{$u_{i} \gets \argmin_{u \in \Vect(u_{j})_{j < i}^{\bot}} \sum_{x \in X}\scalar{x, u} $}
+	\EndFor
+	\EndProcedure
+\end{algorithmic}
+
+PCA est facile à implémenter et préserve la variance globale des données, en restant linéaire et peu
+coûteux mais fonctionne assez mal dans le cas où les données ne sont pas du tout linéaire.
 
 \subsection{t-SNE}
-
+Pour t-SNE, l'algorithme est plus complexe et moins interprétable, mais préserve la similitude locale
+de l'ensemble.
+On plonge les données dans un ensemble de probabilités conditionnels représentant des similitudes pour une distribution gaussienne.
+On peut ensuite mesurer la différence entre une distribution apprise (en $2$ ou $3$ dimensions) et cette distribution, par la divergence de Kullback-Leibler.
+La divergence de Kullback-Leibler est simplement une mesure de la probabilité que deux distributions de
+probabilité soit fortement différentes.
 
 \end{document}

@@ -1,0 +1,214 @@
+\begin{table*}[h]
+	\centering
+	\caption{Comparison of disparity estimation methods. Smoothness is measured as average gradient magnitude (lower is smoother). MAE shows mean absolute error between Graph Cuts and Region Growing results.}
+	\label{tab:disparity_results}
+
+	\begin{subtable}{0.4\textwidth}
+		\centering
+		\begin{tabular}{lcccc}
+			\hline
+			Method & Time (s) & Smooth. & Valid & MAE    \\
+			\hline
+			GC     & 11.661   & 17.570  & 0.927 & --     \\
+			RG     & 6.239    & 17.228  & 1.000 & 16.779 \\
+			\hline
+		\end{tabular}
+		\\
+		\caption{$\lambda = 0.050$, window radius = 1 (patch 3x3)}
+	\end{subtable}\hfill
+	\begin{subtable}{0.4\textwidth}
+		\centering
+		\begin{tabular}{lcccc}
+			\hline
+			Method & Time (s) & Smooth. & Valid & MAE    \\
+			\hline
+			GC     & 19.901   & 12.187  & 0.926 & --     \\
+			RG     & 17.090   & 14.125  & 1.000 & 16.019 \\
+			\hline
+		\end{tabular}
+		\\
+		\caption{$\lambda = 0.050$, window radius = 2 (patch 5x5)}
+	\end{subtable}\hfill
+	\begin{subtable}{0.4\textwidth}
+		\centering
+		\begin{tabular}{lcccc}
+			\hline
+			Method & Time (s) & Smooth. & Valid & MAE    \\
+			\hline
+			GC     & 35.300   & 8.995   & 0.928 & --     \\
+			RG     & 32.417   & 11.710  & 1.000 & 15.203 \\
+			\hline
+		\end{tabular}
+		\\
+		\caption{$\lambda = 0.050$, window radius = 3 (patch 7x7)}
+	\end{subtable}\hfill
+	\begin{subtable}{0.4\textwidth}
+		\centering
+		\begin{tabular}{lcccc}
+			\hline
+			Method & Time (s) & Smooth. & Valid & MAE    \\
+			\hline
+			GC     & 56.491   & 7.044   & 0.928 & --     \\
+			RG     & 53.154   & 9.947   & 1.000 & 14.388 \\
+			\hline
+		\end{tabular}
+		\\
+		\caption{$\lambda = 0.050$, window radius = 4 (patch 9x9)}
+	\end{subtable}\hfill
+	\begin{subtable}{0.4\textwidth}
+		\centering
+		\begin{tabular}{lcccc}
+			\hline
+			Method & Time (s) & Smooth. & Valid & MAE    \\
+			\hline
+			GC     & 9.180    & 11.767  & 0.938 & --     \\
+			RG     & 6.240    & 17.228  & 1.000 & 16.914 \\
+			\hline
+		\end{tabular}
+		\\
+		\caption{$\lambda = 0.100$, window radius = 1 (patch 3x3)}
+	\end{subtable}\hfill
+	\begin{subtable}{0.4\textwidth}
+		\centering
+		\begin{tabular}{lcccc}
+			\hline
+			Method & Time (s) & Smooth. & Valid & MAE    \\
+			\hline
+			GC     & 19.831   & 7.724   & 0.941 & --     \\
+			RG     & 16.794   & 14.125  & 1.000 & 16.301 \\
+			\hline
+		\end{tabular}
+		\\
+		\caption{$\lambda = 0.100$, window radius = 2 (patch 5x5)}
+	\end{subtable}\hfill
+	\begin{subtable}{0.4\textwidth}
+		\centering
+		\begin{tabular}{lcccc}
+			\hline
+			Method & Time (s) & Smooth. & Valid & MAE    \\
+			\hline
+			GC     & 35.473   & 5.917   & 0.942 & --     \\
+			RG     & 32.388   & 11.710  & 1.000 & 15.608 \\
+			\hline
+		\end{tabular}
+		\\
+		\caption{$\lambda = 0.100$, window radius = 3 (patch 7x7)}
+	\end{subtable}\hfill
+	\begin{subtable}{0.4\textwidth}
+		\centering
+		\begin{tabular}{lcccc}
+			\hline
+			Method & Time (s) & Smooth. & Valid & MAE    \\
+			\hline
+			GC     & 56.278   & 4.707   & 0.943 & --     \\
+			RG     & 53.223   & 9.947   & 1.000 & 14.982 \\
+			\hline
+		\end{tabular}
+		\\
+		\caption{$\lambda = 0.100$, window radius = 4 (patch 9x9)}
+	\end{subtable}\hfill
+	\begin{subtable}{0.4\textwidth}
+		\centering
+		\begin{tabular}{lcccc}
+			\hline
+			Method & Time (s) & Smooth. & Valid & MAE    \\
+			\hline
+			GC     & 9.487    & 2.341   & 0.957 & --     \\
+			RG     & 6.338    & 17.228  & 1.000 & 17.672 \\
+			\hline
+		\end{tabular}
+		\\
+		\caption{$\lambda = 0.200$, window radius = 1 (patch 3x3)}
+	\end{subtable}\hfill
+	\begin{subtable}{0.4\textwidth}
+		\centering
+		\begin{tabular}{lcccc}
+			\hline
+			Method & Time (s) & Smooth. & Valid & MAE    \\
+			\hline
+			GC     & 20.092   & 2.094   & 0.957 & --     \\
+			RG     & 16.781   & 14.125  & 1.000 & 17.293 \\
+			\hline
+		\end{tabular}
+		\\
+		\caption{$\lambda = 0.200$, window radius = 2 (patch 5x5)}
+	\end{subtable}\hfill
+	\begin{subtable}{0.4\textwidth}
+		\centering
+		\begin{tabular}{lcccc}
+			\hline
+			Method & Time (s) & Smooth. & Valid & MAE    \\
+			\hline
+			GC     & 36.458   & 2.073   & 0.958 & --     \\
+			RG     & 32.843   & 11.710  & 1.000 & 16.958 \\
+			\hline
+		\end{tabular}
+		\\
+		\caption{$\lambda = 0.200$, window radius = 3 (patch 7x7)}
+	\end{subtable}\hfill
+	\begin{subtable}{0.4\textwidth}
+		\centering
+		\begin{tabular}{lcccc}
+			\hline
+			Method & Time (s) & Smooth. & Valid & MAE    \\
+			\hline
+			GC     & 57.824   & 1.977   & 0.958 & --     \\
+			RG     & 53.629   & 9.947   & 1.000 & 16.565 \\
+			\hline
+		\end{tabular}
+		\\
+		\caption{$\lambda = 0.200$, window radius = 4 (patch 9x9)}
+	\end{subtable}\hfill
+	\begin{subtable}{0.4\textwidth}
+		\centering
+		\begin{tabular}{lcccc}
+			\hline
+			Method & Time (s) & Smooth. & Valid & MAE    \\
+			\hline
+			GC     & 8.903    & 0.000   & 0.961 & --     \\
+			RG     & 6.323    & 17.228  & 1.000 & 18.364 \\
+			\hline
+		\end{tabular}
+		\\
+		\caption{$\lambda = 0.500$, window radius = 1 (patch 3x3)}
+	\end{subtable}\hfill
+	\begin{subtable}{0.4\textwidth}
+		\centering
+		\begin{tabular}{lcccc}
+			\hline
+			Method & Time (s) & Smooth. & Valid & MAE    \\
+			\hline
+			GC     & 19.813   & 0.051   & 0.961 & --     \\
+			RG     & 17.043   & 14.125  & 1.000 & 18.397 \\
+			\hline
+		\end{tabular}
+		\\
+		\caption{$\lambda = 0.500$, window radius = 2 (patch 5x5)}
+	\end{subtable}\hfill
+	\begin{subtable}{0.4\textwidth}
+		\centering
+		\begin{tabular}{lcccc}
+			\hline
+			Method & Time (s) & Smooth. & Valid & MAE    \\
+			\hline
+			GC     & 36.020   & 0.074   & 0.960 & --     \\
+			RG     & 32.782   & 11.710  & 1.000 & 18.407 \\
+			\hline
+		\end{tabular}
+		\\
+		\caption{$\lambda = 0.500$, window radius = 3 (patch 7x7)}
+	\end{subtable}\hfill
+	\begin{subtable}{0.4\textwidth}
+		\centering
+		\begin{tabular}{lcccc}
+			\hline
+			Method & Time (s) & Smooth. & Valid & MAE    \\
+			\hline
+			GC     & 56.661   & 0.104   & 0.960 & --     \\
+			RG     & 53.865   & 9.947   & 1.000 & 18.316 \\
+			\hline
+		\end{tabular}
+		\\
+		\caption{$\lambda = 0.500$, window radius = 4 (patch 9x9)}
+	\end{subtable}\hfill
+\end{table*}

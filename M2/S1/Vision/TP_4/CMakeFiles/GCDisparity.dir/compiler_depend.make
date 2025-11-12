@@ -43,6 +43,8 @@ CMakeFiles/GCDisparity.dir/GCDisparity.cpp.o: GCDisparity.cpp \
   /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/select2.h \
   /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/setjmp.h \
   /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/stdint-intn.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/stdint-least.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/stdint-uintn.h \
   /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/stdio.h \
   /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/stdio2-decl.h \
   /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/stdio2.h \
@@ -103,6 +105,7 @@ CMakeFiles/GCDisparity.dir/GCDisparity.cpp.o: GCDisparity.cpp \
   /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/features.h \
   /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/gnu/stubs-64.h \
   /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/gnu/stubs.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/libintl.h \
   /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/linux/close_range.h \
   /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/linux/errno.h \
   /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/locale.h \
@@ -110,6 +113,7 @@ CMakeFiles/GCDisparity.dir/GCDisparity.cpp.o: GCDisparity.cpp \
   /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/pthread.h \
   /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/sched.h \
   /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/stdc-predef.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/stdint.h \
   /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/stdio.h \
   /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/stdlib.h \
   /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/string.h \
@@ -168,6 +172,7 @@ CMakeFiles/GCDisparity.dir/GCDisparity.cpp.o: GCDisparity.cpp \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/basic_string.tcc \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/char_traits.h \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/charconv.h \
+  /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/chrono.h \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/codecvt.h \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/concept_check.h \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/cpp_type_traits.h \
@@ -186,8 +191,11 @@ CMakeFiles/GCDisparity.dir/GCDisparity.cpp.o: GCDisparity.cpp \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/list.tcc \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/locale_classes.h \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/locale_classes.tcc \
+  /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/locale_conv.h \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/locale_facets.h \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/locale_facets.tcc \
+  /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/locale_facets_nonio.h \
+  /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/locale_facets_nonio.tcc \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/localefwd.h \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/memory_resource.h \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/memoryfwd.h \
@@ -196,13 +204,16 @@ CMakeFiles/GCDisparity.dir/GCDisparity.cpp.o: GCDisparity.cpp \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/new_allocator.h \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/ostream.tcc \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/ostream_insert.h \
+  /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/parse_numbers.h \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/postypes.h \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/predefined_ops.h \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/ptr_traits.h \
+  /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/quoted_string.h \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/range_access.h \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/refwrap.h \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/requires_hosted.h \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/specfun.h \
+  /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/sstream.tcc \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/std_abs.h \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/stl_algo.h \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/stl_algobase.h \
@@ -233,10 +244,12 @@ CMakeFiles/GCDisparity.dir/GCDisparity.cpp.o: GCDisparity.cpp \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/cassert \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/cctype \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/cerrno \
+  /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/chrono \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/clocale \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/cmath \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/concepts \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/cstddef \
+  /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/cstdint \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/cstdio \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/cstdlib \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/cstring \
@@ -254,6 +267,7 @@ CMakeFiles/GCDisparity.dir/GCDisparity.cpp.o: GCDisparity.cpp \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/ext/type_traits.h \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/fstream \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/initializer_list \
+  /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/iomanip \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/ios \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/iosfwd \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/iostream \
@@ -261,6 +275,7 @@ CMakeFiles/GCDisparity.dir/GCDisparity.cpp.o: GCDisparity.cpp \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/iterator \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/limits \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/list \
+  /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/locale \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/new \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/numeric \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/ostream \
@@ -268,6 +283,8 @@ CMakeFiles/GCDisparity.dir/GCDisparity.cpp.o: GCDisparity.cpp \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/pstl/glue_algorithm_defs.h \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/pstl/glue_numeric_defs.h \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/pstl/pstl_config.h \
+  /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/ratio \
+  /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/sstream \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/stdexcept \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/stdlib.h \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/streambuf \
@@ -302,14 +319,241 @@ CMakeFiles/GCDisparity.dir/GCDisparity.cpp.o: GCDisparity.cpp \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/x86_64-unknown-linux-gnu/bits/error_constants.h \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/x86_64-unknown-linux-gnu/bits/gthr-default.h \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/x86_64-unknown-linux-gnu/bits/gthr.h \
+  /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/x86_64-unknown-linux-gnu/bits/messages_members.h \
+  /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/x86_64-unknown-linux-gnu/bits/os_defines.h \
+  /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/x86_64-unknown-linux-gnu/bits/time_members.h \
+  /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/lib/gcc/x86_64-unknown-linux-gnu/14.3.0/include/stdarg.h \
+  /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/lib/gcc/x86_64-unknown-linux-gnu/14.3.0/include/stddef.h \
+  /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/lib/gcc/x86_64-unknown-linux-gnu/14.3.0/include/stdint.h
+
+CMakeFiles/GCDisparity.dir/maxflow/graph.cpp.o: maxflow/graph.cpp \
+  maxflow/block.h \
+  maxflow/graph.h \
+  maxflow/instances.inc \
+  maxflow/maxflow.inc \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/alloca.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/assert.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/atomic_wide_counter.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/byteswap.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/endian.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/endianness.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/floatn-common.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/floatn.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/libc-header-start.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/long-double.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/pthreadtypes-arch.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/pthreadtypes.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/select-decl.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/select.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/select2.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/stdint-intn.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/stdio.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/stdio2-decl.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/stdio2.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/stdio_lim.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/stdlib-bsearch.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/stdlib-float.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/stdlib.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/string_fortified.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/strings_fortified.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/struct_mutex.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/struct_rwlock.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/thread-shared-types.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/time64.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/timesize.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/types.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/types/FILE.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/types/__FILE.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/types/__fpos64_t.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/types/__fpos_t.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/types/__locale_t.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/types/__mbstate_t.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/types/__sigset_t.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/types/clock_t.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/types/clockid_t.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/types/cookie_io_functions_t.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/types/locale_t.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/types/sigset_t.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/types/struct_FILE.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/types/struct_timespec.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/types/struct_timeval.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/types/time_t.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/types/timer_t.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/typesizes.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/uintn-identity.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/waitflags.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/waitstatus.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/wordsize.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/endian.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/features-time64.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/features.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/gnu/stubs-64.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/gnu/stubs.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/stdc-predef.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/stdio.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/stdlib.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/string.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/strings.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/sys/cdefs.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/sys/select.h \
+  /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/sys/types.h \
+  /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/std_abs.h \
+  /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/cstdlib \
+  /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/pstl/pstl_config.h \
+  /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/stdlib.h \
+  /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/x86_64-unknown-linux-gnu/bits/c++config.h \
+  /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/x86_64-unknown-linux-gnu/bits/cpu_defines.h \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/x86_64-unknown-linux-gnu/bits/os_defines.h \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/lib/gcc/x86_64-unknown-linux-gnu/14.3.0/include/stdarg.h \
   /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/lib/gcc/x86_64-unknown-linux-gnu/14.3.0/include/stddef.h
 
+GCDisparity: /nix/store/0bhv7asksrwac04m9vjiqs2hdrm2jrc4-libx11-1.8.12/lib/libX11.so.6 \
+  /nix/store/0bzvfigj8g5fsl3vfclfmfqczzchqqgh-libxau-1.0.12/lib/libXau.so.6 \
+  /nix/store/1c663ln6chbg168dmri24z9nx6i9g65a-dbus-1.14.10-lib/lib/libdbus-1.so.3 \
+  /nix/store/1k32fplw8wsbc4rv7gs5yb3nlwds07yn-icu4c-76.1/lib/libicudata.so.76 \
+  /nix/store/1k32fplw8wsbc4rv7gs5yb3nlwds07yn-icu4c-76.1/lib/libicui18n.so.76 \
+  /nix/store/1k32fplw8wsbc4rv7gs5yb3nlwds07yn-icu4c-76.1/lib/libicuuc.so.76 \
+  /nix/store/2mxwf1zi8gxzmynnv9j903igzimmm8zj-pcre2-10.46/lib/libpcre2-16.so.0 \
+  /nix/store/2mxwf1zi8gxzmynnv9j903igzimmm8zj-pcre2-10.46/lib/libpcre2-8.so.0 \
+  /nix/store/37pqcmv5hn278m1anryngfnia3862iqc-fontconfig-2.17.1-lib/lib/libfontconfig.so.1 \
+  /nix/store/4z66ad4phbjkmkb8h0cyr6pls8q9l84a-glib-2.84.4/lib/libglib-2.0.so.0 \
+  /nix/store/4z66ad4phbjkmkb8h0cyr6pls8q9l84a-glib-2.84.4/lib/libgthread-2.0.so.0 \
+  /nix/store/86f8ip7shrdrrhwc12gqkspzn9vsd58m-expat-2.7.3/lib/libexpat.so.1 \
+  /nix/store/9qqi70nhacrdaq6i9063cszipizvgxvy-brotli-1.1.0-lib/lib/libbrotlicommon.so.1 \
+  /nix/store/9qqi70nhacrdaq6i9063cszipizvgxvy-brotli-1.1.0-lib/lib/libbrotlidec.so.1 \
+  /nix/store/as2rg79vk4z7frb7hy27nmadc3fp1a4j-libglvnd-1.7.0/lib/libEGL.so.1 \
+  /nix/store/as2rg79vk4z7frb7hy27nmadc3fp1a4j-libglvnd-1.7.0/lib/libGLX.so \
+  /nix/store/as2rg79vk4z7frb7hy27nmadc3fp1a4j-libglvnd-1.7.0/lib/libGLdispatch.so.0 \
+  /nix/store/as2rg79vk4z7frb7hy27nmadc3fp1a4j-libglvnd-1.7.0/lib/libOpenGL.so \
+  /nix/store/cwlpvpbqfnc6hrjplk32y9alscragn21-libxcb-1.17.0/lib/libxcb.so.1 \
+  /nix/store/d78n4mjv5687xsy0zqrngz62nananv2p-imaginepp-6.0.0/lib/libImagineGraphics.a \
+  /nix/store/daamdpmaz2vjvna55ccrc30qw3qb8h6d-glibc-2.40-66/lib/Scrt1.o \
+  /nix/store/daamdpmaz2vjvna55ccrc30qw3qb8h6d-glibc-2.40-66/lib/crti.o \
+  /nix/store/daamdpmaz2vjvna55ccrc30qw3qb8h6d-glibc-2.40-66/lib/crtn.o \
+  /nix/store/daamdpmaz2vjvna55ccrc30qw3qb8h6d-glibc-2.40-66/lib/ld-linux-x86-64.so.2 \
+  /nix/store/daamdpmaz2vjvna55ccrc30qw3qb8h6d-glibc-2.40-66/lib/libc.so \
+  /nix/store/daamdpmaz2vjvna55ccrc30qw3qb8h6d-glibc-2.40-66/lib/libc.so.6 \
+  /nix/store/daamdpmaz2vjvna55ccrc30qw3qb8h6d-glibc-2.40-66/lib/libc_nonshared.a \
+  /nix/store/daamdpmaz2vjvna55ccrc30qw3qb8h6d-glibc-2.40-66/lib/libdl.so.2 \
+  /nix/store/daamdpmaz2vjvna55ccrc30qw3qb8h6d-glibc-2.40-66/lib/libm.so \
+  /nix/store/daamdpmaz2vjvna55ccrc30qw3qb8h6d-glibc-2.40-66/lib/libm.so.6 \
+  /nix/store/daamdpmaz2vjvna55ccrc30qw3qb8h6d-glibc-2.40-66/lib/libmvec.so.1 \
+  /nix/store/daamdpmaz2vjvna55ccrc30qw3qb8h6d-glibc-2.40-66/lib/libpthread.so.0 \
+  /nix/store/daamdpmaz2vjvna55ccrc30qw3qb8h6d-glibc-2.40-66/lib/librt.so.1 \
+  /nix/store/drv82296paldrpih02xgs3rhdbfbbm0i-libxkbcommon-1.11.0/lib/libxkbcommon.so.0 \
+  /nix/store/f43fvhams46s7adlapld7mwk2x2n2i2w-libxdmcp-1.1.5/lib/libXdmcp.so.6 \
+  /nix/store/f8plklbbq3gwkq1wfq89i3f4wy8rabzn-systemd-258/lib/libsystemd.so.0 \
+  /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/lib/gcc/x86_64-unknown-linux-gnu/14.3.0/crtbeginS.o \
+  /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/lib/gcc/x86_64-unknown-linux-gnu/14.3.0/crtendS.o \
+  /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/lib/gcc/x86_64-unknown-linux-gnu/14.3.0/libgcc.a \
+  /nix/store/fvgq4245sfq6d00mjm31vig7dbdrb3wg-md4c-0.5.2-lib/lib/libmd4c.so.0 \
+  /nix/store/gcszgyxbhhiyj2fv0linzhrs6nmcpd0k-libb2-0.98.1/lib/libb2.so.1 \
+  /nix/store/gpwlv1hsykscxws6h8r2cv17lkchpmwq-bzip2-1.0.8/lib/libbz2.so.1 \
+  /nix/store/mmfrs9gzbhrfgv12ff68a056yv942s21-zstd-1.5.7/lib/libzstd.so.1 \
+  /nix/store/psvw7vs0h8kfggxjxlscsv8hl9189768-freetype-2.13.3/lib/libfreetype.so.6 \
+  /nix/store/pxamnydq8sd9jkrdwqwbl6viaz8lh3p9-libxext-1.3.6/lib/libXext.so.6 \
+  /nix/store/qh7a0iqg2r1xi2dmrj4gvrhaxnjwh05s-libcap-2.76-lib/lib/libcap.so.2 \
+  /nix/store/r1mhx9z0ysd2kvlha5jd5h0bg448r53r-graphite2-1.3.14/lib/libgraphite2.so.3 \
+  /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/lib/libQt6Core.so.6.10.0 \
+  /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/lib/libQt6DBus.so.6 \
+  /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/lib/libQt6Gui.so.6.10.0 \
+  /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/lib/libQt6OpenGL.so.6.10.0 \
+  /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/lib/libQt6OpenGLWidgets.so.6.10.0 \
+  /nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/lib/libQt6Widgets.so.6.10.0 \
+  /nix/store/r8668cags6b1cmbf1x37clwknr0l6c16-harfbuzz-12.1.0/lib/libharfbuzz.so.0 \
+  /nix/store/rskzdih66z6x4sw8sji3n37jl84gh8fw-double-conversion-3.3.1/lib/libdouble-conversion.so.3 \
+  /nix/store/x23lssxwyj35r3d3y1x12bs3xgg84jz5-libpng-apng-1.6.50/lib/libpng16.so.16 \
+  /nix/store/x7yh2n6g7km0rmkcx698f3fln05kk5wb-vulkan-loader-1.4.328.0/lib/libvulkan.so \
+  /nix/store/z55x0q74zldi64iwamqf8wgrm2iza5rk-zlib-1.3.1/lib/libz.so.1 \
+  /nix/store/z7a34j3xnp66rpddayyxrxwsahxccbip-gcc-14.3.0-lib/lib/libgcc_s.so \
+  /nix/store/z7a34j3xnp66rpddayyxrxwsahxccbip-gcc-14.3.0-lib/lib/libgcc_s.so.1 \
+  /nix/store/z7a34j3xnp66rpddayyxrxwsahxccbip-gcc-14.3.0-lib/lib/libgomp.so.1 \
+  /nix/store/z7a34j3xnp66rpddayyxrxwsahxccbip-gcc-14.3.0-lib/lib/libstdc++.so \
+  CMakeFiles/GCDisparity.dir/GCDisparity.cpp.o \
+  CMakeFiles/GCDisparity.dir/maxflow/graph.cpp.o
+
+
+CMakeFiles/GCDisparity.dir/maxflow/graph.cpp.o:
+
+/nix/store/z7a34j3xnp66rpddayyxrxwsahxccbip-gcc-14.3.0-lib/lib/libstdc++.so:
+
+/nix/store/x23lssxwyj35r3d3y1x12bs3xgg84jz5-libpng-apng-1.6.50/lib/libpng16.so.16:
+
+/nix/store/rskzdih66z6x4sw8sji3n37jl84gh8fw-double-conversion-3.3.1/lib/libdouble-conversion.so.3:
+
+/nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/lib/libQt6OpenGL.so.6.10.0:
+
+/nix/store/r1mhx9z0ysd2kvlha5jd5h0bg448r53r-graphite2-1.3.14/lib/libgraphite2.so.3:
+
+/nix/store/qh7a0iqg2r1xi2dmrj4gvrhaxnjwh05s-libcap-2.76-lib/lib/libcap.so.2:
+
+/nix/store/psvw7vs0h8kfggxjxlscsv8hl9189768-freetype-2.13.3/lib/libfreetype.so.6:
+
+/nix/store/mmfrs9gzbhrfgv12ff68a056yv942s21-zstd-1.5.7/lib/libzstd.so.1:
+
+/nix/store/fvgq4245sfq6d00mjm31vig7dbdrb3wg-md4c-0.5.2-lib/lib/libmd4c.so.0:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/lib/gcc/x86_64-unknown-linux-gnu/14.3.0/crtendS.o:
+
+/nix/store/f8plklbbq3gwkq1wfq89i3f4wy8rabzn-systemd-258/lib/libsystemd.so.0:
+
+/nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/lib/libQt6OpenGLWidgets.so.6.10.0:
+
+/nix/store/f43fvhams46s7adlapld7mwk2x2n2i2w-libxdmcp-1.1.5/lib/libXdmcp.so.6:
+
+/nix/store/daamdpmaz2vjvna55ccrc30qw3qb8h6d-glibc-2.40-66/lib/libmvec.so.1:
+
+/nix/store/daamdpmaz2vjvna55ccrc30qw3qb8h6d-glibc-2.40-66/lib/libdl.so.2:
+
+/nix/store/daamdpmaz2vjvna55ccrc30qw3qb8h6d-glibc-2.40-66/lib/libc.so:
+
+/nix/store/daamdpmaz2vjvna55ccrc30qw3qb8h6d-glibc-2.40-66/lib/crtn.o:
+
+/nix/store/daamdpmaz2vjvna55ccrc30qw3qb8h6d-glibc-2.40-66/lib/crti.o:
+
+/nix/store/cwlpvpbqfnc6hrjplk32y9alscragn21-libxcb-1.17.0/lib/libxcb.so.1:
+
+/nix/store/as2rg79vk4z7frb7hy27nmadc3fp1a4j-libglvnd-1.7.0/lib/libGLdispatch.so.0:
+
+/nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/lib/libQt6Gui.so.6.10.0:
+
+/nix/store/as2rg79vk4z7frb7hy27nmadc3fp1a4j-libglvnd-1.7.0/lib/libGLX.so:
+
+/nix/store/as2rg79vk4z7frb7hy27nmadc3fp1a4j-libglvnd-1.7.0/lib/libEGL.so.1:
+
+/nix/store/9qqi70nhacrdaq6i9063cszipizvgxvy-brotli-1.1.0-lib/lib/libbrotlidec.so.1:
+
+/nix/store/9qqi70nhacrdaq6i9063cszipizvgxvy-brotli-1.1.0-lib/lib/libbrotlicommon.so.1:
+
+/nix/store/86f8ip7shrdrrhwc12gqkspzn9vsd58m-expat-2.7.3/lib/libexpat.so.1:
+
+/nix/store/4z66ad4phbjkmkb8h0cyr6pls8q9l84a-glib-2.84.4/lib/libgthread-2.0.so.0:
+
+/nix/store/4z66ad4phbjkmkb8h0cyr6pls8q9l84a-glib-2.84.4/lib/libglib-2.0.so.0:
+
+/nix/store/1k32fplw8wsbc4rv7gs5yb3nlwds07yn-icu4c-76.1/lib/libicuuc.so.76:
+
+/nix/store/1k32fplw8wsbc4rv7gs5yb3nlwds07yn-icu4c-76.1/lib/libicui18n.so.76:
+
+/nix/store/1k32fplw8wsbc4rv7gs5yb3nlwds07yn-icu4c-76.1/lib/libicudata.so.76:
+
+/nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/lib/libQt6DBus.so.6:
+
+/nix/store/1c663ln6chbg168dmri24z9nx6i9g65a-dbus-1.14.10-lib/lib/libdbus-1.so.3:
+
+/nix/store/0bzvfigj8g5fsl3vfclfmfqczzchqqgh-libxau-1.0.12/lib/libXau.so.6:
+
+maxflow/instances.inc:
+
+maxflow/graph.cpp:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/lib/gcc/x86_64-unknown-linux-gnu/14.3.0/include/stdint.h:
 
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/lib/gcc/x86_64-unknown-linux-gnu/14.3.0/include/stddef.h:
 
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/lib/gcc/x86_64-unknown-linux-gnu/14.3.0/include/stdarg.h:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/x86_64-unknown-linux-gnu/bits/time_members.h:
 
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/x86_64-unknown-linux-gnu/bits/gthr.h:
 
@@ -355,8 +599,6 @@ CMakeFiles/GCDisparity.dir/GCDisparity.cpp.o: GCDisparity.cpp \
 
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/stdexcept:
 
-/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/pstl/glue_algorithm_defs.h:
-
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/pstl/execution_defs.h:
 
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/ostream:
@@ -365,9 +607,31 @@ CMakeFiles/GCDisparity.dir/GCDisparity.cpp.o: GCDisparity.cpp \
 
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/list:
 
-/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/type_traits:
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/istream:
 
-/nix/store/d78n4mjv5687xsy0zqrngz62nananv2p-imaginepp-6.0.0/include/Imagine/Common/Coords.h:
+/nix/store/0bhv7asksrwac04m9vjiqs2hdrm2jrc4-libx11-1.8.12/lib/libX11.so.6:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/iosfwd:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/ios:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/iomanip:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/initializer_list:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/fstream:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/ext/type_traits.h:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/ext/string_conversions.h:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/ext/numeric_traits.h:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/ext/atomicity.h:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/ext/alloc_traits.h:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/exception:
 
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/unistd.h:
 
@@ -375,7 +639,7 @@ CMakeFiles/GCDisparity.dir/GCDisparity.cpp.o: GCDisparity.cpp \
 
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/time.h:
 
-/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/fstream:
+/nix/store/z55x0q74zldi64iwamqf8wgrm2iza5rk-zlib-1.3.1/lib/libz.so.1:
 
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/sys/times.h:
 
@@ -387,9 +651,13 @@ CMakeFiles/GCDisparity.dir/GCDisparity.cpp.o: GCDisparity.cpp \
 
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/strings.h:
 
-/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/clocale:
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/lib/gcc/x86_64-unknown-linux-gnu/14.3.0/libgcc.a:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/codecvt.h:
 
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/stdc-predef.h:
+
+/nix/store/z7a34j3xnp66rpddayyxrxwsahxccbip-gcc-14.3.0-lib/lib/libgcc_s.so.1:
 
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/list.tcc:
 
@@ -403,7 +671,11 @@ CMakeFiles/GCDisparity.dir/GCDisparity.cpp.o: GCDisparity.cpp \
 
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/gnu/stubs.h:
 
+/nix/store/x7yh2n6g7km0rmkcx698f3fln05kk5wb-vulkan-loader-1.4.328.0/lib/libvulkan.so:
+
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/types/struct___jmp_buf_tag.h:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/chrono.h:
 
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/features.h:
 
@@ -413,15 +685,11 @@ CMakeFiles/GCDisparity.dir/GCDisparity.cpp.o: GCDisparity.cpp \
 
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/wchar2.h:
 
+/nix/store/d78n4mjv5687xsy0zqrngz62nananv2p-imaginepp-6.0.0/lib/libImagineGraphics.a:
+
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/stdlib-bsearch.h:
 
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/wchar.h:
-
-/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/tr1/gamma.tcc:
-
-/nix/store/d78n4mjv5687xsy0zqrngz62nananv2p-imaginepp-6.0.0/include/Imagine/Common/Color.h:
-
-/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/ext/type_traits.h:
 
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/unistd.h:
 
@@ -437,15 +705,23 @@ CMakeFiles/GCDisparity.dir/GCDisparity.cpp.o: GCDisparity.cpp \
 
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/types/cookie_io_functions_t.h:
 
+/nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/libintl.h:
+
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/assert.h:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/pstl/glue_algorithm_defs.h:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/sstream.tcc:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/predefined_ops.h:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/stl_function.h:
 
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/cstdlib:
 
+/nix/store/gcszgyxbhhiyj2fv0linzhrs6nmcpd0k-libb2-0.98.1/lib/libb2.so.1:
+
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/types/struct_timespec.h:
-
-/nix/store/d78n4mjv5687xsy0zqrngz62nananv2p-imaginepp-6.0.0/include/Imagine/Images/PixelTraits.h:
-
-/nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/types/struct_sched_param.h:
 
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/types/__fpos64_t.h:
 
@@ -469,31 +745,29 @@ CMakeFiles/GCDisparity.dir/GCDisparity.cpp.o: GCDisparity.cpp \
 
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/types/clock_t.h:
 
-/nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/select2.h:
+/nix/store/pxamnydq8sd9jkrdwqwbl6viaz8lh3p9-libxext-1.3.6/lib/libXext.so.6:
 
-/nix/store/d78n4mjv5687xsy0zqrngz62nananv2p-imaginepp-6.0.0/include/Imagine/Common/Base.h:
+/nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/select2.h:
 
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/stdio.h:
 
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/stdio_lim.h:
 
+/nix/store/37pqcmv5hn278m1anryngfnia3862iqc-fontconfig-2.17.1-lib/lib/libfontconfig.so.1:
+
+/nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/stdint.h:
+
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/types/__mbstate_t.h:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/parse_numbers.h:
+
+/nix/store/2mxwf1zi8gxzmynnv9j903igzimmm8zj-pcre2-10.46/lib/libpcre2-8.so.0:
 
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/types/__locale_t.h:
 
+/nix/store/daamdpmaz2vjvna55ccrc30qw3qb8h6d-glibc-2.40-66/lib/libc_nonshared.a:
+
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/stl_iterator_base_types.h:
-
-/nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/libm-simd-decl-stubs.h:
-
-/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/locale_facets.tcc:
-
-/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/requires_hosted.h:
-
-/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/tr1/exp_integral.tcc:
-
-/nix/store/d78n4mjv5687xsy0zqrngz62nananv2p-imaginepp-6.0.0/include/Imagine/Common/Array.h:
-
-/nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/getopt_core.h:
 
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/uintn-identity.h:
 
@@ -501,11 +775,29 @@ CMakeFiles/GCDisparity.dir/GCDisparity.cpp.o: GCDisparity.cpp \
 
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/struct_rwlock.h:
 
+/nix/store/daamdpmaz2vjvna55ccrc30qw3qb8h6d-glibc-2.40-66/lib/libpthread.so.0:
+
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/wctype-wchar.h:
 
 /nix/store/d78n4mjv5687xsy0zqrngz62nananv2p-imaginepp-6.0.0/include/Imagine/Common/Timer.h:
 
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/debug/debug.h:
+
+/nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/types/sigset_t.h:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/vector:
+
+/nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/timex.h:
+
+/nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/libm-simd-decl-stubs.h:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/locale_facets.tcc:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/requires_hosted.h:
+
+/nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/getopt_core.h:
+
+/nix/store/z7a34j3xnp66rpddayyxrxwsahxccbip-gcc-14.3.0-lib/lib/libgomp.so.1:
 
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/tr1/ell_integral.tcc:
 
@@ -517,6 +809,8 @@ CMakeFiles/GCDisparity.dir/GCDisparity.cpp.o: GCDisparity.cpp \
 
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/features-time64.h:
 
+maxflow/maxflow.inc:
+
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/flt-eval-method.h:
 
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/cstddef:
@@ -524,6 +818,8 @@ CMakeFiles/GCDisparity.dir/GCDisparity.cpp.o: GCDisparity.cpp \
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/floatn.h:
 
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/ctype.h:
+
+/nix/store/daamdpmaz2vjvna55ccrc30qw3qb8h6d-glibc-2.40-66/lib/librt.so.1:
 
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/floatn-common.h:
 
@@ -541,17 +837,33 @@ CMakeFiles/GCDisparity.dir/GCDisparity.cpp.o: GCDisparity.cpp \
 
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/basic_string.h:
 
+/nix/store/z7a34j3xnp66rpddayyxrxwsahxccbip-gcc-14.3.0-lib/lib/libgcc_s.so:
+
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/postypes.h:
 
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/mathcalls.h:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/lib/gcc/x86_64-unknown-linux-gnu/14.3.0/crtbeginS.o:
+
+/nix/store/daamdpmaz2vjvna55ccrc30qw3qb8h6d-glibc-2.40-66/lib/Scrt1.o:
 
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/types/wint_t.h:
 
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/stringfwd.h:
 
-/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/ext/numeric_traits.h:
-
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/environments.h:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/iostream:
+
+/nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/fp-logb.h:
+
+/nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/string.h:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/clocale:
+
+/nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/stdint-uintn.h:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/backward/binders.h:
 
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/types/__sigset_t.h:
 
@@ -559,15 +871,13 @@ CMakeFiles/GCDisparity.dir/GCDisparity.cpp.o: GCDisparity.cpp \
 
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/new_allocator.h:
 
-/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/uses_allocator.h:
-
-/nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/types/__FILE.h:
-
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/setjmp.h:
 
 maxflow/block.h:
 
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/iscanonical.h:
+
+CMakeFiles/GCDisparity.dir/GCDisparity.cpp.o:
 
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/unistd_ext.h:
 
@@ -587,6 +897,8 @@ maxflow/block.h:
 
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/stdlib.h:
 
+/nix/store/daamdpmaz2vjvna55ccrc30qw3qb8h6d-glibc-2.40-66/lib/ld-linux-x86-64.so.2:
+
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/mathcalls-narrow.h:
 
 GCDisparity.cpp:
@@ -601,6 +913,8 @@ GCDisparity.cpp:
 
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/math.h:
 
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/ratio:
+
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/struct_mutex.h:
 
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/confname.h:
@@ -608,6 +922,8 @@ GCDisparity.cpp:
 maxflow/graph.h:
 
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/mathcalls-helper-functions.h:
+
+/nix/store/daamdpmaz2vjvna55ccrc30qw3qb8h6d-glibc-2.40-66/lib/libc.so.6:
 
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/invoke.h:
 
@@ -653,13 +969,19 @@ maxflow/graph.h:
 
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/stl_algobase.h:
 
+/nix/store/daamdpmaz2vjvna55ccrc30qw3qb8h6d-glibc-2.40-66/lib/libm.so.6:
+
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/x86_64-unknown-linux-gnu/bits/error_constants.h:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/locale:
 
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/stdio.h:
 
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/posix_opt.h:
 
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/cassert:
+
+/nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/lib/libQt6Widgets.so.6.10.0:
 
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/sys/types.h:
 
@@ -670,6 +992,12 @@ maxflow/graph.h:
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/stdlib-float.h:
 
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/stdlib.h:
+
+/nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/stdint-least.h:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/streambuf:
+
+/nix/store/d78n4mjv5687xsy0zqrngz62nananv2p-imaginepp-6.0.0/include/Imagine/Images/Algos.h:
 
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/string_fortified.h:
 
@@ -683,19 +1011,43 @@ maxflow/graph.h:
 
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/sched.h:
 
-/nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/types/sigset_t.h:
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/tr1/exp_integral.tcc:
 
-/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/vector:
+/nix/store/d78n4mjv5687xsy0zqrngz62nananv2p-imaginepp-6.0.0/include/Imagine/Common/Array.h:
 
-/nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/timex.h:
+/nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/types/__FILE.h:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/uses_allocator.h:
+
+/nix/store/d78n4mjv5687xsy0zqrngz62nananv2p-imaginepp-6.0.0/include/Imagine/Common/Base.h:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/tr1/gamma.tcc:
+
+/nix/store/d78n4mjv5687xsy0zqrngz62nananv2p-imaginepp-6.0.0/include/Imagine/Common/Color.h:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/type_traits:
+
+/nix/store/d78n4mjv5687xsy0zqrngz62nananv2p-imaginepp-6.0.0/include/Imagine/Common/Coords.h:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/x86_64-unknown-linux-gnu/bits/messages_members.h:
+
+/nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/types/struct_sched_param.h:
+
+/nix/store/d78n4mjv5687xsy0zqrngz62nananv2p-imaginepp-6.0.0/include/Imagine/Images/PixelTraits.h:
+
+/nix/store/r7wdw4nkkjii690wwnzkgj68cg4shh2v-qtbase-6.10.0/lib/libQt6Core.so.6.10.0:
 
 /nix/store/d78n4mjv5687xsy0zqrngz62nananv2p-imaginepp-6.0.0/include/Imagine/Common/FArray.h:
 
 /nix/store/d78n4mjv5687xsy0zqrngz62nananv2p-imaginepp-6.0.0/include/Imagine/Common/IO.h:
 
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/locale_conv.h:
+
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/ostream.tcc:
 
 /nix/store/d78n4mjv5687xsy0zqrngz62nananv2p-imaginepp-6.0.0/include/Imagine/Common/MultiArray.h:
+
+/nix/store/r8668cags6b1cmbf1x37clwknr0l6c16-harfbuzz-12.1.0/lib/libharfbuzz.so.0:
 
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/charconv.h:
 
@@ -705,6 +1057,8 @@ maxflow/graph.h:
 
 /nix/store/d78n4mjv5687xsy0zqrngz62nananv2p-imaginepp-6.0.0/include/Imagine/Graphics/Draw.h:
 
+/nix/store/gpwlv1hsykscxws6h8r2cv17lkchpmwq-bzip2-1.0.8/lib/libbz2.so.1:
+
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/utility.h:
 
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/cstdio:
@@ -713,7 +1067,11 @@ maxflow/graph.h:
 
 /nix/store/d78n4mjv5687xsy0zqrngz62nananv2p-imaginepp-6.0.0/include/Imagine/Graphics/Types.h:
 
+/nix/store/daamdpmaz2vjvna55ccrc30qw3qb8h6d-glibc-2.40-66/lib/libm.so:
+
 /nix/store/d78n4mjv5687xsy0zqrngz62nananv2p-imaginepp-6.0.0/include/Imagine/Images.h:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/locale_facets_nonio.tcc:
 
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/memory_resource.h:
 
@@ -721,9 +1079,7 @@ maxflow/graph.h:
 
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/streambuf.tcc:
 
-/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/streambuf:
-
-/nix/store/d78n4mjv5687xsy0zqrngz62nananv2p-imaginepp-6.0.0/include/Imagine/Images/Algos.h:
+/nix/store/drv82296paldrpih02xgs3rhdbfbbm0i-libxkbcommon-1.11.0/lib/libxkbcommon.so.0:
 
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/timesize.h:
 
@@ -741,23 +1097,25 @@ maxflow/graph.h:
 
 /nix/store/d78n4mjv5687xsy0zqrngz62nananv2p-imaginepp-6.0.0/include/Imagine/Images/IO.h:
 
-/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/locale_classes.tcc:
-
 /nix/store/d78n4mjv5687xsy0zqrngz62nananv2p-imaginepp-6.0.0/include/Imagine/Images/Image.h:
-
-/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/ext/string_conversions.h:
 
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/algorithm:
 
-/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/backward/binders.h:
-
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/algorithmfwd.h:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/sstream:
 
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/stl_uninitialized.h:
 
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/time64.h:
 
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/alloc_traits.h:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/locale_classes.tcc:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/locale_facets_nonio.h:
+
+/nix/store/2mxwf1zi8gxzmynnv9j903igzimmm8zj-pcre2-10.46/lib/libpcre2-16.so.0:
 
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/allocated_ptr.h:
 
@@ -770,8 +1128,6 @@ maxflow/graph.h:
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/allocator.h:
 
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/cxxabi_forced.h:
-
-/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/ext/atomicity.h:
 
 /nix/store/d78n4mjv5687xsy0zqrngz62nananv2p-imaginepp-6.0.0/include/Imagine/Images/Schemes.h:
 
@@ -786,12 +1142,6 @@ maxflow/graph.h:
 /nix/store/d78n4mjv5687xsy0zqrngz62nananv2p-imaginepp-6.0.0/include/Imagine/Graphics/ConfigGraphics.h:
 
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/char_traits.h:
-
-/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/codecvt.h:
-
-/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/stl_function.h:
-
-/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/predefined_ops.h:
 
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/stdlib.h:
 
@@ -843,11 +1193,11 @@ maxflow/graph.h:
 
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/stl_bvector.h:
 
-/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/stl_iterator.h:
-
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/pstl/glue_numeric_defs.h:
 
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/stl_iterator_base_funcs.h:
+
+/nix/store/as2rg79vk4z7frb7hy27nmadc3fp1a4j-libglvnd-1.7.0/lib/libOpenGL.so:
 
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/stl_numeric.h:
 
@@ -869,6 +1219,10 @@ maxflow/graph.h:
 
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/string_view.tcc:
 
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/debug/assertions.h:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/uniform_int_dist.h:
+
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/uses_allocator_args.h:
 
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/vector.tcc:
@@ -877,7 +1231,11 @@ maxflow/graph.h:
 
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/version.h:
 
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/chrono:
+
 /nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/asm-generic/errno.h:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/quoted_string.h:
 
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/cmath:
 
@@ -885,7 +1243,9 @@ maxflow/graph.h:
 
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/concepts:
 
-/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/ios:
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/stl_iterator.h:
+
+/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/cstdint:
 
 /nix/store/d78n4mjv5687xsy0zqrngz62nananv2p-imaginepp-6.0.0/include/Imagine/Common.h:
 
@@ -894,23 +1254,3 @@ maxflow/graph.h:
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/cwchar:
 
 /nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/cwctype:
-
-/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/bits/uniform_int_dist.h:
-
-/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/debug/assertions.h:
-
-/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/exception:
-
-/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/iosfwd:
-
-/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/ext/alloc_traits.h:
-
-/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/initializer_list:
-
-/nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/string.h:
-
-/nix/store/0vqrw0y515015i3065r9s00jcp1cd4hy-glibc-2.40-66-dev/include/bits/fp-logb.h:
-
-/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/iostream:
-
-/nix/store/ffrg0560kj0066s4k9pznjand907nlnz-gcc-14.3.0/include/c++/14.3.0/istream:
