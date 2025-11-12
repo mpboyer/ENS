@@ -4,7 +4,7 @@ Considérons deux mesures discrètes $\alpha = \sum_{i=1}^{n} a_i\delta_{x_{i}}$
 \begin{definition}
     Le problème de Schrödinger statique s'écrit:
     \begin{equation}
-        \label{eq:schrodinger}
+        \tag{Schr}\label{eq:schrodinger}
         \min_{P\in\R_+^{n\times m}, P\mathbf{1}_m = a, P^\top \mathbf{1}_n = b} \scalar{C, P} + \epsilon H(P)
     \end{equation}
     où $H(P) = \sum_{i,j} P_{i,j}\log P_{i,j}$ est l'entropie de Shannon négative de la matrice de transport $P$, avec la convention $0\log 0 = 0$. Le paramètre $\epsilon$ est appelé \emph{paramètre de régularisation entropique}, ou \emph{température} en physique statistique.
@@ -74,7 +74,7 @@ où $K$ est la matrice de noyau exponentiel défini par $K_{i,j} = e^{-C_{i,j}/\
 \subsection{Algorithme de Sinkhorn}
 On note le produit de Kronecker $\diag(u) z = u \odot z = (u_i z_i)_i$ le produit terme à terme entre les vecteurs $u$ et $z$. On a donc $P\mathbf{1}_m = u\odot (K v)$ qui doit valoir $a$, et de même $P^\top \mathbf{1}_n = v \odot (K^\top u) = b$. On a ainsi le système suivant:
 \begin{equation}
-    \label{eq:sinkhornsystem}
+    \tag{SchrSys}\label{eq:sinkhornsystem}
     \begin{cases}
         u \odot (K v) = a \\
         v \odot (K^\top u) = b
@@ -82,7 +82,7 @@ On note le produit de Kronecker $\diag(u) z = u \odot z = (u_i z_i)_i$ le produi
 \end{equation}
 
 \begin{thm}
-    Le problème de Schrödinger \ref{eq:schrodinger} est équivalent à la résolution du système \ref{eq:sinkhornsystem}.
+    Le problème de Schrödinger \eqref{eq:schrodinger} est équivalent à la résolution du système \eqref{eq:sinkhornsystem}.
 \end{thm}
 
 \begin{proposition}
@@ -109,3 +109,108 @@ Cet algorithme est très simple et facilement parallélisable. Chaque itération
 \begin{proof}
     S'intéresse à la preuve par contraction qui donne une convergence linéaire, contrairement à une preuve par projection itérative qui donnerait une convergence sous-linéaire, la constante étant meilleure dans le cas linéaire. \emph{Voir les notes de cours pour la preuve.}
 \end{proof}
+
+\subsection{Reformulation en divergence de Kullback-Leibler}
+\begin{definition}
+    La divergence de Kullback-Leibler entre deux matrices $P, Q \in \R_+^{n\times m}$ est définie par:
+    \begin{equation*}
+        \KL(P|Q) = \sum_{i,j} P_{i,j} \log\left(\frac{P_{i,j}}{Q_{i,j}}\right) - P_{i,j} + Q_{i,j}
+    \end{equation*}
+\end{definition}
+
+\begin{proposition}
+    $\KL(P|Q) \geq 0$ avec égalité si et seulement si $P = Q$.
+\end{proposition}
+
+L'idée va être d'utiliser $Q=a\otimes b$ comme mesure de référence.
+
+\begin{proposition}
+    Le problème de Schrödinger \eqref{eq:schrodinger} s'écrit de manière équivalente:
+    \begin{equation*}
+        \min_{P\in\R_+^{n\times m}, P\mathbf{1}_m = a, P^\top \mathbf{1}_n = b} \scalar{C, P} + \epsilon \KL(P|a\otimes b).
+    \end{equation*}
+\end{proposition}
+
+\begin{proof}
+    $\KL(P|a\otimes b)$ et $\KL(P|a'\otimes b')$ diffèrent d'une constante additive indépendante de $P$, donc le minimum est le même.
+\end{proof}
+
+\begin{definition}
+    Soit $\frac{\pi}{\xi}\in\mP(X\times Y)$. Si $\frac{\d\pi}{\d\xi}$ existe, on définit la divergence de Kullback-Leibler entre $\pi$ et $\xi$ par:
+    \begin{equation*}
+        \KL(\pi|\xi) = \int_{X\times Y} \log\left(\frac{\d\pi}{\d\xi}\right) \d\pi - \pi(X\times Y) + \xi(X\times Y)
+    \end{equation*}
+    Si $\frac{\d\pi}{\d\xi}$ n'existe pas, on pose $\KL(\pi|\xi) = +\infty$.
+\end{definition}
+
+\begin{definition}
+    Le \textbf{problème de Schrödinger général} s'écrit:
+    \begin{equation}
+        \tag{SchrGen}\label{eq:schrodinger-general}
+        \inf_{\pi\in\mP(X\times Y)}\left\{ \int c\,\d\pi + \epsilon\,\KL(\pi|a\otimes b) : \pi_1 = \alpha,\, \pi_2 = \beta \right\}
+    \end{equation}
+\end{definition}
+\begin{remarque}
+    L'information mutuelle entre deux variables aléatoires $X$ et $Y$ de loi jointe $\pi$ est donnée par $I(X, Y) = \KL(\pi|\pi_1 \otimes \pi_2)$. Ainsi, le problème de Schrödinger cherche un couplage $\pi$ qui minimise le coût total plus une pénalisation de l'information mutuelle entre les deux variables aléatoires. Lorsque $I(X,Y) = 0$, les variables sont indépendantes, et le couplage est donc le produit tensoriel des marges.
+\end{remarque}
+
+Calculons le problème dual de Schrödinger dans ce cadre général. En réutilisant les notations des multiplicateurs de Lagrange, on a:
+\begin{equation*}
+    \min_P\max_{f,g} \scalar{C, P} + \epsilon \KL(P|a\otimes b) + \scalar{\alpha - P\mathbf{1}, f} + \scalar{\beta - P^\top\mathbf{1}, g}
+\end{equation*}
+Puisque les conditions de Slater sont vérifiées, on peut échanger le $\min$ et le $\max$:
+\begin{equation*}
+    \max_{f,g} \scalar{a, f} + \scalar{b, g} + \min_P \scalar{C-f\mathbf{1}^\top - \mathbf{1}g^\top, P} + \epsilon \KL(P|a\otimes b),
+\end{equation*}
+ce qui est équivalent à:
+\begin{equation*}
+    \max_{f,g} \scalar{a, f} + \scalar{b, g} - \max_P \scalar{C-f\mathbf{1}^\top - \mathbf{1}g^\top, P} - \epsilon \KL(P|a\otimes b).
+\end{equation*}
+
+On remarque alors que ceci correspond à la transformation de Legendre-Fenchel de $\KL(\cdot|a\otimes b)$ évaluée en $(f\mathbf{1}^\top + \mathbf{1}g^\top - C)/\epsilon$. On a donc:
+\begin{equation*}
+    \max_{f,g} \scalar{a, f} + \scalar{b, g} -\epsilon\KL^\star(z|ab^\top)
+\end{equation*}
+où $z = (f\mathbf{1}^\top + \mathbf{1}g^\top - C)/\epsilon$.
+
+\begin{lemme}
+    La transformation de Legendre-Fenchel de $\KL(\cdot|a\otimes b)$ est donnée par:
+    \begin{equation*}
+        \KL^\star(Z|Q) = \sum_{i,j} Q_{i,j}\exp(Z_{i,j}) - 1
+    \end{equation*}
+\end{lemme}
+
+On en déduit le dual de Schrödinger:
+\begin{equation*}
+    \max_{f,g} \scalar{a, f} + \scalar{b, g} - \epsilon \sum_{i,j} a_i b_j \exp\left(\frac{f_i + g_j - C_{i,j}}{\epsilon}\right) + \epsilon
+\end{equation*}
+
+Dans le cas général, pour des mesures non-discrètes, on retrouve une formulation similaire:
+\begin{equation*}
+    \inf_{f\in\mC(X), g\in\mC(Y)} \int f(x)\d\alpha(x) + \int g(y)\d\beta(y) - \epsilon \int e^{(f(x) + g(y) - c(x,y))/\epsilon} \d\alpha(x)\d\beta(y) + \epsilon
+\end{equation*}
+
+
+\begin{proposition}
+    L'\textbf{algorithme de Sinkhorn} dans ce cadre s'écrit alors:
+    \begin{itemize}
+        \item Initialiser $g$
+        \item Répéter jusqu'à convergence:
+        \begin{itemize}
+            \item $f \leftarrow g^{c,\epsilon} := \argmin_f D(f, g)$
+            \item $g \leftarrow f^{c,\epsilon} := \argmin_g D(f, g)$
+        \end{itemize}
+    \end{itemize}
+    où l'on dénote $(\cdot)^{c,\epsilon}$ l'opérateur de c-transformée réguliarisée par l'entropie, et $D$ la fonctionnelle duale de Schrödinger.
+\end{proposition}
+    
+\begin{proposition}
+    L'\textbf{opérateur de c-transformée réguliarisée par l'entropie} s'écrit:
+    \begin{equation*}
+        f^{c,\epsilon}(y) = -\epsilon \log\left( \int e^{(f(x) - c(x,y))/\epsilon} \d\alpha(x) \right)
+    \end{equation*}
+    et de manière similaire:
+    \begin{equation*}
+        g^{c,\epsilon}(x) = -\epsilon \log\left( \int e^{(g(y) - c(x,y))/\epsilon} \d\beta(y) \right)
+    \end{equation*}
+\end{proposition}
