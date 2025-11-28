@@ -2,215 +2,221 @@
 \subsection{Régularisation entropique}
 Considérons deux mesures discrètes $\alpha = \sum_{i=1}^{n} a_i\delta_{x_{i}}$ et $\beta = \sum_{j=1}^{m} b_j\delta_{y_{j}}$.
 \begin{definition}
-    Le problème de Schrödinger statique s'écrit:
-    \begin{equation}
-        \tag{Schr}\label{eq:schrodinger}
-        \min_{P\in\R_+^{n\times m}, P\mathbf{1}_m = a, P^\top \mathbf{1}_n = b} \scalar{C, P} + \epsilon H(P)
-    \end{equation}
-    où $H(P) = \sum_{i,j} P_{i,j}\log P_{i,j}$ est l'entropie de Shannon négative de la matrice de transport $P$, avec la convention $0\log 0 = 0$. Le paramètre $\epsilon$ est appelé \emph{paramètre de régularisation entropique}, ou \emph{température} en physique statistique.
+	Le problème de Schrödinger statique s'écrit:
+	\begin{equation}
+		\tag{Schr}\label{eq:schrodinger}
+		\min_{P\in\R_+^{n\times m}, P\mathbf{1}_m = a, P^\top \mathbf{1}_n = b} \scalar{C, P} + \epsilon H(P)
+	\end{equation}
+	où $H(P) = \sum_{i,j} P_{i,j}\log P_{i,j}$ est l'entropie de Shannon négative de la matrice de
+	transport $P$, avec la convention $0\log 0 = 0$.
+	Le paramètre $\epsilon$ est appelé \emph{paramètre de régularisation entropique},
+	ou \emph{température} en physique statistique.
 \end{definition}
-    
+
 \begin{remarque}
-    $H$ est strictement convexe, puisqu'on se trouve dans le simplexe des matrices à coefficients compris entre $0$ et $1$.
+	$H$ est strictement convexe, puisqu'on se trouve dans le simplexe des matrices à
+	coefficients compris entre $0$ et $1$.
 \end{remarque}
 
 \begin{proposition}
-    Si $\epsilon > 0$, le problème de Schrödinger admet une unique solution $P_{\epsilon}$. Si $\epsilon = 0$, on retrouve la formulation de Kantorovich, qui peut admettre plusieurs solutions.
+	Si $\epsilon > 0$, le problème de Schrödinger admet une unique solution $P_{\epsilon}$.
+	Si $\epsilon = 0$, on retrouve la formulation de Kantorovich, qui peut admettre plusieurs solutions.
 \end{proposition}
 
 \begin{proposition}
-    Lorsque $\epsilon \rightarrow 0$, la solution du problème de Schrödinger converge vers la solution de Kantorovich qui maximise l'entropie:
-    \begin{equation*}
-        P_\epsilon \xrightarrow[\epsilon \rightarrow 0]{} \argmin_P \left\{ H(P) : P \text{ est une solution de Kantorovich} \right\}
-    \end{equation*}
+	Lorsque $\epsilon \rightarrow 0$, la solution du problème de Schrödinger converge
+	vers la solution de Kantorovich qui maximise l'entropie:
+	\begin{equation*}
+		P_\epsilon \xrightarrow[\epsilon \rightarrow 0]{} \argmin_P \left\{ H(P) : P \text{ est une solution de Kantorovich} \right\}
+	\end{equation*}
 
-    À l'inverse, lorsque $\epsilon \rightarrow +\infty$, on retrouve le couplage trivial:
-    \begin{equation*}
-        P_\epsilon \xrightarrow[\epsilon \rightarrow +\infty]{} a \otimes b
-    \end{equation*}
+	À l'inverse, lorsque $\epsilon \rightarrow +\infty$, on retrouve le couplage trivial:
+	\begin{equation*}
+		P_\epsilon \xrightarrow[\epsilon \rightarrow +\infty]{} a \otimes b
+	\end{equation*}
 \end{proposition}
 
 L'intuition derrière cette régularisation entropique est l'ajout d'une fonction de barrière, de manière similaire aux méthodes de points intérieurs en optimisation convexe. Une différence importante étant que l'on utilise ici l'entropie de Shannon négative, et non pas une fonction logarithmique classique. Cela permet de garantir la positivité des coefficients de la matrice de transport $P$.
 
 \begin{thm}
-    Supposons sans perte de généralité que $a_i>0$ pour tout $i$ et $b_j>0$ pour tout $j$. On a alors:
-    \begin{equation*}
-        P \text{ est solution du problème de Schrödinger } \Longleftrightarrow\begin{cases}
-            P\textbf{1}_m = a, P^\top \mathbf{1}_n = b \\
-            \exists u \in \R^n, v \in \R^m, P_{i,j} = u_iK_{i,j}v_j \text{ avec } K_{i,j} = e^{-C_{i,j}/\epsilon}
-        \end{cases}
-    \end{equation*}
+	Supposons sans perte de généralité que $a_i>0$ pour tout $i$ et $b_j>0$ pour tout $j$. On a alors:
+	\begin{equation*}
+		P \text{ est solution du problème de Schrödinger } \Longleftrightarrow\begin{cases}
+			P\textbf{1}_m = a, P^\top \mathbf{1}_n = b \\
+			\exists u \in \R^n, v \in \R^m, P_{i,j} = u_iK_{i,j}v_j \text{ avec } K_{i,j} = e^{-C_{i,j}/\epsilon}
+		\end{cases}
+	\end{equation*}
 \end{thm}
 De manière équivalente, un couplage $P$ est solution s'il existe des vecteurs $u \in \R^n$ et $v \in \R^m$ tels que:
 \begin{equation*}
-    P = \diag(u) K \diag(v)
+	P = \diag(u) K \diag(v)
 \end{equation*}
 où $K$ est la matrice de noyau exponentiel défini par $K_{i,j} = e^{-C_{i,j}/\epsilon}$.
 
 \begin{proof}
-    On veut résoudre le problème de Schrödinger:
-    \begin{equation*}
-        \min_{P\mathbf{1}_m = a, P^\top \mathbf{1}_n = b} f(P) := \scalar{C, P} + \epsilon H(P)
-    \end{equation*}
-    Commençons par montrer par l'absurde que si $P^\star$ est solution, alors $P^\star_{i,j} > 0$ pour tout $(i,j)$. Supposons qu'il existe $(i_0, j_0)$ tel que $P^\star_{i_0, j_0} = 0$. Posons $P^t(1-t)P^\star + t (a\otimes b)$ pour $t \in [0,1]$. Alors $P^t$ est admissible pour tout $t$. De plus, si l'on pose $g(t) = f(P^t)$, alors $g'(0) = -\infty$ car la dérivée de l'entropie en $0$ est infinie. Donc pour $t$ suffisamment petit, $f(P^t) < f(P^\star)$, ce qui contredit le fait que $P^\star$ est solution. Ainsi, $P^\star_{i,j} > 0$ pour tout $(i,j)$. Ceci justifie (peu rigoureusement) le fait que l'on peut omettre la contrainte de positivité dans la suite de la preuve.
+	On veut résoudre le problème de Schrödinger:
+	\begin{equation*}
+		\min_{P\mathbf{1}_m = a, P^\top \mathbf{1}_n = b} f(P) := \scalar{C, P} + \epsilon H(P)
+	\end{equation*}
+	Commençons par montrer par l'absurde que si $P^\star$ est solution, alors $P^\star_{i,j} > 0$ pour tout $(i,j)$. Supposons qu'il existe $(i_0, j_0)$ tel que $P^\star_{i_0, j_0} = 0$. Posons $P^t(1-t)P^\star + t (a\otimes b)$ pour $t \in [0,1]$. Alors $P^t$ est admissible pour tout $t$. De plus, si l'on pose $g(t) = f(P^t)$, alors $g'(0) = -\infty$ car la dérivée de l'entropie en $0$ est infinie. Donc pour $t$ suffisamment petit, $f(P^t) < f(P^\star)$, ce qui contredit le fait que $P^\star$ est solution. Ainsi, $P^\star_{i,j} > 0$ pour tout $(i,j)$. Ceci justifie (peu rigoureusement) le fait que l'on peut omettre la contrainte de positivité dans la suite de la preuve.
 
-    Dérivons le problème dual de Lagrange. On introduit les multiplicateurs de Lagrange $\{f_i\}_{i=1}^n$ et $\{g_j\}_{j=1}^m$ associés aux contraintes de marges. Le lagrangien s'écrit:
-    \begin{equation*}
-        L(P, f, g) = \scalar{C, P} + \epsilon H(P) + \scalar{a-P\mathbf{1}_m, f} + \scalar{b - P^\top \mathbf{1}_n, g}
-    \end{equation*}
-    (Ici, les conditions de Slater sont vérifiées car le problème est convexe et admet une solution intérieure, on peut donc échanger le $\min$ et le $\max$.)
+	Dérivons le problème dual de Lagrange. On introduit les multiplicateurs de Lagrange $\{f_i\}_{i=1}^n$ et $\{g_j\}_{j=1}^m$ associés aux contraintes de marges. Le lagrangien s'écrit:
+	\begin{equation*}
+		L(P, f, g) = \scalar{C, P} + \epsilon H(P) + \scalar{a-P\mathbf{1}_m, f} + \scalar{b - P^\top \mathbf{1}_n, g}
+	\end{equation*}
+	(Ici, les conditions de Slater sont vérifiées car le problème est convexe et admet une solution intérieure, on peut donc échanger le $\min$ et le $\max$.)
 
-    Remarquons que $\scalar{a-P\mathbf{1}_m, f} = \scalar{a, f} - \scalar{P\mathbf{1}_m, f} = \scalar{a, f} - \scalar{P, f \mathbf{1}_m^\top}$. On a alors:
-    \begin{equation*}
-        \nabla_P L = C + \epsilon (\log P + 1) - f \mathbf{1}_m^\top - \mathbf{1}_n g^\top.
-    \end{equation*}
-    En annulant ce gradient, on obtient:
-    \begin{equation*}
-        P_{i,j} = e^{(f_i + g_j - C_{i,j})/\epsilon - 1} = e^{-1} e^{f_i/\epsilon} e^{-C_{i,j}/\epsilon} e^{g_j/\epsilon}.
-    \end{equation*}
-    En posant $u_i = e^{f_i/\epsilon - 1/2}$ et $v_j = e^{g_j/\epsilon - 1/2}$, on retrouve bien la forme annoncée.
+	Remarquons que $\scalar{a-P\mathbf{1}_m, f} = \scalar{a, f} - \scalar{P\mathbf{1}_m, f} = \scalar{a, f} - \scalar{P, f \mathbf{1}_m^\top}$. On a alors:
+	\begin{equation*}
+		\nabla_P L = C + \epsilon (\log P + 1) - f \mathbf{1}_m^\top - \mathbf{1}_n g^\top.
+	\end{equation*}
+	En annulant ce gradient, on obtient:
+	\begin{equation*}
+		P_{i,j} = e^{(f_i + g_j - C_{i,j})/\epsilon - 1} = e^{-1} e^{f_i/\epsilon} e^{-C_{i,j}/\epsilon} e^{g_j/\epsilon}.
+	\end{equation*}
+	En posant $u_i = e^{f_i/\epsilon - 1/2}$ et $v_j = e^{g_j/\epsilon - 1/2}$, on retrouve bien la forme annoncée.
 \end{proof}
 
 \subsection{Algorithme de Sinkhorn}
 On note le produit de Kronecker $\diag(u) z = u \odot z = (u_i z_i)_i$ le produit terme à terme entre les vecteurs $u$ et $z$. On a donc $P\mathbf{1}_m = u\odot (K v)$ qui doit valoir $a$, et de même $P^\top \mathbf{1}_n = v \odot (K^\top u) = b$. On a ainsi le système suivant:
 \begin{equation}
-    \tag{SchrSys}\label{eq:sinkhornsystem}
-    \begin{cases}
-        u \odot (K v) = a \\
-        v \odot (K^\top u) = b
-    \end{cases}
+	\tag{SchrSys}\label{eq:sinkhornsystem}
+	\begin{cases}
+		u \odot (K v) = a \\
+		v \odot (K^\top u) = b
+	\end{cases}
 \end{equation}
 
 \begin{thm}
-    Le problème de Schrödinger \eqref{eq:schrodinger} est équivalent à la résolution du système \eqref{eq:sinkhornsystem}.
+	Le problème de Schrödinger \eqref{eq:schrodinger} est équivalent à la résolution du système \eqref{eq:sinkhornsystem}.
 \end{thm}
 
 \begin{proposition}
-    L'algorithme de Sinkhorn pour la résolution du problème de Schrödinger est le suivant:
-    \begin{itemize}
-        \item $v \leftarrow \mathbf{1}_m$
-        \item Répéter jusqu'à convergence:
-              \begin{itemize}
-                  \item $u \leftarrow a / (K v)$
-                  \item $v \leftarrow b / (K^\top u)$
-              \end{itemize}
-    \end{itemize}
-    où l'on note $z/w$ le quotient terme à terme entre les vecteurs $z$ et $w$.
+	L'algorithme de Sinkhorn pour la résolution du problème de Schrödinger est le suivant:
+	\begin{itemize}
+		\item $v \leftarrow \mathbf{1}_m$
+		\item Répéter jusqu'à convergence:
+		      \begin{itemize}
+			      \item $u \leftarrow a / (K v)$
+			      \item $v \leftarrow b / (K^\top u)$
+		      \end{itemize}
+	\end{itemize}
+	où l'on note $z/w$ le quotient terme à terme entre les vecteurs $z$ et $w$.
 \end{proposition}
 Cet algorithme est très simple et facilement parallélisable. Chaque itération coûte $\O(n^2)$ opérations, donnant une complexité totale de $\O(Tn^2)$ pour atteindre une précision $\epsilon$ en $T$ étapes; ceci est à comparer à des algorithmes comme celui du simplexe, qui a une complexité cubique.
 
 \begin{thm}
-    Il suffit de $T=\frac{1}{\epsilon^2}$ itérations pour atteindre une précision $\epsilon$.
+	Il suffit de $T=\frac{1}{\epsilon^2}$ itérations pour atteindre une précision $\epsilon$.
 \end{thm}
 \begin{remarque}
-    On a donc une complexité totale de $\O\left(\frac{n^2}{\epsilon^2}\right)$ pour atteindre une précision $\epsilon$. Par rapport aux méthodes à points intérieurs de complexité $\O(n^3\log(\epsilon))$, la méthode de Sinkhorn est donc plus efficace en termes d'échantillons $n$, mais moins efficace en termes de précision $\epsilon$.
+	On a donc une complexité totale de $\O\left(\frac{n^2}{\epsilon^2}\right)$ pour atteindre une précision $\epsilon$. Par rapport aux méthodes à points intérieurs de complexité $\O(n^3\log(\epsilon))$, la méthode de Sinkhorn est donc plus efficace en termes d'échantillons $n$, mais moins efficace en termes de précision $\epsilon$.
 \end{remarque}
 
 \begin{proof}
-    S'intéresse à la preuve par contraction qui donne une convergence linéaire, contrairement à une preuve par projection itérative qui donnerait une convergence sous-linéaire, la constante étant meilleure dans le cas linéaire. \emph{Voir les notes de cours pour la preuve.}
+	S'intéresse à la preuve par contraction qui donne une convergence linéaire, contrairement à une preuve par projection itérative qui donnerait une convergence sous-linéaire, la constante étant meilleure dans le cas linéaire. \emph{Voir les notes de cours pour la preuve.}
 \end{proof}
 
 \subsection{Reformulation en divergence de Kullback-Leibler}
 \begin{definition}
-    La divergence de Kullback-Leibler entre deux matrices $P, Q \in \R_+^{n\times m}$ est définie par:
-    \begin{equation*}
-        \KL(P|Q) = \sum_{i,j} P_{i,j} \log\left(\frac{P_{i,j}}{Q_{i,j}}\right) - P_{i,j} + Q_{i,j}
-    \end{equation*}
+	La divergence de Kullback-Leibler entre deux matrices $P, Q \in \R_+^{n\times m}$ est définie par:
+	\begin{equation*}
+		\KL(P|Q) = \sum_{i,j} P_{i,j} \log\left(\frac{P_{i,j}}{Q_{i,j}}\right) - P_{i,j} + Q_{i,j}
+	\end{equation*}
 \end{definition}
 
 \begin{proposition}
-    $\KL(P|Q) \geq 0$ avec égalité si et seulement si $P = Q$.
+	$\KL(P|Q) \geq 0$ avec égalité si et seulement si $P = Q$.
 \end{proposition}
 
 L'idée va être d'utiliser $Q=a\otimes b$ comme mesure de référence.
 
 \begin{proposition}
-    Le problème de Schrödinger \eqref{eq:schrodinger} s'écrit de manière équivalente:
-    \begin{equation*}
-        \min_{P\in\R_+^{n\times m}, P\mathbf{1}_m = a, P^\top \mathbf{1}_n = b} \scalar{C, P} + \epsilon \KL(P|a\otimes b).
-    \end{equation*}
+	Le problème de Schrödinger \eqref{eq:schrodinger} s'écrit de manière équivalente:
+	\begin{equation*}
+		\min_{P\in\R_+^{n\times m}, P\mathbf{1}_m = a, P^\top \mathbf{1}_n = b} \scalar{C, P} + \epsilon \KL(P|a\otimes b).
+	\end{equation*}
 \end{proposition}
 
 \begin{proof}
-    $\KL(P|a\otimes b)$ et $\KL(P|a'\otimes b')$ diffèrent d'une constante additive indépendante de $P$, donc le minimum est le même.
+	$\KL(P|a\otimes b)$ et $\KL(P|a'\otimes b')$ diffèrent d'une constante additive indépendante de $P$, donc le minimum est le même.
 \end{proof}
 
 \begin{definition}
-    Soit $\frac{\pi}{\xi}\in\mP(X\times Y)$. Si $\frac{\d\pi}{\d\xi}$ existe, on définit la divergence de Kullback-Leibler entre $\pi$ et $\xi$ par:
-    \begin{equation*}
-        \KL(\pi|\xi) = \int_{X\times Y} \log\left(\frac{\d\pi}{\d\xi}\right) \d\pi - \pi(X\times Y) + \xi(X\times Y)
-    \end{equation*}
-    Si $\frac{\d\pi}{\d\xi}$ n'existe pas, on pose $\KL(\pi|\xi) = +\infty$.
+	Soit $\frac{\pi}{\xi}\in\mP(X\times Y)$. Si $\frac{\d\pi}{\d\xi}$ existe, on définit la divergence de Kullback-Leibler entre $\pi$ et $\xi$ par:
+	\begin{equation*}
+		\KL(\pi|\xi) = \int_{X\times Y} \log\left(\frac{\d\pi}{\d\xi}\right) \d\pi - \pi(X\times Y) + \xi(X\times Y)
+	\end{equation*}
+	Si $\frac{\d\pi}{\d\xi}$ n'existe pas, on pose $\KL(\pi|\xi) = +\infty$.
 \end{definition}
 
 \begin{definition}
-    Le \textbf{problème de Schrödinger général} s'écrit:
-    \begin{equation}
-        \tag{SchrGen}\label{eq:schrodinger-general}
-        \inf_{\pi\in\mP(X\times Y)}\left\{ \int c\,\d\pi + \epsilon\,\KL(\pi|a\otimes b) : \pi_1 = \alpha,\, \pi_2 = \beta \right\}
-    \end{equation}
+	Le \textbf{problème de Schrödinger général} s'écrit:
+	\begin{equation}
+		\tag{SchrGen}\label{eq:schrodinger-general}
+		\inf_{\pi\in\mP(X\times Y)}\left\{ \int c\,\d\pi + \epsilon\,\KL(\pi|a\otimes b) : \pi_1 = \alpha,\, \pi_2 = \beta \right\}
+	\end{equation}
 \end{definition}
 \begin{remarque}
-    L'information mutuelle entre deux variables aléatoires $X$ et $Y$ de loi jointe $\pi$ est donnée par $I(X, Y) = \KL(\pi|\pi_1 \otimes \pi_2)$. Ainsi, le problème de Schrödinger cherche un couplage $\pi$ qui minimise le coût total plus une pénalisation de l'information mutuelle entre les deux variables aléatoires. Lorsque $I(X,Y) = 0$, les variables sont indépendantes, et le couplage est donc le produit tensoriel des marges.
+	L'information mutuelle entre deux variables aléatoires $X$ et $Y$ de loi jointe $\pi$ est donnée par $I(X, Y) = \KL(\pi|\pi_1 \otimes \pi_2)$. Ainsi, le problème de Schrödinger cherche un couplage $\pi$ qui minimise le coût total plus une pénalisation de l'information mutuelle entre les deux variables aléatoires. Lorsque $I(X,Y) = 0$, les variables sont indépendantes, et le couplage est donc le produit tensoriel des marges.
 \end{remarque}
 
 Calculons le problème dual de Schrödinger dans ce cadre général. En réutilisant les notations des multiplicateurs de Lagrange, on a:
 \begin{equation*}
-    \min_P\max_{f,g} \scalar{C, P} + \epsilon \KL(P|a\otimes b) + \scalar{\alpha - P\mathbf{1}, f} + \scalar{\beta - P^\top\mathbf{1}, g}
+	\min_P\max_{f,g} \scalar{C, P} + \epsilon \KL(P|a\otimes b) + \scalar{\alpha - P\mathbf{1}, f} + \scalar{\beta - P^\top\mathbf{1}, g}
 \end{equation*}
 Puisque les conditions de Slater sont vérifiées, on peut échanger le $\min$ et le $\max$:
 \begin{equation*}
-    \max_{f,g} \scalar{a, f} + \scalar{b, g} + \min_P \scalar{C-f\mathbf{1}^\top - \mathbf{1}g^\top, P} + \epsilon \KL(P|a\otimes b),
+	\max_{f,g} \scalar{a, f} + \scalar{b, g} + \min_P \scalar{C-f\mathbf{1}^\top - \mathbf{1}g^\top, P} + \epsilon \KL(P|a\otimes b),
 \end{equation*}
 ce qui est équivalent à:
 \begin{equation*}
-    \max_{f,g} \scalar{a, f} + \scalar{b, g} - \max_P \scalar{C-f\mathbf{1}^\top - \mathbf{1}g^\top, P} - \epsilon \KL(P|a\otimes b).
+	\max_{f,g} \scalar{a, f} + \scalar{b, g} - \max_P \scalar{C-f\mathbf{1}^\top - \mathbf{1}g^\top, P} - \epsilon \KL(P|a\otimes b).
 \end{equation*}
 
 On remarque alors que ceci correspond à la transformation de Legendre-Fenchel de $\KL(\cdot|a\otimes b)$ évaluée en $(f\mathbf{1}^\top + \mathbf{1}g^\top - C)/\epsilon$. On a donc:
 \begin{equation*}
-    \max_{f,g} \scalar{a, f} + \scalar{b, g} -\epsilon\KL^\star(z|ab^\top)
+	\max_{f,g} \scalar{a, f} + \scalar{b, g} -\epsilon\KL^\star(z|ab^\top)
 \end{equation*}
 où $z = (f\mathbf{1}^\top + \mathbf{1}g^\top - C)/\epsilon$.
 
 \begin{lemme}
-    La transformation de Legendre-Fenchel de $\KL(\cdot|a\otimes b)$ est donnée par:
-    \begin{equation*}
-        \KL^\star(Z|Q) = \sum_{i,j} Q_{i,j}\exp(Z_{i,j}) - 1
-    \end{equation*}
+	La transformation de Legendre-Fenchel de $\KL(\cdot|a\otimes b)$ est donnée par:
+	\begin{equation*}
+		\KL^\star(Z|Q) = \sum_{i,j} Q_{i,j}\exp(Z_{i,j}) - 1
+	\end{equation*}
 \end{lemme}
 
 On en déduit le dual de Schrödinger:
 \begin{equation*}
-    \max_{f,g} \scalar{a, f} + \scalar{b, g} - \epsilon \sum_{i,j} a_i b_j \exp\left(\frac{f_i + g_j - C_{i,j}}{\epsilon}\right) + \epsilon
+	\max_{f,g} \scalar{a, f} + \scalar{b, g} - \epsilon \sum_{i,j} a_i b_j \exp\left(\frac{f_i + g_j - C_{i,j}}{\epsilon}\right) + \epsilon
 \end{equation*}
 
 Dans le cas général, pour des mesures non-discrètes, on retrouve une formulation similaire:
 \begin{equation*}
-    \inf_{f\in\mC(X), g\in\mC(Y)} \int f(x)\d\alpha(x) + \int g(y)\d\beta(y) - \epsilon \int e^{(f(x) + g(y) - c(x,y))/\epsilon} \d\alpha(x)\d\beta(y) + \epsilon
+	\inf_{f\in\mC(X), g\in\mC(Y)} \int f(x)\d\alpha(x) + \int g(y)\d\beta(y) - \epsilon \int e^{(f(x) + g(y) - c(x,y))/\epsilon} \d\alpha(x)\d\beta(y) + \epsilon
 \end{equation*}
 
 
 \begin{proposition}
-    L'\textbf{algorithme de Sinkhorn} dans ce cadre s'écrit alors:
-    \begin{itemize}
-        \item Initialiser $g$
-        \item Répéter jusqu'à convergence:
-        \begin{itemize}
-            \item $f \leftarrow g^{c,\epsilon} := \argmin_f D(f, g)$
-            \item $g \leftarrow f^{c,\epsilon} := \argmin_g D(f, g)$
-        \end{itemize}
-    \end{itemize}
-    où l'on dénote $(\cdot)^{c,\epsilon}$ l'opérateur de c-transformée réguliarisée par l'entropie, et $D$ la fonctionnelle duale de Schrödinger.
+	L'\textbf{algorithme de Sinkhorn} dans ce cadre s'écrit alors:
+	\begin{itemize}
+		\item Initialiser $g$
+		\item Répéter jusqu'à convergence:
+		      \begin{itemize}
+			      \item $f \leftarrow g^{c,\epsilon} := \argmin_f D(f, g)$
+			      \item $g \leftarrow f^{c,\epsilon} := \argmin_g D(f, g)$
+		      \end{itemize}
+	\end{itemize}
+	où l'on dénote $(\cdot)^{c,\epsilon}$ l'opérateur de c-transformée réguliarisée par l'entropie, et $D$ la fonctionnelle duale de Schrödinger.
 \end{proposition}
-    
+
 \begin{proposition}
-    L'\textbf{opérateur de c-transformée réguliarisée par l'entropie} s'écrit:
-    \begin{equation*}
-        f^{c,\epsilon}(y) = -\epsilon \log\left( \int e^{(f(x) - c(x,y))/\epsilon} \d\alpha(x) \right)
-    \end{equation*}
-    et de manière similaire:
-    \begin{equation*}
-        g^{c,\epsilon}(x) = -\epsilon \log\left( \int e^{(g(y) - c(x,y))/\epsilon} \d\beta(y) \right)
-    \end{equation*}
+	L'\textbf{opérateur de c-transformée réguliarisée par l'entropie} s'écrit:
+	\begin{equation*}
+		f^{c,\epsilon}(y) = -\epsilon \log\left( \int e^{(f(x) - c(x,y))/\epsilon} \d\alpha(x) \right)
+	\end{equation*}
+	et de manière similaire:
+	\begin{equation*}
+		g^{c,\epsilon}(x) = -\epsilon \log\left( \int e^{(g(y) - c(x,y))/\epsilon} \d\beta(y) \right)
+	\end{equation*}
 \end{proposition}

@@ -1,0 +1,451 @@
+\section{Homologie pratique, échantillonnage et apprentissage}
+\subsection{Résilience statistique}
+Le complexe de Vietoris-Rips et ses filtrations se calculent en $\O\left(\abs{\X}^{d}\right)$, ce qui rend le calcul de persistence quasi impossible en pratique.
+Par ailleurs, les filtrations et la distance de Gromov-Hausdorff sont très sensibles au bruit et aux anomalies.
+
+\subsubsection{Calcul statistique}
+On va s'intéresser à un espace métrique $(\mathbb{M}, \rho)$ et à une mesure de probabilité $\mu$ à support compact $X_{\mu}$ dans $\mathbb{M}$.
+On échantillonne $m$ points selon $\mu$, ce qui nous donne un nuage de point $\hatx{m}$, et une filtration
+$\filt{\hatx{m}}$.
+On a alors:
+\begin{proposition}
+	Si $\epsilon > 0$:
+	\begin{equation*}
+		\P\left(\dinf\left(\diag\left(\filt\left(\X_{\mu}\right)\right), \diag\left(\filt\left(\hatx{m}\right)\right)\right) > \epsilon\right) \leq \P\left(d_{GH}\left(\X_{\mu}, \hatx{m}\right) > \frac{\epsilon}{2}\right)
+	\end{equation*}
+\end{proposition}
+\begin{proof}
+	Conséquence directe du Théorème \ref{thm:tame-distance-module} de stabilité.
+\end{proof}
+
+On obtient quasi immédiatement des inégalités de déviation:
+\begin{definition}
+	Pour $a, b > 0$, on dit que $\mu$ vérifie \define{la supposition $(a, b)$-standard} si pour $x \in \X_{\mu}$ et $r > 0$, on a:
+	\begin{equation*}
+		\mu(B(x, r)) \geq \min(ar^{b}, 1)
+	\end{equation*}
+	On note $\mP(a, b, \mathbb{M})$ \define{l'ensemble des distributions de probabilité $(a, b)$-standard} sur $\M$.
+\end{definition}
+\begin{thm}
+	Si $\mu$ vérifie la supposition $(a, b)$-standard, pour tout $\epsilon > 0$:
+	\begin{equation*}
+		\P\left(\dinf\left(\diag\left(\filt\left(\X_{\mu}\right)\right), \diag\left(\filt\left(\hatx{m}\right)\right)\right) > \epsilon\right) \leq \min \left(\frac{8^{b}}{a\epsilon^{b}}\exp{\left(-ma\epsilon^{b}\right)}, 1\right)
+	\end{equation*}
+	De plus:
+	\begin{equation*}
+		\P\left(\dinf\left(\diag\left(\filt\left(\X_{\mu}\right)\right), \diag\left(\filt\left(\hatx{m}\right)\right)\right) \geq C_{1} \left(\frac{\log{m}}{m}\right)^{1 / b}\right) \xrightarrow[m \to \infty]{} 1
+	\end{equation*}
+	où $C_{1}$ est une constante qui ne dépend que de $a$ et $b$.
+\end{thm}
+\begin{proof}
+	On commence par majorer $\P\left(\d_{GH}\left(\X_{\mu}, \hatx{m}\right) > \frac{\epsilon}{2}\right)$ puis,
+	on obtient par la supposition $(a, b)$-standard une borne supérieure explicite pour la couverture de $\X_{\mu}$ par des boules de rayon $\epsilon / 2$.
+	On peut alors conclure en prenant l'union des bornes.
+\end{proof}
+
+\begin{thm}
+	On a:
+	\begin{equation*}
+		\sup_{\mu \in \mP(a, b, \mathbb{M})} \E[\dinf(\diag(\filt(\X_{\mu})), \diag(\filt(\hatx{m})))] \leq C(\frac{\ln m}{m})^{1 / b}
+	\end{equation*}
+	où $C$ ne dépend que de $a$ et $b$.
+	Si de plus il y a un point non isolé $x$ dans $\mathbb{M}$, et si $x_{m} \in \mathbb{M} \setminus \{x\}$,
+	telle que $\rho(x, x_{m}) \leq (am)^{-1/b}$, pour tout estimateur $\hat{\diag}_{m}$ de $\diag(\filt(\X_{\mu}))$:
+	\begin{equation*}
+		\liminf_{m \to \infty}\rho(x, x_{m})^{-1}\sup_{\mu \in \mP(a, b, \mathbb{M})}\E[\dinf(\diag(\filt(\X_{\mu})), \hat{\diag}_{m})] \geq C'
+	\end{equation*}
+	où $C'$ est une constante absolue.
+\end{thm}
+
+\subsubsection{Paysages de persistence et rééchantillonnage}
+\begin{definition}
+	Si on a un diagramme de persistence $(b_{i}, d_{i})$, son \define{paysage de persistence} est obtenu en y ajoutant à chaque point les deux projections orthogonales sur la diagonale par rapport aux axes, puis en plaçant à l'horizontale sa diagonale.
+	Formellement, c'est l'union pour $p = (\frac{b + d}{2}, \frac{d - b}{2})$ des graphes:
+	\begin{equation*}
+		\Lambda_{p}(t) = \begin{cases}
+			t - b & t \in [b, \frac{b + d}{2}] \\
+			d - t & t \in [\frac{b + d}{2}, d] \\
+			0     & \text{sinon}
+		\end{cases}
+	\end{equation*}
+\end{definition}
+
+C'est un encodage de la persistence comme un élément d'un espace fonctionnel, comme fait ci-dessous:
+\begin{definition}
+	On définit le \define{$k$-ème paysage} d'un diagramme $D$ par:
+	\begin{equation*}
+		\lambda_{D}(k, t) = \underset{p \in D}{\mathrm{kmax}} \Lambda_{p}(t), t \in \R, k \in \N
+	\end{equation*}
+	où $\mathrm{kmax}$ désigne le $k$-ème plus grand élément d'un ensemble.
+\end{definition}
+
+\begin{proposition}\label{thm:landscape-stability}
+	\begin{itemize}
+		\item Pour $t \in \R$ et $k \in \N$, $0 \leq \lambda_{D}(k, t) \leq \lambda_{D}(k + 1, t)$
+		\item Pour $t \in \R$, et $k \in \N$, $\abs{\lambda_{D}(k, t) - \lambda_{D'}(k, t)} \leq \dinf(D, D')$
+	\end{itemize}
+\end{proposition}
+
+Dans la suite, on note $\mL_{T}$ les paysages dont le support est dans $[0, T]$, on prend $P$ une distribution de probabilité
+sur $\mL_{T}$ et $\lambda_{1}, \ldots, \lambda_{n} \sim P$ i.i.d.
+On note $\mu(t) = \E[\lambda_{i}(t)]$ le paysage moyen et on l'estime par la moyenne échantillonnée:
+\begin{equation*}
+	\bar{\lambda}_{n}(t) = \frac{1}{n}\sum \lambda_{i}(t)
+\end{equation*}
+$\bar{\lambda}_{n}$ est un estimateur point à point non biaisé de $\mu$, qui converge point à point.
+
+\begin{definition}
+	Soit $\mF$ la famille des applications d'évaluation $f_{t} : \mL_{T} \to \R$.
+	Le \define{processus empirique} indexé par les $f_{t}$ est défini par:
+	\begin{equation*}
+		\mathbb{G}_{n}(t) = \sqrt{n}(\bar{\lambda}_{n}(t) - \mu_{t}) = \sqrt{n}(P_{n} - P)(f_{t})
+	\end{equation*}
+\end{definition}
+
+\begin{thm}
+	Soit $\mathbb{G}$ un pont Brownien avec fonction de covariance:
+	\begin{equation*}
+		\kappa(s, t) = \int f_{t}(\lambda)f_{s}(\lambda)\d P(\lambda) - \int f_{t}(\lambda)\d P(\lambda)\int f_{s}(\lambda)\d P(\lambda).
+	\end{equation*}
+	On a alors:
+	\begin{equation*}
+		\mathbb{G}_{n} \to \mathbb{G}
+	\end{equation*}
+	pour la convergence faible.
+\end{thm}
+
+Si de plus on note $\sigma(t)$ l'écart-type de $\sqrt{n}\bar{\lambda}_{n}(t)$:
+\begin{thm}\label{thm:bootstrap-clt}
+	Si $\sigma(t) > c > 0$ sur un intervalle $I = [t_{*}, t^{*}] \subseteq [0, T]$ pour une constance $c$, avec
+	$W = \sup_{t \in I} \abs{\mathbb{G}(f_{t})}$ on a:
+	\begin{equation*}
+		\sup_{z \in \R}\abs{\P\left(\sup_{t \in [t_{*}, t^{*}]}\abs{\mathbb{G}_{n}\left(t\right)} \leq z\right) - \P\left(W \leq z\right)} = \O\left(\frac{\left(\log n\right)^{7 / 8}}{n^{1 / 8}}\right)
+	\end{equation*}
+\end{thm}
+C'est une forme de théorème central limite uniforme. On a de plus le corollaire suivant:
+
+\begin{thm}
+	Sous les mêmes hypothèses, étant donné un niveau de confiance $1 - \alpha$, on peut construire des fonctions de confiance
+	$l_{n}(t)$ et $u_{n}(t)$ telles que:
+	\begin{equation*}
+		\P\left(l_{n}(t) \leq \mu(t) \leq u_{n}(t), \forall t \in I\right) \geq 1 - \alpha - \O\left(\frac{\left(\log n\right)^{7/8}}{n^{1 / 8}}\right)
+	\end{equation*}
+	De plus, on a:
+	\begin{equation*}
+		\sup_{t} u_{n}(t) - l_{n}(t) = \O\left(\sqrt{\frac{1}{n}}\right)
+	\end{equation*}
+\end{thm}
+Autrement dit, le rééchantillonnage (ou \textit{bootstrap}) permet d'obtenir des intervalles de confiance pour les paysages.
+
+\subsubsection{Bruit et méthode d'échantillonnage}
+On va ici s'intéresser à l'impact de la procédure d'échantillonnage.
+On rappelle que la définition des distances de $p$-Wasserstein peuvent se poser pour n'importe quelles
+deux mesures de probabilité sur un même espace métrique $(\mathbb{M}, \rho)$.
+On a notamment le théorème suivant:
+\begin{thm}\label{thm:sampling-stability}
+	Si $\mu, \nu$ sont des mesures de probabilité sur un même espace métrique $(\mathbb{M}, \rho)$, on a:
+	\begin{equation*}
+		\ninf{\Lambda_{\mu, m} - \Lambda_{\nu, m}} \leq m^{\frac{1}{p}} \mathrm{W}_{p}\left(\mu, \nu\right)
+	\end{equation*}
+	où $\mathrm{W}_{p}$ dénote la distance de Wasserstein associée à la fonction de coût $\rho(\cdot, \cdot)^{p}$.
+\end{thm}
+Ceci nous assure de l'utilisabilité des méthodes d'échantillonnage, et notamment de la robustesse
+aux échantillons peu probables et des méthodes sous-échantillonnant.
+
+Avant de démontrer ceci, donnons trois courts lemmes sur les passages des espaces d'échantillonnage aux espaces de paysages:
+\begin{lemme}\label{lem:samp-one}
+	Pour toutes mesures de probabilité $\mu, \nu$ sur $(\mathbb{M}, \rho)$, si $\rho_{m}$ est une métrique sur $\mathbb{M}^{m}$ telle que:
+	\begin{equation*}
+		\rho_{m}(X, Y) \leq \left(\sum_{i = 1}^{m}\rho(x_{i}, y_{i})^{p}\right)^{\frac{1}{p}}
+	\end{equation*}
+	alors:
+	\begin{equation*}
+		\W_{p}(\mu^{\otimes m}, \nu^{\otimes m}) \leq m^{\frac{1}{p}}\W_{p}(\mu, \nu)
+	\end{equation*}
+\end{lemme}
+\begin{proof}
+	Si $\Pi$ est un plan de transport entre $\mu$ et $\nu$, alors $\Pi^{\otimes m}$ est un plan de transport entre $\mu^{\otimes m}$ et $\nu^{\otimes m}$ et donc:
+	\begin{align*}
+		\int_{\MM^{2m}}\rho_{m}(X, Y)^{p}\d\Pi^{\otimes m}(X, Y) \leq & \int_{\MM^{m}\times \MM^{m}}\sum_{i = 1}^{m}\rho(x_{i}, y_{i})^{p}\d\Pi(x_{1}, y_{1})\cdots\d\Pi(x_{m}, y_{m}) \\
+		= m\int_{\MM \times \MM}\rho(x_{1}, y_{1})^{p}\d \Pi(x_{1}, y_{1}),
+	\end{align*}
+	ce qui conclut la preuve.
+\end{proof}
+
+\begin{lemme}\label{lem:samp-two}
+	En notant $\phi^{m}: \MM^{m} \to \mD$ la fonction qui à $X$ associe $\diag\left(\filt X\right)$ dans l'espace des diagrammes de persistence et si $\Phi_{\mu}^{m}$ est le poussé en avant de $\mu$ par $\phi^{m}$:
+	\begin{equation*}
+		\W_{p}(\Phi_{\mu}^{m}, \Phi_{\nu}^{m}) \leq \W_{p}(\mu^{\otimes m}, \nu^{\otimes m})
+	\end{equation*}
+\end{lemme}
+\begin{proof}
+	En notant $\Delta_{m}(X, Y) = (\psi(\phi^{m}(X)), \psi(\phi^{m}(Y)))$, si $\Pi$ est un plan entre $\mu^{\otimes m}$ et $\nu^{\otimes m}$, alors le plan $\Delta_{m}\sharp \Pi$ poussé en avant de $\Pi$ est un plan entre $\Phi_{\mu}^{m}$ et $\Phi_{\nu}^{m}$ et on a:
+	\begin{align*}
+		\int_{\mD^{2}} \W_{\infty}(D_{X}, D_{Y})^{p}\d \Delta_{m}\sharp\Pi(D_{X}, D_{Y}) = & \int_{\MM^{2m}}\W_{\infty}(\phi^{m}(X), \phi^{m}(Y))^{p}\d\Pi(X, Y)                        \\
+		\leq                                                                               & \int_{\MM^{2m}} d_{H}(X, Y)^{p}\d\Pi(X, Y) \quad \text{(\ref{thm:tame-distance-function})} \\
+		\leq                                                                               & \int_{\MM^{2m}}\rho_{m}(X, Y)^{p}\d\Pi(X, Y)
+	\end{align*}
+\end{proof}
+
+
+\begin{lemme}\label{lem:samp-three}
+	En notant $\psi$ l'application de l'espace des diagrammes vers l'espace des paysages munis de la norme infinie et $\Psi_{\mu}^{m}$ le poussé en avant de $\phi_{\mu}^{m}$ par $\psi$:
+	\begin{equation*}
+		\ninf{\E_{\lambda_{X} \sim \Psi_{\mu}^{m}}[\lambda_{X}] - \E_{\lambda_{Y} \sim \Psi_{\nu}^{m}}\left[\lambda_{Y}\right]} \leq \W_{\infty, p}(\Phi_{\mu}^{m}, \Phi_{\nu}^{m})
+	\end{equation*}
+	où $\W_{\infty, p}$ fait appel à la $p$-ème puissance de la distance infinie de Wasserstein pour les diagrammes sous-jacents.
+\end{lemme}
+\begin{proof}
+	Si $\Pi$ est un plan entre $\Phi_{\mu}^{m}$ et $\Phi_{\nu}^{m}$, pour tout $t \in \R$ on a:
+	\begin{align*}
+		\abs{\E_{\lambda_{X} \sim \Psi_{\mu}^{m}}\left[\lambda_{X}\right]\left(t\right) - \E_{\lambda_{Y} \sim \Psi_{\nu}^{m}}\left[\lambda_{Y}\right]\left(t\right)}^{p} = & \abs{\E\left[\lambda_{X}(t) - \lambda_{Y}(t)\right]}^{p}                                             \\
+		\leq                                                                                                                                                                & \E\left[\abs{\lambda_{X}(t) - \lambda_{Y}(t)}^{p}\right] \quad \text{(Jensen)}                       \\
+		\leq                                                                                                                                                                & \E\left[\W_{\infty}\left(D_{X}, D_{Y}\right)^{p}\right] \quad \text{(\ref{thm:landscape-stability})} \\
+		=                                                                                                                                                                   & \int_{\mD \times \mD}\W_{\infty}(D_{X}, D_{Y})^{p}\d\Pi(D_{X}, D_{Y})
+	\end{align*}
+\end{proof}
+
+\begin{proof}[Preuve du Théorème \ref{thm:sampling-stability}]
+	Par le Lemme \ref{lem:samp-one} ci-dessus
+	\begin{equation*}
+		\W_{p}\left(\mu^{\otimes m}, \nu^{\otimes m}\right) \leq m^{\frac{1}{p}}\W_{p}(\mu, \nu)
+	\end{equation*}
+	Par le Lemme \ref{lem:samp-two}, en notant $P_{\pi}$ le diagramme de persistence associé à $\pi$:
+	\begin{equation*}
+		\W_{p}(P_{\mu}, P_{\nu}) \leq \W_{p}(\mu^{\otimes m}, \nu^{\otimes m})
+	\end{equation*}
+	Enfin, par le Lemme \ref{lem:samp-three}:
+	\begin{equation*}
+		\ninf{\Lambda_{\mu, m} - \Lambda_{\nu, m}} \leq \W_{p}(P_{\mu}, P_{\nu})
+	\end{equation*}
+\end{proof}
+
+
+\subsection{Persistence et apprentissage automatique}
+\subsubsection{Représentation de persistence}
+Puisque l'espace des diagrammes de persistence n'est pas linéaire, les algorithmes de ML classique ne
+fonctionnent pas bien.
+La bibliothèque Python et C++ \emph{Gudhi} propose une large zoologie de représentations pour la persistence,
+comme mesures discrètes, espaces métriques finis, racines de polynômes ou collections de fonctions 1D.
+
+Par exemple, on peut représenter un diagramme en le plongeant dans $\R^{2}$ et l'espace des mesures par $D = \sum \delta_{p_{i}}$.
+Si on se donne un noyau $K: \R^{2} \to \R$ et $H$ une matrice de bande-passante (forme quadratique), en définissant $K_{H}(u) = \abs{H}^{-1/2}K(H^{-1/2}\cdot u)$, on obtient alors, étant donné une fonction de poids $w$, \define{la surface de persistence} de $D$ par:
+\begin{equation*}
+	\forall u \in \R^{2}, \rho(D)(u) = D(wK_{H}(u - \cdot))
+\end{equation*}
+
+La question se pose alors de savoir comment choisir une représentation adaptée à un réseau de neurones.
+Une réponse partielle peut être trouvée en regardant l'architecture à ensembles profonds:
+on se donne $n$ points dans $\R^{d}$ et on construit un réseau dont les niveaux sont invariants
+par permutation ($f \circ \sigma = f$)
+\begin{thm}[Universalité]
+	Une fonction $f$ est invariante par permutation si et seulement si, pour tout $X$ inclus dans un ensemble dénombrable $f(X) = \rho(\sum_{i} \phi(x_{i}))$ pour certaines fonctions $\rho$ et $\phi$.
+\end{thm}
+
+Les réseaux à niveaux invariants par permutation permettent de généraliser plusieurs approches générales en TDA, sous la forme de "niveaux de persistence"
+\begin{equation*}
+	\mathrm{PersLay}(\diag) = \rho(\mathrm{op}\{w(p), \phi(p)\}_{p\in \diag}),
+\end{equation*}
+où $\mathrm{op}$ est invariante par permutation, $w$ est une fonction de poids, et $\phi$ est une transformation permettant de se ramener à un ensemble dénombrable.
+
+On peut par exemple retrouver la surface de persistence en se donnant $t_{1}, \ldots, t_{q}\in \R^{2}$ puis en posant:
+\begin{itemize}
+	\item $w(p) = w_{t}((x, y))$;
+	\item $\phi_{\Gamma}: p \mapsto (\Gamma_{p}(t_{i}))_{i}$ avec $\Gamma_{p}$ la gaussienne centrée en $p$ d'écart-type fixé $\sigma$;
+	\item $\mathrm{op} = \sum$.
+\end{itemize}
+Pour les paysages, on prend $w(p) = 1$, $\mathrm{op} = \mathrm{top-}k$ et $\phi_{\Lambda}$ l'évaluation de $\Lambda_{p}$ en $q$ paramètres $t_{1}, \ldots, t_{q}$.
+
+\subsubsection{Différentiabilité de la persistence}
+Nombre de méthodes permettent de minimiser une fonction sur l'ensemble des diagrammes, mais la plupart sont
+restreintes à un type spécifique de filtration ou de fonction à minimiser.
+
+\begin{definition}
+	Étant donné un ensemble $V$, un complexe simplicial $K$ sur $V$ et une filtration $K_{r}$ indexée
+	par un ensemble $R \subseteq \R$, pour $\sigma \in K$ on pose
+	\begin{equation*}
+		\Phi_{\sigma} = \inf \left\{r\in R\suchthat \sigma \in K_{r}\right\}.
+	\end{equation*}
+\end{definition}
+
+Par conséquent, une filtration de $K$ est un vecteur $\abs{K}$-dimensionnel
+$\Phi = (\Phi_{\sigma})_{\sigma} \in \R^{\abs{K}}$ tel que
+$\tau \subseteq \sigma \Rightarrow \Phi_{\tau}\leq \Phi_{\sigma}$.
+
+
+\begin{proposition}
+	L'ensemble $\filt_{K} \subseteq \R^{\abs{K}}$ des vecteurs sur $\R^{\abs{K}}$ définissant une filtration
+	sur $K$ est semi-algébrique sur $\R$.
+\end{proposition}
+
+\begin{definition}
+	Si $K$ est un complexe simplicial, une application $\Phi: A \to \R^{\abs{K}}$ est une \define{famille
+		paramétrée de filtrations} si pour tout $\tau \subseteq \sigma$, on a $\Phi_{\tau} \leq \Phi_{\sigma}$.
+\end{definition}
+
+Le calcul de l'homologie persistente dans ce cas se fait avec l'Algorithme \ref{alg:betti_nop}, et peut donc
+se voir comme suit:
+\begin{category}
+	\rm Filtration & \text{Appairage de Simplexes} & \text{Diagramme de Persistence}\\
+	\Phi = (\Phi_{\sigma})_{\sigma \in K} \in \R^{\abs{K}}\ar[r]\ar[drr, bend right, "\pers" description]
+	& \text{$p$ paires $(\sigma_{l(i)}, \sigma_{i})$, $q$ $\sigma_{l}$ esseulés avec $\abs{K} = 2p +q$}\ar[r]
+	& (\Phi_{\sigma_{l(i)}}, \Phi_{\sigma_{i}}), (\Phi_{\sigma_{l}}, \infty)\ar[d, "\text{ordre lexicographique}" description]\\
+	& & D(\Phi) \in \R^{\abs{K}}
+\end{category}
+
+L'application de persistence $\pers$ correspond à une permutation des coordonnées localement constante.
+On va chercher à utiliser cette application pour restreindre l'ensemble des filtrations afin de pouvoir
+différentier l'application $\pers$.
+Pour cela, on rappelle la notion de structure o-minimale:
+\begin{definition}
+	Une \define{structure o-minimale} sur le corps des réels $\R$ est une collection $(S_{n})_{n\in \N}$
+	où chaque $S_{n} \in \mP\left(\mP\left(\R\right)\right)$ est un ensemble de parties	de $\R^{n}$ tel que
+	\begin{enumerate}
+		\item $S_{1}$ est exactement la collection des unions finies de points et d'intervalles;
+		\item Les parties algébriques de $\R^{n}$ sont dans $S_{n}$;
+		\item $S_{n}$ est une sous-algèbre booléenne de $\R^{n}$ pour tout $n \in \N$;
+		\item Si $A \in S_{n}$ et $B \in S_{m}$ alors $A\times B \in S_{n + m}$;
+		\item Si $\pi_{n + 1}^{n}: \R^{n + 1} \to \R^{n}$  est la projection sur les $n$ premières coordonnées,
+		      alors $\pi(S_{n + 1}) \subseteq S_{n}$;
+	\end{enumerate}
+	$A \in S_{n}$ est dit \define{définissable} dans la structure o-minimale.
+	Pour $A \subseteq \R^{n}, f: A \to \R^{m}$ est une application définissable si son graphe est définissable
+	dans $\R^{n + m}$.
+\end{definition}
+
+\begin{definition}
+	Une \define{stratification} d'un espace topologique est une filtration finie par ensembles fermés $F_{i}$
+	telles que la différence entre deux membres successifs de la filtration $F_{i}$ et $F_{i - 1}$ est soit
+	vide soit une sous-variété lisse de dimension $i$.
+	Les composantes connexes de la différence $F_{i} \setminus F_{i - 1}$ sont les \define{strates} de
+	dimension $i$.
+	Une stratification (dans $\R^{n}$) vérifie les \define{propriétés de Whitney} si toute paire de
+	strates vérifient les deux conditions suivantes:
+	\begin{enumerate}
+		\item $X$ et $Y$ vérifient la condition $A$ de Whitney si, lorsqu'une suite $x_{m}$ de $X$ converge vers
+		      $y \in Y$ et lorsque la suite des $i$-plans tangents $T_{m}$ à $X$ en $x_{m}$ converge vers un
+		      $i$-plan $T$, alors $T$ contient le $j$-plan tangent à $Y$ en $y$;
+		\item $X$ et $Y$ vérifient la condition $B$ de Whitney si, pour toute suite $x_{m}$ de $X$ et
+		      toute suite $y_{m}$ de $Y$ qui convergent vers le même point $y$ de $Y$ de sorte que la suite
+		      de ligne sécantes $L_{m}$ entre $x_{m}$ et $y_{m}$ converge vers une ligne $L$ et que la suite
+		      de $i$-plans tangents $T_{m}$ à $X$ en $x_{m}$ converge vers un $i$-plan $T$ alors $L$ est
+		      contenue dans $T$.
+	\end{enumerate}
+\end{definition}
+
+\begin{proposition}
+	Tous les ensembles définissables admettent des stratifications finies vérifiant les propriétés de Whitney.
+\end{proposition}
+
+\begin{proposition}
+	Pour un complexe simplicial $K$, l'application
+	\begin{equation*}
+		\pers: \filt_K \subseteq \R^{\abs{K}} \to \R^{\abs{K}}
+	\end{equation*}
+	est semie-algébrique (et donc définissable dans toute structure o-minimale).
+	De plus, il existe une partition semie-algébrique de $\filt_{K}$ telle que la restriction de $\pers$ à
+	chaque élément de la partition est Lipschitz.
+\end{proposition}
+
+\begin{corollaire}
+	Si $K$ est un complexe simplicial et $\Phi: A \to \R^{\abs{K}}$ est une famille paramétrée de
+	filtrations définissable dans une structure o-minimale donnée, alors $\pers \circ \Phi$ est définissable.
+\end{corollaire}
+
+Il faut entendre définissable au sens de définissable dans une structure o-minimale donnée.
+Puisque les ensembles semis algébriques définissent une structure o-minimale on peut toujours remplacer
+définissable par semi-algébrique.
+
+\begin{proposition}
+	Si $K$ est un complexe simplicial et $\Phi$ est une famille paramétrée définissable sur $A$ de
+	dimension finie $m$, il existe une partition finie définissable de $A$ notée $S\sqcup O_{1} \sqcup \cdots
+		\sqcup O_{k}$ telle que $\dim S < \dim A = m$ et pour tout $i \leq k$, $O_{i}$ est une variété
+	définissable de dimension $m$ sur laquelle $(\pers \circ \Phi)_{\mid O_{i}}: O_{i} \to \R^{\abs{K}}$
+	est différentiable.
+\end{proposition}
+
+Dans le cas de la filtration de Vietoris-Rips, on prend $\Phi: A = (\R^{d})^{n} \to \R^{\abs{\Delta_{n}}}$
+pour $\Delta_{n}$ le complexe simplicial des faces sur simplexe $(n- 1)$-dimensionnel et pour
+$x = (x_{1}, \ldots, x_{n})\in A$ et tout simplexe $\sigma \subseteq \onen{n}$, on a
+\begin{equation*}
+	\Phi_{\sigma}(x) = \max_{i, j \in \sigma}\norm{x_{i} - x_{j}}
+\end{equation*}
+
+\smallskip
+
+Pour $K$ un complexe simplicial avec $n$ sommets $v_{1}, \ldots, v_{n}$, on pose $\Phi: \R^{n} \to \R^{K}$
+et pour toute fonction $f$ et tout simplexe $\sigma$
+\begin{equation*}
+	\Phi_{\sigma}(f) = \max_{i\in \sigma} f(v_{i})
+\end{equation*}
+
+\subsubsection{Fonctions sur la persistence}
+\begin{definition}
+	Une fonction
+	\begin{equation*}
+		E: \R^{\abs{K}} = \left(\R^{2}\right)^{p} \times \R^{q} \to \R
+	\end{equation*}
+	est une \define{fonction de persistence} si elle est invariante aux permutations des points du diagramme
+	de persistence: pour toutes permutations $\sigma, \sigma' \in \mathfrak{S}_{p} \times \mathfrak{S}_{q}$,
+	$E \circ (\sigma \otimes \sigma') = E$ (pour $\otimes$ le produit tensoriel dans Set).
+\end{definition}
+
+\begin{proposition}
+	Soit $E$ une fonction de persistence.
+	\begin{itemize}
+		\item Si $E$ est localement Lipschitz, alors $E\circ \pers$ est localement Lipschitz.
+		\item Si $E$ et $\Phi: A \subseteq \R^{d} \to \R^{\abs{K}}$ sont définissables, alors
+		      $\mL = E \circ \pers \circ \Phi: A \to \R$ a une sous-différentielle de Clarke
+		      \begin{equation*}
+			      \partial \mL(z) = \mathrm{Conv}\left\{\lim_{z_{i} \to z}\nabla \mL(z_{i})
+			      \suchthat \mL \text{ est différentiable en } z_{i}\right\}
+		      \end{equation*}
+		      bien définie.
+	\end{itemize}
+\end{proposition}
+
+Par exemple, l'application de persistence totale $E(D) = \sum_{i = 1}^{p}\abs{d_{i} - b_{i}}$ est Lipschitz
+et semie-algébrique.
+De même, la distance du goulot (ou $\infty$-Wasserstein)
+$E(D) = d_{B}(D, D^{*}) = \min_{m} \max_{(p, p^{*})\in m} \ninf{p - p^{*}}$, le minimum étant pris sur les
+couplages partiels entre $D$ et $D^{*}$, est semie-algébrique et Lipschitz.
+
+L'existence d'une sous-différentielle/d'un sous-gradient nous permet d'utiliser l'algorithme itératif
+classique de descente stochastique de sous-gradient
+\begin{equation}
+	x_{k + 1} = x_{k} - \alpha_{k}\left(y_{k} + \zeta_{k}\right), y_{k} \in \partial\mL(x_{k}),\tag{PersSGD}
+	\label{eq:persistence-sgd}
+\end{equation}
+où la suite $(\alpha_{k})$ est le taux d'apprentissage et $(\zeta_{k})$ est une suite de variables
+aléatoires de bruit.
+
+On va supposer les hypothèses classiques suivantes:
+\begin{enumerate}
+	\item $\alpha_{k} \geq 0, \sum \alpha_{k} = +\infty, \sum \alpha_{k}^{2} < +\infty$;
+	\item $\sum \norm{x_{k}} < \infty$ presque sûrement;
+	\item Si $\mathcal{F}_{k}$ est la suite croissante de $\sigma$-algèbres engendrées par les $x_{j}, y_{j},
+		      \zeta_{j}$ pour $j < k$, il existe une fonction $p: \R^{d} \to \R$ bornée sur les ensembles bornés
+	      telle que presque sûrement
+	      \begin{equation*}
+		      \E\left[\zeta_{k}\suchthat \mathcal{F}_{k}\right] = 0 \quad \E\left[\norm{\zeta_k}^{2}\suchthat \mathcal{F}_{k}\right] < p(x_{k}).
+	      \end{equation*}
+\end{enumerate}
+
+On obtient alors le théorème de convergence suivant:
+\begin{thm}
+	Soit $K$ un complexe simplicial, $A \subseteq \R^{d}$ et $\Phi: A \to \R^{\abs{K}}$ une famille
+	paramétrée de filtrations de $K$ définissable dans une structure o-minimale.
+	Si $E$ est une fonction de persistence définissable telle que $\mL = E\circ \pers \circ \Phi$ est
+	localement Lipschitz, alors, sous les hypothèses ci-dessus, presque sûrement, les points limites de la
+	suite $(x_{k})$ obtenus par les itérations de l'Équation \eqref{eq:persistence-sgd} sont des points
+	critiques de $\mL$ et la suite $(\mL(x_{k}))$ converge.
+\end{thm}
+
+\subsubsection{Densité de diagrammes de persistence espérés}
+On s'intéresse ici à une nuage de points $V$ pondéré par $w: V \to \R$.
+\begin{definition}
+	Le \define{complexe pondéré de Vietoris-Rips} noté $\rips_{w}(V)$ est le complexe simplicial filtré indicé par $\R$ dont l'ensemble de sommet est $V$ et défini par
+	\begin{equation*}
+		\sigma \in [p_{0}\cdots p_{k}] \in \rips_{w}(V, \alpha) \Leftrightarrow d(p_{i}, p_{j}) \leq \alpha \land w(p_{i})\leq \alpha
+	\end{equation*}
+\end{definition}

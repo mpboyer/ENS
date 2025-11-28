@@ -1,0 +1,319 @@
+\documentclass[info, math]{mpb-cours}
+
+\title{Introduction au Transport Optimal et Probabilités}
+\author{Matthieu Boyer}
+\date{Cours TalENS 2 2025-2026}
+
+\def\X{\mathcal{X}}
+\def\Y{\mathcal{Y}}
+\def\E{\mathbb{E}}
+\def\V{\mathbb{V}}
+% https://www.bnf.fr/fr/mediatheque/des-tas-de-sable-aux-pixels-deux-siecles-et-demi-de-transport-optimal-depuis-monge
+\begin{document}
+\bettertitle
+
+Ce polycopié ne doit pas être vu comme un remplacement au cours, mais simplement comme un résumé du contenu qui permet d'être sûr de ne rien manquer.
+
+\section{Problème de Monge}
+Gaspard Monge, ingénieur militaire, révolutionnaire et fondateur de l'École Polytechnique et de
+l'École Normale Supérieure (entre autres), s'est posé le problème suivant dans son \emph{Mémoire sur la théorie des déblais et des remblais}:
+\begin{quote}
+	\begin{cBox}
+		Deux volumes équivalents étant donnés, les décomposer en particules infiniment petites se
+		correspondant deux à deux, de telle façon que la somme des produits des chemins parcourus en
+		transportant chaque parcelle sur celle qui lui correspond, par le volume de la parcelle transportée,
+		soit un minimum.
+
+			{\hfill \it Gaspard Monge}
+	\end{cBox}
+\end{quote}
+Autrement dit:
+\begin{center}
+	\begin{tBox}
+		Étant donné des sacs de sable dans $n$ camps, quelle est la manière la moins fatigante de construire
+		$n$ murs à des endroits différents, sachant que les endroits sont à des distances plus ou	moins grandes
+		de chaque camp~?
+	\end{tBox}
+\end{center}
+Ce problème fait partie de la grande classe des problèmes d'optimisation, et est fondamental en théorie des
+probabilités, puisqu'il est à la base de la théorie du transport optimal qui donne des manières de trouver
+des distributions de probabilités "moyennes".
+
+\subsection{Bases de probabilités}
+On ne rentrera pas ici dans les "vraies" bases de la théorie de la mesure, et notamment sur la notion de tribu.
+
+\begin{definition}
+	Une mesure sur un espace $\X$ muni d'une tribu ensemble $\Sigma$ de parties de $X$ est une application
+	$\mu: \Sigma \to \R$ telle que:
+	\begin{itemize}
+		\item $\mu(\emptyset) = 0$
+		\item $\mu(A \cup B) = \mu(A) + \mu(B) - \mu(A \cap B)$
+		\item $\mu\left(\bigcup_{i = 0}^{\infty} A_{i}\right) = \sum_{i = 0}^{\infty} \mu(A_{i})$ si les $A_{i}$ sont deux
+		      à deux disjoints
+		\item $A \subseteq B \Rightarrow \mu(A) \leq \mu(B)$.
+	\end{itemize}
+	On dit que $\mu(\X)$ est la masse totale de $\mu$.
+\end{definition}
+Intuitivement, une mesure est une application qui donne la quantité d'éléments dans une partie d'un espace.
+
+Dans notre cas, on s'intéressera principalement aux cas $\abs{\X} \hookrightarrow \N$ et $X = \R^{d}$.
+\begin{definition}
+	Sur $\X$ au plus dénombrable, on a une mesure dite de comptage qui a chaque partie de $X$ associe son nombre d'éléments.
+
+	Sur $\X = \R^{d}$ on a une mesure $\lambda$ dite mesure de Lebesgue qui à chaque partie de $X$ associe son volume.
+	En particulier, $\lambda\left(\prod_{i} \left[a_{i}, b_{i}\right]\right) = \prod_{i} \abs{b_{i} - a_{i}}$.
+\end{definition}
+
+\begin{definition}
+	Une mesure de probabilité est une mesure positive de masse $1$.
+	Une mesure $\mu$ a densité par rapport à la mesure de Lebesgue s'il existe une fonction $p$ telle que
+	\begin{equation*}
+		\mu(A) = \int_{A} p(x)\d\lambda(x)
+	\end{equation*}
+\end{definition}
+Le symbole intégrale $\int$ signifie ici que pour tout point $x$ dans $A$, on construit un petit pavé autour
+de $A$, qu'on calcule son volume $\d\lambda(x)$ et qu'on le multiplie par la densité de $\mu$ en $x$ $p(x)$.
+Autrement dit, dans le volume $\d\lambda(x)$ autour de $x$, il y a $p(x)$ particules. On trouve donc le
+nombre total de particules dans $A$ en sommant les nombres de particules autour de tout point $x$ de $A$.
+
+Plus généralement, il faut entendre
+\begin{equation*}
+	\int_{A}f(x)\d\alpha(x)
+\end{equation*}
+l'intégrale de $f$ sur $A$ par rapport à $\alpha$ comme le produit de la valeur de $f$ en $x$ par la "quantité" d'éléments autour de $x$ définie par $\alpha$.
+Cette intuition est en réalité une "définition" dans le cas réel. L'intégrale de $f$ entre $a$ et $b$ selon
+la mesure de Lebesgue sur $\R$ (qui donc à $[a, b]$ associe la mesure $b - a$) permet de définir l'aire
+(algébrique) sous la courbe de $f$.
+
+\smallskip
+
+Vous verrez cette année que de plus, $\frac{\d}{\d x}(x \mapsto \int_{0}^{x}f(t)\d t) = f$ et que l'intégrale
+est une forme d'anti-dérivée sur $\R$.
+Il faut voir ce fait ainsi: la dérivée décrit la manière dont la valeur évolue, l'intégrale recouvre la
+courbe à partir d'un point et de l'évolution de celle-ci.
+C'est une forme d'inverse à la méthode de Newton de discrétisation que vous connaissez peut-être.
+
+\begin{definition}
+	Pour $x \in \R^{d}$, on définit le dirac en $x$ comme la mesure de probabilité $\delta_{x}$ qui vaut $1$ sur $\{x\}$ et $0$ ailleurs.
+
+	Pour $\mu \in \R^{d}, \Sigma \in \M_{d, d}(\R)$, on définit la gaussienne centrée en $\mu$ de covariance
+	$\Sigma$ par sa densité $p(x) = \exp\left(-\frac{1}{2}\Sigma^{-1}\left(x - \mu\right)^{2}\right)$.
+\end{definition}
+
+\begin{definition}
+	Une variable aléatoire $X$ à valeurs dans $E$ est une fonction dite mesurable de $\X$ dans $E$.
+	La probabilité que $X$ soit à valeurs dans $A \subseteq E$ est la mesure $\mu(X^{-1}(A))$.
+\end{definition}
+
+Autrement dit, c'est la quantité (au sens de $\mu$) d'antécédents des éléments de $A$ dans par $X$.
+
+On peut redéfinir ainsi l'espérance et la variance du variable aléatoire (et vous pouvez vérifier que c'est
+bien cohérent avec votre définition):
+\begin{definition}
+	L'espérance $\E[X]$ et la variance $\V[X]$ d'une variable aléatoire $X$ à valeurs dans $E$ de loi
+	$\P(X = x) = p(x)$ (si elles existent) sont données par
+	\begin{equation*}
+		\E[X] = \int_{E} x \d p(x) \quad \V[X] = \E\left[X - \E\left[X\right]\right]
+	\end{equation*}
+\end{definition}
+Remarquez que quand $X$ prend un ensemble fini de valeurs $x_{i}$,
+on retrouve $\E[X] = \sum_{i} x_{i}\P\left(X = x_{i}\right)$.
+
+\subsection{Formulation de Monge}
+On considère dans la suite deux mesures de probabilité $\alpha \in \mP(\X), \beta \in \mP(\Y)$.
+\begin{definition}
+	Pour $T: \X \to \Y$, on définit la mesure $T_{\sharp}\alpha$ par $T_{\sharp}\alpha(B) = \alpha(T^{-1}(B))$.
+\end{definition}
+Autrement dit, $T_{\sharp}\alpha(B)$ est la quantité (selon $\alpha$) d'antécédents des éléments de $B$ par
+$T$.
+
+\smallskip
+
+La formulation de Monge du problème de transport optimal de $\alpha$ à $\beta$ est la suivante:
+\begin{definition}
+	Soit $c$ une fonction de coût de $\X$ à $\Y$, c'est-à-dire une fonction positive de $\X$ dans $\Y$.
+	Le problème de Monge associé à $\alpha, \beta, c$ est de calculer:
+	\begin{equation}
+		M = \inf_{T: \X \to \Y} \left\{\int c(x, T(x))\d\alpha(x) \suchthat T_{\sharp}\alpha = \beta\right\}
+	\end{equation}
+\end{definition}
+$M$ représente la manière optimale de déplacer tout le poids de $\alpha$ vers $\beta$, sachant le coût du
+déplacement d'un point de $\X$ vers un point de $\Y$.
+
+\begin{definition}
+	Pour $c = \norm{\cdot}$ une norme, on définit la $p$-distance de Wasserstein associée à $c$ comme
+	\begin{equation*}
+		W_{p}(\alpha, \beta) = \inf_{T_{\sharp}\alpha = \beta}\sqrt[p]{\int \norm{x - T(x)}^{p}\d \alpha(x)}.
+	\end{equation*}
+\end{definition}
+
+\section{Calcul et Applications}
+\subsection{Calcul discret}
+Dans le cas, plus simple, où $\alpha = \sum_{i = 1}^{N} a_{i}\delta_{x_{i}}$ et
+$\beta = \sum_{j = 1}^{N} b_{j}\delta_{y_{j}}$, les applications $T$ telles que $T_{\sharp}\alpha = \beta$
+correspondent à des assignations des $x_{i}$ aux $y_{j}$, c'est à dire une permutation $\sigma$ de
+l'ensemble $\onen{N}$ telle que $T(x_{i}) = y_{\sigma(i)}$.
+
+Le problème d'optimisation qui correspond au transport optimal dans ce cas est le problème de couplage
+sur un graphe biparti complet:
+
+\begin{definition}
+	Un graphe biparti complet est constitué d'un ensemble $V = A \sqcup B$ de \emph{sommets} composé de deux
+	parties $A$ et $B$ de tailles égales $n$.
+	Pour chaque sommet de $A$ on ajoute une \emph{arête} à tout sommet de $B$ avec des poids associés
+	au coût entre les	deux sommets.
+	Un couplage sur un graphe biparti est le choix de $n$ arêtes qui touchent tout sommet de $A$ et tout
+	sommet de $B$.
+\end{definition}
+
+Dans l'Algorithme \ref{alg:hung} on présente un pseudo-code pour l'algorithme hongrois qui permet de
+résoudre ce problème.
+L'idée de base étant de se ramener à chaque itération à un problème plus simple: une fois qu'un sommet est
+assigné, on le "supprime" virtuellement de la matrice de coût puis on recommence jusqu'à avoir terminé.
+Cet algorithme est dit \emph{glouton} parce qu'il effectue à tout instant l'assignation la plus efficace.
+
+Cet algorithme est assez efficace, pusiqu'il effectue un nombre d'opérations dit $\O(n^{3})$
+(lire \og grand O de $n^{3}$ \fg), qui est de l'ordre de $n^{3}$ et plus mathématiquement, il existe une
+constante positive $C$ telle que le nombre d'opérations $f(n)$ en fonction de $n$ vérifie $f(n) \leq n^{3}$.
+
+\begin{algorithm}[t]
+	\caption{Algorithme Hongrois pour le problème d'assignation bipartite}
+	\label{alg:hung}
+	\begin{algorithmic}
+		\Procedure{MaxZ}{$C$} \Comment{Input: Cost matrix $C$ of size $t \times t$}
+		\State $Z \gets \{\}$
+		\While{$0 \in C_{i,j}$, $\forall(i,j) \notin Z$}
+		\State $x \gets$ row such that $C_{x,y}$ has the fewest marked $0$ elements
+		\State $y \gets$ column such that $C_{x,y} = 0$ and $C_{y}$ has the fewest marked $0$ elements
+		\State Add $(x,y)$ to set $Z$
+		\State Mark $C_{x,y}$ as an independent zero
+		\EndWhile
+		\Statex
+		\Return{Set $Z$ containing independent zeros}
+		\EndProcedure
+		\State{\textcolor{vulm}{\rule[1ex]{.8\textwidth}{.1pt}}}
+		\Procedure{MinCover}{$C, Z$} \Comment{Input: Cost matrix $C$ and set $Z$}
+		\State $coveredRows \gets \{\}$ \Comment{Rows covered with horizontal lines}
+		\State $coveredCols \gets \{\}$ \Comment{Columns covered with vertical lines}
+		\While{$C_{i,j} = 0$ and $i \notin coveredRows$}
+		\If{$0 \in C_i$ and $i \in Z$}
+		\State $coveredRows \gets i$ \Comment{Cover row $i$}
+		\EndIf
+		\If{$C_{i,j} = 0$ and $i \notin coveredRows$}
+		\State $coveredCols \gets j$ \Comment{Cover column $j$}
+		\EndIf
+		\EndWhile
+		\Statex
+		\Return{$coveredRows, coveredCols$}
+		\EndProcedure
+		\State{\textcolor{vulm}{\rule[1ex]{.8\textwidth}{.1pt}}}
+		\Procedure{Hungarian}{$C$} \Comment{Input: Cost matrix $C$ of size $t \times t$}
+		\For{every row $i$ and column $j$ in $C$}
+		\State $C_i \gets C_i - \min(C_i)$ \Comment{Subtract row minimum}
+		\State $C_j \gets C_j - \min(C_j)$ \Comment{Subtract column minimum}
+		\EndFor
+		\State $Z \gets$ \Call{MaxZ}{$C$}
+		\State $cx, cy \gets$ \Call{MinCover}{$C, Z$}
+		\While{$\text{len}(cx) + \text{len}(cy) < n$}
+		\State $minVal \gets \min(C_{ij})$ such that $i \notin cx$ and $j \notin cy$
+		\For{every row $i \notin cx$ and column $j \notin cy$}
+		\State $C_{ij} \gets C_{ij} - minVal$
+		\EndFor
+		\State $Z \gets$ \Call{MaxZ}{$C$}
+		\State $cx, cy \gets$ \Call{MinCover}{$C, Z$}
+		\EndWhile
+		\Statex
+		\Return{Set $Z$ containing index $(i, j)$ of assignments}
+		\EndProcedure
+	\end{algorithmic}
+\end{algorithm}
+
+\subsection{Applications du transport optimal}
+On revient au problème de l'analyse de données.
+On se donne donc une immersion (embedding) $\X \subseteq \R^{d}$ d'un ensemble de données.
+
+\begin{definition}
+	Le barycentre de $n$ points $x_{i}$ pour une fonction d'énergie $E$ et des poids $\lambda_{i}$
+	est le point $\bar{x}$ tel que
+	\begin{equation*}
+		\bar{x} = \argmin_{x} \sum_{i = 1}^{n}\lambda_{i} E(x, x_{i}).
+	\end{equation*}
+\end{definition}
+
+Dans notre cas, on prendra $E = W_{2}^{2}$ la $2$-distance de Wasserstein au carré, pour des questions de
+facilité du problème d'optimisation associé.
+\begin{description}
+
+	\item[Canonisation]
+	      On peut notamment chercher à savoir à quoi ressemble un exemple canonique de nos données.
+	      En particulier, dans le cas où les \emph{features} (les $d$ axes de l'espace d'immersion) sont disjointes,
+	      et représentent les résultats d'une expérience aléatoire répétée, en voyant chaque vecteur comme une
+	      distribution de probabilité, on peut trouver une distribution moyenne en calculant le barycentre des
+	      vecteurs.
+	      Calculer le barycentre de $\X$ nous permet donc de définir de manière efficace la distribution
+	      \emph{moyenne} de notre ensemble de données, et donc, en revenant à travers l'immersion, un exemple
+	      canonique de notre ensemble de données de départ.
+
+
+	\item[Réduction de dimension]
+	      La distance de Wasserstein nous permet également de définir des points extrémaux.
+	      Notamment, on peut calculer des vecteurs de base $a_{k}$ de sorte que chacun de nos points
+	      s'écrive comme le barycentre des $a_{k}$ pour certains poids $\lambda_{k}$:
+	      $x_{i} = \argmin_{x}\sum_{k = 1}^{m}\lambda_{k}W_{2}^{2}(x, a_{k}).$
+	      En prenant $m$ petit devant $n$, ceci nous permet de réduire la dimension de notre espace de données.
+	      Ceci permet d'avoir un ensemble un peu plus général de données canoniques.
+
+	\item[Architecture philosophique]
+	      Finalement, quel est le rapport avec l'architecture~?
+	      Pour le trouver, il suffit de revenir à la définition originelle du problème de Monge.
+	      Comment déplacer des matériaux de manière à minimiser le coût de transport total~?
+	      Comment attribuer des courses à des taxis~?
+	      Ces deux problèmes semblent assez similaires, mais leur solution est similaire à la manière qu'on a de
+	      comparer les manières de représenter l'usage syntaxique de certaines déclinaisons dans différentes langues,
+	      ou de comparer les scans en 3D de différentes mains.
+
+	      \noindent Cédric Villani propose cette expérience, pour expliquer la beauté qu'il trouve au transport
+	      optimal (et qui lui a tout de même valu une médaille Fields en 2010, avant que son doctorant
+	      Alessio Figalli ne l'obtienne en 2018).
+	      Il relie ainsi deux domaines a priori éloignés des mathématiques (et même des sciences), la géométrie et
+	      la physique.
+	      Sans tomber dans un délire monomaniaque, il est aisé de voir en quoi obtenir des méthodes géométriques
+	      pour résoudre nombre de problèmes fondamentalement probabilistes ou obtenir des méthodes probabilistes pour
+	      résoudre nombre de problèmes fondamentalement géométriques.
+	      Le transport optimal permet de définir, selon la géométrie d'un espace donné, la géométrie de l'espace des
+	      probabilités sur cet espace et, par le transport des points, transporte la géométrie.
+\end{description}
+
+\vfill
+
+{\centering \textcolor{vulm}{\rule[1ex]{\textwidth}{.1pt}}}
+
+\vfill
+
+\begin{quote}
+	\begin{cBox}
+		L'expérience consiste à se donner une	répartition de gaz dans l'espace, avec des fluctuations de densité
+		d'une région à l'autre.
+		On impose au gaz une nouvelle configuration, à atteindre en un temps limité, disons une minute.
+		Le gaz obtempère, mais comme il est paresseux, il le fait en évoluant de manière à minimiser l'effort
+		total (mesuré à chaque	instant par l'énergie cinétique).
+		Entre le temps initial et le temps final, on étudie les valeurs de l'entropie, qui mesure en un certain
+		sens bien précis l'étalement du gaz (l'entropie est d'autant plus grande que la densité est faible).
+		Si l'on vit dans un espace à courbure positive,	alors la courbe d'entropie est concave;
+		en particulier elle est située au-dessus de la droite joignant les valeurs initiale et finale.
+		La propriété de concavité est en fait caractéristique des espaces à courbure positive;
+		ce qui ouvre de nouveaux horizons pour étudier (voire pour redéfinir) les espaces à courbure positive.
+		En mélangeant des notions d'ingénierie, de mécanique des fluides et de physique	statistique,
+		on a ainsi obtenu de nouveaux outils géométriques~!
+
+		{\hfill\it Cédric Villani}
+	\end{cBox}
+\end{quote}
+
+\vfill
+
+{\centering \textcolor{vulm}{\rule[1ex]{\textwidth}{.1pt}}}
+
+\vfill
+
+\end{document}

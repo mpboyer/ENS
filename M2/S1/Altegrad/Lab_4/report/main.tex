@@ -102,12 +102,7 @@ The modularity obtained by random clustering with $k=50$ clusters is $-0.0004$.
 Spectral clustering thus produces significantly better community structure than random assignment.
 
 \section*{Question 4}
-Let's consider the Shrikandhe graph and the lattice graph $L_{2}(4)$ (or $4\times 4$ rook graph) (see .
-Both graphs have the same distance maps (from their strong regularity with parameters $(16, 6, 2, 2)$) and
-thus the same shortest-paths kernel graphs.
-However, it can be shown that the two graphs are non-isomorphic. Indeed, $L_{2}(4)$ has 36 $4$-cycles whereas Shrikhande has 120, and thus cannot be isomorphic.
-See \cite{ARVIND202042} for another proof (and
-reference to the idea).
+Considering edgeless graphs with different node numbers give us the result, as their number of shortest paths will always be zero for any length and they can't be isomorphic as they are different size.
 \section*{Task 10}
 For the shortest path kernel we find an accuracy of $0.8947$, whereas we get an accuracy of $0.6842$ for the
 graphlet kernel.
@@ -125,90 +120,72 @@ The SVM classifier we trained gives an accuracy of $0.938$.
 \section*{Question 5}
 
 \paragraph*{Initial Setup}
-\textbf{Graph G:} Nodes with labels $\{2, 1, 5, 3, 1, 4\}$
+From Figure 5, we identify the graph structures:
 
-\textbf{Graph G':} Nodes with labels $\{2, 1, 5, 4, 3, 4\}$
+\textbf{Graph G:} Nodes labeled $\{2, 1, 4, 5, 3, 1\}$ with edges: (2,1), (2,4), (2,5), (2,3), (1,5), (4,1), (4,3), (5,3)
 
-\paragraph*{Step 1: Collect Initial Labels}
-For each node, we collect its initial label and the multiset of its neighbors' labels.
+\textbf{Graph G':} Nodes labeled $\{2, 1, 4, 5, 3, 4\}$ with edges: (2,1), (2,4), (2,5), (1,5), (4,3), (5,4), (5,3)
+
+\paragraph*{Step 1: Collect Neighbor Labels for Each Node}
 
 \textbf{Graph G:}
 \begin{itemize}
-	\item Node with label 2: neighbors = $\{1, 5\}$ $\rightarrow$ multiset $\{1, 5\}$
-	\item Node with label 1 (left): neighbors = $\{2, 3\}$ $\rightarrow$ multiset $\{2, 3\}$
-	\item Node with label 5: neighbors = $\{2, 3\}$ $\rightarrow$ multiset $\{2, 3\}$
-	\item Node with label 3: neighbors = $\{1, 5, 1, 4\}$ $\rightarrow$ multiset $\{1, 1, 4, 5\}$
-	\item Node with label 1 (right): neighbors = $\{3\}$ $\rightarrow$ multiset $\{3\}$
-	\item Node with label 4: neighbors = $\{3\}$ $\rightarrow$ multiset $\{3\}$
+	\item Node with label 2: neighbors = $\{1, 4, 5, 3\}$ $\rightarrow$ signature: $(2, \{1, 3, 4, 5\})$
+	\item Node with label 1 (top right): neighbors = $\{2, 4, 5\}$ $\rightarrow$ signature: $(1, \{2, 4, 5\})$
+	\item Node with label 4: neighbors = $\{2, 1, 3\}$ $\rightarrow$ signature: $(4, \{1, 2, 3\})$
+	\item Node with label 5: neighbors = $\{2, 1, 3\}$ $\rightarrow$ signature: $(5, \{1, 2, 3\})$
+	\item Node with label 3: neighbors = $\{2, 4, 5, 1\}$ $\rightarrow$ signature: $(3, \{1, 2, 4, 5\})$
+	\item Node with label 1 (bottom): neighbors = $\{4, 3\}$ $\rightarrow$ signature: $(1, \{3, 4\})$
 \end{itemize}
 
 \textbf{Graph G':}
 \begin{itemize}
-	\item Node with label 2: neighbors = $\{1, 5\}$ $\rightarrow$ multiset $\{1, 5\}$
-	\item Node with label 1: neighbors = $\{2, 4\}$ $\rightarrow$ multiset $\{2, 4\}$
-	\item Node with label 5: neighbors = $\{2, 3\}$ $\rightarrow$ multiset $\{2, 3\}$
-	\item Node with label 4 (left): neighbors = $\{1, 3, 4\}$ $\rightarrow$ multiset $\{1, 3, 4\}$
-	\item Node with label 3: neighbors = $\{5, 4\}$ $\rightarrow$ multiset $\{4, 5\}$
-	\item Node with label 4 (right): neighbors = $\{4\}$ $\rightarrow$ multiset $\{4\}$
+	\item Node with label 2: neighbors = $\{1, 4, 5\}$ $\rightarrow$ signature: $(2, \{1, 4, 5\})$
+	\item Node with label 1: neighbors = $\{2, 5\}$ $\rightarrow$ signature: $(1, \{2, 5\})$
+	\item Node with label 4 (left): neighbors = $\{2, 3\}$ $\rightarrow$ signature: $(4, \{2, 3\})$
+	\item Node with label 5: neighbors = $\{2, 1, 4, 3\}$ $\rightarrow$ signature: $(5, \{1, 2, 3, 4\})$
+	\item Node with label 3: neighbors = $\{4, 5, 4\}$ $\rightarrow$ signature: $(3, \{4, 4, 5\})$
+	\item Node with label 4 (bottom right): neighbors = $\{5, 3\}$ $\rightarrow$ signature: $(4, \{3, 5\})$
 \end{itemize}
 
-\paragraph*{Step 2: Create New Labels}
-For each node, we concatenate its current label with the sorted multiset of neighbors' labels.
+\paragraph*{Step 2: Generate New Labels}
+Concatenate each node's label with its sorted neighbor labels.
 
 \textbf{Graph G:}
 \begin{itemize}
-	\item 2: $(2, [1, 5])$ $\rightarrow$ new label ``2-1-5''
-	\item 1 (left): $(1, [2, 3])$ $\rightarrow$ new label ``1-2-3''
-	\item 5: $(5, [2, 3])$ $\rightarrow$ new label ``5-2-3''
-	\item 3: $(3, [1, 1, 4, 5])$ $\rightarrow$ new label ``3-1-1-4-5''
-	\item 1 (right): $(1, [3])$ $\rightarrow$ new label ``1-3''
-	\item 4: $(4, [3])$ $\rightarrow$ new label ``4-3''
+	\item $(2, [1, 3, 4, 5])$ $\rightarrow$ ``2-1-3-4-5''
+	\item $(1, [2, 4, 5])$ $\rightarrow$ ``1-2-4-5''
+	\item $(4, [1, 2, 3])$ $\rightarrow$ ``4-1-2-3''
+	\item $(5, [1, 2, 3])$ $\rightarrow$ ``5-1-2-3''
+	\item $(3, [1, 2, 4, 5])$ $\rightarrow$ ``3-1-2-4-5''
+	\item $(1, [3, 4])$ $\rightarrow$ ``1-3-4''
 \end{itemize}
 
 \textbf{Graph G':}
 \begin{itemize}
-	\item 2: $(2, [1, 5])$ $\rightarrow$ new label ``2-1-5''
-	\item 1: $(1, [2, 4])$ $\rightarrow$ new label ``1-2-4''
-	\item 5: $(5, [2, 3])$ $\rightarrow$ new label ``5-2-3''
-	\item 4 (left): $(4, [1, 3, 4])$ $\rightarrow$ new label ``4-1-3-4''
-	\item 3: $(3, [4, 5])$ $\rightarrow$ new label ``3-4-5''
-	\item 4 (right): $(4, [4])$ $\rightarrow$ new label ``4-4''
+	\item $(2, [1, 4, 5])$ $\rightarrow$ ``2-1-4-5''
+	\item $(1, [2, 5])$ $\rightarrow$ ``1-2-5''
+	\item $(4, [2, 3])$ $\rightarrow$ ``4-2-3''
+	\item $(5, [1, 2, 3, 4])$ $\rightarrow$ ``5-1-2-3-4''
+	\item $(3, [4, 4, 5])$ $\rightarrow$ ``3-4-4-5''
+	\item $(4, [3, 5])$ $\rightarrow$ ``4-3-5''
 \end{itemize}
 
 \paragraph*{Step 3: Count Label Occurrences}
-\textbf{Graph G label histogram:}
-\begin{itemize}
-	\item ``2-1-5'': 1
-	\item ``1-2-3'': 1
-	\item ``5-2-3'': 1
-	\item ``3-1-1-4-5'': 1
-	\item ``1-3'': 1
-	\item ``4-3'': 1
-\end{itemize}
 
-\textbf{Graph G' label histogram:}
-\begin{itemize}
-	\item ``2-1-5'': 1
-	\item ``1-2-4'': 1
-	\item ``5-2-3'': 1
-	\item ``4-1-3-4'': 1
-	\item ``3-4-5'': 1
-	\item ``4-4'': 1
-\end{itemize}
+\textbf{Graph G label counts:} Each of the 6 labels appears exactly once.
+
+\textbf{Graph G' label counts:} Each of the 6 labels appears exactly once.
 
 \paragraph*{Step 4: Compute Kernel Value}
-The WL kernel computes the inner product of the label histograms.
+The kernel value is the inner product of the label histograms (counting matching labels).
 
-\textbf{Common labels after 1 iteration:}
-\begin{itemize}
-	\item ``2-1-5'': $1 \times 1 = 1$
-	\item ``5-2-3'': $1 \times 1 = 1$
-\end{itemize}
+\textbf{Common labels after 1 WL iteration:} None of the refined labels match between G and G'.
 
-\textbf{Kernel value:} $k(G, G') = 2$
+\textbf{Kernel value:} $k(G, G') = 0$
 
-The kernel value of 2 indicates \textbf{limited structural similarity} between graphs $G$ and $G'$ after one WL iteration. Out of 6 refined labels in each graph, only 2 labels match, meaning that most nodes have different local neighborhood structures. The matching labels (``2-1-5'' and ``5-2-3'') indicate that both graphs share some common structural patterns in terms of how certain labeled nodes connect to their neighbors, but the majority of the local structures differ significantly. A higher kernel value would indicate greater structural similarity.
-
+\paragraph*{Interpretation}
+The kernel value of \textbf{0 indicates no structural similarity} between graphs $G$ and $G'$ after one WL iteration. Despite both graphs having 6 nodes with similar label distributions (two nodes labeled 1, two labeled 4, and one each of 2, 3, and 5), none of the nodes share the same local neighborhood structure after refinement. This means that the way nodes connect to their neighbors differs completely between the two graphs, revealing fundamentally different local topologies. The WL algorithm successfully distinguishes these two non-isomorphic graphs in just one iteration.
 \section*{Task 14}
 I could not run the code due to time constraints on my computer.
 

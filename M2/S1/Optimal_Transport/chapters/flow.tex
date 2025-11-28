@@ -1,0 +1,100 @@
+\section{Flots de Gradients de Wasserstein}
+On va ici étudier les dynamiques de $\alpha_{t} \in \mP(\R^{d})$ pour $t$ une variable de temps dans $\R^{+}$.
+
+\subsection{Formulation en vitesse}
+Dans notre cas, on va utiliser une approche \emph{à la Lagrange}, on va prendre $v_{t}$ tel que:
+\begin{equation*}
+	\partial_{t}\mu_{t} + \mathrm{div}(\mu_{t}v_{t}) = 0
+\end{equation*}
+Si on suppose que $v_{t}$ est Lipschitz, il existe une unique solution en $\mu_{t}$.
+Toutefois, il en existe beaucoup en $v_{t}$, puisqu'il existe beaucoup de champs vectoriels de
+divergence nulle.
+Dans le cas où $\mu_{t}$ a densité $\rho_{t}$, on écrira plutôt
+\begin{equation}
+	\partial_{t}\rho_{t} + \mathrm{div}(\rho_{t}v_{t}) = 0 \tag{Speed}\label{eq:speed}
+\end{equation}
+Pour se simplifier, on utilisera plutôt, dans la vraie vie,
+la formulation faible de l'équation différentielle ci-dessus.
+On intègre par rapport à $\phi_{t}(x)$ à support compact:
+\begin{equation*}
+	\int \partial_{t}\rho_{t}\phi_{t}(x)\d x + \int \mathrm{div}(\rho_{t}v_{t})\phi_{t}(x)\d x\d t
+\end{equation*}
+et on vérifiera à chaque fois qu'on peut réécrire nos propriétés via
+\begin{equation}
+	\forall \phi_{t} \quad -\int \partial_{t}\phi_{t}\d\alpha_{t}\d t - \int\scalar{\nabla\phi_{t}(x), v_{t}}\d \alpha\d t = 0 \tag{WeakSpeed}
+\end{equation}
+
+On retrouve le transport optimal dynamique du théorème \ref{thm:flot}. On remarque notamment que la vitesse
+$v_{t}$ optimale est un gradient.
+
+\subsection{Optimisation sur particules}
+On cherche à optimiser $f(\alpha)$ sur $\alpha \in \mP(\R^{d})$.
+Ici $\alpha$ représente une densité de particule, par exemple.
+Dans le cas où $\alpha_{t} = \delta_{x_{t}}$ est une seule particule, on retrouve la descente de gradient,
+si $g(x) = f(\delta_{x})$ on résout en prenant $\dot{x} = -\nabla g(x)$.
+
+Dans le cas de $n$ particules, i.e. $\alpha_{t} = \frac{1}{n}\sum_{i = 1}^{n}\delta_{x_{i}(t)}$,
+\begin{equation*}
+	X(t) = \left(x_{1}(t), \ldots, x_{n}(t)\right) \in \R^{d\times n},
+\end{equation*}
+donc en écrivant $g(X) = f\left(\frac{1}{n}\sum \delta_{x_{i}}\right)$ on obtient la descente de particules
+$\dot{X} = -\nabla g(X)$, avec
+\begin{equation*}
+	g(X) = \frac{1}{n^{2}}\sum_{i, j = 1}^{n}k(x_{i}, x_{j}) \quad \text{avec}\quad k(x, x') = \frac{1}{\norm{x - x'} + \epsilon}
+\end{equation*}
+On retrouve ainsi $f(\alpha) = \iint k(x, x')\d\alpha(x)\d\alpha(x')$.
+
+On va donc s'intéresser à ce qui se passe quand $n \to \infty$ et essayer de faire sens de l'entropie dans ce
+cadre.
+
+Pour cela on utilise la méthode JKO (Jordan-Kinderlheren-Otto), une généralisation de la méthode
+implicite d'Euler pour Wasserstein.
+On se donne $\tau > 0$ un pas.
+On prend $\alpha_{t + \tau} = \argmin \frac{1}{2\tau}\Wass_{2}^{2}(\alpha_t, \alpha) + f(\alpha)$.
+
+Quand $\tau \to 0$, si on suppose que $\left(\alpha_{t}\right)_{t}$ converge vers une courbe continue
+$t\in \R^{+} \mapsto \alpha_{t}$, alors elle converge vers une équation aux dérivées partielles
+\eqref{eq:speed}, avec $v_{t}$ à définir.
+On va avoir besoin de calculer deux dérivées différentes: la dérivée classique (aussi appelée verticale,
+première variation ou Fréchet) et la dérivée de Wasserstein (aussi appelée dérivée d'Otto ou dérivée
+horizontale).
+La dérivée verticale est une fonction réelle $\delta f(\alpha)\in \cont(\R^{d}, \R)$ tandis que la dérivée
+horizontale $\nabla_{\Wass}f(\alpha)\in \cont(\R^{d}, \R^{d})$ est un champ de vecteur.
+
+\begin{definition}
+	La dérivée verticale de $f$ en $\alpha$ est, étant donné $\gamma = \beta - \alpha$ une mesure de masse
+	nulle définie par l'expansion de Taylor
+	\begin{equation*}
+		f(\alpha + t\gamma) = f(\alpha) t\scalar{\gamma, \delta f(\alpha)} + o(t),
+	\end{equation*}
+	le produit scalaire étant entendu au sens du produit fonction mesure.
+\end{definition}
+
+Dans le cas où $f(\alpha) = \int g(x)\d\alpha(x)$, on a $\nabla_{\Wass}f(\alpha) = t\int g\d \gamma = g$.
+Dans le cas où $f(\alpha) = \int U(p(x))\d x$ avec $p(x) = \frac{\d\alpha}{\d x}$, $f(\alpha) = +\infty$ et
+$U$ une fonction d'énergie interne, si $\alpha$ n'a pas de densité, on calcule
+(avec $\eta = \frac{\d\gamma}{\d x}$)
+\begin{align*}
+	f(\alpha + t\gamma) & = \int U(p(x) + t\eta(x))\d x                            \\
+	                    & = \int \left[U(p(x)) + tU(p(x))\eta(x) + o(t)\right]\d x \\
+	                    & = \int f(\alpha) + t\int U'(p(x))\d \gamma(x) + o(t)
+\end{align*}
+Donc $\delta f(\alpha)(x) =U'(p(x))$.
+
+\begin{definition}
+	Le gradient de Wasserstein s'écrit donc $\nabla_{\Wass}f(\alpha) = \nabla_{\R^{d}}[\delta f(\alpha)]$.
+\end{definition}
+
+\begin{thm}
+	Si $\alpha_{t}$ existe, les équations aux dérivées partielles
+	\begin{equation*}
+		\partial_{t}\alpha + \div(\alpha v) = 0 \quad \text{et} \quad v = -\nabla_{\Wass}f(\alpha)
+	\end{equation*}
+\end{thm}
+
+Si on reprend l'exemple avec l'énergie interne, on obtient:
+\begin{equation*}
+	\partial_{t}\rho + \div(\rho v) + 0
+\end{equation*}
+avec $v = \nabla_{\Wass}f(\alpha) = \nabla\delta f(\alpha) = \nabla (\log \rho + 1) = \frac{\nabla \rho}{\rho}$, c'est à dire donc $\partial_{t}\rho = \Delta\rho$.
+On retrouve l'équation de la chaleur.

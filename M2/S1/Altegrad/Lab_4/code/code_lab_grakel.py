@@ -140,7 +140,7 @@ G_test = graph_from_networkx(G_test_nx, node_labels_tag="label")
 # - n_iter=1: One iteration of WL refinement
 # - normalize=False: Don't normalize the kernel matrix
 # - base_graph_kernel=VertexHistogram: Use vertex histogram as base kernel
-gk = WeisfeilerLehman(n_iter=5, base_graph_kernel=VertexHistogram)
+gk = WeisfeilerLehman(n_iter=5, normalize=False, base_graph_kernel=VertexHistogram)
 
 # Construct kernel matrices
 K_train = gk.fit_transform(G_train)

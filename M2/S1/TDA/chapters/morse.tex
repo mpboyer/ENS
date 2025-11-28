@@ -1,0 +1,285 @@
+\section{Fonctions de Morse}
+
+\subsection{Fonction Lisses}
+Dans la suite on considère des fonctions réelles sur une $d$-variété différentielle $\M$ munie d'un atlas.
+
+\begin{definition}
+	Un \define{point critique} $p$ de $f: \M \to \R$ est un point de $\M$ tel que $\nabla f(p) = 0$.
+	Il est dit \define{dégénéré} si $\abs{H(p)} = 0$.
+\end{definition}
+
+\begin{lemme}[Lemme de Morse]
+	Si on se donne un point critique non-dégénéré $p^{*}$ pour $f: \M \to \R$, il existe une carte $\phi$ de
+	$\M$ telle que $\phi(p^{*}) = 0$ et tel que sur l'ouvert associé à $\phi$, $f$ s'écrit
+	\begin{equation*}
+		f(p) = f(p^{*}) - \sum_{i = 1}^{q}x_{i}^{2} + \sum_{i = q + 1}^{d}x_{i}^{2},
+	\end{equation*}
+	dans son développement de Taylor autour de $p^{*}$.
+\end{lemme}
+
+\begin{definition}
+	\define{L'indice} d'un point critique non-dégénéré $p^{*}$ est le nombre $q$ de coefficients négatifs
+	du développement du Lemme de Morse.
+	C'est le nombre de valeurs propres négatives de $H(p^{*})$.
+\end{definition}
+
+\begin{definition}
+	Une fonction $f: \M \to \R$ est une \define{fonction de Morse} si elle n'a pas de point critique dégénéré
+	et des valeurs critiques distinctes.
+\end{definition}
+
+\begin{proposition}
+	\begin{itemize}
+		\item Les fonctions de Morse forment un sous-ensemble dense des fonctions lisses.
+		\item Les points critiques d'une fonction de Morse sont isolés (et $f$ est localement polynomiale).
+	\end{itemize}
+\end{proposition}
+
+Dans la suite, on prend $f$ une fonction de Morse et on note $\M^{i} = f^{-1}(\left]-\infty, i\right])$
+l'ensemble de sous-niveau de $f$ associé à $i$.
+
+\begin{proposition}
+	\begin{itemize}
+		\item Si on se donne un intervalle $[i, j]$ qui ne contient pas de valeur critique de $f$,
+		      $\M^{i}$ et $\M^{j}$ sont difféomorphes.
+		\item Autour d'une valeur critique $f(p)$ d'indice $q$, $\M^{f(p) - \epsilon}$ auquel on recolle
+		      $\mathbb{D}^{q}$ a même homotopie que $\M^{f(p) + \epsilon}$.
+	\end{itemize}
+\end{proposition}
+
+\begin{thm}[Relation de Morse-Euler]
+	On a toujours
+	\begin{equation*}
+		\chi(\M) = \sum_{i = 0}^{d} (-1)^{i}\mu_{i}(f),
+	\end{equation*}
+	ou $\mu_{i}(f)$ est le nombre de points critiques d'indice $i$ de $f$.
+\end{thm}
+
+\subsection{Représentation des fonctions de Morse}
+\begin{definition}
+	Soit $p \in \R^{n}$ et $\sigma$ un $d$-simplexe.
+	Il existe des réels $\alpha_{0}, \ldots, \alpha_{d}$ tels que
+	$$
+		p = \sum_{i = 0}^{d}\alpha_{i}\tau_{0}^{i}, \quad \sum_{i = 0}^{d}\alpha_{i} = 1,
+	$$
+	où $\tau_{0}^{i}$ est la $i$-ème $0$-face de $\sigma$.
+	Ces coefficients sont appelés \define{coordonnées barycentriques} de $p$ relativement à $\sigma$.
+\end{definition}
+
+\begin{definition}
+	Si $\hat{f}$ est une fonction réelle sur les $0$-simplexes d'une triangulation $\mT$, on définit
+	$f: \mT \to \R$ par interpolation linéaire de $\hat{f}$ par rapport aux coordonnées barycentriques, i.e.
+	si $p \in \sigma \in \mT$ est un point d'un $d$-simplexe,
+	\begin{equation*}
+		f(p) = \sum_{i = 0}^{d}\alpha_{i}\hat{f}(\tau_{0}^{i}).
+	\end{equation*}
+	$f$ est un \define{champ scalaire linéaire par morceaux} (PL scalar field).
+\end{definition}
+
+\begin{definition}
+	Le \define{lien inférieur} $\Lk^{-}(\sigma)$ (respectivement supérieur $\Lk^{+}$) d'un $d$-simplexe
+	$\sigma$ relativement à un champ scalaire PL $f$ est la partie du lien $\Lk(\sigma)$ telle que chacune
+	de ses $0$-faces a une image par $f$ strictement inférieure (respectivement supérieure) à celle de
+	$\sigma$.
+\end{definition}
+
+\begin{definition}
+	Pour $f: \M \to \R$ un champ scalaire PL sur une variété PL $\M$, un sommet $v$ de $\M$ est un
+	\define{point régulier} si et seulement si $\Lk^{-}(v)$ et $\Lk^{+}(v)$ sont simplement connexes.
+	Sinon, $v$ est un \define{point critique} de $f$ et $f(v)$ est une \define{isovaleur critique}.
+\end{definition}
+
+\begin{definition}
+	Un champ scalaire PL $f$ est une \define{fonction de Morse PL} si toutes ses isovaleurs critiques sont
+	distinctes et	si elle n'a pas de point critique dégénéré.
+\end{definition}
+
+La relation de Morse-Euler nous dit que les points critiques se simplifient en paires.
+On va pour cela utiliser l'ordre associé à la persistence croissante pour simplifier les paires.
+
+\begin{definition}
+	On construit des sous-complexes simpliciaux $\M_{i}$ de $\M$ une variété PL par l'union des $i$ premiers
+	simplexes pour l'ordre lexicographique.
+	Ceci nous donne une suite de sous-complexes croissante pour l'inclusion: c'est une filtration appelée la
+	\define{filtration lexicographique}.
+\end{definition}
+
+Calculer la suite des groupes d'homologies $\mathcal{H}_{p}(\M_{i})$ nous permet de calculer le diagramme de
+persistence associé à $\M$.
+
+\begin{definition}
+	Si $(\tau, \sigma_{j})$ est une paire de persistence (un élément d'un diagramme de persistence), on
+	définit sa \define{persistence} comme $\tilde{f}(\sigma_{j}) - \tilde{f}(\tau)$ où pour tout simplexe
+	$\sigma$, sa \define{valeur scalaire} $\tilde{f}(\sigma)$ est le maximum des valeurs de $f$ sur les
+	sommets ($0$-faces) de $\sigma$.
+\end{definition}
+
+Ceci nous donne l'algorithme \ref{alg:pairCells} pour calculer la persistence de chaque composante
+topologique de la variété PL $\M$.
+\begin{algorithm}
+	\caption{Calcul des Paires de Persistence pour Morse}
+	\label{alg:pairCells}
+	\begin{algorithmic}
+		\Input{Filtration lexicographique de $\M$ par $f$}
+		\EndInput
+		\Output{Diagrammes de persistence $\diag_k(f)$.}
+		\EndOutput
+
+		\For{$j \in [1, n]$}
+		\State{// Traiter le $(d_i+1)$-simplexe $\sigma_j$.}
+		\State{$Pair(\sigma_j) \leftarrow \emptyset$}
+		\State{$Chain(\sigma_j) \leftarrow \sigma_j$}
+		\State{// Propagation homologue de $\partial \sigma_j$}
+		%   Search for a $(d_i-1)$-cycle in $\domain_i$ homologous
+		% to $\partial \sigma_i$
+		\While{$\partial\left(Chain(\sigma_j)\right) \neq 0$}
+		\State{$\tau \leftarrow \max\left(\partial\left(Chain(\sigma_j)\right)\right)$}
+		\If{$Pair(\tau) == \emptyset$}
+		\State{// $\tau$ crée un $(d_i)$-cycle}
+		\State{\textbf{break}}
+		\Else
+		\State{// Étendre la chaîne (avec bord homologue)}
+		\State{$Chain(\sigma_j) \leftarrow Chain(\sigma_j) + Chain\left(Pair(\tau)\right)$}
+		\EndIf
+		\EndWhile
+		\If{$\partial \left(Chain(\sigma_j)\right) \neq 0$}
+		\State{// Un cycle non-trivial homologue à $\partial \sigma_j$ existe (l.10)}
+		\State{$\tau \leftarrow \max\left(\partial\left(Chain(\sigma_j)\right)\right)$}
+		\State{$Pair(\sigma_j) \leftarrow \tau$}
+		\State{$Pair(\tau) \leftarrow \sigma_j$}
+		\State{$\diag_{d_{i}}(f) \leftarrow
+				\diag_{d_{i}}(f) \cup (\tau, \sigma_j)$}
+		\EndIf
+		\EndFor
+	\end{algorithmic}
+\end{algorithm}
+
+Cet algorithme suit la même idée que \ref{alg:betti_nop}.
+
+\subsection{Comparaison Topologique}
+On a désormais une méthode pour calculer des diagrammes de persistence à partir uniquement d'une filtration
+et d'une fonction de Morse PL sur cette filtration.
+
+\subsubsection{Simplifcation et Empreinte Topologique}
+L'idée va donc être d'avoir une mesure permettant de simplifier la topologie de la variété PL en ne
+maintenant que les propriétés suffisamment persistentes:
+\begin{category}
+	\mD(f)\ar[r] & \mD(g) \subseteq \mD(f)\ar[d, "?"]\\
+	f & g
+\end{category}
+La question est donc de savoir comment calculer la fonction $g$ a partir du diagramme objectif $\mD(g)$.
+
+Toutefois, bien qu'en $2$ dimensions le problème soit résolu,
+la simplification des ensembles de sous-niveau de paramètres $(t, d)$ (calcul d'une fonction à distance au
+plus $d$ de la fonction originelle qui minimise les nombres de Betti d'isovaleur $t$) est NP-difficile
+en $3$ dimensions.
+Pour cela on va plutôt chercher à optimiser numériquement la fonction $g$, en se tournant vers l'analyse
+géométrique de l'espace des diagrammes de persistence.
+
+\begin{definition}
+	On définit le diagramme $\mD^{*}$ \define{barycentre} de $N$ diagrammes d'entrée $\diag(f_{i})$ comme
+	\begin{equation*}
+		\mD^{*} = \argmin_{\mD} \sum_{i = 1}^{N} W_{2}^{2}(\mD, \diag(f_{i})).
+	\end{equation*}
+\end{definition}
+
+On rappelle que le Théorème \ref{thm:persistence-stability} montre que si $f_{i}$ et $f_{j}$ sont proches,
+leurs diagrammes le seront.
+
+\medskip
+
+En voyant les diagrammes de persistence comme des empreintes topologiques des variétés.
+En particulier, on peut comparer les données, notamment via la distance de Wasserstein qui se calcule en
+résolvant un simple problème d'assignation, et ceci permet de définir des géodésiques et des moyennes sur
+entre les variétés, ce qui permet de construire de meilleurs groupement avec l'algorithme des $k$-moyennes
+par exemple.
+
+\subsubsection{Graphes de Reeb}
+Les diagrammes de persistence sont malheureusement assez limités, notamment puisque $f$ et $ \lambda f$
+auront toujours le même diagramme associé, ou par exemple si on échange les centres de gaussiennes dans une
+mixture.
+
+\begin{definition}
+	Si $f: \M \to \R$ est un champ scalaire de Morse PL défini sur une variété compacte PL $\M$, on note
+	$f^{-1}(f(p))_{p}$ le \define{contour} de $f$ contenant $p \in \M$.
+	Le \define{graphe de Reeb} $\mR(f)$ est le complexe simplicial unidimensionnel défini comme le quotient
+	de $\M\times \R$ par $(p_{1}, f(p_{1})) \sim (p_{2}, f(p_{2})) \Leftrightarrow p_{2}\in (f^{-1}(f(p_{1})))_{p} \land f(p_{1}) = f(p_{2})$.
+\end{definition}
+
+Le graphe de Reeb est calculable en temps $\O(m\log m)$ où $m$ est le nombre de $2$-simplexes de $\M$.
+
+\begin{proposition}
+	Si on note $\phi: \M\to \mR(f)$ la projection de la variété sur le graphe de Reeb associé à $f$
+	et $\psi: \mR(f) \to \R$ la projection sur l'isovaleur associée au point, on a $f = \psi \circ \phi$.
+\end{proposition}
+
+\begin{definition}
+	La valence d'un $0$-simplexe $v \in \mR(f)$ est le nombre de $1$-simplexes dans son étoile $\St(v)$.
+\end{definition}
+
+\begin{proposition}
+	Soit $f = \psi \circ \phi$ un champ scalaire de Morse PL sur une $d$-variété PL et soit $\mR(f)$ son
+	graphe de Reeb.
+	\begin{itemize}
+		\item On caractérise les images par $\phi$ des points réguliers de $f$ comme l'intérieur de
+		      $1$-simplexes de $\mR(f)$.
+		\item On caractérise les images des points critiques d'indice $0$ ou $d$ de $f$ (donc ses extrema)
+		      par les $0$-simplexes de $\mR(f)$ de valence $1$.
+		\item Si $d = 2$, on caractérise les images des points critiques d'indice $1$ de $f$
+		      (donc ses selles) comme les $0$-simplexes de $\mR(f)$ de valence $2, 3, 4$.
+		\item Si $d\geq 3$, les points critiques d'indice $1$ ou $d-1$ de $f$ ont pour image par $\phi$ les
+		      $0$-simplexes de valence $2$ ou $3$. La réciproque n'est pas nécessairement vraie.
+		\item Si $d > 3$, les points critiques d'indice différent de $0, 1, (d- 1)$ ou $d$ ont pour image
+		      par $\phi$ les $0$-simplexes de valence $2$.
+	\end{itemize}
+\end{proposition}
+
+En terme d'homologie, il reste à comparer l'homologie et les graphes de Reeb.
+
+\begin{thm}
+	On a $\beta_{0}(\mR(f)) = \beta_{0}(\M)$ et $\beta_{1}(\mR(f)) \leq \beta_{1}(\M)$.
+\end{thm}
+
+On peut noter que dans le cas où $\M$ est une surface ($2$-variété), le graphe de Reeb est planaire.
+
+\begin{thm}
+	On considère $\mR(f)$ le graphe de Reeb de $f$ un champ scalaire PL sur une $2$-variété $\M$.
+	Soit $b(\M)$ le nombre de composantes connexes de $\M$ et $g(\M)$ son genre.
+	Le nombre de boucles de $\mR(f)$ est décrit par:
+	\begin{itemize}
+		\item Si $\M$ est orientable:
+		      \begin{itemize}
+			      \item Si $b(\M) = 0$ alors $\beta_{1}(\mR(f)) = g(\M)$
+			      \item Sinon $g(\M) \leq \beta_{1}(\mR(f)) \leq 2g(\M) + b(\M) - 1$
+		      \end{itemize}
+		\item Sinon:
+		      \begin{itemize}
+			      \item Si $b(\M) = 0$ alors $0 \leq \beta_{1}(\mR(f)) \leq \frac{1}{2}g(\M)$
+			      \item Sinon $0 \leq \beta_{1}(\mR(f)) \leq g(\M) + b(\M) - 1$
+		      \end{itemize}
+	\end{itemize}
+\end{thm}
+
+\begin{definition}
+	Étant donnée $f: \M \to \R$, on note $x \sim_{M} y$ si $f(x) = f(y) = \alpha$ et $x, y$ sont dans la même
+	composante connexe de $f^{-1}(\left]-\infty, \alpha\right])$.
+	L'\define{arbre de fusion} est l'espace $\M$ quotienté par $\sim_{M}$.
+\end{definition}
+
+L'arbre de fusion est une relaxation du graphe de Reeb et permet de supprimer les boucles du graphe de Reeb
+en supprimant la possibilité de défusionner.
+Il permet de plus de récupérer un historique des fusions de composantes.
+
+\smallskip
+
+Le graphe de Reeb permet de faire de la segmentation par arcs en considérant les séparations et les fusions
+comme des changements de segments.
+Toutefois, ils perdent beaucoup d'information, on introduit donc le cartographe:
+\begin{definition}
+	Si $f : \M \to \R$ tire en arrière tous les intervalles en un nombre fini de composantes connexes par arc,
+	on définit le cartographe $M(I, f)$ (ou mapper) de l'intervalle $I$ en $f$ comme le nerf de la famille
+	des composantes connexes de $f^{-1}(I)$.
+\end{definition}
+
+Dans le cas d'un nuage de points, on remplace les composantes connexes par les clusters sous $f^{-1}$, et on
+obtient un algorithme qui permet de calculer localement une alternative plus générale au graphe de Reeb.
