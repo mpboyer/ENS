@@ -1,0 +1,426 @@
+\subsection{Persistence et apprentissage automatique}
+\subsubsection{Représentation de persistence}
+Puisque l'espace des diagrammes de persistence n'est pas linéaire, les algorithmes de ML classique ne
+fonctionnent pas bien.
+La bibliothèque Python et C++ \emph{Gudhi} propose une large zoologie de représentations pour la persistence,
+comme mesures discrètes, espaces métriques finis, racines de polynômes ou collections de fonctions 1D.
+
+Par exemple, on peut représenter un diagramme en le plongeant dans $\R^{2}$ et l'espace des mesures par $D = \sum \delta_{p_{i}}$.
+\begin{definition}\label{def:surface_persistence}
+	Si on se donne un noyau $K: \R^{2} \to \R$ et $H$ une matrice de bande-passante (forme quadratique), en définissant $K_{H}(u) = \abs{H}^{-1/2}K(H^{-1/2}\cdot u)$, on obtient alors, étant donné une fonction de poids $w$, \define{la surface de persistence} de $D$ par:
+	\begin{equation*}
+		\forall u \in \R^{2}, \rho(D)(u) = D(wK_{H}(u - \cdot))
+	\end{equation*}
+\end{definition}
+
+La question se pose alors de savoir comment choisir une représentation adaptée à un réseau de neurones.
+Une réponse partielle peut être trouvée en regardant l'architecture à ensembles profonds:
+on se donne $n$ points dans $\R^{d}$ et on construit un réseau dont les niveaux sont invariants
+par permutation ($f \circ \sigma = f$)
+\begin{thm}[Universalité]
+	Une fonction $f$ est invariante par permutation si et seulement si, pour tout $X$ inclus dans un ensemble dénombrable $f(X) = \rho(\sum_{i} \phi(x_{i}))$ pour certaines fonctions $\rho$ et $\phi$.
+\end{thm}
+
+Les réseaux à niveaux invariants par permutation permettent de généraliser plusieurs approches générales en TDA, sous la forme de "niveaux de persistence"
+\begin{equation*}
+	\mathrm{PersLay}(\diag) = \rho(\mathrm{op}\{w(p), \phi(p)\}_{p\in \diag}),
+\end{equation*}
+où $\mathrm{op}$ est invariante par permutation, $w$ est une fonction de poids, et $\phi$ est une transformation permettant de se ramener à un ensemble dénombrable.
+
+On peut par exemple retrouver la surface de persistence en se donnant $t_{1}, \ldots, t_{q}\in \R^{2}$ puis en posant:
+\begin{itemize}
+	\item $w(p) = w_{t}((x, y))$;
+	\item $\phi_{\Gamma}: p \mapsto (\Gamma_{p}(t_{i}))_{i}$ avec $\Gamma_{p}$ la gaussienne centrée en $p$ d'écart-type fixé $\sigma$;
+	\item $\mathrm{op} = \sum$.
+\end{itemize}
+Pour les paysages, on prend $w(p) = 1$, $\mathrm{op} = \mathrm{top-}k$ et $\phi_{\Lambda}$ l'évaluation de $\Lambda_{p}$ en $q$ paramètres $t_{1}, \ldots, t_{q}$.
+
+\subsubsection{Différentiabilité de la persistence}
+Nombre de méthodes permettent de minimiser une fonction sur l'ensemble des diagrammes, mais la plupart sont
+restreintes à un type spécifique de filtration ou de fonction à minimiser.
+
+\begin{definition}\label{def:filt_vec}
+	Étant donné un ensemble $V$, un complexe simplicial $K$ sur $V$ et une filtration $K_{r}$ indexée
+	par un ensemble $R \subseteq \R$, pour $\sigma \in K$ on pose
+	\begin{equation*}
+		\Phi_{\sigma} = \inf \left\{r\in R\suchthat \sigma \in K_{r}\right\}.
+	\end{equation*}
+\end{definition}
+
+Par conséquent, une filtration de $K$ est un vecteur $\abs{K}$-dimensionnel
+$\Phi = (\Phi_{\sigma})_{\sigma} \in \R^{\abs{K}}$ tel que
+$\tau \subseteq \sigma \Rightarrow \Phi_{\tau}\leq \Phi_{\sigma}$.
+
+
+\begin{proposition}
+	L'ensemble $\filt_{K} \subseteq \R^{\abs{K}}$ des vecteurs sur $\R^{\abs{K}}$ définissant une filtration
+	sur $K$ est semi-algébrique sur $\R$.
+\end{proposition}
+
+\begin{definition}
+	Si $K$ est un complexe simplicial, une application $\Phi: A \to \R^{\abs{K}}$ est une \define{famille
+		paramétrée de filtrations} si pour tout $\tau \subseteq \sigma$, on a $\Phi_{\tau} \leq \Phi_{\sigma}$.
+\end{definition}
+
+Le calcul de l'homologie persistente dans ce cas se fait avec l'Algorithme \ref{alg:betti_nop}, et peut donc
+se voir comme suit:
+\begin{category}
+	\rm Filtration & \text{Appairage de Simplexes} & \text{Diagramme de Persistence}\\
+	\Phi = (\Phi_{\sigma})_{\sigma \in K} \in \R^{\abs{K}}\ar[r]\ar[drr, bend right, "\pers" description]
+	& \text{$p$ paires $(\sigma_{l(i)}, \sigma_{i})$, $q$ $\sigma_{l}$ esseulés avec $\abs{K} = 2p +q$}\ar[r]
+	& (\Phi_{\sigma_{l(i)}}, \Phi_{\sigma_{i}}), (\Phi_{\sigma_{l}}, \infty)\ar[d, "\text{ordre lexicographique}" description]\\
+	& & D(\Phi) \in \R^{\abs{K}}
+\end{category}
+
+L'application de persistence $\pers$ correspond à une permutation des coordonnées localement constante.
+On va chercher à utiliser cette application pour restreindre l'ensemble des filtrations afin de pouvoir
+différentier l'application $\pers$.
+Pour cela, on rappelle la notion de structure o-minimale:
+\begin{definition}
+	Une \define{structure o-minimale} sur le corps des réels $\R$ est une collection $(S_{n})_{n\in \N}$
+	où chaque $S_{n} \in \mP\left(\mP\left(\R\right)\right)$ est un ensemble de parties	de $\R^{n}$ tel que
+	\begin{enumerate}
+		\item $S_{1}$ est exactement la collection des unions finies de points et d'intervalles;
+		\item Les parties algébriques de $\R^{n}$ sont dans $S_{n}$;
+		\item $S_{n}$ est une sous-algèbre booléenne de $\R^{n}$ pour tout $n \in \N$;
+		\item Si $A \in S_{n}$ et $B \in S_{m}$ alors $A\times B \in S_{n + m}$;
+		\item Si $\pi_{n + 1}^{n}: \R^{n + 1} \to \R^{n}$  est la projection sur les $n$ premières coordonnées,
+		      alors $\pi(S_{n + 1}) \subseteq S_{n}$;
+	\end{enumerate}
+	$A \in S_{n}$ est dit \define{définissable} dans la structure o-minimale.
+	Pour $A \subseteq \R^{n}, f: A \to \R^{m}$ est une application définissable si son graphe est définissable
+	dans $\R^{n + m}$.
+\end{definition}
+
+\begin{definition}
+	Une \define{stratification} d'un espace topologique est une filtration finie par ensembles fermés $F_{i}$
+	telles que la différence entre deux membres successifs de la filtration $F_{i}$ et $F_{i - 1}$ est soit
+	vide soit une sous-variété lisse de dimension $i$.
+	Les composantes connexes de la différence $F_{i} \setminus F_{i - 1}$ sont les \define{strates} de
+	dimension $i$.
+	Une stratification (dans $\R^{n}$) vérifie les \define{propriétés de Whitney} si toute paire de
+	strates vérifient les deux conditions suivantes:
+	\begin{enumerate}
+		\item $X$ et $Y$ vérifient la condition $A$ de Whitney si, lorsqu'une suite $x_{m}$ de $X$ converge vers
+		      $y \in Y$ et lorsque la suite des $i$-plans tangents $T_{m}$ à $X$ en $x_{m}$ converge vers un
+		      $i$-plan $T$, alors $T$ contient le $j$-plan tangent à $Y$ en $y$;
+		\item $X$ et $Y$ vérifient la condition $B$ de Whitney si, pour toute suite $x_{m}$ de $X$ et
+		      toute suite $y_{m}$ de $Y$ qui convergent vers le même point $y$ de $Y$ de sorte que la suite
+		      de ligne sécantes $L_{m}$ entre $x_{m}$ et $y_{m}$ converge vers une ligne $L$ et que la suite
+		      de $i$-plans tangents $T_{m}$ à $X$ en $x_{m}$ converge vers un $i$-plan $T$ alors $L$ est
+		      contenue dans $T$.
+	\end{enumerate}
+\end{definition}
+
+\begin{proposition}
+	Tous les ensembles définissables admettent des stratifications finies vérifiant les propriétés de Whitney.
+\end{proposition}
+
+\begin{proposition}
+	Pour un complexe simplicial $K$, l'application
+	\begin{equation*}
+		\pers: \filt_K \subseteq \R^{\abs{K}} \to \R^{\abs{K}}
+	\end{equation*}
+	est semie-algébrique (et donc définissable dans toute structure o-minimale).
+	De plus, il existe une partition semie-algébrique de $\filt_{K}$ telle que la restriction de $\pers$ à
+	chaque élément de la partition est Lipschitz.
+\end{proposition}
+
+\begin{corollaire}
+	Si $K$ est un complexe simplicial et $\Phi: A \to \R^{\abs{K}}$ est une famille paramétrée de
+	filtrations définissable dans une structure o-minimale donnée, alors $\pers \circ \Phi$ est définissable.
+\end{corollaire}
+
+Il faut entendre définissable au sens de définissable dans une structure o-minimale donnée.
+Puisque les ensembles semis algébriques définissent une structure o-minimale on peut toujours remplacer
+définissable par semi-algébrique.
+
+\begin{proposition}
+	Si $K$ est un complexe simplicial et $\Phi$ est une famille paramétrée définissable sur $A$ de
+	dimension finie $m$, il existe une partition finie définissable de $A$ notée $S\sqcup O_{1} \sqcup \cdots
+		\sqcup O_{k}$ telle que $\dim S < \dim A = m$ et pour tout $i \leq k$, $O_{i}$ est une variété
+	définissable de dimension $m$ sur laquelle $(\pers \circ \Phi)_{\mid O_{i}}: O_{i} \to \R^{\abs{K}}$
+	est différentiable.
+\end{proposition}
+
+Dans le cas de la filtration de Vietoris-Rips, on prend $\Phi: A = (\R^{d})^{n} \to \R^{\abs{\Delta_{n}}}$
+pour $\Delta_{n}$ le complexe simplicial des faces sur simplexe $(n- 1)$-dimensionnel et pour
+$x = (x_{1}, \ldots, x_{n})\in A$ et tout simplexe $\sigma \subseteq \onen{n}$, on a
+\begin{equation*}
+	\Phi_{\sigma}(x) = \max_{i, j \in \sigma}\norm{x_{i} - x_{j}}
+\end{equation*}
+
+\smallskip
+
+Pour $K$ un complexe simplicial avec $n$ sommets $v_{1}, \ldots, v_{n}$, on pose $\Phi: \R^{n} \to \R^{K}$
+et pour toute fonction $f$ et tout simplexe $\sigma$
+\begin{equation*}
+	\Phi_{\sigma}(f) = \max_{i\in \sigma} f(v_{i})
+\end{equation*}
+
+\subsubsection{Fonctions sur la persistence}
+\begin{definition}
+	Une fonction
+	\begin{equation*}
+		E: \R^{\abs{K}} = \left(\R^{2}\right)^{p} \times \R^{q} \to \R
+	\end{equation*}
+	est une \define{fonction de persistence} si elle est invariante aux permutations des points du diagramme
+	de persistence: pour toutes permutations $\sigma, \sigma' \in \mathfrak{S}_{p} \times \mathfrak{S}_{q}$,
+	$E \circ (\sigma \otimes \sigma') = E$ (pour $\otimes$ le produit tensoriel dans Set).
+\end{definition}
+
+\begin{proposition}
+	Soit $E$ une fonction de persistence.
+	\begin{itemize}
+		\item Si $E$ est localement Lipschitz, alors $E\circ \pers$ est localement Lipschitz.
+		\item Si $E$ et $\Phi: A \subseteq \R^{d} \to \R^{\abs{K}}$ sont définissables, alors
+		      $\mL = E \circ \pers \circ \Phi: A \to \R$ a une sous-différentielle de Clarke
+		      \begin{equation*}
+			      \partial \mL(z) = \mathrm{Conv}\left\{\lim_{z_{i} \to z}\nabla \mL(z_{i})
+			      \suchthat \mL \text{ est différentiable en } z_{i}\right\}
+		      \end{equation*}
+		      bien définie.
+	\end{itemize}
+\end{proposition}
+
+Par exemple, l'application de persistence totale $E(D) = \sum_{i = 1}^{p}\abs{d_{i} - b_{i}}$ est Lipschitz
+et semie-algébrique.
+De même, la distance du goulot (ou $\infty$-Wasserstein)
+$E(D) = d_{B}(D, D^{*}) = \min_{m} \max_{(p, p^{*})\in m} \ninf{p - p^{*}}$, le minimum étant pris sur les
+couplages partiels entre $D$ et $D^{*}$, est semie-algébrique et Lipschitz.
+
+L'existence d'une sous-différentielle/d'un sous-gradient nous permet d'utiliser l'algorithme itératif
+classique de descente stochastique de sous-gradient
+\begin{equation}
+	x_{k + 1} = x_{k} - \alpha_{k}\left(y_{k} + \zeta_{k}\right), y_{k} \in \partial\mL(x_{k}),\tag{PersSGD}
+	\label{eq:persistence-sgd}
+\end{equation}
+où la suite $(\alpha_{k})$ est le taux d'apprentissage et $(\zeta_{k})$ est une suite de variables
+aléatoires de bruit.
+
+On va supposer les hypothèses classiques suivantes:
+\begin{enumerate}
+	\item $\alpha_{k} \geq 0, \sum \alpha_{k} = +\infty, \sum \alpha_{k}^{2} < +\infty$;
+	\item $\sum \norm{x_{k}} < \infty$ presque sûrement;
+	\item Si $\mathcal{F}_{k}$ est la suite croissante de $\sigma$-algèbres engendrées par les $x_{j}, y_{j},
+		      \zeta_{j}$ pour $j < k$, il existe une fonction $p: \R^{d} \to \R$ bornée sur les ensembles bornés
+	      telle que presque sûrement
+	      \begin{equation*}
+		      \E\left[\zeta_{k}\suchthat \mathcal{F}_{k}\right] = 0 \quad \E\left[\norm{\zeta_k}^{2}\suchthat \mathcal{F}_{k}\right] < p(x_{k}).
+	      \end{equation*}
+\end{enumerate}
+
+On obtient alors le théorème de convergence suivant:
+\begin{thm}
+	Soit $K$ un complexe simplicial, $A \subseteq \R^{d}$ et $\Phi: A \to \R^{\abs{K}}$ une famille
+	paramétrée de filtrations de $K$ définissable dans une structure o-minimale.
+	Si $E$ est une fonction de persistence définissable telle que $\mL = E\circ \pers \circ \Phi$ est
+	localement Lipschitz, alors, sous les hypothèses ci-dessus, presque sûrement, les points limites de la
+	suite $(x_{k})$ obtenus par les itérations de l'Équation \eqref{eq:persistence-sgd} sont des points
+	critiques de $\mL$ et la suite $(\mL(x_{k}))$ converge.
+\end{thm}
+
+\subsubsection{Densité de diagrammes de persistence espérés}
+On s'intéresse ici à une nuage de points $V$ pondéré par $w: V \to \R$.
+\begin{definition}
+	Le \define{complexe pondéré de Vietoris-Rips} noté $\rips_{w}(V)$ est le complexe simplicial filtré indicé par $\R$ dont l'ensemble de sommet est $V$ et défini par
+	\begin{equation*}
+		\sigma \in [p_{0}\cdots p_{k}] \in \rips_{w}(V, \alpha) \Leftrightarrow d(p_{i}, p_{j}) \leq \alpha \land w(p_{i})\leq \alpha
+	\end{equation*}
+\end{definition}
+
+On peut donc s'intéresser au calcul de diagrammes espérés, et à la densité (en tant que mesure de
+probabilité) que l'espérance de diagrammes par rapport à des familles pondérées: si $\X$ est une
+variable aléatoire sur $M^{n}$, et si $\mK$ est une fonction de filtration, que dire de
+$\E\left[\mD\left[\mK\left(\X\right)\right]\right]$ dans le cas non-asymptotique
+($\abs{\X} = n$ fixé/borné) ?
+
+\smallskip
+
+Pour ceci, on va simplement modifier la définition d'une filtration dans ce cas, comme dans la définition
+\ref{def:filt_vec}:
+\begin{definition}
+	Soit $n > 0$ entier, $\mF_{n}$ l'ensemble des parties non-vides de $\onen{n}$ et $M$ une $d$-variété
+	connexe lisse possiblement avec bord.
+	Une fonction de filtration
+	\begin{equation*}
+		\phi = \left(\phi[J]\right)_{J \in \mF_{n}}: M^{n} \to \R^{\abs{\mF_{n}}}
+	\end{equation*}
+	est une fonction qui est
+	\begin{itemize}
+		\item invariante par permutation: si $\tau \in \mathfrak{S}_{n}$ a support dans $J$,
+		      \begin{equation*}
+			      \phi[J](x_{\tau(i)}) =\phi[J](x_{i});
+		      \end{equation*}
+		\item monotone: $J \subseteq J' \Rightarrow \phi[J] \leq \phi[J']$.
+	\end{itemize}
+	Sur $x = (x_{1}, x_{n})$, $\phi(x)$ induit un ordre sur les faces du $(n-1)$-simplexe, c'est à dire une
+	filtration $\mK(x)$:
+	\begin{equation*}
+		\forall J \in \mF_{n}, J \in \mK(x, r) \Leftrightarrow \phi[J](x) \leq r
+	\end{equation*}
+\end{definition}
+
+Dans la suite on note, pour $J \in \mF_{n}$ un simplexe et $x$ un vecteur de $M^{n}$,
+$x(J) = (x_{j})_{j \in J}$.
+
+En général, on a 5 hypothèses de base:
+\begin{enumerate}[label=(K\arabic*)]
+	\item Absence d'interaction: si $J \subseteq \mF_{n}$, $\phi[J](x)$ ne dépend que de $x(J)$;
+	\item Invariance par permutation;
+	\item Monotonie;
+	\item Compatibilité: si $j \in J$ un simplexe de $\mF_{n}$, si $\phi[J](x_{1}, \ldots, x_{n})$ n'est pas
+	      fonction de $x_{j}$ sur un ouvert de $U$, alors $\phi[J] \equiv \phi[J\setminus \{j\}]$ sur $U$;
+	\item Régularité: $\phi$ est sous-analytique et le gradient de toutes ses entrées est non-nul presque
+	      sûrement.
+\end{enumerate}
+On a également une hypothèse (K5') de régularité, quand le gradient de $\phi$ sur chaque entrée $J$ de
+taille strictement supérieure à $1$ est non-nul presque sûrement et que $\phi[\{j\}] = 0$ pour tout $j$.
+
+On vérifie facilement que la filtration de Vietoris-Rips vérifie les hypothèses (avec la régularité
+affaiblie), par exemple.
+
+\begin{definition}
+	Soit $k \geq 0$. Pour $A \subseteq \R^{d}$ et $\delta > 0$, on considère
+	\begin{equation*}
+		\mH_{k}^{\delta}(A) = \inf \left\{\sum_{i} \mathrm{diam}\left(U_{i}\right)^{k}\suchthat A \subseteq \bigcup_{i} U_{i} \land \mathrm{diam}\left(U_{i}\right) < \delta\right\}.
+	\end{equation*}
+	La \define{mesure de Hausdorff $k$-dimensionnelle} sur $\R^{D}$ de $A$ est définie par
+	\begin{equation*}
+		\mH_{k}\left(A\right) = \lim_{\delta \to 0} \mH_{k}^{\delta}\left(A\right).
+	\end{equation*}
+\end{definition}
+
+\begin{thm}
+	Soit $n \geq 1$. On suppose que $M$ est une $d$-variété connexe réelle lisse compacte potentiellement avec
+	bord, que $\X$ est une variable sur $M^{n}$ avec densité par rapport à la mesure de Hausdorff $\mH_{dn}$,
+	et que $\mK$ vérifie les hypothèses (K1) à (K5) ci-dessus.
+	Alors, pour tout $s \geq 0$, $\E\left[\mD_{s}\left[\mK\left(\X\right)\right]\right]$ a une densité par
+	rapport à la mesure de Lebesgue sur le demi-plan $x \leq y$.
+
+	\smallskip
+
+	Si $\mK$ vérifie les hypothèses (K1)-(K4) et (K5'), alors pour tout $s \geq A$,
+	$\E\left[\mD_{s}\left[\mK\left(\X\right)\right]\right]$ a une densité par
+	rapport à la mesure de Lebesgue sur le demi-plan $x \leq y$,
+	et de plus, $\E\left[\mD_{0}\left[\mK\left(\X\right)\right]\right]$ a densité par rapport à la mesure de Lebesgue sur la ligne verticale
+	$\{0\} \times \left[0, \infty\right)$.
+\end{thm}
+
+\begin{thm}
+	Sous les hypothèses du théorème précédent, si $\X$ a densité de classe $\cont^{k}$ par rapport à
+	$\mH_{nd}$, alors de plus pour $s \geq 0$, la densité de
+	$\E\left[\mD_{s}\left[\mK\left(\X\right)\right]\right]$ est $\cont^{k}$.
+\end{thm}
+
+
+
+Avant de prouver ces théorèmes (ou du moins de donner une esquisse de la preuve), rappelons quelques notion
+de sous-analyticité.
+\begin{definition}
+	Soit $M \subseteq \R^{d}$ une $d$-sous-variété connexe réelle lisse possiblement avec bord.
+	\begin{itemize}
+		\item $X \subseteq M$ est \define{semi-analytique} si tout $p \in M$ a un voisinage $U_{p}$ tel que
+		      \begin{equation*}
+			      X \cap U_{p} = \bigcup_{i = 1}^{p}\bigcap_{j = 1}^{q}X_{i, j},
+		      \end{equation*}
+		      où les $X_{i, j}$ s'écrivent $f_{i,j}^{-1}\left(\left\{0\right\}\right)$ ou $f_{i, j}^{-1}\left(\left(0, \infty\right)\right)$ où les $f_{i, j}$ sont analytiques.
+		\item $X \subseteq M$ est \define{sous-analytique} si tout point de $M$ admet un voisinage $U$, une
+		      variété lisse $N$ et un ensemble semi-analytique $A$ relativement compact de $N \times M$ tel que
+		      $X \cap U$ est la projection de $A$ sur $M$.
+		\item $f: X \to \R$ est \define{sous-analytique} si son graphe est sous-analytique sur $M \times \R$.
+		      On note $\mS(X)$ l'ensemble des fonctions réelles sous-analytiques sur $X$.
+		\item $x \in X \subseteq M$ est \define{lisse de dimension $k$} si, dans un certain voisinage de $x$
+		      dans $M$,$X$ est une $k$-sous-variété analytique.
+		\item La \define{dimension} de $X$ est la dimension maximale d'un point lisse de $X$.
+		\item On note $\mathrm{Reg}(X)$ les points réguliers de $X$, i.e. les points lisses de $X$ de
+		      dimension $d$. C'est une partie ouverte de $M$, potentiellement vide.
+		      On note $\mathrm{Sing}(X)$ les points singuliers de $X$.
+	\end{itemize}
+\end{definition}
+
+Ceci nous permet de dériver quelques lemmes (sans démonstration):
+\begin{lemme}
+	Pour $f \in \mS(M)$, l'ensemble $A(f)$ sur lequel $f$ est analytique est une partie ouverte
+	sous-analytique de $M$.
+	Son complémentaire est sous-analytique de dimension $< d$.
+\end{lemme}
+
+\begin{lemme}
+	Si $f, g: X \to \R$ sont sous-analytiques sur une partie sous-analytique de $M$ telles que l'image
+	d'un borné est bornée, alors $fg$ et $f + g$ sont sous-analytiques, et les parties $f^{-1}(\{0\})$ et
+	$f^{-1}((0, \infty))$ sont sous-analytiques dans $M$.
+\end{lemme}
+
+\begin{lemme}
+	Soit $X$ sous-analytique dans $M$.
+	Si la dimension de $X$ est strictement inférieure à $d$, alors $\mH_{d} = 0$
+\end{lemme}
+
+\begin{corollaire}
+	On a:
+	\begin{itemize}
+		\item $\mH_{d}(X) = \mH_{d}(\mathrm{Reg}(X))$;
+		\item Pour toute $f \in \mS(M)$, son gradient est défini partout sauf sur un ensemble sous-analytique
+		      de dimension strictement inférieure à $d$ (et donc de mesure de Hausdorff nulle).
+	\end{itemize}
+\end{corollaire}
+
+On va de plus avoir besoin de la formule suivante pour définir la densité de nos diagrammes:
+\begin{thm}[Formule de la Co-Aire]
+	Soit $M$ (respectivement $N$) une $m$-variété riemanienne de dimension $m$ (respectivement $n$).
+	Supposons que $m \geq n$ et soit $\Phi: M \to N$ une application différentiable.
+	On note $J \phi$ le jacobien $\sqrt{\det(\transpose{(D\Phi)}(D\Phi))}$ de $\Phi$.
+	Pour $f: M \to \R^{+}$ une fonction mesurable positive, on a
+	\begin{equation*}
+		\int_{M} f(x)J\Phi(x)\d\mH_{m}(x) = \int_{N}\left(\int_{x\in \Phi^{-1}(\{y\})}f(x)\d\mH_{m - n}(x)\right) \d \mH_{n}(y)
+	\end{equation*}
+\end{thm}
+
+
+
+\begin{proof}
+	Il existe une partition du complémentaire d'un ensemble (sous-analytique) de mesure $0$ de $M^{n}$
+	par des ouverts $V_{1}, \ldots, V_{R}$ telle que:
+	\begin{itemize}
+		\item L'ordre des simplexes de $\mK(x)$ est constant sur chaque $V_{r}$;
+		\item Pour tout $r$ et tout $x \in V_{r}$,
+		      \begin{equation*}
+			      \mD_{s}[\mK(x)] = \sum_{i = 1}^{N_{r}}\delta_{r_{i}},
+		      \end{equation*}
+		      où $r_{i} = \left(\phi\left[J_{i_{1}}\right]\left(x\right),
+			      \phi\left[J_{i_{2}}\right]\left(x\right)\right)$ et $N_{r}, J_{i_{1}}, J_{i_{2}}$ ne dépendent que
+		      de $V_{r}$;
+		\item $J_{i_{1}}$ et $J_{i_{2}}$ peuvent être choisis de sorte que
+		      \begin{equation*}
+			      \Phi_{ir}: x \in V_{r}\to r_{i} = \left(\phi\left[J_{i_{1}}\right]\left(x\right),
+			      \phi\left[J_{i_{2}}\right]\left(x\right)\right)
+		      \end{equation*}
+		      a rang maximal $(2)$.
+	\end{itemize}
+	Le diagramme espéré peut donc s'écrire
+	\begin{align*}
+		\E\left[\mD_{s}\left[\mK\left(\X\right)\right]\right] & = \sum_{r = 1}^{R}\E\left[\indic\left\{\X \in V_{r}\right\}\mD_{s}[\mK(\X)]\right]                                                          \\
+		                                                      & = \sum_{r = 1}^{R}\E\left[\indic \left\{\X \in V_{r}\right\}\sum_{i = 1}^{N_{r}}\delta_{r_{i}}\right]                                       \\
+		                                                      & = \sum_{r = 1}^{R}\sum_{i = 1}^{N_{r}}\underbrace{\E\left[\indic\left\{\X \in V_{r}\right\}\delta_{r_{i}}\right]}_{\define{$= \mu_{i, r}$}}
+	\end{align*}
+	Par la formule de co-aire, en notant $\kappa$ la densité de $\X$
+	\begin{align*}
+		\mu_{i, r}\left(B\right) & = P\left(\Phi_{i, r}\left(\X\right) \in B, \X\in V_{r}\right)                             \\
+		                         & = \int_{V_{r}}\indic\left\{\Phi_{i, r}\left(x\right) \in B\right\}\kappa(x)\d \mH_{nd}(x) \\
+		                         & = \int_{u \in B}
+		\underbrace{
+			\int_{x \in \Phi_{i, r}^{-1}\left(u\right)}
+			\left(J\Phi_{i, r}\left(x\right)\right)^{-1}\kappa\left(x\right)\d \mH_{nd - 2}(x)
+		}_{\text{Densité de $\mu_{i, r}$}}\d u.
+	\end{align*}
+	On conclut puisque la somme de mesure à densité a densité.
+\end{proof}
+
+Si on revient à la Définition \ref{def:surface_persistence} de la surface de persistence de
+$D = \sum \delta_{r_{i}}$ avec noyau $K$, matrice de bande-passante $H$ et poids $w$
+\begin{equation*}
+	\rho(D)(u) = \sum_{i}w(r_{i})K_{H}(u - r_{i}) = D(wK_{H}(u - \cdot)),
+\end{equation*}
+on peut voir la surface de persistence comme un estimateur basé sur un noyau de
+$\E\left[\mD_{s}\left[\mK\left(\X\right)\right]\right]$.
