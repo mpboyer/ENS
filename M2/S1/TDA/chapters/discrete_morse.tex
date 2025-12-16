@@ -1,5 +1,167 @@
 \section{Théorie de Morse Discrète}
-
+Puisque le graphe de Reeb (et les diagrammes de persistence) est inutilisable pour comparer des objets qui
+qui sont par exemple des nappes de mixtures gaussiennes avec des points différents, il faut trouver une
+manière de décrire des exemples trop similaires.
+On peut aisément construire des exemples de jeux de données qui ont la même description topologique par le
+graphe de Reeb mais qui sont applicativement différents.
 
 \subsection{Complexe de Morse}
+Le complexe de Morse est défini à l'aide des variétés descendantes de la surface d'une fonction de Morse.
+\begin{definition}
+	Si $M$ est une variété PL, une \define{courbe intégrale} sur $M$ est une courbe sur $M$ dont les vecteurs
+	tangents sont colinéaires au gradient sur $M$.
+\end{definition}
+Les courbes intégrales vont donc toujours "monter"
+
+\begin{definition}
+	La \define{variété descendante} d'un point critique $p$ de $M$ est l'ensemble des points des courbes
+	intégrales qui terminent en $p$.
+\end{definition}
+
+\begin{definition}
+	Le \define{complexe de Morse} de $f$ est le complexe cellulaire formé par les variétés descendantes de la
+	variété surface de $f$.
+\end{definition}
+
+\begin{remarque}
+	C'est une généralisation du diagramme de Voronoï avec des fonctions autres que des fonctions de distance.
+\end{remarque}
+
+On va aussi s'intéresser à l'opposé des fonctions que l'on considère. Dans ce cas, au lieu d'avoir des
+courbes intégrales qui montent, on a des courbes qui descendent, et donc, on calcule des \define{variétés
+	ascendantes} sur $M$.
+
+\begin{definition}
+	Le \define{complexe de Morse-Smale} de $M$ est l'intersection des complexes de Morse de $f$ et de $-f$.
+\end{definition}
+
+Ceci revient à calculer les extrémités d'intégration (en avant, et en arrière, au sens d'Euler) de sorte que
+tous les points qui ont les mêmes extrémités d'intégration appartiennent à la même cellule du complexe de
+Morse-Smale.
+
+Toutefois, il n'est pas possible de définir ce complexe pour toute fonction $f$. En effet, mais s'il semble
+clair qu'il faille avoir une fonction de Morse à l'origine, avec quelques conditions en plus.
+En particulier, il faut que les fonctions soient dérivables, aient tous leurs points critiques distincts,
+et que les variétés ascendantes et descendantes s'intersectent transversalement.
+
+\begin{definition}
+	L'intersection de deux variétés est \define{transverse} si l'intersection des plans tangents génère le plan
+	tangent de l'intersection.
+	Mathématiquement, cela revient à dire que si on note $I = A \cap B$, on doit avoir
+	\begin{equation*}
+		\codim A + \codim B = \codim I.
+	\end{equation*}
+\end{definition}
+
+Si on prend par exemple deux selles de cheval tournées l'une par rapport à l'autre de manière orthogonale,
+leur intersection n'est pas transverse.
+
+\begin{proposition}
+	Le complexe de Morse-Smale transforme les $1$-cellules d'indice $d$ en $1$-cellule d'indice $d + 1$.\\
+	Pour une $2$-variété:
+	\begin{itemize}
+		\item Les $2$-cellules sont des quadrangles (un mimimum local, un maximum local et deux points selles);
+		\item Les selles simples ont valence $4$;
+		\item Les extrema ont valence arbitraire.
+	\end{itemize}
+	Pour une $3$-variété:
+	\begin{itemize}
+		\item Les $3$-cellules ont un nombre arbitraire de faces;
+		\item Les faces polygonales sont des quadrangles.
+	\end{itemize}
+\end{proposition}
+
+Il est toutefois particulièrement complexe de calculer le complexe de Morse-Smale, notamment à cause de
+la difficulté du dépliage de selles et de la difficulté de vérification des intersections transverses.
+
+\subsection{Calcul du complexe de Morse-Smale}
+On se donne dans la suite un complexe simplicial $\sigma$. Par convention, $\sigma_{i}$ sera un $i$-simplexe.
+
+\begin{definition}
+	Une fonction \define{de Morse discrète} est une fonction qui à chaque simplexe $\sigma_{i}$ associe
+	un réel $f(\sigma_{i})$ telle que:
+	\begin{itemize}
+		\item $\abs{\left\{\sigma_{i - 1} < \sigma_{i} \suchthat f(\sigma_{i - 1}) \geq f(\sigma_{i})\right\}} \leq 1$
+		\item $\abs{\left\{\sigma_{i + 1} > \sigma_{i} \suchthat f(\sigma_{i > 1}) \leq f(\sigma_{i})\right\}} \leq 1$
+	\end{itemize}
+	On demande donc que le nombre de faces de dimension $i- 1$ ayant une valeur supérieure au simplexe de
+	dimension $i$  soit au plus $1$, et de même pour les cofaces de dimension $i + 1$.\\
+	Un point critique est alors un point dont le nombre de faces supérieures et le nombres de cofaces
+	inférieures sont nuls.
+\end{definition}
+
+On va donc pouvoir ainsi définir des champs de vecteurs afin de modéliser le gradient de notre fonction.
+
+\begin{definition}
+	Un \define{vecteur dicret} est une paire $\{\sigma_i < \sigma_{i + 1}\}$.
+	Un \define{champ de vecteur discret} est une collection $V$ de vecteurs discrets tel que chaque simplexe
+	soit présent dans au plus un vecteur.
+\end{definition}
+
+\begin{definition}
+	Une \define{courbe intégrale discrète} ou \define{$v$-chemin} est une suite de vecteurs discrets
+	$\left(\left\{\sigma_{i}^{j} < \sigma_{i + 1}^{j}\right\}\right)_{0 \leq j \leq n}$ telle que
+	$\sigma_{i}^{j} \neq \sigma_{i}^{j + 1} < \sigma_{i + 1}^{j}$.
+\end{definition}
+
+Autrement dit, on part d'un $i$-simplexe, puis on continue d'une autre face d'une coface de ce simplexe de
+départ.
+
+\begin{definition}
+	Un \define{champ de gradient discret} est un champ de vecteur discret dont tous les $v$-chemins sont sans
+	boucles.
+\end{definition}
+
+\begin{remarque}
+	Ceci revient à dire intuitivement que le rotationnel du champ de vecteur discret est nul, et qu'on décrit
+	donc bien un potentiel.
+\end{remarque}
+
+Pour pouvoir décrire les variétés ascendantes et descendantes et construire les analogues des complexes de
+Morse-Smale discrets, on passe par le complexe dual (au sens de Poincaré) de notre complexe cellulaire de
+départ.
+Pour cela, on a souvent besoin d'ajouter un demi-sommet à l'infini permettant de fermer le complexe.
+
+Alors, pour représenter le gradient dual, il suffit de retourner tout vecteur discret du gradient discret.
+Un $v$-chemin renversé (qui permet de remonter le gradient) est donc simplement un $v$-chemin dans le
+complexe dual.
+
+On peut ainsi calculer le champ de gradient discret à partir d'une filtration, comme présenté dans
+l'Algorithme \ref{alg:graddmt}.
+On peut montrer que l'algorithme est fortement parallélisable.
+L'algorithme utilise l'ordre lexicographique associé à la filtration, et fait apparaître des paires
+de persistence dites apparentes.
+
+\begin{algorithm}
+	\caption{Assignation par plus forte descente}
+	\label{alg:graddmt}
+	\begin{algorithmic}
+		\For{$i \leq d$ une dimension}
+		\For{$\sigma_{i}$ un simplexe}
+		\State{$C^{-}(\sigma_{i}) = \left\{\sigma_{i + 1} > \sigma_{i} \suchthat \sigma_{i} = \argmax\displaystyle_{\sigma_{i}' < \sigma_{i + 1}}f(\sigma_{i}')\right\}$}\Comment{Cofaces maximisées par $\sigma_{i}$}
+		\State{$\sigma_{i + 1}^{*} = \argmin_{C^{-}(\sigma_{i})}f(\sigma_{i + 1})$}\Comment{Coface minimale}
+		\EndFor
+		\EndFor
+	\end{algorithmic}
+\end{algorithm}
+
+\begin{proposition}
+	Les simplexes non-appairés sont des impasses pour les $v$-chemins, ce qui nous donne une notion de
+	simplexe critique.
+	Sur le domaine de la variété, on n'a donc pas de point critique dégénéré.
+	\smallskip
+
+	Pour l'intersection transverse, la dimension des $v$-chemins dépend de l'indice critique du point.
+	Les variétés descendantes se retrouvent dans le complexe primal et les ascendantes dans le complexe dual.
+\end{proposition}
+
+\begin{proposition}
+	Avec l'Algorithme \ref{alg:graddmt}, à tout point critique d'indice $i$ au sens PL, il existe au moins un
+	point critique au sens discret.
+\end{proposition}
+
+Le défaut de tels objets est leur forte instabilité, qui se voit notamment lorsqu'on déplace continuement
+le plus bas centre de l'opposé d'une mixture gaussienne, et qui donne un complexe qui n'est pas continu,
+malgré des structures arbitrairement proches.
+
 
