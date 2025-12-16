@@ -1,0 +1,2 @@
+all:
+	lmake main.tex

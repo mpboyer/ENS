@@ -1,0 +1,178 @@
+\documentclass[a4paper]{article} 
+\input{style/head.tex}
+
+%-------------------------------
+%	TITLE VARIABLES (identify your work!)
+%-------------------------------
+
+\newcommand{\yourname}{Matthieu Boyer} % replace YOURNAME with your name
+\newcommand{\youremail}{matthieu.boyer@ens.fr} % replace YOUREMAIL with your email
+\newcommand{\assignmentnumber}{6} % replace X with the lab session number
+
+\begin{document}
+
+\input{style/header.tex}
+
+
+\section{Task 4}
+\begin{center}
+	\includegraphics[width=\textwidth]{code/embeddings.pdf}
+\end{center}
+
+\section{Question 1}
+As linguists have the traditional maxim \textit{you shall know a work by its company}, here, given a
+random walk (which can be seen as a (near-)randomly generated sequence of words), we increase the context
+considered to understand the meaning (or in this case the probability) that a word (vertex) is generated.
+The window size maps to the size of the context considered to understand what the meaning of a vertex is:
+what the probability of it filling in the random walk is.
+
+\section{Task 5}
+
+\begin{center}
+	\includegraphics[width=\textwidth]{code/karate.pdf}
+\end{center}
+
+\section{Task 8}
+
+\begin{itemize}
+	\item DeepWalk Embeddings (using \texttt{gensim.Word2Vec}) yield $42.86\%$ accuracy.
+	\item Sklearn's Spectral Embeddings (using \texttt{sklearn.manifold.SpectralEmbedding}) yield the same $42.86\%$ accuracy.
+	\item Lrw Spectral Embeddings yield $85.71\%$ accuracy.
+\end{itemize}
+
+\section{Question 2}
+The two embeddings provided show an important similarity: $X_{1}$ and $X_{2}$ define the exact same space as
+the second column of $X_{1}$ is the opposite of the second column of $X_{2}$.
+What this means is that $X_{2} = X_{1} R$ where $R$ is the reflection around the $y$-axis $\begin{pmatrix}
+		1 & 0 \\ 0 & - 1
+	\end{pmatrix}$
+
+
+\section{Question 3}
+Since $P$ is a permutation matrix, $P_{ij} \in \{0,1\}$.
+Moreover, for a permutation, each row and column has exactly one 1.
+The degree of node $i$ in the permuted graph equals the degree of the node that was mapped to position $i$.
+Therefore:
+\[
+	\tilde{D}' = P\tilde{D}P^T
+\]
+
+Now we can compute the normalized adjacency matrix $\hat{A}'$:
+\begin{align*}
+	\hat{A}' & = (\tilde{D}')^{-\frac{1}{2}}\tilde{A}'(\tilde{D}')^{-\frac{1}{2}}                    \\
+	         & = (P\tilde{D}P^T)^{-\frac{1}{2}}(P\tilde{A}P^T)(P\tilde{D}P^T)^{-\frac{1}{2}}         \\
+	         & = P\tilde{D}^{-\frac{1}{2}}P^T \cdot P\tilde{A}P^T \cdot P\tilde{D}^{-\frac{1}{2}}P^T \\
+	         & = P\tilde{D}^{-\frac{1}{2}}\tilde{A}\tilde{D}^{-\frac{1}{2}}P^T                       \\
+	         & = P\hat{A}P^T
+\end{align*}
+
+Finally, we compute the GNN output for the permuted inputs:
+\begin{align*}
+	\text{GNN}(PAP^T, PX) & = f(\hat{A}'(PX)W)                                                             \\
+	                      & = f(P\hat{A}P^T \cdot PX \cdot W)                                              \\
+	                      & = f(P\hat{A}(P^TP)XW)                                                          \\
+	                      & = f(P\hat{A}XW) \quad \text{(since } P^TP = I\text{)}                          \\
+	                      & = P \cdot f(\hat{A}XW) \quad \text{(since } f \text{ is applied element-wise)} \\
+	                      & = P \cdot \text{GNN}(A, X)
+\end{align*}
+
+Therefore, the GNN layer is permutation equivariant. \qed
+
+\section{Task 11}
+Test set results: loss= 0.0002 accuracy= 1.0000
+\begin{center}
+	\hfill
+	\includegraphics[width=.45\textwidth]{code/gnn_training_accuracy.pdf}
+	\hfill
+	\includegraphics[width=.45\textwidth]{code/gnn_training_loss.pdf}
+	\hfill
+\end{center}
+
+\section{Task 12}
+
+Test set results: loss= 0.8166 accuracy= 0.2857
+\begin{center}
+	\hfill
+	\includegraphics[width=.45\textwidth]{code/gnn_training_accuracy_equal_features.pdf}
+	\hfill
+	\includegraphics[width=.45\textwidth]{code/gnn_training_loss_equal_features.pdf}
+	\hfill
+\end{center}
+
+
+\section{Question 4}
+
+We analyze a linear GCN with $k$ layers defined as:
+\[
+	Z^{(k)} = \hat{A}^k XW
+\]
+where $\hat{A} = \tilde{D}^{-\frac{1}{2}}\tilde{A}\tilde{D}^{-\frac{1}{2}}$ is the normalized adjacency matrix with self-loops, and the graph is connected and non-bipartite.
+
+\subsection*{Part 1: Proving $u$ is an eigenvector of $\hat{A}$ with eigenvalue $\lambda = 1$}
+
+Let $u \in \mathbb{R}^n$ be a vector where $u_i = \sqrt{\tilde{d}_i}$ (the square root of the degree of node $i$ including the self-loop).
+
+We compute $\hat{A}u$:
+\begin{align*}
+	(\hat{A}u)_i & = \sum_{j=1}^n \hat{A}_{ij} u_j                                                                            \\
+	             & = \sum_{j=1}^n \left(\tilde{D}^{-\frac{1}{2}}\tilde{A}\tilde{D}^{-\frac{1}{2}}\right)_{ij} u_j             \\
+	             & = \sum_{j=1}^n \frac{1}{\sqrt{\tilde{d}_i}} \tilde{A}_{ij} \frac{1}{\sqrt{\tilde{d}_j}} u_j                \\
+	             & = \sum_{j=1}^n \frac{1}{\sqrt{\tilde{d}_i}} \tilde{A}_{ij} \frac{1}{\sqrt{\tilde{d}_j}} \sqrt{\tilde{d}_j} \\
+	             & = \sum_{j=1}^n \frac{1}{\sqrt{\tilde{d}_i}} \tilde{A}_{ij}                                                 \\
+	             & = \frac{1}{\sqrt{\tilde{d}_i}} \sum_{j=1}^n \tilde{A}_{ij}                                                 \\
+	             & = \frac{1}{\sqrt{\tilde{d}_i}} \cdot \tilde{d}_i \quad \text{(by definition of degree)}                    \\
+	             & = \sqrt{\tilde{d}_i}                                                                                       \\
+	             & = u_i
+\end{align*}
+
+Therefore, $\hat{A}u = u$, which proves that $u$ is an eigenvector of $\hat{A}$ corresponding to eigenvalue $\lambda = 1$. \qed
+
+\subsection*{Part 2: Deriving the limit of $Z^{(k)}$ as $k \to \infty$}
+
+Since $\hat{A}$ is symmetric, it has a spectral decomposition:
+\[
+	\hat{A} = \sum_{i=1}^n \lambda_i v_i v_i^T
+\]
+where $\lambda_1 = 1 > |\lambda_2| \geq |\lambda_3| \geq \cdots \geq |\lambda_n|$ and $\{v_1, v_2, \ldots, v_n\}$ are orthonormal eigenvectors.
+
+From Part 1, we know that $v_1 = \frac{u}{\|u\|} = \frac{u}{\sqrt{\sum_i \tilde{d}_i}}$ is the eigenvector corresponding to $\lambda_1 = 1$.
+
+Taking powers of $\hat{A}$:
+\begin{align*}
+	\hat{A}^k & = \sum_{i=1}^n \lambda_i^k v_i v_i^T                         \\
+	          & = \lambda_1^k v_1 v_1^T + \sum_{i=2}^n \lambda_i^k v_i v_i^T \\
+	          & = v_1 v_1^T + \sum_{i=2}^n \lambda_i^k v_i v_i^T
+\end{align*}
+
+Since $|\lambda_i| < 1$ for $i \geq 2$, we have $\lambda_i^k \to 0$ as $k \to \infty$. Therefore:
+\[
+	\lim_{k \to \infty} \hat{A}^k = v_1 v_1^T
+\]
+
+The node representations become:
+\begin{align*}
+	\lim_{k \to \infty} Z^{(k)} & = \lim_{k \to \infty} \hat{A}^k XW \\
+	                            & = v_1 v_1^T XW                     \\
+	                            & = v_1 (v_1^T X) W
+\end{align*}
+
+Note that $v_1^T X$ is a row vector (representing a global aggregation of features weighted by normalized degrees), and the result $v_1 (v_1^T X) W$ assigns the same linear combination to every node, scaled by the normalized degree component $v_{1,i} = \frac{\sqrt{\tilde{d}_i}}{\sqrt{\sum_j \tilde{d}_j}}$.
+
+More explicitly, the $i$-th row of $Z^{(k)}$ converges to:
+\[
+	Z^{(k)}_i \to \frac{\sqrt{\tilde{d}_i}}{\sqrt{\sum_j \tilde{d}_j}} \cdot (v_1^T X) W
+\]
+
+This means all node representations become proportional to $v_1$, differing only by their degree-dependent scaling factor.
+
+\subsection*{Part 3: Explanation of failure to distinguish nodes}
+
+Nodes with the same degree have identical entries in $v_1$, so their representations converge to exactly the same vector regardless of their initial features $X$, causing complete oversmoothing.
+\section{Task 13}
+Test set results: loss= 0.6081 accuracy= 0.8376
+
+\begin{center}
+	\includegraphics[width=\textwidth]{code/tsne-cora.pdf}
+\end{center}
+
+\end{document}

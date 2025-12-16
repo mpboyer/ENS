@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html style="height: 100%; overflow-x: hidden;" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><link crossorigin="anonymous" href="classement_24_files/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" rel="stylesheet">
+<script crossorigin="anonymous" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" src="classement_24_files/bootstrap.bundle.min_002.js"></script>
+
+
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Bootstrap cdn-->
+    <!-- <link rel="stylesheet"
+       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"/> -->
+    
+    <!-- Custom styles for this template -->
+    <link href="classement_24_files/base.css" rel="stylesheet">
+    <!-- Animate on scroll library -->
+    <link href="classement_24_files/aos.css" rel="stylesheet">
+    <title>TRACS</title>
+    <link rel="icon" type="image/png" href="https://tracs.viarezo.fr/static/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="https://tracs.viarezo.fr/static/favicon/favicon.svg">
+    <link rel="shortcut icon" href="https://tracs.viarezo.fr/static/favicon/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://tracs.viarezo.fr/static/favicon/apple-touch-icon.png">
+    <link rel="manifest" href="https://tracs.viarezo.fr/static/favicon/site.webmanifest">
+</head>
+
+<body class="d-flex flex-column min-vh-100 mw-100 overflow-hidden" data-aos-easing="ease" data-aos-duration="400" data-aos-delay="0">
+    <header class="header">
+        <nav class="navbar navbar-expand-lg bg-color1 sticky-top">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="https://tracs.viarezo.fr/">
+                    <img style="width: 100px;
+                                    height: auto" src="classement_24_files/logo_tracs.png" alt="TRACS">
+                </a>
+                <button class="navbar-dark navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                    <ul class="navbar-nav me-auto mb-4 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="https://tracs.viarezo.fr/">Accueil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="https://tracs.viarezo.fr/informations">Informations pratiques</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="https://tracs.viarezo.fr/partners">Partenaires</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Editions
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li>
+                                    <a class="dropdown-item" href="https://tracs.viarezo.fr/edition_results/show_student_ranking/2023/">2023 -
+                                        Classement étudiant</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="https://tracs.viarezo.fr/edition_results/show_company_ranking/2023/">2023 -
+                                        Classement entreprise</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="https://tracs.viarezo.fr/edition_results/show_student_ranking/2024/">2024 -
+                                        Classement étudiant</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="https://tracs.viarezo.fr/edition_results/show_company_ranking/2024/">2024 -
+                                        Classement entreprise</a>
+                                </li>
+                            </ul>
+                        </li>
+                        
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdownProfile" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Candidature étudiant·e·s
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownProfile">
+                                <li>
+                                    <a class="dropdown-item" href="https://tracs.viarezo.fr/students/account">Compléter son
+                                        profil</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="https://tracs.viarezo.fr/teams/createteam/">Créer une
+                                        équipe</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="https://tracs.viarezo.fr/teams/all/">Rejoindre une
+                                        équipe</a>
+                                </li>
+                                
+                                <li>
+                                    <a class="dropdown-item" href="https://tracs.viarezo.fr/teams/myteam/">Mon équipe</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="https://tracs.viarezo.fr/refund/">Demande de
+                                        remboursement</a>
+                                </li>
+                            </ul>
+                        </li>
+                        
+                        
+                        
+                        
+                    </ul>
+                    <ul class="mb-4 mb-lg-0 d-flex flex-row justify-around navbar-nav px-3 justify-content-around">
+                        
+                        <li class="nav-item mb-lg-0 py-lg-1">
+                            <a class="nav-link px-3 me-auto mb-2 mb-lg-0 border border-solid" style="border-color: transparent !important;" href="https://tracs.viarezo.fr/authentication/account/">
+                                Bonjour, Pandada2
+                            </a>
+                        </li>
+                        <li class="nav-item mb-lg-0">
+                            <a class="nav-link p-0 px-lg-3 py-lg-1 me-auto mb-2 mb-lg-0" href="https://tracs.viarezo.fr/authentication/logout/">
+                                <button class="btn btn-outline-light p-2 mb-lg-0" type="submit">
+                                    Se déconnecter
+                                </button>
+                            </a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+  
+  <link crossorigin="anonymous" href="classement_24_files/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" rel="stylesheet">
+  
+  
+  <link rel="stylesheet" href="classement_24_files/base.css">
+
+  <div class="container p-4">
+    <h2>TRACS 2024</h2>
+    <hr>
+    <h2>Classement</h2>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Rang</th>
+          <th scope="col">Equipe</th>
+          <th scope="col">Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+          <tr>
+            <td class="fw-bold">1</td>
+            <td class="fw-bold">SRS</td>
+            <td class="fw-bold">14817</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">2</td>
+            <td class="fw-bold">Patatracs</td>
+            <td class="fw-bold">14469</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">3</td>
+            <td class="fw-bold">Dat'hack</td>
+            <td class="fw-bold">14279</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">4</td>
+            <td class="fw-bold">[GCC] TicTracs</td>
+            <td class="fw-bold">14242</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">5</td>
+            <td class="fw-bold">hack'x</td>
+            <td class="fw-bold">11964</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">6</td>
+            <td class="fw-bold">HackIn'TN</td>
+            <td class="fw-bold">11906</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">7</td>
+            <td class="fw-bold">ZinzinsDuCyberEspace</td>
+            <td class="fw-bold">11571</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">8</td>
+            <td class="fw-bold">🍼🅾️🅱️🍼</td>
+            <td class="fw-bold">11054</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">9</td>
+            <td class="fw-bold">ChaosMonkeys</td>
+            <td class="fw-bold">10545</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">10</td>
+            <td class="fw-bold">MyLittlePwnies</td>
+            <td class="fw-bold">10212</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">11</td>
+            <td class="fw-bold">Bébou Team</td>
+            <td class="fw-bold">10186</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">12</td>
+            <td class="fw-bold">Les Joyeux Loufoques</td>
+            <td class="fw-bold">10119</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">13</td>
+            <td class="fw-bold">Le Br'hack'age</td>
+            <td class="fw-bold">9155</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">14</td>
+            <td class="fw-bold">Toujours aussi Nulms</td>
+            <td class="fw-bold">8742</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">15</td>
+            <td class="fw-bold">EternalCyan</td>
+            <td class="fw-bold">8729</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">16</td>
+            <td class="fw-bold">Les boulets 1</td>
+            <td class="fw-bold">8701</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">17</td>
+            <td class="fw-bold">Hoppy hacker</td>
+            <td class="fw-bold">8050</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">18</td>
+            <td class="fw-bold">Ceten</td>
+            <td class="fw-bold">7690</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">19</td>
+            <td class="fw-bold">DISPO_POUR_STAGE</td>
+            <td class="fw-bold">7513</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">20</td>
+            <td class="fw-bold">t-reCS</td>
+            <td class="fw-bold">7195</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">22</td>
+            <td class="fw-bold">DaVinciCode</td>
+            <td class="fw-bold">6745</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">23</td>
+            <td class="fw-bold">DécrypTAge</td>
+            <td class="fw-bold">6721</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">24</td>
+            <td class="fw-bold">sudoux</td>
+            <td class="fw-bold">6676</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">25</td>
+            <td class="fw-bold">Rézoléo</td>
+            <td class="fw-bold">6377</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">26</td>
+            <td class="fw-bold">CaenEst-CeQu'onMange</td>
+            <td class="fw-bold">6333</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">27</td>
+            <td class="fw-bold">TRAC-NARD-S</td>
+            <td class="fw-bold">5977</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">28</td>
+            <td class="fw-bold">La pataugeoire</td>
+            <td class="fw-bold">5907</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">30</td>
+            <td class="fw-bold">HackademINT</td>
+            <td class="fw-bold">5677</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">31</td>
+            <td class="fw-bold">L’EFROD</td>
+            <td class="fw-bold">5553</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">32</td>
+            <td class="fw-bold">A*</td>
+            <td class="fw-bold">5544</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">33</td>
+            <td class="fw-bold">Didier</td>
+            <td class="fw-bold">5491</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">34</td>
+            <td class="fw-bold">Cocobanger</td>
+            <td class="fw-bold">5390</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">35</td>
+            <td class="fw-bold">Bureau des Légendes</td>
+            <td class="fw-bold">5111</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">36</td>
+            <td class="fw-bold">Les Schtroumpfs</td>
+            <td class="fw-bold">5081</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">37</td>
+            <td class="fw-bold">Le Mur</td>
+            <td class="fw-bold">4784</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">38</td>
+            <td class="fw-bold">BruteForce</td>
+            <td class="fw-bold">4754</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">39</td>
+            <td class="fw-bold">HackUTT</td>
+            <td class="fw-bold">4603</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">40</td>
+            <td class="fw-bold">Viarezzo : Le Retour</td>
+            <td class="fw-bold">4433</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">41</td>
+            <td class="fw-bold">CTRL-MATT-DEFE4T</td>
+            <td class="fw-bold">4384</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">42</td>
+            <td class="fw-bold">Fulguris</td>
+            <td class="fw-bold">4365</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">43</td>
+            <td class="fw-bold">0xECE</td>
+            <td class="fw-bold">4281</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">44</td>
+            <td class="fw-bold">Sorbonne Hack</td>
+            <td class="fw-bold">4063</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">45</td>
+            <td class="fw-bold">FreeMinds</td>
+            <td class="fw-bold">4043</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">46</td>
+            <td class="fw-bold">DVC3</td>
+            <td class="fw-bold">3800</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">47</td>
+            <td class="fw-bold">Forenssat</td>
+            <td class="fw-bold">3777</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">48</td>
+            <td class="fw-bold">FLAG{TEAM_NAME}</td>
+            <td class="fw-bold">3706</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">49</td>
+            <td class="fw-bold">L42</td>
+            <td class="fw-bold">3688</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">50</td>
+            <td class="fw-bold">Caendy-crash</td>
+            <td class="fw-bold">3653</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">51</td>
+            <td class="fw-bold">TEAM CRYPTIS 3</td>
+            <td class="fw-bold">3628</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">52</td>
+            <td class="fw-bold">Godflexx</td>
+            <td class="fw-bold">3539</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">53</td>
+            <td class="fw-bold">whoamIMT</td>
+            <td class="fw-bold">3491</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">54</td>
+            <td class="fw-bold">BzH4CK3RS</td>
+            <td class="fw-bold">3414</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">55</td>
+            <td class="fw-bold">C0l1n3 du Cr4ck</td>
+            <td class="fw-bold">3406</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">56</td>
+            <td class="fw-bold">Exocette</td>
+            <td class="fw-bold">3357</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">57</td>
+            <td class="fw-bold">N0PS</td>
+            <td class="fw-bold">3294</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">58</td>
+            <td class="fw-bold">C3ntr'H4ck</td>
+            <td class="fw-bold">3282</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">59</td>
+            <td class="fw-bold">Babar</td>
+            <td class="fw-bold">3277</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">60</td>
+            <td class="fw-bold">ZZacker</td>
+            <td class="fw-bold">3232</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">62</td>
+            <td class="fw-bold">0x80h</td>
+            <td class="fw-bold">3022</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">63</td>
+            <td class="fw-bold">Bénédicteam</td>
+            <td class="fw-bold">3013</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">64</td>
+            <td class="fw-bold">Datta mia !</td>
+            <td class="fw-bold">2820</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">65</td>
+            <td class="fw-bold">Centracs Lyon</td>
+            <td class="fw-bold">2746</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">66</td>
+            <td class="fw-bold">42.tracs()</td>
+            <td class="fw-bold">2731</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">67</td>
+            <td class="fw-bold">Les Apprentis</td>
+            <td class="fw-bold">2697</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">68</td>
+            <td class="fw-bold">Scoob-e-corp</td>
+            <td class="fw-bold">2609</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">69</td>
+            <td class="fw-bold">FoolQuantum</td>
+            <td class="fw-bold">2598</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">70</td>
+            <td class="fw-bold">mov rax, 42</td>
+            <td class="fw-bold">2596</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">71</td>
+            <td class="fw-bold">ToLooseSecurity3.1</td>
+            <td class="fw-bold">2395</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">72</td>
+            <td class="fw-bold">Phelma-SICOM</td>
+            <td class="fw-bold">2353</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">73</td>
+            <td class="fw-bold">Z&amp;roDivision£rr0r</td>
+            <td class="fw-bold">2271</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">74</td>
+            <td class="fw-bold">dgsIIE</td>
+            <td class="fw-bold">2223</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">75</td>
+            <td class="fw-bold">Les Ietackers</td>
+            <td class="fw-bold">2203</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">76</td>
+            <td class="fw-bold">4-4-2</td>
+            <td class="fw-bold">2138</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">77</td>
+            <td class="fw-bold">Feel Free To Join</td>
+            <td class="fw-bold">2129</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">78</td>
+            <td class="fw-bold">ALPHA BOOTCAMP</td>
+            <td class="fw-bold">2044</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">79</td>
+            <td class="fw-bold">dgsIIE academy</td>
+            <td class="fw-bold">1901</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">80</td>
+            <td class="fw-bold">Raid Team</td>
+            <td class="fw-bold">1853</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">81</td>
+            <td class="fw-bold">Certes</td>
+            <td class="fw-bold">1759</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">82</td>
+            <td class="fw-bold">ESEOverflow</td>
+            <td class="fw-bold">1498</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">83</td>
+            <td class="fw-bold">Storm Hackers</td>
+            <td class="fw-bold">1497</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">84</td>
+            <td class="fw-bold">Interpol Lyon</td>
+            <td class="fw-bold">1470</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">85</td>
+            <td class="fw-bold">JustForFun</td>
+            <td class="fw-bold">1364</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">86</td>
+            <td class="fw-bold">Les yvois</td>
+            <td class="fw-bold">1277</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">87</td>
+            <td class="fw-bold">ENSTouristes</td>
+            <td class="fw-bold">1218</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">88</td>
+            <td class="fw-bold">Les entrepreneurs</td>
+            <td class="fw-bold">1169</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">89</td>
+            <td class="fw-bold">Les Metzcapés</td>
+            <td class="fw-bold">1115</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">90</td>
+            <td class="fw-bold">RFC1149</td>
+            <td class="fw-bold">991</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">91</td>
+            <td class="fw-bold">Les Démineurs</td>
+            <td class="fw-bold">963</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">92</td>
+            <td class="fw-bold">Les Bouffons</td>
+            <td class="fw-bold">914</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">93</td>
+            <td class="fw-bold">Fraud'Hack</td>
+            <td class="fw-bold">843</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">94</td>
+            <td class="fw-bold">Quadruple Maanstre</td>
+            <td class="fw-bold">559</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">95</td>
+            <td class="fw-bold">TotallySpies</td>
+            <td class="fw-bold">92</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">96</td>
+            <td class="fw-bold">Brochette</td>
+            <td class="fw-bold">0</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">97</td>
+            <td class="fw-bold">Chmod 667</td>
+            <td class="fw-bold">0</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">98</td>
+            <td class="fw-bold">ENSTA’JINE</td>
+            <td class="fw-bold">0</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">99</td>
+            <td class="fw-bold">ISMIN</td>
+            <td class="fw-bold">0</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">100</td>
+            <td class="fw-bold">Les Bob-Ombs</td>
+            <td class="fw-bold">0</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">101</td>
+            <td class="fw-bold">Les oubliés</td>
+            <td class="fw-bold">0</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">102</td>
+            <td class="fw-bold">PHYLT</td>
+            <td class="fw-bold">0</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">103</td>
+            <td class="fw-bold">Team Sierra</td>
+            <td class="fw-bold">0</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">104</td>
+            <td class="fw-bold">Student Hack Squad</td>
+            <td class="fw-bold">-277</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">105</td>
+            <td class="fw-bold">Les pizzaiolos</td>
+            <td class="fw-bold">-462</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">106</td>
+            <td class="fw-bold">21x2</td>
+            <td class="fw-bold">-3609</td>
+          </tr>
+        
+          <tr>
+            <td class="fw-bold">107</td>
+            <td class="fw-bold">ismin</td>
+            <td class="fw-bold">-4750</td>
+          </tr>
+        
+      </tbody>
+    </table>
+  </div>
+
+    <footer class="footer mt-auto vw-100 overflow-hidden justify-content-end">
+        <div class="footer-item d-none d-md-block" style="padding-left: 15px;
+                    padding-bottom: 10px">
+            <img style="width: 10vw;
+                        height: auto" src="classement_24_files/logo_tracs.png" alt="TRACS">
+        </div>
+        <div class="footer-item" style="justify-content: center">
+            <div class="footer-column">
+                <h6>
+                    Informations
+                </h6>
+                <ul class="column-list">
+                    <li>
+                        <a href="https://tracs.viarezo.fr/informations">Informations pratiques</a>
+                    </li>
+                    <li>
+                        <a href="https://tracs.viarezo.fr/partners">Partenaires</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer-column d-none d-md-block">
+                <h6>
+                    Inscriptions
+                </h6>
+                <ul class="column-list">
+                    <li>
+                        <a href="https://tracs.viarezo.fr/companies/account">Entreprise</a>
+                    </li>
+                    <li>
+                        <a href="https://tracs.viarezo.fr/students/account">Etudiant·e·s</a>
+                    </li>
+                    <li>
+                        <a href="https://tracs.viarezo.fr/teams/all">Trouver une équipe</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h6>
+                    Nous contacter
+                </h6>
+                <ul class="column-list">
+                    <li>
+                        <a href="mailto:tracs.contact@ml.viarezo.fr" title="tracs.contact@ml.viarezo.fr">tracs.contact@ml.viarezo.fr</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer-column d-none d-md-block">
+                <a href="https://viarezo.fr/" target="_blank">
+                    <img src="classement_24_files/VR.png" width="80px" style="margin-top: 15px">
+                </a>
+            </div>
+            <div class="footer-column d-none d-md-block">
+                <a href="https://www.dgse.gouv.fr/fr" target="_blank">
+                    <img src="classement_24_files/dgse.png" width="80vw" style="margin-top: 15px">
+                </a>
+            </div>
+        </div>
+        <div class="footer-item">
+            <div class="line">
+            </div>
+            <a href="https://www.linkedin.com/company/tracsvr/" target="_blank">
+                <img src="classement_24_files/linkedin.svg" width="50vw" style="padding: 0.5vw">
+            </a>
+            <a href="https://instagram.com/tracs_vr/" target="_blank">
+                <img src="classement_24_files/instagram.png" width="50vw" style="padding: 0.5vw">
+            </a>
+            <div class="line">
+            </div>
+        </div>
+        <div class="footer-item" style="display: flex;
+                        flex-wrap: wrap;
+                        justify-content:center">
+            <div style="color:white;
+                            font-size: x-small;
+                            text-align: center;
+                            justify-content:center">
+                <a href="https://tracs.viarezo.fr/cgp">Conditions générales de participation</a> -
+                <a href="https://tracs.viarezo.fr/cgu">Conditions générales d'utilisation</a> -
+                <a href="https://tracs.viarezo.fr/privacy">Protection des données</a>
+            </div>
+            <div style="font-size: x-small;color: white; margin-left: 50%;">
+                © TRACS 2019-2025 Tous droits réservés
+            </div>
+        </div>
+    </footer>
+    <script src="classement_24_files/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="classement_24_files/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+    <script src="classement_24_files/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="classement_24_files/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+    <script src="classement_24_files/bootstrap.bundle.min.js"></script>
+
+
+
+</body></html>

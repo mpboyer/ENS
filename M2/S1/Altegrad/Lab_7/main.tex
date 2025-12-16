@@ -1,0 +1,257 @@
+\documentclass[a4paper]{article} 
+\input{style/head.tex}
+
+%-------------------------------
+%	TITLE VARIABLES (identify your work!)
+%-------------------------------
+
+\newcommand{\yourname}{Matthieu Boyer} % replace YOURNAME with your name
+\newcommand{\youremail}{matthieu.boyer@ens.fr} % replace YOUREMAIL with your email
+\newcommand{\assignmentnumber}{7} % replace X with the lab session number
+
+\begin{document}
+
+%-------------------------------
+%	TITLE SECTION (do not modify unless you really need to)
+%-------------------------------
+\input{style/header.tex}
+
+%-------------------------------
+%	ASSIGNMENT CONTENT (add your responses)
+%-------------------------------
+\section{Question 1}
+
+\begin{enumerate}
+	\item For a single attention head $k \in \{1, \ldots, K\}$, the output is computed as
+	      \begin{equation*}
+		      z_i^{(t+1,k)} = \sum_{j \in \mathcal{N}_i} \alpha_{ij}^{(t+1,k)} W^{(k)} z_j^{(t)},
+	      \end{equation*}
+	      where the attention coefficients for head $k$ are
+	      \begin{equation*}
+		      \alpha_{ij}^{(t+1,k)} =
+		      \frac{\exp\left(\text{LeakyReLU}\left(a^{(k)\top}[W^{(k)} z_i^{(t)} \| W^{(k)} z_j^{(t)}]\right)\right)}
+		      {\sum_{\ell \in \mathcal{N}_i} \exp\left(\text{LeakyReLU}\left(a^{(k)\top} [W^{(k)} z_i^{(t)} \| W^{(k)} z_\ell^{(t)}]\right)\right)}.
+	      \end{equation*}
+
+	      Here, $W^{(k)} \in \mathbb{R}^{F_{in} \times F'_{out}}$ is the learnable weight matrix for head $k$, and
+	      $a^{(k)} \in \mathbb{R}^{2F'_{out}}$ is the learnable attention vector for head $k$.
+
+	\item The final node representation $z_i^{(t+1)}$ is obtained by concatenating the outputs of all $K$
+	      heads
+	      \begin{equation*}
+		      z_i^{(t+1)} =
+		      \|_{k=1}^K z_i^{(t+1,k)} = [z_i^{(t+1,1)} \| z_i^{(t+1,2)} \| \cdots \| z_i^{(t+1,K)}].
+	      \end{equation*}
+	      The total dimensionality of $z_i^{(t+1)}$ is
+	      \begin{equation*}
+		      \text{dim}(z_i^{(t+1)}) = K \times F'_{out}.
+	      \end{equation*}
+	      Since each head produces an output of dimension $F'_{out}$, concatenating $K$ heads results in a $K \cdot F'_{out}$ dimensional vector.
+
+	\item For each head $k$, we have
+	      \begin{itemize}
+		      \item Weight matrix $W^{(k)}$: $F_{in} \times F'_{out}$ parameters;
+		      \item Attention vector $a^{(k)}$: $2F'_{out}$ parameters.
+	      \end{itemize}
+	      This gives $F_{in} \cdot F'_{out} + 2F'_{out}$ parameters per head in total.
+	      Then, for all $K$ heads, the total number of learnable parameters is
+	      \begin{equation*}
+		      \text{Total parameters} = K \times (F_{in} \cdot F'_{out} + 2F'_{out}) = K \cdot F'_{out} \cdot (F_{in} + 2).
+	      \end{equation*}
+\end{enumerate}
+
+
+\section{Task 3}
+Test set results: $\texttt{loss} = 0.0006, \quad \texttt{accuracy} = 1.0000$
+
+\section{Question 2}
+Suppose all nodes have identical feature vectors: $x_i = c$ for all $v_i \in V$, where $c \in \mathbb{R}^d$
+is a constant vector.
+
+\begin{enumerate}
+	\item For any edge $(i,j)$, the unnormalized attention score is
+	      \begin{equation*}
+		      e_{ij} = \text{LeakyReLU}\left(a^\top [W z_i \| W z_j]\right).
+	      \end{equation*}
+
+	      Since $z_i = z_j = c$ for all nodes (identical features), we have
+	      \begin{equation*}
+		      e_{ij} = \text{LeakyReLU}\left(a^\top [Wc \| Wc]\right).
+	      \end{equation*}
+
+	      Let $a = [a_1 \| a_2]$ where $a_1, a_2 \in \mathbb{R}^{h}$ (splitting the attention vector), then
+	      \begin{equation*}
+		      e_{ij} = \text{LeakyReLU}\left(a_1^\top Wc + a_2^\top Wc\right) = \text{LeakyReLU}\left((a_1 + a_2)^\top Wc\right).
+	      \end{equation*}
+
+	      This value is \textbf{constant for all edges}, independent of $i$ and $j$.
+	      Let us denote this constant as $e_{ij} = \beta$ for all $(i,j) \in E$.
+	      The normalized attention coefficient becomes
+	      \begin{equation*}
+		      \alpha_{ij} = \frac{\exp(\beta)}{\sum_{k \in \mathcal{N}_i} \exp(\beta)} = \frac{\exp(\beta)}{|\mathcal{N}_i| \cdot \exp(\beta)} = \frac{1}{|\mathcal{N}_i|},
+	      \end{equation*}
+	      where $|\mathcal{N}_i|$ is the degree of node $v_i$.
+
+	\item When all nodes have identical features, the GAT layer loses its attention mechanism entirely.
+	      The attention coefficients $\alpha_{ij} = \frac{1}{|\mathcal{N}_i|}$ are uniform across all
+	      neighbors and depend only on the degree of node $i$.
+	      This degenerates into the standard mean aggregation or degree-normalized propagation rule
+	      \begin{equation*}
+		      z_i^{(t+1)} = \sum_{j \in \mathcal{N}_i} \alpha_{ij} W z_j^{(t)} = \sum_{j \in \mathcal{N}_i} \frac{1}{|\mathcal{N}_i|} W c = W c.
+	      \end{equation*}
+
+	      Since $z_j^{(t)} = c$ for all $j$, all nodes receive the same aggregated message $Wc$.
+	      This is equivalent to a simple Graph Convolutional Network (GCN) layer with degree normalization
+	      $\tilde{D}^{-1}\tilde{A}XW$, where the attention mechanism provides no selectivity.
+
+	\item Despite the loss of feature information and attention mechanism, the model can still classify nodes
+	      better than random guessing on the Karate network because of the following properties
+	      \begin{itemize}
+		      \item \textbf{Structural information}: The GAT layers still perform message passing over the
+		            graph structure.
+		            Even with identical features, the aggregation process encodes topological information
+		            such as node degrees and neighborhood connectivity patterns;
+		      \item \textbf{Layer composition}: Multiple GAT layers allow nodes to aggregate information
+		            from multi-hop neighborhoods. Nodes in different positions in the graph will have different
+		            $k$-hop neighborhood structures, leading to different final representations even starting
+		            from identical features;
+		      \item \textbf{Nonlinear transformations}: The ReLU activations, dropout, and fully-connected
+		            layers introduce nonlinearity and learnable transformations that can exploit
+		            structural patterns;
+		      \item \textbf{Community structure}: The Karate network has a clear community structure.
+		            Nodes with similar structural roles (e.g., central vs. peripheral, bridge nodes) will
+		            accumulate different patterns of information through repeated message passing, enabling
+		            the model to learn meaningful class boundaries based purely on graph topology.
+	      \end{itemize}
+	      In essence, the model seems to learn to classify based on structural node roles rather than node
+	      features, which is sufficient for the Karate network where community membership correlates strongly
+	      with network position.
+\end{enumerate}
+
+\section{Task 4}
+We found the weight graph of Figure \ref{fig:task4}
+\begin{figure}
+	\centering
+	\includegraphics[width=\textwidth]{figures/Task_4_Weights.pdf}
+	\caption{Graph of attention weights for Task 4}
+	\label{fig:task4}
+\end{figure}
+
+\section{Question 3}
+To introduce conditions into the Variational Graph Autoencoder (VGAE), we can extend the model to a
+Conditional Variational Graph Autoencoder (CVGAE) by conditioning both the encoder and decoder on additional
+information $c$ (such as graph properties, labels, or structural constraints).
+
+The conditional encoder then learns a distribution $q_\phi(z|G, c)$ instead of $q_\phi(z|G)$.
+We modify the encoding process to incorporate the condition
+\begin{align*}
+	\mu         & = \text{GNN}_\mu(X, A, c)    \\
+	\log \sigma & = \text{GNN}_\sigma(X, A, c)
+\end{align*}
+
+The condition $c$ can be integrated by one method of the following:
+\begin{itemize}
+	\item \textbf{Concatenation:} Append the condition vector to the graph-level representation before
+	      computing $\mu$ and $\sigma$: $h_G' = [h_G \| c]$;
+	\item \textbf{Feature augmentation:} Concatenate $c$ to the node feature matrix:
+	      $X' = [X \| \mathbf{1} \otimes c]$, where $\mathbf{1}$ is a vector of ones;
+	\item \textbf{Conditional layers:} Use condition-dependent transformations in the GNN layers.
+\end{itemize}
+
+The conditional decoder then models $p_\theta(G|z, c)$ instead of $p_\theta(G|z)$.
+We modify the reconstruction to
+\begin{equation*}
+	\hat{A} = \text{MLP}([z \| c]),
+\end{equation*}
+where the condition $c$ is concatenated with the latent representation $z$ before feeding into the decoder.
+
+The variational lower bound (ELBO) becomes
+\begin{equation*}
+	\mathcal{L} = \mathbb{E}_{q_\phi(z|G,c)}[\log p_\theta(G|z, c)] - \text{KL}(q_\phi(z|G, c) \| p(z|c)),
+\end{equation*}
+where we can either use a standard prior $p(z|c) = \mathcal{N}(0, I)$ or learn a conditional prior.
+
+This allows control over generation properties such as number of nodes, number of communities, edge density,
+or specific structural patterns in the generated graphs.
+
+\section{Question 4}
+The reparameterization trick $z = \mu + \sigma \odot \epsilon$ (where $\epsilon \sim \mathcal{N}(0, 1)$)
+is necessary to enable gradient-based optimization through backpropagation when training variational
+autoencoders.
+
+The key issue is that sampling operations are not differentiable.
+If we directly sample $z \sim \mathcal{N}(\mu, \sigma^2)$, the sampling operation introduces a stochastic
+node in the computational graph that blocks gradient flow. Specifically, we cannot compute
+\begin{equation*}
+	\frac{\partial z}{\partial \mu} \quad \text{and} \quad \frac{\partial z}{\partial \sigma},
+\end{equation*}
+when $z$ is obtained through direct sampling, because the sampling operation is a non-deterministic process.
+
+\smallskip
+
+By expressing $z = \mu + \sigma \odot \epsilon$ where $\epsilon \sim \mathcal{N}(0, 1)$, we separate the
+stochastic component ($\epsilon$) from the learnable parameters ($\mu$ and $\sigma$).
+Now,
+\begin{align*}
+	\frac{\partial z}{\partial \mu}    & = 1        \\
+	\frac{\partial z}{\partial \sigma} & = \epsilon
+\end{align*}
+The randomness is isolated in $\epsilon$, which is sampled independently of the model parameters.
+The operations involving $\mu$ and $\sigma$ are deterministic and differentiable, allowing gradients to
+flow through them during backpropagation.
+
+\smallskip
+
+If the model directly sampled $z \sim \mathcal{N}(\mu, \sigma^2I)$ without reparameterization:
+
+\begin{itemize}
+	\item The gradient $\nabla_{\mu, \sigma} \mathcal{L}$ would be undefined or zero, preventing the encoder
+	      from learning;
+	\item We could not optimize the encoder parameters $\phi$ that produce $\mu$ and $\sigma$;
+	\item The model would fail to train properly, as the loss signal cannot propagate back through the
+	      sampling operation to update the encoder weights;
+	\item Only the decoder could potentially learn (from the reconstruction loss), but the encoder would
+	      remain untrainable.
+\end{itemize}
+
+In essence, without the reparameterization trick, the variational autoencoder cannot be trained end-to-end using standard gradient descent methods.
+
+\section{Task 8}
+\begin{center}
+	\begin{minipage}{.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/Task_8_Graph_0_adj.pdf}
+	\end{minipage}
+	\begin{minipage}{.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/Task_8_Graph_0_graph.pdf}
+	\end{minipage}
+	\\
+	\begin{minipage}{.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/Task_8_Graph_1_adj.pdf}
+	\end{minipage}
+	\begin{minipage}{.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/Task_8_Graph_1_graph.pdf}
+	\end{minipage}
+	\\
+	\begin{minipage}{.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/Task_8_Graph_2_adj.pdf}
+	\end{minipage}
+	\begin{minipage}{.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/Task_8_Graph_2_graph.pdf}
+	\end{minipage}
+	\\
+	\begin{minipage}{.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/Task_8_Graph_3_adj.pdf}
+	\end{minipage}
+	\begin{minipage}{.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/Task_8_Graph_3_graph.pdf}
+	\end{minipage}
+	\\
+	\begin{minipage}{.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/Task_8_Graph_4_adj.pdf}
+	\end{minipage}
+	\begin{minipage}{.45\textwidth}
+		\includegraphics[width=\textwidth]{figures/Task_8_Graph_4_graph.pdf}
+	\end{minipage}
+\end{center}
+
+\end{document}
