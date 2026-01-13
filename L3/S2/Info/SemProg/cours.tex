@@ -9,29 +9,29 @@
 \subsection{Études de Cas}
 \subsubsection{Ariane 5, Vol 501, 1996}
 À son premier vol, la fusée Ariane 5, remplaçante de la Ariane 4 s'est désintégrée. Au bout de 36.7s elle a changé d'angle d'attaque, et au bout de 39s elle s'est désintégrée.\\
-La fusée contenait des capteurs qui envoyaient leurs résultats à 2 calculateurs (un SRT et un OBC) puis aux moteurs. La fusée contenait des registres de $16, 32$ et $64$ bits. Les opérations sur flottants se faisaient sur $64$ bits et les entiers signés étaient stockés sur $16$ bits. A la copie de donnée, des conversions sont faites avec des arrondis. Quand les valeurs sont trop grandes, on a soit une interruption du processus (code de gestion d'erreurs, ou crash) ou un comportement inattendu. Le SRI tournait en mode interruptif, mais n'avait pas de code de gestion d'erreurs. Ceci a causé à l'explosion : 
+La fusée contenait des capteurs qui envoyaient leurs résultats à 2 calculateurs (un SRT et un OBC) puis aux moteurs. La fusée contenait des registres de $16, 32$ et $64$ bits. Les opérations sur flottants se faisaient sur $64$ bits et les entiers signés étaient stockés sur $16$ bits. A la copie de donnée, des conversions sont faites avec des arrondis. Quand les valeurs sont trop grandes, on a soit une interruption du processus (code de gestion d'erreurs, ou crash) ou un comportement inattendu. Le SRI tournait en mode interruptif, mais n'avait pas de code de gestion d'erreurs. Ceci a causé à l'explosion :
 \begin{itemize}
-    \item Conversion d'un flottant 64 bits vers un entier signé 16 bit qui cause un overflow
-    \item Une interruption a lieu
-    \item Le SRI crash par manque de code de gestion d'erreur
-    \item Le crash envoie un code d'erreur qui est envoyé à l'OBC
-    \item L'OBC interprète cette valeur comme des données de vol
-    \item On calcule une trajectoire absurde
+	\item Conversion d'un flottant 64 bits vers un entier signé 16 bit qui cause un overflow
+	\item Une interruption a lieu
+	\item Le SRI crash par manque de code de gestion d'erreur
+	\item Le crash envoie un code d'erreur qui est envoyé à l'OBC
+	\item L'OBC interprète cette valeur comme des données de vol
+	\item On calcule une trajectoire absurde
 \end{itemize}
 
-Pour éviter ça : 
+Pour éviter ça :
 \begin{itemize}
-    \item Désactiver les interruptions sur les overflows : En cas de problème de capacité, on produit des valeurs incorrectes qui ne vont pas arrêter le calcul. 
-    \item Fixer le code du SRI de sorte qu'aucun overflow ne va avoir lieu, c'est ce qu'on appelle de la programmation défensive. Cela va être couteux à cause de nombreux tests : 
-    % \begin{minted}{c}
-    %     double x = /* ... */ ;
-    %     short i = /* ... */ ;
-    %     if ( -32768. <= x && x <= 32767. )
-    %         i = ( short ) x ;
-    %     else
-    %         i = /* default value */ ;
-    % \end{minted}
-    \item Gérer les erreurs de conversion de sorte que l'OBC soit au courant de ceci. 
+	\item Désactiver les interruptions sur les overflows : En cas de problème de capacité, on produit des valeurs incorrectes qui ne vont pas arrêter le calcul.
+	\item Fixer le code du SRI de sorte qu'aucun overflow ne va avoir lieu, c'est ce qu'on appelle de la programmation défensive. Cela va être couteux à cause de nombreux tests :
+	      % \begin{minted}{c}
+	      %     double x = /* ... */ ;
+	      %     short i = /* ... */ ;
+	      %     if ( -32768. <= x && x <= 32767. )
+	      %         i = ( short ) x ;
+	      %     else
+	      %         i = /* default value */ ;
+	      % \end{minted}
+	\item Gérer les erreurs de conversion de sorte que l'OBC soit au courant de ceci.
 \end{itemize}
 
 Le crash est aussi dû à des morceaux de code très anciens qui n'ont que peu été modifiés, et les hypothèses faites n'étaient plus vraies...\\
@@ -41,8 +41,8 @@ De nos jours, on peut éviter de tels erreurs par des outils d'analyse statique.
 \subsubsection{Lufthansa Vol 2904, Varsovie, 1993}
 A l'atterissage à l'aéroport de varsovie, un airbus A320 de la Lufthansa s'est craché contre une colline à 100km/h. Les conditions météo étaient mauvaises, la piste était mouillée, l'atterrissage a été suivi d'aqua-planing et d'un freinage délayé.
 \begin{itemize}
-    \item A l'origine, les conditions d'atterissage n'ont pas été correctement évaluées par l'équipage, le vent latéral était trop fort. L'équipage n'aurait pas dû essayer d'atterir.
-    \item Mais en plus, le système de freinage a été retardé de 9s.
+	\item A l'origine, les conditions d'atterissage n'ont pas été correctement évaluées par l'équipage, le vent latéral était trop fort. L'équipage n'aurait pas dû essayer d'atterir.
+	\item Mais en plus, le système de freinage a été retardé de 9s.
 \end{itemize}
 Les systèmes de freinage ont une fonctionnalité d'inhibition pour empêcher une activation en vol : les spoilers augmentent la charge aérodynamique et les inverseurs de poussée pourraient détruire l'avion si activé en vol.
 Selon le logiciel, il ne devrait pas s'activer à moins que le levier de poussée soit au minimum et que : ou bien la masse sur chacune des roues est d'au moins $6T$ ou bien les roues sont en train de tourner avec une vitesse d'au moins 130km/h.\\
@@ -60,863 +60,863 @@ L'erreur est liée à des arrondis causés par l'arithmétique à précision fix
 
 
 \subsubsection{En Général}
-Les raisons habituelles pour les problèmes logiciels sont les suivantes : 
+Les raisons habituelles pour les problèmes logiciels sont les suivantes :
 \begin{itemize}
-    \item Une spécification ou compréhension de l'environnement inadaptée
-    \item Une implémentation incorrecte de la spécification
-    \item Une compréhension incorrecte du modèle d'exécution
+	\item Une spécification ou compréhension de l'environnement inadaptée
+	\item Une implémentation incorrecte de la spécification
+	\item Une compréhension incorrecte du modèle d'exécution
 \end{itemize}
 On doit s'adapter à des architectures logiciel complexes par exemple les logiciels parallélélisés (un processeur multi-thread, plusieurs processeurs). Il est difficile de vérifier l'exécution de ces logiciels.\\
 On doit également vérifier des propriétés complexes. Pour la sécurité par exemple, le système doit résister en présence d'un attaquant, et si des données sensibles sont touchées, ou des données critiques sont corrompues la vérification n'est pas suffisante. Les propriétés de sécurité sont difficiles à exprimer.
 
-On a alors des techniques pour confirmer la sécurité logicielle : 
+On a alors des techniques pour confirmer la sécurité logicielle :
 \begin{itemize}
-    \item Du côté logiciel :
-    \begin{itemize}
-        \item Porter une attention à la spécification et à la qualité logicielle
-        \item Fixer des règles de programmations
-    \end{itemize}
-    Ceci ne garantit généralement aucune propriété forte, mais aide à la vérification.
-    \item Du côté formel :
-    \begin{itemize}
-        \item Cela nécessite des fondations mathématiques sûres.
-        \item Ceci doit permettre de garantir que des logiciels vérifient des propriétés complexes.
-        \item Il faut pouvoir y faire confiance, comment être sûr que la preuve d'un article est juste ?
-    \end{itemize}
+	\item Du côté logiciel :
+	      \begin{itemize}
+		      \item Porter une attention à la spécification et à la qualité logicielle
+		      \item Fixer des règles de programmations
+	      \end{itemize}
+	      Ceci ne garantit généralement aucune propriété forte, mais aide à la vérification.
+	\item Du côté formel :
+	      \begin{itemize}
+		      \item Cela nécessite des fondations mathématiques sûres.
+		      \item Ceci doit permettre de garantir que des logiciels vérifient des propriétés complexes.
+		      \item Il faut pouvoir y faire confiance, comment être sûr que la preuve d'un article est juste ?
+	      \end{itemize}
 \end{itemize}
-En résumé : 
+En résumé :
 \begin{définition}{Sémantique et Vérification}{}
-    \begin{description}
-        \item[Sémantique] \begin{itemize}
-            \item Permet de décrire précisément le comportement des programmes
-            \item Permet d'exprimer les propriétés à vérifier
-            \item Est utile pour transformer et compiler des programmes
-        \end{itemize} 
-        \item[Vérification] \begin{itemize}
-            \item Cherche à prouver des propriétés sémantiques des programmes
-            \item Est indécidable et donc se résout à faire des compromis variés selon plusieurs approches.
-        \end{itemize}
-    \end{description}
+\begin{description}
+	\item[Sémantique] \begin{itemize}
+		      \item Permet de décrire précisément le comportement des programmes
+		      \item Permet d'exprimer les propriétés à vérifier
+		      \item Est utile pour transformer et compiler des programmes
+	      \end{itemize}
+	\item[Vérification] \begin{itemize}
+		      \item Cherche à prouver des propriétés sémantiques des programmes
+		      \item Est indécidable et donc se résout à faire des compromis variés selon plusieurs approches.
+	      \end{itemize}
+\end{description}
 \end{définition}
 
 \subsection{Approches de la Vérification}
 \subsubsection{Indécidabilité et Limitations Fondamentales}
 \begin{définition}{Arrêt}{}
-    Un programme $P$ termine sur une entrée $X$ si et seulement si toute exécution de $P$ sur l'entrée $X$ atteint un état final.
+Un programme $P$ termine sur une entrée $X$ si et seulement si toute exécution de $P$ sur l'entrée $X$ atteint un état final.
 \end{définition}
 \begin{théorème}{Indécidabilité}{}
-    Le problème de l'Arrêt est indécidable. De même, l'absence d'erreur à l'exécution est indécidable.
+Le problème de l'Arrêt est indécidable. De même, l'absence d'erreur à l'exécution est indécidable.
 \end{théorème}
-Plus généralement : 
+Plus généralement :
 \begin{définition}{Spécification Sémantique}{}
-    Une spécification sémantique est un ensemble d'exécutions correctes de programmes.
+Une spécification sémantique est un ensemble d'exécutions correctes de programmes.
 \end{définition}
 \begin{théorème}{Rice}{}
-    Étant donné un langage Turing-Complet, toute spécification sémantique non-triviale est indécidable.
+Étant donné un langage Turing-Complet, toute spécification sémantique non-triviale est indécidable.
 \end{théorème}
 
 \subsubsection{Approches à la Vérification}
-On va souvent calculer les solutions à un problème plus faible que la vérification : 
+On va souvent calculer les solutions à un problème plus faible que la vérification :
 \begin{description}
-    \item[Simulation/Tests] On observe un nombre fini d'exécutions finies.
-    \item[Preuves Assistée] On abandonne l'automatisation
-    \item[Vérification de Modèles] On ne considère que des sytèmes finis
-    \item[Recherche de Bug] On recherche des Patterns qui indiquent des erreurs probables.
-    \item[Analyse Statique Abstraite] On cherche quand même à automatiser les preuves de correction en acceptant d'échouer sur des programmes corrects. 
+	\item[Simulation/Tests] On observe un nombre fini d'exécutions finies.
+	\item[Preuves Assistée] On abandonne l'automatisation
+	\item[Vérification de Modèles] On ne considère que des sytèmes finis
+	\item[Recherche de Bug] On recherche des Patterns qui indiquent des erreurs probables.
+	\item[Analyse Statique Abstraite] On cherche quand même à automatiser les preuves de correction en acceptant d'échouer sur des programmes corrects.
 \end{description}
 
 \begin{définition}{Vérification de la sûreté d'un Problème}{}
-    \begin{description}
-        \item[Sémantique d'un Programme] On définit $\sem{P}$ la sémantique d'un programme $P$ comme l'ensemble des comportements de $P$ (i.e. ses états)
-        \item[Propriété à Vérifier] On définit une propriété à vérifier $\mS$ un ensemble de comportements admissibles (i.e. des états sécures)  
-    \end{description}
-    L'objectif est alors de vérifier si $\sem{P} \subseteq \mS$.
+\begin{description}
+	\item[Sémantique d'un Programme] On définit $\sem{P}$ la sémantique d'un programme $P$ comme l'ensemble des comportements de $P$ (i.e. ses états)
+	\item[Propriété à Vérifier] On définit une propriété à vérifier $\mS$ un ensemble de comportements admissibles (i.e. des états sécures)
+\end{description}
+L'objectif est alors de vérifier si $\sem{P} \subseteq \mS$.
 \end{définition}
 
 \begin{définition}{Propriétés d'un Vérificateur}{}
-    \begin{description}
-        \item[Automatisation] Existence d'un Algorithme 
-        \item[Passage à l'échelle] Capacité à gérer des logiciels lourds
-        \item[Robustesse] Doit identifier tous les programmes défaillants
-        \item[Complétude] Doit accepter tous les programmes corrects
-        \item[Application au Source] Ne requière pas de phase de modélisation    
-    \end{description}
+\begin{description}
+	\item[Automatisation] Existence d'un Algorithme
+	\item[Passage à l'échelle] Capacité à gérer des logiciels lourds
+	\item[Robustesse] Doit identifier tous les programmes défaillants
+	\item[Complétude] Doit accepter tous les programmes corrects
+	\item[Application au Source] Ne requière pas de phase de modélisation
+\end{description}
 \end{définition}
 \begin{description}
-    \item[Test Par Simulation] On exécute le programme sur un nombre fini d'entrées finies. Cette méthode est très utilisée, automatisées, complète mais coûteuse et non sûre.
-    \item[Preuve Assistée Par Ordinateur (PAO)] On vérifie par la machine une preuve en partie écrite par l'humain. Cette méthode est souvent appliquée, pas complètement automatisée, sûre et quasi-complète (du moins en pratique)
-    \item[Vérification de Modèles] On ne considère que systèmes finis, en utilisant des algorithmes pour l'exploration exhaustive et des réductions par symétrie. Cette méthode est régulièrement appliquée au hardware et aux drivers, s'applique sur un modèle (ce qui nécessite une phase d'extraction du modèle), ce qui n'est pas toujours automatisable et qui est approché pour les systèmes infinis. C'est toutefois automatisé, sûr et complet par rapport au modèle.
-    \item[Bug Finding] On identifie des problèmes \og probables \fg c'est à dire des patterns connus pour souvent amener à des erreurs. On utilise des exécutions symboliques bornées et on hiérarchise les problèmes avec des heuristiques. Cette méthode est automatisable, incomplète et non sûre.
-    \item[Analyse Statique] On utilise des approximations d'une manière conservatrice : 
-    \begin{itemize}
-        \item Sous-approximation de la propriété : $\mS_{\rm under} \subseteq \mS$
-        \item Sur-approximation de la sémantique : $\sem{P} \subseteq \sem{P}_{\rm upper}$
-        \item On calcule $\sem{P}_{\rm upper}, \mS_{\rm under}$ et on vérifie si $\sem{P}_{\rm upper} \subseteq \mS_{\rm under}$.
-    \end{itemize} 
-    Cette méthode est sûre : l'abstraction attrapera tout programme incorrecte : $\sem{P} \not\subseteq \mS \Longrightarrow \sem{P}_{\rm upper} \not\subseteq \mS_{\rm{under}}$.\\
-    Toutefois, cette méthode est incomplète, on peut avoir $\sem{P}_{\rm upper}$ qui sort de $\mS_{\rm under}$ et même de $\mS$.
+	\item[Test Par Simulation] On exécute le programme sur un nombre fini d'entrées finies. Cette méthode est très utilisée, automatisées, complète mais coûteuse et non sûre.
+	\item[Preuve Assistée Par Ordinateur (PAO)] On vérifie par la machine une preuve en partie écrite par l'humain. Cette méthode est souvent appliquée, pas complètement automatisée, sûre et quasi-complète (du moins en pratique)
+	\item[Vérification de Modèles] On ne considère que systèmes finis, en utilisant des algorithmes pour l'exploration exhaustive et des réductions par symétrie. Cette méthode est régulièrement appliquée au hardware et aux drivers, s'applique sur un modèle (ce qui nécessite une phase d'extraction du modèle), ce qui n'est pas toujours automatisable et qui est approché pour les systèmes infinis. C'est toutefois automatisé, sûr et complet par rapport au modèle.
+	\item[Bug Finding] On identifie des problèmes \og probables \fg c'est à dire des patterns connus pour souvent amener à des erreurs. On utilise des exécutions symboliques bornées et on hiérarchise les problèmes avec des heuristiques. Cette méthode est automatisable, incomplète et non sûre.
+	\item[Analyse Statique] On utilise des approximations d'une manière conservatrice :
+	      \begin{itemize}
+		      \item Sous-approximation de la propriété : $\mS_{\rm under} \subseteq \mS$
+		      \item Sur-approximation de la sémantique : $\sem{P} \subseteq \sem{P}_{\rm upper}$
+		      \item On calcule $\sem{P}_{\rm upper}, \mS_{\rm under}$ et on vérifie si $\sem{P}_{\rm upper} \subseteq \mS_{\rm under}$.
+	      \end{itemize}
+	      Cette méthode est sûre : l'abstraction attrapera tout programme incorrecte : $\sem{P} \not\subseteq \mS \Longrightarrow \sem{P}_{\rm upper} \not\subseteq \mS_{\rm{under}}$.\\
+	      Toutefois, cette méthode est incomplète, on peut avoir $\sem{P}_{\rm upper}$ qui sort de $\mS_{\rm under}$ et même de $\mS$.
 \end{description}
-Finalement : 
+Finalement :
 \begin{center}
-    \begin{NiceTabular}{lccccc}
-        & Automatisable & Sûr & Complet & Source Level & Scalable\\
-        Simulation & \color{green!40!black} Oui & \color{red!70!black} Non & \color{green!40!black} Oui & \color{green!40!black} Oui & \color{brown} Parfois\\
-        PAO & \color{red!70!black} Non & \color{green!40!black} Oui & \color{blue!40!black} Presque & \color{orange!70!black} Partiellement & \color{brown} Parfois\\
-        Modèle-Check & \color{green!40!black} Oui & \color{green!40!black} Oui & \color{orange!70!black} Partiellement & \color{red!70!black} Non & \color{brown} Parfois\\
-        Bug-Finding & \color{green!40!black} Oui & \color{red!70!black} Non & \color{red!70!black} Non & \color{green!40!black} Oui & \color{brown} Parfois\\
-        Analyse Statique & \color{green!40!black} Oui & \color{green!40!black} Oui & \color{red!70!black} Non & \color{green!40!black} Oui & \color{brown} Parfois
+	\begin{NiceTabular}{lccccc}
+		                 & Automatisable              & Sûr                        & Complet                               & Source Level                          & Scalable              \\
+		Simulation       & \color{green!40!black} Oui & \color{red!70!black} Non   & \color{green!40!black} Oui            & \color{green!40!black} Oui            & \color{brown} Parfois \\
+		PAO              & \color{red!70!black} Non   & \color{green!40!black} Oui & \color{blue!40!black} Presque         & \color{orange!70!black} Partiellement & \color{brown} Parfois \\
+		Modèle-Check     & \color{green!40!black} Oui & \color{green!40!black} Oui & \color{orange!70!black} Partiellement & \color{red!70!black} Non              & \color{brown} Parfois \\
+		Bug-Finding      & \color{green!40!black} Oui & \color{red!70!black} Non   & \color{red!70!black} Non              & \color{green!40!black} Oui            & \color{brown} Parfois \\
+		Analyse Statique & \color{green!40!black} Oui & \color{green!40!black} Oui & \color{red!70!black} Non              & \color{green!40!black} Oui            & \color{brown} Parfois
 
-        \CodeAfter
-        \begin{tikzpicture}
-            \foreach \i in {1,...,7}
-                {\draw (1-|\i) -- (7-|\i);};
-            \foreach \i in {1,...,7}{\draw (\i-|1) -- (\i-|7);};
-        \end{tikzpicture}
-    \end{NiceTabular}
+		\CodeAfter
+		\begin{tikzpicture}
+			\foreach \i in {1,...,7}
+				{\draw (1-|\i) -- (7-|\i);};
+			\foreach \i in {1,...,7}{\draw (\i-|1) -- (\i-|7);};
+		\end{tikzpicture}
+	\end{NiceTabular}
 \end{center}
 
 \subsection{Ordres, Treillis, Points Fixes}
 \subsubsection{Relations d'Ordres}
 \begin{définition}{Poset}{}
-    Une relation d'ordre $\sqsubseteq$ sur un ensemble $\mS$ est une relation binaire $\sqsubseteq \subseteq \mS \times \mS$ sur $\mS$ qui est réfléxive, transitive et antisymétrique. On notera $\sqsubset$ l'ordre strict associé à la relation d'ordre $\sqsubseteq$.
+Une relation d'ordre $\sqsubseteq$ sur un ensemble $\mS$ est une relation binaire $\sqsubseteq \subseteq \mS \times \mS$ sur $\mS$ qui est réfléxive, transitive et antisymétrique. On notera $\sqsubset$ l'ordre strict associé à la relation d'ordre $\sqsubseteq$.
 \end{définition}
 
 \begin{propositionfr}{Sémantique d'un Automate}{}
-    On considère un automate $\A = \left(Q, q_{i}, q_{f}, \rightarrow\right)$ sur l'alphabet $L$. On note $\mL[\A]$ le langage reconnu par l'automate. On peut alors définir des propriétés sémantiques sur le langage : 
-    \begin{description}
-        \item[$\mP_{0}$] Aucun mot reconnu ne contient deux $b$ consécutifs : \[\mL[\A] \subseteq L^{*}\setminus L^{*}bbL^{*}\]
-        \item[$\mP_{1}$] Tous les mots reconnus contiennent au moins un $a$ : \[\mL[\A] \subseteq L^{*}aL^{*}\] 
-        \item[$\mP_{2}$] Les mots reconnus ne contiennent pas de $b$ : \[\mL[\A] \subseteq \left(L \setminus \{b\}\right)^{*}\]
-    \end{description}
+	On considère un automate $\A = \left(Q, q_{i}, q_{f}, \rightarrow\right)$ sur l'alphabet $L$. On note $\mL[\A]$ le langage reconnu par l'automate. On peut alors définir des propriétés sémantiques sur le langage :
+	\begin{description}
+		\item[$\mP_{0}$] Aucun mot reconnu ne contient deux $b$ consécutifs : \[\mL[\A] \subseteq L^{*}\setminus L^{*}bbL^{*}\]
+		\item[$\mP_{1}$] Tous les mots reconnus contiennent au moins un $a$ : \[\mL[\A] \subseteq L^{*}aL^{*}\]
+		\item[$\mP_{2}$] Les mots reconnus ne contiennent pas de $b$ : \[\mL[\A] \subseteq \left(L \setminus \{b\}\right)^{*}\]
+	\end{description}
 \end{propositionfr}
 
 \begin{définition}{Ordre Total}{}
-    Un ordre est total si tous deux éléments sont comparables.
+Un ordre est total si tous deux éléments sont comparables.
 \end{définition}
 
 \begin{définition}{Éléments Extrémaux}{}
-    Soit $\mS' \subseteq \left(\mS, \sqsubseteq\right)$. Alors $x$ est : 
-    \begin{itemize}
-        \item Un élément minimal de $\mS'$ si et seulement si $x \in \mS' \land \forall y \in \mS', x \sqsubseteq y$
-        \item Un élément maximal de $\mS'$ si et seulement si $x \in \mS' \land \forall y \in \mS', y \sqsubseteq x$
-    \end{itemize}
-    Si $x \in \mS$, on dit que $x$ est un majorant de $\mS'$ si 
-    \[
-        \forall y \in \mS', y\sqsubseteq x
-    \]
-    et une borne supérieure si de plus : 
-    \[
-        \forall y \in \mS', y \sqsubseteq x \land \forall z \in \mS, \left(\forall y \in \mS', y \sqsubseteq z\right) \Longrightarrow x \sqsubseteq z
-    \]
-    On note alors $x = \sqcup \mS'$. 
-    On a aussi des notions duales de minorant et de borne inférieure.
+Soit $\mS' \subseteq \left(\mS, \sqsubseteq\right)$. Alors $x$ est :
+\begin{itemize}
+	\item Un élément minimal de $\mS'$ si et seulement si $x \in \mS' \land \forall y \in \mS', x \sqsubseteq y$
+	\item Un élément maximal de $\mS'$ si et seulement si $x \in \mS' \land \forall y \in \mS', y \sqsubseteq x$
+\end{itemize}
+Si $x \in \mS$, on dit que $x$ est un majorant de $\mS'$ si
+\[
+	\forall y \in \mS', y\sqsubseteq x
+\]
+et une borne supérieure si de plus :
+\[
+	\forall y \in \mS', y \sqsubseteq x \land \forall z \in \mS, \left(\forall y \in \mS', y \sqsubseteq z\right) \Longrightarrow x \sqsubseteq z
+\]
+On note alors $x = \sqcup \mS'$.
+On a aussi des notions duales de minorant et de borne inférieure.
 \end{définition}
 
 \begin{définition}{Treillis Complet}{}
-    On appelle treillis complet un sextuplet $\left(\mS, \sqsubseteq, \bot, \top,\sqcup, \sqcap\right)$ où : 
-    \begin{itemize}
-        \item $\sqsubseteq$ est un ordre sur $\mS$
-        \item $\bot$ est l'infimum de $\mS$
-        \item $\top$ est le suprémum de $\mS$
-        \item Toute partie $\mS'$ de $\mS$ a une borne supérieure $\sqcup \S'$ et une borne inférieure $\sqcap \mS'$.
-    \end{itemize}
+On appelle treillis complet un sextuplet $\left(\mS, \sqsubseteq, \bot, \top,\sqcup, \sqcap\right)$ où :
+\begin{itemize}
+	\item $\sqsubseteq$ est un ordre sur $\mS$
+	\item $\bot$ est l'infimum de $\mS$
+	\item $\top$ est le suprémum de $\mS$
+	\item Toute partie $\mS'$ de $\mS$ a une borne supérieure $\sqcup \S'$ et une borne inférieure $\sqcap \mS'$.
+\end{itemize}
 \end{définition}
 
 \begin{définition}{Treillis}{}
-    On appelle treillis un sextuplet $\left(\mS, \sqsubseteq, \bot, \top,\sqcup, \sqcap\right)$ où : 
-    \begin{itemize}
-        \item $\sqsubseteq$ est un ordre sur $\mS$
-        \item $\bot$ est l'infimum de $\mS$
-        \item $\top$ est le suprémum de $\mS$
-        \item Toute paire $\{x, y\}$ de $\mS$ a une borne supérieure $x \sqcup y$ et une borne inférieure $x \sqcap y$.
-    \end{itemize}
+On appelle treillis un sextuplet $\left(\mS, \sqsubseteq, \bot, \top,\sqcup, \sqcap\right)$ où :
+\begin{itemize}
+	\item $\sqsubseteq$ est un ordre sur $\mS$
+	\item $\bot$ est l'infimum de $\mS$
+	\item $\top$ est le suprémum de $\mS$
+	\item Toute paire $\{x, y\}$ de $\mS$ a une borne supérieure $x \sqcup y$ et une borne inférieure $x \sqcap y$.
+\end{itemize}
 \end{définition}
 
 Par exemple : $\mathcal{Q} = {q \in \Q \mid 0 \leq q \leq 1}$ est un treillis pour $\leq$ mais n'est pas complet, puisque $\{q \in \mathcal{Q} \mid q \leq \frac{\sqrt{2}}{2}\}$ n'a pas de borne supérieure dans $\mathcal{Q}$.\\
 Un treillis fini est complet.
 \begin{définition}{Chaine Croissante}{}
-    Une partie $\cont$ d'un poset $\mS, \sqsubseteq$ est une chaîne croissante si : 
-    \begin{itemize}
-        \item Elle a un infimum
-        \item Le poset $\cont, \sqsubseteq$ est total.
-    \end{itemize}
-    Le poset $\mS, \sqsubseteq$ vérifie la condition de chaîne croissante si et seulement si toute chaîne croissante est finie. 
+Une partie $\cont$ d'un poset $\mS, \sqsubseteq$ est une chaîne croissante si :
+\begin{itemize}
+	\item Elle a un infimum
+	\item Le poset $\cont, \sqsubseteq$ est total.
+\end{itemize}
+Le poset $\mS, \sqsubseteq$ vérifie la condition de chaîne croissante si et seulement si toute chaîne croissante est finie.
 \end{définition}
 
 \begin{définition}{Ordre Partiel Complet}{}
-    Un ordre partiel complet (cpo) est un poset de sorte que toute chaîne croissante a au moins une borne supérieure. Un cpo pointé est un cpo avec un infimum $\bot$.
+Un ordre partiel complet (cpo) est un poset de sorte que toute chaîne croissante a au moins une borne supérieure. Un cpo pointé est un cpo avec un infimum $\bot$.
 \end{définition}
 
 \subsubsection{Opérations sur un Poset et Points-Fixes}
 On se donne un automate $\A$ et une propriété à vérifier $\mS$. On veut prouver $\sem{\A} \subseteq \mS$ par induction, il faudrait donc pouvoir définir de manière constructive les sémantiques. Pour un automate, on observe :
 \begin{description}
-    \item[Observation 1] $\mL[\A] = \sem{A}(q_{f})$ où \[\sem{A}: q \mapsto \left\{w \in L^{*}\mid \text{il existe un calcul sur } w \text{ qui atteint } q\right\}\]
-    \item[Observation 2] $\sem{\A} = \bigcup_{n \in \N} \sem{\A}_{n}$ où \[\sem{\A}_{n} : q \mapsto \{a_{0}\ldots a_{n - 1}\mid \text{il existe un calcul sur } a_{0} \ldots a_{n - 1}\text{ qui atteint } q\}\]
-    \item[Observation 3] $\sem{\A}_{n + 1}$ se calcule récursivement : 
-    \[
-        \sem{\A}_{n + 1}(q) = \bigcup_{q'\in Q} \left\{wa \mid w \in \sem{\A}_{n}(q') \land q'\xrightarrow{a}q\right\}
-    \]
+	\item[Observation 1] $\mL[\A] = \sem{A}(q_{f})$ où \[\sem{A}: q \mapsto \left\{w \in L^{*}\mid \text{il existe un calcul sur } w \text{ qui atteint } q\right\}\]
+	\item[Observation 2] $\sem{\A} = \bigcup_{n \in \N} \sem{\A}_{n}$ où \[\sem{\A}_{n} : q \mapsto \{a_{0}\ldots a_{n - 1}\mid \text{il existe un calcul sur } a_{0} \ldots a_{n - 1}\text{ qui atteint } q\}\]
+	\item[Observation 3] $\sem{\A}_{n + 1}$ se calcule récursivement :
+	      \[
+		      \sem{\A}_{n + 1}(q) = \bigcup_{q'\in Q} \left\{wa \mid w \in \sem{\A}_{n}(q') \land q'\xrightarrow{a}q\right\}
+	      \]
 \end{description}
 On aurait aussi pu calculer $\sem{A}$ en notant $\sem{A}_{n}(q)$ les mots reconnus de longueurs $n$, et en calculant le résultat en prenant l'union. \\
 On va dans la suite étudier une manière de définir les sémantiques par des points fixes.
 
 \begin{définition}{Opérateurs}{}
-    Soit $\phi$ un opérateur sur un poset $\mS$ : 
-    \begin{itemize}
-        \item $\phi$ est croissant si et seulement si $x \sqsubseteq y \Longrightarrow \phi(x) \sqsubseteq \phi(y)$.
-        \item $\phi$ est continu si et seulement si pour toute chaine $\mS' \subseteq \mS$ alors : Si $\sqcup \mS'$ existe, alors $\sqcup \phi(\mS')$ aussi et $\phi(\sqcup \mS') = \sqcup \phi(\mS')$
-        \item $\sqcup$-préservant si et seulement si, pour toute partie $\mS' \subseteq \mS$ alors : Si $\sqcup \mS'$ existe, alors $\sqcup \phi(\mS')$ aussi et $\phi(\sqcup \mS') = \sqcup \phi(\mS')$
-    \end{itemize}
+Soit $\phi$ un opérateur sur un poset $\mS$ :
+\begin{itemize}
+	\item $\phi$ est croissant si et seulement si $x \sqsubseteq y \Longrightarrow \phi(x) \sqsubseteq \phi(y)$.
+	\item $\phi$ est continu si et seulement si pour toute chaine $\mS' \subseteq \mS$ alors : Si $\sqcup \mS'$ existe, alors $\sqcup \phi(\mS')$ aussi et $\phi(\sqcup \mS') = \sqcup \phi(\mS')$
+	\item $\sqcup$-préservant si et seulement si, pour toute partie $\mS' \subseteq \mS$ alors : Si $\sqcup \mS'$ existe, alors $\sqcup \phi(\mS')$ aussi et $\phi(\sqcup \mS') = \sqcup \phi(\mS')$
+\end{itemize}
 \end{définition}
 \begin{propositionfr}{Propriétés}{}
-    \begin{itemize}
-        \item Si $\phi$ est continu, il est aussi croissant.
-        \item Si $\phi$ préserve $\sqcup$, il est aussi croissant.
-    \end{itemize}
+	\begin{itemize}
+		\item Si $\phi$ est continu, il est aussi croissant.
+		\item Si $\phi$ préserve $\sqcup$, il est aussi croissant.
+	\end{itemize}
 \end{propositionfr}
 \begin{proof}
-    On suppose que $\phi$ préserve $\sqcup$, $x, y \in \mS$ tels que $x \sqsubseteq y$. Alors, $\{x, y\}$ est une chaîne de borne supérieure $y$ donc $\phi(x) \sqcup \phi(y)$ existe et est égal à $\phi(y)$. Donc $\phi(x) \sqsubseteq \phi(y)$.
+	On suppose que $\phi$ préserve $\sqcup$, $x, y \in \mS$ tels que $x \sqsubseteq y$. Alors, $\{x, y\}$ est une chaîne de borne supérieure $y$ donc $\phi(x) \sqcup \phi(y)$ existe et est égal à $\phi(y)$. Donc $\phi(x) \sqsubseteq \phi(y)$.
 \end{proof}
 
 \begin{définition}{Points Fixes}{}
-    \begin{itemize}
-        \item Un point fixe de $\phi$ est un élément $x$ tel que $\phi(x) = x$.
-        \item Un pré point fixe de $\phi$ vérifie $x \sqsubseteq \phi(x)$
-        \item Un post-point fixe de $\phi$ vérifie $x \sqsupseteq \phi(x)$
-        \item Le plus petit point fixe $\lfp\phi$ de $\phi$ (s'il existe, est unique) est le plus petit point fixe de $\phi$. De même pour son plus grand point fixe $\gfp\phi$.
-    \end{itemize}
+\begin{itemize}
+	\item Un point fixe de $\phi$ est un élément $x$ tel que $\phi(x) = x$.
+	\item Un pré point fixe de $\phi$ vérifie $x \sqsubseteq \phi(x)$
+	\item Un post-point fixe de $\phi$ vérifie $x \sqsupseteq \phi(x)$
+	\item Le plus petit point fixe $\lfp\phi$ de $\phi$ (s'il existe, est unique) est le plus petit point fixe de $\phi$. De même pour son plus grand point fixe $\gfp\phi$.
+\end{itemize}
 \end{définition}
 
 \begin{théorème}{Tarski}{}
-    Soit $\mS$ un treillis complet et $\phi$ un opérateur croissant sur $\S$. Alors : 
-    \begin{enumerate}
-        \item $\lfp\phi = \sqcap\left\{x \in \mS \mid \phi(x) \sqsubseteq x\right\}$
-        \item $\gfp\phi = \sqcup\left\{x \in \mS \mid x \sqsubseteq \phi(x)\right\}$
-        \item L'ensemble des points fixes de $\phi$ est un treillis complet.
-    \end{enumerate}
+Soit $\mS$ un treillis complet et $\phi$ un opérateur croissant sur $\S$. Alors :
+\begin{enumerate}
+	\item $\lfp\phi = \sqcap\left\{x \in \mS \mid \phi(x) \sqsubseteq x\right\}$
+	\item $\gfp\phi = \sqcup\left\{x \in \mS \mid x \sqsubseteq \phi(x)\right\}$
+	\item L'ensemble des points fixes de $\phi$ est un treillis complet.
+\end{enumerate}
 \end{théorème}
 \begin{proof}
-    \begin{enumerate}
-        \item On pose $X = \{x \in \mS \mid \phi(x) \sqsubseteq x\}$ et $x_{0} = \sqcap X$.\\
-        Pour tout $y \in X$ on a : 
-        \begin{itemize}
-            \item $x_{0} \sqsubseteq y$ par définition de la borne inférieure
-            \item $\phi(x_{0}) \subseteq \phi(y)$ par croissance de $\phi$.
-            \item $\phi(x_{0}) \subseteq y$ par défintion de $X$.
-        \end{itemize}
-        Donc $\phi(x_{0}) \sqsubseteq x_{0} \sqsubseteq \phi(x_{0})$. Donc $x_{0}$ est un point fixe qui est une borne inférieure.
-        \item De même, par dualité.
-        \item Si $X$ est un ensemble de points fixes de $\phi$, on considère $\phi$ sur $\left\{y \in \mS \mid y \sqsubseteq_{\mS} \sqcap X\right\}$ pour établir l'existence d'une borne inférieure de $X$ sur le poset des points fixes. L'existence d'une borne supérieure dans le poset des points fixes en découle par dualité.
-    \end{enumerate}
+	\begin{enumerate}
+		\item On pose $X = \{x \in \mS \mid \phi(x) \sqsubseteq x\}$ et $x_{0} = \sqcap X$.\\
+		      Pour tout $y \in X$ on a :
+		      \begin{itemize}
+			      \item $x_{0} \sqsubseteq y$ par définition de la borne inférieure
+			      \item $\phi(x_{0}) \subseteq \phi(y)$ par croissance de $\phi$.
+			      \item $\phi(x_{0}) \subseteq y$ par défintion de $X$.
+		      \end{itemize}
+		      Donc $\phi(x_{0}) \sqsubseteq x_{0} \sqsubseteq \phi(x_{0})$. Donc $x_{0}$ est un point fixe qui est une borne inférieure.
+		\item De même, par dualité.
+		\item Si $X$ est un ensemble de points fixes de $\phi$, on considère $\phi$ sur $\left\{y \in \mS \mid y \sqsubseteq_{\mS} \sqcap X\right\}$ pour établir l'existence d'une borne inférieure de $X$ sur le poset des points fixes. L'existence d'une borne supérieure dans le poset des points fixes en découle par dualité.
+	\end{enumerate}
 \end{proof}
 
-Dans l'exemple des automates : 
+Dans l'exemple des automates :
 \begin{description}
-    \item[Treillis] On prend $\mS = Q \to \mP\left(L^{*}\right)$ et comme ordre l'extension point à point $\sqsubseteq$ de $\subseteq$.
-    \item[Opérateur] On pose $\phi_{0}: \mS \to \mS$ défini par 
-    \[
-        \phi_{0}(f) = \lambda(q \in Q) \cdot \bigcup_{q' \in Q}\left\{wa \mid w \in f(q') \land q' \xrightarrow{a} q\right\}
-    \] 
-    On définit alors $\phi$ par : 
-    \[
-        \phi(f) = \lambda(q \in Q) \cdot \begin{cases}
-            f(q_{i}) \cup \phi_{0}(f)(q_{i}) \cup \{\epsilon\} & \text{ si } q = q_{i}\\
-            f(q) \cup \phi_{0}(f)(q) & \text{ sinon}
-        \end{cases}
-    \]
-    \item[Reste à Prouver] L'existence de $\lfp\phi$ découle du théorème de Tarski et l'égalité $\lfp \phi = \sem{\A}$ peut être établie par induction et double inclusion, mais on peut faire ça plus simplement.
+	\item[Treillis] On prend $\mS = Q \to \mP\left(L^{*}\right)$ et comme ordre l'extension point à point $\sqsubseteq$ de $\subseteq$.
+	\item[Opérateur] On pose $\phi_{0}: \mS \to \mS$ défini par
+	      \[
+		      \phi_{0}(f) = \lambda(q \in Q) \cdot \bigcup_{q' \in Q}\left\{wa \mid w \in f(q') \land q' \xrightarrow{a} q\right\}
+	      \]
+	      On définit alors $\phi$ par :
+	      \[
+		      \phi(f) = \lambda(q \in Q) \cdot \begin{cases}
+			      f(q_{i}) \cup \phi_{0}(f)(q_{i}) \cup \{\epsilon\} & \text{ si } q = q_{i} \\
+			      f(q) \cup \phi_{0}(f)(q)                           & \text{ sinon}
+		      \end{cases}
+	      \]
+	\item[Reste à Prouver] L'existence de $\lfp\phi$ découle du théorème de Tarski et l'égalité $\lfp \phi = \sem{\A}$ peut être établie par induction et double inclusion, mais on peut faire ça plus simplement.
 \end{description}
 
 \begin{théorème}{Kleene}{}
-    Soit $\mS$ un cpo pointé et $\phi$ un opérateur continu sur $\mS$. Alors $\phi$ a un plus petit point fixe and 
-    \[
-        \lfp \phi = \bigsqcup_{n \in \N} \phi^{n}(\bot)
-    \]
+Soit $\mS$ un cpo pointé et $\phi$ un opérateur continu sur $\mS$. Alors $\phi$ a un plus petit point fixe and
+\[
+	\lfp \phi = \bigsqcup_{n \in \N} \phi^{n}(\bot)
+\]
 \end{théorème}
 \begin{proof}
-    Premièrement, on prouve l'existence de la borne supérieure :\\
-    Puisque $\phi$ est continu, il est aussi croissant. On prouve par induction sur $n$ que $\left\{\phi^{n}(\bot) \mid n \in \N\right\}$ est une chaîne : 
-    \begin{itemize}
-        \item $\phi^{0}(\bot) = \bot \sqsubseteq \phi(\bot)$ par définition.
-        \item Si $\phi^{n}(\bot) \sqsubseteq \phi^{n + 1}(\bot)$ alors $\phi^{n + 1}(\bot) = \phi\left(\phi^{n}(\bot)\right)\sqsubseteq\phi\left(\phi^{n + 1}(\bot)\right) = \phi^{n + 2}(\bot)$
-    \end{itemize}
-    Par définition, la borne supérieure existe donc. On la note $x_{0}$.\\
+	Premièrement, on prouve l'existence de la borne supérieure :\\
+	Puisque $\phi$ est continu, il est aussi croissant. On prouve par induction sur $n$ que $\left\{\phi^{n}(\bot) \mid n \in \N\right\}$ est une chaîne :
+	\begin{itemize}
+		\item $\phi^{0}(\bot) = \bot \sqsubseteq \phi(\bot)$ par définition.
+		\item Si $\phi^{n}(\bot) \sqsubseteq \phi^{n + 1}(\bot)$ alors $\phi^{n + 1}(\bot) = \phi\left(\phi^{n}(\bot)\right)\sqsubseteq\phi\left(\phi^{n + 1}(\bot)\right) = \phi^{n + 2}(\bot)$
+	\end{itemize}
+	Par définition, la borne supérieure existe donc. On la note $x_{0}$.\\
 
-    On doit maintenant prouver que c'est un point fixe de $\phi$.\\
-    Puisque $\phi$ est continu, $\left\{\phi^{n + 1}(\bot) \mid n \in \N\right\}$ a une borne supérieure et : 
-    \[
-        \begin{aligned}
-            \phi(x_{0}) &= \phi\left(\sqcup\left\{\phi^{n}(\bot) \mid n \in \N\right\}\right)& \\
-            &= \sqcup\left\{\phi^{n + 1}(\bot)\mid n\in \N\right\} & \text{ par continuité de } \phi\\
-            &=\bot \sqcup \left(\sqcup\left\{\phi^{n + 1}(\bot)\mid n\in \N\right\}\right) & \text{ par définition de } \bot\\
-            &=x_{0} &\text{ par réécriture}
-        \end{aligned}
-    \]
-    Finalement, on doit montrer que c'est le plus petit point fixe.\\
-    Soit $x_{1}$ un point fixe de $\phi$. On veut montrer par induction sur $n$ que $\phi^{n}(\bot) \sqsubseteq x_{1}$:
-    \begin{itemize}
-        \item $\phi^{0}(\bot) \sqsubseteq x_{1}$ par définition de $\bot$.
-        \item Si $\phi^{n}(\bot) \sqsubseteq x_{1}$, par croissance de $\phi$, $\phi^{n + 1}(\bot) \sqsubseteq \phi(x_{1}) = x_{1}$. 
-    \end{itemize}
-    Par définition de la borne supérieure, $x_{0} \sqsubseteq x_{1}$.
+	On doit maintenant prouver que c'est un point fixe de $\phi$.\\
+	Puisque $\phi$ est continu, $\left\{\phi^{n + 1}(\bot) \mid n \in \N\right\}$ a une borne supérieure et :
+	\[
+		\begin{aligned}
+			\phi(x_{0}) & = \phi\left(\sqcup\left\{\phi^{n}(\bot) \mid n \in \N\right\}\right)          &                                 \\
+			            & = \sqcup\left\{\phi^{n + 1}(\bot)\mid n\in \N\right\}                         & \text{ par continuité de } \phi \\
+			            & =\bot \sqcup \left(\sqcup\left\{\phi^{n + 1}(\bot)\mid n\in \N\right\}\right) & \text{ par définition de } \bot \\
+			            & =x_{0}                                                                        & \text{ par réécriture}
+		\end{aligned}
+	\]
+	Finalement, on doit montrer que c'est le plus petit point fixe.\\
+	Soit $x_{1}$ un point fixe de $\phi$. On veut montrer par induction sur $n$ que $\phi^{n}(\bot) \sqsubseteq x_{1}$:
+	\begin{itemize}
+		\item $\phi^{0}(\bot) \sqsubseteq x_{1}$ par définition de $\bot$.
+		\item Si $\phi^{n}(\bot) \sqsubseteq x_{1}$, par croissance de $\phi$, $\phi^{n + 1}(\bot) \sqsubseteq \phi(x_{1}) = x_{1}$.
+	\end{itemize}
+	Par définition de la borne supérieure, $x_{0} \sqsubseteq x_{1}$.
 \end{proof}
 On a maintenant une définition constructive de la sémantique des automates.\\
 On a défini $\phi$ par \[
-    \phi(f) = \lambda(q \in Q) \cdot \begin{cases}
-        f(q_{i}) \cup \phi_{0}(f)(q_{i}) \cup \{\epsilon\} & \text{ si } q = q_{i}\\
-        f(q) \cup \phi_{0}(f)(q) & \text{ sinon}
-    \end{cases}
+	\phi(f) = \lambda(q \in Q) \cdot \begin{cases}
+		f(q_{i}) \cup \phi_{0}(f)(q_{i}) \cup \{\epsilon\} & \text{ si } q = q_{i} \\
+		f(q) \cup \phi_{0}(f)(q)                           & \text{ sinon}
+	\end{cases}
 \]
 Puisque $\phi$ est continu, le théorème de Kleene s'applique donc $\lfp\phi$ existe et $\lfp\phi = \bigcup_{n \in \N}\phi^{n}(\bot) = \sem{A}$.\\
 
-On peut formaliser les définitions par récurrence de sémantiques : 
+On peut formaliser les définitions par récurrence de sémantiques :
 \begin{center}
-    \begin{tabular}{m{.3\linewidth}m{.4\linewidth}}
-        Définition basée sur des \newline règles d'inférence & Même propriété basée \newline sur des points-fixes\\
-        \[
-            \frac{}{x_{0} \in \mathcal{X}} \ \ \frac{x \in \mathcal{X}}{f(x) \in \mathcal{X}}
-        \] 
-        & 
-        \[
-            \lfp\left(Y \mapsto \{x_{0}\} \cup Y \cup \{f(x) \mid x \in Y\}\right)
-        \]
-    \end{tabular}
+	\begin{tabular}{m{.3\linewidth}m{.4\linewidth}}
+		Définition basée sur des \newline règles d'inférence & Même propriété basée \newline sur des points-fixes \\
+		\[
+			\frac{}{x_{0} \in \mathcal{X}} \ \ \frac{x \in \mathcal{X}}{f(x) \in \mathcal{X}}
+		\]
+		                                                     &
+		\[
+			\lfp\left(Y \mapsto \{x_{0}\} \cup Y \cup \{f(x) \mid x \in Y\}\right)
+		\]
+	\end{tabular}
 \end{center}
 
-Pour prouver l'inclusion d'un point fixe dans un set : 
+Pour prouver l'inclusion d'un point fixe dans un set :
 \begin{itemize}
-    \item Soit $\phi : \mS \to \mS$ un opérateur continu
-    \item Soit $\mathcal{I} \in \mS$ tel que : 
-    \[
-        \forall x \in \mS, x \sqsubseteq \mathcal{I} \Longrightarrow \phi(x) \sqsubseteq \mathcal{I}
-    \]
-    \item On a $\bot \sqsubseteq \mathcal{I}$
-    \item On peut prouver que $\lfp\phi \sqsubseteq \mathcal{I}$.
+	\item Soit $\phi : \mS \to \mS$ un opérateur continu
+	\item Soit $\mathcal{I} \in \mS$ tel que :
+	      \[
+		      \forall x \in \mS, x \sqsubseteq \mathcal{I} \Longrightarrow \phi(x) \sqsubseteq \mathcal{I}
+	      \]
+	\item On a $\bot \sqsubseteq \mathcal{I}$
+	\item On peut prouver que $\lfp\phi \sqsubseteq \mathcal{I}$.
 \end{itemize}
 
 \section{Sémantique Opérationnelle}
 \subsection{Systèmes de Transitions et Sémantique à Petit Pas}
 
 \begin{définition}{Système de Transition}{}
-    Un système de transition est un tuple $\left(\S, \rightarrow\right)$ où : 
-    \begin{itemize}
-        \item $\S$ est l'ensemble des états du système. 
-        \item $\rightarrow \subseteq \S \times \S$ est la relation de transition du système. 
-    \end{itemize}
+Un système de transition est un tuple $\left(\S, \rightarrow\right)$ où :
+\begin{itemize}
+	\item $\S$ est l'ensemble des états du système.
+	\item $\rightarrow \subseteq \S \times \S$ est la relation de transition du système.
+\end{itemize}
 \end{définition}
 
 Un système est dit déterministe si un état détermine de manière unique le prochain état. Sinon, il est dit non déterministe. La relation $\rightarrow$ définit des étapes atomiques d'exécution : on appelle donc ce paradigme sémantique à petit pas. On ne considère pas de systèmes probabilistes.
 \begin{définition}{États Particuliers}{}
-    On considère souvent : 
-    \begin{itemize}
-        \item Des états initiaux $\S_{\mI} \subseteq \S$ qui dénotent des états de début d'exécution. 
-        \item Des états finaux $\S_{\mF} \subseteq \S$ qui dénotent des états de fin du programme. 
-        \item Des états bloquants qui ne sont l'origine d'aucune transition. On introduit souvent un état d'erreur $\Omega$ pour les configurations bloquantes. 
-    \end{itemize}
+On considère souvent :
+\begin{itemize}
+	\item Des états initiaux $\S_{\mI} \subseteq \S$ qui dénotent des états de début d'exécution.
+	\item Des états finaux $\S_{\mF} \subseteq \S$ qui dénotent des états de fin du programme.
+	\item Des états bloquants qui ne sont l'origine d'aucune transition. On introduit souvent un état d'erreur $\Omega$ pour les configurations bloquantes.
+\end{itemize}
 \end{définition}
 
 Par exemple, on rappelle les définitions du $\lambda$-calcul :\\\vspace{5pt}
 \begin{tabular}{p{.5\linewidth}p{.45\linewidth}}
-    \begin{définition}{$\lambda$-termes}{}
-        L'ensemble des $\lambda$-termes est défini par :\vspace{10pt}
-        \begin{tabular}{cccc}
-            t, u, \dots & ::= & x & variable\vspace{3pt}\\
-            & | & $\lambda x\cdot t$ & abstraction\vspace{3pt}\\
-            & | & t\ u & application\vspace{3pt}
-        \end{tabular}
-    \end{définition}
-    & \begin{définition}{$\beta$-réduction}{}
-        \vspace{-3pt}
-        \begin{itemize}
-            \item $(\lambda x \cdot t) u \xrightarrow[\beta]{} t[x \leftarrow u]$\vspace{-3pt}
-            \item Si $u \xrightarrow[\beta]{} v$ alors $\lambda x \cdot u \xrightarrow[\beta]{} \lambda x \cdot v$\vspace{-3pt}
-            \item Si $u \xrightarrow[\beta]{} v$ alors $u\ t \xrightarrow[\beta]{} v\ t$\vspace{-3pt}
-            \item Si $u \xrightarrow[\beta]{} v$ alors $t\ u \xrightarrow[\beta]{} t\ v$\vspace{-4pt}
-        \end{itemize}
-    \end{définition}
+\begin{définition}{$\lambda$-termes}{}
+L'ensemble des $\lambda$-termes est défini par :\vspace{10pt}
+\begin{tabular}{cccc}
+	t, u, \dots & ::= & x                  & variable\vspace{3pt}    \\
+	            & |   & $\lambda x\cdot t$ & abstraction\vspace{3pt} \\
+	            & |   & t\ u               & application\vspace{3pt}
+\end{tabular}
+\end{définition}
+& \begin{définition}{$\beta$-réduction}{}
+\vspace{-3pt}
+\begin{itemize}
+	\item $(\lambda x \cdot t) u \xrightarrow[\beta]{} t[x \leftarrow u]$\vspace{-3pt}
+	\item Si $u \xrightarrow[\beta]{} v$ alors $\lambda x \cdot u \xrightarrow[\beta]{} \lambda x \cdot v$\vspace{-3pt}
+	\item Si $u \xrightarrow[\beta]{} v$ alors $u\ t \xrightarrow[\beta]{} v\ t$\vspace{-3pt}
+	\item Si $u \xrightarrow[\beta]{} v$ alors $t\ u \xrightarrow[\beta]{} t\ v$\vspace{-4pt}
+\end{itemize}
+\end{définition}
 \end{tabular}
 \vspace{-12pt}
 \subsection{Sémantiques de Traces}
 \begin{définition}{Traces d'Exécution}{}
-    \begin{itemize}
-        \item Une trace finie est une suite finie d'état notée $\scalar{s_{0}, \ldots, s_{n}}$
-        \item Une trace infinie est une suite infinie d'état $\scalar{s_{0},\ldots}$
-        \item On note $\S^{*}$ l'ensemble des traces finies et $\S^{\omega}$ l'ensemble des traces infinies et $\S^{\alpha} = \S^{*} \bigcup \S^{\omega}$ l'ensemble des traces.
-    \end{itemize}
+\begin{itemize}
+	\item Une trace finie est une suite finie d'état notée $\scalar{s_{0}, \ldots, s_{n}}$
+	\item Une trace infinie est une suite infinie d'état $\scalar{s_{0},\ldots}$
+	\item On note $\S^{*}$ l'ensemble des traces finies et $\S^{\omega}$ l'ensemble des traces infinies et $\S^{\alpha} = \S^{*} \bigcup \S^{\omega}$ l'ensemble des traces.
+\end{itemize}
 \end{définition}
 
 \begin{définition}{Notations}{}
-    On notera :
-    \begin{itemize}
-        \item $\epsilon$ la trace fide
-        \item $\abs{\cdot}$ l'opérateur de longueur
-        \item $\cdot$ l'opérateur de concaténation
-        \item $\prec$ la relation de préfixation
-    \end{itemize}
+On notera :
+\begin{itemize}
+	\item $\epsilon$ la trace fide
+	\item $\abs{\cdot}$ l'opérateur de longueur
+	\item $\cdot$ l'opérateur de concaténation
+	\item $\prec$ la relation de préfixation
+\end{itemize}
 \end{définition}
 
 \begin{définition}{Sémantique de Traces Finies}{}
-    La sémantique de traces finies $\sem{\mS}^{*}$ est définie par 
-    \[
-        \sem{\mS}^{*} = \left\{\scalar{s_{0}, \ldots, s_{n}} \in \S^{*} \mid \forall i, s_{i} \rightarrow s_{i + 1}\right\}
-    \]
+La sémantique de traces finies $\sem{\mS}^{*}$ est définie par
+\[
+	\sem{\mS}^{*} = \left\{\scalar{s_{0}, \ldots, s_{n}} \in \S^{*} \mid \forall i, s_{i} \rightarrow s_{i + 1}\right\}
+\]
 \end{définition}
 
 \begin{définition}{Parties Intéressantes des Sémantiques}{}
-    \begin{itemize}
-        \item Les traces initiales commençant d'un état initial
-        \item Les traces atteignant un état bloquant
-        \item Les traces atteignant un état final 
-        \item Les traces maximales qui sont à la fois initiales et finales
-    \end{itemize}
+\begin{itemize}
+	\item Les traces initiales commençant d'un état initial
+	\item Les traces atteignant un état bloquant
+	\item Les traces atteignant un état final
+	\item Les traces maximales qui sont à la fois initiales et finales
+\end{itemize}
 \end{définition}
 
-On peut dériver les traces de longueur $i + 1$ à partir des traces de longueur $i$ : 
+On peut dériver les traces de longueur $i + 1$ à partir des traces de longueur $i$ :
 \begin{théorème}{Définition par Points Fixe}
-    On pose $\mI = \{\epsilon\} \cup \left\{\scalar{s} \mid s \in \S\right\}$. On définit $F_{*}$ par : 
-    \[
-        F_{*} : \begin{array}{lcl}
-            \mathcal{P}(\S^{*}) & \longrightarrow & \mathcal{P}(\S^{*})\\
-            X & \longmapsto & \mI \cup \left\{\scalar{s_{0}, \ldots, s_{n}, s_{n + 1}}\mid \scalar{s_{0}, \ldots, s_{n}} \in X \land s_{n} \to s_{n + 1}\right\}
-        \end{array}
-    \]
-    Alors $F_{*}$ est continue sur $\mP(\S^{*})$ et a donc un plus petit point fixe avec
-    \[
-        \lfp F_{*} = \bigcup_{n \in \N} F_{*}^{n}\left(\emptyset\right) = \sem{\S}^{*}
-    \]
-\end{théorème} 
+On pose $\mI = \{\epsilon\} \cup \left\{\scalar{s} \mid s \in \S\right\}$. On définit $F_{*}$ par :
+\[
+	F_{*} : \begin{array}{lcl}
+		\mathcal{P}(\S^{*}) & \longrightarrow & \mathcal{P}(\S^{*})                                                                                                                \\
+		X                   & \longmapsto     & \mI \cup \left\{\scalar{s_{0}, \ldots, s_{n}, s_{n + 1}}\mid \scalar{s_{0}, \ldots, s_{n}} \in X \land s_{n} \to s_{n + 1}\right\}
+	\end{array}
+\]
+Alors $F_{*}$ est continue sur $\mP(\S^{*})$ et a donc un plus petit point fixe avec
+\[
+	\lfp F_{*} = \bigcup_{n \in \N} F_{*}^{n}\left(\emptyset\right) = \sem{\S}^{*}
+\]
+\end{théorème}
 \begin{proof}
-    On prouve d'abord que $F_{*}$ est continue. On prend $\chi \subseteq \mP(\S^{*})$ telle que $\chi \neq \emptyset$ et $A = \bigcup_{U \in \chi} U$. Alors : 
-    \[\begin{aligned}
-        F_{*}\left(\bigcup_{X \in \chi}X\right)&\\
-        = &\mI \cup \left\{\scalar{s_{0}, \ldots, s_{n}, s_{n + 1}} \mid \left(\scalar{s_{0}, \ldots, s_{n}} \in \bigcup_{U \in \chi} U\right) \land s_{n} \rightarrow s_{n + 1}\right\}\\
-        = &\mI \cup \left\{\scalar{s_{0}, \ldots, s_{n}, s_{n + 1}} \mid \exists U \in \chi \scalar{s_{0}, \ldots, s_{n}} \in U \land s_{n} \rightarrow s_{n + 1}\right\}\\
-        = &\mI \cup \left(\bigcup_{U \in \chi} \left\{\scalar{s_{0}, \ldots, s_{n}, s_{n + 1}}\mid \scalar{s_{0}, \ldots, s_{n}}\in U \land s_{n} \rightarrow s_{n + 1}\right\}\right)\\
-        = &\bigcup_{U \in \chi}\left(\mI \cup \left\{\scalar{s_{0}, \ldots, s_{n}, s_{n + 1}} \mid \scalar{s_{0}, \ldots, s_{n}} \in U \land s_{n} \rightarrow s_{n + 1}\right\}\right)\\
-        = &\bigcup_{U \in \chi} F_{*}(U)
-    \end{aligned}\]
-    En particulier, si $\chi$ est une chaine, on démontre bien l'existence d'un plus petit point fixe par théorème de Kleene. \\
-    Ensuite, il reste à montrer que $\sem{S}^{*} = \lfp F_{*}$. Par induction sur $n$ on a : 
-    \[
-        \forall n \geq 1, \forall k < n, \scalar{s_{0}, \ldots, s_{k}} \in F_{*}^{n}(\emptyset) \Longleftrightarrow \scalar{s_{0}, \ldots, s_{k}} \in \sem{S}^{*}
-    \]
+	On prouve d'abord que $F_{*}$ est continue. On prend $\chi \subseteq \mP(\S^{*})$ telle que $\chi \neq \emptyset$ et $A = \bigcup_{U \in \chi} U$. Alors :
+	\[\begin{aligned}
+			F_{*}\left(\bigcup_{X \in \chi}X\right) &                                                                                                                                                                               \\
+			=                                       & \mI \cup \left\{\scalar{s_{0}, \ldots, s_{n}, s_{n + 1}} \mid \left(\scalar{s_{0}, \ldots, s_{n}} \in \bigcup_{U \in \chi} U\right) \land s_{n} \rightarrow s_{n + 1}\right\} \\
+			=                                       & \mI \cup \left\{\scalar{s_{0}, \ldots, s_{n}, s_{n + 1}} \mid \exists U \in \chi \scalar{s_{0}, \ldots, s_{n}} \in U \land s_{n} \rightarrow s_{n + 1}\right\}                \\
+			=                                       & \mI \cup \left(\bigcup_{U \in \chi} \left\{\scalar{s_{0}, \ldots, s_{n}, s_{n + 1}}\mid \scalar{s_{0}, \ldots, s_{n}}\in U \land s_{n} \rightarrow s_{n + 1}\right\}\right)   \\
+			=                                       & \bigcup_{U \in \chi}\left(\mI \cup \left\{\scalar{s_{0}, \ldots, s_{n}, s_{n + 1}} \mid \scalar{s_{0}, \ldots, s_{n}} \in U \land s_{n} \rightarrow s_{n + 1}\right\}\right)  \\
+			=                                       & \bigcup_{U \in \chi} F_{*}(U)
+		\end{aligned}\]
+	En particulier, si $\chi$ est une chaine, on démontre bien l'existence d'un plus petit point fixe par théorème de Kleene. \\
+	Ensuite, il reste à montrer que $\sem{S}^{*} = \lfp F_{*}$. Par induction sur $n$ on a :
+	\[
+		\forall n \geq 1, \forall k < n, \scalar{s_{0}, \ldots, s_{k}} \in F_{*}^{n}(\emptyset) \Longleftrightarrow \scalar{s_{0}, \ldots, s_{k}} \in \sem{S}^{*}
+	\]
 \end{proof}
 
 \begin{définition}{Sémantique Compositionnelle}{}
-    Une sémantique $\sem{\cdot}$ est dite compositionnelle quand la sémantique d'un programme peut être définie comme fonction de ses parties i.e. quand $\pi$ s'écrit $C\left[\pi_{0}, \ldots, \pi_{k}\right]$ où $\pi_{0}, \ldots, \pi_{k}$ sont ses composantes, il y a une fonction $F_{C}$ telle que $\sem{\pi} = F_{C}\left(\sem{\pi_{0}}, \ldots, \sem{\pi_{k}}\right)$ où $F_{C}$ ne dépend que de la construction syntactique $C$. 
+Une sémantique $\sem{\cdot}$ est dite compositionnelle quand la sémantique d'un programme peut être définie comme fonction de ses parties i.e. quand $\pi$ s'écrit $C\left[\pi_{0}, \ldots, \pi_{k}\right]$ où $\pi_{0}, \ldots, \pi_{k}$ sont ses composantes, il y a une fonction $F_{C}$ telle que $\sem{\pi} = F_{C}\left(\sem{\pi_{0}}, \ldots, \sem{\pi_{k}}\right)$ où $F_{C}$ ne dépend que de la construction syntactique $C$.
 \end{définition}
 
 \begin{définition}{}{}
-    Les sémantiques de traces infinies $\sem{\mS}^{\omega}$ est définie par 
-    \[
-        \sem{\mS}^{\omega} = \left\{\scalar{s_{0}, \ldots} \in \S^{\omega}\mid \forall i, s_{i} \rightarrow s_{i + 1}\right\}
-    \]
+Les sémantiques de traces infinies $\sem{\mS}^{\omega}$ est définie par
+\[
+	\sem{\mS}^{\omega} = \left\{\scalar{s_{0}, \ldots} \in \S^{\omega}\mid \forall i, s_{i} \rightarrow s_{i + 1}\right\}
+\]
 \end{définition}
 
 On définit une forme via point-fixe des sémantiques à de traces infinies :
 \begin{définition}{}{}
-    On définit $F_{\omega}$ par : 
-    \[
-        F_{\omega} : \begin{array}{lcl}
-            \mP(\S^{\omega}) & \longrightarrow & \mP(\S^{\omega})\\
-            X & \longmapsto & \left\{\scalar{s_{0}, s_{1}, \ldots, s_{n}, \ldots} \mid \scalar{s_{1}, \ldots, s_{n}, \ldots} \in X \land s_{0} \to s_{1}\right\}            
-        \end{array}
-    \]
-    $F_{\omega}$ est continue et a donc un plus grand point fixe : 
-    \[
-        \gfp F_{\omega} = \sem{\mS}^{\omega} = \bigcap_{n \in \N} F_{\omega}^{n}\left(\S^{\omega}\right)
-    \]
+On définit $F_{\omega}$ par :
+\[
+	F_{\omega} : \begin{array}{lcl}
+		\mP(\S^{\omega}) & \longrightarrow & \mP(\S^{\omega})                                                                                                                   \\
+		X                & \longmapsto     & \left\{\scalar{s_{0}, s_{1}, \ldots, s_{n}, \ldots} \mid \scalar{s_{1}, \ldots, s_{n}, \ldots} \in X \land s_{0} \to s_{1}\right\}
+	\end{array}
+\]
+$F_{\omega}$ est continue et a donc un plus grand point fixe :
+\[
+	\gfp F_{\omega} = \sem{\mS}^{\omega} = \bigcap_{n \in \N} F_{\omega}^{n}\left(\S^{\omega}\right)
+\]
 \end{définition}
 
 \section{Propriétés de Traces}
 
 \begin{définition}{Propriétés comme Ensembles d'États}{}
-    Une propriété $\mP$ est un ensemble d'états $\mP \subseteq \S$. $\mP$ est satisfaite si et seulement si tous les états atteignables sont dans $\mP$. 
+Une propriété $\mP$ est un ensemble d'états $\mP \subseteq \S$. $\mP$ est satisfaite si et seulement si tous les états atteignables sont dans $\mP$.
 \end{définition}
 
 \begin{définition}{Propriétés comme Traces}{}
-    Une propriété $\mT$ est un ensemble de traces $\mT \subseteq \S^{\alpha}$. $\mT$ est satisfaite si et seulement si toutes les traces sont dans $\mT$, i.e., $\left[\mS\right]^{\alpha} \subseteq \mT$.
+Une propriété $\mT$ est un ensemble de traces $\mT \subseteq \S^{\alpha}$. $\mT$ est satisfaite si et seulement si toutes les traces sont dans $\mT$, i.e., $\left[\mS\right]^{\alpha} \subseteq \mT$.
 \end{définition}
-Exemples : 
+Exemples :
 \begin{itemize}
-    \item Les propriétés d'états
-    \item Les propriétés fonctionnelles
-    \item La Terminaison
+	\item Les propriétés d'états
+	\item Les propriétés fonctionnelles
+	\item La Terminaison
 \end{itemize}
 
 \begin{propositionfr}{Terminaison}{}
-    \begin{enumerate}
-        \item Soit $\mP_{0}, \mP_{1} \subseteq \S$ deux propriétés d'états telle que $\mP_{0} \subseteq \mP_{1}$. Alors $\mP_{0}$ est plus forte que $\mP_{1}$, c'est à dire que si $\mS$ satisfait $\mP_{0}$, $\mS$ satisfait $\mP_{1}$.
-        \item Soit $\mT_{0}, \mT_{1} \subseteq \S$ deux propriétés d'états telle que $\mT_{0} \subseteq \mT_{1}$. Alors $\mT_{0}$ est plus forte que $\mT_{1}$, c'est à dire que si $\mS$ satisfait $\mT_{0}$, $\mS$ satisfait $\mT_{1}$.
-        \item Soient $\mS_{0}$ et $\mS_{1}$ deux systèmes de transitions. 
-    \end{enumerate}
+	\begin{enumerate}
+		\item Soit $\mP_{0}, \mP_{1} \subseteq \S$ deux propriétés d'états telle que $\mP_{0} \subseteq \mP_{1}$. Alors $\mP_{0}$ est plus forte que $\mP_{1}$, c'est à dire que si $\mS$ satisfait $\mP_{0}$, $\mS$ satisfait $\mP_{1}$.
+		\item Soit $\mT_{0}, \mT_{1} \subseteq \S$ deux propriétés d'états telle que $\mT_{0} \subseteq \mT_{1}$. Alors $\mT_{0}$ est plus forte que $\mT_{1}$, c'est à dire que si $\mS$ satisfait $\mT_{0}$, $\mS$ satisfait $\mT_{1}$.
+		\item Soient $\mS_{0}$ et $\mS_{1}$ deux systèmes de transitions.
+	\end{enumerate}
 \end{propositionfr}
 
 \subsection{Propriétés de Sûreté}
 \subsubsection{Définitions}
 Intuitivement, une propriété de sûreté précise qu'un certain (mauvais) comportement défini par une observation finie, irrécupérable ne se produira jamais. Par exemple, sont des propriétés de sûreté :
 \begin{itemize}
-    \item L'absence d'erreurs à l'exécution
-    \item Les propriétés d'état
-    \item La non-terminaison
-    \item Ne pas atteindre un état $b$ après avoir visité l'état $a$ (ce n'est pas une propriété de sûreté)
-    \item La terminaison n'est pas une propriété de sûreté
+	\item L'absence d'erreurs à l'exécution
+	\item Les propriétés d'état
+	\item La non-terminaison
+	\item Ne pas atteindre un état $b$ après avoir visité l'état $a$ (ce n'est pas une propriété de sûreté)
+	\item La terminaison n'est pas une propriété de sûreté
 \end{itemize}
-Comment réfuter une propriété de sûreté ? 
+Comment réfuter une propriété de sûreté ?
 \begin{itemize}
-    \item On suppose que $\mS$ ne satisfait pas $\mP$
-    \item Il existe une trace  (finie ou non) contre-exemple $\sigma = \scalar{s_{0}, \ldots, s_{n}, \ldots} \in \sem{S}\setminus \mP$
-    \item L'observation se faisant en temps fini, il existe un préfixe $\scalar{s_{0}, \ldots, s_{i}}$
+	\item On suppose que $\mS$ ne satisfait pas $\mP$
+	\item Il existe une trace  (finie ou non) contre-exemple $\sigma = \scalar{s_{0}, \ldots, s_{n}, \ldots} \in \sem{S}\setminus \mP$
+	\item L'observation se faisant en temps fini, il existe un préfixe $\scalar{s_{0}, \ldots, s_{i}}$
 \end{itemize}
 On définit $\sigma_{\lceil i}$ (resp. $\sigma_{i \rceil}$) le préfixe (resp. suffixe) de longueur $i$ de la trace $\sigma$. Les suffixes ne sont pas définies pour des traces infinies.
 
 \begin{définition}{Opérateur de Clôture Supérieure}{}
-    Étant donné un poset $\mS, \sqsubseteq$, un opérateur $\phi : \mS \to \mS$ est un opérateur de clôture supérieur s'il est 
-    \begin{itemize}
-        \item monotone
-        \item extensif $\forall x, x \sqsubseteq \phi(x)$
-        \item idempotent
-    \end{itemize}
+Étant donné un poset $\mS, \sqsubseteq$, un opérateur $\phi : \mS \to \mS$ est un opérateur de clôture supérieur s'il est
+\begin{itemize}
+	\item monotone
+	\item extensif $\forall x, x \sqsubseteq \phi(x)$
+	\item idempotent
+\end{itemize}
 \end{définition}
 \begin{définition}{Clôture Préfixe}{}
-    L'opérateur de clôture préfixe est défini par : 
-    \[
-        {\rm PCl :} \begin{array}{rcl}
-            \mP(\S^{\alpha}) & \longrightarrow & \mP\left(\S^{*}\right)\\
-            X & \longmapsto & \left\{\sigma_{\lceil i}\ \middle|\ \sigma \in X, i\in \N\right\}
-        \end{array}
-    \]
+L'opérateur de clôture préfixe est défini par :
+\[
+	{\rm PCl :} \begin{array}{rcl}
+		\mP(\S^{\alpha}) & \longrightarrow & \mP\left(\S^{*}\right)                                            \\
+		X                & \longmapsto     & \left\{\sigma_{\lceil i}\ \middle|\ \sigma \in X, i\in \N\right\}
+	\end{array}
+\]
 \end{définition}
-Cet opérateur est : 
+Cet opérateur est :
 \begin{itemize}
-    \item Monotone
-    \item Idempotent
-    \item Pas extensif sur les traces infinies
+	\item Monotone
+	\item Idempotent
+	\item Pas extensif sur les traces infinies
 \end{itemize}
 
 \begin{définition}{Limite}{}
-    L'opérateur de limite est défini par : 
-    \[ {\rm Lim} : 
-        \begin{array}{rcl}
-            \mP\left(\S^{\alpha}\right) & \longrightarrow & \mP(\S^{\alpha})\\
-            X & \longmapsto & X \cup \left\{\sigma \in \S^{\alpha}\middle| \forall i \in \N, \sigma_{\lceil i} \in X\right\}
-        \end{array}
-    \]
-    C'est un opérateur de clôture supérieure.
+L'opérateur de limite est défini par :
+\[ {\rm Lim} :
+	\begin{array}{rcl}
+		\mP\left(\S^{\alpha}\right) & \longrightarrow & \mP(\S^{\alpha})                                                                               \\
+		X                           & \longmapsto     & X \cup \left\{\sigma \in \S^{\alpha}\middle| \forall i \in \N, \sigma_{\lceil i} \in X\right\}
+	\end{array}
+\]
+C'est un opérateur de clôture supérieure.
 \end{définition}
 
 \begin{définition}{Safe}{}
-    L'opérateur $\rm Safe$ est défini par $\rm Safe = Lim \circ PCl$
+L'opérateur $\rm Safe$ est défini par $\rm Safe = Lim \circ PCl$
 \end{définition}
 L'opérateur $\rm Safe$ sature un ensemble d'exécution (traces) $\mS$ avec des préfixes et des traces infinies donc tous les préfixes peuvent être observés dans $\mS$. \\
-Ainsi, si ${\rm Safe}(\mS) = \mS$ et $\sigma$ est une trace, il suffit de découvrir un préfixe fini de $\sigma$ qui n'est pas dans $\mS$ pour prouver $\sigma \notin \mS$. 
+Ainsi, si ${\rm Safe}(\mS) = \mS$ et $\sigma$ est une trace, il suffit de découvrir un préfixe fini de $\sigma$ qui n'est pas dans $\mS$ pour prouver $\sigma \notin \mS$.
 
 \begin{propositionfr}{Sûreté de {\rm Safe}}{}
-    L'opérateur $\rm Safe$ est un opérateur de clôture supérieur.
+	L'opérateur $\rm Safe$ est un opérateur de clôture supérieur.
 \end{propositionfr}
 \begin{proof}
-    \begin{itemize}
-        \item ${\rm Safe}$ est monotone par composition
-        \item $\rm Safe$ est extensif : 
-        \begin{itemize}
-            \item .
-        \end{itemize}
-        \item $\rm Safe$ est idempotent : 
-        \begin{itemize}
-            \item Comme $\rm Safe$ est extensif et monotone, $\rm Safe \subseteq Safe \circ Safe$.
-            \item On écrit.
-        \end{itemize}
-    \end{itemize}
+	\begin{itemize}
+		\item ${\rm Safe}$ est monotone par composition
+		\item $\rm Safe$ est extensif :
+		      \begin{itemize}
+			      \item .
+		      \end{itemize}
+		\item $\rm Safe$ est idempotent :
+		      \begin{itemize}
+			      \item Comme $\rm Safe$ est extensif et monotone, $\rm Safe \subseteq Safe \circ Safe$.
+			      \item On écrit.
+		      \end{itemize}
+	\end{itemize}
 \end{proof}
 \begin{définition}{Sûreté}{}
-    Une propriété de trace $\mT$ est une propriété de sûreté si et seulement si ${\rm Safe}(\mT) = \mT$. 
+Une propriété de trace $\mT$ est une propriété de sûreté si et seulement si ${\rm Safe}(\mT) = \mT$.
 \end{définition}
 \begin{théorème}{Idempotence}{}
-    Si $\mT$ est une propriété de trace, alors $\mathrm{Safe}(\mT)$ est une propriété de sûreté.
+Si $\mT$ est une propriété de trace, alors $\mathrm{Safe}(\mT)$ est une propriété de sûreté.
 \end{théorème}
 \begin{proof}
-    Par idempotence de $\rm Safe$.
+	Par idempotence de $\rm Safe$.
 \end{proof}
 On observe par ailleurs que si $\mT$ est une propriété de trace, $\mathrm{Safe}(\mT)$ est la plus forte propriété de sûreté qui est plus faible que $\mT$, par extensivité de $\rm Safe$.
 
 \begin{théorème}{Sûreté des États}{}
-    Toute propriété d'états est une propriété de sûreté.
+Toute propriété d'états est une propriété de sûreté.
 \end{théorème}
 \begin{proof}
-    On considère une propriété d'état $\mP$. Elle est équivalente à une propriété $\mT = \mP^{\alpha}$ de trace. On a : 
-    \[
-        \begin{aligned}
-            \rm Safe(\mT) =&\rm Lim(PCl(\mP^{\alpha}))\\
-            =& \rm Lim (\mP^{*})\\
-            =& \mP^{*} \cup \mP^{\omega}\\
-            =& \mP^{\alpha}\\
-            =& \mT
-        \end{aligned}
-    \]
+	On considère une propriété d'état $\mP$. Elle est équivalente à une propriété $\mT = \mP^{\alpha}$ de trace. On a :
+	\[
+		\begin{aligned}
+			\rm Safe(\mT) = & \rm Lim(PCl(\mP^{\alpha})) \\
+			=               & \rm Lim (\mP^{*})          \\
+			=               & \mP^{*} \cup \mP^{\omega}  \\
+			=               & \mP^{\alpha}               \\
+			=               & \mT
+		\end{aligned}
+	\]
 \end{proof}
 \subsubsection{Méthodes de Preuves}
 \begin{définition}{Preuve par Invariance}{}
-    Soit $\mathbb{I}$ un ensemble de traces finies. Il est dit invariant si et seulement si :
-    \begin{itemize}
-        \item $\forall s \in \S_{\mI}, \scalar{s} \in \I$
-        \item $F_{*}(\I) \subseteq \I$
-    \end{itemize}
+Soit $\mathbb{I}$ un ensemble de traces finies. Il est dit invariant si et seulement si :
+\begin{itemize}
+	\item $\forall s \in \S_{\mI}, \scalar{s} \in \I$
+	\item $F_{*}(\I) \subseteq \I$
+\end{itemize}
 \end{définition}
 \begin{théorème}{Correction (Soundness)}{}
-    La preuve par invariance est correcte: si on peut trouver un invariant pour $\mS$ plus fort que la propriété de sûreté alors $\mS$ vérifie $\mT$. 
+La preuve par invariance est correcte: si on peut trouver un invariant pour $\mS$ plus fort que la propriété de sûreté alors $\mS$ vérifie $\mT$.
 \end{théorème}
 \begin{proof}
-    Soit $\I$ un invariant de $\mS$ plus fort que $\mT$ : 
-        Par induction sur $n$, on montre que $F_{*}^{n} \left(\left\{\scalar{s} \middle| s\in \S_{\mI}\right\}\right)\subseteq F_{*}^{n}(\I) \subseteq \I$.
-        Donc $\sem{\mS}^{*} \subseteq \I$.
-        Ainsi, $\mathrm{Safe}\left(\sem{\mS}^{*}\right) \subseteq \rm Safe(\I) \subseteq Safe(\mT)$ par monotonie.
-        Or, $\sem{\mS}^{\alpha} = {\rm Safe}\left(\sem{\mS}^{*}\right)$ et ${\rm Safe}(\mT) = \mT$ et donc $\sem{\mS}^{\alpha}\subseteq \mT$.
+	Soit $\I$ un invariant de $\mS$ plus fort que $\mT$ :
+	Par induction sur $n$, on montre que $F_{*}^{n} \left(\left\{\scalar{s} \middle| s\in \S_{\mI}\right\}\right)\subseteq F_{*}^{n}(\I) \subseteq \I$.
+	Donc $\sem{\mS}^{*} \subseteq \I$.
+	Ainsi, $\mathrm{Safe}\left(\sem{\mS}^{*}\right) \subseteq \rm Safe(\I) \subseteq Safe(\mT)$ par monotonie.
+	Or, $\sem{\mS}^{\alpha} = {\rm Safe}\left(\sem{\mS}^{*}\right)$ et ${\rm Safe}(\mT) = \mT$ et donc $\sem{\mS}^{\alpha}\subseteq \mT$.
 \end{proof}
 
 \begin{théorème}{Complétude}{}
-    La preuve par invariance est complète: si $\mS$ satisfait $\mT$, on peut trouver un invariant $\I$ pour $\mS$ qui est plus fort que $\mT$.
+La preuve par invariance est complète: si $\mS$ satisfait $\mT$, on peut trouver un invariant $\I$ pour $\mS$ qui est plus fort que $\mT$.
 \end{théorème}
 \begin{proof}
-    Si $\sem{\mS}^{*}$ satisfait $\mT$, alors $\I = \sem{\mS}^{*}$ est un invariant de $\mS$ plus fort que $\mT$.
+	Si $\sem{\mS}^{*}$ satisfait $\mT$, alors $\I = \sem{\mS}^{*}$ est un invariant de $\mS$ plus fort que $\mT$.
 \end{proof}
 
-Pour une preuve plus compliquée : 
+Pour une preuve plus compliquée :
 \begin{itemize}
-    \item À chaque point du programme $\mathfrak{l}$, on a un invariant local $\I_{\mathfrak{l}}$ (qu'on note avec une formule logique plutôt qu'un ensemble d'états)
-    \item On définit l'invariant global $\I$ comme 
-    \[
-        \I = \left\{\scalar{\left(\mathfrak{l}_{0}, m_{0}\right), \ldots, \left(\mathfrak{l}_{n}, m_{n}\right)}\middle| \forall n, m_{n} \in \I_{\mathfrak{l}_{n}}\right\}
-    \]
+	\item À chaque point du programme $\mathfrak{l}$, on a un invariant local $\I_{\mathfrak{l}}$ (qu'on note avec une formule logique plutôt qu'un ensemble d'états)
+	\item On définit l'invariant global $\I$ comme
+	      \[
+		      \I = \left\{\scalar{\left(\mathfrak{l}_{0}, m_{0}\right), \ldots, \left(\mathfrak{l}_{n}, m_{n}\right)}\middle| \forall n, m_{n} \in \I_{\mathfrak{l}_{n}}\right\}
+	      \]
 \end{itemize}
 
 \subsection{Propriétés de Vivacité}
-Intuitivement, une propriété de vivacité est une propriété qui spécifie qu'un bon comportement va éventuellement arriver et que ce comportent peut encore se produire après toute observation finie. Par exemple : 
+Intuitivement, une propriété de vivacité est une propriété qui spécifie qu'un bon comportement va éventuellement arriver et que ce comportent peut encore se produire après toute observation finie. Par exemple :
 \begin{itemize}
-    \item La terminaison est une propriété de vivacité
-    \item Atteindre l'état $a$ est une propriété de vivacité
-    \item L'absence d'erreurs n'est pas une propriété de vivacité
+	\item La terminaison est une propriété de vivacité
+	\item Atteindre l'état $a$ est une propriété de vivacité
+	\item L'absence d'erreurs n'est pas une propriété de vivacité
 \end{itemize}
 Réfuter une propriété de vivacité c'est trouver une trace infinie qui est un contre-exemple.
 \begin{définition}{Propriété de Vivacité}{}
-    L'opérateur $\mathrm{Live}(\mT) = \mT \cup \left(\S^{\alpha} \setminus \mathrm{Safe}(\mT)\right)$. Étant donnée une propriété $\mT$, on a équivalence entre : 
-    \begin{enumerate}
-        \item $\mathrm{Live}(\mT) = \mT$
-        \item $\mathrm{PCl}(\mT) = \S^{*}$
-        \item $\rm Lim \circ PCl(\mT) = \S^{\alpha}$.
-    \end{enumerate}
+L'opérateur $\mathrm{Live}(\mT) = \mT \cup \left(\S^{\alpha} \setminus \mathrm{Safe}(\mT)\right)$. Étant donnée une propriété $\mT$, on a équivalence entre :
+\begin{enumerate}
+	\item $\mathrm{Live}(\mT) = \mT$
+	\item $\mathrm{PCl}(\mT) = \S^{*}$
+	\item $\rm Lim \circ PCl(\mT) = \S^{\alpha}$.
+\end{enumerate}
 \end{définition}
 \begin{proof}
-    \begin{description}
-        \item[$i \Rightarrow ii$] Si $\rm Live(\mT) = \mT$, i.e. $\mT \cup \left(\S^{\alpha} \setminus \rm Safe(\mT)\right) = \mT$. Soit $\sigma \in \S^{*}$. On a $\sigma \in \S^{\alpha}$ et donc : 
-        \begin{itemize}
-            \item Ou bien $\sigma \in \mT$ et donc $\sigma \in \rm PCl(\mT)$
-            \item ou bien $\sigma \in \rm Safe(\mT) = Lim\left(PCl(\mT)\right)$ et tous ses préfixes sont dans $\rm PCl(\mT)$ et donc $\sigma \in \rm PCl(\mT)$. 
-        \end{itemize}
-        \item[$ii \Rightarrow iii$] Si $\rm PCl(\mT) = \S^{*}$, alors $\rm Lim \circ PCl(\mT) = \S^{\alpha}$
-        \item[$iii \Rightarrow i$] Si $\rm Lim \circ PCl(\mT) = \S^{\alpha}$ alors $\rm Live(\mT) = \mT \cup \left(\S^{\alpha} \setminus \left(\rm Lim \circ PCl(\mT)\right)\right) = \mT \cup \left(\S^{\alpha} \setminus \S^{\alpha}\right) = \mT$.
-    \end{description}
+	\begin{description}
+		\item[$i \Rightarrow ii$] Si $\rm Live(\mT) = \mT$, i.e. $\mT \cup \left(\S^{\alpha} \setminus \rm Safe(\mT)\right) = \mT$. Soit $\sigma \in \S^{*}$. On a $\sigma \in \S^{\alpha}$ et donc :
+		      \begin{itemize}
+			      \item Ou bien $\sigma \in \mT$ et donc $\sigma \in \rm PCl(\mT)$
+			      \item ou bien $\sigma \in \rm Safe(\mT) = Lim\left(PCl(\mT)\right)$ et tous ses préfixes sont dans $\rm PCl(\mT)$ et donc $\sigma \in \rm PCl(\mT)$.
+		      \end{itemize}
+		\item[$ii \Rightarrow iii$] Si $\rm PCl(\mT) = \S^{*}$, alors $\rm Lim \circ PCl(\mT) = \S^{\alpha}$
+		\item[$iii \Rightarrow i$] Si $\rm Lim \circ PCl(\mT) = \S^{\alpha}$ alors $\rm Live(\mT) = \mT \cup \left(\S^{\alpha} \setminus \left(\rm Lim \circ PCl(\mT)\right)\right) = \mT \cup \left(\S^{\alpha} \setminus \S^{\alpha}\right) = \mT$.
+	\end{description}
 \end{proof}
 
 \begin{propositionfr}{}{}
-    L'opérateur $\rm Live$ est idempotent (i.e. $\rm Live(\mT)$ est une propriété de vivacité) mais n'est pas extensif ni monotone.
+	L'opérateur $\rm Live$ est idempotent (i.e. $\rm Live(\mT)$ est une propriété de vivacité) mais n'est pas extensif ni monotone.
 \end{propositionfr}
 
 \subsubsection{Méthode de preuves}
 \begin{définition}{Fonction de Rang}{}
-    Une fonction de rang est une fonction $\phi : \S\to E$ où : 
-    \begin{itemize}
-        \item $E, \sqsubseteq$ est bien fondé
-        \item $\forall s_{0}, s_{1} \in \S, s_{0} \rightarrow s_{1} \Longrightarrow \phi(s_{1}) \sqsubset \phi(s_{0})$.
-    \end{itemize}
+Une fonction de rang est une fonction $\phi : \S\to E$ où :
+\begin{itemize}
+	\item $E, \sqsubseteq$ est bien fondé
+	\item $\forall s_{0}, s_{1} \in \S, s_{0} \rightarrow s_{1} \Longrightarrow \phi(s_{1}) \sqsubset \phi(s_{0})$.
+\end{itemize}
 \end{définition}
 
 \begin{théorème}{Terminaison}{}
-    Si $\mS$ a une fonction de rang $\phi$, elle vérifie la terminaison.
+Si $\mS$ a une fonction de rang $\phi$, elle vérifie la terminaison.
 \end{théorème}
 
 \begin{propositionfr}{Preuve par Variance}{}
-    Soient $\left(\I_{n}\right)_{n\in \N}, \I_{\omega} \in \S^{\alpha}$. Ils forment une preuve de variance de $\mT$ si et seulement si : 
-    \begin{itemize}
-        \item $\S^{\omega} \subseteq \I_{0}$
-        \item $\forall k \in \left\{1, 2, \ldots, \omega\right\}, \forall s \in \S, \scalar{s} \in \I_{k}$
-        \item $\forall k \in \left\{1, 2, \ldots, \omega\right\}, \exists l < k, F_{\omega}(\I_{l}) \subseteq \I_{k}$.
-        \item $\I_{\omega} \subseteq \mT$.
-    \end{itemize}
+	Soient $\left(\I_{n}\right)_{n\in \N}, \I_{\omega} \in \S^{\alpha}$. Ils forment une preuve de variance de $\mT$ si et seulement si :
+	\begin{itemize}
+		\item $\S^{\omega} \subseteq \I_{0}$
+		\item $\forall k \in \left\{1, 2, \ldots, \omega\right\}, \forall s \in \S, \scalar{s} \in \I_{k}$
+		\item $\forall k \in \left\{1, 2, \ldots, \omega\right\}, \exists l < k, F_{\omega}(\I_{l}) \subseteq \I_{k}$.
+		\item $\I_{\omega} \subseteq \mT$.
+	\end{itemize}
 \end{propositionfr}
 \begin{théorème}{Complétude et Correction}{}
-    La méthode de preuve par variance est complète et correcte.
+La méthode de preuve par variance est complète et correcte.
 \end{théorème}
 
 \subsection{Décomposition de Propriétés de Traces}
 \begin{théorème}{Décomposition de Traces}{}
-    Soit $\mT \subseteq \S^{\alpha}$. Elle peut être décomposée comme conjonction de $\rm Safe(\mT)$ et $\rm Live(\mT)$ : 
-    \[
-        \mT = \rm Safe(\mT) \cap Live(\mT)
-    \]
+Soit $\mT \subseteq \S^{\alpha}$. Elle peut être décomposée comme conjonction de $\rm Safe(\mT)$ et $\rm Live(\mT)$ :
+\[
+	\mT = \rm Safe(\mT) \cap Live(\mT)
+\]
 \end{théorème}
 \begin{proof}
-    \[
-        \begin{aligned}
-            \rm Safe(\mT) \cap Live(\mT) =& \rm Safe(\mT) \cap \left(\mT \cup \S^{\alpha} \setminus Safe(\mT)\right)\\
-            =& \rm Safe(\mT) \cap \mT \cup Safe(\mT) \cap \left(\S^{\alpha} \setminus Safe(\mT)\right)\\
-            =& \mT \cup \emptyset\\
-            =& \mT
-        \end{aligned}
-    \]
+	\[
+		\begin{aligned}
+			\rm Safe(\mT) \cap Live(\mT) = & \rm Safe(\mT) \cap \left(\mT \cup \S^{\alpha} \setminus Safe(\mT)\right)                \\
+			=                              & \rm Safe(\mT) \cap \mT \cup Safe(\mT) \cap \left(\S^{\alpha} \setminus Safe(\mT)\right) \\
+			=                              & \mT \cup \emptyset                                                                      \\
+			=                              & \mT
+		\end{aligned}
+	\]
 \end{proof}
 
 On peut ainsi vérifier la correction totale d'un programme (le programme termine, sans crash, et renvoie le résultat souhaité). On peut alors décomposer la propriété trace comme une propriété de sûreté et d'une propriété de vivacité.
 
 \subsection{Un langage de spécification : la logique temporelle}
 \begin{définition}{Langage de Spécification}{}
-    Un langage de spécification est un ensemble $\L$ de termes avec une fonction d'interprétation (ou sémantique) : 
-    \[
-        \sem[\cdot] : \L \to \mP(\S^{\alpha})
-    \]
+Un langage de spécification est un ensemble $\L$ de termes avec une fonction d'interprétation (ou sémantique) :
+\[
+	\sem[\cdot] : \L \to \mP(\S^{\alpha})
+\]
 \end{définition}
 
 \begin{propositionfr}{Langage de Spécification d'état}{}
-    \begin{description}
-        \item[Syntaxe] On définit les termes de $\L_{\S}$ par : 
-        \[
-            p \in \L_{\S} = \mathfrak{@l} \mid x < x' \mid x < n\mid \lnot p' \mid p' \land p'' \mid \Omega
-        \]
-        \item[Sémantique] $\sem{p}_{s} \subseteq \S_{\Omega}$ est défini par : 
-    \end{description}
+	\begin{description}
+		\item[Syntaxe] On définit les termes de $\L_{\S}$ par :
+		      \[
+			      p \in \L_{\S} = \mathfrak{@l} \mid x < x' \mid x < n\mid \lnot p' \mid p' \land p'' \mid \Omega
+		      \]
+		\item[Sémantique] $\sem{p}_{s} \subseteq \S_{\Omega}$ est défini par :
+	\end{description}
 \end{propositionfr}
 
 \begin{définition}{Syntaxe de la Logique Temporelle Propositionnelle}{}
-    Les propriétés sur des traces sont définies comme des termes de la forme : 
-    \begin{tabular}{rcll}
-        $t(\in \L_{\rm PTL})$ & $=$ & $p$ & propriété d'état, i.e. $p \in \L_{\S}$\\
-        & $\mid$ & $t' \lor t''$ & disjonction \\
-        & $\mid$ & $\lnot t'$ & négation\\
-        & $\mid$ & $\bigcirc t'$ & next\\
-        & $\mid$ & $t' \mathfrak{U} t''$ & until
-    \end{tabular}
+Les propriétés sur des traces sont définies comme des termes de la forme :
+\begin{tabular}{rcll}
+	$t(\in \L_{\rm PTL})$ & $=$    & $p$                   & propriété d'état, i.e. $p \in \L_{\S}$ \\
+	                      & $\mid$ & $t' \lor t''$         & disjonction                            \\
+	                      & $\mid$ & $\lnot t'$            & négation                               \\
+	                      & $\mid$ & $\bigcirc t'$         & next                                   \\
+	                      & $\mid$ & $t' \mathfrak{U} t''$ & until
+\end{tabular}
 \end{définition}
 
 \begin{définition}{Sémantique}{}
-    La sémantique d'une propriété temporelle est un ensemble de trace défini par induction sur la syntaxe : 
+La sémantique d'une propriété temporelle est un ensemble de trace défini par induction sur la syntaxe :
 \end{définition}
 
-On peut alors défini des opérateurs de logique temporelle avec du sucre syntaxique : 
+On peut alors défini des opérateurs de logique temporelle avec du sucre syntaxique :
 \begin{itemize}
-    \item[Constantes Booléennes] 
-    \[
-        \top = (x < 0) \lor \lnot (x < 0)
-    \] 
-    \[
-        \bot = \lnot \top
-    \]
-    \item[À un moment]
-    \[
-        \diamond t = \top \mathfrak{U} t
-    \]
-    \item[Toujours]
-    \[
-        \square t = \lnot\left(\diamond \left(\lnot t\right)\right)
-    \]
+	\item[Constantes Booléennes]
+	      \[
+		      \top = (x < 0) \lor \lnot (x < 0)
+	      \]
+	      \[
+		      \bot = \lnot \top
+	      \]
+	\item[À un moment]
+	      \[
+		      \diamond t = \top \mathfrak{U} t
+	      \]
+	\item[Toujours]
+	      \[
+		      \square t = \lnot\left(\diamond \left(\lnot t\right)\right)
+	      \]
 \end{itemize}
 
 \subsection{Au delà de la sûreté et de la vivacité}
-On définit : 
+On définit :
 \begin{itemize}
-    \item $\mS = \left(\S, \rightarrow, \S_{\mI}\right)$ un système de transition
-    \item Les états sont de la forme $\left(l, m\right) \in \L \times \M$
-    \item Les états de mémoire sont de la forme $\mathbb{X} \rightarrow \mathbb{V}$
-    \item On pose $l, l' \in \L$ et $x, x' \in \mathbb{X}$.
+	\item $\mS = \left(\S, \rightarrow, \S_{\mI}\right)$ un système de transition
+	\item Les états sont de la forme $\left(l, m\right) \in \L \times \M$
+	\item Les états de mémoire sont de la forme $\mathbb{X} \rightarrow \mathbb{V}$
+	\item On pose $l, l' \in \L$ et $x, x' \in \mathbb{X}$.
 \end{itemize}
-On s'intéresse à la propriété : 
+On s'intéresse à la propriété :
 \begin{center}
-    Observer la valeur de $x'$ en $l'$ ne doit pas donner d'information sur la valeur de $x$ en $l$.
+	Observer la valeur de $x'$ en $l'$ ne doit pas donner d'information sur la valeur de $x$ en $l$.
 \end{center}
 On doit caractériser le flot d'information au niveau de sémantique.
 \begin{définition}{Non-Interférence}{}
-    On considère le transformeur : 
-    \[
-        \Phi : \begin{array}{rcl}
-            \M & \longrightarrow & \mP(\M)\\
-            m & \longmapsto & \left\{m' \in \M \middle| \exists \sigma = \scalar{(l, m), \ldots, (l', m')} \in \sem{\mS}\right\}
-        \end{array}
-    \]
-    Il n'y a pas d'interférence entre $(l, x)$ et $(l', x')$, noté $(l',x') \not\leadsto (l, x)$ si et seulement si on a : 
-    \[
-        \forall m \in \M, \forall v_{0}, v_{1} \in \mathbb{V}, \left\{m'(x')\middle| m' \in \Phi(m[x \gets v_{0}])\right\} = \left\{m'(x')\middle| m'\in \Phi(m[x \gets v_{1}])\right\}
-    \]
+On considère le transformeur :
+\[
+	\Phi : \begin{array}{rcl}
+		\M & \longrightarrow & \mP(\M)                                                                                            \\
+		m  & \longmapsto     & \left\{m' \in \M \middle| \exists \sigma = \scalar{(l, m), \ldots, (l', m')} \in \sem{\mS}\right\}
+	\end{array}
+\]
+Il n'y a pas d'interférence entre $(l, x)$ et $(l', x')$, noté $(l',x') \not\leadsto (l, x)$ si et seulement si on a :
+\[
+	\forall m \in \M, \forall v_{0}, v_{1} \in \mathbb{V}, \left\{m'(x')\middle| m' \in \Phi(m[x \gets v_{0}])\right\} = \left\{m'(x')\middle| m'\in \Phi(m[x \gets v_{1}])\right\}
+\]
 \end{définition}
 \begin{propositionfr}{}{}
-    La non-interférence n'est pas une propriété de trace
+	La non-interférence n'est pas une propriété de trace
 \end{propositionfr}
 \begin{proof}
-    On prend $\mathbb{V} = \left\{0, 1\right\}$ et $\mathbb{X} = \left\{x, x'\right\}$. On prend $\L = \{l, l'\}$ et on considère deux systèmes dont toutes les transitions sont de la forme $(l,m) \to (l', m')$.  Alors $\mS_{1}$ a moins de comportements que $\mS_{0}$ mais $\mS_{0}$ a la propriété de non-interférence mais pas $\mS_{1}$.
+	On prend $\mathbb{V} = \left\{0, 1\right\}$ et $\mathbb{X} = \left\{x, x'\right\}$. On prend $\L = \{l, l'\}$ et on considère deux systèmes dont toutes les transitions sont de la forme $(l,m) \to (l', m')$.  Alors $\mS_{1}$ a moins de comportements que $\mS_{0}$ mais $\mS_{0}$ a la propriété de non-interférence mais pas $\mS_{1}$.
 \end{proof}
 
-La notion duale de la non-interférence est l'interférence ou la dépendence : 
+La notion duale de la non-interférence est l'interférence ou la dépendence :
 \begin{définition}{Non-Interférence}{}
-    Il y a interférence entre $(l, x)$ et $(l', x')$, noté $(l',x') \not\leadsto (l, x)$ si et seulement si on a : 
-    \[
-        \exists m \in \M, \forall v_{0}, v_{1} \in \mathbb{V}, \left\{m'(x')\middle| m' \in \Phi(m[x \gets v_{0}])\right\} \neq \left\{m'(x')\middle| m'\in \Phi(m[x \gets v_{1}])\right\}
-    \]
+Il y a interférence entre $(l, x)$ et $(l', x')$, noté $(l',x') \not\leadsto (l, x)$ si et seulement si on a :
+\[
+	\exists m \in \M, \forall v_{0}, v_{1} \in \mathbb{V}, \left\{m'(x')\middle| m' \in \Phi(m[x \gets v_{0}])\right\} \neq \left\{m'(x')\middle| m'\in \Phi(m[x \gets v_{1}])\right\}
+\]
 \end{définition}
 De même, ce n'est pas une propriété de trace.
 
 \begin{définition}{Hyperpropriétés de Traces}{}
-    Les hyperpropriétés de trace sont décrites comme des ensembles d'ensembles d'exécutions
+Les hyperpropriétés de trace sont décrites comme des ensembles d'ensembles d'exécutions
 \end{définition}
 
 \section{Sémantique Dénotationelle}
-Contrairement aux sémantiques opérationelles, on part de fonctions directes de programmes vers des objets mathématiques, définies par induction sur la syntaxe du programme, en ignorant les étapes intermédiaires et les détails d'exécution. 
+Contrairement aux sémantiques opérationelles, on part de fonctions directes de programmes vers des objets mathématiques, définies par induction sur la syntaxe du programme, en ignorant les étapes intermédiaires et les détails d'exécution.
 
 \subsection{Programmes Impératifs Déterministes}
-On considère un langage impératif simple défini par la grammaire suivante : 
+On considère un langage impératif simple défini par la grammaire suivante :
 \begin{center}
-    \begin{tabular}{ccc>{\it}c}
-        expr & = & X & (variable)\\
-        & | & c & (constant)\\
-        & | & $\diamond\ expr$ & (opération unaire)\\
-        & | & $expr \diamond\ expr$ & (opération binaire)
-    \end{tabular}
+	\begin{tabular}{ccc>{\it}c}
+		expr & = & X                     & (variable)          \\
+		     & | & c                     & (constant)          \\
+		     & | & $\diamond\ expr$      & (opération unaire)  \\
+		     & | & $expr \diamond\ expr$ & (opération binaire)
+	\end{tabular}
 \end{center}
 
 Les variables sont prises dans un ensemble fixé $\mathbb{V}$. On prend des constantes $\mathbb{I} = \mathbb{B} \cup \Z$ où on a des booléens $\mathbb{B}$ et des entiers $\mathbb{Z}$.\\
 \begin{center}
-    \begin{tabular}{ccc>{\it}c}
-        stat & = & \rm skip & passer\\
-        & | & X $\gets$ expr & assignation\\
-        & | & stat; stat & séquence\\
-        & | & {\bf if} expr {\bf then} stat {\bf else} stat & condition\\
-        & | & {\bf while} expr {\bf do} stat & boucle
-    \end{tabular}
+	\begin{tabular}{ccc>{\it}c}
+		stat & = & \rm skip                                      & passer      \\
+		     & | & X $\gets$ expr                                & assignation \\
+		     & | & stat; stat                                    & séquence    \\
+		     & | & {\bf if} expr {\bf then} stat {\bf else} stat & condition   \\
+		     & | & {\bf while} expr {\bf do} stat                & boucle
+	\end{tabular}
 \end{center}
 
 \begin{définition}{Sémantique d'Expressions}{}
-    On se donne des environnements qui font correspondre des variables à des valeurs. On note ceci $E\sem{expr}$. On notera $\rightharpoonup$ les fonctions partielles. La sémantique d'une expression est définie par induction sur des arbres de syntaxeOn se donne des environnements qui font correspondre des variables à des valeurs. On note ceci $E\sem{expr}$. On notera $\rightharpoonup$ les fonctions partielles. La sémantique d'une expression est définie par induction sur des arbres abstraits de syntaxe abstraits de la grammaire des expressions.
+On se donne des environnements qui font correspondre des variables à des valeurs. On note ceci $E\sem{expr}$. On notera $\rightharpoonup$ les fonctions partielles. La sémantique d'une expression est définie par induction sur des arbres de syntaxeOn se donne des environnements qui font correspondre des variables à des valeurs. On note ceci $E\sem{expr}$. On notera $\rightharpoonup$ les fonctions partielles. La sémantique d'une expression est définie par induction sur des arbres abstraits de syntaxe abstraits de la grammaire des expressions.
 \end{définition}
 
 \begin{définition}{Sémantique de Déclaration}{}
-    La sémantique d'une déclaration envoie un environnement pré-déclaration sur un environnement post-déclaration. Il s'agit d'une fonction partielle à cause de potentielles erreurs dans les expressions ou de la non-terminaison. Elle est définie par induction : 
-    \begin{description}
-        \item[Skip] $S\sem{skip}\rho = \rho$
-        \item[Assignation] $S\sem{X \gets e}\rho = \rho[X \mapsto v]$ si $E\sem[e]\rho = v$. 
-        \item[Séquence] $S\sem{s_{1}, s_{2}} = S\sem{s_{2}} \circ S\sem{s_{1}}$ 
-        \item[Condition] \[
-            S\sem{{\bf if}\ e\ {\bf then}\ s_{1}\ {\bf else}\ s_{2}}\rho = \begin{cases}
-                S\sem{s_{1}} \rho & \text{si } E\sem{e} \rho = \top\\
-                S\sem{s_{2}} \rho & \text{si } E\sem{e} \rho = \bot\\
-                \text{non défini} & \text{sinon}
-            \end{cases}
-        \] 
-        \item[Boucle] $S\sem{{\bf while}\ e {\bf do}\ s} = \lfp F$ où 
-        \[
-            F(f)(\rho) = \begin{cases}
-                \rho & \text{si } E\sem{e} \rho = \bot\\
-                f(S\sem{s}\rho) & \text{si } E\sem{e}\rho = \top\\
-                \bot & \text{sinon}
-            \end{cases}
-        \]
-    \end{description}
-    Dans notre sémantique $S\sem{stat}\rho = \bot$ peut signifier la non terminaison où l'interruption par une erreur. 
+La sémantique d'une déclaration envoie un environnement pré-déclaration sur un environnement post-déclaration. Il s'agit d'une fonction partielle à cause de potentielles erreurs dans les expressions ou de la non-terminaison. Elle est définie par induction :
+\begin{description}
+	\item[Skip] $S\sem{skip}\rho = \rho$
+	\item[Assignation] $S\sem{X \gets e}\rho = \rho[X \mapsto v]$ si $E\sem[e]\rho = v$.
+	\item[Séquence] $S\sem{s_{1}, s_{2}} = S\sem{s_{2}} \circ S\sem{s_{1}}$
+	\item[Condition] \[
+		      S\sem{{\bf if}\ e\ {\bf then}\ s_{1}\ {\bf else}\ s_{2}}\rho = \begin{cases}
+			      S\sem{s_{1}} \rho & \text{si } E\sem{e} \rho = \top \\
+			      S\sem{s_{2}} \rho & \text{si } E\sem{e} \rho = \bot \\
+			      \text{non défini} & \text{sinon}
+		      \end{cases}
+	      \]
+	\item[Boucle] $S\sem{{\bf while}\ e {\bf do}\ s} = \lfp F$ où
+	      \[
+		      F(f)(\rho) = \begin{cases}
+			      \rho            & \text{si } E\sem{e} \rho = \bot \\
+			      f(S\sem{s}\rho) & \text{si } E\sem{e}\rho = \top  \\
+			      \bot            & \text{sinon}
+		      \end{cases}
+	      \]
+\end{description}
+Dans notre sémantique $S\sem{stat}\rho = \bot$ peut signifier la non terminaison où l'interruption par une erreur.
 \end{définition}
 
 \subsection{Non-Déterminisme}
@@ -926,13 +926,13 @@ On modifie les sémantiques de sorte que si l'on a des programmes déterministes
 \subsection{Lien entre Sémantiques Opérationelle et Dénotationelle}
 On définit une syntaxe décorée par des étiquettes de contrôle. Les configurations de programme sont des couples étiquette-environnement et on peut alors définir des transitions sur ces configurations par induction sur la syntaxe des déclarations. \\
 Étant donnée une déclaration décorée $^{l_{e}}s^{l_{x}}$ et son système de transition on peut définir une sémantique à petits pas à partir d'états initiaux $\left\{l_{e}, \rho \mid \rho \in \mathcal{E}\right\}$ et des états bloquants $\left\{(l_{x}, \rho) \mid \rho \in \mathcal{E}\right\}$.\\
-On peut alors définir à partir des traces des sémantiques à grand pas de plusieurs matières: une version angélique ou une version naturelle qui admet aussi les comportements non-terminant. La sémantique dénotationelle et la sémantique à grands pas sont isomorphes. 
+On peut alors définir à partir des traces des sémantiques à grand pas de plusieurs matières: une version angélique ou une version naturelle qui admet aussi les comportements non-terminant. La sémantique dénotationelle et la sémantique à grands pas sont isomorphes.
 \begin{théorème}{Équivalence des Sémantiques}{}
-    Toutes les sémantiques peuvent être comparées pour l'équivalence ou l'abstraction.
+Toutes les sémantiques peuvent être comparées pour l'équivalence ou l'abstraction.
 \end{théorème}
 
 \begin{théorème}{Points Fixes}{}
-    Toutes les sémantiques peuvent être exprimées par des points fixes.
+Toutes les sémantiques peuvent être exprimées par des points fixes.
 \end{théorème}
 
 \subsection{Programmes d'Ordre Supérieurs}
@@ -943,136 +943,136 @@ On considère un langage monomorphique typé d'ordre supérieur. C'est un $\lamb
 \section{Sémantique Axiomatique}
 \subsection{Spécifications}
 \begin{définition}{Spécification}{}
-La spécification exprime le comportement attendu d'une fonction, ajoute des conditions à la fonction pour qu'elle se comporte comme attendu et renforce les conditions pour assurer la terminaison. 
+La spécification exprime le comportement attendu d'une fonction, ajoute des conditions à la fonction pour qu'elle se comporte comme attendu et renforce les conditions pour assurer la terminaison.
 \end{définition}
 
-Une spécification peut s'écrire sous forme de commentaires, avec certains langages. Il s'agit d'une forme de contrat à remplir. 
+Une spécification peut s'écrire sous forme de commentaires, avec certains langages. Il s'agit d'une forme de contrat à remplir.
 
 \begin{définition}{Variable Fantôme}{}
-	On appelle Variable Fantôme une variable qui facilite le raisonnement sur le programme.
+On appelle Variable Fantôme une variable qui facilite le raisonnement sur le programme.
 \end{définition}
 
 \begin{définition}
-	{Invariant de Classe}{}
-	En programmation orientée objet, un invariant de classe est une propriété des champs de la classe vraie en dehors de l'exécution de toutes les méthodes.
+{Invariant de Classe}{}
+En programmation orientée objet, un invariant de classe est une propriété des champs de la classe vraie en dehors de l'exécution de toutes les méthodes.
 \end{définition}
 
 Les contrats (et invariants de classes) peuvent venir avec le langage (Eiffel) ou être ajoutés comme une library.
-Ils peuvent être vérifiés dynamiquement, statiquement ou inférés statiquement. 
-On va dans la suite étudier des méthodes déductives pour vérifier (prouver) statiquement (à la compilation) de manière partiellement automatique (avec de l'aide de l'utilisateur) que le contrat est rempli.  
+Ils peuvent être vérifiés dynamiquement, statiquement ou inférés statiquement.
+On va dans la suite étudier des méthodes déductives pour vérifier (prouver) statiquement (à la compilation) de manière partiellement automatique (avec de l'aide de l'utilisateur) que le contrat est rempli.
 
 \subsection{Logique Floyd-Hoare}
 \begin{définition}
-	{Triplet de Hoare}{}
-	Un triplet de Hoare $\{P\} prog \{Q\}$ est composé :
-	\begin{itemize}
-		\item d'un fragment $prog$ de programme
-		\item de deux conditions logiques $P, Q$ appelées précondition et postcondition
-	\end{itemize}
-	Ils servent de jugement dans un système de preuve. 
+{Triplet de Hoare}{}
+Un triplet de Hoare $\{P\} prog \{Q\}$ est composé :
+\begin{itemize}
+	\item d'un fragment $prog$ de programme
+	\item de deux conditions logiques $P, Q$ appelées précondition et postcondition
+\end{itemize}
+Ils servent de jugement dans un système de preuve.
 \end{définition}
-On part de plusieurs axiomes : 
+On part de plusieurs axiomes :
 \begin{définition}
-	{Axiomes}{}
-	\begin{itemize}
-		\item Toute propriété vraie avant un $skip$ est vraie après. Toute propriété est vraie après $fail$.
-			\begin{equation*}
-				\begin{prooftree}
-					\infer0{\{P\} \texttt{ skip } \{P\}}
-				\end{prooftree}
-				\quad 	
-				\begin{prooftree}
-					\infer0{\{P\} \texttt{ fail } \{Q\}}
-				\end{prooftree}
-			\end{equation*}
-		\item Pour que $P$ soit vraie pour $X$ après $X \gets e$, $P$ doit être vraie pour $e$ avant l'assignation.
-			\begin{equation*}
-				\begin{prooftree}
-					\infer0{\{P[e/X]\} X \gets e \{P\}}
-				\end{prooftree}
-			\end{equation*}
-		\item On peut affaiblir un triplet de Hoare en : 
-			\begin{itemize}
-				\item Affaiblissant sa condition $Q \Leftarrow Q'$
-				\item Renforçant sa précondition $P \Rightarrow P'$
-			\end{itemize}
-			\begin{equation*}
-				\begin{prooftree}
-					\hypo{P \Rightarrow P'}
-					\hypo{Q \Rightarrow Q'}
-					\hypo{\{P'\} \texttt{ c } \{Q'\}}
-					\infer3{\{P\} \texttt{ c } \{Q\}}
-				\end{prooftree}
-			\end{equation*}
-			On peut supposer que notre système logique est capable de prouver des formules sur les assertions.
-		\item Pour prouver $Q$ après un test, on prouve qu'il est vrai après chaque branche sous la supposition que la branche est exécutée: 
-			\begin{equation*}
-				\begin{prooftree}
-					\hypo{\hoare{P\land e}{s}{Q}}
-					\hypo{\hoare{P\land\lnot e}{t}{Q}}
-					\infer2{\hoare{P}{\texttt{if } e \texttt{ then } s \texttt{ else } t}{Q}}
-				\end{prooftree}
-			\end{equation*}
-		\item Pour prouver une séquence $s; t$ on doit inventer une assertion intermédiaire impliqué par $P$ après $s$ et impliquant $Q$ après $t$
-			\begin{equation*}
-				\frac{\{P\} s \{R\}\ \ \{R\} t \{Q\}}{\{P\} s; t \{Q\}}
-			\end{equation*}
-		\item $P$ est un invariant de boucle quand $P$ est vraie avant chaque itération, même sans avoir testé la condition de boucle $e$
-			\begin{equation*}
-				\frac{\{P \land e\} s \{P\}}{\{P\} \texttt{while } e \texttt{ do } s \{P \land \lnot e\}}	
-			\end{equation*}
-			En pratique, on préfèrerait prouver $\{P\} \texttt{while } e \texttt{ do } s \{Q\}$ pour un certain $Q$. Il suffit alors d'inventer une assertion $I$ telle que 
-			\begin{itemize}
-				\item $P \Rightarrow I$
-				\item $\{I \land e\} s \{I\}$
-				\item $(I \land \lnot e) \Rightarrow Q$
-			\end{itemize}
+{Axiomes}{}
+\begin{itemize}
+	\item Toute propriété vraie avant un $skip$ est vraie après. Toute propriété est vraie après $fail$.
+	      \begin{equation*}
+		      \begin{prooftree}
+			      \infer0{\{P\} \texttt{ skip } \{P\}}
+		      \end{prooftree}
+		      \quad
+		      \begin{prooftree}
+			      \infer0{\{P\} \texttt{ fail } \{Q\}}
+		      \end{prooftree}
+	      \end{equation*}
+	\item Pour que $P$ soit vraie pour $X$ après $X \gets e$, $P$ doit être vraie pour $e$ avant l'assignation.
+	      \begin{equation*}
+		      \begin{prooftree}
+			      \infer0{\{P[e/X]\} X \gets e \{P\}}
+		      \end{prooftree}
+	      \end{equation*}
+	\item On peut affaiblir un triplet de Hoare en :
+	      \begin{itemize}
+		      \item Affaiblissant sa condition $Q \Leftarrow Q'$
+		      \item Renforçant sa précondition $P \Rightarrow P'$
+	      \end{itemize}
+	      \begin{equation*}
+		      \begin{prooftree}
+			      \hypo{P \Rightarrow P'}
+			      \hypo{Q \Rightarrow Q'}
+			      \hypo{\{P'\} \texttt{ c } \{Q'\}}
+			      \infer3{\{P\} \texttt{ c } \{Q\}}
+		      \end{prooftree}
+	      \end{equation*}
+	      On peut supposer que notre système logique est capable de prouver des formules sur les assertions.
+	\item Pour prouver $Q$ après un test, on prouve qu'il est vrai après chaque branche sous la supposition que la branche est exécutée:
+	      \begin{equation*}
+		      \begin{prooftree}
+			      \hypo{\hoare{P\land e}{s}{Q}}
+			      \hypo{\hoare{P\land\lnot e}{t}{Q}}
+			      \infer2{\hoare{P}{\texttt{if } e \texttt{ then } s \texttt{ else } t}{Q}}
+		      \end{prooftree}
+	      \end{equation*}
+	\item Pour prouver une séquence $s; t$ on doit inventer une assertion intermédiaire impliqué par $P$ après $s$ et impliquant $Q$ après $t$
+	      \begin{equation*}
+		      \frac{\{P\} s \{R\}\ \ \{R\} t \{Q\}}{\{P\} s; t \{Q\}}
+	      \end{equation*}
+	\item $P$ est un invariant de boucle quand $P$ est vraie avant chaque itération, même sans avoir testé la condition de boucle $e$
+	      \begin{equation*}
+		      \frac{\{P \land e\} s \{P\}}{\{P\} \texttt{while } e \texttt{ do } s \{P \land \lnot e\}}
+	      \end{equation*}
+	      En pratique, on préfèrerait prouver $\{P\} \texttt{while } e \texttt{ do } s \{Q\}$ pour un certain $Q$. Il suffit alors d'inventer une assertion $I$ telle que
+	      \begin{itemize}
+		      \item $P \Rightarrow I$
+		      \item $\{I \land e\} s \{I\}$
+		      \item $(I \land \lnot e) \Rightarrow Q$
+	      \end{itemize}
 
-	\end{itemize}
+\end{itemize}
 \end{définition}
 
 \begin{définition}
-	{Partie Logique}{}
-	La logique de Hoare est paramétrisée par le choix de la théorie logique des assertions.
+{Partie Logique}{}
+La logique de Hoare est paramétrisée par le choix de la théorie logique des assertions.
 \end{définition}
 
 Il faut distinguer une propriété vraie d'un invariant inductif.
 
 \begin{théorème}
-	{Lien avec la Sémantique Dénotationnelle}{}
-	\begin{equation*}
-		\{P\} \texttt{ c } \{Q\} \Leftrightarrow \forall R \subseteq \mathcal{E}: R \vdash P \Longrightarrow S\sem{\texttt{c}} R \vdash Q
-	\end{equation*}
+{Lien avec la Sémantique Dénotationnelle}{}
+\begin{equation*}
+	\{P\} \texttt{ c } \{Q\} \Leftrightarrow \forall R \subseteq \mathcal{E}: R \vdash P \Longrightarrow S\sem{\texttt{c}} R \vdash Q
+\end{equation*}
 \end{théorème}
-La logique de Hoare raisonne sur les formules logiques, la sémantique dénotationnelle raisonne sur les ensembles d'états. 
-On peut assimiler les formules assertives et les ensembles d'états. 
-Un $\lfp$ est un post-point fixe, ce qui représente un ensemble d'état stable inductivement, i.e. un invariant inductif. 
-C'est même le meilleur. Tout ensemble contenant $\lfp$ est un invariant, mais pas nécessairement un invariant inductif. 
+La logique de Hoare raisonne sur les formules logiques, la sémantique dénotationnelle raisonne sur les ensembles d'états.
+On peut assimiler les formules assertives et les ensembles d'états.
+Un $\lfp$ est un post-point fixe, ce qui représente un ensemble d'état stable inductivement, i.e. un invariant inductif.
+C'est même le meilleur. Tout ensemble contenant $\lfp$ est un invariant, mais pas nécessairement un invariant inductif.
 
 \subsection{Calcul Prédicatif de Dijkstra}
 Le calcul prédicatif de Dijkstra essaie de calculer des préconditions à partir de postconditions.
 \newcommand{\wlp}{\texttt{wlp}}
 \begin{définition}
-	{Weakest Liberal Precondition}{}
-	$\wlp(c, P)$ est la plus faible précondiction de sorte que $\{\wlp(c, P)\} \texttt{ c } \{P\}$ est un triplet de Hoare. 
-	Formellement: 
-	\begin{equation*}
-		\{P\} \texttt{ c } \{Q\} \Leftrightarrow \left(P \Rightarrow \wlp(c, Q)\right)
-	\end{equation*}
-	\textit{liberal} signifie qu'on ne s'intéresse ni à la terminaison ni aux erreurs. 
+{Weakest Liberal Precondition}{}
+$\wlp(c, P)$ est la plus faible précondiction de sorte que $\{\wlp(c, P)\} \texttt{ c } \{P\}$ est un triplet de Hoare.
+Formellement:
+\begin{equation*}
+	\{P\} \texttt{ c } \{Q\} \Leftrightarrow \left(P \Rightarrow \wlp(c, Q)\right)
+\end{equation*}
+\textit{liberal} signifie qu'on ne s'intéresse ni à la terminaison ni aux erreurs.
 \end{définition}
 
-On définit $\wlp$ par induction sur la syntaxe : 
+On définit $\wlp$ par induction sur la syntaxe :
 \begin{définition}
-	{Calcul de wlp}{}
-	\begin{itemize}
-		\item $\wlp(\texttt{skip}, P) = P$
-		\item $\wlp(\texttt{fail}, P) = \top$
-		\item $\wlp(X \gets e, P) = P[e/X]$
-		\item $\wlp(s;t, P) = \wlp(s, \wlp(t, P))$
-		\item $\wlp(\texttt{if } e \texttt{ then } s \texttt{ else } t, P) = (e \Rightarrow \wlp(s, P)) \land \left(\lnot e \Rightarrow \wlp(s, P)\right)$
-		\item $\wlp(\texttt{while } e \texttt{ do } s, P) = I \land \left(\left(e\land I\right) \rightarrow \wlp(s, I) \right) \land \left(\left(\lnot e \land I\right) \Rightarrow P \right)$
-	\end{itemize}
+{Calcul de wlp}{}
+\begin{itemize}
+	\item $\wlp(\texttt{skip}, P) = P$
+	\item $\wlp(\texttt{fail}, P) = \top$
+	\item $\wlp(X \gets e, P) = P[e/X]$
+	\item $\wlp(s;t, P) = \wlp(s, \wlp(t, P))$
+	\item $\wlp(\texttt{if } e \texttt{ then } s \texttt{ else } t, P) = (e \Rightarrow \wlp(s, P)) \land \left(\lnot e \Rightarrow \wlp(s, P)\right)$
+	\item $\wlp(\texttt{while } e \texttt{ do } s, P) = I \land \left(\left(e\land I\right) \rightarrow \wlp(s, I) \right) \land \left(\left(\lnot e \land I\right) \Rightarrow P \right)$
+\end{itemize}
 \end{définition}
 
 \begin{propositionfr}{Propriétés}{}
@@ -1082,20 +1082,20 @@ On définit $\wlp$ par induction sur la syntaxe :
 		\item $\wlp(c, P) \lor \wlp(d, Q) = \wlp(c, P \lor Q)$
 		\item Si $P \Rightarrow Q$ alors $\wlp(c, P) \Rightarrow \wlp(c, Q)$
 	\end{itemize}
-	
+
 \end{propositionfr}
 \newcommand{\slp}{\texttt{slp}}
 \begin{définition}
-	{Strongest Liberal Postcondition}{}
-	On peut calculer la plus forte post condition étant donnée une précondition par induction sur la syntaxe : 
-	\begin{itemize}
-		\item $\slp(P, \texttt{skip}) = P$
-	\end{itemize}
+{Strongest Liberal Postcondition}{}
+On peut calculer la plus forte post condition étant donnée une précondition par induction sur la syntaxe :
+\begin{itemize}
+	\item $\slp(P, \texttt{skip}) = P$
+\end{itemize}
 \end{définition}
 
 \subsection{Vérification des Conditions}
-On va chercher à automatiser la vérification de programmes en utilisant la logique. 
-Pour cela, on annote les boucles avec des invariants candidats, et les programmes avec un contrat. 
+On va chercher à automatiser la vérification de programmes en utilisant la logique.
+Pour cela, on annote les boucles avec des invariants candidats, et les programmes avec un contrat.
 
 \newcommand{\vcg}{\texttt{vcg}}
 On cherche un programme $\vcg_{p}$ qui à un programme envoie un ensemble de propositions. Pour cela, on part des postconditions et on se propage en arrière:
@@ -1113,35 +1113,35 @@ On ne modifie que la règle pour $\texttt{while}$:
 	\end{prooftree}
 \end{equation*}
 Pour simplifier, on peut alors décomposer une preuve de correction totale comme une preuve de correction partielle et une preuve de terminaison.
-Pour la terminaison, on modifie la $\wlp$ pour prendre en compte la terminaison. 
+Pour la terminaison, on modifie la $\wlp$ pour prendre en compte la terminaison.
 
 \subsection{Non-Déterminisme}
-On modélise le non déterminisme par l'assignation d'une valeur aléatoire $X \gets ?$. 
+On modélise le non déterminisme par l'assignation d'une valeur aléatoire $X \gets ?$.
 On ajoute l'axiome de Hoare suivant: \\
-Si $P$ est vrai après l'assignation de $X$ à l'aléatoire, donc $P$ doit être vraie quelque soit la valeur de $X$ : 
+Si $P$ est vrai après l'assignation de $X$ à l'aléatoire, donc $P$ doit être vraie quelque soit la valeur de $X$ :
 \begin{equation*}
 	\begin{prooftree}
 		\infer0{\hoare{\forall X:P}{X \gets ?}{P}}
 	\end{prooftree}
 \end{equation*}
 
-On modifie également nos transformateurs de prédicats $\wlp$ et $\slp$. 
+On modifie également nos transformateurs de prédicats $\wlp$ et $\slp$.
 
 \subsection{TABLEAUX}
 On ajoute à notre langage un ensemble $\mathbb{A}$ de variables de tableaux, l'accès à un tableau dans les expressions $A(expr)$ et l'assignation $A(expr) \gets expr$.
 On ne peut pas juste généraliser l'axiome d'assignation, car ce n'est pas sûr pour des questions d'aliasing.\\
-Pour permettre la généralisation, une solution est d'enrichir la logique avec des expressions $A\{e \mapsto f\}$ (le tableau $A$ où l'indice $e$ envoie à $f$. On a alors un nouvel axiome 
+Pour permettre la généralisation, une solution est d'enrichir la logique avec des expressions $A\{e \mapsto f\}$ (le tableau $A$ où l'indice $e$ envoie à $f$. On a alors un nouvel axiome
 \begin{equation*}
 	\begin{prooftree}
 		\infer0{\hoare{P[A\{e \mapsto f\}/A]}{A(e) \gets f}{P}}
 	\end{prooftree}
 \end{equation*}
-Puis, on définit deux axiomes pour les raisonnements sur les tableaux: 
+Puis, on définit deux axiomes pour les raisonnements sur les tableaux:
 \begin{equation*}
 	\begin{prooftree}
 		\infer0{A\{e \mapsto f\}(e) = f}
 	\end{prooftree}
-	\quad 
+	\quad
 	\begin{prooftree}
 		\infer0{(e \neq e') \Rightarrow \left(A\{e \mapsto f\}(e') = A(e')\right)}
 	\end{prooftree}

@@ -1,0 +1,228 @@
+\documentclass[info, math]{mpb-cours}
+\newcommand{\sem}[1]{\left\llbracket #1 \right\rrbracket}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\codom}{codom}
+
+\title{Typage pour la Vérification}
+\author{Matthieu Boyer}
+\date{Cours TalENS 3 2025-2026}
+
+\begin{document}
+\bettertitle
+L'objectif de ce cours va être de savoir résoudre le problème suivant:
+
+\problemStatement{Problème Mathémagique}{%
+Entrée={$f_{0}, \ldots, f_{n - 1} \in \N^{\N}$},
+Sortie={Une preuve que $\N$ est un égaliseur de $f_{0} \rightarrow \cdots \rightarrow f_{n - 1}$
+		et d'une certaine $f: \N \to \{k\}$.}
+}
+
+Il s'agit d'une restriction forte (plus précisément, il s'agit d'une restriction aux fonctions
+entières d'arité $1$).
+
+\section{Vérification de Programmes}
+\subsection{Programme et Système de Transition}
+\begin{remarque}
+	La définition de cette section n'est pas suffisamment générale pour représenter un vrai langage de
+	programmation, et ne reprend pas que des notations usuelles, mais sert plus à introduire le sujet.
+	Toutefois, elle est suffisamment intéressante pour développer les concepts derrière la vérification de
+	programme.
+\end{remarque}
+
+\begin{definition}
+	Un \define{système de transition} est un couple $(S, \rightarrow)$ où:
+	\begin{itemize}
+		\item $S$ est un ensemble, possiblement infini, d'états;
+		\item $\rightarrow \subseteq S \times S$ est une relation de transition.
+	\end{itemize}
+\end{definition}
+
+On notera $X \to Y$ pour dire que $(X, Y) \in \rightarrow$.
+
+Dans notre cas, on va utiliser le système de transition $\P\N$ avec $S = \mP(\N)$ l'ensemble des ensembles de
+nombres entiers et $X \times Y \in \rightarrow$ si et seulement si il existe une fonction (calculable)
+$f$ telle que $f(X) = Y$.
+On dit que $X$ est le \define{domaine} $\dom f$ de $f$ et $Y$ est son \define{codomaine} $\codom f$.
+
+\begin{definition}
+	Une \define{instruction (fonctionnelle)} est une fonction\footnote{Partielle, mais calculable~!}
+	sur $X \subseteq \N$.
+
+	\smallskip
+
+	Un \define{programme (fonctionnel)} est une suite finie d'instructions fonctionnelles, qu'on applique à
+	la suite.
+\end{definition}
+
+\begin{definition}
+	On notera $f_{1} \circ f_{0} = f_{0}; f_{1}$ la composée de $f_{0}$ par $f_{1}$,
+	quand le codomaine de $f_{0}$ est inclus dans le domaine de $f_{1}$.
+	Plus généralement, on notera
+	\begin{equation*}
+		\bigodot_{i = 0}^{k} f_{i} = f_{k}\circ \cdots \circ f_{0} = f_{0}; \cdots; f_{k}.
+	\end{equation*}
+\end{definition}
+
+Cependant, considérons le programme suivant:
+\begin{itemize}
+	\item $f_{0}(n \in \N) = 2n + 1$;
+	\item $f_{1}(n = 2k \in 2\N) = k$.
+\end{itemize}
+En langage naturel: à un nombre entier, on le double et on lui ajoute un, puis s'il est pair on le divise
+par $2$.
+Puisqu'on sait que $2n + 1$ sera toujours un nombre impair, ce programme n'est pas bien défini, puisqu'on
+ne sait pas quoi faire avec $f_{1}$.
+
+\begin{definition}
+	Un programme $f_{0}, \ldots, f_{n - 1}$ est \define{bien typé} si on a
+	\begin{equation*}
+		\N \xrightarrow{f_{0}} f_{0}(\N)
+		\xrightarrow{f_{1}} \cdots
+		\xrightarrow{f_{k}} \left(\bigodot_{i = 0}^{k}f_{i}\right)(\N)
+		\xrightarrow{f_{k + 1}} \cdots \xrightarrow{f_{n - 1}} \left(\bigodot_{i = 0}^{n - 1}f_{i}\right)(\N).
+	\end{equation*}
+\end{definition}
+
+Ceci signifie seulement que $(f_{k})_{\mid \bigodot_{i\leq k - 1}f_{i}(\N)}$ a son codomaine inclus dans le
+domaine de $f_{k + 1}$.
+
+\begin{thm}[Théorème de Rice]
+	Il n'existe pas de fonction mathématique calculable qui prend en entrée un programme fonctionnel et qui
+	dit si le programme est bien typé ou non.
+\end{thm}
+
+\subsection{Inférence de Types}
+Encore une fois, toutes les définitions de cette section sont trop peu générales, mais servent pour
+introduire des concepts.
+\begin{definition}
+	Un \define{domaine de valeurs}/\define{type} est un état du système de transition.
+
+	\smallskip
+
+	Le \define{type} d'une fonction, noté $A \to B$ est le plus grand $A$ et plus petit $B$ tel que $f$ est
+	définie par tout sur $A$ et que pour tout $a \in A, f(a) \in B$.
+\end{definition}
+
+Remarquons alors qu'un programme est bien typé exactement lorsque le type de renvoi de $f_{i}$ est inclus
+dans le type de valeurs de $f_{i + 1}$.
+
+On peut inférer le type d'un programme à partir du type des fonctions. Notre objectif de départ devient donc
+de calculer le type de la fonction composée $f_{0}; f_{1}; \cdots; f_{n - 1}$ associée au programme.
+
+On introduit pour ça la notion de jugement de typage.
+\begin{definition}
+	Un \define{jugement de typage} est une preuve sous forme d'arbre permettant de calculer le type d'une
+	fonction.
+	Elles se créent à partir des blocs de base
+	\begin{equation*}
+		\frac{}{\Gamma \vdash f: \dom(f) \to \codom(f)}
+	\end{equation*}
+	et des règles de composition
+	\begin{equation*}
+		\frac{\Gamma \vdash x: A \qquad \Gamma \vdash f: A \to B}{\Gamma \vdash fx: B} \qquad \frac{\Gamma \vdash f: A \to B \qquad \Gamma\vdash g: B \to C}{\Gamma \vdash f; g: A \to C} \qquad \frac{\Gamma \vdash A \subseteq A' \qquad \Gamma \vdash f: A' \to B}{\Gamma \vdash f(A) \subseteq B}
+	\end{equation*}
+\end{definition}
+
+Un programme $p$ est bien typé s'il existe un jugement de typage pour la fonction composée.
+En pratique, le problème est donc de réduire au minimum le codomaine de $f$ sachant qu'on la restreint à
+un domaine:
+\begin{category}[]
+	& \phantom{}\ar[d]\\
+	A'\ar[d, "f"] & A\ar[d, "f_{\mid A}"]\ar[l, "\subseteq"'] \\
+	B\ar[d] & f(A)\ar[l, "\subseteq"]\\
+	\phantom{} &
+\end{category}
+
+Résoudre le problème de départ revient alors à trouver un certain $k$ tel qu'il existe $f: \N \to \{k\}$
+et que le diagramme ci-dessous commute:
+\begin{category}
+	\N\ar[r, "f_{0}"]\ar[bend right, rrrr, "f" description] & X_{1}\ar[r, "f_{1}"] & \cdots\ar[r, "f_{n - 2}"] & X_{n - 1}\ar[r, "f_{n - 1}"] & \{k\}
+\end{category}
+
+
+\paragraph*{En linguistique~?!}
+En sémantique des langages naturels, on associe à chaque mot une fonction qui représente mathématiquement
+son sens.
+On suppose ensuite que la sémantique du langage est compositionnelle, c'est-à-dire que le sens d'une phrase
+est fonction du sens de ses composantes et de sa structure syntactique.
+
+On attribue un type aux mots en fonction de s'ils représentent une valeur de vérité, une véritable entité,
+ou une fonction entre des types.
+
+C'est ce qu'on appelle une théorie de sémantique compositionnelle pour le langage naturel.
+
+
+\section{Relations et Quotients}
+\subsection{Exemple de l'arithmétique modulaire}
+\begin{definition}
+	La \define{division euclidienne} de $a \in \Z$ par $b \in \Z$ est un couple d'entiers $(q, r)$
+	tel que
+	\begin{itemize}
+		\item $a = qb + r$;
+		\item $0 \leq r < q$.
+	\end{itemize}
+	On dit que $q$ est le \define{quotient} de $a$ par $b$ et $r$ le \define{reste} dans la division
+	euclidienne de $a$ par $b$, ou le reste \define{modulo} $b$ de $a$.
+	On note $r = a \mod b$.
+\end{definition}
+
+\begin{proposition}
+	On a, pour $a, b, n$ des entiers
+	\begin{itemize}
+		\item $a + b \mod n = \left(a \mod n + b \mod n\right) \mod n$;
+		\item $a \times b \mod n = \left(a \mod n \times b \mod n\right) \mod n$;
+		\item $- a \mod n = - (a \mod n)\mod n$.
+	\end{itemize}
+\end{proposition}
+
+Par conséquent, il suffit de calculer avec les restes modulo $n$ pour obtenir le résultat modulo $n$.
+
+En propageant les calculs modulo $n$, on va pouvoir restreindre à $n$ le nombre de cas à étudier, et
+possiblement encore plus le nombre de valeurs de sortie.
+
+\subsection{Plus généralement}
+\begin{definition}
+	Une \define{relation d'équivalence} $\sim$ sur $E$ est une partie de $E\times E$, notée $x \sim y$ et
+	telle que
+	\begin{itemize}
+		\item $x \sim x$;
+		\item $x \sim y \Leftrightarrow y \sim x$;
+		\item $x \sim y \land y \sim z \Rightarrow x \sim z$.
+	\end{itemize}
+\end{definition}
+
+L'égalité est une relation d'équivalence. L'égalité modulo $n$ aussi.
+
+\begin{proposition}
+	Considérons la relation $x \mathcal{R} y$ si et seulement si $x = y$ ou $x = 0$ et $y = 1$.
+	L'intervalle $[0, 1]$ muni de cette relation est un cercle.
+
+\end{proposition}
+
+\begin{definition}
+	La \define{classe d'équivalence} de $x \in E$ sous $\sim$ une relation d'équivalence est l'ensemble des
+	éléments de $E$ qui sont en relation avec $x$.
+
+	Le \define{quotient} $E / \sim$ de $E$ par $\sim$ une relation d'équivalence sur $E$ est l'ensemble des
+	classes d'équivalence des éléments de $E$ sous $\sim$.
+\end{definition}
+
+\begin{definition}
+	On dit qu'une opération $f: E \to E$ \define{passe au quotient} si le diagramme ci-dessous commute.
+	\begin{category}
+		E \ar[r, "/\sim"]\ar[d, "f"'] & E /\sim\ar[d, "f"]\\
+		E \ar[r, "/\sim"'] & E /\sim
+	\end{category}
+\end{definition}
+
+Dans ce cas, on peut se servir du passage au quotient pour se restreindre, comme pour l'arithmétique
+modulaire, dans le choix des types des fonctions afin de mieux calculer leur type.
+
+\begin{proposition}
+	Une fonction $f: E \to X$ définit une relation d'équivalence $\mathcal{R}$ par $x \mathcal{R} y$
+	si et seulement si $f(x) = f(y)$.
+\end{proposition}
+
+
+
+\end{document}
