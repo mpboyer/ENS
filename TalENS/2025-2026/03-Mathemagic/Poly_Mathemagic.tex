@@ -91,6 +91,10 @@ domaine de $f_{k + 1}$.
 	dit si le programme est bien typé ou non.
 \end{thm}
 
+Ceci peut se voir en regardant notamment l'exemple du problème de l'arrêt: s'il existe un programme qui
+permet de décider si un programme va terminer ou non, et s'il existe un programme qui ne termine pas, alors
+on peut construire un prgramme qui termine si et seulement si il ne termine pas.
+
 \subsection{Inférence de Types}
 Encore une fois, toutes les définitions de cette section sont trop peu générales, mais servent pour
 introduire des concepts.
@@ -138,7 +142,6 @@ et que le diagramme ci-dessous commute:
 \begin{category}
 	\N\ar[r, "f_{0}"]\ar[bend right, rrrr, "f" description] & X_{1}\ar[r, "f_{1}"] & \cdots\ar[r, "f_{n - 2}"] & X_{n - 1}\ar[r, "f_{n - 1}"] & \{k\}
 \end{category}
-
 
 \paragraph*{En linguistique~?!}
 En sémantique des langages naturels, on associe à chaque mot une fonction qui représente mathématiquement

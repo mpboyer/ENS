@@ -1,0 +1,220 @@
+\section{Introduction sur les Espaces de Formes}
+\subsection{Rappels de Géométrie Différentielle sur les variétés abstraites}
+
+\begin{definition}
+	Une \define{variété topologique} $M$ de dimension finie $n$ est un espace topologique séparé à base
+	d'ouverts dénombrable telle que, pour tout $m \in M$, il existe un ouvert $U$ de $M$ contenant $m$,
+	$\Omega$ un ouvert de $\R^{n}$ (en tant qu'espace euclidien) et un homéomorphisme $\phi: U \to \Omega$.
+	Le couple $(U, \phi)$ est appelé une \define{carte locale}.
+\end{definition}
+
+\begin{definition}
+	Un \define{atlas} $\mC^{p}$ sur une variété topologique $M$ est la donnée:
+	\begin{enumerate}
+		\item d'un recouvrement $(U_{i})_{i \in I}$ ouvert de $M$;
+		\item d'une famille d'homéomorphismes $\phi_{i}: U_{i} \to M_{i}$ de sorte que pour tout $i, j \in I$,
+		      l'application de \define{changement de cartes} $\phi_{j} \circ \phi_{i}^{-1}: \phi_{i}(U_{i}\cap U_{j}) \to \phi_{j}(U_{i} \cap U_{j})$ est un $\mC^{p}$-difféomorphisme.
+	\end{enumerate}
+
+	{%
+	\centering
+	\begin{tikzpicture}[>=Stealth, scale=1.2, node distance=2.5cm and 1.5cm]
+
+		% --- STYLES ---
+		\tikzstyle{hatch} = [pattern=north east lines, pattern color=gray!60]
+
+		% --- NIVEAU INFÉRIEUR ---
+
+		% On définit les coordonnées des centres pour Omega
+		\coordinate (Ci) at (0,0);
+		\coordinate (Cj) at (5.5,0); % Équivalent au right=4cm de Omegai
+
+		% Définition des chemins (Paths) pour Omega
+		\def\pathOmegai{(Ci) circle [x radius=1.5cm, y radius=1cm]}
+		\def\pathOmegaj{(Cj) circle [x radius=1.5cm, y radius=1cm]}
+
+		% Dessin de Omega_i
+		\begin{scope}
+			\clip \pathOmegai;
+			% Remplissage décalé (similaire à Uj dans le clip de Ui)
+			\fill[hatch, draw=vulm] ([xshift=1.5cm]Ci) circle [x radius=1cm, y radius=1.1cm];
+		\end{scope}
+		\draw \pathOmegai;
+		\node at (Ci) [below=1.2cm] {\Large $\Omega_i$};
+
+		% Dessin de Omega_j
+		\begin{scope}
+			\clip \pathOmegaj;
+			\fill[hatch, draw=vulm] ([xshift=-1.5cm]Cj) circle [x radius=1cm, y radius=1.1cm];
+		\end{scope}
+		\draw \pathOmegaj;
+		\node at (Cj) [below=1.2cm] {\Large $\Omega_j$};
+
+		\node at ([xshift=2.5cm]Cj) {\color{vulm}\Large $\mathbb{R}^n$};
+
+		% --- NIVEAU SUPÉRIEUR ---
+		\path (Ci) -- coordinate (middle) (Cj);
+		\node (intersection) [above=4cm of middle] {};
+
+		\begin{scope}[shift={(intersection)}]
+			\def\pathUi{( -0.75,0) circle [x radius=1.5cm, y radius=1cm]}
+			\def\pathUj{(  0.75,0) circle [x radius=1.5cm, y radius=1cm]}
+
+			\begin{scope}
+				\clip \pathUi;
+				\fill[hatch] \pathUj;
+			\end{scope}
+
+			\draw \pathUi node[left=1.7cm] {\Large $U_i$};
+			\draw \pathUj node[right=1.7cm] {\Large $U_j$};
+			\node at (0, 1.4) {\Large $U_i \cap U_j$};
+			\node at (4, 0.5) {\color{vulm}\Large $M$};
+		\end{scope}
+
+		% --- FLÈCHES ---
+		% On utilise les coordonnées Ci et Cj pour l'arrivée des flèches
+		\draw[->, thick] ([xshift=-0.5cm, yshift=-1.1cm]intersection) -- ([yshift=1.1cm]Ci)
+		node[midway, left=0.1cm] {\Large $\phi_i$};
+
+		\draw[->, thick] ([xshift=0.5cm, yshift=-1.1cm]intersection) -- ([yshift=1.1cm]Cj)
+		node[midway, right=0.1cm] {\Large $\phi_j$};
+
+		\draw[->, thick] ([xshift=1.6cm]Ci) -- ([xshift=-1.6cm]Cj)
+		node[midway, above] {\Large $\phi_j \circ \phi_i^{-1}$}
+		node[midway, below=0.1cm] {\Large $C^p$};
+
+	\end{tikzpicture}
+	}
+\end{definition}
+
+\begin{definition}
+	Deux atlas $(U_{i}, \phi_{i})$ et $(V_{j}, \phi_{j})$ de classe $\mC^{p}$ sont dit \define{compatibles}
+	si leur réunion est un atlas de classe $\mC^{p}$.
+
+	Une \define{structure différentiable} de classe $\mC^{p}$ est une classe d'équivalence d'atlas compatibles
+	de classe $\mC^{p}$.
+\end{definition}
+
+\begin{definition}
+	Une \define{variété différentiable} de classe $\mC^{p}$ de dimension $n$ est une variété topologique de
+	dimension $n$ munie d'une structure différentiable de classe $\mC^{p}$.
+\end{definition}
+
+\begin{definition}
+	Un ensemble $M \subseteq \R^{n + k}$ est une sous-variété de dimension $n$ de classe $\mC^{p}$ de
+	$\R^{n + k}$ si pour tout $m \in M$ il existe un ouvert $U$ de $\R^{n + k}$ contenant $m$ et une
+	submersion\footnote{$f$ est une submersion si sa différentielle est surjective en tout point.}
+	de classe $\C^{p}$ $f: U \to \R^{k}$ telle que $U \cap M = f^{- 1}(0)$.
+\end{definition}
+
+\begin{definition}
+	Soit $M$ une variété abstraite de classe $\mC^{p}$.
+	Un sous-ensemble $N \subseteq M$ est une sous-variété de $M$ si pour tout $n \in N$, il existe un ouvert
+	$U$ contenant $N$ de $M$ et une carte locale $(U, \phi)$ telle que $\phi(N \cap U)$ est une sous-variété
+	$\mC^{p}$ de l'ouvert $\phi(U)$.
+\end{definition}
+
+\begin{proposition}
+	Les deux assertions ci-dessous sont équivalentes:
+	\begin{enumerate}
+		\item $M$ est une sous-variété de dimension $n$ de $\R^{n + k}$;
+		\item Pour tout $m \in M$, il existe un ouvert $U$ de $M$ contenant $m$ et un ouvert $\Omega$ de
+		      $\R^{n}$ contenant $0$ et une application de classe $\mC^{p}$ $g: \Omega \to \R^{n + k}$ de
+		      sorte que $(\Omega, g)$ soit une paramétrisation de $M \cap U$ au voisinage de $m$ (c'est-à-dire
+		      que $g$ est un homéomorphisme de $\Omega$ dans $M \cap U$ et $\d g(0)$ est injective.)
+	\end{enumerate}
+\end{proposition}
+
+\begin{definition}
+	Soient $X, Y$ deux variétés différentiables de classe $\mC^{p}$.
+	Une application $f: X \to Y$ est de classe $\mC^{k}$ pour $k \leq p$ si pour tout $x \in X$, il existe
+	une carte $(U, \phi)$ sur $X$ et une carte $(V, \psi)$ sur $Y$ telles que $U$ contienne $x$,
+	$f(U) \subseteq V$, $V$ contienne $f(x)$ et que $\psi \circ f \circ \phi^{-1}: \phi(U) \to \phi(V)$ soit
+	de classe $\mC^{k}$.
+\end{definition}
+
+\begin{definition}
+	Soient $M$ et $N$ deux variété de classe $\mC^{p}$ de dimension $m, n$.
+	Alors $M \times N$ est une variété de classe $\mC^{p}$ de dimension $m + n$
+	muni de l'atlas	$(U_{i} \times V_{j}, \phi_{i} \otimes \psi_{j})_{(i, j) \in I \times J}$
+	où $(U, \phi)$ (resp. $(V, \psi)$) est un atlas compatible avec la structure différentielle de $M$
+	(resp. $N$).
+\end{definition}
+
+\subsection{Premiers exemples d'espaces de formes}
+Plutôt que d'analyser les formes elles-mêmes, on va considérer les \textit{ensembles} de formes et
+essayer de les appréhender comme des \textit{espaces} au sens mathématique.
+
+Par exemple, on peut considérer
+\begin{enumerate}
+	\item les $k$-uplets de $\R^{d}\setminus \Delta$;
+	\item les classes d'équivalences $[m]$ à rotation directe, translation et échelle près noté
+	      $\Sigma_{d}^{k}$ qui définissent les espaces de Kendall (notamment, $\Sigma_{3}^{2}$ est
+	      isométrique et homotope à $\S^{2}$);
+	\item les courbes dans $\R^{p}$ et plus généralement les immersion $f: P \to \R^{d}$ de classe $\mC^{k}$
+	      pour $P$ un ouvert de $\R^{p}$, ou encore les quotients $[f]$ à reparamétrisation près
+	      $\psi: P \to P$ où $\psi$ est un $\mC^{k}$ difféomorphisme sur $P$, ce qui permet par exemple de
+	      comparer des formes planes à partir de contours germés ou ouverts ou des surfaces;
+	\item les images: variations autour d'un template ou encore $\ell^{2}$ tout entier;
+	\item les distributions d'objets élémentaires.
+\end{enumerate}
+
+\subsection{Rappels sur les actions de groupe}
+\begin{definition}
+	Soit $G$ un groupe et $X$ un ensemble. On dit que $G$ \define{agit à gauche} sur $X$ si il existe une application
+	$A: G \times X \to X$ telle que
+	\begin{enumerate}
+		\item $A(1_{G}, x) = x$;
+		\item pour tout $g, g'$, $A(g, A(g', x)) = A(gg', x)$.
+	\end{enumerate}
+	On notera alors $g.x = A(g, x)$.
+\end{definition}
+
+On définit de même une action \textit{à droite} par $A(g, A(g', x)) = A(g'g, x)$.
+
+\begin{definition}
+	Pour tout point $x \in X$, on définit \define{l'orbite} de $x$ sous l'action de $G$ notée $Gx$ par
+	\begin{equation*}
+		Gx = \left\{g.x \suchthat g \in G\right\}
+	\end{equation*}
+	Pour tout $x, y \in X$ on définit la relation d'équivalence $x \sim y$ par $x \sim y$ si et seulement si
+	$Gx = Gy$. On note alors $X / G$ le quotient $X / \sim$.
+\end{definition}
+
+\begin{proposition}
+	L'espace de Kendall est donc $\left(\left(\R^{d}\right)^{k}\setminus \Delta_{\R^{d}}\right) / \mathrm{Sim}^{+}\left(\R^{d}\right)$.
+\end{proposition}
+
+\begin{definition}
+	Soit $G$ opérant sur $X$. On dit que $X$ est un \define{espace homogène} si $G$ agit transitivement sur
+	$X$, i.e. pour tout $x, y \in X$, il existe $g \in G$ tel que $g.x = y$.
+\end{definition}
+
+Alors, le quotient $X / G$ est réduit à un point et $X$ est consitué d'une seule orbite.
+Ce n'est pas la situation des espaces de Kendall puisque $G = \mathrm{Sim}^{+}(\R^{d})$ est un "petit"
+groupe.
+
+\begin{definition}
+	Soit $G$ agissant sur $X$ et $x \in X$, on appelle \define{stabilisateur} de $x$ l'ensemble $G_{x}$
+	défini par $G_{x} = \left\{g \in G\suchthat g.x = x\right\}$.
+\end{definition}
+
+\begin{thm}
+	Soit $G$ agissant sur $X$ et $x\in X$. Alors
+	\begin{enumerate}
+		\item $G_{x} \times G \to G$ définie par $(h, g) \mapsto gh$ est une action à droite de $G_{x}$ sur $G$;
+		\item le quotient $G / G_{x}$ est en bijection avec l'orbite $Gx$ par l'application $[g] \mapsto g.x$.
+	\end{enumerate}
+\end{thm}
+
+\subsection{Comparaisons et Distances}
+\begin{definition}
+	Si un espace $E$ est muni d'une distance $d$, on définit la \define{moyenne de Fréchet} ou
+	\define{moyenne de Karcher} de $x_{1}, \ldots, x_{k} \in E$ par
+	\begin{equation*}
+		x_{*} = \argmin_{x} \sum_{i = 1}^{k}d(x, x_{i})^{2}.
+	\end{equation*}
+\end{definition}
+
+
+

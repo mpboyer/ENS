@@ -1,0 +1,417 @@
+\documentclass[info, math]{mpb-cours}
+
+\title{Automates, Grammaires et Systèmes de Transitions}
+\author{Matthieu Boyer}
+\date{Cours TalENS 5 2025-2026}
+
+\usepackage{qtree}
+\def\SigmaF{\Sigma^{*}}
+\def\derive{\xrightarrow{*}}
+\def\ser#1{f_{\mL#1}}
+
+\begin{document}
+\bettertitle
+
+\section{Langages, et Générateurs}
+Dans la suite, on considère un alphabet noté $\Sigma$.
+Il s'agit juste d'un ensemble fini quelconques, dont les éléments sont appelés \define{lettres}.
+
+\subsection{Langages réguliers}
+\begin{definition}
+	Le \define{monoïde libre} $\SigmaF$ sur l'alphabet $\Sigma$ est l'ensemble des suites finies d'éléments
+	de $\Sigma$.
+	La suite vide est une suite finie notée $\epsilon$.
+
+	Les éléments du monoïde libre sur $\Sigma$ sont appelés des \define{mots} sur $\Sigma$.
+	Un \define{langage} sur $\Sigma$ est un ensemble de mots sur $\Sigma$, c'est-à-dire une partie de
+	$\SigmaF$.
+\end{definition}
+
+\begin{definition}
+	Pour $u \in \SigmaF$, on note $u_{0}\ldots u_{n - 1}$ ses lettres et $\abs{u} = n$ sa \define{longueur}.
+
+	On définit la \define{concaténation} de deux mots $u, u'$ comme
+	$u\cdot u' = u_{0}\ldots u_{n - 1}u_{0}'\ldots u_{n' - 1}'$.
+\end{definition}
+
+On écrit notamment $u^{k} = \underbrace{u \cdot u \cdot \cdots \cdot u}_{k \text{ fois}}$ et $u^{0} = \epsilon$.
+
+\begin{definition}
+	Un monoïde est un ensemble $M$ muni d'une application binaire $+: M \times M \to M$ ayant un neutre
+	$0 \in M$ tel que $0 + m = m + 0 = m$ pour tout $m \in M$.
+	Un (homo)morphisme de monoïdes est une application $M_{1} \to M_{2}$ préservant le neutre et l'opération.
+\end{definition}
+
+\begin{thm}
+	$\abs{\cdot}$ est un morphisme de monoïdes de $\left(\SigmaF, \cdot\right)$ dans $\left(\N, +\right)$.
+\end{thm}
+\begin{proof}
+	C'est la définition: $\abs{u \cdot u'} = \abs{u} + \abs{u'}$ et $\abs{\epsilon} = 0$.
+\end{proof}
+
+\begin{thm}
+	Si $h: \Gamma \to \Sigma$ est une application, $h$ engendre un homomorphisme de monoïdes entre $\Gamma^{*}$ et $\Sigma^{*}$.
+\end{thm}
+\begin{proof}
+	On définit simplement $h(\epsilon) = \epsilon$ et $h(xy) = h(x)h(y)$ pour tous mots $x$ et $y$.
+\end{proof}
+
+\begin{definition}
+	Si $L_{1}, L_2$ sont deux langages, on définit
+	\begin{equation*}
+		L_{1} \cdot L_{2} = \left\{u_{1}\cdot u_{2} \suchthat u_{1}\in L_{1}, u_{2}\in L_{2}\right\},
+	\end{equation*}
+	la concaténation de $L_{1}$ et $L_{2}$.
+	En particulier, on notera $L_{1}^{k} = \underbrace{L_{1} \cdot L_{1} \cdot \cdots \cdot L_{1}}_{k \text{ fois}}$.
+\end{definition}
+
+\begin{thm}
+	On a l'égalité
+	\begin{equation*}
+		\SigmaF = \bigcup_{k = 0}^{\infty} \Sigma^{k}.
+	\end{equation*}
+\end{thm}
+\begin{proof}
+	Si $u$ est un mot sur $\Sigma$, alors $u \in \Sigma^{\abs{u}}$ et $\abs{u} \in \N$.
+\end{proof}
+
+On dit que $\SigmaF$ est l'\define{étoile de Kleene} de $\Sigma$. On définit de même $L^{*}$ l'étoile de
+Kleene de $L$, qui correspond au monoïde libre sur $L$.
+
+\begin{definition}
+	L'ensemble des langages \define{rationnels\footnote{Parfois appelés langages réguliers}} est le plus
+	petit ensemble tel que
+	\begin{itemize}
+		\item les langages finis sont rationnels;
+		\item la concaténation de deux langages rationnels est rationnelle;
+		\item l'union de deux langages rationnels est rationnelle;
+		\item l'étoile de Kleene de deux langages rationnels est rationnelle.
+	\end{itemize}
+\end{definition}
+
+Le langage $\{a^{2n} \mid n \in \N\}$ est rationnel.
+
+\begin{thm}
+	Il existe des langages non rationnels.
+\end{thm}
+\begin{proof}
+	L'ensemble $\SigmaF$ est dénombrable, donc l'ensemble $\mP(\SigmaF)$ des langages sur $\Sigma$ est
+	indénombrable.
+	Puisque l'ensemble des langages régulières est dénombrable, il existe des langages non réguliers.
+\end{proof}
+
+Par exemple, le langage Dyck-$1$ $\{a^{n}b^{n} \mid n \in \N\}$ n'est pas rationnel.
+
+\begin{definition}
+	Une \define{expression régulière} est construite par induction par la grammaire suivante
+	\begin{itemize}
+		\item les lettres de $\Sigma$ sont des expressions régulières;
+		\item si $e_{1}, e_{2}$ sont des expressions régulières, $e_{1} + e_2$ et $e_1 \cdot e_2$ sont des
+		      expressions régulières;
+		\item si $e$ est une expression régulière, $e^{*}$ est une expression régulière.
+	\end{itemize}
+	Le langage $\mL(e)$ reconnu par une expression régulière $e$ est défini inductivement par:
+	\begin{itemize}
+		\item $\mL(a) = \{a\}$ pour $a \in \Sigma$;
+		\item $\mL(e_1 + e_2) = \mL(e_1) \cup \mL(e_2)$;
+		\item $\mL(e_1 \cdot e_2) = \mL(e_1) \cdot \mL(e_2)$;
+		\item $\mL(e^*) = \mL(e)^{*}$.
+	\end{itemize}
+\end{definition}
+
+\begin{thm}
+	Les langages rationnels sont exactement les langages reconnus par des expressions régulières.
+\end{thm}
+\begin{proof}
+	Direct par la définition, on prouve d'abord que le langage reconnu par une expression régulière est
+	rationnel, puis on se donne un langage rationnel et une séquence d'étapes permettant de le construire à
+	partir d'ensembles finis et on construit une expression régulière le reconnaissant.
+\end{proof}
+
+\begin{thm}
+	Vérifier l'appartenance d'un mot à un langage régulier est un problème de décision en temps linéaire.
+\end{thm}
+\begin{proof}
+	On utilise pour cela des automates, qui sont une représentation graphique du processus de transition.
+	On ne rentrera pas dans les détails, mais un automate peut être vu comme un graphe dont les arêtes sont
+	étiquetées par des lettres de $\Sigma$, et on appelle calcul d'un mot sur l'automate un parcours du graphe
+	partant d'un état initial et suivant les lettres du mot.
+\end{proof}
+
+\subsection{xkcd.com/1090}
+\begin{definition}
+	Une \define{grammaire} est un quadruplet $(N, \Sigma, P, S)$ où
+	\begin{itemize}
+		\item $N$ est un alphabet de symboles dits "non-terminaux";
+		\item $\Sigma$ est un alphabet de symboles dits "terminaux";
+		\item $P$ est un ensemble fini de règles de production de la forme $(N \cup \Sigma)^{*}N(N\cup \Sigma)^{*} \to (N \cup \Sigma)^{*}$;
+		\item $S \in N$ est un symbole non-terminal de base.
+	\end{itemize}
+	Une grammaire est dite \define{hors-contexte} lorsque les règles dans $P$ ne sont que de la forme
+	$N \to (\Sigma \cup N)^{*}$.
+\end{definition}
+
+\begin{definition}
+	Un alphabet est dit \define{couplé} s'il s'écrit $T \cup \bar{T}$ où $\abs{T} = \abs{\bar{T}}$.
+	On pensera $T$ comme étant des parenthèses ouvrantes et $\bar{T}$ des parenthèses fermantes.
+\end{definition}
+
+\begin{definition}
+	Le langage reconnu par une grammaire est défini inductivement par l'application finie de règles:
+	\begin{itemize}
+		\item Pour deux mots $u, v \in (N \cup \Sigma)^{*}$, $u$ \define{se dérive} $v$ (noté $u \to v$)
+		      s'il y a une règle $\alpha \to \beta$ dans $P$ (avec $\alpha \in N$) et
+		      $u_{1}, u_{2} \in (N \cup \Sigma)^{*}$ tels que $u = u_{1}\alpha u_{2}$ et $v = u_{1}\beta u_{2}$.
+		\item Pour deux mots $u, v \in (N \cup \Sigma)^{*}$, $u$ \define{dérive} $v$ (noté $u \derive v$) quand
+		      $u$ peut se dériver en $v$ après un nombre fini d'étapes\footnote{On dit que $\derive$ est la
+			      clôture réflexive et transitive de $\to$.}
+		\item Le langage engendré par $G$ est $\mL(G) = \left\{u \in \SigmaF \suchthat S \derive u\right\}$.
+	\end{itemize}
+	Si $L$ est engedré par une grammaire hors-contexte, on dit que $L$ est algébrique ou hors-contexte.
+\end{definition}
+
+Le langage Dyck-$1$ est algébrique et engendré par $S \to aSa$.
+
+\begin{thm}[Hiérarchie de Chomsky --- Non-complétude du Type 2]
+	Il existe des langages non algébriques.
+\end{thm}
+\begin{proof}
+	La preuve est la même que pour les langages réguliers.
+\end{proof}
+
+Par exemple, le langage $\{a^{i}b^{i}c^{i} \mid i \geq 0\}$ n'est pas algébrique.
+
+\begin{thm}[Hiérarchie de Chomsky --- Inclusion du Type 3 dans le Type 2]
+	Les langages réguliers sont algébriques.
+\end{thm}
+\begin{proof}
+	Il suffit de voir que les grammaires dont les règles de production contiennent au plus un non-terminal
+	qui se trouve toujours au début ou à la fin de la règle engendrent exactement les langages réguliers.
+\end{proof}
+
+\begin{definition}
+	Un \define{arbre de dérivation} est une représentation visuelle des différentes étapes de la dérivation
+	d'un mot par une grammaire.
+\end{definition}
+
+\begin{thm}
+	Vérifier l'appartenance d'un mot au langage reconnu par une grammaire hors-contexte est un problème de
+	décision en temps polynomial cubique (et linéaire en la taille de la grammaire).
+\end{thm}
+\begin{proof}
+	L'algorithme CYK (Cocke-Younger-Kasami) résout ce problème en temps $\O(\abs{u}^{3}\abs{G})$.
+\end{proof}
+
+\begin{thm}
+	Les langages algébriques sont clos par concaténation, union, intersection avec un langage régulier.
+\end{thm}
+
+
+
+\subsubsection{Bestiaire}
+On donne ici quelques exemples de grammaires formelles.
+\paragraph*{Expressions Arithmétiques}
+Commençons déjà par le langage $d^{+}$ des nombres en base $10$. C'est un langage régulier, reconnu par
+l'expression régulière $([0-9]^{*}[1-9])+0$.
+
+On a ensuite une grammaire hors-contexte avec les règles
+$S \to S + S$, $S \to S \times S$, $S \to S = S$, $S \to d^{+}$.
+
+\paragraph*{Langages de Dyck}
+Le $k$-ème langage de Dyck (\define{Dyck-$k$}) est donné le langage des mots bien parenthésés avec $k$
+types de parenthèses.
+C'est un langage algébrique dont une grammaire est donnée par
+$S \to \epsilon$ et $S \to (_{i}S)_{i}$ pour tout $i \in \onen{k}$.
+
+Autrement dit, on peut définir le langage $D_{T}$ pour tout alphabet couplé $T \cup \bar{T}$ par
+$S\to \epsilon$ et pour des paires $t, \bar{t} \in T\times \bar{T}$, $S \to t S \bar{t}$.
+
+Ce sont les langages algébriques par excellence:
+\begin{thm}[Théorème de représentation de Chomsky-Schützenberger]
+	Un langage $L$ sur $\Sigma$ est algébrique si et seulement si il existe
+	\begin{enumerate}
+		\item un alphabet couplet $T \cup \bar{T}$;
+		\item un langage rationnel $R$ sur $T \cup \bar{T}$;
+		\item un morphisme de monoïde $h$ de $\left(T\cup \bar{T}\right)^{*}$ dans $\Sigma^{*}$;
+	\end{enumerate}
+	tels que $L = h(D_{T}\cap R)$.
+\end{thm}
+\begin{proof}
+	Il suffit de prouver l'existence de tels objets pour un langage algébrique $L$, l'inclusion réciproque
+	étant directe par les propriétés de cloture des langages algébriques.
+	Soit $G = (V, \Sigma, P, S)$ une grammaire sur $\Sigma$.
+	Posons $T = V \cup \Sigma$.
+	On définit $h$ un morphisme de $(T \cup \bar{T})^{*}$ dans $\Sigma^{*}$ par
+	\begin{equation*}
+		\psi(X) =
+		\begin{cases}
+			1 & \text{si } X \in V \cup \bar{T} \\
+			X & \text{si } X \in \Sigma
+		\end{cases}
+	\end{equation*}
+	On peut ensuite construire $R$ par le théorème de Shamir, mais on ne rentrera pas dans les détails.
+	Voir par exemple \url{http://www-igm.univ-mlv.fr/~berstel/Articles/1997CFLPDA.pdf} pour plus de détails.
+\end{proof}
+
+\paragraph*{Fragment de Français}
+\begin{tabular}{c@{$\to$}c}
+
+	S(entence)                & N(oun) P(hrase) + V(erb) P(hrase) \\
+	NP                        & Proper Name                       \\
+	NP                        & Det + N + (Adj)                   \\
+	VP                        & V$_{intr}$                        \\
+	VP                        & V$_{tr}$ + NP                     \\
+	C(omplementizer) P(hrase) & \textsl{que} + S                  \\
+	VP                        & V$_{cl(ausal)}$ + CP              \\
+	V$_{tr}$                  & voir, entendre,\dots              \\
+	V$_{intr}$                & dormir, briller,\dots             \\
+	V$_{cl}$                  & penser, croire,\dots              \\
+	C$_{temp}$                & avant que, quand                  \\
+	CP$_{temp}$               & C$_{temp}$ + S                    \\
+	S                         & NP + VP + (CP$_{temp}$)           \\
+	VP                        & V$_{intr}$ + (CP$_{temp}$)        \\
+	VP                        & V$_{tr}$ + NP + (CP$_{temp}$)     \\
+	S                         & S + CP$_{temp}$                   \\
+	VP                        & VP + CP$_{temp}$                  \\
+\end{tabular}
+\Tree [.S \qroof{Marie}.NP [.VP [.VP [.V verra ] \qroof{Jacques}.NP ]  [.CP [.C quand ] \qroof{Paul dormira}.S ] ] ]
+
+\paragraph*{Syntaxe de l'Anglais}
+\begin{multicols}{2}
+	\setlength\tabcolsep{4pt}
+	\begin{tabular}{>{\tt}l r >{\tt}l r}
+		\firstrule{CP}{DP, VP}{}
+		\grule{Cmp, CP}{}
+		\grule{CP, CBar}{}
+		\gskip
+		\firstrule{CBar}{Cor, CP}{}
+		\firstrule{Dbar}{Cor, DP}{}
+		\firstrule{DP}{DP, Dbar}{}
+		\grule{Dmp, DP}{}
+		\grule{Det, NP}{}
+		\grule{Gen, TN}{}
+		\gskip
+		\firstrule{Gen}{DP, GenD}{}
+	\end{tabular}
+
+	\setlength\tabcolsep{4pt}
+	\begin{tabular}{>{\tt}l r >{\tt}l r}
+		\firstrule{NP}{AdjP, NP}{}
+		\grule{NP, AdjP}{}
+		\gskip
+		\firstrule{AdjP}{TAdj, DP}{}
+		\grule{Deg, AdjP}{}
+		\firstrule{VP}{TV, DP}{}
+		\grule{AV, CP}{}
+		\grule{VP, AdvP}{}
+		\gskip
+		\firstrule{TV}{DV, DP}{}
+		\firstrule{AdvP}{TAdv, DP}{}
+	\end{tabular}
+\end{multicols}
+
+\paragraph*{Syntaxe d'un fragment de Pyret}
+Pyret est un langage de programmation destiné à l'éducation, dont on peut trouver une grammaire\footnote{
+	Cette grammaire a été écrite par Jean-Christophe Filliâtre pour le projet de son (excellent)
+	cours de Compilation des Langages de Programmation, sur l'année 2025-2026.} exemple ci-dessous.
+Sans rentrer dans les détails, l'intérêt d'une telle grammaire est l'efficacité de traitement d'un
+programme dans le langage par l'ordinateur.
+
+\begin{mgrammar}
+	\firstrule{\langle file \rangle}{\langle stmt \rangle^{*}\ \text{EOF}}{}
+	\gskip
+	\firstrule{\langle block \rangle}{\langle stmt \rangle^{+}}{}
+	\gskip
+	\firstrule{\langle stmt \rangle}{\texttt{fun}\ \langle ident \rangle\ ( \langle ident \rangle^{+}, )?\ \langle funbody \rangle}{}
+	\grule{\texttt{var}?\ \langle ident \rangle\ (::\ \langle type \rangle)?\ =\ \langle bexpr \rangle}{}
+	\grule{\langle ident \rangle\ :=\ \langle bexpr \rangle}{}
+	\grule{\langle bexpr \rangle}{}
+	\gskip
+	\firstrule{\langle funbody \rangle}{(\ \langle param \rangle^{*},\ )\ \langle rtype \rangle\ \langle ublock \rangle\ \langle block \rangle\ \texttt{end}}{}
+	\gskip
+	\firstrule{\langle param \rangle}{\langle ident \rangle\ ::\ \langle type \rangle}{}
+	\gskip
+	\firstrule{\langle rtype \rangle}{\to\ \langle type \rangle}{}
+	\gskip
+	\firstrule{\langle ublock \rangle}{:}{}
+	\grule{\texttt{block}:}{}
+	\gskip
+	\firstrule{\langle type \rangle}{\langle ident \rangle\ ( \langle type \rangle^{+} )?}{}
+	\grule{(\ \langle type \rangle^{*},\ \langle rtype \rangle\ )}{}
+	\gskip
+	\firstrule{\langle bexpr \rangle}{\langle expr \rangle\ (\langle binop \rangle\ \langle expr \rangle)^{*}}{}
+	\gskip
+	\firstrule{\langle expr \rangle}{\texttt{true}}{}
+	\grule{\texttt{false}}{}
+	\grule{\langle integer \rangle}{}
+	\grule{\langle string \rangle}{}
+	\grule{\langle ident \rangle}{}
+	\grule{(\ \langle bexpr \rangle\ )}{}
+	\grule{\texttt{block}:\ \langle block \rangle\ \texttt{end}}{}
+	\grule{\texttt{if}\ \langle bexpr \rangle\ \langle ublock \rangle\ \langle block \rangle\
+		(\texttt{else if}\ \langle bexpr \rangle\ :\ \langle block \rangle)^{*}\
+		(\texttt{else}:\ \langle block \rangle)?\ \texttt{end}}{}
+	\grule{\langle caller \rangle\ (\ \langle bexpr \rangle^{*},\ )}{}
+	\grule{\texttt{lam}\ \langle funbody \rangle}{}
+	\grule{\texttt{cases}\ (\ \langle type \rangle\ )\ \langle bexpr \rangle\ \langle ublock \rangle\ \langle branch \rangle^{*}\ \texttt{end}}{}
+	\grule{\texttt{for}\ \langle caller \rangle\ (\ \langle from \rangle^{*},\ )\ \langle rtype \rangle\ \langle ublock \rangle\ \langle block \rangle\ \texttt{end}}{}
+	\gskip
+	\firstrule{\langle caller \rangle}{\langle ident \rangle}{}
+	\grule{\langle caller \rangle\ (\ \langle bexpr \rangle^{*},\ )}{}
+	\gskip
+	\firstrule{\langle branch \rangle}{\langle ident \rangle\ (\ (\ \langle ident \rangle^{*},\ )\ )?\ \Rightarrow\ \langle block \rangle}{}
+	\gskip
+	\firstrule{\langle from \rangle}{\langle param \rangle\ \texttt{from}\ \langle bexpr \rangle}{}
+	\gskip
+	\firstrule{\langle binop \rangle}{==\ |\ <> \ |\ <\ |\ <=\ |\ >\ |\ >=\ |\ +\ |\ -\ |\ *\ |\ /\ |\ \texttt{and}\ |\ \texttt{or}}{}
+\end{mgrammar}
+
+\section{Séries et Langages}
+Dans le cours précédent, nous avons étudié les séries numériques, et avons parlé de la notion de série
+génératrice d'une suite.
+
+\begin{definition}
+	La \define{série génératrice} associée à la suite de terme général $u_{n}$ est la suite de terme général
+	$u_{n}x^{n}$ pour $x$ un réel, sur son domaine de convergence.
+\end{definition}
+
+\begin{definition}
+	La \define{série génératrice} d'un langage $\mL$ sur $\Sigma$ est la série génératrice associée à la suite
+	de terme général $\ell_{n} = \abs{\mL \cap \Sigma^{n}}$.
+\end{definition}
+Ici, $\ell_{n}$ est donc le nombre de mots de $\mL$ de longueur $n$.
+\begin{proof}
+	Cette série converge pour tout $x \in \mathcal{D}(0, \frac{1}{\abs{\Sigma}^{n}})$. En effet, pour $x$
+	dans ce disque, la suite $\ell_{n}x^{n}$ est strictement bornée par
+	$\frac{\abs{\Sigma^{n}}}{\abs{\Sigma^{n}}}$ et on a convergence par le critère de Riemann puis le théorème
+	d'Abel.
+\end{proof}
+
+\begin{thm}
+	Soit $\mL$ un langage sur $\Sigma$, et $\ser{}$ la fonction qui à $x$ associe
+	$\sum_{n = 0}^{\infty}\abs{\mL \cap \Sigma^{n}}x^{n}$.
+	Alors,
+	\begin{itemize}
+		\item Si $\mL$ est rationnel, $\ser{}$ est une fraction rationnelle\footnote{De la forme $P(x)/Q(x)$
+			      pour $P$ et $Q$ deux polynômes.};
+		\item Si $\mL$ est algébrique et non ambigu, $\ser{}$ est une fonction
+		      algébrique\footnote{On ajoute les exposants fractionnels}.
+	\end{itemize}
+\end{thm}
+\begin{proof}
+	Pour la partie langages rationnels, on peut procéder par induction, en vérifiant pour $\mL$ un langage
+	fini que $\ser{}$ est un polynôme,
+	puis en étudiant le cas où $\mL$ est infini selon les règles pouvant définir un langage rationnel --
+	l'union étant la somme, l'intersection la différence, la concaténation étant le produit et l'étoile de
+	Kleene étant la transformation $u \mapsto 1/(1 - u)$ (qui découle de la série de Taylor pour cette
+	fonction).
+	On renvoie vers \url{https://www.eleves.ens.fr/home/mpboyer/Recherche/Misc/gen_series_languages.pdf} pour
+	une preuve plus détaillée.
+
+	Pour la partie langage algébriques, la preuve est légèrement hors du but de ce cours, mais on peut
+	renvoyer vers \url{https://www.sciencedirect.com/science/article/pii/0304397587900119} pour une
+	preuve détaillée du résultat.
+\end{proof}
+
+
+\end{document}
