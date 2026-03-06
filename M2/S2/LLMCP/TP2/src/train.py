@@ -9,7 +9,11 @@ from __future__ import annotations
 
 import argparse
 import os
+import warnings
 from pathlib import Path
+
+# Suppress warnings from third-party libraries (multiprocess has Python 3.14 compat issues)
+warnings.filterwarnings("ignore", message="'return' in a 'finally' block")
 
 import torch
 from transformers import (
@@ -31,10 +35,6 @@ def parse_args():
     )
     
     # Model arguments
-    parser.add_argument(
-        "--vocab_size", type=int, default=1200,
-        help="Vocabulary size"
-    )
     parser.add_argument(
         "--n_embd", type=int, default=128,
         help="Embedding dimension"

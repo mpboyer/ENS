@@ -1,0 +1,99 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{algorithm,algorithmic,caption} % lecture 5
+\usepackage{amsmath}
+\usepackage[T1]{fontenc}
+\usepackage{amsfonts}
+\usepackage{enumitem}
+\usepackage{natbib}
+\usepackage{listings}
+\setenumerate[1]{label=\thesection.\arabic*.}
+\usepackage{datetime}
+
+\include{mathdef}
+
+
+\setlength{\parskip}{\baselineskip}%
+
+
+\begin{document}
+
+
+\section{Online SSL}
+
+\begin{itemize}
+	\item Complete \path{online_ssl_update_centroids} using the pseudocode \ref{alg:inc_k_centers}.
+	\item Complete \path{online_ssl_compute_solution} following the
+pseudocode \ref{alg:quant_shfs}
+\end{itemize}
+
+
+
+\begin{algorithm}[H]
+	\begin{algorithmic}[1]
+		{\small
+			\STATE  \textbf{Input:} an unlabeled $x_t$, a list of centroids $C_{t - 1}$, a list of multiplicities $v_{t-1}$, taboo list $b$ containing the labeled centroids.
+			%     {\bf Algorithm:} \\
+			\IF{$(|C_{t - 1}| = k)$} 
+				\STATE $c_1, c_2 \gets $ two closest centroids such that at least one of them is not in $b$.
+				\STATE // Decide which centroid is $c_{\mathrm{rep}}$, that will represent both $c_1$ and $c_2$, and which centroid is $c_{\mathrm{add}}$, that will represent the new point $x_t$.
+				\IF{$c_1$ in b}
+					\STATE $c_{\mathrm{rep}} \gets c_1$
+					\STATE $c_{\mathrm{add}} \gets c_2$
+				\ELSIF{$c_2$ in b}
+					\STATE $c_{\mathrm{rep}} \gets c_2$
+					\STATE $c_{\mathrm{add}} \gets c_1$
+				\ELSIF{$v_{t-1}(c_2) \leq  v_{t-1}(c_1)$}
+					\STATE $c_{\mathrm{rep}} \gets c_1$
+					\STATE $c_{\mathrm{add}} \gets c_2$ 
+				\ELSE 
+					\STATE $c_{\mathrm{rep}} \gets c_2$
+					\STATE $c_{\mathrm{add}} \gets c_1$
+				\ENDIF  
+				\STATE $v_t \gets v_{t-1}$
+				\STATE $v_t(c_{\mathrm{rep}}) \gets v_t(c_{\mathrm{rep}}) + v_t(c_{\mathrm{add}})$
+				\STATE $c_{\mathrm{add}} \gets x_t$
+				\STATE $v_t(c_{\mathrm{add}}) = 1$
+			\ELSE
+				\STATE  $C_t \gets C_{t - 1}.\mathrm{append}(x_t)$
+				\STATE  $v_t \gets v_{t-1}.\mathrm{append}(1)$
+			\ENDIF
+		}
+	\end{algorithmic}
+	\caption{Incremental $k$-centers (simplified)}\label{alg:inc_k_centers}
+\end{algorithm}
+
+\begin{algorithm}[H]
+	\begin{algorithmic}[1]
+		\STATE  \textbf{Input:} $t$, a list of centroids $C_t$, a list of multiplicities $v_t$ and labels $y$.
+		\STATE $V \gets \mathrm{diag}(v_t)$
+		\STATE $[\widetilde{W}_q]_{ij} \gets$ weight between centroids $i$ and $j$. 
+		\STATE Compute the Laplacian $L$ of the graph represented by $W_q = V\widetilde{W}_qV$
+		\STATE  // Infer labels using hard-HFS.
+		\STATE $\widehat{y_t} \gets \mathrm{hardHFS}(L, y)$
+		\STATE // Remark: with the preceding construction of the centroids, $x_t$ is always present in the reduced graph and does not share the centroid with any other node.
+	\end{algorithmic}
+	\caption{Online HFS with Graph Quantization}\label{alg:quant_shfs}
+\end{algorithm}
+
+
+Some practical considerations: 
+\begin{itemize}
+	\item The labeled nodes are fundamentally different from unlabeled ones.
+	Because of this, it is always a good idea to keep them separate, and never merge them in a centroid. In the implementation this is accomplished with a taboo list $b$ that keeps track of nodes that cannot be merged together.
+	\item In streaming applications, it is not always possible to stop execution to partition the centroids,
+	and it is often preferable to pay a small price at every step to keep execution smooth. In our case, the centroids are updated at every step.
+	\item Whenever a new node arrives, and we have too many centroids, we choose the two closest centroids $c_{\mathrm{add}}$ and $c_{\mathrm{rep}}$.
+	$c_{\mathrm{add}}$ will forget the old centroid and will point to the
+	new sample that just arrived, and $c_{\mathrm{rep}}$
+	will take care of representing all nodes that belonged to $c_{\mathrm{add}}$.
+\end{itemize}
+
+
+
+\bibliographystyle{plain}
+\bibliography{td}
+
+
+\end{document}

@@ -81,6 +81,14 @@ def main():
         # Save model and tokenizer
         model.save_pretrained(tmp_path)
         tokenizer.save_pretrained(tmp_path)
+        
+        # Copy tokenizer.py to allow loading with trust_remote_code=True
+        # This ensures the custom ChessTokenizer can be loaded from the Hub
+        tokenizer_src = Path(__file__).parent / "src" / "tokenizer.py"
+        if tokenizer_src.exists():
+            import shutil
+            shutil.copy(tokenizer_src, tmp_path / "tokenizer.py")
+            print("   Included tokenizer.py for remote loading")
 
         # Create model card with submitter info
         model_card = f"""---

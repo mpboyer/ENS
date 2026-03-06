@@ -1,18 +1,22 @@
-"""
-Chess Challenge - LLM Training Exercise
+"""Chess Challenge source module."""
 
-Train a 1M parameter model to play chess using custom tokenizers and architectures.
-"""
+from .model import ChessConfig, ChessForCausalLM
+from .tokenizer import ChessTokenizer
 
-from src.tokenizer import ChessTokenizer
-from src.model import ChessConfig, ChessForCausalLM
-from src.utils import count_parameters, print_parameter_budget
+# Lazy import for evaluate to avoid RuntimeWarning when running as module
+def __getattr__(name):
+    if name == "ChessEvaluator":
+        from .evaluate import ChessEvaluator
+        return ChessEvaluator
+    if name == "load_model_from_hub":
+        from .evaluate import load_model_from_hub
+        return load_model_from_hub
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
 
-__version__ = "0.1.0"
 __all__ = [
+    "ChessConfig",
+    "ChessForCausalLM", 
     "ChessTokenizer",
-    "ChessConfig", 
-    "ChessForCausalLM",
-    "count_parameters",
-    "print_parameter_budget",
+    "ChessEvaluator",
+    "load_model_from_hub",
 ]
