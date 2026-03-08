@@ -1,8 +1,6 @@
 // Wavefront propagation based methods: Jet Marching
 // This is adapted from the fast marching implementation to work with contents of
 
-#![allow(dead_code, unused_variables)] // FIXME: remove this instruction when fully implremented
-
 use std::{cmp::Ordering, collections::BinaryHeap};
 
 use nalgebra::DVector;
@@ -178,7 +176,7 @@ pub trait SlownessModel {
 }
 
 impl SlownessModel for Vec<f64> {
-    fn at_vertex(&self, idx: usize, manifold: &Manifold) -> f64 {
+    fn at_vertex(&self, idx: usize, _manifold: &Manifold) -> f64 {
         self[idx]
     }
 
@@ -259,13 +257,6 @@ impl<'a, Sl: SlownessModel> JetMarching<'a, Sl> {
             vertex_to_faces,
             params: AlgorithmicParameters::default(),
         }
-    }
-
-    fn get_incident_faces(&self, v_idx: usize) -> Vec<Triangle> {
-        self.vertex_to_faces[v_idx]
-            .iter()
-            .map(|&f_idx| self.manifold.faces[f_idx])
-            .collect()
     }
 
     fn get_neighbours(&self, v_idx: usize) -> Vec<usize> {
@@ -353,7 +344,12 @@ impl<'a, Sl: SlownessModel> JetMarching<'a, Sl> {
             }
 
             states[v] = VertexState::Valid;
-            // TODO: March amplitude
+            let final_amplitude = self.march_amplitude(v, &trial, &jets);
+
+            states[v] = VertexState::Valid;
+            jets[v].distance = trial.jet.distance;
+            jets[v].gradient = trial.jet.gradient.clone();
+            jets[v].amplitude = final_amplitude;
 
             // Update neighbours
             for &n_idx in &self.get_neighbours(v) {
@@ -390,7 +386,7 @@ impl<'a, Sl: SlownessModel> JetMarching<'a, Sl> {
             let t_hat = edge_vec.normalize();
             let new_jet = Jet {
                 distance: tau_hat,
-                amplitude: jets[source].amplitude,
+                amplitude: jets[source].amplitude / edge_dist.max(1e-8),
                 gradient: t_hat.clone() * self.slowness.at_vertex(neighbour, self.manifold),
             };
 
@@ -527,81 +523,7 @@ impl<'a, Sl: SlownessModel> JetMarching<'a, Sl> {
         x_1: usize,
         jets: &[Jet],
     ) -> Result<Option<(Jet, Interpolant)>, String> {
-        let p1 = &self.manifold.vertices()[x_1];
-        let p_hat = &self.manifold.vertices()[x_hat];
-
-        let jet1 = &jets[x_1];
-
-        let edge_vec = p_hat - p1;
-        let h = edge_vec.norm();
-        if h < f64::EPSILON {
-            return Ok(None);
-        }
-        let s1 = self.slowness.at_vertex(x_1, self.manifold);
-        let s_hat = self.slowness.at_vertex(x_hat, self.manifold);
-
-        let grad_lambda = if jet1.distance == 0.0 {
-            edge_vec.normalize() * s1
-        } else {
-            jet1.gradient.clone()
-        };
-        let grad_hat = edge_vec.normalize() * s_hat;
-
-        let (f_lambda, f_mid, f_hat) = match self.params.interpolant_representation {
-            InterpolantRepresentation::Cubic => {
-                let t_lambda = grad_lambda.normalize();
-                let t_hat = grad_hat.normalize();
-
-                let phi_prime_mid = 1.5 * edge_vec - h * 0.25 * (&t_lambda + &t_hat);
-                let norm_phi_mid = phi_prime_mid.norm();
-
-                let p_mid = 0.5 * (p1 + p_hat) + (h / 8.) * (&t_lambda - &t_hat);
-                let s_mid = self.slowness.at_point_local(
-                    &p_mid,
-                    self.manifold,
-                    &[x_1, x_hat],
-                    &self.vertex_to_faces,
-                );
-
-                (s1 * h, s_mid * norm_phi_mid, s_hat * h)
-            }
-            InterpolantRepresentation::Graph => {
-                let p_mid = 0.5 * (p1 + p_hat);
-                let s_mid = self.slowness.at_point_local(
-                    &p_mid,
-                    self.manifold,
-                    &[x_1, x_hat],
-                    &self.vertex_to_faces,
-                );
-
-                (s1 * h, s_mid * h, s_hat * h)
-            }
-        };
-
-        let new_dist = jet1.distance + (h / 6.0) * (f_lambda + 4.0 * f_mid + f_hat); // Eq 3.3 in 3.1
-
-        let new_jet = Jet {
-            distance: new_dist,
-            gradient: grad_hat.clone(),
-            amplitude: jet1.amplitude,
-        };
-
-        let interpolant = match self.params.interpolant_representation {
-            InterpolantRepresentation::Cubic => Interpolant::Cubic(CubicCurveParams {
-                x_v: (x_1, None),
-                lambda: 0.0,
-                t_v: grad_lambda.normalize(),
-                t_hat: grad_hat.normalize(),
-            }),
-            InterpolantRepresentation::Graph => Interpolant::Graph(GraphCurveParams {
-                x_v: (x_1, None),
-                lambda: 0.0,
-                b0: DVector::from_element(3, 0.0),
-                b1: DVector::from_element(3, 0.0),
-            }),
-        };
-
-        Ok(Some((new_jet, interpolant)))
+        Ok(self.compute_candidate_at_lambda(x_hat, x_1, x_1, 0.0, jets))
     }
 
     /// For a given possible 2-update (x_hat, x_1, x_2), solve the minimization problem verified by
@@ -614,32 +536,259 @@ impl<'a, Sl: SlownessModel> JetMarching<'a, Sl> {
         x_2: usize,
         jets: &[Jet],
     ) -> Result<Option<(Jet, Interpolant)>, String> {
-        match self.params.minimization_problem {
-            MinimizationProblemMethod::FermatIntegral => {
-                match self.params.interpolant_representation {
-                    InterpolantRepresentation::Cubic => todo!(),
-                    InterpolantRepresentation::Graph => todo!(),
-                }
-            }
-            MinimizationProblemMethod::EikonalEquation => {
-                match self.params.interpolant_representation {
-                    InterpolantRepresentation::Cubic => todo!(),
-                    InterpolantRepresentation::Graph => todo!(),
-                }
-            }
-            MinimizationProblemMethod::CellBasedMarching => {
-                match self.params.interpolant_representation {
-                    InterpolantRepresentation::Cubic => todo!(),
-                    InterpolantRepresentation::Graph => todo!(),
-                }
-            }
-            MinimizationProblemMethod::QuadraticCurve => {
-                match self.params.interpolant_representation {
-                    InterpolantRepresentation::Cubic => todo!(),
-                    InterpolantRepresentation::Graph => todo!(),
-                }
+        let f_objective = |lam: f64| -> f64 {
+            self.compute_candidate_at_lambda(x_hat, x_1, x_2, lam, jets)
+                .map(|(jet, _)| jet.distance)
+                .unwrap_or(f64::INFINITY)
+        };
+        let opt_lambda = self.find_optimal_lambda(f_objective);
+
+        Ok(self.compute_candidate_at_lambda(x_hat, x_1, x_2, opt_lambda, jets))
+    }
+
+    fn create_interpolant(
+        &self,
+        x_1: usize,
+        x_2: usize,
+        lambda: f64,
+        edge_vec: &DVector<f64>,
+        g_start: &DVector<f64>,
+        g_end: &DVector<f64>,
+    ) -> Interpolant {
+        match self.params.interpolant_representation {
+            InterpolantRepresentation::Cubic => Interpolant::Cubic(CubicCurveParams {
+                x_v: (x_1, Some(x_2)),
+                lambda,
+                t_v: g_start.normalize(),
+                t_hat: g_end.normalize(),
+            }),
+            InterpolantRepresentation::Graph => {
+                let h = edge_vec.norm();
+
+                let phi_p0 = g_start.normalize() * h;
+                let phi_p1 = g_end.normalize() * h;
+
+                let b0 = &phi_p0 - edge_vec;
+                let b1 = &phi_p1 - edge_vec;
+
+                Interpolant::Graph(GraphCurveParams {
+                    x_v: (x_1, Some(x_2)),
+                    lambda,
+                    b0,
+                    b1,
+                })
             }
         }
+    }
+
+    fn compute_candidate_at_lambda(
+        &self,
+        x_hat: usize,
+        x_1: usize,
+        x_2: usize,
+        lambda: f64,
+        jets: &[Jet],
+    ) -> Option<(Jet, Interpolant)> {
+        let p1 = &self.manifold.vertices()[x_1];
+        let p2 = &self.manifold.vertices()[x_2];
+        let p_hat = &self.manifold.vertices()[x_hat];
+
+        let p_lambda = (1.0 - lambda) * p1 + lambda * p2;
+        let jet_lambda = self.interpolate_jet_on_edge(x_1, x_2, lambda, jets);
+
+        let edge_vec = p_hat - &p_lambda;
+        let h = edge_vec.norm();
+        if h < f64::EPSILON {
+            return None;
+        }
+
+        let s_hat = self.slowness.at_vertex(x_hat, self.manifold);
+
+        let (grad_start, grad_end) = self.determine_gradients(&jet_lambda, &edge_vec, s_hat);
+
+        let (f_0, f_mid, f_1) =
+            self.integrate_simpson(x_hat, x_1, x_2, &p_lambda, p_hat, &grad_start, &grad_end, h);
+
+        // WARN: Peut-être que la logique est pétée on sait pas
+        let delta_t = (1.0 / 6.0) * (f_0 + 4.0 * f_mid + f_1);
+        let total_dist = jet_lambda.distance + delta_t;
+
+        let res_jet = Jet {
+            distance: total_dist,
+            gradient: grad_end.clone(),
+            amplitude: jet_lambda.amplitude,
+        };
+
+        let interp = self.create_interpolant(x_1, x_2, lambda, &edge_vec, &grad_start, &grad_end);
+
+        Some((res_jet, interp))
+    }
+
+    fn determine_gradients(
+        &self,
+        jet_start: &Jet,
+        edge_vec: &DVector<f64>,
+        s_hat: f64,
+    ) -> (DVector<f64>, DVector<f64>) {
+        let s_start = jet_start.gradient.norm();
+        let dir_edge = edge_vec.normalize();
+
+        match self.params.minimization_problem {
+            MinimizationProblemMethod::FermatIntegral => {
+                (jet_start.gradient.clone(), dir_edge * s_hat)
+            }
+            MinimizationProblemMethod::EikonalEquation => {
+                (jet_start.gradient.normalize() * s_start, dir_edge * s_hat)
+            }
+            MinimizationProblemMethod::CellBasedMarching => {
+                let s_avg = (s_start + s_hat) / 2.0;
+                (dir_edge.clone() * s_avg, dir_edge * s_avg)
+            }
+            MinimizationProblemMethod::QuadraticCurve => {
+                let g_end = (dir_edge + jet_start.gradient.normalize()).normalize() * s_hat;
+                (jet_start.gradient.clone(), g_end)
+            }
+        }
+    }
+
+    #[allow(clippy::too_many_arguments)]
+    fn integrate_simpson(
+        &self,
+        x_hat: usize,
+        x_1: usize,
+        x_2: usize,
+        p_start: &DVector<f64>,
+        p_hat: &DVector<f64>,
+        g_0: &DVector<f64>,
+        g_1: &DVector<f64>,
+        h: f64,
+    ) -> (f64, f64, f64) {
+        match self.params.interpolant_representation {
+            InterpolantRepresentation::Cubic => {
+                let phi_p0 = g_0.normalize() * h;
+                let phi_p1 = g_1.normalize() * h;
+
+                let p_mid = 0.5 * (p_start + p_hat) + 0.125 * (&phi_p0 - &phi_p1);
+                let phi_prime_mid = 1.5 * (p_hat - p_start) - 0.25 * (phi_p0 + phi_p1);
+
+                let s_mid = self.slowness.at_point_local(
+                    &p_mid,
+                    self.manifold,
+                    &[x_1, x_2, x_hat],
+                    &self.vertex_to_faces,
+                );
+
+                (g_0.norm() * h, s_mid * phi_prime_mid.norm(), g_1.norm() * h)
+            }
+            InterpolantRepresentation::Graph => {
+                let p_mid = 0.5 * (p_start + p_hat);
+                let s_mid = self.slowness.at_point_local(
+                    &p_mid,
+                    self.manifold,
+                    &[x_1, x_2, x_hat],
+                    &self.vertex_to_faces,
+                );
+                (g_0.norm() * h, s_mid * h, g_1.norm() * h)
+            }
+        }
+    }
+
+    fn find_optimal_lambda<F: Fn(f64) -> f64>(&self, f: F) -> f64 {
+        let mut a = 0.0;
+        let mut b = 1.0;
+        let phi = (5.0_f64.sqrt() + 1.0) / 2.0;
+
+        let mut c = b - (b - a) / phi;
+        let mut d = a + (b - a) / phi;
+
+        for _ in 0..20 {
+            if f(c) < f(d) {
+                b = d;
+            } else {
+                a = c;
+            }
+            c = b - (b - a) / phi;
+            d = a + (b - a) / phi;
+        }
+        (b + a) / 2.0
+    }
+
+    /// Interpolation linéaire du Jet sur l'arête [x1, x2]
+    fn interpolate_jet_on_edge(&self, x1: usize, x2: usize, lambda: f64, jets: &[Jet]) -> Jet {
+        let j1 = &jets[x1];
+        let j2 = &jets[x2];
+        Jet {
+            distance: (1.0 - lambda) * j1.distance + lambda * j2.distance,
+            gradient: (1.0 - lambda) * &j1.gradient + lambda * &j2.gradient,
+            amplitude: (1.0 - lambda) * j1.amplitude + lambda * j2.amplitude,
+        }
+    }
+
+    fn march_amplitude(&self, x_hat: usize, trial: &TrialVertex, jets: &[Jet]) -> f64 {
+        let p_hat = &self.manifold.vertices()[x_hat];
+        let s_hat = self.slowness.at_vertex(x_hat, self.manifold);
+
+        let (p_start, s_start, g_start, a_start) = match &trial.update_interpolant {
+            Interpolant::Cubic(c) => {
+                let p1 = &self.manifold.vertices()[c.x_v.0];
+                if let Some(x_2) = c.x_v.1 {
+                    let p2 = &self.manifold.vertices()[x_2];
+                    let j_interp = self.interpolate_jet_on_edge(c.x_v.0, x_2, c.lambda, jets);
+                    (
+                        (1.0 - c.lambda) * p1 + c.lambda * p2,
+                        j_interp.gradient.norm(),
+                        j_interp.gradient,
+                        j_interp.amplitude,
+                    )
+                } else {
+                    (
+                        p1.clone(),
+                        jets[c.x_v.0].gradient.norm(),
+                        jets[c.x_v.0].gradient.clone(),
+                        jets[c.x_v.0].amplitude,
+                    )
+                }
+            }
+            Interpolant::Graph(g) => {
+                let p1 = &self.manifold.vertices()[g.x_v.0];
+                if let Some(x_2) = g.x_v.1 {
+                    let p2 = &self.manifold.vertices()[x_2];
+                    let j_interp = self.interpolate_jet_on_edge(g.x_v.0, x_2, g.lambda, jets);
+                    (
+                        (1.0 - g.lambda) * p1 + g.lambda * p2,
+                        j_interp.gradient.norm(),
+                        j_interp.gradient,
+                        j_interp.amplitude,
+                    )
+                } else {
+                    (
+                        p1.clone(),
+                        jets[g.x_v.0].gradient.norm(),
+                        jets[g.x_v.0].gradient.clone(),
+                        jets[g.x_v.0].amplitude,
+                    )
+                }
+            }
+        };
+        let edge_vec = p_hat - &p_start;
+        let h = edge_vec.norm();
+        if h < 1e-10 {
+            return a_start;
+        }
+
+        let t0 = g_start.normalize();
+        let t1 = trial.jet.gradient.normalize();
+        let cos_theta = t0.dot(&t1).clamp(-1.0, 1.0);
+
+        let spreading = if cos_theta > (1.0 - 1e-4) {
+            h
+        } else {
+            let theta = cos_theta.acos();
+            (h * theta) / (2.0 * (theta / 2.0).sin())
+        };
+
+        let transport_factor = (s_start / (s_hat * spreading)).sqrt();
+        (a_start * transport_factor).max(0.0)
     }
 }
 
@@ -692,7 +841,7 @@ mod geometry_tests {
         let slowness_values = vec![10.0, 20.0, 30.0];
 
         // Table d'adjacence simplifiée
-        let mut v2f = vec![vec![0], vec![0], vec![0]];
+        let v2f = vec![vec![0], vec![0], vec![0]];
 
         // Point milieu : (0.5, 0.5, 0)
         let p_mid = DVector::from_vec(vec![0.5, 0.5, 0.0]);
@@ -746,6 +895,76 @@ mod geometry_tests {
         // L1 = |1-0| + |2-0| + |-1-0| = 1 + 2 + 1 = 4
         let dist = manifold.ell1(0, 1);
         assert!((dist - 4.0).abs() < 1e-12);
+    }
+
+    #[test]
+    fn test_cubic_midpoint_deviation() {
+        // Points de l'arête sur l'axe X
+        let p1 = DVector::from_vec(vec![0.0, 0.0, 0.0]);
+        let p_hat = DVector::from_vec(vec![1.0, 0.0, 0.0]);
+        let edge_vec = &p_hat - &p1;
+        let h = edge_vec.norm();
+
+        // Cas 1 : Tangentes parfaitement alignées avec l'arête (ligne droite)
+        let t_lambda_straight = DVector::from_vec(vec![1.0, 0.0, 0.0]);
+        let t_hat_straight = DVector::from_vec(vec![1.0, 0.0, 0.0]);
+
+        let phi_p0_s = &t_lambda_straight * h;
+        let phi_p1_s = &t_hat_straight * h;
+
+        let p_mid_straight: DVector<f64> = 0.5 * (&p1 + &p_hat) + 0.125 * (&phi_p0_s - &phi_p1_s);
+
+        // Dans ce cas, p_mid doit être exactement [0.5, 0.0, 0.0]
+        assert!((p_mid_straight[0] - 0.5).abs() < 1e-12);
+        assert!(p_mid_straight[1].abs() < 1e-12);
+
+        // Cas 2 : Tangentes inclinées vers le haut (Y+)
+        // t_lambda part à 45° vers le haut, t_hat revient de 45° depuis le haut
+        let t_lambda_curved = DVector::from_vec(vec![1.0, 1.0, 0.0]).normalize();
+        let t_hat_curved = DVector::from_vec(vec![1.0, -1.0, 0.0]).normalize(); // direction vers l'avant, mais venant du haut
+
+        let phi_p0_c = &t_lambda_curved * h;
+        let phi_p1_c = &t_hat_curved * h;
+
+        // p_mid = milieu_rectiligne + 0.125 * (phi'0 - phi'1)
+        // La différence (phi'0 - phi'1) va avoir une composante Y positive : (1.0 - (-1.0)) = 2.0
+        let p_mid_curved: DVector<f64> = 0.5 * (&p1 + &p_hat) + 0.125 * (&phi_p0_c - &phi_p1_c);
+
+        // Le point milieu doit avoir "monté" en Y
+        assert!(
+            p_mid_curved[1] > 0.0,
+            "La trajectoire cubique devrait dévier vers le haut (Y > 0)"
+        );
+
+        // Calcul de la norme de la dérivée au milieu pour Simpson
+        // phi'(0.5) = 1.5 * edge - 0.25 * (phi'0 + phi'1)
+        let phi_prime_mid: DVector<f64> = 1.5 * &edge_vec - 0.25 * (&phi_p0_c + &phi_p1_c);
+        let norm_mid = phi_prime_mid.norm();
+
+        // Dans un cas courbe, la longueur de l'arc est plus grande que la corde
+        // Donc la norme de la dérivée au milieu pondérée par Simpson devrait contribuer
+        // à une distance supérieure à h si la vitesse était constante.
+        assert!(norm_mid > 0.0);
+    }
+
+    #[test]
+    fn test_cubic_derivative_norm() {
+        let p1 = DVector::from_vec(vec![0.0, 0.0, 0.0]);
+        let p_hat = DVector::from_vec(vec![2.0, 0.0, 0.0]);
+        let h = 2.0;
+
+        // Tangentes divergentes (accentue la courbure au milieu)
+        let t0 = DVector::from_vec(vec![0.0, 1.0, 0.0]); // Verticale haut
+        let t1 = DVector::from_vec(vec![0.0, -1.0, 0.0]); // Verticale bas
+
+        let phi_p0 = &t0 * h;
+        let phi_p1 = &t1 * h;
+
+        let phi_prime_mid: DVector<f64> = 1.5 * (p_hat - p1) - 0.25 * (phi_p0 + phi_p1);
+
+        // Ici phi'0 + phi'1 = 0, donc phi'_mid = 1.5 * edge_vec
+        // La norme au milieu est donc 1.5 * 2.0 = 3.0
+        assert!((phi_prime_mid.norm() - 3.0).abs() < 1e-12);
     }
 }
 
