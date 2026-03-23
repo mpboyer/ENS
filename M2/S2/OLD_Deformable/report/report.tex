@@ -1,0 +1,350 @@
+\documentclass[math, info]{mpb-cours}
+
+\title{Modèles Déformables et Chemins Minimaux en Analyse d'Images\texorpdfstring{\\ Rapport sur \textit{Jet Marching Methods for Solving the Eikonal Equation}}{}}
+\author{Matthieu Boyer}
+
+
+\begin{document}
+\bettertitle
+\newpage
+\section{Étude Synthétique}
+
+\subsection{Problème Traité}
+Dans \cite{potter2021jetmarchingmethodssolving}, les auteurs s'intéressent à la résolution de l'équation
+eikonale.
+Leur objectif est notamment d'améliorer la précision de la méthode de \textit{Fast Marching} afin de
+résoudre des problèmes en acoustique haute-fréquence.
+
+\smallskip
+
+Les méthodes usuelles de résolution de ce genre de problèmes sont basées sont sur des méthodes de type
+ray-tracing qui demandent de résoudre avec une bonne précision l'équation de transport de l'amplitude.
+Pour ce faire, il est nécessaire de calculer les dérivées partielles de deuxième ordre de l'eikonale.
+S'il existe des solveurs\footnote{Faute de meilleur mot, on utilisera ici l'anglicisme "solveur" pour
+	\textit{numerical solver}} pour l'équation eikonale, leur qualité est réduite lorsqu'on considère un
+maillage approximatif de l'espace de propagation ou même simplement un espace de propagation d'une forme
+complexe.
+
+Les méthodes basées sur le raytracing sont en effet vulnérables aux effets au bord des caustiques, les
+enveloppes des faisceaux réfléchis et réfractés, et les fortes variations de la vitesse de l'onde
+engendrent de nombreuses caustiques distinctes dans le cas par exemple des ondes sismiques.
+Ensuite, bien que la vitesse varie très lentement dans une pièce, les caustiques au bord des objets dans une
+pièce complexifient fortement le calcul.
+
+\subsection{Équations et Méthodes Numériques}
+On s'intéresse à la résolution en $\tau$ de l'équation Eikonale sur un domaine $\Omega \subseteq \R^{n}$ avec
+un bord $\partial \Omega$ et une condition au bord $\Gamma \subseteq \Omega$
+\begin{equation*}
+	\begin{cases}
+		\norm{\nabla \tau(x)} = s(x) & x \in \Omega \\
+		\tau(x) = g(x)               & x\in \Gamma
+	\end{cases}.
+\end{equation*}
+L'équation eikonale apparaît notamment dans le cadre de la recherche des modes propres de l'équation de
+D'Alembert avec l'ansatz BKW\footnote{Forme générale d'une solution qui apparaît notamment dans l'étude de
+	l'équation de Schrödinger} qui est de la forme $\alpha(x)e^{i\omega \tau(x)}$.
+
+\smallskip
+
+En se plaçant de plus dans le cadre de l'optique géométrique (à haute fréquence), $\tau$ sera une solution
+de l'équation eikonale tandis que $\alpha$, l'amplitude, vérifiera l'équation de transport
+\begin{equation*}
+	\alpha\Delta\tau + 2\nabla\tau^{T}\nabla\alpha = 0.
+\end{equation*}
+$\tau$ est alors donné par le principe de Fermat\footnote{"\textit{Le chemin suivi par un rayon entre deux
+		points est celui minimisant le temps.}", il découle du principe de Maupertuis "\textit{Le chemin suivi
+		par une particule en mouvement minimise son action.}"}
+\begin{equation*}
+	\tau(x) = \min_{y\in \Gamma, \psi: x \rightsquigarrow y} \tau(y) + \int_{0}^{1} s(\psi(\sigma))\norm{\psi'(\sigma)}\d\sigma.
+\end{equation*}
+
+Par la récursion présente dans la formulation du principe de Fermat, on va se baser une méthode de
+propagation, à la manière du Fast Marching de Sethian.
+
+À la place de considérer $\Gamma$ et $\Omega$ comme des ensembles dans $\R^{n}$, on demandera qu'ils soient
+des maillages\footnote{Dans l'implémentation que nous étudierons plus bas, il s'agira même de parties de
+	triangulations de surfaces plongées dans $\R^{3}$.} de taille caractéristique $h$, et on va propager
+$T : \Omega_{h} \to \R$ une approximation numérique de l'eikonale ainsi que son gradient.
+On appliquera ensuite une version modifiée de l'algorithme de Dijkstra permettant de calculer sur chaque
+face du maillage une approximation cubique du rayon permettant de propager le résultat, grace à une approche
+semi lagrangienne.
+
+\subsection{Rapport au Cours}
+La méthode proposée par les auteurs est une extension directe de l'algorithme de Fast Marching,
+utilisant le \textit{jet} (l'ensemble des dérivées d'ordre un) de l'eikonale.
+Cet article propose donc une méthode efficace (dépendamment de la précision souhaitée~!) pour résoudre
+précisément l'équation eikonale, bien que tournée à la base vers l'étude de problèmes acoustiques.
+
+\subsection{Originalité du Travail}
+Le travail en lui-même ne développe pas un "nouvel algorithme", mais améliore fortement l'algorithme de
+Fast Marching en précision, et dépasse le schéma eulérien parmi les solveurs de l'équation Eikonale.
+L'originalité de cette méthode se trouve dans l'intégration d'un schéma différentiels au sein d'un algorithme
+propagatif, tout en restant optimaleement local et flexible.
+
+\subsection{Résultats Principaux}
+L'algorithme développé dans l'article permet une précision $\O(h^{3})$ en la taille de l'approximation
+du maillage $h$ sur la précision de $T$ et en un ordre de moins pour la précision du gradient, tout en
+restant en temps $\O(N\log(N)\times P)$, où $P$ est le temps de résolution d'un problème de minimisation
+sur une face, qui est borné par $N$ mais est réellement de l'ordre du degré moyen d'un sommet dans le
+maillage à la puissance de la dimension (dans notre cas, rarement plus que $6^{2}$).
+
+\subsection{Faiblesses}
+Le principal défaut de la méthode proposé dans \cite{potter2021jetmarchingmethodssolving} est la complexité
+de celle-ci en haute dimension.
+En effet, le nombre de problèmes de minimisation à résoudre est exponentiel en la dimension, et leur
+complexité est polynomiale en celle-ci.
+Toutefois, ces problèmes sont aisément contournables lorsqu'on a un peu plus d'informations sur la structure
+de l'espace de propagation.
+
+Ensuite, le second problème vient avec la complexité liée au nombre de possibilités pour l'algorithme.
+Celui-ci permet de nombreuses variations différentes et est donc difficilement adaptable pour un
+problème spécifique, demandant un grand temps d'adaptation.
+Ceci est cependant un faux problème qui ne vient pas vraiment de l'algorithme en lui-même.
+
+Enfin, l'algorithme est numériquement assez dépendant de la qualité du maillage: pour un obtenir une
+précision numérique $\epsilon = h^{3}$, il faut de l'ordre $\lambda_{d}(\Omega) d/ h^{d}$ points pour
+discrétiser $\Omega$, où $\lambda_{d}$ est la mesure de Lebesgue en $d$ dimensions.
+Ceci n'est pas forcément un problème en pratique, lorsqu'on se limite à des surfaces.
+
+\newpage
+
+\section{Description et Résumé de l'Article}
+
+Dans ce rapport sur \textit{Jet Marching Methods for Solving the Eikonal Equation} par Potter et Cameron,
+nous étudierons leur extension de l'algorithme de \textit{Fast Marching} utilisant les dérivées au
+premier ordre pour améliorer la précision de solveurs de l'équation eikonale.
+
+\subsection{Formulation du problème}
+On s'intéresse à la recherche de solutions de l'équation d'onde de Helmholtz, sous la forme de l'ansatz
+BKW de la mécanique quantique $u(x) \sim \alpha(x)e^{i\omega\tau(x)}$.
+Ici, on connaîtra la vitesse $s$ de l'onde sur $\Omega \subseteq \R^{n}$, et son temps de départ $g$ sur
+$\Gamma$.
+De l'équation de Helmholtz, on en tire deux équations principales:
+\begin{enumerate}
+	\item L'équation \define{eikonale} vérifiée par $\tau$.
+	      \begin{equation}
+		      \begin{cases}
+			      \norm{\nabla \tau(x)} = s(x) & x \in \Omega \\
+			      \tau(x) = g(x)               & x\in \Gamma
+		      \end{cases}. \label{eq:eik}
+	      \end{equation}
+	      En particulier, $\tau$ est définie par le principe de Fermat
+	      \begin{equation}
+		      \tau(x) = \min_{y\in \Gamma, \psi: x \rightsquigarrow y} \tau(y) + \int_{0}^{1} s(\psi(\sigma))\norm{\psi'(\sigma)}\d\sigma.\label{eq:fermat}
+	      \end{equation}
+	\item L'équation de \define{transport} de l'amplitude
+	      \begin{equation}
+		      \alpha\Delta\tau + 2\nabla\tau^{T}\nabla\alpha = 0.\label{eq:amp}
+	      \end{equation}
+\end{enumerate}
+
+\smallskip
+
+On s'intéressera en pratique à la résolution du problème ci-dessus sur un maillage $\Omega_{h}$ de taille
+caractéristique $h$ d'une variété de dimension $2$ plongée dans $\R^{3}$.
+Dans ce cadre, on cherchera à calculer $T$ et $A$ des approximations de $\tau$ et $\alpha$ sur le maillage
+avec une bonne précision, de manière localement optimale et dérivable.
+
+\subsection{L'algorithme de Jet Marching}
+L'équation du principe de Fermat \eqref{eq:fermat} permet de définir la solution $\tau$ de l'équation
+Eikonale \eqref{eq:eik} à partir d'un ensemble fini de points.
+En particulier, on peut utiliser une approche de propagation de solutions basée sur le principe d'optimalité
+de Bellman pour calculer une solution générale.
+
+\smallskip
+
+À la manière du \textit{Fast Marching} et de l'algorithme de Dijkstra, sur le maillage $\Omega_{h}$ vu comme
+un graphe, à partir d'un ensemble de sources $\Gamma_{h}$.
+La principale différence dans l'algorithme de \define{jet marching} découle de ce qui va être propagé
+comme approximation numérique: fast marching ne propage que le temps d'arrêt local, tandis que le jet
+marching va aussi propager le gradient de l'approximation numérique: le 1-jet de l'approximation.
+Ensuite, une fois qu'on sait que notre approximation ne sera pas améliorée en un point (les sources étant
+fixées car des minima), on peut résoudre localement l'équation du principe de
+Fermat \eqref{eq:fermat} pour obtenir l'approximation sur de nouveaux points et répéter l'opération jusqu'à
+épuiser les points sans valeur.
+
+\smallskip
+
+Donnons une description haut niveau un peu plus formelle de l'algorithme:
+On va attribuer à chaque sommet une étiquette parmi \texttt{valide}, \texttt{jugé}, et
+\texttt{loin}.
+On initialise d'abord l'approximation sur les sources dans $\Gamma_{h}$, qu'on étiquette \texttt{valide}.
+On initialise aussi une file de priorité avec les voisins des sources, qu'on étiquette \texttt{jugé}.
+Tant que la pile n'est pas vide, on dépile le minimum (par distance de l'approximation en cours), puis,
+si le sommet n'est pas \texttt{valide}, on évalue une nouvelle approximation du $1$-jet de $T$,
+on ajoute ses voisins à la pile en les marquant \texttt{jugé}, et on le marque \texttt{valide}.
+On résout alors le calcul de son amplitude à partir de la trajectoire approximée du rayon.
+
+\smallskip
+
+Cet algorithme est donc très similaire à la méthode de fast marching, en remplaçant simplement une
+approximation numérique par une approximation du $1$-jet.
+Il y a toutefois quelques points de détail à préciser:
+\begin{enumerate}
+	\item Comment représente-t-on le rayon portant l'eikonale localement~?
+	\item Comment propage-t-on l'approximation numérique du $1$-jet~?
+	\item Comment approxime-t-on l'amplitude~?
+\end{enumerate}
+On va présenter les solutions possibles à ces questions ci-dessous.
+
+\subsubsection{Propagation du \texorpdfstring{$1$-Jet}{1-Jet}}
+Afin de propager le $1$-jet de $T$ en un point objectif $\hat{x}$, on va considérer un ensemble de
+voisins $(\hat{x}, x_{1}, \ldots, x_{d})$ de $\hat{x}$ étiquetés \texttt{valide}.
+On appellera un tel ensemble un \define{pochoir de mise à jour} et on appellera $d$ sa \define{dimension}.
+L'idée va être de résoudre l'équation Eikonale localement via la minimisation d'une fonctionnelle basée
+sur le principe de Fermat \eqref{eq:fermat}.
+
+\smallskip
+
+Ici, il est important de noter que $d$ ne peut pas être plus grand que la dimension de $\Omega$.
+On va adopter une méthode de bas en haut pour calculer le pochoir donnant la mise à jour optimale:
+on regarde le pochoir de dimension $1$ (donc le voisin $x_{1}$) donnant la mise à jour optimale, puis on
+fixe $x_{1}$ et on regarde les pochoirs de dimension $2$ contenant $x_{1}$ pour trouver $x_{2}$
+donnant la mise à jour optimale, et ainsi de suite.
+
+\smallskip
+
+Pour chaque pochoir, on va chercher le point $x_{\lambda}$ dans le $(d - 1)$-simplexe
+$\mathrm{conv} \{x_{1}, \ldots, x_{d}\}$, de sorte que la courbe $\psi$ joignant $x_{\lambda}$ à $\hat{x}$
+selon \eqref{eq:fermat} donne une valeur de $\tau$ en $\hat{x}$ qui soit minimale.
+Il faut donc résoudre un problème de minimisation par $x_{\lambda}$ pour calculer la courbe $\psi$, et un
+problème de minimisation pour trouver le $x_{\lambda}$ adapté.
+Heureusement pour nous, le problème de minimisation pour $x_{\lambda}$ est simple: comme nous le verrons
+plus bas, les fonctionnelles de Fermat donnent des problèmes strictement convexes en $x_{\lambda}$ sur
+un ensemble de définition convexe, donc en particulier, ils sont résolubles avec une bonne précision en
+temps constant par la méthode de Newton par exemple.
+Il nous suffit donc simplement de savoir calculer la courbe $\psi$ associée à $x_{\lambda}$ pour pouvoir
+terminer l'algorithme.
+
+
+\subsubsection{Principe de Fermat}
+Résoudre la mise à jour associée à un pochoir et un point $x_{\lambda}$ donnés demande d'abord de savoir
+représenter la courbe $\psi$ solution de l'équation du principe de Fermat.
+Dans le cas où la vitesse de l'onde dans le milieu est constante, il s'agit d'une droite, mais
+dans le cas où elle ne l'est pas, la fonction peut-être arbitrairement compliquée.
+
+\smallskip
+
+Pour simplifier, on va utiliser une approximation cubique $\phi$ de la trajectoire du rayon.
+Notons $L = \norm{\hat{x} - x_{\lambda}}$, de sorte que $\psi: [0, L] \to \Omega$.
+On se donne deux paramètres $t_{\lambda}$ et $\hat{t}$ de sorte que $\phi$ soit définie par
+\begin{equation}
+	\phi(0) = x_{\lambda} \quad \phi'(0) \sim t_{\lambda} \quad \phi(L) = \hat{x} \quad \phi'(L) \sim \hat{t}.
+\end{equation}
+La fonctionnelle de coût de Fermat (l'intégrale de \eqref{eq:fermat}) s'écrit alors
+\begin{equation}
+	F(\phi) = T(x_{\lambda}) + \frac{L}{6}\left(s(x_{\lambda}\norm{\phi'(0)}) + 4s(\phi_{1/2})\norm{\phi_{1/2}'} + s(\hat{x})\norm{\phi'(L)}\right),
+\end{equation}
+où $\phi_{1/2} = \phi(L/2)$ et $\phi_{1/2}' = \phi'(L/2)$.
+
+\smallskip
+
+On a alors plusieurs possibilités pour la représentation de $\phi$ et des quatre paramètres nécessaires:
+\begin{enumerate}
+	\item Via une perturbation $\delta\phi$ à partir de la ligne droite $l$ entre $x_{\lambda}$ et
+	      $\hat{x}$: ici, $\delta\phi$ est définie par deux vecteurs unitaires $t_{\lambda}$ et $\hat{t}$
+	      donnant la vitesse en $0$ et en $L$;
+	\item Via le graphe d'une fonction $\zeta$ orthogonale à $l'$: si on considère $Q$ orthogonale telle que
+	      $Q^{T}l' = 0$, on choisit $\delta\phi = Q\zeta$ et $\zeta$ est paramétrisée par les dérivées de la
+	      perturbation.
+\end{enumerate}
+Les deux manières sont équivalentes mais donnent des problèmes de minimisation un peu différents.
+On ne rentrera pas ici dans le détail des différences, mais il est impartant de noter que la précision
+de l'interpolante dépend assez fortement de la qualité de notre approximation.
+
+\smallskip
+
+Il faut ensuite noter que connaître $\hat{t}$ va nous permettre de propager le gradient de $T$ en plus de
+sa valeur.
+En effet, $\psi$ étant une solution de l'intégrale de Fermat, c'est une caractéristique de l'eikonale et
+son vecteur tangent doit être localement parallèle à $\nabla\tau$ et donc, après minimisation,
+on peut simplement assigner $s(\hat{x})\hat{t}$ à $\nabla T(\hat{x})$ ce qui propage effectivement
+le $1$-jet.
+
+\smallskip
+
+Finalement, il reste simplement à savoir comment calculer la caractéristique de l'eikonale.
+\cite{potter2021jetmarchingmethodssolving} proposent quatre méthodes différentes, chacune adaptable à
+la représentation choisie pour l'approximante $\phi$:
+\begin{enumerate}
+	\item Par minimisation directe: cette méthode est la plus simple, on optimise directement le problème en
+	      $x_{\lambda}$, et $t_{\lambda}, \hat{t}$ unitaires. C'est un problème de dimension
+	      $(d - 1)(n - 1)^{2}$.
+	\item Par l'eikonale: on utilise l'équation Eikonale sur le simplexe pour retrouver une relation
+	      permettant de supprimer le paramètre $t_{\lambda}$ via les dérivées directionnelles sur le simplexe.
+	      C'est un problème de dimension $(d - 1)(n - 1)$.
+	\item Par une marche d'interpolants sur les cellules: on simplifie la méthode précédente en retirant
+	      l'utilisation de dérivées directionnelles et en utilisant la connaissance d'une cellule précédente.
+	      C'est un problème de dimension $(d - 1)(n - 1)$, mais qui permet de marcher les dérivées
+	      partielles de second ordre de $T$.
+	\item Dans des cas particuliers, par exemple quand la vitesse du son est linéaire, on peut se
+	      restreindre à une interpolante quadratique, ce qui retire un paramètre.
+	      C'est un problème de dimension $(d - 1)(n - 1)$.
+\end{enumerate}
+
+\subsubsection{Évaluation de l'Amplitude}
+Pour évaluer l'amplitude numérique $A$ en $\hat{x}$ à partir de $T$ et de $\nabla T$, une idée pourrait
+être de discrétiser l'équation de transport \eqref{eq:amp}.
+Cependant, ceci causerait l'approximation d'être singulière aux caustiques.
+Pour éviter ce problème, on utilise une méthode tirée du raytracing paraxial: à partir d'un rayon
+$\phi_{0}$ (celui généré par la mise à jour) on considère des rayons dans un tube autour.
+
+On peut alors mesurer la divergence géométrique autour du rayon central d'une solution, et en déduire une
+valeur numérique pour l'approximation $A(\hat{x})$.
+Nous ne rentrerons pas dans les détails de cette partie, mais \cite{potter2021jetmarchingmethodssolving}
+propose de construire une solution des équations d'Euler-Lagrange pour l'équation Eikonale le long de
+$\phi$ avec une position $Q$ et un moment $P$ et de calculer $\abs{\det Q(L)}$ pour estimer la
+divergence du faisceau de rayons.
+
+Alors, on pourra écrire
+\begin{equation}
+	A(\hat{x}) = \sqrt{\frac{\frac{1}{s(\phi_{0}(L))}}{\abs{\det Q(L)}}}\mathit{A}(x_{\lambda}),
+\end{equation}
+ce qui nous donne une approximation de $A(\hat{x})$ à partir d'une approximation polynomiale $\mathit{A}$
+de $A$ basée sur les valeurs de $A$ sur $\Omega_{h}$.
+
+\newpage
+
+\section{Implémentation}
+Dans cette section, je présente mon implémentation du jet marching et ses résultats.
+
+\subsection{Déclaration d'honnêteté}
+Pour le cours de \textit{Geometric Data Analysis}, j'avais avec Antoine Groudiev écrit une application
+en Rust sur le calcul par diverses méthodes des géodésiques.
+Nous nous étions concentrés sur des $2$-variétés plongées dans $\R^{3}$ afin de pouvoir visualiser.
+Dans le cadre de ce projet précédent, j'avais personnellement implémenté des méthodes basées sur des
+équations différentielles tirées de la physique et notamment l'algorithme de Fast Marching (basé, donc,
+sur l'équation Eikonale).
+
+\smallskip
+
+Dans le cadre de ce projet, j'ai réutilisé la structure de données représentant en mémoire les variétés,
+celle utilisée pour les problèmes géodésiques (qui représente les conditions initiales),
+ainsi que le visualisateur 3D écrit par Antoine.
+J'ai partiellement repris la structure de l'algorithme de fast marching, mais en réimplémentant tout de
+zéro.
+
+Le code est disponible, avec l'historique du code du précédent projet sur ce dépôt git: \url{pouet}
+
+\subsection{Détails d'implémentation}
+Dans cette implémentation, contrairement à la méthode générale décrite par Potter et al. dans
+\cite{potter2021jetmarchingmethodssolving}, je me suis limité à des $2$-variétés connexes plongées
+dans $\R^{3}$.
+Les surfaces en questions sont représentées par un maillage triangulaire: les ensembles $\Omega_{h}$ et
+$\Gamma_{h}$ sont définis à partir d'un ensemble $\mathcal{V}$ de sommets et un ensemble
+$\mathcal{F}\subseteq \mathcal{V}^{3}$ de faces triangulaires.
+
+Les pochoirs de mise à jour au c\oe ur de l'algorithme sont donc limités à la dimension au plus $2$, et les
+sommets à choisir dans l'ensemble de voisinage sont choisis d'une manière parmi deux une fois que le premier
+sommet $x_{1}$ est fixé par les mises à jour d'arête vers $\hat{x}$:
+\begin{enumerate}
+	\item où bien on considère $x_{2}$ tel que $(\hat{x}, x_{1}, x_{2}) \in \mathcal{F}$;
+	\item où bien on considère $x_{2}$ tel que $\max(\norm{\hat{x} - x_{2}}_{1}, \norm{x_{1}, x_{2}}_{1})$
+	      soit suffisamment petit.
+\end{enumerate}
+
+\subsection{Résultats}
+
+\bibliographystyle{alpha}
+\bibliography{report}
+\end{document}

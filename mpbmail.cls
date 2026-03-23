@@ -14,18 +14,18 @@
 
 
 \if@french
-\usepackage[french]{babel}
-\setkomavar{fromname}[Expéditeur : ]{Matthieu Boyer}
+	\usepackage[french]{babel}
+	\setkomavar{fromname}[Expéditeur : ]{Matthieu Boyer}
 \fi
 
 \if@british
-\usepackage[british]{babel}
-\setkomavar{fromname}[Sender : ]{Matthieu Boyer}
+	\usepackage[british]{babel}
+	\setkomavar{fromname}[Sender : ]{Matthieu Boyer}
 \fi
 \usepackage{graphicx}
 \setkomavar{fromaddress}{45 Rue d'Ulm \\
-75005 Paris}
-\setkomavar{fromemail}{matthieu.boyer@ens.psl.eu}
+	75005 Paris}
+\setkomavar{fromemail}{matthieu.boyer@ens.fr}
 \setkomavar{fromphone}{+33\,6\,13\,68\,72\,59}
 % \setkomavar{fromlogo}{\includegraphics[scale = .16]{concentric-rinds}}
 
